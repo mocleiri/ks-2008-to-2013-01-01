@@ -23,19 +23,13 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-<<<<<<< .mine
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
 import org.kuali.student.contract.model.util.HtmlContractWriter;
 import org.kuali.student.contract.model.validation.ServiceContractModelValidator;
 
-=======
-import org.kuali.student.dictionary.model.ServiceContractModel;
-import org.kuali.student.dictionary.model.impl.ServiceContractModelCache;
-import org.kuali.student.dictionary.model.impl.ServiceContractModelQDoxLoader;
-import org.kuali.student.dictionary.model.validation.ServiceContractModelValidator;
->>>>>>> .r20266
+
 import static org.junit.Assert.*;
 
 /**
@@ -59,22 +53,12 @@ public class HtmlContractWriterTest {
 	public void setUp() {
 	}
 
-<<<<<<< .mine
 	@After
-	public void tearDown() {
+	public void tearDown ()
+	{
 	}
-=======
- @After
- public void tearDown ()
- {
- }
- private static final String RESOURCES_DIRECTORY = "src/test/resources";
- private static final String SOURCE_DIRECTORY = RESOURCES_DIRECTORY + "/org";
- private static final String HTML_DIRECTORY =
-                             "target/html";
->>>>>>> .r20266
 
-<<<<<<< .mine
+
 	private static final String CORE_DIRECTORY = "C:/svn/student/ks-core/ks-core-api/src/main/java";
 	// "C:/svn/maven-dictionary-generator/trunk/src/main/java/org/kuali/student/core";
 	private static final String COMMON_DIRECTORY = "C:/svn/student/ks-common/ks-common-api/src/main/java";
@@ -83,10 +67,10 @@ public class HtmlContractWriterTest {
 	private static final String HTML_DIRECTORY = "target/html";
 
 	private static final String RESOURCES_DIRECTORY =
-	// "C:/svn/student/ks-core/ks-core-api/src/main/java";
-	"src/main/resources";
+		// "C:/svn/student/ks-core/ks-core-api/src/main/java";
+		"src/main/resources";
 	private static final String PESC_CORE_MAIN = RESOURCES_DIRECTORY
-			+ "/CoreMain_v1.8.0.xsd";
+	+ "/CoreMain_v1.8.0.xsd";
 
 	private ServiceContractModel getModel() {
 		List<String> srcDirs = new ArrayList<String>();
@@ -97,23 +81,10 @@ public class HtmlContractWriterTest {
 				srcDirs);
 		return new ServiceContractModelCache(instance);
 
-=======
->>>>>>> .r20266
-<<<<<<< .mine
 	}
-=======
- private ServiceContractModel getModel ()
- {
-  List<String> srcDirs = new ArrayList ();
-  srcDirs.add (SOURCE_DIRECTORY);
-  ServiceContractModel instance = new ServiceContractModelQDoxLoader (srcDirs);
-  return new ServiceContractModelCache (instance);
->>>>>>> .r20266
-
-	
 	private void validate(ServiceContractModel model) {
 		Collection<String> errors = new ServiceContractModelValidator(model)
-				.validate();
+		.validate();
 		if (errors.size() > 0) {
 			StringBuffer buf = new StringBuffer();
 			buf.append(errors.size()
@@ -125,43 +96,26 @@ public class HtmlContractWriterTest {
 				buf.append("*error*" + cnt + ":" + msg);
 			}
 
-<<<<<<< .mine
 			fail(buf.toString());
 		}
 	}
 
-=======
->>>>>>> .r20266
 	/**
+	 * Test of getBody method, of class HtmlWriter.
+
+ /**
 	 * Test of getBody method, of class HtmlWriter.
 	 */
 	@Test
-	public void testRun() {
+	public void testRun ()
+	{
 		ServiceContractModel model = null;
 		HtmlContractWriter writer = null;
 
-		model = this.getModel();
-		this.validate(model);
-		writer = new HtmlContractWriter(HTML_DIRECTORY + "/student", model);
-		writer.write();
+		model = this.getModel ();
+		this.validate (model);
+		writer = new HtmlContractWriter (HTML_DIRECTORY + "/student", model);
+		writer.write ();
 
-<<<<<<< .mine
 	}
-=======
- /**
-  * Test of getBody method, of class HtmlWriter.
-  */
- @Test
- public void testRun ()
- {
-  ServiceContractModel model = null;
-  HtmlContractWriter writer = null;
-
-  model = this.getModel ();
-  this.validate (model);
-  writer = new HtmlContractWriter (HTML_DIRECTORY + "/student", model);
-  writer.write ();
-
- }
->>>>>>> .r20266
 }
