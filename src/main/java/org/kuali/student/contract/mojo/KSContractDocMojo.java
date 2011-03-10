@@ -85,9 +85,13 @@ public class KSContractDocMojo extends AbstractMojo
 		ServiceContractModel model = null;
 		HtmlContractWriter writer = null;
 		getLog().info("publishing wiki contracts");
+  getLog().info("publishing common = " + this.commonDirectory.toString ());
+  getLog().info("publishing core = " + this.coreDirectory.toString ());
+  getLog().info("publishing lum = " + this.lumDirectory.toString ());
 		model = this.getModel();
 		this.validate(model);
-		writer = new HtmlContractWriter(htmlDirectory + "/student", model);
+  getLog().info("publishing to = " + this.htmlDirectory.toString ());
+		writer = new HtmlContractWriter(htmlDirectory.toString (), model);
 		writer.write();
 
 
