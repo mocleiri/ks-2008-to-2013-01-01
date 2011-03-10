@@ -2,12 +2,14 @@ package org.kuali.student.contract.mojo;
 
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
@@ -16,22 +18,47 @@ import org.kuali.student.contract.model.validation.ServiceContractModelValidator
 
 /**
  * Says "Hi" to the user.
- * @goal kscontractdoc
+  @goal kscontractdoc
  */
 public class KSContractDocMojo extends AbstractMojo
-{
+{	
+	/**
+	* @parameter
+	*/
+	private   File coreDirectory;
 
-	private static final String coreDirectory = "https://test.kuali.org/svn/student/sandbox/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/java";
-	// "C:/svn/maven-dictionary-generator/trunk/src/main/java/org/kuali/student/core";
-	private static final String commonDirectory = "C:/Users/sambit/kuali/code/trunk/ks-common/ks-common-api/src/main/java";
-	private static final String lumDirectory = "C:/Users/sambit/kuali/code/trunk/ks-lum/ks-lum-api/src/main/java";
-	private static final String htmlDirectory = "target/html";
+	/**
+	* @parameter
+	*/
+	private   File commonDirectory;
+	/**
+	* @parameter
+	*/
+	private   File lumDirectory;
+	/**
+	* @parameter
+	*/
+	private   File htmlDirectory;
 
+
+	public  void setCoreDirectory(File directory) {
+		this.coreDirectory =directory;
+	}
+
+
+	public  void  setCommonDirectory(File directory) {
+		this.commonDirectory =directory;
+	}
+
+
+	public  void  setLumDirectory(File directory) {
+		this.lumDirectory=directory;
+	}
 	private ServiceContractModel getModel() {
 		List<String> srcDirs = new ArrayList<String>();
-		srcDirs.add(coreDirectory);
-		srcDirs.add(commonDirectory);
-		srcDirs.add(lumDirectory);
+		srcDirs.add(this.coreDirectory.toString());
+		srcDirs.add(this.commonDirectory.toString());
+		srcDirs.add(this.lumDirectory.toString());
 		ServiceContractModel instance = new ServiceContractModelQDoxLoader(
 				srcDirs);
 		return new ServiceContractModelCache(instance);
