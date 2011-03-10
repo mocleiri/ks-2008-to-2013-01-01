@@ -1231,6 +1231,59 @@ public class ServiceContractModelQDoxLoader implements
   {
    return false;
   }
+
+   if (javaClass.getName ().equals (String.class.getName ()))
+  {
+   return false;
+  }
+  if (javaClass.getName ().equals (Integer.class.getName ()))
+  {
+   return false;
+  }
+  if (javaClass.getName ().equals (Date.class.getName ()))
+  {
+   return false;
+  }
+  if (javaClass.getName ().equals (Long.class.getName ()))
+  {
+   return false;
+  }
+  if (javaClass.getName ().equals (Boolean.class.getName ()))
+  {
+   return false;
+  }
+  if (javaClass.getName ().equals (Double.class.getName ()))
+  {
+   return false;
+  }
+  if (javaClass.getName ().equals (Float.class.getName ()))
+  {
+   return false;
+  }
+  if (javaClass.getName ().equals (int.class.getName ()))
+  {
+   return false;
+  }
+  if (javaClass.getName ().equals (long.class.getName ()))
+  {
+   return false;
+  }
+  if (javaClass.getName ().equals (boolean.class.getName ()))
+  {
+   return false;
+  }
+  if (javaClass.getName ().equals (double.class.getName ()))
+  {
+   return false;
+  }
+  if (javaClass.getName ().equals (float.class.getName ()))
+  {
+   return false;
+  }
+  if (javaClass.getName ().equals (Map.class.getName ()))
+  {
+   return false;
+  }
   if (javaClass.getName ().equals (LOCALE_KEY_LIST))
   {
    return false;
