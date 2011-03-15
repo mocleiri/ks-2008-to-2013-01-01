@@ -34,6 +34,11 @@ public class KSContractDocMojo extends AbstractMojo
 
 
 
+	public void setHtmlDirectory(File htmlDirectory) {
+		this.htmlDirectory = htmlDirectory;
+	}
+
+
 	public void setsourceDirs(List<String> sourceDirs) {
 		this.sourceDirs = sourceDirs;
 	}
