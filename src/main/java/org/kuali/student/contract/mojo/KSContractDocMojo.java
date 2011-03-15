@@ -17,8 +17,8 @@ import org.kuali.student.contract.model.util.HtmlContractWriter;
 import org.kuali.student.contract.model.validation.ServiceContractModelValidator;
 
 /**
- * Says "Hi" to the user.
-  @goal kscontractdoc
+ * The plugin entrypoint which is used to generate the html wiki doc of the service interface.
+ * @goal kscontractdoc
  */
 public class KSContractDocMojo extends AbstractMojo
 {	
@@ -26,19 +26,19 @@ public class KSContractDocMojo extends AbstractMojo
 	 * @parameter
 	 */
 	private List <String> sourceDirs; 
-	
-		/**
-	* @parameter
-	*/
+
+	/**
+	 * @parameter
+	 */
 	private   File htmlDirectory;
 
 
-		
+
 	public void setsourceDirs(List<String> sourceDirs) {
 		this.sourceDirs = sourceDirs;
 	}
 
-	
+
 	private ServiceContractModel getModel() {
 		ServiceContractModel instance = new ServiceContractModelQDoxLoader(
 				sourceDirs);
