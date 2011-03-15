@@ -23,44 +23,25 @@ import org.kuali.student.contract.model.validation.ServiceContractModelValidator
 public class KSContractDocMojo extends AbstractMojo
 {	
 	/**
-	* @parameter
-	*/
-	private   File coreDirectory;
-
-	/**
-	* @parameter
-	*/
-	private   File commonDirectory;
-	/**
-	* @parameter
-	*/
-	private   File lumDirectory;
-	/**
+	 * @parameter
+	 */
+	private List <String> sourceDirs; 
+	
+		/**
 	* @parameter
 	*/
 	private   File htmlDirectory;
 
 
-	public  void setCoreDirectory(File directory) {
-		this.coreDirectory =directory;
+		
+	public void setsourceDirs(List<String> sourceDirs) {
+		this.sourceDirs = sourceDirs;
 	}
 
-
-	public  void  setCommonDirectory(File directory) {
-		this.commonDirectory =directory;
-	}
-
-
-	public  void  setLumDirectory(File directory) {
-		this.lumDirectory=directory;
-	}
+	
 	private ServiceContractModel getModel() {
-		List<String> srcDirs = new ArrayList<String>();
-		srcDirs.add(this.coreDirectory.toString());
-		srcDirs.add(this.commonDirectory.toString());
-		srcDirs.add(this.lumDirectory.toString());
 		ServiceContractModel instance = new ServiceContractModelQDoxLoader(
-				srcDirs);
+				sourceDirs);
 		return new ServiceContractModelCache(instance);
 
 	}
@@ -85,12 +66,9 @@ public class KSContractDocMojo extends AbstractMojo
 		ServiceContractModel model = null;
 		HtmlContractWriter writer = null;
 		getLog().info("publishing wiki contracts");
-  getLog().info("publishing common = " + this.commonDirectory.toString ());
-  getLog().info("publishing core = " + this.coreDirectory.toString ());
-  getLog().info("publishing lum = " + this.lumDirectory.toString ());
 		model = this.getModel();
 		this.validate(model);
-  getLog().info("publishing to = " + this.htmlDirectory.toString ());
+		getLog().info("publishing to = " + this.htmlDirectory.toString ());
 		writer = new HtmlContractWriter(htmlDirectory.toString (), model);
 		writer.write();
 
