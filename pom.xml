@@ -7,7 +7,7 @@
     <artifactId>kuali</artifactId>
     <version>75</version>
   </parent>
-  <groupId>org.kuali.student.mojo</groupId>
+  <groupId>org.kuali.maven.plugins</groupId>
   <artifactId>maven-kscontractdoc-plugin</artifactId>
   <packaging>maven-plugin</packaging>
   <version>0.0.1-SNAPSHOT</version>
