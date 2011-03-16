@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties>
-  <comment>Impex Properties</comment>
-  <entry key="org.kuali.impex.resource.suffix">.sql</entry>
-  <entry key="org.kuali.impex.ddl.constraints.suffix">-constraints</entry>
-  <entry key="org.kuali.impex.resource.prefix">sql</entry>
-</properties>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties>
-  <comment>Application Properties</comment>
-  <entry key="org.kuali.impex.platform">oracle</entry>
-  <entry key="org.kuali.impex.database">classpath:ks-rice-db.xml</entry>
-</properties>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali</groupId>
+    <artifactId>kuali</artifactId>
+    <version>75</version>
+  </parent>
+  <groupId>org.kuali.student.mojo</groupId>
+  <artifactId>maven-kscontractdoc-plugin</artifactId>
+  <packaging>maven-plugin</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>KS Contract Documentation Generator</name>
+  <properties>
+    <cxf.version>2.2.10</cxf.version>
+  </properties>
+  <repositories>
+    <repository>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>com.sun.xsom</groupId>
+      <artifactId>xsom</artifactId>
+      <version>20100725</version>
+    </dependency>
+    <dependency>
+      <groupId>com.thoughtworks.qdox</groupId>
+      <artifactId>qdox</artifactId>
+      <version>1.12</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+  </dependencies>
+</project>
