@@ -12,6 +12,7 @@
   <packaging>maven-plugin</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>KS Contract Documentation Generator</name>
+  <description>Generates documentation for Kuali Student service contracts</description>
   <properties>
     <cxf.version>2.2.10</cxf.version>
   </properties>
