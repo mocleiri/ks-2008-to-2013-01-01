@@ -51,4 +51,9 @@
       <version>2.0</version>
     </dependency>
   </dependencies>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/tools/maven-kscontractdoc-plugin/trunk</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/tools/maven-kscontractdoc-plugin/trunk</developerConnection>
+    <url>http://test.kuali.org/svn/student/tools/maven-kscontractdoc-plugin/trunk</url>
+  </scm>
 </project>
