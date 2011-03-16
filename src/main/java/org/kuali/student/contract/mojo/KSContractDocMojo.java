@@ -23,13 +23,14 @@ import org.kuali.student.contract.model.validation.ServiceContractModelValidator
 public class KSContractDocMojo extends AbstractMojo
 {	
 	/**
-	 * @parameter
-	 */
+	 * @parameter 
+	 **/
 	private List <String> sourceDirs; 
 
-	/**
-	 * @parameter
-	 */
+	
+    /**
+     * @parameter expression="${htmlDirectory}" default-value="${project.build.directory}/site/services/contractdocs"
+     */
 	private   File htmlDirectory;
 
 
