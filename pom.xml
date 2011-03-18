@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali</artifactId>
-    <version>75</version>
+    <version>76</version>
   </parent>
   <groupId>org.kuali.maven.plugins</groupId>
   <artifactId>maven-kscontractdoc-plugin</artifactId>
