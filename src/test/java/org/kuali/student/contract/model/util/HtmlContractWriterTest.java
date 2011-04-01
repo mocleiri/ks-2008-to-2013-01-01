@@ -26,7 +26,6 @@ import org.junit.Test;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
-import org.kuali.student.contract.model.util.HtmlContractWriter;
 import org.kuali.student.contract.model.validation.ServiceContractModelValidator;
 
 
@@ -64,6 +63,7 @@ public class HtmlContractWriterTest {
 	private static final String COMMON_DIRECTORY = "C:/svn/student/ks-common/ks-common-api/src/main/java";
 	private static final String LUM_DIRECTORY = "C:/svn/student/ks-lum/ks-lum-api/src/main/java";
 	private static final String RICE_DIRECTORY = "C:/svn/rice/rice-release-1-0-2-1-br/api/src/main/java";
+	private static final String POC_DIRECTORY = "C:/svn/ks-r2-poc/ks-services/ks-services-api/src/main/java";
 	private static final String HTML_DIRECTORY = "target/html";
 
 	private static final String RESOURCES_DIRECTORY =
@@ -74,9 +74,10 @@ public class HtmlContractWriterTest {
 
 	private ServiceContractModel getModel() {
 		List<String> srcDirs = new ArrayList<String>();
-		srcDirs.add(CORE_DIRECTORY);
-		srcDirs.add(COMMON_DIRECTORY);
-		srcDirs.add(LUM_DIRECTORY);
+		srcDirs.add(POC_DIRECTORY);
+//		srcDirs.add(CORE_DIRECTORY);
+//		srcDirs.add(COMMON_DIRECTORY);
+//		srcDirs.add(LUM_DIRECTORY);
 		ServiceContractModel instance = new ServiceContractModelQDoxLoader(
 				srcDirs);
 		return new ServiceContractModelCache(instance);

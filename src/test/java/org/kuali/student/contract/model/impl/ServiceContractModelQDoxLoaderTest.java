@@ -36,8 +36,6 @@ import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.ServiceMethod;
 import org.kuali.student.contract.model.ServiceMethodParameter;
 import org.kuali.student.contract.model.XmlType;
-import org.kuali.student.contract.model.impl.ServiceContractModelCache;
-import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
 import org.kuali.student.contract.model.util.HtmlContractServiceWriter;
 import org.kuali.student.contract.model.util.MessageStructureHierarchyDumper;
 import org.kuali.student.contract.model.util.ModelFinder;

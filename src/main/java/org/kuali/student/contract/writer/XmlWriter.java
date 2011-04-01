@@ -125,6 +125,7 @@ public class XmlWriter
   writeTag (tag, null, value);
  }
 
+
  public void writeTag (String tag, String modifiers, String value)
  {
   if (value == null)
@@ -142,7 +143,8 @@ public class XmlWriter
    out.print (" " + modifiers);
   }
   out.print (">");
-  out.print (escapeXML (value));
+
+  out.print (value);
   out.print ("</" + tag + ">");
   out.println ("");
  }

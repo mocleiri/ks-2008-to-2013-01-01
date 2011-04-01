@@ -407,7 +407,7 @@ public class ServiceContractModelQDoxLoader implements
    xmlType = new XmlType ();
    xmlTypeMap.put (name, xmlType);
    xmlType.setName (name);
-   xmlType.setDesc (messageStructureJavaClass.getComment ());
+   xmlType.setDesc (this.calcMessageStructureDesc (messageStructureJavaClass));
    xmlType.setService (serviceKey);
    xmlType.setVersion ("???");
    xmlType.setPrimitive (calcPrimitive (messageStructureJavaClass));
@@ -422,6 +422,57 @@ public class ServiceContractModelQDoxLoader implements
   }
  }
 
+ private String calcMessageStructureDesc (JavaClass javaClass)
+ {
+  {
+   String desc = javaClass.getComment ();
+   if (desc != null)
+   {
+    if ( ! desc.isEmpty ())
+    {
+     return desc;
+    }
+   }
+   JavaClass infcClass = this.getMatchingInfc (javaClass);
+   if (infcClass == null)
+   {
+    return null;
+   }
+   return infcClass.getComment ();
+  }
+ }
+
+ private JavaClass getMatchingInfc (JavaClass javaClass)
+ {
+  // ks uses this pattern
+  String nameInfc = javaClass.getName ();
+  if (nameInfc.endsWith ("Info"))
+  {
+   nameInfc = nameInfc.substring (0, nameInfc.length () - "Info".length ())
+              + "Infc";
+  }
+  String nameWithOutInfo = javaClass.getName ();
+  // rice uses this pattern
+  if (nameWithOutInfo.endsWith ("Info"))
+  {
+   nameWithOutInfo = nameWithOutInfo.substring (0, nameWithOutInfo.length ()
+                                                   - "Info".length ());
+  }
+  for (JavaClass infc : javaClass.getImplementedInterfaces ())
+  {
+   if (infc.getName ().equals (nameInfc))
+   {
+    System.out.println ("found matching interface " + infc.getName ());
+    return infc;
+   }
+   if (infc.getName ().equals (nameWithOutInfo))
+   {
+    return infc;
+   }
+  }
+  return null;
+ }
+
  private String calcPrimitive (JavaClass javaClass)
  {
   if (this.isComplex (javaClass))
@@ -429,6 +480,23 @@ public class ServiceContractModelQDoxLoader implements
    return XmlType.COMPLEX;
   }
   return "Primitive";
+ }
+
+ private String initLower (String str)
+ {
+  if (str == null)
+  {
+   return null;
+  }
+  if (str.length () == 0)
+  {
+   return str;
+  }
+  if (str.length () == 1)
+  {
+   return str.toLowerCase ();
+  }
+  return str.substring (0, 1).toLowerCase () + str.substring (1);
  }
 
  private Set<String> getShortNames (JavaClass messageStructureJavaClass)
@@ -496,12 +564,14 @@ public class ServiceContractModelQDoxLoader implements
      }
     }
    }
+   shortName = initLower (shortName);
    MessageStructure ms = new MessageStructure ();
    messageStructures.add (ms);
    ms.setXmlObject (messageStructureJavaClass.getName ());
    ms.setShortName (shortName);
    ms.setId (ms.getXmlObject () + "." + ms.getShortName ());
-   ms.setName ("????");
+   ms.setName (calcMissing (calcName (getterMethod, setterMethod,
+                                      beanField)));
    ms.setType (calcTypeOfGetterMethodReturn (getterMethod));
    if (ms.getType ().equals ("Object"))
    {
@@ -511,8 +581,8 @@ public class ServiceContractModelQDoxLoader implements
    }
    else if (ms.getType ().equals ("ObjectList"))
    {
-    System.out.println ("WARNING " +
-      ms.getId ()
+    System.out.println (
+      "WARNING " + ms.getId ()
       + " has a list of Objects as it's type ==> Changing to List of String");
     ms.setType ("StringList");
    }
@@ -554,8 +624,52 @@ public class ServiceContractModelQDoxLoader implements
   return;
  }
 
+ private String calcName (JavaMethod getterMethod,
+                          JavaMethod setterMethod, JavaField beanField)
+ {
+  String nameDesc = this.calcNameDescription (getterMethod, setterMethod,
+                                              beanField);
+  String[] parsed = parseNameDesc (nameDesc);
+  return parsed[0];
+ }
+
+ private String[] parseNameDesc (String nameDesc)
+ {
+  String[] parsed = new String[2];
+  if (nameDesc == null)
+  {
+   return parsed;
+  }
+  nameDesc = nameDesc.trim ();
+  if ( ! nameDesc.startsWith ("Name:"))
+  {
+   parsed[1] = nameDesc;
+   return parsed;
+  }
+  nameDesc = nameDesc.substring ("Name:".length ()).trim ();
+  int i = nameDesc.indexOf ("\n");
+  if (i == -1)
+  {
+   parsed[0] = nameDesc.trim ();
+   return parsed;
+  }
+  parsed[0] = nameDesc.substring (0, i).trim ();
+  parsed[1] = nameDesc.substring (i).trim ();
+  return parsed;
+ }
+
  private String calcDescription (JavaMethod getterMethod,
                                  JavaMethod setterMethod, JavaField beanField)
+ {
+  String nameDesc = this.calcNameDescription (getterMethod, setterMethod,
+                                              beanField);
+  String[] parsed = parseNameDesc (nameDesc);
+  return parsed[1];
+ }
+
+ private String calcNameDescription (JavaMethod getterMethod,
+                                     JavaMethod setterMethod,
+                                     JavaField beanField)
  {
   String desc = null;
   desc = getterMethod.getComment ();
@@ -1232,7 +1346,7 @@ public class ServiceContractModelQDoxLoader implements
    return false;
   }
 
-   if (javaClass.getName ().equals (String.class.getName ()))
+  if (javaClass.getName ().equals (String.class.getName ()))
   {
    return false;
   }

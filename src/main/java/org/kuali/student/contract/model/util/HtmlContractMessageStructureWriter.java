@@ -109,7 +109,7 @@ public class HtmlContractMessageStructureWriter
   writer.indentPrintln ("</table>");
 
   writer.writeTag ("h2", "Description");
-  writer.indentPrintln (xmlType.getDesc ());
+  writer.indentPrintln (this.addHTMLBreaks (xmlType.getDesc ()));
 
   if ( ! xmlType.getPrimitive ().equals (XmlType.COMPLEX))
   {
@@ -125,10 +125,10 @@ public class HtmlContractMessageStructureWriter
   writer.indentPrintln ("<th class=\"h\">Name</th>");
   writer.indentPrintln ("<th class=\"h\">Type</th>");
   writer.indentPrintln ("<th class=\"h\">Description</th>");
-  writer.indentPrintln ("<th class=\"h\">Required</th>");
+//  writer.indentPrintln ("<th class=\"h\">Required</th>");
   writer.indentPrintln ("<th class=\"h\">Cardinality</th>");
   writer.indentPrintln ("<th class=\"h\">XML Attribute?</th>");
-  writer.indentPrintln ("<th class=\"h\">Data Team Status</th>");
+//  writer.indentPrintln ("<th class=\"h\">Data Team Status</th>");
   writer.indentPrintln ("<th class=\"h\">Comments/Feedback</th>");
   writer.indentPrintln ("</tr>");
 
@@ -138,6 +138,14 @@ public class HtmlContractMessageStructureWriter
   }
   writer.indentPrintln ("</table>");
   writer.writeHeaderBodyAndFooterOutToFile ();
+ }
+
+ private String addHTMLBreaks (String str)
+ {
+  if (str == null) {
+   return "&nbsp;";
+  }
+  return str.replaceAll ("(\r\n|\r|\n|\n\r)", "<br>");
  }
 
  private Set<ServiceMethod> calcUsageByMethods (XmlType xmlType)
@@ -213,12 +221,12 @@ public class HtmlContractMessageStructureWriter
   {
    writer.writeTag ("td", "class=\"structType\"", ms.getType ());
   }
-  writer.writeTag ("td", "class=\"structDesc\"", missingData (
-    ms.getDescription ()));
-  writer.writeTag ("td", "class=\"structOpt\"", ms.getOptional ());
+  writer.writeTag ("td", "class=\"structDesc\"", addHTMLBreaks (missingData (
+    ms.getDescription ())));
+//  writer.writeTag ("td", "class=\"structOpt\"", ms.getOptional ());
   writer.writeTag ("td", "class=\"structCard\"", ms.getCardinality ());
   writer.writeTag ("td", "class=\"structAttr\"", ms.getXmlAttribute ());
-  writer.writeTag ("td", "class=\"structStatus\"", ms.getStatus ());
+//  writer.writeTag ("td", "class=\"structStatus\"", ms.getStatus ());
   writer.writeTag ("td", "class=\"commentsDesc\"", ms.getFeedback ());
   writer.indentPrintln ("</tr>");
 

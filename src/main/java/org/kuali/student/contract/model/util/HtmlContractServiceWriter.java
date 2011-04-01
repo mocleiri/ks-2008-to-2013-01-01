@@ -171,7 +171,13 @@ public class HtmlContractServiceWriter
   }
   return types;
  }
-
+ private String addHTMLBreaks (String str)
+ {
+  if (str == null) {
+   return "&nbsp;";
+  }
+  return str.replaceAll ("(\r\n|\r|\n|\n\r)", "<br>");
+ }
  public void writeMethod (ServiceMethod method)
  {
   writer.indentPrintln ("<p>");
@@ -189,7 +195,7 @@ public class HtmlContractServiceWriter
   writer.indentPrintln ("<tr>");
   writer.writeTag ("th", "class=h", "Description");
   writer.writeTag ("td", "colspan=3 class=\"methodDesc\"",
-                   method.getDescription ());
+                   this.addHTMLBreaks (method.getDescription ()));
   writer.indentPrintln ("</tr>");
 
   if (method.getParameters ().isEmpty ())
@@ -219,7 +225,7 @@ public class HtmlContractServiceWriter
                           + param.getType () + "</a>");
     writer.indentPrint ("</td>");
     writer.writeTag ("td", "class=\"methodParamName\"", param.getName ());
-    writer.writeTag ("td", "class=\"methodParamDesc\"", param.getDescription ());
+    writer.writeTag ("td", "class=\"methodParamDesc\"", this.addHTMLBreaks (param.getDescription ()));
     writer.indentPrintln ("</tr>");
    }
   }
@@ -232,7 +238,7 @@ public class HtmlContractServiceWriter
                         + method.getReturnValue ().getType () + "</a>");
   writer.indentPrint ("</td>");
   writer.writeTag ("td", "class=\"methodReturnDesc\"",
-                   method.getReturnValue ().getDescription ());
+                   this.addHTMLBreaks (method.getReturnValue ().getDescription ()));
   writer.indentPrintln ("</tr>");
   writer.indentPrintln ("</tr>");
 
@@ -258,7 +264,7 @@ public class HtmlContractServiceWriter
     }
     writer.writeTag ("td", "class=\"methodErrorType\" colspan=2",
                      error.getType ()); // TODO wrap in link to type
-    writer.writeTag ("td", "class=\"methodErrorDesc\"", error.getDescription ());
+    writer.writeTag ("td", "class=\"methodErrorDesc\"", this.addHTMLBreaks (error.getDescription ()));
     writer.indentPrintln ("</tr>");
    }
   }
