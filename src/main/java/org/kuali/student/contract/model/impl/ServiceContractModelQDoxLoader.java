@@ -173,9 +173,9 @@ public class ServiceContractModelQDoxLoader implements
    service.setKey (javaClass.getName ().substring (0, javaClass.getName ().length ()
                                                       - "Service".length ()));
    service.setName (javaClass.getName ());
-   service.setComments (javaClass.getComment ());
+   service.setComments (this.calcComment (javaClass.getComment ()));
    service.setUrl (this.calcServiceUrl (javaClass));
-   service.setVersion ("???");
+   service.setVersion (this.calcVersion (javaClass.getComment ()));
    service.setStatus ("???");
    service.setIncludedServices (calcIncludedServices (javaClass));
 
@@ -272,13 +272,13 @@ public class ServiceContractModelQDoxLoader implements
 
  private List<String> calcIncludedServices (JavaClass javaClass)
  {
-   List<String> includedServices = new ArrayList<String> ();
-   for (JavaClass interfaceClass : javaClass.getImplementedInterfaces ())
-   {
-    System.out.println ("ServiceContractModelQDoxLoader:" + javaClass.getName ()
-                        + " implements " + interfaceClass.getName ());
-    includedServices.add (interfaceClass.getName ());
-   }
+  List<String> includedServices = new ArrayList<String> ();
+  for (JavaClass interfaceClass : javaClass.getImplementedInterfaces ())
+  {
+   System.out.println ("ServiceContractModelQDoxLoader:" + javaClass.getName ()
+                       + " implements " + interfaceClass.getName ());
+   includedServices.add (interfaceClass.getName ());
+  }
   return includedServices;
  }
 
@@ -565,6 +565,36 @@ public class ServiceContractModelQDoxLoader implements
   return;
  }
 
+ private String calcComment (String comment)
+ {
+  return this.parseCommentVersion (comment)[0];
+ }
+
+ private String calcVersion (String comment)
+ {
+  return this.parseCommentVersion (comment)[1];
+ }
+
+ private String[] parseCommentVersion (String commentVersion)
+ {
+  String[] parsed = new String[2];
+  if (commentVersion == null)
+  {
+   return parsed;
+  }
+  commentVersion = commentVersion.trim ();
+  int i = commentVersion.toLowerCase ().indexOf ("\nversion:");
+  if (i == -1)
+  {
+   parsed[0] = commentVersion;
+   return parsed;
+  }
+  parsed[1] = commentVersion.substring (i + "\nversion:".length ()).trim ();
+  parsed[0] = commentVersion.substring (0, i).trim ();
+
+  return parsed;
+ }
+
  private String calcName (JavaMethod getterMethod,
                           JavaMethod setterMethod, JavaField beanField)
  {
@@ -689,7 +719,9 @@ public class ServiceContractModelQDoxLoader implements
 
  private JavaMethod findSuperMethod (JavaMethod method)
  {
-  System.out.println ("Searching for super method for " + method.getParentClass ().getName () + "." + method.getCallSignature ());
+  System.out.println ("Searching for super method for "
+                      + method.getParentClass ().getName () + "."
+                      + method.getCallSignature ());
   for (JavaMethod superMethod : method.getParentClass ().getMethods (true))
   {
    if (method.equals (superMethod))

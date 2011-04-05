@@ -129,7 +129,7 @@ public class HtmlContractMessageStructureWriter
   writer.indentPrintln ("<th class=\"h\">Cardinality</th>");
   writer.indentPrintln ("<th class=\"h\">XML Attribute?</th>");
 //  writer.indentPrintln ("<th class=\"h\">Data Team Status</th>");
-  writer.indentPrintln ("<th class=\"h\">Comments/Feedback</th>");
+//  writer.indentPrintln ("<th class=\"h\">Comments/Feedback</th>");
   writer.indentPrintln ("</tr>");
 
   for (MessageStructure ms : finder.findMessageStructures (xmlType.getName ()))
@@ -227,7 +227,7 @@ public class HtmlContractMessageStructureWriter
   writer.writeTag ("td", "class=\"structCard\"", ms.getCardinality ());
   writer.writeTag ("td", "class=\"structAttr\"", ms.getXmlAttribute ());
 //  writer.writeTag ("td", "class=\"structStatus\"", ms.getStatus ());
-  writer.writeTag ("td", "class=\"commentsDesc\"", ms.getFeedback ());
+//  writer.writeTag ("td", "class=\"commentsDesc\"", ms.getFeedback ());
   writer.indentPrintln ("</tr>");
 
 //  writer.indentPrintln ("</table>");
