@@ -58,10 +58,10 @@ public class HtmlContractMessageStructureWriter
   writer.writeTag ("th", "class=h", "Name");
   writer.writeTag ("td", "id=structureName colspan=2", xmlType.getName ());
   writer.indentPrintln ("</tr>");
-  writer.indentPrintln ("<tr>");
-  writer.writeTag ("th", "class=h", "Version");
-  writer.writeTag ("td", "id=structureVersion colspan=2", xmlType.getVersion ());
-  writer.indentPrintln ("</tr>");
+//  writer.indentPrintln ("<tr>");
+//  writer.writeTag ("th", "class=h", "Version");
+//  writer.writeTag ("td", "id=structureVersion colspan=2", xmlType.getVersion ());
+//  writer.indentPrintln ("</tr>");
   writer.indentPrintln ("<tr>");
   writer.writeTag ("th", "rowspan=3 class=h", "Usage");
   writer.indentPrint ("<td id=\"structureVersion\" colspan=2>");
