@@ -270,75 +270,16 @@ public class ServiceContractModelQDoxLoader implements
   return false;
  }
 
- private String calcIncludedServices (JavaClass javaClass)
+ private List<String> calcIncludedServices (JavaClass javaClass)
  {
-  // The QDox parser is broken
-  // it says that CommentService does not:
-  // (1) have a superclass
-  // (2) implement anything
-  // (3) implement any intefaces anything
-  // Even the code block has the implements stripped out!
-//  CodeBlock=/**
-// * @Author KSContractMojo
-// * @Author Neerav Agrawal
-// * @Since Fri Jun 05 14:27:10 EDT 2009
-// * @See <a href="https://test.kuali.org/confluence/display/KULSTR/Comment+Service+v1.0-rc1">CommentService</>
-// */
-//public interface CommentService {
-//
-//        /**
-//         * Retrieves the list of types which can be tagged or commented.
-//         *
-//         * @return the list of types which can be tagged or commented
-//         * @throws OperationFailedException unable to complete request
-//         */
-//        public java.util.List getReferenceTypes() throws org.kuali.student.core.exceptions.OperationFailedException;
-//
-//  when in reality it has stuff
-//
-//    /**
-// *
-// * @Author KSContractMojo
-// * @Author Neerav Agrawal
-// * @Since Fri Jun 05 14:27:10 EDT 2009
-// * @See <a href="https://test.kuali.org/confluence/display/KULSTR/Comment+Service+v1.0-rc1">CommentService</>
-// *
-// */
-//@WebService(name = "CommentService", targetNamespace = "http://student.kuali.org/wsdl/comment")
-//@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-////@XmlSeeAlso({org.kuali.student.core.dto.ReferenceTypeInfo.class})
-//public interface CommentService extends DictionaryService {
-//    /**
-//     * Retrieves the list of types which can be tagged or commented.
-//     * @return the list of types which can be tagged or commented
-//     * @throws OperationFailedException unable to complete request
-//	 */
-//    public List<ReferenceTypeInfo> getReferenceTypes() throws OperationFailedException;
-//
-//  System.out.println ("ServiceContractModelQDoxLoader:" + javaClass.getName ()
-//                      + " extends " + javaClass.getSuperClass ());
-//  System.out.println (javaClass.getName () + " implmenets "
-//                      + javaClass.getImplements ().length + " things");
-//  System.out.println (javaClass.getName () + " implmenets "
-//                      + javaClass.getImplementedInterfaces ().length
-//                      + " interfaces");
-//  System.out.println ("CodeBlock=" + javaClass.getCodeBlock ());
-//   StringBuilder includedServices = new StringBuilder ();
-//   String comma = "";
-//   for (Type type : javaClass.getImplements ())
-//   {
-//    System.out.println ("ServiceContractModelQDoxLoader:" + javaClass.getName ()
-//                        + " implements " + type);
-//   }
-//   for (JavaClass interfaceClass : javaClass.getImplementedInterfaces ())
-//   {
-//    System.out.println ("ServiceContractModelQDoxLoader:" + javaClass.getName ()
-//                        + " implements " + interfaceClass.getName ());
-//    includedServices.append (comma);
-//    comma = ", ";
-//    includedServices.append (interfaceClass.getName ());
-//   }
-  return null;
+   List<String> includedServices = new ArrayList<String> ();
+   for (JavaClass interfaceClass : javaClass.getImplementedInterfaces ())
+   {
+    System.out.println ("ServiceContractModelQDoxLoader:" + javaClass.getName ()
+                        + " implements " + interfaceClass.getName ());
+    includedServices.add (interfaceClass.getName ());
+   }
+  return includedServices;
  }
 
  private String calcParameterDescription (JavaMethod method,
@@ -748,7 +689,7 @@ public class ServiceContractModelQDoxLoader implements
 
  private JavaMethod findSuperMethod (JavaMethod method)
  {
-//  System.out.println ("Searching for super method for " + method.getCallSignature ());
+  System.out.println ("Searching for super method for " + method.getParentClass ().getName () + "." + method.getCallSignature ());
   for (JavaMethod superMethod : method.getParentClass ().getMethods (true))
   {
    if (method.equals (superMethod))

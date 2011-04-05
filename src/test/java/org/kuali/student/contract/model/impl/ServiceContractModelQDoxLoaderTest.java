@@ -71,6 +71,7 @@ public class ServiceContractModelQDoxLoaderTest
  public void tearDown ()
  {
  }
+ 	private static final String POC_DIRECTORY = "C:/svn/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/java";
  private static final String RESOURCES_DIRECTORY = "src/test/resources";
  private static final String SOURCE_DIRECTORY = RESOURCES_DIRECTORY + "/org";
  private ServiceContractModel getModel ()
@@ -78,6 +79,7 @@ public class ServiceContractModelQDoxLoaderTest
   List<String> srcDirs = new ArrayList ();
   System.out.println ("User directory=" + System.getProperty ("user.dir"));
   System.out.println ("Current directory=" + new File(".").getAbsolutePath());
+//  srcDirs.add (POC_DIRECTORY);
   srcDirs.add (SOURCE_DIRECTORY);
   ServiceContractModel instance = new ServiceContractModelQDoxLoader (srcDirs);
   instance = new ServiceContractModelCache (instance);

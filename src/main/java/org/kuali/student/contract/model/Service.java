@@ -15,6 +15,8 @@
  */
 package org.kuali.student.contract.model;
 
+import java.util.List;
+
 /**
  *
  * @author nwright
@@ -107,14 +109,14 @@ public class Service
  }
 
 
- private String includedServices;
+ private List<String> includedServices;
 
  /**
   * Comma separated list of services that are included
   *
   * @return
   */
- public String getIncludedServices ()
+ public List<String> getIncludedServices ()
  {
   return includedServices;
  }
@@ -123,7 +125,7 @@ public class Service
   * comma separated list of services that are included
   * @param includedServices
   */
- public void setIncludedServices (String includedServices)
+ public void setIncludedServices (List<String> includedServices)
  {
   this.includedServices = includedServices;
  }

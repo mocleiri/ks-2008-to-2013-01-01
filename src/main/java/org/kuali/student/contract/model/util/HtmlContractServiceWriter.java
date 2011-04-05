@@ -16,6 +16,7 @@
 package org.kuali.student.contract.model.util;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.kuali.student.contract.model.Service;
@@ -63,6 +64,13 @@ public class HtmlContractServiceWriter
   writer.writeTag ("th", "class=h", "Version");
   writer.writeTag ("td", "id=serviceVersion colspan=2", service.getVersion ());
   writer.indentPrintln ("</tr>");
+  writer.indentPrintln ("<tr>");
+  writer.writeTag ("th", "class=h", "Included Services");
+
+  writer.writeTag ("td", "id=serviceVersion colspan=2", calcIncludedServices (
+    service.getIncludedServices ()));
+  writer.indentPrintln ("</tr>");
+
   writer.indentPrintln ("</table>");
 
 //  writer.indentPrintln ("<div class=\"panel\" style=\"border-width: 1px;\">");
@@ -71,7 +79,7 @@ public class HtmlContractServiceWriter
   writer.indentPrintln ("<table id=\"serviceMetaTable\">");
   writer.indentPrintln ("<tr>");
   writer.indentPrintln ("<th class=h>");
-  writer.indentPrintln (service.getComments ());
+  writer.indentPrintln (this.addHTMLBreaks (service.getComments ()));
   writer.indentPrintln ("</th>");
   writer.indentPrintln ("</tr>");
   writer.indentPrintln ("</table>");
@@ -129,12 +137,35 @@ public class HtmlContractServiceWriter
   writer.writeHeaderBodyAndFooterOutToFile ();
  }
 
+ private String calcIncludedServices (List<String> includedServices)
+ {
+  if (includedServices == null)
+  {
+   return "&nbsp;";
+  }
+  if (includedServices.isEmpty ())
+  {
+   return "&nbsp;";
+  }
+  StringBuilder bldr = new StringBuilder ();
+  String comma = "";
+  for (String includedService : includedServices)
+  {
+   bldr.append (comma);
+   comma = ", ";
+   bldr.append ("<a href=\"" + includedService + ".html"
+                + "\">" + includedService + "</a>");
+  }
+  return bldr.toString ();
+ }
+
  private Set<XmlType> calcComplexRootXmlTypes ()
  {
   return calcComplexRootXmlTypes (model, service.getKey ());
  }
 
- public static Set<XmlType> calcComplexRootXmlTypes (ServiceContractModel mdl, String serviceOptionaFilter)
+ public static Set<XmlType> calcComplexRootXmlTypes (ServiceContractModel mdl,
+                                                     String serviceOptionaFilter)
  {
   ModelFinder fndr = new ModelFinder (mdl);
   Set<XmlType> types = new LinkedHashSet ();
@@ -171,13 +202,16 @@ public class HtmlContractServiceWriter
   }
   return types;
  }
+
  private String addHTMLBreaks (String str)
  {
-  if (str == null) {
+  if (str == null)
+  {
    return "&nbsp;";
   }
   return str.replaceAll ("(\r\n|\r|\n|\n\r)", "<br>");
  }
+
  public void writeMethod (ServiceMethod method)
  {
   writer.indentPrintln ("<p>");
@@ -225,7 +259,8 @@ public class HtmlContractServiceWriter
                           + param.getType () + "</a>");
     writer.indentPrint ("</td>");
     writer.writeTag ("td", "class=\"methodParamName\"", param.getName ());
-    writer.writeTag ("td", "class=\"methodParamDesc\"", this.addHTMLBreaks (param.getDescription ()));
+    writer.writeTag ("td", "class=\"methodParamDesc\"", this.addHTMLBreaks (
+      param.getDescription ()));
     writer.indentPrintln ("</tr>");
    }
   }
@@ -238,7 +273,8 @@ public class HtmlContractServiceWriter
                         + method.getReturnValue ().getType () + "</a>");
   writer.indentPrint ("</td>");
   writer.writeTag ("td", "class=\"methodReturnDesc\"",
-                   this.addHTMLBreaks (method.getReturnValue ().getDescription ()));
+                   this.addHTMLBreaks (
+    method.getReturnValue ().getDescription ()));
   writer.indentPrintln ("</tr>");
   writer.indentPrintln ("</tr>");
 
@@ -264,7 +300,8 @@ public class HtmlContractServiceWriter
     }
     writer.writeTag ("td", "class=\"methodErrorType\" colspan=2",
                      error.getType ()); // TODO wrap in link to type
-    writer.writeTag ("td", "class=\"methodErrorDesc\"", this.addHTMLBreaks (error.getDescription ()));
+    writer.writeTag ("td", "class=\"methodErrorDesc\"", this.addHTMLBreaks (
+      error.getDescription ()));
     writer.indentPrintln ("</tr>");
    }
   }

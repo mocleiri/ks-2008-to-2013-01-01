@@ -63,7 +63,7 @@ public class HtmlContractWriterTest {
 	private static final String COMMON_DIRECTORY = "C:/svn/student/ks-common/ks-common-api/src/main/java";
 	private static final String LUM_DIRECTORY = "C:/svn/student/ks-lum/ks-lum-api/src/main/java";
 	private static final String RICE_DIRECTORY = "C:/svn/rice/rice-release-1-0-2-1-br/api/src/main/java";
-	private static final String POC_DIRECTORY = "C:/svn/ks-r2-poc/ks-services/ks-services-api/src/main/java";
+	private static final String POC_DIRECTORY = "C:/svn/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/java";
 	private static final String HTML_DIRECTORY = "target/html";
 
 	private static final String RESOURCES_DIRECTORY =
