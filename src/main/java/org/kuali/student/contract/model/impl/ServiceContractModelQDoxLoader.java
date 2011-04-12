@@ -23,6 +23,7 @@ import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaParameter;
 import com.thoughtworks.qdox.model.Type;
+import com.thoughtworks.qdox.model.annotation.AnnotationValue;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -350,7 +351,7 @@ public class ServiceContractModelQDoxLoader implements
    xmlType.setName (name);
    xmlType.setDesc (this.calcMessageStructureDesc (messageStructureJavaClass));
    xmlType.setService (serviceKey);
-   xmlType.setVersion ("???");
+   xmlType.setVersion ("IGNORE -- SAME AS SERVICE");
    xmlType.setPrimitive (calcPrimitive (messageStructureJavaClass));
    if (xmlType.getPrimitive ().equals (XmlType.COMPLEX))
    {
@@ -423,7 +424,7 @@ public class ServiceContractModelQDoxLoader implements
   return "Primitive";
  }
 
- private String initLower (String str)
+  private String initLower (String str)
  {
   if (str == null)
   {
@@ -440,9 +441,31 @@ public class ServiceContractModelQDoxLoader implements
   return str.substring (0, 1).toLowerCase () + str.substring (1);
  }
 
+ private String initUpper (String str)
+ {
+  if (str == null)
+  {
+   return null;
+  }
+  if (str.length () == 0)
+  {
+   return str;
+  }
+  if (str.length () == 1)
+  {
+   return str.toUpperCase ();
+  }
+  return str.substring (0, 1).toUpperCase () + str.substring (1);
+ }
+
  private Set<String> getShortNames (JavaClass messageStructureJavaClass)
  {
-  Set<String> fields = new LinkedHashSet ();
+  Set<String> fields = getFieldsUsingPropOrder (messageStructureJavaClass);
+  if (fields != null)
+  {
+   return fields;
+  }
+  fields = new LinkedHashSet ();
   for (JavaMethod method : messageStructureJavaClass.getMethods (true))
   {
    if (isSetterMethodToProcess (method, messageStructureJavaClass.getName ()))
@@ -459,6 +482,43 @@ public class ServiceContractModelQDoxLoader implements
    }
   }
   return fields;
+ }
+
+ private Set<String> getFieldsUsingPropOrder (
+   JavaClass messageStructureJavaClass)
+ {
+  for (Annotation annotation : messageStructureJavaClass.getAnnotations ())
+  {
+   if (annotation.getType ().getJavaClass ().getName ().equals ("XmlType"))
+   {
+    AnnotationValue propOrderParam = annotation.getProperty ("propOrder");
+    if (propOrderParam == null)
+    {
+     continue;
+    }
+    Object propOrderValue = propOrderParam.getParameterValue ();
+    if ( ! (propOrderValue instanceof List))
+    {
+     continue;
+    }
+    Set<String> fields = new LinkedHashSet ();
+    for (Object value : (List) propOrderValue)
+    {
+     if (value instanceof String)
+     {
+      String shortName = (String) value;
+      shortName = this.stripQuotes (shortName);
+      if (shortName.equals ("_futureElements")) {
+       continue;
+      }
+      shortName = this.initUpper (shortName);
+      fields.add (shortName);
+     }
+    }
+    return fields;
+   }
+  }
+  return null;
  }
 
  private void addMessageStructure (JavaClass messageStructureJavaClass,

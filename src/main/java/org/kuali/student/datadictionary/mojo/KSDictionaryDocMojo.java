@@ -23,7 +23,6 @@ import org.kuali.student.datadictionary.util.DictionaryTesterHelper;
 
 /**
  * Mojo for generating a formatted view of the data dictionary
- * @goal ksdictionarydoc
  */
 public class KSDictionaryDocMojo extends AbstractMojo {
 
