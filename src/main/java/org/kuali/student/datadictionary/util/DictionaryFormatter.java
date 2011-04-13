@@ -78,6 +78,8 @@ public class DictionaryFormatter {
     }
 
     private void writeBody(PrintStream out) {
+        out.println("<a href=\"index.html\">home</a>");
+        out.println ("<br>");
         out.println("(!) This page was automatically generated on " + new Date());
         out.print(" and is a formatted view of ");
         writeLink(out, projectUrl + "/" + this.dictFileName, "this file");

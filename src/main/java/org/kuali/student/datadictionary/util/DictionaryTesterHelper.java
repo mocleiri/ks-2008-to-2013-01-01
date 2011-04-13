@@ -21,8 +21,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
+import org.kuali.rice.kns.util.spring.ClassPathXmlApplicationContext;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class DictionaryTesterHelper {
 
@@ -39,11 +39,11 @@ public class DictionaryTesterHelper {
     }
 
     public List<String> doTest() {
-        if (!new File(dictFileName).exists()) {
-            throw new IllegalArgumentException(dictFileName + " does not exist");
-        }
-        ApplicationContext ac = new FileSystemXmlApplicationContext(dictFileName);
-//        ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:" + dictFileName);
+//        if (!new File(dictFileName).exists()) {
+//            throw new IllegalArgumentException(dictFileName + " does not exist");
+//        }
+//        ApplicationContext ac = new FileSystemXmlApplicationContext(dictFileName);
+        ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:" + dictFileName);
         Map<String, DataObjectEntry> beansOfType =
                 (Map<String, DataObjectEntry>) ac.getBeansOfType(DataObjectEntry.class);
         for (DataObjectEntry doe : beansOfType.values()) {

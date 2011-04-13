@@ -59,11 +59,20 @@ public class KSDictionaryDocMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+        //System.out.println ("Writing java class: " + fileName + " to " + dir.getAbsolutePath ());
+        if (!htmlDirectory.exists()) {
+            if (!htmlDirectory.mkdirs()) {
+                throw new MojoExecutionException("Could not create directory "
+                        + this.htmlDirectory.getPath());
+            }
+        }
+
         List<String> outputFiles = new ArrayList<String>(this.inputFiles.size());
         for (String dictFileName : this.inputFiles) {
-            String outputFileName = this.htmlDirectory.getPath() + "/" + replaceXmlWithHtml(dictFileName);
+            String outputFileName = replaceXmlWithHtml(dictFileName);
+            String fullOutputFileName = this.htmlDirectory.getAbsolutePath() + "/" + outputFileName;
             outputFiles.add(outputFileName);
-            DictionaryTesterHelper tester = new DictionaryTesterHelper(outputFileName, this.projectUrl, dictFileName);
+            DictionaryTesterHelper tester = new DictionaryTesterHelper(fullOutputFileName, this.projectUrl, dictFileName);
             List errors = tester.doTest();
             if (errors == null) {
                 continue;
@@ -74,6 +83,8 @@ public class KSDictionaryDocMojo extends AbstractMojo {
             throw new MojoExecutionException("Errors validating dictionary file "
                     + dictFileName + "\n" + this.formatAsString(errors));
         }
+
+        // write out the index file
         String indexFileName = this.htmlDirectory.getPath() + "/" + "index.html";
         File indexFile = new File(indexFileName);
         OutputStream outputStream;
@@ -84,8 +95,14 @@ public class KSDictionaryDocMojo extends AbstractMojo {
         }
         PrintStream out = new PrintStream(outputStream);
         DictionaryFormatter.writeHeader(out, "Data Dictionary Index");
+        out.println("<h1>Data Dictionary Index</h1>");
+        out.println("HTML Formatted views of:");
+        out.println("<ul>");
         for (String outputFileName : outputFiles) {
+            String text = outputFileName.substring(0, outputFileName.length() - ".html".length()) + ".xml";
+            out.print("<li><a href=\"" + outputFileName + "\">" + text + "</a>");
         }
+        out.println("</ul>");
         DictionaryFormatter.writeFooter(out);
     }
 

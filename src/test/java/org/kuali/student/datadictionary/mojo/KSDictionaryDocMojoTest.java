@@ -23,6 +23,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
@@ -63,9 +64,12 @@ public class KSDictionaryDocMojoTest {
         KSDictionaryDocMojo instance = new KSDictionaryDocMojo();
         instance.setHtmlDirectory(new File(HTML_DIRECTORY));
         List<String> inputFiles = new ArrayList();
-        inputFiles.add(DICTIONARY_RESOURCES_DIRECTORY + "/ks-lui-person-relation-dictionary.xml");
+//        inputFiles.add(DICTIONARY_RESOURCES_DIRECTORY + "/ks-lui-person-relation-dictionary.xml");
+        inputFiles.add("ks-lui-person-relation-dictionary.xml");
         instance.setInputFiles(inputFiles);
         instance.setProjectUrl(PROJECT_URL);
         instance.execute();
+        assertTrue(new File(HTML_DIRECTORY + "/index.html").exists());
+        assertTrue(new File(HTML_DIRECTORY + "/ks-lui-person-relation-dictionary.html").exists());
     }
 }
