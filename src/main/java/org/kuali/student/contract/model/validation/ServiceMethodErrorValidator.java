@@ -25,50 +25,40 @@ import java.util.Collection;
  * This validates a single criteriainoary entry
  * @author nwright
  */
-public class ServiceMethodErrorValidator implements ModelValidator
-{
+public class ServiceMethodErrorValidator implements ModelValidator {
 
- private ServiceMethodError error;
- private ServiceMethod method;
+    private ServiceMethodError error;
+    private ServiceMethod method;
 
- public ServiceMethodErrorValidator (ServiceMethodError error,
-                               ServiceMethod method)
- {
-  this.error = error;
-  this.method = method;
- }
+    public ServiceMethodErrorValidator(ServiceMethodError error,
+            ServiceMethod method) {
+        this.error = error;
+        this.method = method;
+    }
+    private Collection errors;
 
- private Collection errors;
+    @Override
+    public Collection<String> validate() {
+        errors = new ArrayList();
+        basicValidation();
+        return errors;
+    }
 
- @Override
- public Collection<String> validate ()
- {
-  errors = new ArrayList ();
-  basicValidation ();
-  return errors;
- }
+    private void basicValidation() {
+        if (error.getDescription().equals("")) {
+            addError("Description is required");
+        }
+        if (error.getType().equals("")) {
+            addError("Type is required");
+        }
+    }
 
- private void basicValidation ()
- {
-  if (error.getDescription ().equals (""))
-  {
-   addError ("Description is required");
-  }
-  if (error.getType ().equals (""))
-  {
-   addError ("Type is required");
-  }
- }
-
- private void addError (String msg)
- {
-  String error = "Error in error " + method.getService () + "." +
-   method.getName () +
-   ": " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
-
+    private void addError(String msg) {
+        String error = "Error in error " + method.getService() + "."
+                + method.getName()
+                + ": " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }

@@ -19,52 +19,44 @@ package org.kuali.student.contract.writer;
  *
  * @author nwright
  */
-public class StringQuoter
-{
+public class StringQuoter {
 
- public static String quote (String value)
- {
-  if (value == null)
-  {
-   return null;
-  }
-  StringBuffer buf = new StringBuffer (value.length () + 3);
-  buf.append ('"');
-  boolean lastCharWasEscape = false;
-  for (int i = 0; i < value.length (); i ++)
-  {
-   char c = value.charAt (i);
-   switch (c)
-   {
-    case '"':
-     if ( ! lastCharWasEscape)
-     {
-      buf.append ('\\');
-     }
-     lastCharWasEscape = false;
-     break;
-    case '\\':
-     if ( ! lastCharWasEscape)
-     {
-      buf.append ('\\');
-     }
-     lastCharWasEscape = true;
-     break;
-    case '\n':
-    case '\r':
-     buf.append ('"');
-     buf.append ("\n");
-     buf.append ("\t + ");
-     buf.append ('"');
-     lastCharWasEscape = false;
-     continue;
-    default:
-     lastCharWasEscape = false;
-   }
-   buf.append (c);
-  }
-  buf.append ('"');
-  return buf.toString ();
- }
-
+    public static String quote(String value) {
+        if (value == null) {
+            return null;
+        }
+        StringBuffer buf = new StringBuffer(value.length() + 3);
+        buf.append('"');
+        boolean lastCharWasEscape = false;
+        for (int i = 0; i < value.length(); i++) {
+            char c = value.charAt(i);
+            switch (c) {
+                case '"':
+                    if (!lastCharWasEscape) {
+                        buf.append('\\');
+                    }
+                    lastCharWasEscape = false;
+                    break;
+                case '\\':
+                    if (!lastCharWasEscape) {
+                        buf.append('\\');
+                    }
+                    lastCharWasEscape = true;
+                    break;
+                case '\n':
+                case '\r':
+                    buf.append('"');
+                    buf.append("\n");
+                    buf.append("\t + ");
+                    buf.append('"');
+                    lastCharWasEscape = false;
+                    continue;
+                default:
+                    lastCharWasEscape = false;
+            }
+            buf.append(c);
+        }
+        buf.append('"');
+        return buf.toString();
+    }
 }

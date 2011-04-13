@@ -25,68 +25,53 @@ import java.util.Collection;
  * This validates a single resultinoary entry
  * @author nwright
  */
-public class SearchResultValidator implements ModelValidator
-{
+public class SearchResultValidator implements ModelValidator {
 
- private SearchResult result;
- private SearchType searchType;
+    private SearchResult result;
+    private SearchType searchType;
 
- public SearchResultValidator (SearchResult result, SearchType searchType)
- {
-  this.result = result;
-  this.searchType = searchType;
- }
+    public SearchResultValidator(SearchResult result, SearchType searchType) {
+        this.result = result;
+        this.searchType = searchType;
+    }
+    private Collection errors;
 
- private Collection errors;
+    @Override
+    public Collection<String> validate() {
+        errors = new ArrayList();
+        basicValidation();
+        if (result.getResultColumns() == null) {
+            addError("A result column list is required");
+        }
+        if (result.getResultColumns().size() == 0) {
+            addError("A result must have at least one column");
+        }
+        return errors;
+    }
 
- @Override
- public Collection<String> validate ()
- {
-  errors = new ArrayList ();
-  basicValidation ();
-  if (result.getResultColumns () == null)
-  {
-   addError ("A result column list is required");
-  }
-  if (result.getResultColumns ().size () == 0)
-  {
-   addError ("A result must have at least one column");
-  }
-  return errors;
- }
+    private void basicValidation() {
+        if (result.getKey().equals("")) {
+            addError("result key is required");
+        }
+        if (!result.getType().equals("Result")) {
+            addError("'Type' column in the result must be 'Result'");
+        }
+        if (result.getName().equals("")) {
+            addError("Name is required");
+        }
+        if (result.getDescription().equals("")) {
+            addError("Description is required");
+        }
+        if (!result.getDataType().equals("")) {
+            addError("Data Type should be blank");
+        }
+    }
 
- private void basicValidation ()
- {
-  if (result.getKey ().equals (""))
-  {
-   addError ("result key is required");
-  }
-  if ( ! result.getType ().equals ("Result"))
-  {
-   addError ("'Type' column in the result must be 'Result'");
-  }
-  if (result.getName ().equals (""))
-  {
-   addError ("Name is required");
-  }
-  if (result.getDescription ().equals (""))
-  {
-   addError ("Description is required");
-  }
-  if ( ! result.getDataType ().equals (""))
-  {
-   addError ("Data Type should be blank");
-  }
- }
-
- private void addError (String msg)
- {
-  String error = "Error in result entry: " +searchType.getKey () + "." + result.getKey () +
-   ": " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
-
+    private void addError(String msg) {
+        String error = "Error in result entry: " + searchType.getKey() + "." + result.getKey()
+                + ": " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }

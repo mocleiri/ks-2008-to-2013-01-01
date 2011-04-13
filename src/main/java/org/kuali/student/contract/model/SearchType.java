@@ -19,79 +19,66 @@ package org.kuali.student.contract.model;
  *
  * @author nwright
  */
-public class SearchType extends SearchRow
-{
+public class SearchType extends SearchRow {
 
- public SearchType ()
- {
-  super ();
- }
+    public SearchType() {
+        super();
+    }
+    protected SearchImplementation implementation;
 
- protected SearchImplementation implementation;
+    /**
+     * Get the value of implementation
+     *
+     * @return the value of implementation
+     */
+    public SearchImplementation getImplementation() {
+        return implementation;
+    }
 
- /**
-  * Get the value of implementation
-  *
-  * @return the value of implementation
-  */
- public SearchImplementation getImplementation ()
- {
-  return implementation;
- }
+    /**
+     * Set the value of implementation
+     *
+     * @param implementation new value of implementation
+     */
+    public void setImplementation(SearchImplementation implementation) {
+        this.implementation = implementation;
+    }
+    protected SearchCriteria criteria;
 
- /**
-  * Set the value of implementation
-  *
-  * @param implementation new value of implementation
-  */
- public void setImplementation (SearchImplementation implementation)
- {
-  this.implementation = implementation;
- }
+    /**
+     * Get the value of criteria
+     *
+     * @return the value of criteria
+     */
+    public SearchCriteria getSearchCriteria() {
+        return criteria;
+    }
 
- protected SearchCriteria criteria;
+    /**
+     * Set the value of criteria
+     *
+     * @param criteria new value of criteria
+     */
+    public void setSearchCriteria(SearchCriteria criteria) {
+        this.criteria = criteria;
+    }
+    private SearchResult result;
 
- /**
-  * Get the value of criteria
-  *
-  * @return the value of criteria
-  */
- public SearchCriteria getSearchCriteria ()
- {
-  return criteria;
- }
+    /**
+     * Get the value of results
+     *
+     * @return the value of results
+     */
+    public SearchResult getSearchResult() {
+        return result;
+    }
 
- /**
-  * Set the value of criteria
-  *
-  * @param criteria new value of criteria
-  */
- public void setSearchCriteria (SearchCriteria criteria)
- {
-  this.criteria = criteria;
- }
-
- private SearchResult result;
-
- /**
-  * Get the value of results
-  *
-  * @return the value of results
-  */
- public SearchResult getSearchResult ()
- {
-  return result;
- }
-
- /**
-  * Set the value of results
-  *
-  * @param results new value of results
-  */
- public void setSearchResult (SearchResult result)
- {
-  this.result = result;
- }
-
- 
+    /**
+     * Set the value of results
+     *
+     * @param results new value of results
+     */
+    public void setSearchResult(SearchResult result) {
+        this.result = result;
+    }
 }

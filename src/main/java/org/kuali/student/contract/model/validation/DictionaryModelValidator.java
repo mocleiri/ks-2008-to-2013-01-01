@@ -32,112 +32,87 @@ import java.util.Set;
  * Validates the entire spreadsheet model
  * @author nwright
  */
-public class DictionaryModelValidator implements ModelValidator
-{
+public class DictionaryModelValidator implements ModelValidator {
 
- private DictionaryModel model;
- private ModelFinder finder;
+    private DictionaryModel model;
+    private ModelFinder finder;
 
- public DictionaryModelValidator (DictionaryModel model)
- {
-  this.model = model;
-  this.finder = new ModelFinder (model);
- }
+    public DictionaryModelValidator(DictionaryModel model) {
+        this.model = model;
+        this.finder = new ModelFinder(model);
+    }
+    List<String> errors;
 
- List<String> errors;
+    @Override
+    public Collection<String> validate() {
+        errors = new ArrayList();
+        validateConstraints();
+        validateFields();
+        validateDefaultDictionary();
+        validateStateOverrideDictionary();
+        checkForDuplicateDictionaryEntries();
+        return errors;
+    }
 
- @Override
- public Collection<String> validate ()
- {
-  errors = new ArrayList ();
-  validateConstraints ();
-  validateFields ();
-  validateDefaultDictionary ();
-  validateStateOverrideDictionary ();
-  checkForDuplicateDictionaryEntries ();
-  return errors;
- }
+    private void validateConstraints() {
+        if (model.getConstraints().size() == 0) {
+            addError("No constraints found");
+        }
+        for (Constraint cons : model.getConstraints()) {
+            ConstraintValidator cv = new ConstraintValidator(cons);
+            errors.addAll(cv.validate());
+        }
+    }
 
- private void validateConstraints ()
- {
-  if (model.getConstraints ().size () == 0)
-  {
-   addError ("No constraints found");
-  }
-  for (Constraint cons : model.getConstraints ())
-  {
-   ConstraintValidator cv = new ConstraintValidator (cons);
-   errors.addAll (cv.validate ());
-  }
- }
+    private void validateFields() {
+        if (model.getFields().size() == 0) {
+            addError("No fields found");
+        }
+        for (Field field : model.getFields()) {
+            FieldValidator fv = new FieldValidator(field, model);
+            errors.addAll(fv.validate());
+        }
+    }
 
- private void validateFields ()
- {
-  if (model.getFields ().size () == 0)
-  {
-   addError ("No fields found");
-  }
-  for (Field field : model.getFields ())
-  {
-   FieldValidator fv = new FieldValidator (field, model);
-   errors.addAll (fv.validate ());
-  }
- }
+    private void validateDefaultDictionary() {
+        if (finder.findDefaultDictionary().size() == 0) {
+            addError("No dictionary entries for the (default) state found");
+        }
+        for (Dictionary dict : finder.findDefaultDictionary()) {
+            DictionaryValidator dv = new DictionaryValidator(dict, model);
+            errors.addAll(dv.validate());
+        }
+    }
 
+    private void validateStateOverrideDictionary() {
 
- private void validateDefaultDictionary ()
- {
-  if (finder.findDefaultDictionary ().size () == 0)
-  {
-   addError ("No dictionary entries for the (default) state found");
-  }
-  for (Dictionary dict : finder.findDefaultDictionary ())
-  {
-   DictionaryValidator dv = new DictionaryValidator (dict, model);
-   errors.addAll (dv.validate ());
-  }
- }
+        if (finder.findStateOverrideDictionary().size() == 0) {
+            addError("No dictionary entries that override for the (default) state found");
+        }
+        for (Dictionary dict : finder.findStateOverrideDictionary()) {
+            DictionaryValidator dv = new DictionaryValidator(dict, model);
+            errors.addAll(dv.validate());
+        }
+    }
 
- private void validateStateOverrideDictionary ()
- {
+    private void checkForDuplicateDictionaryEntries() {
+        Set dups = new HashSet();
+        for (Dictionary dict : finder.findDefaultDictionary()) {
+            if (!dups.add(dict.getId())) {
+                addError("Duplicate ID's found in dictionary: " + dict.getId());
+            }
+        }
+        for (Dictionary dict : finder.findStateOverrideDictionary()) {
+            if (!dups.add(dict.getId())) {
+                addError("Duplicate ID's found in dictionary: " + dict.getId());
+            }
+        }
+    }
 
-  if (finder.findStateOverrideDictionary ().size () == 0)
-  {
-   addError ("No dictionary entries that override for the (default) state found");
-  }
-  for (Dictionary dict : finder.findStateOverrideDictionary ())
-  {
-   DictionaryValidator dv = new DictionaryValidator (dict, model);
-   errors.addAll (dv.validate ());
-  }
- }
-
- private void checkForDuplicateDictionaryEntries ()
- {
-  Set dups = new HashSet ();
-  for (Dictionary dict : finder.findDefaultDictionary ())
-  {
-   if ( ! dups.add (dict.getId ()))
-   {
-    addError ("Duplicate ID's found in dictionary: " + dict.getId ());
-   }
-  }
-  for (Dictionary dict : finder.findStateOverrideDictionary ())
-  {
-   if ( ! dups.add (dict.getId ()))
-   {
-    addError ("Duplicate ID's found in dictionary: " + dict.getId ());
-   }
-  }
- }
-
- private void addError (String msg)
- {
-  String error = "Error in overall spreadsheet: " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
-
+    private void addError(String msg) {
+        String error = "Error in overall spreadsheet: " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }

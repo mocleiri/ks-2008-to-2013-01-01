@@ -22,64 +22,59 @@ import java.util.List;
  * google and excel versions as well as caching and expanding ones.
  * @author nwright
  */
-public interface DictionaryModel extends SearchModel, ServiceContractModel
-{
+public interface DictionaryModel extends SearchModel, ServiceContractModel {
 
- /**
-  * get name of the source of this spreadsheet
-  * @return
-  */
- public List<String> getSourceNames ();
+    /**
+     * get name of the source of this spreadsheet
+     * @return
+     */
+    public List<String> getSourceNames();
 
- /**
-  * get dictionary entries
-  * @return
-  */
- public List<Dictionary> getDictionary ();
+    /**
+     * get dictionary entries
+     * @return
+     */
+    public List<Dictionary> getDictionary();
 
- /**
-  * load lu States
-  * @return
-  */
- public List<State> getStates ();
+    /**
+     * load lu States
+     * @return
+     */
+    public List<State> getStates();
 
- /**
-  * get the kuali student types
-  * @return
-  */
- public List<Type> getTypes ();
+    /**
+     * get the kuali student types
+     * @return
+     */
+    public List<Type> getTypes();
 
+    /**
+     * get fields
+     * @return
+     */
+    public List<Field> getFields();
 
- /**
-  * get fields
-  * @return
-  */
- public List<Field> getFields ();
+    /**
+     * get constraints
+     * @return
+     */
+    public List<Constraint> getConstraints();
 
- /**
-  * get constraints
-  * @return
-  */
- public List<Constraint> getConstraints ();
+    /**
+     * get cross object constraints
+     * @return
+     */
+    public List<CrossObjectConstraint> getCrossObjectConstraints();
 
- /**
-  * get cross object constraints
-  * @return
-  */
- public List<CrossObjectConstraint> getCrossObjectConstraints ();
+    /**
+     * get Orchestration Object Definitions
+     * @return
+     */
+    public List<OrchObj> getOrchObjs();
 
- /**
-  * get Orchestration Object Definitions
-  * @return
-  */
- public List<OrchObj> getOrchObjs ();
-
-
-  /**
-   * get the project definitions
-   * @return list of projects known to the metadata
-   */
- public List<Project> getProjects ();
-
-
+    /**
+     * get the project definitions
+     * @return list of projects known to the metadata
+     */
+    public List<Project> getProjects();
 }

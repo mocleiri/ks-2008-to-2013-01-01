@@ -19,45 +19,33 @@ package org.kuali.student.contract.model;
  *
  * @author nwright
  */
-public class ServiceMethodReturnValue
-{
+public class ServiceMethodReturnValue {
 
- protected String type;
+    protected String type;
 
- public String getType ()
- {
-  return type;
- }
+    public String getType() {
+        return type;
+    }
 
- public void setType (String type)
- {
-  this.type = type;
- }
+    public void setType(String type) {
+        this.type = type;
+    }
+    private String description;
 
+    public String getDescription() {
+        return description;
+    }
 
- private String description;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    private String url;
 
- public String getDescription ()
- {
-  return description;
- }
+    public String getUrl() {
+        return url;
+    }
 
- public void setDescription (String description)
- {
-  this.description = description;
- }
-
- private String url;
-
- public String getUrl ()
- {
-  return url;
- }
-
- public void setUrl (String url)
- {
-  this.url = url;
- }
-
-
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

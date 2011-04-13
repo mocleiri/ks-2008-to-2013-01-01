@@ -22,25 +22,20 @@ import org.kuali.student.contract.exception.DictionaryException;
  * generating the dictionary
  * @author nwright
  */
-public class DictionaryValidationException extends DictionaryException
-{
+public class DictionaryValidationException extends DictionaryException {
 
- public DictionaryValidationException (Throwable cause)
- {
-  super (cause);
- }
+    public DictionaryValidationException(Throwable cause) {
+        super(cause);
+    }
 
- public DictionaryValidationException (String message, Throwable cause)
- {
-  super (message, cause);
- }
+    public DictionaryValidationException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
- public DictionaryValidationException (String message)
- {
-  super (message);
- }
+    public DictionaryValidationException(String message) {
+        super(message);
+    }
 
- public DictionaryValidationException ()
- {
- }
+    public DictionaryValidationException() {
+    }
 }

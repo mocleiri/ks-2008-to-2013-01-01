@@ -25,76 +25,70 @@ import org.kuali.student.contract.writer.JavaEnumConstantCalculator;
  * @author nwright
  * @deprecated 
  */
-public class ServiceExceptionWriter extends JavaClassWriter
-{
+public class ServiceExceptionWriter extends JavaClassWriter {
 
- private ServiceContractModel model;
- private String directory;
- private String rootPackage;
- private ServiceMethodError error;
+    private ServiceContractModel model;
+    private String directory;
+    private String rootPackage;
+    private ServiceMethodError error;
 
- public ServiceExceptionWriter (ServiceContractModel model,
-                                String directory,
-                                String rootPackage,
-                                ServiceMethodError error)
- {
-  super (directory, calcPackage (rootPackage), calcClassName (error.getType ()));
-  this.model = model;
-  this.directory = directory;
-  this.rootPackage = rootPackage;
-  this.error = error;
- }
+    public ServiceExceptionWriter(ServiceContractModel model,
+            String directory,
+            String rootPackage,
+            ServiceMethodError error) {
+        super(directory, calcPackage(rootPackage), calcClassName(error.getType()));
+        this.model = model;
+        this.directory = directory;
+        this.rootPackage = rootPackage;
+        this.error = error;
+    }
 
- public static String calcPackage (String rootPackage)
- {
-  return PureJavaInfcServiceWriter.calcPackage ("exception", rootPackage);
- }
+    public static String calcPackage(String rootPackage) {
+        return PureJavaInfcServiceWriter.calcPackage("exception", rootPackage);
+    }
 
- public static String calcClassName (String type)
- {
-  return new JavaEnumConstantCalculator (type).reverse () + "Exception";
- }
+    public static String calcClassName(String type) {
+        return new JavaEnumConstantCalculator(type).reverse() + "Exception";
+    }
 
- /**
-  * Write out the entire file
-  * @param out
-  */
- public void write ()
- {
-  String className = calcClassName (error.getType ());
-  indentPrintln ("public class " + className + " extends Exception");
-  openBrace ();
-  indentPrintln ("");
-	 indentPrintln ("private static final long serialVersionUID = 1L;");
-  indentPrintln ("");
-  indentPrintln ("public " + className + "()");
-  openBrace ();
-  indentPrintln ("super ();");
-  closeBrace ();
+    /**
+     * Write out the entire file
+     * @param out
+     */
+    public void write() {
+        String className = calcClassName(error.getType());
+        indentPrintln("public class " + className + " extends Exception");
+        openBrace();
+        indentPrintln("");
+        indentPrintln("private static final long serialVersionUID = 1L;");
+        indentPrintln("");
+        indentPrintln("public " + className + "()");
+        openBrace();
+        indentPrintln("super ();");
+        closeBrace();
 
-  indentPrintln ("");
-  indentPrintln ("public " + className + "(String msg)");
-  openBrace ();
-  indentPrintln ("super (msg);");
-  closeBrace ();
+        indentPrintln("");
+        indentPrintln("public " + className + "(String msg)");
+        openBrace();
+        indentPrintln("super (msg);");
+        closeBrace();
 
-  indentPrintln ("");
-  indentPrintln ("public " + className + "(Throwable cause)");
-  openBrace ();
-  indentPrintln ("super (cause);");
-  closeBrace ();
+        indentPrintln("");
+        indentPrintln("public " + className + "(Throwable cause)");
+        openBrace();
+        indentPrintln("super (cause);");
+        closeBrace();
 
-  indentPrintln ("");
-  indentPrintln ("public " + className + "(String msg, Throwable cause)");
-  openBrace ();
-  indentPrintln ("super (msg, cause);");
-  closeBrace ();
+        indentPrintln("");
+        indentPrintln("public " + className + "(String msg, Throwable cause)");
+        openBrace();
+        indentPrintln("super (msg, cause);");
+        closeBrace();
 
-  indentPrintln ("");
-  closeBrace ();
+        indentPrintln("");
+        closeBrace();
 
-  this.writeJavaClassAndImportsOutToFile ();
-  this.getOut ().close ();
- }
-
+        this.writeJavaClassAndImportsOutToFile();
+        this.getOut().close();
+    }
 }

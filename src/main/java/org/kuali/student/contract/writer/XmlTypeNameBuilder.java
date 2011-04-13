@@ -19,22 +19,17 @@ package org.kuali.student.contract.writer;
  *
  * @author nwright
  */
-public class XmlTypeNameBuilder
-{
+public class XmlTypeNameBuilder {
 
- private String name;
- private String javaPackage;
+    private String name;
+    private String javaPackage;
 
- public XmlTypeNameBuilder (String name, String javaPackage)
- {
-  this.name = name;
-  this.javaPackage = javaPackage;
- }
+    public XmlTypeNameBuilder(String name, String javaPackage) {
+        this.name = name;
+        this.javaPackage = javaPackage;
+    }
 
- public String build ()
- {
-  return javaPackage + "." + name.substring (0, 1).toUpperCase () + name.
-   substring (1);
- }
-
+    public String build() {
+        return javaPackage + "." + name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
 }

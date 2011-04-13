@@ -22,33 +22,31 @@ import java.util.List;
  * google and excel versions as well as caching and expanding ones.
  * @author nwright
  */
-public interface ServiceContractModel
-{
+public interface ServiceContractModel {
 
- public List<String> getSourceNames ();
+    public List<String> getSourceNames();
 
- /**
-  * get the service definitions
-  * @return list of services known to the metadata
-  */
- public List<Service> getServices ();
+    /**
+     * get the service definitions
+     * @return list of services known to the metadata
+     */
+    public List<Service> getServices();
 
- /**
-  * Get service methods
-  * @return
-  */
- public List<ServiceMethod> getServiceMethods ();
+    /**
+     * Get service methods
+     * @return
+     */
+    public List<ServiceMethod> getServiceMethods();
 
- /**
-  * load xml types
-  * @return
-  */
- public List<XmlType> getXmlTypes ();
+    /**
+     * load xml types
+     * @return
+     */
+    public List<XmlType> getXmlTypes();
 
- /**
-  * Get Message Structure Definitions
-  * @return
-  */
- public List<MessageStructure> getMessageStructures ();
-
+    /**
+     * Get Message Structure Definitions
+     * @return
+     */
+    public List<MessageStructure> getMessageStructures();
 }

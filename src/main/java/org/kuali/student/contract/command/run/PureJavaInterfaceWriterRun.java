@@ -29,54 +29,47 @@ import org.kuali.student.contract.writer.service.PureJavaInfcWriter;
  *
  * @author nwright
  */
-public class PureJavaInterfaceWriterRun
-{
+public class PureJavaInterfaceWriterRun {
 
- public PureJavaInterfaceWriterRun ()
- {
- }
- private static final String CORE_DIRECTORY =
-                             "C:/svn/student/ks-core/ks-core-api/src/main/java";
+    public PureJavaInterfaceWriterRun() {
+    }
+    private static final String CORE_DIRECTORY =
+            "C:/svn/student/ks-core/ks-core-api/src/main/java";
 //                           "C:/svn/maven-dictionary-generator/trunk/src/main/java/org/kuali/student/core";
- private static final String COMMON_DIRECTORY =
-                             "C:/svn/student/ks-common/ks-common-api/src/main/java";
- private static final String LUM_DIRECTORY =
-                             "C:/svn/student/ks-lum/ks-lum-api/src/main/java";
+    private static final String COMMON_DIRECTORY =
+            "C:/svn/student/ks-common/ks-common-api/src/main/java";
+    private static final String LUM_DIRECTORY =
+            "C:/svn/student/ks-lum/ks-lum-api/src/main/java";
 
- private static ServiceContractModel getModel ()
- {
-  List<String> srcDirs = new ArrayList ();
-  srcDirs.add (CORE_DIRECTORY);
-  srcDirs.add (COMMON_DIRECTORY);
-  srcDirs.add (LUM_DIRECTORY);
-  ServiceContractModel instance = new ServiceContractModelQDoxLoader (srcDirs);
-  return new ServiceContractModelCache (instance);
- }
+    private static ServiceContractModel getModel() {
+        List<String> srcDirs = new ArrayList();
+        srcDirs.add(CORE_DIRECTORY);
+        srcDirs.add(COMMON_DIRECTORY);
+        srcDirs.add(LUM_DIRECTORY);
+        ServiceContractModel instance = new ServiceContractModelQDoxLoader(srcDirs);
+        return new ServiceContractModelCache(instance);
+    }
 
- private static void validate (ServiceContractModel model)
- {
-  Collection<String> errors =
-                     new ServiceContractModelValidator (model).validate ();
-  if (errors.size () > 0)
-  {
-   StringBuffer buf = new StringBuffer ();
-   buf.append (errors.size () + " errors found while validating the data.");
-   int cnt = 0;
-   for (String msg : errors)
-   {
-    cnt ++;
-    buf.append ("\n");
-    buf.append ("*error*" + cnt + ":" + msg);
-   }
+    private static void validate(ServiceContractModel model) {
+        Collection<String> errors =
+                new ServiceContractModelValidator(model).validate();
+        if (errors.size() > 0) {
+            StringBuffer buf = new StringBuffer();
+            buf.append(errors.size() + " errors found while validating the data.");
+            int cnt = 0;
+            for (String msg : errors) {
+                cnt++;
+                buf.append("\n");
+                buf.append("*error*" + cnt + ":" + msg);
+            }
 
-   throw new IllegalArgumentException (buf.toString ());
-  }
- }
+            throw new IllegalArgumentException(buf.toString());
+        }
+    }
 
- public static void main (String[] args)
- {
-  ServiceContractModel model = getModel ();
-  validate (model);
+    public static void main(String[] args) {
+        ServiceContractModel model = getModel();
+        validate(model);
 //   List<String> servicesToProcess = new ArrayList ();
 //   servicesToProcess.add ("atp");
 //   servicesToProcess.add ("lu");
@@ -89,14 +82,14 @@ public class PureJavaInterfaceWriterRun
 //   servicesToProcess.add ("enumerable");
 //   servicesToProcess.add ("search");
 //   ServicesFilter filter = new ServicesFilterByKeys (servicesToProcess);
-  String targetDir = "target/gen-src";
+        String targetDir = "target/gen-src";
 //  targetDir = "src/main/java";
-  PureJavaInfcWriter instance =
-                 new PureJavaInfcWriter (model,
-                                     targetDir,
-                                     PureJavaInfcWriter.DEFAULT_ROOT_PACKAGE,
-                                     null);
-  instance.write ();
+        PureJavaInfcWriter instance =
+                new PureJavaInfcWriter(model,
+                targetDir,
+                PureJavaInfcWriter.DEFAULT_ROOT_PACKAGE,
+                null);
+        instance.write();
 
- }
+    }
 }

@@ -22,9 +22,7 @@ import java.util.List;
  * Envision both type and state expanders but right now just have type expanders
  * @author nwright
  */
-public interface DictionaryExpander
-{
+public interface DictionaryExpander {
 
- public List<Dictionary> expand ();
-
+    public List<Dictionary> expand();
 }

@@ -19,39 +19,33 @@ package org.kuali.student.contract.writer;
  *
  * @author nwright
  */
-public class JavaClassFileNameBuilder
-{
+public class JavaClassFileNameBuilder {
 
- private String rootDirectory;
- private String packageName;
- private String className;
+    private String rootDirectory;
+    private String packageName;
+    private String className;
 
- public JavaClassFileNameBuilder (String rootDirectory,
-                                  String packageName,
-                                  String className)
- {
-  this.rootDirectory = rootDirectory;
-  this.packageName = packageName;
-  this.className = className;
- }
+    public JavaClassFileNameBuilder(String rootDirectory,
+            String packageName,
+            String className) {
+        this.rootDirectory = rootDirectory;
+        this.packageName = packageName;
+        this.className = className;
+    }
 
+    public String buildDirectory() {
+        String dirName = rootDirectory;
+        if (!dirName.endsWith("/")) {
+            dirName += "/";
+        }
+        dirName += packageName.replace(".", "/");
+        return dirName;
+    }
 
- public String buildDirectory ()
- {
-  String dirName = rootDirectory;
-  if ( ! dirName.endsWith ("/"))
-  {
-   dirName += "/";
-  }
-  dirName += packageName.replace (".", "/");
-  return dirName;
- }
-
- public String build ()
- {
-  String fileName = buildDirectory ();
-  fileName += "/" + className;
-  fileName += ".java";
-  return fileName;
- }
+    public String build() {
+        String fileName = buildDirectory();
+        fileName += "/" + className;
+        fileName += ".java";
+        return fileName;
+    }
 }

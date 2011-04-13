@@ -25,42 +25,33 @@ import java.util.List;
  * This validates a constraint.
  * @author nwright
  */
-public class OrchObjValidator implements ModelValidator
-{
+public class OrchObjValidator implements ModelValidator {
 
- private OrchObj orch;
+    private OrchObj orch;
 
- public OrchObjValidator (OrchObj orch)
- {
-  this.orch = orch;
- }
+    public OrchObjValidator(OrchObj orch) {
+        this.orch = orch;
+    }
+    private Collection errors;
 
- private Collection errors;
+    @Override
+    public Collection<String> validate() {
+        this.errors = new ArrayList();
+        if (orch.getXmlType().equals("")) {
+            this.addError("XML Type is required");
+        }
+        // TODO: more validation
+        return this.errors;
+    }
 
- @Override
- public Collection<String> validate ()
- {
-  this.errors = new ArrayList ();
-  if (orch.getXmlType ().equals (""))
-  {
-    this.addError ("XML Type is required");
-  }
-  // TODO: more validation
-  return this.errors;
- }
-
-  private void addError (String msg)
- {
-  String key = orch.getId ();
-  if (key.equals (""))
-  {
-   key = "";
-  }
-  String error = "Error in: " + key + ": " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
-
+    private void addError(String msg) {
+        String key = orch.getId();
+        if (key.equals("")) {
+            key = "";
+        }
+        String error = "Error in: " + key + ": " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }

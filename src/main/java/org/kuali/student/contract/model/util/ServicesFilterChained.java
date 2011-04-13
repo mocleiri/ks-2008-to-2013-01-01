@@ -23,25 +23,19 @@ import org.kuali.student.contract.model.Service;
  *
  * @author nwright
  */
-public class ServicesFilterChained implements ServicesFilter
-{
+public class ServicesFilterChained implements ServicesFilter {
 
- private List <ServicesFilter> filters;
+    private List<ServicesFilter> filters;
 
- public ServicesFilterChained (List<ServicesFilter> filters)
- {
-  this.filters = filters;
- }
+    public ServicesFilterChained(List<ServicesFilter> filters) {
+        this.filters = filters;
+    }
 
-
- @Override
- public List<Service> filter (List<Service> services)
- {
-  for (ServicesFilter filter : filters)
-  {
-  services = filter.filter (services);
-  }
-  return services;
- }
-
+    @Override
+    public List<Service> filter(List<Service> services) {
+        for (ServicesFilter filter : filters) {
+            services = filter.filter(services);
+        }
+        return services;
+    }
 }

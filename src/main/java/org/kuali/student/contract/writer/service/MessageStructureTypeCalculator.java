@@ -29,98 +29,79 @@ import org.kuali.student.contract.writer.JavaClassWriter;
  *
  * @author nwright
  */
-public class MessageStructureTypeCalculator
-{
+public class MessageStructureTypeCalculator {
 
- public static String calculate (ServiceContractModel model,
-                                 String type, String realType)
- {
-  return calculate (null, model, type, realType, "");
- }
+    public static String calculate(ServiceContractModel model,
+            String type, String realType) {
+        return calculate(null, model, type, realType, "");
+    }
 
- public static String calculate (JavaClassWriter writer,
-                                 ServiceContractModel model,
-                                 String type,
-                                 String realType,
-                                 String importPackage)
- {
-  if (type.equalsIgnoreCase ("Map<String, String>"))
-  {
-   importsAdd (writer, Map.class.getName ());
-   return "Map<String, String>";
-  }
+    public static String calculate(JavaClassWriter writer,
+            ServiceContractModel model,
+            String type,
+            String realType,
+            String importPackage) {
+        if (type.equalsIgnoreCase("Map<String, String>")) {
+            importsAdd(writer, Map.class.getName());
+            return "Map<String, String>";
+        }
 
-  if (type.endsWith ("List"))
-  {
-   importsAdd (writer, List.class.getName ());
-   type = type.substring (0, type.length () - "List".length ());
-   return "List<" + calculate (writer, model, type, realType, importPackage) + ">";
-  }
-  XmlType xmlType = new ModelFinder (model).findXmlType (type);
-  if (xmlType == null)
-  {
-   throw new DictionaryValidationException ("No XmlType found for type " + type);
-  }
+        if (type.endsWith("List")) {
+            importsAdd(writer, List.class.getName());
+            type = type.substring(0, type.length() - "List".length());
+            return "List<" + calculate(writer, model, type, realType, importPackage) + ">";
+        }
+        XmlType xmlType = new ModelFinder(model).findXmlType(type);
+        if (xmlType == null) {
+            throw new DictionaryValidationException("No XmlType found for type " + type);
+        }
 
-  if (xmlType.getPrimitive ().equalsIgnoreCase ("Primitive"))
-  {
-   if (type.equalsIgnoreCase ("string"))
-   {
-    return "String";
-   }
-   if (type.equalsIgnoreCase ("date"))
-   {
-    importsAdd (writer, Date.class.getName ());
-    return "Date";
-   }
-   if (type.equalsIgnoreCase ("datetime"))
-   {
-    importsAdd (writer, Date.class.getName ());
-    return "Date";
-   }
-   if (type.equalsIgnoreCase ("boolean"))
-   {
-    return "Boolean";
-   }
-   if (type.equalsIgnoreCase ("int"))
-   {
-    return "int";
-   }
-   if (type.equalsIgnoreCase ("integer"))
-   {
-    return "Integer";
-   }
-   if (type.equalsIgnoreCase ("long"))
-   {
-    return "Long";
-   }
-  }
+        if (xmlType.getPrimitive().equalsIgnoreCase("Primitive")) {
+            if (type.equalsIgnoreCase("string")) {
+                return "String";
+            }
+            if (type.equalsIgnoreCase("date")) {
+                importsAdd(writer, Date.class.getName());
+                return "Date";
+            }
+            if (type.equalsIgnoreCase("datetime")) {
+                importsAdd(writer, Date.class.getName());
+                return "Date";
+            }
+            if (type.equalsIgnoreCase("boolean")) {
+                return "Boolean";
+            }
+            if (type.equalsIgnoreCase("int")) {
+                return "int";
+            }
+            if (type.equalsIgnoreCase("integer")) {
+                return "Integer";
+            }
+            if (type.equalsIgnoreCase("long")) {
+                return "Long";
+            }
+        }
 
-  if (xmlType.getPrimitive ().equalsIgnoreCase ("Mapped String"))
-  {
-   return "String";
-  }
+        if (xmlType.getPrimitive().equalsIgnoreCase("Mapped String")) {
+            return "String";
+        }
 
-  if (xmlType.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
-  {
-   String msType = GetterSetterNameCalculator.calcInitUpper (realType);
-   if (importPackage != null)
-   {
-    importsAdd (writer, importPackage + "." + msType);
-   }
-   return msType;
-  }
+        if (xmlType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+            String msType = GetterSetterNameCalculator.calcInitUpper(realType);
+            if (importPackage != null) {
+                importsAdd(writer, importPackage + "." + msType);
+            }
+            return msType;
+        }
 
-  throw new DictionaryValidationException ("Unknown/unhandled xmlType.primtive value, "
-                                           + xmlType.getPrimitive ()
-                                           + ", for type " + type);
- }
+        throw new DictionaryValidationException("Unknown/unhandled xmlType.primtive value, "
+                + xmlType.getPrimitive()
+                + ", for type " + type);
+    }
 
- private static void importsAdd (JavaClassWriter writer, String importStr)
- {
-  if (writer != null)
-  {
-   writer.importsAdd (importStr);
-  }
- }
+    private static void importsAdd(JavaClassWriter writer, String importStr) {
+        if (writer != null) {
+            writer.importsAdd(importStr);
+        }
+    }
 }

@@ -24,251 +24,212 @@ import java.util.Map;
  * Models the type object in the spreadsheets
  * @author nwright
  */
-public class Type implements Serializable
-{
- public static final String GROUPING = "Grouping";
- public static final String DEFAULT = "(default)";
- 
- public Type ()
- {
- }
+public class Type implements Serializable {
 
- private String name;
+    public static final String GROUPING = "Grouping";
+    public static final String DEFAULT = "(default)";
 
- /**
-  * Get the value of name
-  *
-  * @return the value of name
-  */
- public String getName ()
- {
-  return name;
- }
+    public Type() {
+    }
+    private String name;
 
- /**
-  * Set the value of name
-  *
-  * @param name new value of name
-  */
- public void setName (String name)
- {
-  this.name = name;
- }
+    /**
+     * Get the value of name
+     *
+     * @return the value of name
+     */
+    public String getName() {
+        return name;
+    }
 
- private String desc;
+    /**
+     * Set the value of name
+     *
+     * @param name new value of name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    private String desc;
 
- /**
-  * Get the value of desc
-  *
-  * @return the value of desc
-  */
- public String getDesc ()
- {
-  return desc;
- }
+    /**
+     * Get the value of desc
+     *
+     * @return the value of desc
+     */
+    public String getDesc() {
+        return desc;
+    }
 
- /**
-  * Set the value of desc
-  *
-  * @param desc new value of desc
-  */
- public void setDesc (String desc)
- {
-  this.desc = desc;
- }
+    /**
+     * Set the value of desc
+     *
+     * @param desc new value of desc
+     */
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+    private String xmlObject;
 
- private String xmlObject;
+    /**
+     * Get the value of xmlObject
+     *
+     * @return the value of xmlObject
+     */
+    public String getXmlObject() {
+        return xmlObject;
+    }
 
- /**
-  * Get the value of xmlObject
-  *
-  * @return the value of xmlObject
-  */
- public String getXmlObject ()
- {
-  return xmlObject;
- }
+    /**
+     * Set the value of xmlObject
+     *
+     * @param xmlObject new value of xmlObject
+     */
+    public void setXmlObject(String xmlObject) {
+        this.xmlObject = xmlObject;
+    }
+    private String primitive;
 
- /**
-  * Set the value of xmlObject
-  *
-  * @param xmlObject new value of xmlObject
-  */
- public void setXmlObject (String xmlObject)
- {
-  this.xmlObject = xmlObject;
- }
+    /**
+     * Get the value of primitive
+     *
+     * @return the value of primitive
+     */
+    public String getPrimitive() {
+        return primitive;
+    }
 
- private String primitive;
+    /**
+     * Set the value of primitive
+     *
+     * @param xmlTypeDesc new value of primitive
+     */
+    public void setPrimitive(String primitive) {
+        this.primitive = primitive;
+    }
+    private boolean include;
 
- /**
-  * Get the value of primitive
-  *
-  * @return the value of primitive
-  */
- public String getPrimitive ()
- {
-  return primitive;
- }
+    /**
+     * Get the value of include
+     *
+     * @return the value of include
+     */
+    public boolean getInclude() {
+        return include;
+    }
 
- /**
-  * Set the value of primitive
-  *
-  * @param xmlTypeDesc new value of primitive
-  */
- public void setPrimitive (String primitive)
- {
-  this.primitive = primitive;
- }
+    /**
+     * Set the value of include
+     *
+     * @param include new value of include
+     */
+    public void setInclude(boolean include) {
+        this.include = include;
+    }
+    private String typeKey;
 
- private boolean include;
+    /**
+     * Get the value of typeKey
+     *
+     * @return the value of typeKey
+     */
+    public String getTypeKey() {
+        return typeKey;
+    }
 
- /**
-  * Get the value of include
-  *
-  * @return the value of include
-  */
- public boolean getInclude ()
- {
-  return include;
- }
+    /**
+     * Set the value of typeKey
+     *
+     * @param typeKey new value of typeKey
+     */
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
+    }
+    private String aliases;
 
- /**
-  * Set the value of include
-  *
-  * @param include new value of include
-  */
- public void setInclude (boolean include)
- {
-  this.include = include;
- }
+    /**
+     * Get the value of aliases
+     *
+     * @return the value of aliases
+     */
+    public String getAliases() {
+        return aliases;
+    }
 
- private String typeKey;
+    /**
+     * Set the value of aliases
+     *
+     * @param aliases new value of aliases
+     */
+    public void setAliases(String aliases) {
+        this.aliases = aliases;
+    }
+    private String status;
 
- /**
-  * Get the value of typeKey
-  *
-  * @return the value of typeKey
-  */
- public String getTypeKey ()
- {
-  return typeKey;
- }
+    /**
+     * Get the value of status
+     *
+     * @return the value of status
+     */
+    public String getStatus() {
+        return status;
+    }
 
- /**
-  * Set the value of typeKey
-  *
-  * @param typeKey new value of typeKey
-  */
- public void setTypeKey (String typeKey)
- {
-  this.typeKey = typeKey;
- }
+    /**
+     * Set the value of status
+     *
+     * @param status new value of status
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    private String comments;
 
- private String aliases;
+    /**
+     * Get the value of comments
+     *
+     * @return the value of comments
+     */
+    public String getComments() {
+        return comments;
+    }
 
- /**
-  * Get the value of aliases
-  *
-  * @return the value of aliases
-  */
- public String getAliases ()
- {
-  return aliases;
- }
+    /**
+     * Set the value of comments
+     *
+     * @param comments new value of comments
+     */
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+    private Map<String, String> attributes;
 
- /**
-  * Set the value of aliases
-  *
-  * @param aliases new value of aliases
-  */
- public void setAliases (String aliases)
- {
-  this.aliases = aliases;
- }
+    public Map<String, String> getAttributes() {
+        if (attributes == null) {
+            attributes = new LinkedHashMap();
+        }
+        return attributes;
+    }
 
- private String status;
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
+    }
+    private Date effectiveDate;
 
- /**
-  * Get the value of status
-  *
-  * @return the value of status
-  */
- public String getStatus ()
- {
-  return status;
- }
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
 
- /**
-  * Set the value of status
-  *
-  * @param status new value of status
-  */
- public void setStatus (String status)
- {
-  this.status = status;
- }
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+    private Date expirationDate;
 
- private String comments;
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
 
- /**
-  * Get the value of comments
-  *
-  * @return the value of comments
-  */
- public String getComments ()
- {
-  return comments;
- }
-
- /**
-  * Set the value of comments
-  *
-  * @param comments new value of comments
-  */
- public void setComments (String comments)
- {
-  this.comments = comments;
- }
-
- private Map<String, String> attributes;
-
- public Map<String, String> getAttributes ()
- {
-  if (attributes == null)
-  {
-   attributes = new LinkedHashMap ();
-  }
-  return attributes;
- }
-
- public void setAttributes (Map<String, String> attributes)
- {
-  this.attributes = attributes;
- }
-
- private Date effectiveDate;
-
- public Date getEffectiveDate ()
- {
-  return effectiveDate;
- }
-
- public void setEffectiveDate (Date effectiveDate)
- {
-  this.effectiveDate = effectiveDate;
- }
-
- private Date expirationDate;
-
- public Date getExpirationDate ()
- {
-  return expirationDate;
- }
-
- public void setExpirationDate (Date expirationDate)
- {
-  this.expirationDate = expirationDate;
- }
-
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 }

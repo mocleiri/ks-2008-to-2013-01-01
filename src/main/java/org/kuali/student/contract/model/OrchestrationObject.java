@@ -21,169 +21,129 @@ import java.util.List;
  *
  * @author nwright
  */
-public class OrchestrationObject
-{
+public class OrchestrationObject {
 
- public enum Source
- {
-  MESSAGE_STRUCTURE, ORCH_OBJS;
- }
+    public enum Source {
 
- private List<OrchestrationObjectField> fields;
- private String name;
+        MESSAGE_STRUCTURE, ORCH_OBJS;
+    }
+    private List<OrchestrationObjectField> fields;
+    private String name;
 
- public void setName (String name)
- {
-  this.name = name;
- }
+    public void setName(String name) {
+        this.name = name;
+    }
 
- public String getName ()
- {
-  return name;
- }
+    public String getName() {
+        return name;
+    }
 
- public void setFields (List<OrchestrationObjectField> fields)
- {
-  this.fields = fields;
- }
+    public void setFields(List<OrchestrationObjectField> fields) {
+        this.fields = fields;
+    }
 
- public List<OrchestrationObjectField> getFields ()
- {
-  return fields;
- }
+    public List<OrchestrationObjectField> getFields() {
+        return fields;
+    }
+    private boolean hasOwnCreateUpdate;
 
- private boolean hasOwnCreateUpdate;
+    public boolean hasOwnCreateUpdate() {
+        return hasOwnCreateUpdate;
+    }
 
- public boolean hasOwnCreateUpdate ()
- {
-  return hasOwnCreateUpdate;
- }
+    public void setHasOwnCreateUpdate(boolean hasOwnCreateUpdate) {
+        this.hasOwnCreateUpdate = hasOwnCreateUpdate;
+    }
+    private OrchestrationObjectField inlineField;
 
- public void setHasOwnCreateUpdate (boolean hasOwnCreateUpdate)
- {
-  this.hasOwnCreateUpdate = hasOwnCreateUpdate;
- }
+    public OrchestrationObjectField getInlineField() {
+        return inlineField;
+    }
 
- private OrchestrationObjectField inlineField;
+    public void setInlineField(OrchestrationObjectField inlineField) {
+        this.inlineField = inlineField;
+    }
+    private String orchestrationPackagePath;
 
- public OrchestrationObjectField getInlineField ()
- {
-  return inlineField;
- }
+    public String getOrchestrationPackagePath() {
+        return orchestrationPackagePath;
+    }
 
- public void setInlineField (OrchestrationObjectField inlineField)
- {
-  this.inlineField = inlineField;
- }
+    public void setOrchestrationPackagePath(String packagePath) {
+        this.orchestrationPackagePath = packagePath;
+    }
+    private String infoPackagePath;
 
+    public String getInfoPackagePath() {
+        return infoPackagePath;
+    }
 
- private String orchestrationPackagePath;
+    public void setInfoPackagePath(String infoPackagePath) {
+        this.infoPackagePath = infoPackagePath;
+    }
 
- public String getOrchestrationPackagePath ()
- {
-  return orchestrationPackagePath;
- }
+    public String getJavaClassInfoName() {
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
 
- public void setOrchestrationPackagePath (String packagePath)
- {
-  this.orchestrationPackagePath = packagePath;
- }
+    public String getFullyQualifiedJavaClassInfoName() {
+        return this.infoPackagePath + "." + this.getJavaClassInfoName();
+    }
 
+    public String getJavaClassHelperName() {
+        if (inlineField == null) {
+            return getJavaClassInfoName() + "Helper";
+        }
+        return inlineField.getParent().getJavaClassInfoName()
+                + getJavaClassInfoName() + "Helper";
+    }
 
- private String infoPackagePath;
+    public String getFullyQualifiedJavaClassHelperName() {
+        return orchestrationPackagePath + "." + getJavaClassHelperName();
+    }
 
- public String getInfoPackagePath ()
- {
-  return infoPackagePath;
- }
+    public String getJavaClassConstantsName() {
+        if (inlineField == null) {
+            return getJavaClassInfoName() + "Constants";
+        }
+        return inlineField.getParent().getJavaClassInfoName()
+                + getJavaClassInfoName() + "Constants";
+    }
 
- public void setInfoPackagePath (String infoPackagePath)
- {
-  this.infoPackagePath = infoPackagePath;
- }
+    public String getFullyQualifiedJavaClassConstantsName() {
+        return orchestrationPackagePath + "." + getJavaClassConstantsName();
+    }
 
- public String getJavaClassInfoName ()
- {
-  return name.substring (0, 1).toUpperCase () + name.substring (1);
- }
+    public String getJavaClassMetadataName() {
+        if (inlineField == null) {
+            return getJavaClassInfoName() + "Metadata";
+        }
+        return inlineField.getParent().getJavaClassInfoName()
+                + getJavaClassInfoName() + "Metadata";
+    }
 
- public String getFullyQualifiedJavaClassInfoName ()
- {
-  return this.infoPackagePath + "." + this.getJavaClassInfoName ();
- }
+    public String getFullyQualifiedJavaClassMetadataName() {
+        return orchestrationPackagePath + "." + getJavaClassMetadataName();
+    }
 
- public String getJavaClassHelperName ()
- {
-  if (inlineField == null)
-  {
-   return getJavaClassInfoName () + "Helper";
-  }
-  return inlineField.getParent ().getJavaClassInfoName ()
-    + getJavaClassInfoName () + "Helper";
- }
+    public String getJavaClassAssemblerName() {
+        if (inlineField == null) {
+            return getJavaClassInfoName() + "Assembler";
+        }
+        return inlineField.getParent().getJavaClassInfoName()
+                + getJavaClassInfoName() + "Assembler";
+    }
 
- public String getFullyQualifiedJavaClassHelperName ()
- {
-   return orchestrationPackagePath + "." + getJavaClassHelperName ();
- }
+    public String getFullyQualifiedJavaClassAssemblerName() {
+        return orchestrationPackagePath + ".assembler." + getJavaClassAssemblerName();
+    }
+    private Source source;
 
-  public String getJavaClassConstantsName ()
- {
-  if (inlineField == null)
-  {
-   return getJavaClassInfoName () + "Constants";
-  }
-  return inlineField.getParent ().getJavaClassInfoName ()
-    + getJavaClassInfoName () + "Constants";
- }
+    public Source getSource() {
+        return source;
+    }
 
- public String getFullyQualifiedJavaClassConstantsName ()
- {
-   return orchestrationPackagePath + "." + getJavaClassConstantsName ();
- }
-
-
-  public String getJavaClassMetadataName ()
- {
-  if (inlineField == null)
-  {
-   return getJavaClassInfoName () + "Metadata";
-  }
-  return inlineField.getParent ().getJavaClassInfoName ()
-    + getJavaClassInfoName () + "Metadata";
- }
-
- public String getFullyQualifiedJavaClassMetadataName ()
- {
-   return orchestrationPackagePath + "." + getJavaClassMetadataName ();
- }
-
- public String getJavaClassAssemblerName ()
- {
-  if (inlineField == null)
-  {
-   return getJavaClassInfoName () + "Assembler";
-  }
-  return inlineField.getParent ().getJavaClassInfoName ()
-    + getJavaClassInfoName () + "Assembler";
- }
-
- public String getFullyQualifiedJavaClassAssemblerName ()
- {
-   return orchestrationPackagePath + ".assembler." + getJavaClassAssemblerName ();
- }
-
-
- private Source source;
-
- public Source getSource ()
- {
-  return source;
- }
-
- public void setSource (Source source)
- {
-  this.source = source;
- }
-
+    public void setSource(Source source) {
+        this.source = source;
+    }
 }

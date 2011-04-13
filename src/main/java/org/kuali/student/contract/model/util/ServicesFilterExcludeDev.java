@@ -24,31 +24,24 @@ import org.kuali.student.contract.model.Service;
  *
  * @author nwright
  */
-public class ServicesFilterExcludeDev implements ServicesFilter
-{
+public class ServicesFilterExcludeDev implements ServicesFilter {
 
- @Override
- public List<Service> filter (List<Service> services)
- {
-  List<Service> list = new ArrayList ();
-  for (Service target : services)
-  {
-   if (shouldInclude (target.getVersion ()))
-   {
-    list.add (target);
-    continue;
-   }
-  }
-  return list;
- }
+    @Override
+    public List<Service> filter(List<Service> services) {
+        List<Service> list = new ArrayList();
+        for (Service target : services) {
+            if (shouldInclude(target.getVersion())) {
+                list.add(target);
+                continue;
+            }
+        }
+        return list;
+    }
 
- protected boolean shouldInclude (String version)
- {
-  if (version.equalsIgnoreCase ("dev"))
-  {
-   return false;
-  }
-  return true;
- }
-
+    protected boolean shouldInclude(String version) {
+        if (version.equalsIgnoreCase("dev")) {
+            return false;
+        }
+        return true;
+    }
 }

@@ -19,89 +19,70 @@ package org.kuali.student.contract.model;
  *
  * @author nwright
  */
-public class ServiceMethodRow
-{
+public class ServiceMethodRow {
 
- private int rowNumber;
+    private int rowNumber;
 
- public int getRowNumber ()
- {
-  return rowNumber;
- }
+    public int getRowNumber() {
+        return rowNumber;
+    }
 
- public void setRowNumber (int rowNumber)
- {
-  this.rowNumber = rowNumber;
- }
+    public void setRowNumber(int rowNumber) {
+        this.rowNumber = rowNumber;
+    }
+    private String service;
 
- private String service;
+    public String getService() {
+        return service;
+    }
 
- public String getService ()
- {
-  return service;
- }
+    public void setService(String service) {
+        this.service = service;
+    }
+    private String key;
 
- public void setService (String service)
- {
-  this.service = service;
- }
+    public String getKey() {
+        return key;
+    }
 
- private String key;
+    public void setKey(String key) {
+        this.key = key;
+    }
+    private String shortName;
 
- public String getKey ()
- {
-  return key;
- }
+    public String getShortName() {
+        return shortName;
+    }
 
- public void setKey (String key)
- {
-  this.key = key;
- }
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+    protected String longName;
 
- private String shortName;
+    /**
+     * Get the value of longName
+     *
+     * @return the value of longName
+     */
+    public String getLongName() {
+        return longName;
+    }
 
- public String getShortName ()
- {
-  return shortName;
- }
+    /**
+     * Set the value of longName
+     *
+     * @param longName new value of longName
+     */
+    public void setLongName(String longName) {
+        this.longName = longName;
+    }
+    private String description;
 
- public void setShortName (String shortName)
- {
-  this.shortName = shortName;
- }
+    public String getDescription() {
+        return description;
+    }
 
- protected String longName;
-
- /**
-  * Get the value of longName
-  *
-  * @return the value of longName
-  */
- public String getLongName ()
- {
-  return longName;
- }
-
- /**
-  * Set the value of longName
-  *
-  * @param longName new value of longName
-  */
- public void setLongName (String longName)
- {
-  this.longName = longName;
- }
-
- private String description;
-
- public String getDescription ()
- {
-  return description;
- }
-
- public void setDescription (String description)
- {
-  this.description = description;
- }
-
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

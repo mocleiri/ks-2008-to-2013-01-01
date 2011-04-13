@@ -24,7 +24,6 @@ import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-
 public class DictionaryTesterHelper {
 
     private String outputFileName;
@@ -40,10 +39,10 @@ public class DictionaryTesterHelper {
     }
 
     public List<String> doTest() {
-        if (! new File (dictFileName).exists ()) {
-         throw new IllegalArgumentException (dictFileName + " does not exist");
+        if (!new File(dictFileName).exists()) {
+            throw new IllegalArgumentException(dictFileName + " does not exist");
         }
-        ApplicationContext ac = new FileSystemXmlApplicationContext (dictFileName);
+        ApplicationContext ac = new FileSystemXmlApplicationContext(dictFileName);
 //        ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:" + dictFileName);
         Map<String, DataObjectEntry> beansOfType =
                 (Map<String, DataObjectEntry>) ac.getBeansOfType(DataObjectEntry.class);

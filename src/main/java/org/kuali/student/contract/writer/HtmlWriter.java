@@ -28,98 +28,82 @@ import org.kuali.student.contract.exception.DictionaryExecutionException;
  *
  * @author nwright
  */
-public class HtmlWriter extends XmlWriter
-{
+public class HtmlWriter extends XmlWriter {
 
- private String directory;
- private String fileName;
- private String title;
- private ByteArrayOutputStream body;
+    private String directory;
+    private String fileName;
+    private String title;
+    private ByteArrayOutputStream body;
 
- public HtmlWriter (String directory, String fileName, String title)
- {
-  super ();
-  this.body = new ByteArrayOutputStream (1000);
-  this.setOut (new PrintStream (body));
-  this.setIndent (0);
-  this.directory = directory;
-  this.fileName = fileName;
-  this.title = title;
- }
+    public HtmlWriter(String directory, String fileName, String title) {
+        super();
+        this.body = new ByteArrayOutputStream(1000);
+        this.setOut(new PrintStream(body));
+        this.setIndent(0);
+        this.directory = directory;
+        this.fileName = fileName;
+        this.title = title;
+    }
 
- public ByteArrayOutputStream getBody ()
- {
-  return body;
- }
+    public ByteArrayOutputStream getBody() {
+        return body;
+    }
 
- public String getDirectory ()
- {
-  return directory;
- }
+    public String getDirectory() {
+        return directory;
+    }
 
- public String getFileName ()
- {
-  return fileName;
- }
+    public String getFileName() {
+        return fileName;
+    }
 
- public void writeHeader ()
- {
-  indentPrintln ("<html>");
-  indentPrintln ("<head>");
-  this.writeTag ("title", title);
-  indentPrintln ("</head>");
-  indentPrintln ("<body bgcolor=\"#ffffff\" topmargin=0 marginheight=0>");
- }
+    public void writeHeader() {
+        indentPrintln("<html>");
+        indentPrintln("<head>");
+        this.writeTag("title", title);
+        indentPrintln("</head>");
+        indentPrintln("<body bgcolor=\"#ffffff\" topmargin=0 marginheight=0>");
+    }
 
- public void writeHeaderBodyAndFooterOutToFile ()
- {
+    public void writeHeaderBodyAndFooterOutToFile() {
 
-  File dir = new File (this.directory);
-  //System.out.println ("Writing java class: " + fileName + " to " + dir.getAbsolutePath ());
+        File dir = new File(this.directory);
+        //System.out.println ("Writing java class: " + fileName + " to " + dir.getAbsolutePath ());
 
-  if ( ! dir.exists ())
-  {
-   if ( ! dir.mkdirs ())
-   {
-    throw new DictionaryExecutionException ("Could not create directory "
-                                            + this.directory);
-   }
-  }
-  try
-  {
-   PrintStream out = new PrintStream (new FileOutputStream (this.directory + "/" + fileName, false));
-   this.setOut (out);
-  }
-  catch (FileNotFoundException ex)
-  {
-   throw new DictionaryExecutionException (ex);
-  }
-  writeHeader ();
-  indentPrintln (body.toString ());
-  indentPrintln ("</body>");
-  decrementIndent ();
-  indentPrintln ("</html>");
- }
+        if (!dir.exists()) {
+            if (!dir.mkdirs()) {
+                throw new DictionaryExecutionException("Could not create directory "
+                        + this.directory);
+            }
+        }
+        try {
+            PrintStream out = new PrintStream(new FileOutputStream(this.directory + "/" + fileName, false));
+            this.setOut(out);
+        } catch (FileNotFoundException ex) {
+            throw new DictionaryExecutionException(ex);
+        }
+        writeHeader();
+        indentPrintln(body.toString());
+        indentPrintln("</body>");
+        decrementIndent();
+        indentPrintln("</html>");
+    }
 
- public void writeTable (List<String> headers, List<List<String>> rows)
- {
-  this.indentPrintln ("<table>");
-  incrementIndent ();
-  this.indentPrintln ("<tr>");
-  for (String header : headers)
-  {
-   this.writeTag ("th", header);
-  }
-  this.indentPrintln ("</tr>");
-  for (List<String> row : rows)
-  {
-   this.indentPrintln ("<tr>");
-   for (String cell : row)
-   {
-    this.writeTag ("td", cell);
-   }
-   this.indentPrintln ("</tr>");
-  }
-  this.indentPrintln ("</table>");
- }
+    public void writeTable(List<String> headers, List<List<String>> rows) {
+        this.indentPrintln("<table>");
+        incrementIndent();
+        this.indentPrintln("<tr>");
+        for (String header : headers) {
+            this.writeTag("th", header);
+        }
+        this.indentPrintln("</tr>");
+        for (List<String> row : rows) {
+            this.indentPrintln("<tr>");
+            for (String cell : row) {
+                this.writeTag("td", cell);
+            }
+            this.indentPrintln("</tr>");
+        }
+        this.indentPrintln("</table>");
+    }
 }

@@ -24,27 +24,22 @@ import org.kuali.student.contract.model.Service;
  *
  * @author nwright
  */
-public class ServicesFilterByKeys implements ServicesFilter
-{
-List <String> keys;
+public class ServicesFilterByKeys implements ServicesFilter {
 
- public ServicesFilterByKeys (List<String> keys)
- {
-  this.keys = keys;
- }
+    List<String> keys;
 
- 
- @Override
- public List<Service> filter (List<Service> services)
- {
-  List <Service> list = new ArrayList ();
-  for (Service target : services)
-  {
-   if (keys.contains (target.getKey ()))
-   {
-    list.add (target);
-   }
-  }
-  return list;
- }
+    public ServicesFilterByKeys(List<String> keys) {
+        this.keys = keys;
+    }
+
+    @Override
+    public List<Service> filter(List<Service> services) {
+        List<Service> list = new ArrayList();
+        for (Service target : services) {
+            if (keys.contains(target.getKey())) {
+                list.add(target);
+            }
+        }
+        return list;
+    }
 }

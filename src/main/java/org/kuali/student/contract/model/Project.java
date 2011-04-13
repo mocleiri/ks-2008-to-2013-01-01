@@ -19,119 +19,87 @@ package org.kuali.student.contract.model;
  *
  * @author nwright
  */
-public class Project
-{
+public class Project {
 
- private String key;
+    private String key;
 
- public String getKey ()
- {
-  return key;
- }
+    public String getKey() {
+        return key;
+    }
 
- public void setKey (String key)
- {
-  this.key = key;
- }
+    public void setKey(String key) {
+        this.key = key;
+    }
+    private String type;
 
- private String type;
+    public String getType() {
+        return type;
+    }
 
- public String getType ()
- {
-  return type;
- }
+    public void setType(String type) {
+        this.type = type;
+    }
+    private String name;
 
- public void setType (String type)
- {
-  this.type = type;
- }
+    public String getName() {
+        return name;
+    }
 
- private String name;
+    public void setName(String name) {
+        this.name = name;
+    }
+    private String description;
 
- public String getName ()
- {
-  return name;
- }
+    public String getDescription() {
+        return description;
+    }
 
- public void setName (String name)
- {
-  this.name = name;
- }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    private String directory;
 
- private String description;
+    public String getDirectory() {
+        return directory;
+    }
 
+    public void setDirectory(String directory) {
+        this.directory = directory;
+    }
+    private String javaDirectory;
 
- public String getDescription ()
- {
-  return description;
- }
+    public String getJavaDirectory() {
+        return javaDirectory;
+    }
 
+    public void setJavaDirectory(String javaDirectory) {
+        this.javaDirectory = javaDirectory;
+    }
+    private String resourcesDirectory;
 
- public void setDescription (String description)
- {
-  this.description = description;
- }
+    public String getResourcesDirectory() {
+        return resourcesDirectory;
+    }
 
- private String directory;
+    public void setResourcesDirectory(String resourcesDirectory) {
+        this.resourcesDirectory = resourcesDirectory;
+    }
+    private String status;
 
- public String getDirectory ()
- {
-  return directory;
- }
+    public String getStatus() {
+        return status;
+    }
 
- public void setDirectory (String directory)
- {
-  this.directory = directory;
- }
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    private String comments;
 
+    public String getComments() {
+        return comments;
+    }
 
- private String javaDirectory;
-
- public String getJavaDirectory ()
- {
-  return javaDirectory;
- }
-
- public void setJavaDirectory (String javaDirectory)
- {
-  this.javaDirectory = javaDirectory;
- }
-
- private String resourcesDirectory;
-
- public String getResourcesDirectory ()
- {
-  return resourcesDirectory;
- }
-
- public void setResourcesDirectory (String resourcesDirectory)
- {
-  this.resourcesDirectory = resourcesDirectory;
- }
-
- private String status;
-
- public String getStatus ()
- {
-  return status;
- }
-
- public void setStatus (String status)
- {
-  this.status = status;
- }
-
- private String comments;
-
- public String getComments ()
- {
-  return comments;
- }
-
- public void setComments (String comments)
- {
-  this.comments = comments;
- }
-
-
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 }

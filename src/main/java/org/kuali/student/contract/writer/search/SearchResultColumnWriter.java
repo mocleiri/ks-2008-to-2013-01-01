@@ -24,36 +24,32 @@ import java.io.PrintStream;
  * Writes out a constraint in XML format.
  * @author nwright
  */
-public class SearchResultColumnWriter extends XmlWriter
-{
+public class SearchResultColumnWriter extends XmlWriter {
 
- private SearchResultColumn column;
+    private SearchResultColumn column;
 
- public SearchResultColumnWriter (PrintStream out, int indent,
-                                  SearchResultColumn column)
- {
-  super (out, indent);
-  this.column = column;
- }
+    public SearchResultColumnWriter(PrintStream out, int indent,
+            SearchResultColumn column) {
+        super(out, indent);
+        this.column = column;
+    }
 
- public void write ()
- {
-  println ("");
-  indentPrint ("<search:resultColumn");
-  //TODO: not sure what to put in the key attribute
-  incrementIndent ();
-  writeAttribute ("id", column.getKey ());
-  println (">");
+    public void write() {
+        println("");
+        indentPrint("<search:resultColumn");
+        //TODO: not sure what to put in the key attribute
+        incrementIndent();
+        writeAttribute("id", column.getKey());
+        println(">");
 
-  // write out comments
-  writeComment (column.getComments ());
+        // write out comments
+        writeComment(column.getComments());
 
-  writeTag ("search:name", column.getName ());
-  writeTag ("search:desc", column.getDescription ());
-  writeTag ("search:dataType", column.getDataType ());
+        writeTag("search:name", column.getName());
+        writeTag("search:desc", column.getDescription());
+        writeTag("search:dataType", column.getDataType());
 
-  indentPrintln ("</search:resultColumn>");
-  decrementIndent ();
- }
-
+        indentPrintln("</search:resultColumn>");
+        decrementIndent();
+    }
 }

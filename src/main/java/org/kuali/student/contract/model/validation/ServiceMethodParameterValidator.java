@@ -25,54 +25,43 @@ import java.util.Collection;
  * This validates a single criteriainoary entry
  * @author nwright
  */
-public class ServiceMethodParameterValidator implements ModelValidator
-{
+public class ServiceMethodParameterValidator implements ModelValidator {
 
- private ServiceMethodParameter parameter;
- private ServiceMethod method;
+    private ServiceMethodParameter parameter;
+    private ServiceMethod method;
 
- public ServiceMethodParameterValidator (ServiceMethodParameter parameter,
-                                         ServiceMethod method)
- {
-  this.parameter = parameter;
-  this.method = method;
- }
+    public ServiceMethodParameterValidator(ServiceMethodParameter parameter,
+            ServiceMethod method) {
+        this.parameter = parameter;
+        this.method = method;
+    }
+    private Collection errors;
 
- private Collection errors;
+    @Override
+    public Collection<String> validate() {
+        errors = new ArrayList();
+        basicValidation();
+        return errors;
+    }
 
- @Override
- public Collection<String> validate ()
- {
-  errors = new ArrayList ();
-  basicValidation ();
-  return errors;
- }
+    private void basicValidation() {
+        if (parameter.getName().equals("")) {
+            addError("Name is required");
+        }
+        if (parameter.getDescription().equals("")) {
+            addError("Description is required");
+        }
+        if (parameter.getType().equals("")) {
+            addError("Type is required");
+        }
+    }
 
- private void basicValidation ()
- {
-  if (parameter.getName ().equals (""))
-  {
-   addError ("Name is required");
-  }
-  if (parameter.getDescription ().equals (""))
-  {
-   addError ("Description is required");
-  }
-  if (parameter.getType ().equals (""))
-  {
-   addError ("Type is required");
-  }
- }
-
- private void addError (String msg)
- {
-  String error = "Error in parameter: " + method.getService () + "." +
-   method.getName () + "(" + parameter.getName () +
-   "): " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
-
+    private void addError(String msg) {
+        String error = "Error in parameter: " + method.getService() + "."
+                + method.getName() + "(" + parameter.getName()
+                + "): " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }

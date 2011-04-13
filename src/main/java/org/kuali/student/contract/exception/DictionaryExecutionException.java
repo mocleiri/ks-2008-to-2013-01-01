@@ -19,26 +19,20 @@ package org.kuali.student.contract.exception;
  * Exception thrown when encounter an unexpected exeception when generating the dictionary
  * @author nwright
  */
-public class DictionaryExecutionException extends DictionaryException
-{
+public class DictionaryExecutionException extends DictionaryException {
 
- public DictionaryExecutionException (Throwable cause)
- {
-  super (cause);
- }
+    public DictionaryExecutionException(Throwable cause) {
+        super(cause);
+    }
 
- public DictionaryExecutionException (String message, Throwable cause)
- {
-  super (message, cause);
- }
+    public DictionaryExecutionException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
- public DictionaryExecutionException (String message)
- {
-  super (message);
- }
+    public DictionaryExecutionException(String message) {
+        super(message);
+    }
 
- public DictionaryExecutionException ()
- {
- }
-
+    public DictionaryExecutionException() {
+    }
 }

@@ -28,96 +28,76 @@ import java.util.Collection;
  * This validates a single searchTypeinoary entry
  * @author nwright
  */
-public class SearchTypeValidator implements ModelValidator
-{
+public class SearchTypeValidator implements ModelValidator {
 
- private SearchType searchType;
-private SearchModel model;
+    private SearchType searchType;
+    private SearchModel model;
 
- public SearchTypeValidator (SearchType searchType, SearchModel model)
- {
-  this.searchType = searchType;
-  this.model = model;
- }
+    public SearchTypeValidator(SearchType searchType, SearchModel model) {
+        this.searchType = searchType;
+        this.model = model;
+    }
+    private Collection errors;
 
- private Collection errors;
+    @Override
+    public Collection<String> validate() {
+        errors = new ArrayList();
+        basicValidation();
+        if (searchType.getImplementation() == null) {
+            addError("JPQL implementation is required");
+        }
+        if (searchType.getSearchCriteria() == null) {
+            addError("Criteria is required");
+        }
+        ModelValidator validator =
+                new SearchCriteriaValidator(searchType.getSearchCriteria(), searchType);
+        errors.addAll(validator.validate());
+        if (searchType.getSearchResult() == null) {
+            addError("Results is required");
+        }
+        validator =
+                new SearchResultValidator(searchType.getSearchResult(), searchType);
+        errors.addAll(validator.validate());
+        return errors;
+    }
 
- @Override
- public Collection<String> validate ()
- {
-  errors = new ArrayList ();
-  basicValidation ();
-  if (searchType.getImplementation () == null)
-  {
-   addError ("JPQL implementation is required");
-  }
-  if (searchType.getSearchCriteria () == null)
-  {
-   addError ("Criteria is required");
-  }
-  ModelValidator validator =
-   new SearchCriteriaValidator (searchType.getSearchCriteria (), searchType);
-  errors.addAll (validator.validate ());
-  if (searchType.getSearchResult () == null)
-  {
-   addError ("Results is required");
-  }
-  validator =
-   new SearchResultValidator (searchType.getSearchResult (), searchType);
-  errors.addAll (validator.validate ());
-  return errors;
- }
+    private void basicValidation() {
+        if (searchType.getKey().equals("")) {
+            addError("search type key is required");
+        }
+        if (!searchType.getType().equals("Search")) {
+            addError("'Type' column in the search type must be 'Search'");
+        }
+        if (searchType.getName().equals("")) {
+            addError("Name is required");
+        }
+        if (searchType.getDescription().equals("")) {
+            addError("Description is required");
+        }
+        if (!searchType.getDataType().equals("")) {
+            addError("Data Type should be blank");
+        }
+        if (!searchType.getService().equals("")) {
+            if (findService(searchType.getService()) == null) {
+                addError("Service, [" + searchType.getService()
+                        + "] could not be found in the list of services");
+            }
+        }
+    }
 
- private void basicValidation ()
- {
-  if (searchType.getKey ().equals (""))
-  {
-   addError ("search type key is required");
-  }
-  if ( ! searchType.getType ().equals ("Search"))
-  {
-   addError ("'Type' column in the search type must be 'Search'");
-  }
-  if (searchType.getName ().equals (""))
-  {
-   addError ("Name is required");
-  }
-  if (searchType.getDescription ().equals (""))
-  {
-   addError ("Description is required");
-  }
-  if ( ! searchType.getDataType ().equals (""))
-  {
-   addError ("Data Type should be blank");
-  }
-   if ( ! searchType.getService ().equals (""))
-  {
-   if (findService (searchType.getService ()) == null)
-   {
-     addError ("Service, [" + searchType.getService ()
-      + "] could not be found in the list of services");
-   }
-  }
- }
+    private Service findService(String service) {
+        // if we are only working with the searchModel then can't validate service
+        if (!(model instanceof DictionaryModel)) {
+            return null;
+        }
+        return new ModelFinder((DictionaryModel) model).findService(service);
+    }
 
- private Service findService (String service)
- {
-  // if we are only working with the searchModel then can't validate service
-  if ( ! (model instanceof DictionaryModel))
-  {
-   return null;
-  }
-  return new ModelFinder ((DictionaryModel) model).findService (service);
- }
-
- private void addError (String msg)
- {
-  String error = "Error in searchType entry: " + searchType.getKey () +
-   ": " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
-
+    private void addError(String msg) {
+        String error = "Error in searchType entry: " + searchType.getKey()
+                + ": " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }

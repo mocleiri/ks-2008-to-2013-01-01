@@ -19,66 +19,52 @@ package org.kuali.student.contract.model;
  *
  * @author nwright
  */
-public class ServiceMethodParameter
-{
+public class ServiceMethodParameter {
 
- private String name;
+    private String name;
 
- /**
-  * Get the value of name
-  *
-  * @return the value of name
-  */
- public String getName ()
- {
-  return name;
- }
+    /**
+     * Get the value of name
+     *
+     * @return the value of name
+     */
+    public String getName() {
+        return name;
+    }
 
- /**
-  * Set the value of name
-  *
-  * @param name new value of name
-  */
- public void setName (String name)
- {
-  this.name = name;
- }
+    /**
+     * Set the value of name
+     *
+     * @param name new value of name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    protected String type;
 
- protected String type;
+    public String getType() {
+        return type;
+    }
 
- public String getType ()
- {
-  return type;
- }
+    public void setType(String type) {
+        this.type = type;
+    }
+    private String description;
 
- public void setType (String type)
- {
-  this.type = type;
- }
+    public String getDescription() {
+        return description;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    private String url;
 
- private String description;
+    public String getUrl() {
+        return url;
+    }
 
- public String getDescription ()
- {
-  return description;
- }
-
- public void setDescription (String description)
- {
-  this.description = description;
- }
-
-private String url;
-
- public String getUrl ()
- {
-  return url;
- }
-
- public void setUrl (String url)
- {
-  this.url = url;
- }
-
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

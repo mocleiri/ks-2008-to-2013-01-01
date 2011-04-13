@@ -1,7 +1,5 @@
 package org.kuali.student.contract.mojo;
 
-
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,64 +18,55 @@ import org.kuali.student.contract.model.validation.ServiceContractModelValidator
  * The plugin entrypoint which is used to generate the html wiki doc of the service interface.
  * @goal kscontractdoc
  */
-public class KSContractDocMojo extends AbstractMojo
-{	
-	/**
-	 * @parameter 
-	 **/
-	private List <String> sourceDirs; 
+public class KSContractDocMojo extends AbstractMojo {
 
-	
+    /**
+     * @parameter
+     **/
+    private List<String> sourceDirs;
     /**
      * @parameter expression="${htmlDirectory}" default-value="${project.build.directory}/site/services/contractdocs"
      */
-	private   File htmlDirectory;
+    private File htmlDirectory;
+
+    public void setHtmlDirectory(File htmlDirectory) {
+        this.htmlDirectory = htmlDirectory;
+    }
+
+    public void setsourceDirs(List<String> sourceDirs) {
+        this.sourceDirs = sourceDirs;
+    }
+
+    private ServiceContractModel getModel() {
+        ServiceContractModel instance = new ServiceContractModelQDoxLoader(
+                sourceDirs);
+        return new ServiceContractModelCache(instance);
+
+    }
+
+    private boolean validate(ServiceContractModel model) {
+        Collection<String> errors = new ServiceContractModelValidator(model).validate();
+        if (errors.size() > 0) {
+            StringBuffer buf = new StringBuffer();
+            buf.append(errors.size()
+                    + " errors found while validating the data.");
+            return false;
 
 
+        }
+        return true;
+    }
 
-	public void setHtmlDirectory(File htmlDirectory) {
-		this.htmlDirectory = htmlDirectory;
-	}
-
-
-	public void setsourceDirs(List<String> sourceDirs) {
-		this.sourceDirs = sourceDirs;
-	}
-
-
-	private ServiceContractModel getModel() {
-		ServiceContractModel instance = new ServiceContractModelQDoxLoader(
-				sourceDirs);
-		return new ServiceContractModelCache(instance);
-
-	}
+    public void execute() throws MojoExecutionException {
+        ServiceContractModel model = null;
+        HtmlContractWriter writer = null;
+        getLog().info("publishing wiki contracts");
+        model = this.getModel();
+        this.validate(model);
+        getLog().info("publishing to = " + this.htmlDirectory.toString());
+        writer = new HtmlContractWriter(htmlDirectory.toString(), model);
+        writer.write();
 
 
-	private boolean validate(ServiceContractModel model) {
-		Collection<String> errors = new ServiceContractModelValidator(model)
-		.validate();
-		if (errors.size() > 0) {
-			StringBuffer buf = new StringBuffer();
-			buf.append(errors.size()
-					+ " errors found while validating the data.");
-			return false;
-
-
-		}
-		return true;
-	}
-
-	public void execute() throws MojoExecutionException
-	{
-		ServiceContractModel model = null;
-		HtmlContractWriter writer = null;
-		getLog().info("publishing wiki contracts");
-		model = this.getModel();
-		this.validate(model);
-		getLog().info("publishing to = " + this.htmlDirectory.toString ());
-		writer = new HtmlContractWriter(htmlDirectory.toString (), model);
-		writer.write();
-
-
-	}
+    }
 }

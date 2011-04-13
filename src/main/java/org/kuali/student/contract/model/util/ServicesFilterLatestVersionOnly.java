@@ -24,54 +24,42 @@ import org.kuali.student.contract.model.Service;
  *
  * @author nwright
  */
-public class ServicesFilterLatestVersionOnly implements ServicesFilter
-{
+public class ServicesFilterLatestVersionOnly implements ServicesFilter {
 
- @Override
- public List<Service> filter (List<Service> services)
- {
-   List<Service> list = new ArrayList ();
-  for (Service target : services)
-  {
-   int i = findService (list, target.getKey ());
-   if (i == -1)
-   {
-    list.add (target);
-    continue;
-   }
-   Service source = list.get (i);
-   if (compare (source.getVersion (), target.getVersion ()) < 0)
-   {
-    list.set (i, target);
-   }
-  }
-  return list;
- }
+    @Override
+    public List<Service> filter(List<Service> services) {
+        List<Service> list = new ArrayList();
+        for (Service target : services) {
+            int i = findService(list, target.getKey());
+            if (i == -1) {
+                list.add(target);
+                continue;
+            }
+            Service source = list.get(i);
+            if (compare(source.getVersion(), target.getVersion()) < 0) {
+                list.set(i, target);
+            }
+        }
+        return list;
+    }
 
- protected int compare (String source, String target)
- {
-  if (source.equalsIgnoreCase (target))
-  {
-   return 0;
-  }
-  if (target.equalsIgnoreCase ("dev"))
-  {
-   return  + 1;
-  }
-  return source.compareToIgnoreCase (target);
- }
+    protected int compare(String source, String target) {
+        if (source.equalsIgnoreCase(target)) {
+            return 0;
+        }
+        if (target.equalsIgnoreCase("dev")) {
+            return +1;
+        }
+        return source.compareToIgnoreCase(target);
+    }
 
- private int findService (List<Service> list, String key)
- {
-  for (int i = 0; i < list.size (); i ++)
-  {
-   Service service = list.get (i);
-   if (service.getKey ().equals (key))
-   {
-    return i;
-   }
-  }
-  return -1;
- }
-
+    private int findService(List<Service> list, String key) {
+        for (int i = 0; i < list.size(); i++) {
+            Service service = list.get(i);
+            if (service.getKey().equals(key)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

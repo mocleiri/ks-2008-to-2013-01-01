@@ -26,55 +26,42 @@ import org.kuali.student.contract.exception.DictionaryExecutionException;
  *
  * @author nwright
  */
-public class DateUtility
-{
+public class DateUtility {
 
- public String asYMD (String date)
-  throws ParseException
- {
-  if (date == null)
-  {
-   return null;
-  }
-  return asYMD (asDate (date));
- }
+    public String asYMD(String date)
+            throws ParseException {
+        if (date == null) {
+            return null;
+        }
+        return asYMD(asDate(date));
+    }
 
- public Date asDate (String date)
-  throws ParseException
- {
-  if (date == null)
-  {
-   return null;
-  }
-  String[] formats =
-  {
-   "yyyy-MM-dd",
-   "MM/dd/yyyy"
-  };
-  ParseException pe = null;
-  for (int i = 0; i < formats.length; i ++)
-  {
-   DateFormat df = new SimpleDateFormat (formats[i]);
-   try
-   {
-    return df.parse (date);
-   }
-   catch (ParseException e)
-   {
-    pe = e;
-   }
-  }
-  throw pe;
- }
+    public Date asDate(String date)
+            throws ParseException {
+        if (date == null) {
+            return null;
+        }
+        String[] formats = {
+            "yyyy-MM-dd",
+            "MM/dd/yyyy"
+        };
+        ParseException pe = null;
+        for (int i = 0; i < formats.length; i++) {
+            DateFormat df = new SimpleDateFormat(formats[i]);
+            try {
+                return df.parse(date);
+            } catch (ParseException e) {
+                pe = e;
+            }
+        }
+        throw pe;
+    }
 
- public String asYMD (Date date)
- {
-  if (date == null)
-  {
-   return null;
-  }
-  DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
-  return df.format (date);
- }
-
+    public String asYMD(Date date) {
+        if (date == null) {
+            return null;
+        }
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        return df.format(date);
+    }
 }

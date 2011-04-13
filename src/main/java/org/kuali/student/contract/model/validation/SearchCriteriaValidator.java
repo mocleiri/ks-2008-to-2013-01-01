@@ -25,64 +25,50 @@ import java.util.Collection;
  * This validates a single criteriainoary entry
  * @author nwright
  */
-public class SearchCriteriaValidator implements ModelValidator
-{
+public class SearchCriteriaValidator implements ModelValidator {
 
- private SearchCriteria criteria;
- private SearchType searchType;
+    private SearchCriteria criteria;
+    private SearchType searchType;
 
- public SearchCriteriaValidator (SearchCriteria criteria, SearchType searchType)
- {
-  this.criteria = criteria;
-  this.searchType = searchType;
- }
+    public SearchCriteriaValidator(SearchCriteria criteria, SearchType searchType) {
+        this.criteria = criteria;
+        this.searchType = searchType;
+    }
+    private Collection errors;
 
- private Collection errors;
+    @Override
+    public Collection<String> validate() {
+        errors = new ArrayList();
+        basicValidation();
+        if (criteria.getParameters() == null) {
+            addError("A parameter list is required even if no parameters");
+        }
+        return errors;
+    }
 
- @Override
- public Collection<String> validate ()
- {
-  errors = new ArrayList ();
-  basicValidation ();
-  if (criteria.getParameters () == null)
-  {
-   addError ("A parameter list is required even if no parameters");
-  }
-  return errors;
- }
+    private void basicValidation() {
+        if (criteria.getKey().equals("")) {
+            addError("criteria key is required");
+        }
+        if (!criteria.getType().equals("Criteria")) {
+            addError("'Type' column in the criteria must be 'Criteria'");
+        }
+        if (criteria.getName().equals("")) {
+            addError("Name is required");
+        }
+        if (criteria.getDescription().equals("")) {
+            addError("Description is required");
+        }
+        if (!criteria.getDataType().equals("")) {
+            addError("Data Type should be blank");
+        }
+    }
 
- private void basicValidation ()
- {
-  if (criteria.getKey ().equals (""))
-  {
-   addError ("criteria key is required");
-  }
-  if ( ! criteria.getType ().equals ("Criteria"))
-  {
-   addError ("'Type' column in the criteria must be 'Criteria'");
-  }
-  if (criteria.getName ().equals (""))
-  {
-   addError ("Name is required");
-  }
-  if (criteria.getDescription ().equals (""))
-  {
-   addError ("Description is required");
-  }
-  if ( ! criteria.getDataType ().equals (""))
-  {
-   addError ("Data Type should be blank");
-  }
- }
-
- private void addError (String msg)
- {
-  String error = "Error in criteria entry: " + searchType.getKey () + "." + criteria.getKey () +
-   ": " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
-
+    private void addError(String msg) {
+        String error = "Error in criteria entry: " + searchType.getKey() + "." + criteria.getKey()
+                + ": " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }

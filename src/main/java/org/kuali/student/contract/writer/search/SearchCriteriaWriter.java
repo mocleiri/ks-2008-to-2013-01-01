@@ -25,49 +25,43 @@ import java.io.PrintStream;
  * Writes out a constraint in XML format.
  * @author nwright
  */
-public class SearchCriteriaWriter extends XmlWriter
-{
+public class SearchCriteriaWriter extends XmlWriter {
 
- private SearchCriteria searchCriteria;
+    private SearchCriteria searchCriteria;
 
- public SearchCriteriaWriter (PrintStream out, int indent,
-                              SearchCriteria searchCriteria)
- {
-  super (out, indent);
-  this.searchCriteria = searchCriteria;
- }
+    public SearchCriteriaWriter(PrintStream out, int indent,
+            SearchCriteria searchCriteria) {
+        super(out, indent);
+        this.searchCriteria = searchCriteria;
+    }
 
- public void write ()
- {
+    public void write() {
 
-  println ("");
-  indentPrint ("<search:searchCriteriaTypeInfo");
-  //TODO: not sure what to put in the key attribute
-  writeAttribute ("id", searchCriteria.getKey ());
-  println (">");
-  incrementIndent ();
+        println("");
+        indentPrint("<search:searchCriteriaTypeInfo");
+        //TODO: not sure what to put in the key attribute
+        writeAttribute("id", searchCriteria.getKey());
+        println(">");
+        incrementIndent();
 
-  // write out comments
-  writeComment (searchCriteria.getComments ());
+        // write out comments
+        writeComment(searchCriteria.getComments());
 
-  writeTag ("search:name", searchCriteria.getName ());
-  writeTag ("search:desc", searchCriteria.getDescription ());
-  indentPrintln ("<search:queryParams>");
-  incrementIndent ();
-  for (SearchCriteriaParameter col : searchCriteria.getParameters ())
-  {
-   indentPrintln (calcRefBean (col.getKey ()));
-  }
-  decrementIndent ();
-  indentPrintln ("</search:queryParams>");
-  // end 
-  indentPrintln ("</search:searchCriteriaTypeInfo>");
-  decrementIndent ();
- }
+        writeTag("search:name", searchCriteria.getName());
+        writeTag("search:desc", searchCriteria.getDescription());
+        indentPrintln("<search:queryParams>");
+        incrementIndent();
+        for (SearchCriteriaParameter col : searchCriteria.getParameters()) {
+            indentPrintln(calcRefBean(col.getKey()));
+        }
+        decrementIndent();
+        indentPrintln("</search:queryParams>");
+        // end
+        indentPrintln("</search:searchCriteriaTypeInfo>");
+        decrementIndent();
+    }
 
- private String calcRefBean (String id)
- {
-  return "<ref bean=\"" + id + "\" />";
- }
-
+    private String calcRefBean(String id) {
+        return "<ref bean=\"" + id + "\" />";
+    }
 }

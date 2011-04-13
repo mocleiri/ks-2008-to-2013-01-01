@@ -35,115 +35,98 @@ import org.kuali.student.contract.model.validation.ServiceContractModelValidator
  *
  * @author nwright
  */
-public class PureJavaInfcWriter
-{
+public class PureJavaInfcWriter {
 
- private ServiceContractModel model;
- private String directory;
- private String rootPackage;
- public static final String DEFAULT_ROOT_PACKAGE = "org.kuali.student.service";
- private ServicesFilter filter;
+    private ServiceContractModel model;
+    private String directory;
+    private String rootPackage;
+    public static final String DEFAULT_ROOT_PACKAGE = "org.kuali.student.service";
+    private ServicesFilter filter;
 
- public PureJavaInfcWriter (ServiceContractModel model,
-                        String directory,
-                        String rootPackage,
-                        ServicesFilter filter)
- {
-  this.model = model;
-  this.directory = directory;
-  this.rootPackage = rootPackage;
-  this.filter = filter;
- }
+    public PureJavaInfcWriter(ServiceContractModel model,
+            String directory,
+            String rootPackage,
+            ServicesFilter filter) {
+        this.model = model;
+        this.directory = directory;
+        this.rootPackage = rootPackage;
+        this.filter = filter;
+    }
 
- /**
-  * Write out the entire file
-  * @param out
-  */
- public void write ()
- {
-  this.validate ();
+    /**
+     * Write out the entire file
+     * @param out
+     */
+    public void write() {
+        this.validate();
 
-  for (Service service : filterServices ())
-  {
-   new PureJavaInfcWriterForOneService (model, directory, rootPackage, service.getKey ()).write ();
-  }
+        for (Service service : filterServices()) {
+            new PureJavaInfcWriterForOneService(model, directory, rootPackage, service.getKey()).write();
+        }
 
-  // the Info interfaces's
-  System.out.println ("Generating common Info interfaces");
-  for (XmlType xmlType : getXmlTypesUsedByMoreThanOneByService ())
-  {
-   System.out.println ("Generating info interface for " + xmlType.getName ());
-   new PureJavaInfcInfcWriter (model, directory, rootPackage, xmlType.getService (), xmlType).write ();
-   new PureJavaInfcBeanWriter (model, directory, rootPackage, xmlType.getService (), xmlType).write ();
-  }
+        // the Info interfaces's
+        System.out.println("Generating common Info interfaces");
+        for (XmlType xmlType : getXmlTypesUsedByMoreThanOneByService()) {
+            System.out.println("Generating info interface for " + xmlType.getName());
+            new PureJavaInfcInfcWriter(model, directory, rootPackage, xmlType.getService(), xmlType).write();
+            new PureJavaInfcBeanWriter(model, directory, rootPackage, xmlType.getService(), xmlType).write();
+        }
 
 //  exceptions
-  // Decided to just use the exisiting exceptions that are hand crafted
-  // no need to generate
+        // Decided to just use the exisiting exceptions that are hand crafted
+        // no need to generate
 //  for (ServiceMethodError error : getServiceMethodErrors ().values ())
 //  {
 //   System.out.println ("generating exception class: " + error.getType ());
 //   new ServiceExceptionWriter (model, directory, rootPackage, error).write ();
 //  }
 
- }
-
- private Set<XmlType> getXmlTypesUsedByMoreThanOneByService ()
- {
-  Set<XmlType> set = new HashSet ();
-  for (XmlType type : model.getXmlTypes ())
-  {
-   if (type.getService ().contains (","))
-   {
-    if (type.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
-    {
-     System.out.println (type.getName () + "==>" + type.getService ());
-     set.add (type);
     }
-   }
-  }
-  return set;
- }
 
- private Map<String, ServiceMethodError> getServiceMethodErrors ()
- {
-  Map<String, ServiceMethodError> errors = new HashMap ();
-  for (ServiceMethod method : model.getServiceMethods ())
-  {
-   for (ServiceMethodError error : method.getErrors ())
-   {
-    errors.put (error.getType (), error);
-   }
-  }
-  return errors;
- }
+    private Set<XmlType> getXmlTypesUsedByMoreThanOneByService() {
+        Set<XmlType> set = new HashSet();
+        for (XmlType type : model.getXmlTypes()) {
+            if (type.getService().contains(",")) {
+                if (type.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+                    System.out.println(type.getName() + "==>" + type.getService());
+                    set.add(type);
+                }
+            }
+        }
+        return set;
+    }
 
- private List<Service> filterServices ()
- {
-  if (filter == null)
-  {
-   return model.getServices ();
-  }
-  return filter.filter (model.getServices ());
- }
+    private Map<String, ServiceMethodError> getServiceMethodErrors() {
+        Map<String, ServiceMethodError> errors = new HashMap();
+        for (ServiceMethod method : model.getServiceMethods()) {
+            for (ServiceMethodError error : method.getErrors()) {
+                errors.put(error.getType(), error);
+            }
+        }
+        return errors;
+    }
 
- private void validate ()
- {
-  Collection<String> errors =
-                     new ServiceContractModelValidator (model).validate ();
-  if (errors.size () > 0)
-  {
-   StringBuffer buf = new StringBuffer ();
-   buf.append (errors.size () + " errors found while validating the data.");
-   int cnt = 0;
-   for (String msg : errors)
-   {
-    cnt ++;
-    buf.append ("\n");
-    buf.append ("*error*" + cnt + ":" + msg);
-   }
+    private List<Service> filterServices() {
+        if (filter == null) {
+            return model.getServices();
+        }
+        return filter.filter(model.getServices());
+    }
 
-   throw new DictionaryValidationException (buf.toString ());
-  }
- }
+    private void validate() {
+        Collection<String> errors =
+                new ServiceContractModelValidator(model).validate();
+        if (errors.size() > 0) {
+            StringBuffer buf = new StringBuffer();
+            buf.append(errors.size() + " errors found while validating the data.");
+            int cnt = 0;
+            for (String msg : errors) {
+                cnt++;
+                buf.append("\n");
+                buf.append("*error*" + cnt + ":" + msg);
+            }
+
+            throw new DictionaryValidationException(buf.toString());
+        }
+    }
 }

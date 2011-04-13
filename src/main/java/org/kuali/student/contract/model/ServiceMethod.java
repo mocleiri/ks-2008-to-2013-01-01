@@ -22,112 +22,85 @@ import java.util.List;
  *
  * @author nwright
  */
-public class ServiceMethod
-{
- private String service;
+public class ServiceMethod {
 
- public String getService ()
- {
-  return service;
- }
+    private String service;
 
- public void setService (String service)
- {
-  this.service = service;
- }
+    public String getService() {
+        return service;
+    }
 
+    public void setService(String service) {
+        this.service = service;
+    }
+    private String name;
 
- private String name;
+    /**
+     * Get the value of name
+     *
+     * @return the value of name
+     */
+    public String getName() {
+        return name;
+    }
 
- /**
-  * Get the value of name
-  *
-  * @return the value of name
-  */
- public String getName ()
- {
-  return name;
- }
+    /**
+     * Set the value of name
+     *
+     * @param name new value of name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    private String url;
 
- /**
-  * Set the value of name
-  *
-  * @param name new value of name
-  */
- public void setName (String name)
- {
-  this.name = name;
- }
+    public String getUrl() {
+        return url;
+    }
 
- private String url;
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    private String description;
 
- public String getUrl ()
- {
-  return url;
- }
+    public String getDescription() {
+        return description;
+    }
 
- public void setUrl (String url)
- {
-  this.url = url;
- }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    private List<ServiceMethodParameter> parameters;
 
+    public List<ServiceMethodParameter> getParameters() {
+        if (parameters == null) {
+            parameters = new ArrayList();
+        }
+        return parameters;
+    }
 
- private String description;
+    public void setParameters(List<ServiceMethodParameter> parameters) {
+        this.parameters = parameters;
+    }
+    private ServiceMethodReturnValue returnValue;
 
- public String getDescription ()
- {
-  return description;
- }
+    public ServiceMethodReturnValue getReturnValue() {
+        return returnValue;
+    }
 
- public void setDescription (String description)
- {
-  this.description = description;
- }
+    public void setReturnValue(ServiceMethodReturnValue returnValue) {
+        this.returnValue = returnValue;
+    }
+    private List<ServiceMethodError> errors;
 
+    public List<ServiceMethodError> getErrors() {
+        if (errors == null) {
+            errors = new ArrayList();
+        }
+        return errors;
+    }
 
- private List<ServiceMethodParameter> parameters;
-
- public List<ServiceMethodParameter> getParameters ()
- {
-  if (parameters == null)
-  {
-   parameters = new ArrayList ();
-  }
-  return parameters;
- }
-
- public void setParameters (List<ServiceMethodParameter> parameters)
- {
-  this.parameters = parameters;
- }
-
- private ServiceMethodReturnValue returnValue;
-
- public ServiceMethodReturnValue getReturnValue ()
- {
-  return returnValue;
- }
-
- public void setReturnValue (ServiceMethodReturnValue returnValue)
- {
-  this.returnValue = returnValue;
- }
-
- private List<ServiceMethodError> errors;
-
- public List<ServiceMethodError> getErrors ()
- {
-  if (errors == null)
-  {
-   errors = new ArrayList ();
-  }
-  return errors;
- }
-
- public void setErrors (List<ServiceMethodError> errors)
- {
-  this.errors = errors;
- }
-
-
+    public void setErrors(List<ServiceMethodError> errors) {
+        this.errors = errors;
+    }
 }

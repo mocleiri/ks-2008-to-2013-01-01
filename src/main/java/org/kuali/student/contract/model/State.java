@@ -24,242 +24,203 @@ import java.util.Map;
  * Models the state object in the spreadsheet
  * @author nwright
  */
-public class State implements Serializable
-{
+public class State implements Serializable {
 
- public static final String DEFAULT = "(default)";
- public static final String GROUPING = "Grouping";
- 
- public State ()
- {
-  super ();
- }
+    public static final String DEFAULT = "(default)";
+    public static final String GROUPING = "Grouping";
 
- private String xmlTypeState;
+    public State() {
+        super();
+    }
+    private String xmlTypeState;
 
- /**
-  * Get the value of xmlTypeState
-  *
-  * @return the value of xmlTypeState
-  */
- public String getXmlTypeState ()
- {
-  return xmlTypeState;
- }
+    /**
+     * Get the value of xmlTypeState
+     *
+     * @return the value of xmlTypeState
+     */
+    public String getXmlTypeState() {
+        return xmlTypeState;
+    }
 
- /**
-  * Set the value of xmlTypeState
-  *
-  * @param objectType new value of xmlTypeState
-  */
- public void setXmlTypeState (String xmlTypeState)
- {
-  this.xmlTypeState = xmlTypeState;
- }
+    /**
+     * Set the value of xmlTypeState
+     *
+     * @param objectType new value of xmlTypeState
+     */
+    public void setXmlTypeState(String xmlTypeState) {
+        this.xmlTypeState = xmlTypeState;
+    }
+    private String xmlObject;
 
- private String xmlObject;
+    /**
+     * Get the value of xmlObject
+     *
+     * @return the value of xmlObject
+     */
+    public String getXmlObject() {
+        return xmlObject;
+    }
 
- /**
-  * Get the value of xmlObject
-  *
-  * @return the value of xmlObject
-  */
- public String getXmlObject ()
- {
-  return xmlObject;
- }
+    /**
+     * Set the value of xmlObject
+     *
+     * @param xmlObject new value of xmlObject
+     */
+    public void setXmlObject(String xmlObject) {
+        this.xmlObject = xmlObject;
+    }
+    private String xmlObjectDesc;
 
- /**
-  * Set the value of xmlObject
-  *
-  * @param xmlObject new value of xmlObject
-  */
- public void setXmlObject (String xmlObject)
- {
-  this.xmlObject = xmlObject;
- }
+    /**
+     * Get the value of xmlObjectDesc
+     *
+     * @return the value of xmlObjectDesc
+     */
+    public String getXmlObjectDesc() {
+        return xmlObjectDesc;
+    }
 
- private String xmlObjectDesc;
+    /**
+     * Set the value of xmlObjectDesc
+     *
+     * @param xmlObjectDesc new value of xmlObjectDesc
+     */
+    public void setXmlObjectDesc(String xmlObjectDesc) {
+        this.xmlObjectDesc = xmlObjectDesc;
+    }
+    private boolean include;
 
- /**
-  * Get the value of xmlObjectDesc
-  *
-  * @return the value of xmlObjectDesc
-  */
- public String getXmlObjectDesc ()
- {
-  return xmlObjectDesc;
- }
+    /**
+     * Get the value of include
+     *
+     * @return the value of include
+     */
+    public boolean getInclude() {
+        return include;
+    }
 
- /**
-  * Set the value of xmlObjectDesc
-  *
-  * @param xmlObjectDesc new value of xmlObjectDesc
-  */
- public void setXmlObjectDesc (String xmlObjectDesc)
- {
-  this.xmlObjectDesc = xmlObjectDesc;
- }
+    /**
+     * Set the value of include
+     *
+     * @param include new value of include
+     */
+    public void setInclude(boolean include) {
+        this.include = include;
+    }
+    private String name;
 
- private boolean include;
+    /**
+     * Get the value of name
+     *
+     * @return the value of name
+     */
+    public String getName() {
+        return name;
+    }
 
- /**
-  * Get the value of include
-  *
-  * @return the value of include
-  */
- public boolean getInclude ()
- {
-  return include;
- }
+    /**
+     * Set the value of name
+     *
+     * @param name new value of name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    private String desc;
 
- /**
-  * Set the value of include
-  *
-  * @param include new value of include
-  */
- public void setInclude (boolean include)
- {
-  this.include = include;
- }
+    /**
+     * Get the value of desc
+     *
+     * @return the value of desc
+     */
+    public String getDesc() {
+        return desc;
+    }
 
- private String name;
+    /**
+     * Set the value of desc
+     *
+     * @param desc new value of desc
+     */
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+    private String status;
 
- /**
-  * Get the value of name
-  *
-  * @return the value of name
-  */
- public String getName ()
- {
-  return name;
- }
+    /**
+     * Get the value of status
+     *
+     * @return the value of status
+     */
+    public String getStatus() {
+        return status;
+    }
 
- /**
-  * Set the value of name
-  *
-  * @param name new value of name
-  */
- public void setName (String name)
- {
-  this.name = name;
- }
+    /**
+     * Set the value of status
+     *
+     * @param status new value of status
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    private String comments;
 
- private String desc;
+    /**
+     * Get the value of comments
+     *
+     * @return the value of comments
+     */
+    public String getComments() {
+        return comments;
+    }
 
- /**
-  * Get the value of desc
-  *
-  * @return the value of desc
-  */
- public String getDesc ()
- {
-  return desc;
- }
+    /**
+     * Set the value of comments
+     *
+     * @param comments new value of comments
+     */
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+    private Map<String, String> attributes;
 
- /**
-  * Set the value of desc
-  *
-  * @param desc new value of desc
-  */
- public void setDesc (String desc)
- {
-  this.desc = desc;
- }
+    public Map<String, String> getAttributes() {
+        if (attributes == null) {
+            attributes = new LinkedHashMap();
+        }
+        return attributes;
+    }
 
- private String status;
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
+    }
+    private Date effectiveDate;
 
- /**
-  * Get the value of status
-  *
-  * @return the value of status
-  */
- public String getStatus ()
- {
-  return status;
- }
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
 
- /**
-  * Set the value of status
-  *
-  * @param status new value of status
-  */
- public void setStatus (String status)
- {
-  this.status = status;
- }
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+    private Date expirationDate;
 
- private String comments;
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
 
- /**
-  * Get the value of comments
-  *
-  * @return the value of comments
-  */
- public String getComments ()
- {
-  return comments;
- }
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+    private String stateKey;
 
- /**
-  * Set the value of comments
-  *
-  * @param comments new value of comments
-  */
- public void setComments (String comments)
- {
-  this.comments = comments;
- }
+    public String getStateKey() {
+        return stateKey;
+    }
 
- private Map<String, String> attributes;
-
- public Map<String, String> getAttributes ()
- {
-  if (attributes == null)
-  {
-   attributes = new LinkedHashMap ();
-  }
-  return attributes;
- }
-
- public void setAttributes (Map<String, String> attributes)
- {
-  this.attributes = attributes;
- }
-
-  private Date effectiveDate;
-
- public Date getEffectiveDate ()
- {
-  return effectiveDate;
- }
-
- public void setEffectiveDate (Date effectiveDate)
- {
-  this.effectiveDate = effectiveDate;
- }
-
- private Date expirationDate;
-
- public Date getExpirationDate ()
- {
-  return expirationDate;
- }
-
- public void setExpirationDate (Date expirationDate)
- {
-  this.expirationDate = expirationDate;
- }
-
- private String stateKey;
-
- public String getStateKey ()
- {
-  return stateKey;
- }
-
- public void setStateKey (String stateKey)
- {
-  this.stateKey = stateKey;
- }
+    public void setStateKey(String stateKey) {
+        this.stateKey = stateKey;
+    }
 }

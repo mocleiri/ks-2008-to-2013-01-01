@@ -26,62 +26,50 @@ import java.util.Collection;
  * This validates a single serviceMethodinoary entry
  * @author nwright
  */
-public class ServiceContractModelValidator implements ModelValidator
-{
+public class ServiceContractModelValidator implements ModelValidator {
 
- private ServiceContractModel model;
+    private ServiceContractModel model;
 
- public ServiceContractModelValidator (ServiceContractModel model)
- {
-  this.model = model;
- }
- private Collection errors;
+    public ServiceContractModelValidator(ServiceContractModel model) {
+        this.model = model;
+    }
+    private Collection errors;
 
- @Override
- public Collection<String> validate ()
- {
-  errors = new ArrayList ();
-  basicValidation ();
-  this.validateServiceMethods ();
-  validateXmlTypes ();
-  return errors;
- }
+    @Override
+    public Collection<String> validate() {
+        errors = new ArrayList();
+        basicValidation();
+        this.validateServiceMethods();
+        validateXmlTypes();
+        return errors;
+    }
 
- private void validateServiceMethods ()
- {
-  for (ServiceMethod method : model.getServiceMethods ())
-  {
-   errors.addAll (new ServiceMethodValidator (method, model).validate ());
-  }
- }
+    private void validateServiceMethods() {
+        for (ServiceMethod method : model.getServiceMethods()) {
+            errors.addAll(new ServiceMethodValidator(method, model).validate());
+        }
+    }
 
- private void validateXmlTypes ()
- {
-  if (model.getXmlTypes ().size () == 0)
-  {
-   addError ("No xmlTypes found");
-  }
-  for (XmlType xmlType : model.getXmlTypes ())
-  {
-   XmlTypesValidator validator = new XmlTypesValidator (xmlType, model);
-   errors.addAll (validator.validate ());
-  }
- }
+    private void validateXmlTypes() {
+        if (model.getXmlTypes().size() == 0) {
+            addError("No xmlTypes found");
+        }
+        for (XmlType xmlType : model.getXmlTypes()) {
+            XmlTypesValidator validator = new XmlTypesValidator(xmlType, model);
+            errors.addAll(validator.validate());
+        }
+    }
 
- private void basicValidation ()
- {
-  if (model.getServiceMethods ().size () == 0)
-  {
-   addError ("no service methods have been defined");
-  }
- }
+    private void basicValidation() {
+        if (model.getServiceMethods().size() == 0) {
+            addError("no service methods have been defined");
+        }
+    }
 
- private void addError (String msg)
- {
-  String error = "Error in service methods: " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
+    private void addError(String msg) {
+        String error = "Error in service methods: " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }

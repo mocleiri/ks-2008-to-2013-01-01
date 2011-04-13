@@ -26,45 +26,36 @@ import org.kuali.student.contract.model.Service;
  *
  * @author nwright
  */
-public class ServicesFilterArrangeByKeys implements ServicesFilter
-{
+public class ServicesFilterArrangeByKeys implements ServicesFilter {
 
- List<String> keys;
+    List<String> keys;
 
- public ServicesFilterArrangeByKeys (List<String> keys)
- {
-  this.keys = keys;
-  for (int i = 0; i < keys.size (); i ++)
-  {
-   keys.set (i, keys.get (i).toLowerCase ());
-  }
- }
+    public ServicesFilterArrangeByKeys(List<String> keys) {
+        this.keys = keys;
+        for (int i = 0; i < keys.size(); i++) {
+            keys.set(i, keys.get(i).toLowerCase());
+        }
+    }
 
- @Override
- public List<Service> filter (List<Service> services)
- {
-  List<Service> sorted = new ArrayList (services);
-  Collections.sort (sorted, new CompareService ());
-  return sorted;
- }
+    @Override
+    public List<Service> filter(List<Service> services) {
+        List<Service> sorted = new ArrayList(services);
+        Collections.sort(sorted, new CompareService());
+        return sorted;
+    }
 
- public class CompareService implements Comparator<Service>
- {
+    public class CompareService implements Comparator<Service> {
 
-  public int compare (Service service1, Service service2)
-  {
-   int index1 = keys.indexOf (service1.getKey ().toLowerCase ());
-   int index2 = keys.indexOf (service2.getKey ().toLowerCase ());
-   if (index1 < index2)
-   {
-    return -1;
-   }
-   if (index2 < index1)
-   {
-    return +1;
-   }
-   return 0;
-  }
-
- }
+        public int compare(Service service1, Service service2) {
+            int index1 = keys.indexOf(service1.getKey().toLowerCase());
+            int index2 = keys.indexOf(service2.getKey().toLowerCase());
+            if (index1 < index2) {
+                return -1;
+            }
+            if (index2 < index1) {
+                return +1;
+            }
+            return 0;
+        }
+    }
 }

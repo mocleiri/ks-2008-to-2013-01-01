@@ -23,9 +23,7 @@ import org.kuali.student.contract.model.Service;
  *
  * @author nwright
  */
-public interface ServicesFilter
-{
+public interface ServicesFilter {
 
- public List<Service> filter (List<Service> services);
-
+    public List<Service> filter(List<Service> services);
 }

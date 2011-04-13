@@ -21,51 +21,38 @@ import org.kuali.student.contract.model.Constraint;
  *
  * @author nwright
  */
-public class TypeStateConstraint
-{
+public class TypeStateConstraint {
 
- public TypeStateConstraint (String type, String state, Constraint constraint)
- {
-  this.type = type;
-  this.state = state;
-  this.constraint = constraint;
- }
+    public TypeStateConstraint(String type, String state, Constraint constraint) {
+        this.type = type;
+        this.state = state;
+        this.constraint = constraint;
+    }
+    private String type;
 
- 
- private String type;
+    public String getType() {
+        return type;
+    }
 
- public String getType ()
- {
-  return type;
- }
+    public void setType(String type) {
+        this.type = type;
+    }
+    private String state;
 
- public void setType (String type)
- {
-  this.type = type;
- }
+    public String getState() {
+        return state;
+    }
 
- private String state;
+    public void setState(String state) {
+        this.state = state;
+    }
+    private Constraint constraint;
 
- public String getState ()
- {
-  return state;
- }
+    public Constraint getConstraint() {
+        return constraint;
+    }
 
- public void setState (String state)
- {
-  this.state = state;
- }
-
- private Constraint constraint;
-
- public Constraint getConstraint ()
- {
-  return constraint;
- }
-
- public void setConstraint (Constraint constraint)
- {
-  this.constraint = constraint;
- }
-
+    public void setConstraint(Constraint constraint) {
+        this.constraint = constraint;
+    }
 }

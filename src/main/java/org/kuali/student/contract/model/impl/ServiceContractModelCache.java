@@ -28,69 +28,52 @@ import org.kuali.student.contract.model.XmlType;
  * re-read it again.
  * @author nwright
  */
-public class ServiceContractModelCache implements ServiceContractModel
-{
+public class ServiceContractModelCache implements ServiceContractModel {
 
- private ServiceContractModel model;
+    private ServiceContractModel model;
 
- public ServiceContractModelCache (ServiceContractModel model)
- {
-  this.model = model;
- }
+    public ServiceContractModelCache(ServiceContractModel model) {
+        this.model = model;
+    }
+    private List<ServiceMethod> serviceMethods = null;
 
- private List<ServiceMethod> serviceMethods = null;
+    @Override
+    public List<ServiceMethod> getServiceMethods() {
+        if (serviceMethods == null) {
+            serviceMethods = model.getServiceMethods();
+        }
+        return serviceMethods;
+    }
+    private List<XmlType> xmlTypes;
 
- @Override
- public List<ServiceMethod> getServiceMethods ()
- {
-  if (serviceMethods == null)
-  {
-   serviceMethods = model.getServiceMethods ();
-  }
-  return serviceMethods;
- }
+    @Override
+    public List<XmlType> getXmlTypes() {
+        if (xmlTypes == null) {
+            xmlTypes = model.getXmlTypes();
+        }
+        return xmlTypes;
+    }
+    private List<MessageStructure> messageStructures = null;
 
- private List<XmlType> xmlTypes;
+    @Override
+    public List<MessageStructure> getMessageStructures() {
+        if (messageStructures == null) {
+            messageStructures = model.getMessageStructures();
+        }
+        return messageStructures;
+    }
+    private List<Service> services = null;
 
- @Override
- public List<XmlType> getXmlTypes ()
- {
-  if (xmlTypes == null)
-  {
-   xmlTypes = model.getXmlTypes ();
-  }
-  return xmlTypes;
- }
+    @Override
+    public List<Service> getServices() {
+        if (services == null) {
+            services = model.getServices();
+        }
+        return services;
+    }
 
- private List<MessageStructure> messageStructures = null;
-
- @Override
- public List<MessageStructure> getMessageStructures ()
- {
-  if (messageStructures == null)
-  {
-   messageStructures = model.getMessageStructures ();
-  }
-  return messageStructures;
- }
-
- private List<Service> services = null;
-
- @Override
- public List<Service> getServices ()
- {
-  if (services == null)
-  {
-   services = model.getServices ();
-  }
-  return services;
- }
-
-
- @Override
- public List<String> getSourceNames ()
- {
-  return model.getSourceNames ();
- }
-
+    @Override
+    public List<String> getSourceNames() {
+        return model.getSourceNames();
+    }
 }

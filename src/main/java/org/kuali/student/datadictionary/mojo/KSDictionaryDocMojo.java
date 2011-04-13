@@ -16,9 +16,15 @@
 package org.kuali.student.datadictionary.mojo;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.kuali.student.datadictionary.util.DictionaryFormatter;
 import org.kuali.student.datadictionary.util.DictionaryTesterHelper;
 
 /**
@@ -53,8 +59,10 @@ public class KSDictionaryDocMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+        List<String> outputFiles = new ArrayList<String>(this.inputFiles.size());
         for (String dictFileName : this.inputFiles) {
             String outputFileName = this.htmlDirectory.getPath() + "/" + replaceXmlWithHtml(dictFileName);
+            outputFiles.add(outputFileName);
             DictionaryTesterHelper tester = new DictionaryTesterHelper(outputFileName, this.projectUrl, dictFileName);
             List errors = tester.doTest();
             if (errors == null) {
@@ -66,13 +74,32 @@ public class KSDictionaryDocMojo extends AbstractMojo {
             throw new MojoExecutionException("Errors validating dictionary file "
                     + dictFileName + "\n" + this.formatAsString(errors));
         }
+        String indexFileName = this.htmlDirectory.getPath() + "/" + "index.html";
+        File indexFile = new File(indexFileName);
+        OutputStream outputStream;
+        try {
+            outputStream = new FileOutputStream(indexFile, false);
+        } catch (FileNotFoundException ex) {
+            throw new MojoExecutionException(indexFileName, ex);
+        }
+        PrintStream out = new PrintStream(outputStream);
+        DictionaryFormatter.writeHeader(out, "Data Dictionary Index");
+        for (String outputFileName : outputFiles) {
+        }
+        DictionaryFormatter.writeFooter(out);
     }
 
     private String replaceXmlWithHtml(String name) {
+        // strip off .xml
         if (name.endsWith(".xml")) {
-            name = name.substring(0, ".xml".length());
+            name = name.substring(0, name.length() - ".xml".length());
         }
-        return name + ".html";
+        name = name + ".html";
+        int i = name.lastIndexOf("/");
+        if (i != -1) {
+            name = name.substring(i + 1);
+        }
+        return name;
     }
 
     private String formatAsString(List<String> errors) {

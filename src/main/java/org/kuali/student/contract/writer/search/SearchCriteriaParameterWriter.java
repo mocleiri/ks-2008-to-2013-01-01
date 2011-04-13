@@ -24,38 +24,35 @@ import java.io.PrintStream;
  * Writes out a constraint in XML format.
  * @author nwright
  */
-public class SearchCriteriaParameterWriter extends XmlWriter
-{
+public class SearchCriteriaParameterWriter extends XmlWriter {
 
- private SearchCriteriaParameter parm;
+    private SearchCriteriaParameter parm;
 
- public SearchCriteriaParameterWriter (PrintStream out, int indent,
-                                  SearchCriteriaParameter parm)
- {
-  super (out, indent);
-  this.parm = parm;
- }
+    public SearchCriteriaParameterWriter(PrintStream out, int indent,
+            SearchCriteriaParameter parm) {
+        super(out, indent);
+        this.parm = parm;
+    }
 
- public void write ()
- {
-  println ("");
-  indentPrint ("<search:queryParam");
-  //TODO: not sure what to put in the key attribute
-  incrementIndent ();
-  writeAttribute ("id", parm.getKey ());
-  println (">");
-  incrementIndent ();
+    public void write() {
+        println("");
+        indentPrint("<search:queryParam");
+        //TODO: not sure what to put in the key attribute
+        incrementIndent();
+        writeAttribute("id", parm.getKey());
+        println(">");
+        incrementIndent();
 
-  // write out comments
-  writeComment (parm.getComments ());
-  indentPrintln ("<dict:fieldDescriptor>");
-  
-  writeTag ("dict:name", parm.getName ());
-  writeTag ("dict:desc", parm.getDescription ());
-  writeTag ("dict:dataType", parm.getDataType ());
-  indentPrintln ("</dict:fieldDescriptor>");
-  decrementIndent ();
-  indentPrintln ("</search:queryParam>");
-  decrementIndent ();
- }
+        // write out comments
+        writeComment(parm.getComments());
+        indentPrintln("<dict:fieldDescriptor>");
+
+        writeTag("dict:name", parm.getName());
+        writeTag("dict:desc", parm.getDescription());
+        writeTag("dict:dataType", parm.getDataType());
+        indentPrintln("</dict:fieldDescriptor>");
+        decrementIndent();
+        indentPrintln("</search:queryParam>");
+        decrementIndent();
+    }
 }

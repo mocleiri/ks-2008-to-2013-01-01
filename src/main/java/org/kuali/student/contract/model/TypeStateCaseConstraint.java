@@ -24,37 +24,30 @@ import java.util.List;
  * constraint statement
  * @author nwright
  */
-public class TypeStateCaseConstraint
-{
+public class TypeStateCaseConstraint {
 
- private List<CrossObjectConstraint> typeStateWhens;
+    private List<CrossObjectConstraint> typeStateWhens;
 
- public TypeStateCaseConstraint (List<CrossObjectConstraint> typeStateWhens)
- {
-  this.typeStateWhens = typeStateWhens;
- }
+    public TypeStateCaseConstraint(List<CrossObjectConstraint> typeStateWhens) {
+        this.typeStateWhens = typeStateWhens;
+    }
 
- public List<CrossObjectConstraint> getTypeStateWhens ()
- {
-  return typeStateWhens;
- }
+    public List<CrossObjectConstraint> getTypeStateWhens() {
+        return typeStateWhens;
+    }
 
+    public String getId() {
+        StringBuffer buf = new StringBuffer();
+        String separator = "";
+        for (CrossObjectConstraint cons : typeStateWhens) {
+            buf.append(separator);
+            separator = ".";
+            buf.append(cons.getId());
+        }
+        return buf.toString();
+    }
 
- public String getId ()
- {
-  StringBuffer buf = new StringBuffer ();
-  String separator = "";
-  for (CrossObjectConstraint cons: typeStateWhens)
-  {
-   buf.append (separator);
-   separator = ".";
-   buf.append (cons.getId ());
-  }
-  return buf.toString ();
- }
-
- public String getKey ()
- {
-  return getId ();
- }
+    public String getKey() {
+        return getId();
+    }
 }

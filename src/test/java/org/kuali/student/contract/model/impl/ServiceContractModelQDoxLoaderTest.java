@@ -45,195 +45,168 @@ import org.kuali.student.contract.model.validation.ServiceContractModelValidator
  *
  * @author nwright
  */
-public class ServiceContractModelQDoxLoaderTest
-{
+public class ServiceContractModelQDoxLoaderTest {
 
- public ServiceContractModelQDoxLoaderTest ()
- {
- }
+    public ServiceContractModelQDoxLoaderTest() {
+    }
 
- @BeforeClass
- public static void setUpClass () throws Exception
- {
- }
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
 
- @AfterClass
- public static void tearDownClass () throws Exception
- {
- }
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
 
- @Before
- public void setUp ()
- {
- }
+    @Before
+    public void setUp() {
+    }
 
- @After
- public void tearDown ()
- {
- }
- private static final String POC_DIRECTORY =
-                             "C:/svn/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/java";
- private static final String RESOURCES_DIRECTORY = "src/test/resources";
- private static final String TEST_SOURCE_DIRECTORY =
-                             "src/test/java/org/kuali/student/contract/model/test/source";
+    @After
+    public void tearDown() {
+    }
+    private static final String POC_DIRECTORY =
+            "C:/svn/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/java";
+    private static final String RESOURCES_DIRECTORY = "src/test/resources";
+    private static final String TEST_SOURCE_DIRECTORY =
+            "src/test/java/org/kuali/student/contract/model/test/source";
 
- private ServiceContractModel getModel ()
- {
-  List<String> srcDirs = new ArrayList ();
-  System.out.println ("User directory=" + System.getProperty ("user.dir"));
-  System.out.println ("Current directory=" + new File (".").getAbsolutePath ());
+    private ServiceContractModel getModel() {
+        List<String> srcDirs = new ArrayList();
+        System.out.println("User directory=" + System.getProperty("user.dir"));
+        System.out.println("Current directory=" + new File(".").getAbsolutePath());
 //  srcDirs.add (POC_DIRECTORY);
-  srcDirs.add (TEST_SOURCE_DIRECTORY);
-  ServiceContractModel instance = new ServiceContractModelQDoxLoader (srcDirs);
-  instance = new ServiceContractModelCache (instance);
-  validate (instance);
-  return instance;
- }
+        srcDirs.add(TEST_SOURCE_DIRECTORY);
+        ServiceContractModel instance = new ServiceContractModelQDoxLoader(srcDirs);
+        instance = new ServiceContractModelCache(instance);
+        validate(instance);
+        return instance;
+    }
 
- private String dump (ServiceMethod method)
- {
-  StringBuilder bldr = new StringBuilder ();
-  bldr.append (method.getName ());
-  String comma = "";
-  bldr.append ("(");
-  for (ServiceMethodParameter param : method.getParameters ())
-  {
-   bldr.append (comma);
-   comma = ", ";
-   bldr.append (param.getType ());
-   bldr.append (" ");
-   bldr.append (param.getName ());
-  }
-  bldr.append (")");
-  return bldr.toString ();
- }
+    private String dump(ServiceMethod method) {
+        StringBuilder bldr = new StringBuilder();
+        bldr.append(method.getName());
+        String comma = "";
+        bldr.append("(");
+        for (ServiceMethodParameter param : method.getParameters()) {
+            bldr.append(comma);
+            comma = ", ";
+            bldr.append(param.getType());
+            bldr.append(" ");
+            bldr.append(param.getName());
+        }
+        bldr.append(")");
+        return bldr.toString();
+    }
 
- private void validate (ServiceContractModel model)
- {
-  Collection<String> errors =
-                     new ServiceContractModelValidator (model).validate ();
-  if (errors.size () > 0)
-  {
-   StringBuffer buf = new StringBuffer ();
-   buf.append (errors.size () + " errors found while validating the data.");
-   int cnt = 0;
-   for (String msg : errors)
-   {
-    cnt ++;
-    buf.append ("\n");
-    buf.append ("*error*" + cnt + ":" + msg);
-   }
+    private void validate(ServiceContractModel model) {
+        Collection<String> errors =
+                new ServiceContractModelValidator(model).validate();
+        if (errors.size() > 0) {
+            StringBuffer buf = new StringBuffer();
+            buf.append(errors.size() + " errors found while validating the data.");
+            int cnt = 0;
+            for (String msg : errors) {
+                cnt++;
+                buf.append("\n");
+                buf.append("*error*" + cnt + ":" + msg);
+            }
 
-   fail (buf.toString ());
-  }
- }
+            fail(buf.toString());
+        }
+    }
 
- /**
-  * Test of getServiceMethods method, of class ServiceContractModelQDoxLoader.
-  */
- @Test
- public void testGetServiceMethods ()
- {
-  System.out.println ("getServiceMethods");
-  ServiceContractModel model = getModel ();
-  List<ServiceMethod> result = model.getServiceMethods ();
-  System.out.println ("Number of methods=" + result.size ());
-  for (ServiceMethod method : result)
-  {
-   System.out.println (dump (method));
-  }
-  if (result.size () < 10)
-  {
-   fail ("too few: " + result.size ());
-  }
- }
+    /**
+     * Test of getServiceMethods method, of class ServiceContractModelQDoxLoader.
+     */
+    @Test
+    public void testGetServiceMethods() {
+        System.out.println("getServiceMethods");
+        ServiceContractModel model = getModel();
+        List<ServiceMethod> result = model.getServiceMethods();
+        System.out.println("Number of methods=" + result.size());
+        for (ServiceMethod method : result) {
+            System.out.println(dump(method));
+        }
+        if (result.size() < 10) {
+            fail("too few: " + result.size());
+        }
+    }
 
- /**
-  * Test of getSourceNames method, of class ServiceContractModelQDoxLoader.
-  */
- @Test
- public void testGetSourceNames ()
- {
-  System.out.println ("getSourceNames");
-  ServiceContractModel model = getModel ();
-  List<String> expResult = new ArrayList ();
-  expResult.add (TEST_SOURCE_DIRECTORY);
-  List result = model.getSourceNames ();
-  assertEquals (expResult, result);
- }
+    /**
+     * Test of getSourceNames method, of class ServiceContractModelQDoxLoader.
+     */
+    @Test
+    public void testGetSourceNames() {
+        System.out.println("getSourceNames");
+        ServiceContractModel model = getModel();
+        List<String> expResult = new ArrayList();
+        expResult.add(TEST_SOURCE_DIRECTORY);
+        List result = model.getSourceNames();
+        assertEquals(expResult, result);
+    }
 
- /**
-  * Test of getServices method, of class ServiceContractModelQDoxLoader.
-  */
- @Test
- public void testGetServices ()
- {
-  System.out.println ("getServices");
-  ServiceContractModel model = getModel ();
-  List<Service> result = model.getServices ();
-  for (Service service : result)
-  {
-   System.out.println (service.getKey () + " " + service.getName () + " "
-                       + service.getVersion () + " " + service.getStatus ());
-  }
-  assertEquals (3, result.size ());
- }
+    /**
+     * Test of getServices method, of class ServiceContractModelQDoxLoader.
+     */
+    @Test
+    public void testGetServices() {
+        System.out.println("getServices");
+        ServiceContractModel model = getModel();
+        List<Service> result = model.getServices();
+        for (Service service : result) {
+            System.out.println(service.getKey() + " " + service.getName() + " "
+                    + service.getVersion() + " " + service.getStatus());
+        }
+        assertEquals(3, result.size());
+    }
 
- /**
-  * Test of getXmlTypes method, of class ServiceContractModelQDoxLoader.
-  */
- @Test
- public void testGetXmlTypes ()
- {
-  System.out.println ("getXmlTypes");
-  ServiceContractModel model = getModel ();
-  List<XmlType> result = model.getXmlTypes ();
-  for (XmlType xmlType : result)
-  {
-   System.out.println ("XmlType=" + xmlType.getName () + " "
-                       + xmlType.getPrimitive ());
-  }
-  if (result.size () < 10)
-  {
-   fail ("too few: " + result.size ());
-  }
- }
+    /**
+     * Test of getXmlTypes method, of class ServiceContractModelQDoxLoader.
+     */
+    @Test
+    public void testGetXmlTypes() {
+        System.out.println("getXmlTypes");
+        ServiceContractModel model = getModel();
+        List<XmlType> result = model.getXmlTypes();
+        for (XmlType xmlType : result) {
+            System.out.println("XmlType=" + xmlType.getName() + " "
+                    + xmlType.getPrimitive());
+        }
+        if (result.size() < 10) {
+            fail("too few: " + result.size());
+        }
+    }
 
- /**
-  * Test of getMessageStructures method, of class ServiceContractModelQDoxLoader.
-  */
- @Test
- public void testGetMessageStructures () throws FileNotFoundException
- {
-  System.out.println ("getMessageStructures");
-  ServiceContractModel model = getModel ();
-  List<MessageStructure> result = model.getMessageStructures ();
-  for (MessageStructure ms : result)
-  {
-   if (ms.getName ().equalsIgnoreCase ("attributes"))
-   {
-    System.out.println ("MessageStructure=" + ms.getId () + " " + ms.getType ());
-   }
-  }
-  if (result.size () < 10)
-  {
-   fail ("too few: " + result.size ());
-  }
-  String outputFileName = "target/messageStructures.txt";
-  File file = new File (outputFileName);
-  PrintStream out = new PrintStream (file);
-  new MessageStructureHierarchyDumper (out, model).writeTabbedHeader ();
-  Set<XmlType> rootTypes = HtmlContractServiceWriter.calcMainMessageStructures (
-    model, null);
-  ModelFinder finder = new ModelFinder (model);
-  for (XmlType rootType : rootTypes)
-  {
-   Stack<String> stack = new Stack ();
-   stack.push (rootType.getName ());
-   for (MessageStructure ms : finder.findMessageStructures (rootType.getName ()))
-   {
-    new MessageStructureHierarchyDumper (out, model).writeTabbedData (ms, stack);
-   }
-  }
- }
+    /**
+     * Test of getMessageStructures method, of class ServiceContractModelQDoxLoader.
+     */
+    @Test
+    public void testGetMessageStructures() throws FileNotFoundException {
+        System.out.println("getMessageStructures");
+        ServiceContractModel model = getModel();
+        List<MessageStructure> result = model.getMessageStructures();
+        for (MessageStructure ms : result) {
+            if (ms.getName().equalsIgnoreCase("attributes")) {
+                System.out.println("MessageStructure=" + ms.getId() + " " + ms.getType());
+            }
+        }
+        if (result.size() < 10) {
+            fail("too few: " + result.size());
+        }
+        String outputFileName = "target/messageStructures.txt";
+        File file = new File(outputFileName);
+        PrintStream out = new PrintStream(file);
+        new MessageStructureHierarchyDumper(out, model).writeTabbedHeader();
+        Set<XmlType> rootTypes = HtmlContractServiceWriter.calcMainMessageStructures(
+                model, null);
+        ModelFinder finder = new ModelFinder(model);
+        for (XmlType rootType : rootTypes) {
+            Stack<String> stack = new Stack();
+            stack.push(rootType.getName());
+            for (MessageStructure ms : finder.findMessageStructures(rootType.getName())) {
+                new MessageStructureHierarchyDumper(out, model).writeTabbedData(ms, stack);
+            }
+        }
+    }
 }

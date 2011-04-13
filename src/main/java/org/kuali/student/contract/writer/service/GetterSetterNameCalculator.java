@@ -23,69 +23,55 @@ import org.kuali.student.contract.writer.JavaClassWriter;
  *
  * @author nwright
  */
-public class GetterSetterNameCalculator
-{
+public class GetterSetterNameCalculator {
 
- private MessageStructure ms;
- private JavaClassWriter writer;
- private ServiceContractModel model;
+    private MessageStructure ms;
+    private JavaClassWriter writer;
+    private ServiceContractModel model;
 
- public GetterSetterNameCalculator (MessageStructure ms,
-                                    JavaClassWriter writer,
-                                    ServiceContractModel model)
- {
-  this.ms = ms;
-  this.writer = writer;
-  this.model = model;
- }
-
- public String calcGetter ()
- {
-  if (calcFieldTypeToUse (ms.getType ()).equals ("Boolean"))
-  {
-   if (ms.getShortName ().toLowerCase ().startsWith ("is"))
-   {
-    return calcInitLower (ms.getShortName ());
-   }
-   return "is" + calcInitUpper (ms.getShortName ());
-  }
-  return "get" + calcInitUpper (ms.getShortName ());
- }
-
- public String calcSetter ()
- {
-   if (calcFieldTypeToUse (ms.getType ()).equals ("Boolean"))
-  {
-   if (ms.getShortName ().toLowerCase ().startsWith ("is"))
-   {
-    return "set" + calcInitUpper (ms.getShortName ().substring (2));
+    public GetterSetterNameCalculator(MessageStructure ms,
+            JavaClassWriter writer,
+            ServiceContractModel model) {
+        this.ms = ms;
+        this.writer = writer;
+        this.model = model;
     }
-   }
-  return "set" + calcInitUpper (ms.getShortName ());
- }
 
- public static String calcInitUpper (String name)
- {
-  return name.substring (0, 1).toUpperCase () + name.substring (1);
- }
+    public String calcGetter() {
+        if (calcFieldTypeToUse(ms.getType()).equals("Boolean")) {
+            if (ms.getShortName().toLowerCase().startsWith("is")) {
+                return calcInitLower(ms.getShortName());
+            }
+            return "is" + calcInitUpper(ms.getShortName());
+        }
+        return "get" + calcInitUpper(ms.getShortName());
+    }
 
- public static String calcInitLower (String name)
- {
-  return name.substring (0, 1).toLowerCase () + name.substring (1);
- }
+    public String calcSetter() {
+        if (calcFieldTypeToUse(ms.getType()).equals("Boolean")) {
+            if (ms.getShortName().toLowerCase().startsWith("is")) {
+                return "set" + calcInitUpper(ms.getShortName().substring(2));
+            }
+        }
+        return "set" + calcInitUpper(ms.getShortName());
+    }
 
+    public static String calcInitUpper(String name) {
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
 
- public String calcFieldTypeToUse (String type)
- {
-  return MessageStructureTypeCalculator.calculate (writer, model, type, type, null);
- }
+    public static String calcInitLower(String name) {
+        return name.substring(0, 1).toLowerCase() + name.substring(1);
+    }
 
- public static String stripList (String str)
- {
-  if (str.endsWith ("List"))
-  {
-   return str.substring (0, str.length () - "List".length ());
-  }
-  return str;
- }
+    public String calcFieldTypeToUse(String type) {
+        return MessageStructureTypeCalculator.calculate(writer, model, type, type, null);
+    }
+
+    public static String stripList(String str) {
+        if (str.endsWith("List")) {
+            return str.substring(0, str.length() - "List".length());
+        }
+        return str;
+    }
 }

@@ -19,12 +19,9 @@ package org.kuali.student.contract.model;
  *
  * @author nwright
  */
-public class SearchImplementation extends SearchRow
-{
+public class SearchImplementation extends SearchRow {
 
- public SearchImplementation ()
- {
-  super ();
- }
-
+    public SearchImplementation() {
+        super();
+    }
 }

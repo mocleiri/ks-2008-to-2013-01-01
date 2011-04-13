@@ -22,34 +22,27 @@ import java.util.List;
  *
  * @author nwright
  */
-public class SearchCriteria extends SearchRow
-{
+public class SearchCriteria extends SearchRow {
 
- public SearchCriteria ()
- {
- }
+    public SearchCriteria() {
+    }
+    protected List<SearchCriteriaParameter> parameters = new ArrayList();
 
- protected List<SearchCriteriaParameter> parameters = new ArrayList ();
+    /**
+     * Get the value of parameters
+     *
+     * @return the value of parameters
+     */
+    public List<SearchCriteriaParameter> getParameters() {
+        return parameters;
+    }
 
- /**
-  * Get the value of parameters
-  *
-  * @return the value of parameters
-  */
- public List<SearchCriteriaParameter> getParameters ()
- {
-  return parameters;
- }
-
- /**
-  * Set the value of parameters
-  *
-  * @param parameters new value of parameters
-  */
- public void setParameters (List<SearchCriteriaParameter> parameters)
- {
-  this.parameters = parameters;
- }
-
- 
+    /**
+     * Set the value of parameters
+     *
+     * @param parameters new value of parameters
+     */
+    public void setParameters(List<SearchCriteriaParameter> parameters) {
+        this.parameters = parameters;
+    }
 }

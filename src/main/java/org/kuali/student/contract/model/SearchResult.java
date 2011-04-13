@@ -22,35 +22,27 @@ import java.util.List;
  *
  * @author nwright
  */
-public class SearchResult extends SearchRow
-{
+public class SearchResult extends SearchRow {
 
- public SearchResult ()
- {
- }
+    public SearchResult() {
+    }
+    private List<SearchResultColumn> resultColumns = new ArrayList();
 
- private List<SearchResultColumn> resultColumns = new ArrayList ();
+    /**
+     * Get the value of resultColumns
+     *
+     * @return the value of resultColumns
+     */
+    public List<SearchResultColumn> getResultColumns() {
+        return resultColumns;
+    }
 
- /**
-  * Get the value of resultColumns
-  *
-  * @return the value of resultColumns
-  */
- public List<SearchResultColumn> getResultColumns ()
- {
-  return resultColumns;
- }
-
- /**
-  * Set the value of resultColumns
-  *
-  * @param resultColumns new value of resultColumns
-  */
- public void setResultColumns (List<SearchResultColumn> resultColumns)
- {
-  this.resultColumns = resultColumns;
- }
-
-
-
+    /**
+     * Set the value of resultColumns
+     *
+     * @param resultColumns new value of resultColumns
+     */
+    public void setResultColumns(List<SearchResultColumn> resultColumns) {
+        this.resultColumns = resultColumns;
+    }
 }

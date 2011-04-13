@@ -19,70 +19,55 @@ package org.kuali.student.contract.writer;
  *
  * @author nwright
  */
-public class JavaEnumConstantCalculator
-{
+public class JavaEnumConstantCalculator {
 
- private String name;
+    private String name;
 
- public JavaEnumConstantCalculator (String name)
- {
-  this.name = name;
- }
-
- public String calc ()
- {
-  StringBuilder buf = new StringBuilder (name.length () + 3);
-  // do the first character so we don't prepend the first with a _ if it is upper
-  char c = Character.toUpperCase (name.charAt (0));
-  buf.append (c);
-  boolean lastUpper = Character.isUpperCase (c);
-  for (int i = 1; i < name.length (); i ++)
-  {
-   c = name.charAt (i);
-   if (Character.isUpperCase (c))
-   {
-    if ( ! lastUpper)
-    {
-     buf.append ('_');
+    public JavaEnumConstantCalculator(String name) {
+        this.name = name;
     }
-    lastUpper = true;
-   }
-   else
-   {
-    lastUpper = false;
-   }
 
-   buf.append (Character.toUpperCase (c));
-  }
+    public String calc() {
+        StringBuilder buf = new StringBuilder(name.length() + 3);
+        // do the first character so we don't prepend the first with a _ if it is upper
+        char c = Character.toUpperCase(name.charAt(0));
+        buf.append(c);
+        boolean lastUpper = Character.isUpperCase(c);
+        for (int i = 1; i < name.length(); i++) {
+            c = name.charAt(i);
+            if (Character.isUpperCase(c)) {
+                if (!lastUpper) {
+                    buf.append('_');
+                }
+                lastUpper = true;
+            } else {
+                lastUpper = false;
+            }
 
-  return buf.toString ();
- }
+            buf.append(Character.toUpperCase(c));
+        }
 
- public String reverse ()
- {
-  StringBuffer buf = new StringBuffer (name.length ());
-  boolean uppercase = true;
-  for (int i = 0; i < name.length (); i ++)
-  {
-   char c = name.charAt (i);
-   if (uppercase)
-   {
-    c = Character.toUpperCase (c);
-    uppercase = false;
-   }
-   else
-   {
-    c = Character.toLowerCase (c);
-   }
-   if (c == '_')
-   {
-    uppercase = true;
-    continue;
-   }
-   buf.append (c);
-  }
+        return buf.toString();
+    }
 
-  return buf.toString ();
- }
+    public String reverse() {
+        StringBuffer buf = new StringBuffer(name.length());
+        boolean uppercase = true;
+        for (int i = 0; i < name.length(); i++) {
+            char c = name.charAt(i);
+            if (uppercase) {
+                c = Character.toUpperCase(c);
+                uppercase = false;
+            } else {
+                c = Character.toLowerCase(c);
+            }
+            if (c == '_') {
+                uppercase = true;
+                continue;
+            }
+            buf.append(c);
+        }
 
+        return buf.toString();
+    }
 }

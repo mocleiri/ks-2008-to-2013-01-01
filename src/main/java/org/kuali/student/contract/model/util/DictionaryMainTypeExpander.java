@@ -27,76 +27,61 @@ import java.util.List;
  * A dictionary expander that expandds the main type
  * @author nwright
  */
-public class DictionaryMainTypeExpander implements DictionaryExpander
-{
+public class DictionaryMainTypeExpander implements DictionaryExpander {
 
- private List<Dictionary> oldDicts;
- private List<Dictionary> newDicts;
- private DictionaryModel spreadsheet;
- private ModelFinder finder;
+    private List<Dictionary> oldDicts;
+    private List<Dictionary> newDicts;
+    private DictionaryModel spreadsheet;
+    private ModelFinder finder;
 
- public DictionaryMainTypeExpander (DictionaryModel spreadsheet)
- {
-  this.spreadsheet = spreadsheet;
-  this.oldDicts = spreadsheet.getDictionary ();
-  this.finder = new ModelFinder (this.spreadsheet);
- }
+    public DictionaryMainTypeExpander(DictionaryModel spreadsheet) {
+        this.spreadsheet = spreadsheet;
+        this.oldDicts = spreadsheet.getDictionary();
+        this.finder = new ModelFinder(this.spreadsheet);
+    }
 
- @Override
- public List<Dictionary> expand ()
- {
-  newDicts = new ArrayList (oldDicts.size () * 3);
-  expandMainType ();
-  return newDicts;
- }
+    @Override
+    public List<Dictionary> expand() {
+        newDicts = new ArrayList(oldDicts.size() * 3);
+        expandMainType();
+        return newDicts;
+    }
 
- private void expandMainType ()
- {
-  for (Dictionary d : oldDicts)
-  {
-   Type type = getMainType (d);
-   if (type.getStatus ().equals (Type.GROUPING))
-   {
-    expandMainType (d, type);
-   }
-   else
-   {
-    newDicts.add (d);
-   }
-  }
-  return;
- }
+    private void expandMainType() {
+        for (Dictionary d : oldDicts) {
+            Type type = getMainType(d);
+            if (type.getStatus().equals(Type.GROUPING)) {
+                expandMainType(d, type);
+            } else {
+                newDicts.add(d);
+            }
+        }
+        return;
+    }
 
- private Type getMainType (Dictionary dict)
- {
-  Dictionary root = finder.findRoot (dict);
-  Type type = finder.findType (root.getXmlObject (), dict.getType ());
-  if (type == null)
-  {
-   throw new DictionaryValidationException ("Could not find main type for dictionary entry " +
-    dict.getId () + ": " + root.getXmlObject () + "." + dict.getType ());
-  }
-  return type;
- }
+    private Type getMainType(Dictionary dict) {
+        Dictionary root = finder.findRoot(dict);
+        Type type = finder.findType(root.getXmlObject(), dict.getType());
+        if (type == null) {
+            throw new DictionaryValidationException("Could not find main type for dictionary entry "
+                    + dict.getId() + ": " + root.getXmlObject() + "." + dict.getType());
+        }
+        return type;
+    }
 
- private void expandMainType (Dictionary d, Type type)
- {
-  for (Type t : finder.expandType (type))
-  {
-   try
-   {
-    System.out.println ("Expanding dictionary entry " + d.getId () +
-     " with type " + type.getName () + "  to " + t.getName ());
-    Dictionary clone = (Dictionary) d.clone ();
-    clone.setType (t.getName ());
-    newDicts.add (clone);
-   }
-   catch (CloneNotSupportedException ex)
-   {
-    throw new DictionaryExecutionException (ex);
-   }
-  }
- }
+    private void expandMainType(Dictionary d, Type type) {
+        for (Type t : finder.expandType(type)) {
+            try {
+                System.out.println("Expanding dictionary entry " + d.getId()
+                        + " with type " + type.getName() + "  to " + t.getName());
+                Dictionary clone = (Dictionary) d.clone();
+                clone.setType(t.getName());
+                newDicts.add(clone);
+            } catch (CloneNotSupportedException ex) {
+                throw new DictionaryExecutionException(ex);
+            }
+        }
+    }
 }
  
  

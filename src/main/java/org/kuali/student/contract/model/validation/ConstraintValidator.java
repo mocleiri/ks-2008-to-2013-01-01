@@ -25,131 +25,100 @@ import java.util.List;
  * This validates a constraint.
  * @author nwright
  */
-public class ConstraintValidator implements ModelValidator
-{
+public class ConstraintValidator implements ModelValidator {
 
- private Constraint cons;
+    private Constraint cons;
 
- public ConstraintValidator (Constraint cons)
- {
-  this.cons = cons;
- }
+    public ConstraintValidator(Constraint cons) {
+        this.cons = cons;
+    }
+    private Collection errors;
 
- private Collection errors;
-
- @Override
- public Collection<String> validate ()
- {
-  this.errors = new ArrayList ();
-  validateMinMaxLength ();
-  validateMinMaxOccurs ();
-  validateMinMaxValue ();
-  return this.errors;
- }
-
- private void validateMinMaxLength ()
- {
-  if ( ! cons.getMinLength ().equals (""))
-  {
-   int min = parseIntError (cons.getMinLength (), "minLength");
-   if (min < 0)
-   {
-    this.addError ("minLength is less than zero");
-   }
-   if ( ! cons.getMaxLength ().equals (""))
-   {
-    int max = parseIntError (cons.getMaxLength (), "maxLength");
-    if (min < 0)
-    {
-     this.addError ("maxLength is less than zero");
+    @Override
+    public Collection<String> validate() {
+        this.errors = new ArrayList();
+        validateMinMaxLength();
+        validateMinMaxOccurs();
+        validateMinMaxValue();
+        return this.errors;
     }
 
-    if (min > max)
-    {
-     addError ("minLength exceeds the maxLength");
-    }
-   }
-  }
- }
+    private void validateMinMaxLength() {
+        if (!cons.getMinLength().equals("")) {
+            int min = parseIntError(cons.getMinLength(), "minLength");
+            if (min < 0) {
+                this.addError("minLength is less than zero");
+            }
+            if (!cons.getMaxLength().equals("")) {
+                int max = parseIntError(cons.getMaxLength(), "maxLength");
+                if (min < 0) {
+                    this.addError("maxLength is less than zero");
+                }
 
- private void validateMinMaxOccurs ()
- {
-  if ( ! cons.getMinOccurs ().equals (""))
-  {
-   int min = parseIntError (cons.getMinOccurs (), "minOccurs");
-   if (min < 0)
-   {
-    this.addError ("minOccurs is less than zero");
-   }
-   if ( ! cons.getMaxOccurs ().equals (""))
-   {
-    int max = parseIntError (cons.getMaxOccurs (), "maxOccurs");
-    if (max < 0)
-    {
-     this.addError ("maxOccurs is less than zero");
+                if (min > max) {
+                    addError("minLength exceeds the maxLength");
+                }
+            }
+        }
     }
-    if (min > max)
-    {
-     addError ("minOccurs exceeds the maxOccurs");
+
+    private void validateMinMaxOccurs() {
+        if (!cons.getMinOccurs().equals("")) {
+            int min = parseIntError(cons.getMinOccurs(), "minOccurs");
+            if (min < 0) {
+                this.addError("minOccurs is less than zero");
+            }
+            if (!cons.getMaxOccurs().equals("")) {
+                int max = parseIntError(cons.getMaxOccurs(), "maxOccurs");
+                if (max < 0) {
+                    this.addError("maxOccurs is less than zero");
+                }
+                if (min > max) {
+                    addError("minOccurs exceeds the maxOccurs");
+                }
+            }
+        }
     }
-   }
-  }
- }
 
- private void validateMinMaxValue ()
- {
-  if ( ! cons.getMinValue ().equals (""))
-  {
-   int min = parseIntError (cons.getMinValue (), "minValue");
-   if (min < 0)
-   {
-    this.addError ("minValue is less than zero");
-   }
-   if ( ! cons.getMaxValue ().equals (""))
-   {
-    int max = parseIntError (cons.getMaxValue (), "maxValue");
-    if (max < 0)
-    {
-     this.addError ("maxOccurs is less than zero");
+    private void validateMinMaxValue() {
+        if (!cons.getMinValue().equals("")) {
+            int min = parseIntError(cons.getMinValue(), "minValue");
+            if (min < 0) {
+                this.addError("minValue is less than zero");
+            }
+            if (!cons.getMaxValue().equals("")) {
+                int max = parseIntError(cons.getMaxValue(), "maxValue");
+                if (max < 0) {
+                    this.addError("maxOccurs is less than zero");
+                }
+                if (min > max) {
+                    addError("minOccurs exceeds the maxOccurs");
+                }
+            }
+        }
     }
-    if (min > max)
-    {
-     addError ("minOccurs exceeds the maxOccurs");
+
+    private int parseIntError(String value, String field) {
+        if (value.equals("")) {
+            return 0;
+        }
+        try {
+            int val = Integer.parseInt(value);
+            return val;
+        } catch (NumberFormatException ex) {
+            addError(field + " is [" + value + "] not an integer");
+            return 0;
+        }
     }
-   }
-  }
- }
 
- private int parseIntError (String value, String field)
- {
-  if (value.equals (""))
-  {
-   return 0;
-  }
-  try
-  {
-   int val = Integer.parseInt (value);
-   return val;
-  }
-  catch (NumberFormatException ex)
-  {
-   addError (field + " is [" + value + "] not an integer");
-   return 0;
-  }
- }
-
- private void addError (String msg)
- {
-  String id = cons.getId ();
-  if (id.equals (""))
-  {
-   id = cons.getKey ();
-  }
-  String error = "Error in constraint " + id + ": " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
-
+    private void addError(String msg) {
+        String id = cons.getId();
+        if (id.equals("")) {
+            id = cons.getKey();
+        }
+        String error = "Error in constraint " + id + ": " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }

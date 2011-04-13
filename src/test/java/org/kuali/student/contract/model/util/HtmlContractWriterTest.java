@@ -36,113 +36,102 @@ import static org.junit.Assert.*;
  * 
  * @author nwright
  */
-public class HtmlContractWriterTest
-{
+public class HtmlContractWriterTest {
 
- public HtmlContractWriterTest ()
- {
- }
+    public HtmlContractWriterTest() {
+    }
 
- @BeforeClass
- public static void setUpClass () throws Exception
- {
- }
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
 
- @AfterClass
- public static void tearDownClass () throws Exception
- {
- }
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
 
- @Before
- public void setUp ()
- {
- }
+    @Before
+    public void setUp() {
+    }
 
- @After
- public void tearDown ()
- {
- }
- private static final String CORE_DIRECTORY =
-                             "C:/svn/ks-1.3/ks-core/ks-core-api/src/main/java";
- // "C:/svn/maven-dictionary-generator/trunk/src/main/java/org/kuali/student/core";
- private static final String COMMON_DIRECTORY =
-                             "C:/svn/ks-1.3/ks-common/ks-common-api/src/main/java";
- private static final String ENROLL_DIRECTORY =
-                             "C:/svn/ks-1.3/ks-enroll/ks-enroll-api/src/main/java";
- private static final String LUM_DIRECTORY =
-                             "C:/svn/ks-1.3/ks-lum/ks-lum-api/src/main/java";
- private static final String RICE_DIRECTORY =
-                             "C:/svn/rice/rice-release-1-0-2-1-br/api/src/main/java";
- private static final String TEST_SOURCE_DIRECTORY =
-                             "src/test/java/org/kuali/student/contract/model/test/source";
- private static final String HTML_DIRECTORY = "target/html";
- private static final String RESOURCES_DIRECTORY =
-                             // "C:/svn/student/ks-core/ks-core-api/src/main/java";
-                             "src/main/resources";
- private static final String PESC_CORE_MAIN = RESOURCES_DIRECTORY
-                                              + "/CoreMain_v1.8.0.xsd";
+    @After
+    public void tearDown() {
+    }
+    private static final String CORE_DIRECTORY =
+            "C:/svn/ks-1.3/ks-core/ks-core-api/src/main/java";
+    // "C:/svn/maven-dictionary-generator/trunk/src/main/java/org/kuali/student/core";
+    private static final String COMMON_DIRECTORY =
+            "C:/svn/ks-1.3/ks-common/ks-common-api/src/main/java";
+    private static final String ENROLL_DIRECTORY =
+            "C:/svn/ks-1.3/ks-enroll/ks-enroll-api/src/main/java";
+    private static final String LUM_DIRECTORY =
+            "C:/svn/ks-1.3/ks-lum/ks-lum-api/src/main/java";
+    private static final String RICE_DIRECTORY =
+            "C:/svn/rice/rice-release-1-0-2-1-br/api/src/main/java";
+    private static final String TEST_SOURCE_DIRECTORY =
+            "src/test/java/org/kuali/student/contract/model/test/source";
+    private static final String HTML_DIRECTORY = "target/html/contract";
+    private static final String RESOURCES_DIRECTORY =
+            // "C:/svn/student/ks-core/ks-core-api/src/main/java";
+            "src/main/resources";
+    private static final String PESC_CORE_MAIN = RESOURCES_DIRECTORY
+            + "/CoreMain_v1.8.0.xsd";
 
- private ServiceContractModel getModel ()
- {
-  List<String> srcDirs = new ArrayList<String> ();
-  srcDirs.add (TEST_SOURCE_DIRECTORY);
+    private ServiceContractModel getModel() {
+        List<String> srcDirs = new ArrayList<String>();
+        srcDirs.add(TEST_SOURCE_DIRECTORY);
 //		srcDirs.add(CORE_DIRECTORY);
 //		srcDirs.add(COMMON_DIRECTORY);
 //		srcDirs.add(LUM_DIRECTORY);
-  ServiceContractModel instance = new ServiceContractModelQDoxLoader (
-    srcDirs);
-  return new ServiceContractModelCache (instance);
+        ServiceContractModel instance = new ServiceContractModelQDoxLoader(
+                srcDirs);
+        return new ServiceContractModelCache(instance);
 
- }
+    }
 
- private void validate (ServiceContractModel model)
- {
-  Collection<String> errors =
-                     new ServiceContractModelValidator (model).validate ();
-  if (errors.size () > 0)
-  {
-   StringBuffer buf = new StringBuffer ();
-   buf.append (errors.size ()
-               + " errors found while validating the data.");
-   int cnt = 0;
-   for (String msg : errors)
-   {
-    cnt ++;
-    buf.append ("\n");
-    buf.append ("*error*" + cnt + ":" + msg);
-   }
+    private void validate(ServiceContractModel model) {
+        Collection<String> errors =
+                new ServiceContractModelValidator(model).validate();
+        if (errors.size() > 0) {
+            StringBuffer buf = new StringBuffer();
+            buf.append(errors.size()
+                    + " errors found while validating the data.");
+            int cnt = 0;
+            for (String msg : errors) {
+                cnt++;
+                buf.append("\n");
+                buf.append("*error*" + cnt + ":" + msg);
+            }
 
-   fail (buf.toString ());
-  }
- }
+            fail(buf.toString());
+        }
+    }
 
- /**
-  * Test of run
-  */
- @Test
- public void testRun ()
- {
-  ServiceContractModel model = null;
-  HtmlContractWriter writer = null;
+    /**
+     * Test of run
+     */
+    @Test
+    public void testRun() {
+        ServiceContractModel model = null;
+        HtmlContractWriter writer = null;
 
-  model = this.getModel ();
-  this.validate (model);
-  writer = new HtmlContractWriter (HTML_DIRECTORY, model);
-  writer.write ();
+        model = this.getModel();
+        this.validate(model);
+        writer = new HtmlContractWriter(HTML_DIRECTORY, model);
+        writer.write();
 
-  assertTrue (new File (HTML_DIRECTORY + "/" + "index.html").exists ());
-  assertTrue (
-    new File (HTML_DIRECTORY + "/" + "LuiPersonRelationService.html").exists ());
-  assertTrue (
-    new File (HTML_DIRECTORY + "/" + "LuiPersonRelationInfo.html").exists ());
-  assertTrue (new File (HTML_DIRECTORY + "/" + "ContextInfo.html").exists ());
-  assertTrue (new File (HTML_DIRECTORY + "/" + "RichTextInfo.html").exists ());
-  assertTrue (new File (HTML_DIRECTORY + "/" + "MetaInfo.html").exists ());
+        assertTrue(new File(HTML_DIRECTORY + "/" + "index.html").exists());
+        assertTrue(
+                new File(HTML_DIRECTORY + "/" + "LuiPersonRelationService.html").exists());
+        assertTrue(
+                new File(HTML_DIRECTORY + "/" + "LuiPersonRelationInfo.html").exists());
+        assertTrue(new File(HTML_DIRECTORY + "/" + "ContextInfo.html").exists());
+        assertTrue(new File(HTML_DIRECTORY + "/" + "RichTextInfo.html").exists());
+        assertTrue(new File(HTML_DIRECTORY + "/" + "MetaInfo.html").exists());
 
-  assertTrue (new File (HTML_DIRECTORY + "/" + "StateService.html").exists ());
-  assertTrue (new File (HTML_DIRECTORY + "/" + "StateInfo.html").exists ());
+        assertTrue(new File(HTML_DIRECTORY + "/" + "StateService.html").exists());
+        assertTrue(new File(HTML_DIRECTORY + "/" + "StateInfo.html").exists());
 
-  assertTrue (new File (HTML_DIRECTORY + "/" + "TypeService.html").exists ());
-  assertTrue (new File (HTML_DIRECTORY + "/" + "TypeInfo.html").exists ());
- }
+        assertTrue(new File(HTML_DIRECTORY + "/" + "TypeService.html").exists());
+        assertTrue(new File(HTML_DIRECTORY + "/" + "TypeInfo.html").exists());
+    }
 }

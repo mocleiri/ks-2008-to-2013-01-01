@@ -22,205 +22,162 @@ import java.util.List;
  *
  * @author nwright
  */
-public class OrchestrationObjectField
-{
+public class OrchestrationObjectField {
 
- private OrchestrationObject parent;
- private String name;
- private String type;
+    private OrchestrationObject parent;
+    private String name;
+    private String type;
 
- public enum FieldTypeCategory
- {
+    public enum FieldTypeCategory {
 
-  PRIMITIVE,
-  MAPPED_STRING,
-  DYNAMIC_ATTRIBUTE,
-  COMPLEX,
-  COMPLEX_INLINE,
-  LIST_OF_PRIMITIVE,
-  LIST_OF_MAPPED_STRING,
-  LIST_OF_COMPLEX,
-  LIST_OF_COMPLEX_INLINE;
- }
+        PRIMITIVE,
+        MAPPED_STRING,
+        DYNAMIC_ATTRIBUTE,
+        COMPLEX,
+        COMPLEX_INLINE,
+        LIST_OF_PRIMITIVE,
+        LIST_OF_MAPPED_STRING,
+        LIST_OF_COMPLEX,
+        LIST_OF_COMPLEX_INLINE;
+    }
 
- public OrchestrationObject getParent ()
- {
-  return parent;
- }
+    public OrchestrationObject getParent() {
+        return parent;
+    }
 
- public void setParent (OrchestrationObject parent)
- {
-  this.parent = parent;
- }
+    public void setParent(OrchestrationObject parent) {
+        this.parent = parent;
+    }
 
- public void setName (String name)
- {
-  this.name = name;
- }
+    public void setName(String name) {
+        this.name = name;
+    }
 
- public String getName ()
- {
-  return name;
- }
+    public String getName() {
+        return name;
+    }
 
- public String getPropertyName ()
- {
-  return name.substring (0, 1).toLowerCase () + name.substring (1);
- }
+    public String getPropertyName() {
+        return name.substring(0, 1).toLowerCase() + name.substring(1);
+    }
 
- public String getProperName ()
- {
-  return name.substring (0, 1).toUpperCase () + name.substring (1);
- }
+    public String getProperName() {
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
 
- public void setType (String type)
- {
-  this.type = type;
- }
+    public void setType(String type) {
+        this.type = type;
+    }
 
- public String getType ()
- {
-  return type;
- }
+    public String getType() {
+        return type;
+    }
+    private FieldTypeCategory fieldTypeCategory;
 
- private FieldTypeCategory fieldTypeCategory;
+    public FieldTypeCategory getFieldTypeCategory() {
+        return fieldTypeCategory;
+    }
 
- public FieldTypeCategory getFieldTypeCategory ()
- {
-  return fieldTypeCategory;
- }
+    public void setFieldTypeCategory(
+            FieldTypeCategory fieldTypeCategory) {
+        this.fieldTypeCategory = fieldTypeCategory;
+    }
+    private OrchestrationObject inlineObject;
 
- public void setFieldTypeCategory (
-  FieldTypeCategory fieldTypeCategory)
- {
-  this.fieldTypeCategory = fieldTypeCategory;
- }
+    public OrchestrationObject getInlineObject() {
+        return inlineObject;
+    }
 
- private OrchestrationObject inlineObject;
+    public void setInlineObject(OrchestrationObject inlineObject) {
+        this.inlineObject = inlineObject;
+    }
+    private List<TypeStateConstraint> constraints;
 
- public OrchestrationObject getInlineObject ()
- {
-  return inlineObject;
- }
+    public List<TypeStateConstraint> getConstraints() {
+        if (constraints == null) {
+            constraints = new ArrayList();
+        }
+        return constraints;
+    }
 
- public void setInlineObject (OrchestrationObject inlineObject)
- {
-  this.inlineObject = inlineObject;
- }
+    public void setConstraints(List<TypeStateConstraint> constraints) {
+        this.constraints = constraints;
+    }
+    private String defaultValue;
 
- private List<TypeStateConstraint> constraints;
+    public String getDefaultValue() {
+        return defaultValue;
+    }
 
- public List<TypeStateConstraint> getConstraints ()
- {
-  if (constraints == null)
-  {
-   constraints = new ArrayList ();
-  }
-  return constraints;
- }
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+    private String defaultValuePath;
 
- public void setConstraints (List<TypeStateConstraint> constraints)
- {
-  this.constraints = constraints;
- }
+    public String getDefaultValuePath() {
+        return defaultValuePath;
+    }
 
- private String defaultValue;
+    public void setDefaultValuePath(String defaultValuePath) {
+        this.defaultValuePath = defaultValuePath;
+    }
 
- public String getDefaultValue ()
- {
-  return defaultValue;
- }
+    public String getFullyQualifiedName() {
+        //TODO: Get grand parent
+        StringBuffer buf = new StringBuffer();
+        buf.append(getParent().getName());
+        buf.append(".");
+        buf.append(getProperName());
+        return buf.toString();
+    }
 
- public void setDefaultValue (String defaultValue)
- {
-  this.defaultValue = defaultValue;
- }
+    public enum WriteAccess {
 
- private String defaultValuePath;
+        ALWAYS, NEVER, ON_CREATE;
+    }
+    private WriteAccess writeAccess;
 
- public String getDefaultValuePath ()
- {
-  return defaultValuePath;
- }
+    public WriteAccess getWriteAccess() {
+        return writeAccess;
+    }
 
- public void setDefaultValuePath (String defaultValuePath)
- {
-  this.defaultValuePath = defaultValuePath;
- }
+    public void setWriteAccess(WriteAccess writeAccess) {
+        this.writeAccess = writeAccess;
+    }
+    private String lookup;
 
- public String getFullyQualifiedName ()
- {
-  //TODO: Get grand parent
-  StringBuffer buf = new StringBuffer ();
-  buf.append (getParent ().getName ());
-  buf.append (".");
-  buf.append (getProperName ());
-  return buf.toString ();
- }
+    public String getLookup() {
+        return lookup;
+    }
 
- public enum WriteAccess
- {
+    public void setLookup(String lookup) {
+        this.lookup = lookup;
+    }
+    private List<String> additionalLookups;
 
-  ALWAYS, NEVER, ON_CREATE;
- }
- private WriteAccess writeAccess;
+    public List<String> getAdditionalLookups() {
+        return additionalLookups;
+    }
 
- public WriteAccess getWriteAccess ()
- {
-  return writeAccess;
- }
+    public void setAdditionalLookups(List<String> additionalLookups) {
+        this.additionalLookups = additionalLookups;
+    }
+    private String lookupContextPath;
 
- public void setWriteAccess (WriteAccess writeAccess)
- {
-  this.writeAccess = writeAccess;
- }
+    public String getLookupContextPath() {
+        return lookupContextPath;
+    }
 
- private String lookup;
+    public void setLookupContextPath(String lookupContextPath) {
+        this.lookupContextPath = lookupContextPath;
+    }
+    private Integer maxRecursions;
 
- public String getLookup ()
- {
-  return lookup;
- }
+    public Integer getMaxRecursions() {
+        return maxRecursions;
+    }
 
- public void setLookup (String lookup)
- {
-  this.lookup = lookup;
- }
-
- private List<String> additionalLookups;
-
- public List<String> getAdditionalLookups ()
- {
-  return additionalLookups;
- }
-
- public void setAdditionalLookups (List<String> additionalLookups)
- {
-  this.additionalLookups = additionalLookups;
- }
-
- private String lookupContextPath;
-
- public String getLookupContextPath ()
- {
-  return lookupContextPath;
- }
-
- public void setLookupContextPath (String lookupContextPath)
- {
-  this.lookupContextPath = lookupContextPath;
- }
-
- private Integer maxRecursions;
-
- public Integer getMaxRecursions ()
- {
-  return maxRecursions;
- }
-
- public void setMaxRecursions (Integer maxRecursions)
- {
-  this.maxRecursions = maxRecursions;
- }
-
+    public void setMaxRecursions(Integer maxRecursions) {
+        this.maxRecursions = maxRecursions;
+    }
 }

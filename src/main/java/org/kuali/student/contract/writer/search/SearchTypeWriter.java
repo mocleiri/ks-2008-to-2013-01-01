@@ -24,45 +24,41 @@ import java.io.PrintStream;
  * Writes out a constraint in XML format.
  * @author nwright
  */
-public class SearchTypeWriter extends XmlWriter
-{
+public class SearchTypeWriter extends XmlWriter {
 
- private SearchType searchType;
+    private SearchType searchType;
 
- public SearchTypeWriter (PrintStream out, int indent, SearchType searchType)
- {
-  super (out, indent);
-  this.searchType = searchType;
- }
+    public SearchTypeWriter(PrintStream out, int indent, SearchType searchType) {
+        super(out, indent);
+        this.searchType = searchType;
+    }
 
- public void write ()
- {
-  println ("");
-  indentPrint ("<search:searchType");
-  //TODO: not sure what to put in the key attribute
-  incrementIndent ();
-  writeAttribute ("id", searchType.getKey ());
-  println (">");
+    public void write() {
+        println("");
+        indentPrint("<search:searchType");
+        //TODO: not sure what to put in the key attribute
+        incrementIndent();
+        writeAttribute("id", searchType.getKey());
+        println(">");
 
-  // write out comments
-  writeComment (searchType.getComments ());
+        // write out comments
+        writeComment(searchType.getComments());
 
-  writeTag ("search:name", searchType.getName ());
-  writeTag ("search:desc", searchType.getDescription ());
-  indentPrint ("<search:searchResultTypeInfo>");
-  print (calcRefBean (searchType.getSearchResult ().getKey ()));
-  println ("</search:searchResultTypeInfo>");
-  indentPrint ("<search:searchCriteriaTypeInfo>");
-  print (calcRefBean (searchType.getSearchCriteria ().getKey ()));
-  println ("</search:searchCriteriaTypeInfo>");
+        writeTag("search:name", searchType.getName());
+        writeTag("search:desc", searchType.getDescription());
+        indentPrint("<search:searchResultTypeInfo>");
+        print(calcRefBean(searchType.getSearchResult().getKey()));
+        println("</search:searchResultTypeInfo>");
+        indentPrint("<search:searchCriteriaTypeInfo>");
+        print(calcRefBean(searchType.getSearchCriteria().getKey()));
+        println("</search:searchCriteriaTypeInfo>");
 
-  // end the constraint
-  indentPrintln ("</search:searchType>");
-  decrementIndent ();
- }
+        // end the constraint
+        indentPrintln("</search:searchType>");
+        decrementIndent();
+    }
 
- private String calcRefBean (String id)
- {
-  return "<ref bean=\"" + id + "\" />";
- }
+    private String calcRefBean(String id) {
+        return "<ref bean=\"" + id + "\" />";
+    }
 }

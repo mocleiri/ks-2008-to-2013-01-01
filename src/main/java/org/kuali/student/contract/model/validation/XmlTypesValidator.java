@@ -26,63 +26,51 @@ import org.kuali.student.contract.model.util.ModelFinder;
  *
  * @author nwright
  */
-public class XmlTypesValidator implements ModelValidator
-{
+public class XmlTypesValidator implements ModelValidator {
 
- private ServiceContractModel model;
- private ModelFinder finder;
- private XmlType xmlType;
+    private ServiceContractModel model;
+    private ModelFinder finder;
+    private XmlType xmlType;
 
- public XmlTypesValidator (XmlType xmlType, ServiceContractModel model)
- {
-  this.model = model;
-  this.finder = new ModelFinder (model);
-  this.xmlType = xmlType;
- }
- private Collection errors;
-
- @Override
- public Collection<String> validate ()
- {
-
-  errors = new ArrayList ();
-  basicValidation ();
-  return errors;
- }
-
- private void basicValidation ()
- {
-  if (xmlType.getName ().equals (""))
-  {
-   addError ("Name is required");
-  }
-  if (xmlType.getName ().equalsIgnoreCase ("Object"))
-  {
-   addError ("Object is reserved and cannot be used as the name of an XmlType");
-  }
-  if (xmlType.getName ().equalsIgnoreCase ("ObjectList"))
-  {
-   addError ("Object is reserved and cannot be used as the name of an XmlType");
-  }
-  if ( ! xmlType.getService ().equals (""))
-  {
-   for (String srv : xmlType.getService ().split (","))
-   {
-    if (finder.findService (srv.trim ()) == null)
-    {
-     addError ("Service, [" + srv
-               + "] could not be found in the list of services");
+    public XmlTypesValidator(XmlType xmlType, ServiceContractModel model) {
+        this.model = model;
+        this.finder = new ModelFinder(model);
+        this.xmlType = xmlType;
     }
-   }
-  }
- }
+    private Collection errors;
 
- private void addError (String msg)
- {
-  String error = "Error in xmlType entry: " + xmlType.getName () + ": " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
+    @Override
+    public Collection<String> validate() {
+
+        errors = new ArrayList();
+        basicValidation();
+        return errors;
+    }
+
+    private void basicValidation() {
+        if (xmlType.getName().equals("")) {
+            addError("Name is required");
+        }
+        if (xmlType.getName().equalsIgnoreCase("Object")) {
+            addError("Object is reserved and cannot be used as the name of an XmlType");
+        }
+        if (xmlType.getName().equalsIgnoreCase("ObjectList")) {
+            addError("Object is reserved and cannot be used as the name of an XmlType");
+        }
+        if (!xmlType.getService().equals("")) {
+            for (String srv : xmlType.getService().split(",")) {
+                if (finder.findService(srv.trim()) == null) {
+                    addError("Service, [" + srv
+                            + "] could not be found in the list of services");
+                }
+            }
+        }
+    }
+
+    private void addError(String msg) {
+        String error = "Error in xmlType entry: " + xmlType.getName() + ": " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }

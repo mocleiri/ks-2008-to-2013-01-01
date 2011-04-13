@@ -19,11 +19,8 @@ package org.kuali.student.contract.model;
  *
  * @author nwright
  */
-public class SearchResultColumn extends SearchRow
-{
+public class SearchResultColumn extends SearchRow {
 
- public SearchResultColumn ()
- {
- }
-
+    public SearchResultColumn() {
+    }
 }

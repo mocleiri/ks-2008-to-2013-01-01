@@ -12,19 +12,18 @@ import java.util.Map;
  *
  * @author nwright
  */
-public interface OrchestrationModel
-{
+public interface OrchestrationModel {
 
- /**
-  * get Orchestration Objects
-  * @return
-  */
- public Map<String, OrchestrationObject> getOrchestrationObjects ();
+    /**
+     * get Orchestration Objects
+     * @return
+     */
+    public Map<String, OrchestrationObject> getOrchestrationObjects();
 
- /**
-  * get look ups for bank of lookups
-  * @return
-  */
+    /**
+     * get look ups for bank of lookups
+     * @return
+     */
 // public List<LookupMetadata> getLookups ();
- public List<Object> getLookups ();
+    public List<Object> getLookups();
 }

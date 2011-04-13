@@ -22,17 +22,13 @@ import java.util.List;
  * google and excel versions as well as caching and expanding ones.
  * @author nwright
  */
-public interface SearchModel
-{
+public interface SearchModel {
 
- public List<String> getSourceNames ();
+    public List<String> getSourceNames();
 
- /**
-  * get search types
-  * @return
-  */
- public List<SearchType> getSearchTypes ();
-
- 
-
+    /**
+     * get search types
+     * @return
+     */
+    public List<SearchType> getSearchTypes();
 }

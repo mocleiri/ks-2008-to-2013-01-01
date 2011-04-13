@@ -27,49 +27,39 @@ import java.util.List;
  * Validates the entire spreadsheet model
  * @author nwright
  */
-public class OrchestrationModelValidator implements ModelValidator
-{
+public class OrchestrationModelValidator implements ModelValidator {
 
- private DictionaryModel model;
- private ModelFinder finder;
+    private DictionaryModel model;
+    private ModelFinder finder;
 
- public OrchestrationModelValidator (DictionaryModel model)
- {
-  this.model = model;
-  this.finder = new ModelFinder (model);
- }
+    public OrchestrationModelValidator(DictionaryModel model) {
+        this.model = model;
+        this.finder = new ModelFinder(model);
+    }
+    List<String> errors;
 
- List<String> errors;
+    @Override
+    public Collection<String> validate() {
+        errors = new ArrayList();
+        validateOrchObjs();
+        errors.addAll(new DictionaryModelValidator(model).validate());
+        return errors;
+    }
 
- @Override
- public Collection<String> validate ()
- {
-  errors = new ArrayList ();
-  validateOrchObjs ();
-  errors.addAll (new DictionaryModelValidator (model).validate ());
-  return errors;
- }
+    private void validateOrchObjs() {
+        if (model.getOrchObjs().size() == 0) {
+            addError("No orchestration objects found");
+        }
+        for (OrchObj orch : model.getOrchObjs()) {
+            OrchObjValidator cv = new OrchObjValidator(orch);
+            errors.addAll(cv.validate());
+        }
+    }
 
- private void validateOrchObjs ()
- {
-  if (model.getOrchObjs ().size () == 0)
-  {
-   addError ("No orchestration objects found");
-  }
-  for (OrchObj orch : model.getOrchObjs ())
-  {
-   OrchObjValidator cv = new OrchObjValidator (orch);
-   errors.addAll (cv.validate ());
-  }
- }
-
- private void addError (String msg)
- {
-  String error = "Error in orchestration dictionary spreadsheet: " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
-
+    private void addError(String msg) {
+        String error = "Error in orchestration dictionary spreadsheet: " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }

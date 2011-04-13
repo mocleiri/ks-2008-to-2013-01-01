@@ -19,11 +19,8 @@ package org.kuali.student.contract.model;
  *
  * @author nwright
  */
-public class SearchCriteriaParameter extends SearchRow
-{
+public class SearchCriteriaParameter extends SearchRow {
 
- public SearchCriteriaParameter ()
- {
- }
-
+    public SearchCriteriaParameter() {
+    }
 }

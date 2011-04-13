@@ -27,88 +27,69 @@ import java.util.Collection;
  * This validates a single field definition
  * @author nwright
  */
-public class FieldValidator implements ModelValidator
-{
+public class FieldValidator implements ModelValidator {
 
- private Field field;
- private DictionaryModel model;
+    private Field field;
+    private DictionaryModel model;
 
- public FieldValidator (Field field, DictionaryModel sheet)
- {
-  this.field = field;
-  this.model = sheet;
- }
-
- private Collection errors;
-
- @Override
- public Collection<String> validate ()
- {
-  ConstraintValidator cv =
-   new ConstraintValidator (field.getInlineConstraint ());
-  errors = cv.validate ();
-  if (field.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
-  {
-   validateComplexConstraint (field.getInlineConstraint ());
-   for (String id : field.getConstraintIds ())
-   {
-    Constraint cons = findConstraint (id);
-    if (cons != null)
-    {
-     validateComplexConstraint (cons);
+    public FieldValidator(Field field, DictionaryModel sheet) {
+        this.field = field;
+        this.model = sheet;
     }
-   }
-  }
-  return errors;
- }
+    private Collection errors;
 
- private Constraint findConstraint (String id)
- {
-  Constraint cons = new ModelFinder (model).findConstraint (id);
-  if (cons != null)
-  {
-   return cons;
-  }
-  addError ("Field constraint id, " + id +
-   " is not defined in the bank of constraints");
-  return null;
- }
+    @Override
+    public Collection<String> validate() {
+        ConstraintValidator cv =
+                new ConstraintValidator(field.getInlineConstraint());
+        errors = cv.validate();
+        if (field.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+            validateComplexConstraint(field.getInlineConstraint());
+            for (String id : field.getConstraintIds()) {
+                Constraint cons = findConstraint(id);
+                if (cons != null) {
+                    validateComplexConstraint(cons);
+                }
+            }
+        }
+        return errors;
+    }
 
- private void validateComplexConstraint (Constraint cons)
- {
-  if ( ! cons.getMinLength ().equals (""))
-  {
-   addError ("A minLength is not allowed on a complex field");
-  }
-  if ( ! cons.getMaxLength ().equals (""))
-  {
-   addError ("A maxLength is not allowed on a complex field");
-  }
-  if ( ! cons.getMinValue ().equals (""))
-  {
-   addError ("A minValue is not allowed on a complex field");
-  }
-  if ( ! cons.getMaxValue ().equals (""))
-  {
-   addError ("A maxValue is not allowed on a complex field");
-  }
-  if ( ! cons.getValidChars ().equals (""))
-  {
-   addError ("A validChars is not allowed on a complex field");
-  }
-  if ( ! cons.getLookup ().equals (""))
-  {
-   addError ("A lookup value is not allowed on a complex field");
-  }
- }
+    private Constraint findConstraint(String id) {
+        Constraint cons = new ModelFinder(model).findConstraint(id);
+        if (cons != null) {
+            return cons;
+        }
+        addError("Field constraint id, " + id
+                + " is not defined in the bank of constraints");
+        return null;
+    }
 
- private void addError (String msg)
- {
-  String error = "Error in field " + field.getId () + ": " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
+    private void validateComplexConstraint(Constraint cons) {
+        if (!cons.getMinLength().equals("")) {
+            addError("A minLength is not allowed on a complex field");
+        }
+        if (!cons.getMaxLength().equals("")) {
+            addError("A maxLength is not allowed on a complex field");
+        }
+        if (!cons.getMinValue().equals("")) {
+            addError("A minValue is not allowed on a complex field");
+        }
+        if (!cons.getMaxValue().equals("")) {
+            addError("A maxValue is not allowed on a complex field");
+        }
+        if (!cons.getValidChars().equals("")) {
+            addError("A validChars is not allowed on a complex field");
+        }
+        if (!cons.getLookup().equals("")) {
+            addError("A lookup value is not allowed on a complex field");
+        }
+    }
 
+    private void addError(String msg) {
+        String error = "Error in field " + field.getId() + ": " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }

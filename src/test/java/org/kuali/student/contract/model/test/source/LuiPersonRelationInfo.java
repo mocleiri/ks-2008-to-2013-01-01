@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.contract.model.test.source.LuiPersonRelation;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)

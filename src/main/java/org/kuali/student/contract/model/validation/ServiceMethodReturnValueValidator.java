@@ -25,50 +25,40 @@ import java.util.Collection;
  * This validates a single resultinoary entry
  * @author nwright
  */
-public class ServiceMethodReturnValueValidator implements ModelValidator
-{
+public class ServiceMethodReturnValueValidator implements ModelValidator {
 
- private ServiceMethodReturnValue returnValue;
- private ServiceMethod serviceMethod;
+    private ServiceMethodReturnValue returnValue;
+    private ServiceMethod serviceMethod;
 
- public ServiceMethodReturnValueValidator (ServiceMethodReturnValue returnValue,
-                                           ServiceMethod serviceMethod)
- {
-  this.returnValue = returnValue;
-  this.serviceMethod = serviceMethod;
- }
+    public ServiceMethodReturnValueValidator(ServiceMethodReturnValue returnValue,
+            ServiceMethod serviceMethod) {
+        this.returnValue = returnValue;
+        this.serviceMethod = serviceMethod;
+    }
+    private Collection errors;
 
- private Collection errors;
+    @Override
+    public Collection<String> validate() {
+        errors = new ArrayList();
+        basicValidation();
+        return errors;
+    }
 
- @Override
- public Collection<String> validate ()
- {
-  errors = new ArrayList ();
-  basicValidation ();
-  return errors;
- }
+    private void basicValidation() {
+        if (returnValue.getType().equals("")) {
+            addError("return type is required");
+        }
+        if (returnValue.getDescription().equals("")) {
+            addError("Description is required");
+        }
 
- private void basicValidation ()
- {
-  if (returnValue.getType ().equals (""))
-  {
-   addError ("return type is required");
-  }
-  if (returnValue.getDescription ().equals (""))
-  {
-   addError ("Description is required");
-  }
- 
- }
+    }
 
- private void addError (String msg)
- {
-  String error = "Error in return value for method: " + serviceMethod.getService ()
-   + "." + serviceMethod.getName () +  ": " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
-
+    private void addError(String msg) {
+        String error = "Error in return value for method: " + serviceMethod.getService()
+                + "." + serviceMethod.getName() + ": " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }

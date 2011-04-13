@@ -50,9 +50,9 @@ public class KSDictionaryDocMojoTest {
     public void tearDown() {
     }
     private static final String POC_DIRECTORY = "C:/svn/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/resources/";
-    private static final String HTML_DIRECTORY = "target/html";
+    private static final String HTML_DIRECTORY = "target/html/dictionary";
     private static final String PROJECT_URL = "https://test.kuali.org/svn/student/sandbox/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/resources";
-    private static final String RESOURCES_DIRECTORY = "src/test/resources/";
+    private static final String DICTIONARY_RESOURCES_DIRECTORY = "src/test/resources";
 
     /**
      * Test of execute method, of class KSDictionaryDocMojo.
@@ -63,9 +63,9 @@ public class KSDictionaryDocMojoTest {
         KSDictionaryDocMojo instance = new KSDictionaryDocMojo();
         instance.setHtmlDirectory(new File(HTML_DIRECTORY));
         List<String> inputFiles = new ArrayList();
-        inputFiles.add(RESOURCES_DIRECTORY + "ks-lui-person-relation-dictionary.xml");
+        inputFiles.add(DICTIONARY_RESOURCES_DIRECTORY + "/ks-lui-person-relation-dictionary.xml");
         instance.setInputFiles(inputFiles);
         instance.setProjectUrl(PROJECT_URL);
-//        instance.execute();
+        instance.execute();
     }
 }

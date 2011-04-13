@@ -30,84 +30,64 @@ import java.util.Collection;
  * This validates a single serviceMethodinoary entry
  * @author nwright
  */
-public class ServiceMethodValidator implements ModelValidator
-{
+public class ServiceMethodValidator implements ModelValidator {
 
- private ServiceMethod method;
- private ServiceContractModel model;
+    private ServiceMethod method;
+    private ServiceContractModel model;
 
- public ServiceMethodValidator (ServiceMethod method, ServiceContractModel model)
- {
-  this.method = method;
-  this.model = model;
- }
+    public ServiceMethodValidator(ServiceMethod method, ServiceContractModel model) {
+        this.method = method;
+        this.model = model;
+    }
+    private Collection errors;
 
- private Collection errors;
+    @Override
+    public Collection<String> validate() {
+        errors = new ArrayList();
+        basicValidation();
+        for (ServiceMethodParameter param : method.getParameters()) {
+            errors.addAll(new ServiceMethodParameterValidator(param, method).validate());
+        }
+        errors.addAll(new ServiceMethodReturnValueValidator(method.getReturnValue(), method).validate());
+        for (ServiceMethodError param : method.getErrors()) {
+            errors.addAll(new ServiceMethodErrorValidator(param, method).validate());
+        }
+        return errors;
+    }
 
- @Override
- public Collection<String> validate ()
- {
-  errors = new ArrayList ();
-  basicValidation ();
-  for (ServiceMethodParameter param : method.getParameters ())
-  {
-   errors.addAll (new ServiceMethodParameterValidator (param, method).validate ());
-  }
-  errors.addAll (new ServiceMethodReturnValueValidator (method.getReturnValue (), method).
-   validate ());
-  for (ServiceMethodError param : method.getErrors ())
-  {
-   errors.addAll (new ServiceMethodErrorValidator (param, method).validate ());
-  }
-  return errors;
- }
+    private void basicValidation() {
+        if (method.getService().equals("")) {
+            addError("Service is required");
+        } else {
+            if (findService(method.getService()) == null) {
+                addError("Service, [" + method.getService()
+                        + "] could not be found in the list of services");
+            }
+        }
+        if (method.getName().equals("")) {
+            addError("Name is required");
+        }
+        if (method.getDescription().equals("")) {
+            addError("Description is required");
+        }
+        if (method.getReturnValue() == null) {
+            addError("Return value is required");
+        }
+    }
 
- private void basicValidation ()
- {
-  if (method.getService ().equals (""))
-  {
-   addError ("Service is required");
-  }
-  else
-  {
-   if (findService (method.getService ()) == null)
-   {
-    addError ("Service, [" + method.getService () +
-     "] could not be found in the list of services");
-   }
-  }
-  if (method.getName ().equals (""))
-  {
-   addError ("Name is required");
-  }
-  if (method.getDescription ().equals (""))
-  {
-   addError ("Description is required");
-  }
-  if (method.getReturnValue () == null)
-  {
-   addError ("Return value is required");
-  }
- }
+    private Service findService(String service) {
+        // if we are only working with the searchModel then can't validate service
+        if (!(model instanceof ServiceContractModel)) {
+            return null;
+        }
+        return new ModelFinder(model).findService(service);
+    }
 
- private Service findService (String service)
- {
-  // if we are only working with the searchModel then can't validate service
-  if ( ! (model instanceof ServiceContractModel))
-  {
-   return null;
-  }
-  return new ModelFinder (model).findService (service);
- }
-
- private void addError (String msg)
- {
-  String error = "Error in service method: " + method.getService () + "." +
-   method.getName () + ": " + msg;
-  if ( ! errors.contains (error))
-  {
-   errors.add (error);
-  }
- }
-
+    private void addError(String msg) {
+        String error = "Error in service method: " + method.getService() + "."
+                + method.getName() + ": " + msg;
+        if (!errors.contains(error)) {
+            errors.add(error);
+        }
+    }
 }
