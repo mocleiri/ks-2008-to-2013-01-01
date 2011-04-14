@@ -21,14 +21,10 @@ import java.util.List;
 
 import javax.xml.ws.WebFault;
 
-import org.apache.log4j.Logger;
-import org.kuali.student.contract.model.test.source.DataValidationErrorException;
-import org.kuali.student.contract.model.test.source.ValidationResultInfo;
 
 @WebFault(faultBean="org.kuali.student.r2.common.exceptions.jaxws.DataValidationErrorExceptionBean")
 public class DataValidationErrorException extends Exception {
 
-	final Logger LOG = Logger.getLogger(DataValidationErrorException.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -89,14 +85,12 @@ public class DataValidationErrorException extends Exception {
 
 	@Override
 	public void printStackTrace(PrintStream s) {
-		super.printStackTrace(s);
-		logValidationResults();
+		super.printStackTrace(s);		
 	}
 
 	@Override
 	public void printStackTrace(PrintWriter s) {
 		super.printStackTrace(s);
-		logValidationResults();
 	}
 
 	@Override
@@ -113,10 +107,6 @@ public class DataValidationErrorException extends Exception {
 		}
 		return sb.toString();
 	}
-
-	private void logValidationResults(){
-		LOG.debug(toString());	}
-
 
 
 }
