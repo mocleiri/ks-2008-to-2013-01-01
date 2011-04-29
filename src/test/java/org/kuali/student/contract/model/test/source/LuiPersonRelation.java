@@ -20,6 +20,10 @@ package org.kuali.student.contract.model.test.source;
 /**
  * Detailed information about a single LUI to Person Relation.
  *
+ * This is used to link together an instance and a person in such widely defined
+ * domains a as a student registering in a course or an instructor being assigned
+ * to advise students in a particular program.
+ *
  * @Author KSContractMojo
  * @Author Kamal
  * @Since Tue Mar 01 15:53:57 PST 2011
