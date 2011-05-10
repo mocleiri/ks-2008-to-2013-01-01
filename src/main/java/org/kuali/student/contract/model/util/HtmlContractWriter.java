@@ -18,6 +18,7 @@ package org.kuali.student.contract.model.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Stack;
 
@@ -112,7 +113,7 @@ public class HtmlContractWriter {
     }
 
     private void writeMainOrRootList() {
-        Stack stack = new Stack();
+        Stack<String> stack = new Stack();
         List<XmlType> types = this.getMainMessageStructures();
         writer.indentPrintln(
                 "<div class=\"panel\" style=\"background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);\">");
@@ -143,10 +144,13 @@ public class HtmlContractWriter {
         return name;
     }
 
-    private void writeSubStructures(XmlType type, Stack stack) {
+    private void writeSubStructures(XmlType type, Stack<String> stack) {
         boolean first = true;
         for (MessageStructure ms : finder.findMessageStructures(type.getName())) {
             XmlType st = finder.findXmlType(this.stripListOffEnd(ms.getType()));
+            if (st == null) {
+                throw new NullPointerException(ms.getType() + " does not exist in list of types with parents " + calcParents(stack));
+            }
             if (!st.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
                 continue;
             }
@@ -164,6 +168,18 @@ public class HtmlContractWriter {
         if (!first) {
             writer.indentPrintln("</ul>");
         }
+    }
+
+    private String calcParents(Stack<String> stack) {
+        StringBuilder sb = new StringBuilder();
+        String dot = "";
+        Enumeration<String> en = stack.elements();
+        while (en.hasMoreElements()) {
+            sb.append(dot);
+            dot = ".";
+            sb.append(en.nextElement());
+        }
+        return sb.toString();
     }
 
     private void writeLink(XmlType type) {

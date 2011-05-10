@@ -79,6 +79,7 @@ public class HtmlContractWriterTest {
     private ServiceContractModel getModel() {
         List<String> srcDirs = new ArrayList<String>();
         srcDirs.add(TEST_SOURCE_DIRECTORY);
+//		srcDirs.add(ENROLL_DIRECTORY);
 //		srcDirs.add(CORE_DIRECTORY);
 //		srcDirs.add(COMMON_DIRECTORY);
 //		srcDirs.add(LUM_DIRECTORY);
