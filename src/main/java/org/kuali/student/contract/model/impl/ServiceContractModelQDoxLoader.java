@@ -773,15 +773,20 @@ public class ServiceContractModelQDoxLoader implements
 
     private JavaMethod findGetterMethod(JavaClass msClass, String shortName) {
         for (JavaMethod method : msClass.getMethods(true)) {
-            if (method.getName().equals("get" + shortName)) {
+            if (method.getName().equalsIgnoreCase("get" + shortName)) {
                 return method;
             }
-            // TODO: check for shortNames that already start with is so we don't check for isIsEnrollable
-            if (method.getName().equals("is" + shortName)) {
-                return method;
+            if (method.getName().toLowerCase ().startsWith("is")) {
+                if (method.getName().equalsIgnoreCase("is" + shortName)) {
+                    return method;
+                }
+                // shortName already has "is" in it
+                if (method.getName().equalsIgnoreCase(shortName)) {
+                    return method;
+                }
             }
             // TODO: followup on KimEntityResidencyInfo.getInState
-            if (method.getName().equals("getInState") && shortName.equals(
+            if (method.getName().equalsIgnoreCase("getInState") && shortName.equalsIgnoreCase(
                     "InStateFlag")) {
                 return method;
             }
