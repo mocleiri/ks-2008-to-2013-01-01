@@ -23,10 +23,13 @@ import java.util.List;
 public interface Criteria {
 
     /**
-     * Name: Comparisons
-     *
      * The list of comparisons to be applied
      * TODO: Decide if null or empty list is ok?  I.e. can you get ALL?
+     * @name List of Comparisons
+     * @impl These are implementation notes you should see
+     * that they go on for a while and a while and a while
+     * and never really stop
+     * @return list of comparisons
      */
     public List<? extends Comparison> getComparisons();
 

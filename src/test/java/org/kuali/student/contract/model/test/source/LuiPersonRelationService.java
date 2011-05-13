@@ -33,7 +33,7 @@ import javax.jws.soap.SOAPBinding;
  * <li>a faculty member's assignment as an advisor for a program
  *  </ul>
  * 
- * Version: 1.0 (Dev)
+ * @version 1.0 (Dev)
  *
  * @Author Kamal
  * @Since Tue Mar 01 15:53:51 PST 2011

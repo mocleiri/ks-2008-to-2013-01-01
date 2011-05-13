@@ -17,6 +17,7 @@ package org.kuali.student.contract.model.impl;
 
 import com.thoughtworks.qdox.JavaDocBuilder;
 import com.thoughtworks.qdox.model.Annotation;
+import com.thoughtworks.qdox.model.DefaultDocletTagFactory;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
@@ -136,7 +137,8 @@ public class ServiceContractModelQDoxLoader implements
         serviceMethods = new ArrayList();
         xmlTypeMap = new LinkedHashMap();
         messageStructures = new ArrayList();
-        JavaDocBuilder builder = new JavaDocBuilder();
+        DefaultDocletTagFactory dtf = new DefaultDocletTagFactory();
+        JavaDocBuilder builder = new JavaDocBuilder(dtf);
         for (String sourceDirectory : sourceDirectories) {
             builder.addSourceTree(new File(sourceDirectory));
         }
@@ -152,9 +154,9 @@ public class ServiceContractModelQDoxLoader implements
             service.setKey(javaClass.getName().substring(0, javaClass.getName().length()
                     - "Service".length()));
             service.setName(javaClass.getName());
-            service.setComments(this.calcComment(javaClass.getComment()));
+            service.setComments(this.calcComment(javaClass));
             service.setUrl(this.calcServiceUrl(javaClass));
-            service.setVersion(this.calcVersion(javaClass.getComment()));
+            service.setVersion(this.calcVersion(javaClass));
             service.setStatus("???");
             service.setIncludedServices(calcIncludedServices(javaClass));
 
@@ -496,7 +498,7 @@ public class ServiceContractModelQDoxLoader implements
             ms.setCardinality(this.calcCardinalityOfReturn(getterMethod));
             ms.setDescription(calcMissing(calcDescription(getterMethod, setterMethod,
                     beanField)));
-            ms.setFeedback("???");
+            ms.setFeedback(calcImplementationNotes(getterMethod, setterMethod, beanField));
             ms.setStatus("???");
             JavaClass subObjToAdd = this.calcRealJavaClassOfGetterReturn(getterMethod);
             if (!subObjToAdd.isEnum()) {
@@ -521,8 +523,20 @@ public class ServiceContractModelQDoxLoader implements
         return;
     }
 
+    private String calcComment(JavaClass javaClass) {
+        return this.calcComment(javaClass.getComment());
+    }
+
     private String calcComment(String comment) {
         return this.parseCommentVersion(comment)[0];
+    }
+
+    private String calcVersion(JavaClass javaClass) {
+        DocletTag tag = javaClass.getTagByName("version", true);
+        if (tag != null) {
+            return tag.getValue();
+        }
+        return this.calcVersion(javaClass.getComment());
     }
 
     private String calcVersion(String comment) {
@@ -546,7 +560,34 @@ public class ServiceContractModelQDoxLoader implements
         return parsed;
     }
 
+    private String calcImplementationNotes(JavaMethod getterMethod,
+            JavaMethod setterMethod, JavaField beanField) {
+        DocletTag tag = getterMethod.getTagByName("impl", true);
+        if (tag != null) {
+            return tag.getValue();
+        }
+        return null;
+    }
+
     private String calcName(JavaMethod getterMethod,
+            JavaMethod setterMethod, JavaField beanField) {
+        String name = this.calcNameFromTag(getterMethod, setterMethod, beanField);
+        if (name != null) {
+            return name;
+        }
+        return this.calcNameFromNameEmbeddedInDescription(getterMethod, setterMethod, beanField);
+    }
+
+    private String calcNameFromTag(JavaMethod getterMethod,
+            JavaMethod setterMethod, JavaField beanField) {
+        DocletTag tag = getterMethod.getTagByName("name", true);
+        if (tag != null) {
+            return tag.getValue();
+        }
+        return null;
+    }
+
+    private String calcNameFromNameEmbeddedInDescription(JavaMethod getterMethod,
             JavaMethod setterMethod, JavaField beanField) {
         String nameDesc = this.calcNameDescription(getterMethod, setterMethod,
                 beanField);
@@ -776,7 +817,7 @@ public class ServiceContractModelQDoxLoader implements
             if (method.getName().equalsIgnoreCase("get" + shortName)) {
                 return method;
             }
-            if (method.getName().toLowerCase ().startsWith("is")) {
+            if (method.getName().toLowerCase().startsWith("is")) {
                 if (method.getName().equalsIgnoreCase("is" + shortName)) {
                     return method;
                 }

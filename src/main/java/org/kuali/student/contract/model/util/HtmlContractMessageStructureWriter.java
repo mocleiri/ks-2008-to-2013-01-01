@@ -121,7 +121,7 @@ public class HtmlContractMessageStructureWriter {
         writer.indentPrintln("<th class=\"h\">Cardinality</th>");
         writer.indentPrintln("<th class=\"h\">XML Attribute?</th>");
 //  writer.indentPrintln ("<th class=\"h\">Data Team Status</th>");
-//  writer.indentPrintln ("<th class=\"h\">Comments/Feedback</th>");
+        writer.indentPrintln("<th class=\"h\">Implementation Notes</th>");
         writer.indentPrintln("</tr>");
 
         for (MessageStructure ms : finder.findMessageStructures(xmlType.getName())) {
@@ -129,6 +129,16 @@ public class HtmlContractMessageStructureWriter {
         }
         writer.indentPrintln("</table>");
         writer.writeHeaderBodyAndFooterOutToFile();
+    }
+
+    private String checkForNbsp(String str) {
+        if (str == null) {
+            return "&nbsp;";
+        }
+        if (str.trim().isEmpty()) {
+            return "&nbsp;";
+        }
+        return str;
     }
 
     private String addHTMLBreaks(String str) {
@@ -201,7 +211,7 @@ public class HtmlContractMessageStructureWriter {
         writer.writeTag("td", "class=\"structCard\"", ms.getCardinality());
         writer.writeTag("td", "class=\"structAttr\"", ms.getXmlAttribute());
 //  writer.writeTag ("td", "class=\"structStatus\"", ms.getStatus ());
-//  writer.writeTag ("td", "class=\"commentsDesc\"", ms.getFeedback ());
+        writer.writeTag("td", "class=\"commentsDesc\"", this.checkForNbsp(ms.getFeedback()));
         writer.indentPrintln("</tr>");
 
 //  writer.indentPrintln ("</table>");
