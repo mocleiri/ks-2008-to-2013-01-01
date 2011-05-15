@@ -481,7 +481,7 @@ public class ServiceContractModelQDoxLoader implements
             ms.setShortName(shortName);
             ms.setId(ms.getXmlObject() + "." + ms.getShortName());
             ms.setName(calcMissing(calcName(getterMethod, setterMethod,
-                    beanField)));
+                    beanField, shortName)));
             ms.setType(calcTypeOfGetterMethodReturn(getterMethod));
             if (ms.getType().equals("Object")) {
                 System.out.println("WARNING " + ms.getId()
@@ -569,13 +569,37 @@ public class ServiceContractModelQDoxLoader implements
         return null;
     }
 
+    private String calcNameFromShortName(String shortName) {
+        StringBuilder bldr = new StringBuilder(shortName.length() + 3);
+        char c = shortName.charAt(0);
+        bldr.append(Character.toUpperCase(c));
+        boolean lastWasUpper = true;
+        for (int i = 1; i < shortName.length(); i++) {
+            c = shortName.charAt(i);
+            if (Character.isUpperCase(c)) {
+                if (!lastWasUpper) {
+                    bldr.append(" ");
+                }
+            } else {
+                lastWasUpper = false;
+            }
+            bldr.append(c);
+        }
+        return bldr.toString();
+    }
+
     private String calcName(JavaMethod getterMethod,
-            JavaMethod setterMethod, JavaField beanField) {
+            JavaMethod setterMethod, JavaField beanField, String shortName) {
         String name = this.calcNameFromTag(getterMethod, setterMethod, beanField);
         if (name != null) {
             return name;
         }
-        return this.calcNameFromNameEmbeddedInDescription(getterMethod, setterMethod, beanField);
+        name = this.calcNameFromNameEmbeddedInDescription(getterMethod, setterMethod, beanField);
+        if (name != null)
+        {
+            return name;
+        }
+        return this.calcNameFromShortName(shortName);
     }
 
     private String calcNameFromTag(JavaMethod getterMethod,
