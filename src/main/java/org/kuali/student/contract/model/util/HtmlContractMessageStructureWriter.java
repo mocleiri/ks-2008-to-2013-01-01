@@ -151,12 +151,12 @@ public class HtmlContractMessageStructureWriter {
     private Set<ServiceMethod> calcUsageByMethods(XmlType xmlType) {
         Set<ServiceMethod> methods = new LinkedHashSet();
         for (ServiceMethod method : model.getServiceMethods()) {
-            if (method.getReturnValue().getType().equalsIgnoreCase(xmlType.getName())) {
+            if (stripListFromType (method.getReturnValue().getType()).equalsIgnoreCase(xmlType.getName())) {
                 methods.add(method);
                 continue;
             }
             for (ServiceMethodParameter param : method.getParameters()) {
-                if (param.getType().equalsIgnoreCase(xmlType.getName())) {
+                if (stripListFromType (param.getType()).equalsIgnoreCase(xmlType.getName())) {
                     methods.add(method);
                     break;
                 }
@@ -176,7 +176,7 @@ public class HtmlContractMessageStructureWriter {
             if (ms.getType() == null) {
                 throw new NullPointerException(ms.getId() + " has no type set");
             }
-            if (ms.getType().equalsIgnoreCase(xmlType.getName())) {
+            if (stripListFromType (ms.getType()).equalsIgnoreCase(xmlType.getName())) {
                 xmlTypeNames.add(ms.getXmlObject());
             }
         }
@@ -230,7 +230,7 @@ public class HtmlContractMessageStructureWriter {
         return str;
     }
 
-    private String stripListFromType(String type) {
+    private static String stripListFromType(String type) {
         if (type.endsWith("List")) {
             return type.substring(0, type.length() - "List".length());
         }
