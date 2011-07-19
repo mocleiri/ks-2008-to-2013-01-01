@@ -9,7 +9,6 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.contract.model.test.source;
 
 import java.io.Serializable;
@@ -26,19 +25,15 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
 
     @XmlElement
     private String name;
-
     @XmlElement
     private RichTextInfo descr;
-
-    @XmlAttribute
+    @XmlElement(required = true)
     private String typeKey;
-
-    @XmlAttribute
+    @XmlAttribute(required = true)
     private String stateKey;
 
-
     protected EntityInfo() {
-        super ();
+        super();
         name = null;
         descr = null;
         typeKey = null;
@@ -76,7 +71,6 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
     /**
      * The builder class for this abstract EntityInfo.
      */
-
     public static class Builder extends HasAttributesAndMetaInfo.Builder implements Entity {
 
         private String name;
@@ -84,7 +78,8 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements Ent
         private String typeKey;
         private String stateKey;
 
-        public Builder() {}
+        public Builder() {
+        }
 
         public Builder(Entity entity) {
             super(entity);

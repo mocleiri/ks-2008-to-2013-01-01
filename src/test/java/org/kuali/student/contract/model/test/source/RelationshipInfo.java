@@ -32,9 +32,9 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
 
     @XmlAttribute
     private String id;
-    @XmlAttribute
+    @XmlAttribute (required = true)
     private String typeKey;
-    @XmlAttribute
+    @XmlAttribute (required = true)
     private String stateKey;
     @XmlElement
     private final Date effectiveDate;

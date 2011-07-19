@@ -494,11 +494,12 @@ public class ServiceContractModelQDoxLoader implements
                 ms.setType("StringList");
             }
             ms.setXmlAttribute(this.calcXmlAttribute(beanField));
-            ms.setOptional("???");
+            ms.setRequired(calcRequired(getterMethod, setterMethod, beanField));
+            ms.setReadOnly(calcReadOnly(getterMethod, setterMethod, beanField));
             ms.setCardinality(this.calcCardinalityOfReturn(getterMethod));
             ms.setDescription(calcMissing(calcDescription(getterMethod, setterMethod,
                     beanField)));
-            ms.setFeedback(calcImplementationNotes(getterMethod, setterMethod, beanField));
+            ms.setImplNotes(calcImplementationNotes(getterMethod, setterMethod, beanField));
             ms.setStatus("???");
             JavaClass subObjToAdd = this.calcRealJavaClassOfGetterReturn(getterMethod);
             if (!subObjToAdd.isEnum()) {
@@ -560,6 +561,70 @@ public class ServiceContractModelQDoxLoader implements
         return parsed;
     }
 
+    private Annotation getAnnotation(JavaMethod getterMethod,
+            JavaMethod setterMethod, JavaField beanField, String type) {
+        if (beanField != null) {
+
+            for (Annotation annotation : beanField.getAnnotations()) {
+                if (annotation.getType().getJavaClass().getName().equals(type)) {
+                    return annotation;
+                }
+            }
+        }
+        if (getterMethod != null) {
+
+            for (Annotation annotation : getterMethod.getAnnotations()) {
+                if (annotation.getType().getJavaClass().getName().equals(type)) {
+                    return annotation;
+                }
+            }
+        }
+        if (setterMethod != null) {
+
+            for (Annotation annotation : setterMethod.getAnnotations()) {
+                if (annotation.getType().getJavaClass().getName().equals(type)) {
+                    return annotation;
+                }
+            }
+        }
+        return null;
+    }
+
+    private String calcRequired(JavaMethod getterMethod,
+            JavaMethod setterMethod, JavaField beanField) {
+        Annotation annotation = this.getAnnotation(getterMethod, setterMethod, beanField, "XmlElement");
+        if (annotation == null) {
+            annotation = this.getAnnotation(getterMethod, setterMethod, beanField, "XmlAttribute");
+        }
+        if (annotation != null) {
+//            if (beanField.getName().equals("typeKey")) {
+//                System.out.println("typekey.annotation=" + annotation);
+//            }
+//            if (beanField.getName().equals("stateKey")) {
+//                System.out.println("statekey.annotation=" + annotation);
+//            }
+            Object required = annotation.getNamedParameter("required");
+            if (required != null) {
+                if (required.toString().equalsIgnoreCase("true")) {
+                    return "Required";
+                }
+            }
+        }
+        return null;
+    }
+
+    private String calcReadOnly(JavaMethod getterMethod,
+            JavaMethod setterMethod, JavaField beanField) {
+        DocletTag tag = getterMethod.getTagByName("readOnly", true);
+        if (tag != null) {
+            if (tag.getValue() == null) {
+                return "Read only";
+            }
+            return "Read only " + tag.getValue();
+        }
+        return null;
+    }
+
     private String calcImplementationNotes(JavaMethod getterMethod,
             JavaMethod setterMethod, JavaField beanField) {
         DocletTag tag = getterMethod.getTagByName("impl", true);
@@ -595,8 +660,7 @@ public class ServiceContractModelQDoxLoader implements
             return name;
         }
         name = this.calcNameFromNameEmbeddedInDescription(getterMethod, setterMethod, beanField);
-        if (name != null)
-        {
+        if (name != null) {
             return name;
         }
         return this.calcNameFromShortName(shortName);

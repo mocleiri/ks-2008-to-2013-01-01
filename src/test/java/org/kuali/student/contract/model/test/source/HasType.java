@@ -24,11 +24,12 @@ package org.kuali.student.contract.model.test.source;
 public interface HasType  {
 
     /**
-     * Name: Type Key
-     * Unique identifier for the type of this object.
+     * Unique key for the type of this object.
+     * 
+     * This key must exist in the list returned by the getTypes () method for this service.
      *
-     * @return the type
+     * @name Type Key
+     * @readOnly
      */
-
     public String getTypeKey();
 }

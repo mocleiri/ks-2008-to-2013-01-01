@@ -22,6 +22,18 @@ package org.kuali.student.contract.model;
 public class MessageStructure {
 
     private String id;
+    private String xmlObject;
+    private String shortName;
+    private String name;
+    private String type;
+    private String url;
+    private String description;
+    private String required;
+    private String readOnly;
+    private String cardinality;
+    private String status;
+    private String xmlAttribute;
+    private String implNotes;
 
     public String getId() {
         return id;
@@ -30,7 +42,6 @@ public class MessageStructure {
     public void setId(String id) {
         this.id = id;
     }
-    private String xmlObject;
 
     public String getXmlObject() {
         return xmlObject;
@@ -39,7 +50,6 @@ public class MessageStructure {
     public void setXmlObject(String xmlObject) {
         this.xmlObject = xmlObject;
     }
-    private String shortName;
 
     public String getShortName() {
         return shortName;
@@ -48,7 +58,6 @@ public class MessageStructure {
     public void setShortName(String shortName) {
         this.shortName = shortName;
     }
-    private String name;
 
     public String getName() {
         return name;
@@ -57,7 +66,6 @@ public class MessageStructure {
     public void setName(String name) {
         this.name = name;
     }
-    private String type;
 
     public String getType() {
         return type;
@@ -66,7 +74,6 @@ public class MessageStructure {
     public void setType(String type) {
         this.type = type;
     }
-    private String url;
 
     public String getUrl() {
         return url;
@@ -75,7 +82,6 @@ public class MessageStructure {
     public void setUrl(String url) {
         this.url = url;
     }
-    private String description;
 
     public String getDescription() {
         return description;
@@ -84,7 +90,6 @@ public class MessageStructure {
     public void setDescription(String description) {
         this.description = description;
     }
-    private String required;
 
     public String getRequired() {
         return required;
@@ -93,16 +98,14 @@ public class MessageStructure {
     public void setRequired(String required) {
         this.required = required;
     }
-    private String optional;
 
-    public String getOptional() {
-        return optional;
+    public String getReadOnly() {
+        return readOnly;
     }
 
-    public void setOptional(String optional) {
-        this.optional = optional;
+    public void setReadOnly(String readOnly) {
+        this.readOnly = readOnly;
     }
-    private String cardinality;
 
     public String getCardinality() {
         return cardinality;
@@ -111,7 +114,6 @@ public class MessageStructure {
     public void setCardinality(String cardinality) {
         this.cardinality = cardinality;
     }
-    private String xmlAttribute;
 
     public String getXmlAttribute() {
         return xmlAttribute;
@@ -120,7 +122,6 @@ public class MessageStructure {
     public void setXmlAttribute(String xmlAttribute) {
         this.xmlAttribute = xmlAttribute;
     }
-    private String status;
 
     public String getStatus() {
         return status;
@@ -129,13 +130,12 @@ public class MessageStructure {
     public void setStatus(String status) {
         this.status = status;
     }
-    private String feedback;
 
-    public String getFeedback() {
-        return feedback;
+    public String getImplNotes() {
+        return implNotes;
     }
 
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
+    public void setImplNotes(String implNotes) {
+        this.implNotes = implNotes;
     }
 }

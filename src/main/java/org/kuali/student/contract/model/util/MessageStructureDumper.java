@@ -88,7 +88,7 @@ public class MessageStructureDumper {
         out.print("\t");
         out.print(messageStructure.getStatus());
         out.print("\t");
-        out.print(messageStructure.getFeedback());
+        out.print(messageStructure.getImplNotes());
         out.println("");
     }
 }

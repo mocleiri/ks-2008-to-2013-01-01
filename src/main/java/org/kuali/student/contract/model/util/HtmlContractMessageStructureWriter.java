@@ -117,10 +117,11 @@ public class HtmlContractMessageStructureWriter {
         writer.indentPrintln("<th class=\"h\">Name</th>");
         writer.indentPrintln("<th class=\"h\">Type</th>");
         writer.indentPrintln("<th class=\"h\">Description</th>");
-//  writer.indentPrintln ("<th class=\"h\">Required</th>");
+        writer.indentPrintln ("<th class=\"h\">Required?</th>");
+        writer.indentPrintln ("<th class=\"h\">Read only?</th>");        
         writer.indentPrintln("<th class=\"h\">Cardinality</th>");
         writer.indentPrintln("<th class=\"h\">XML Attribute?</th>");
-//  writer.indentPrintln ("<th class=\"h\">Data Team Status</th>");
+//        writer.indentPrintln ("<th class=\"h\">Status</th>"); 
         writer.indentPrintln("<th class=\"h\">Implementation Notes</th>");
         writer.indentPrintln("</tr>");
 
@@ -207,11 +208,13 @@ public class HtmlContractMessageStructureWriter {
         }
         writer.writeTag("td", "class=\"structDesc\"", addHTMLBreaks(missingData(
                 ms.getDescription())));
-//  writer.writeTag ("td", "class=\"structOpt\"", ms.getOptional ());
+        writer.writeTag ("td", "class=\"structOpt\"", checkForNbsp (ms.getRequired ()));
+        writer.writeTag ("td", "class=\"structOpt\"", checkForNbsp (ms.getReadOnly()));
+  
         writer.writeTag("td", "class=\"structCard\"", ms.getCardinality());
         writer.writeTag("td", "class=\"structAttr\"", ms.getXmlAttribute());
-//  writer.writeTag ("td", "class=\"structStatus\"", ms.getStatus ());
-        writer.writeTag("td", "class=\"commentsDesc\"", this.checkForNbsp(ms.getFeedback()));
+//      writer.writeTag ("td", "class=\"structStatus\"", ms.getStatus ());
+        writer.writeTag("td", "class=\"commentsDesc\"", this.checkForNbsp(ms.getImplNotes()));
         writer.indentPrintln("</tr>");
 
 //  writer.indentPrintln ("</table>");
@@ -229,6 +232,7 @@ public class HtmlContractMessageStructureWriter {
         }
         return str;
     }
+
 
     private static String stripListFromType(String type) {
         if (type.endsWith("List")) {

@@ -112,7 +112,7 @@ public class MessageStructureHierarchyDumper {
         out.print("\t");
         out.print(ms.getStatus());
         out.print("\t");
-        out.print(ms.getFeedback());
+        out.print(ms.getImplNotes());
         out.println("");
         XmlType st = finder.findXmlType(stripList(ms.getType()));
         if (st.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
