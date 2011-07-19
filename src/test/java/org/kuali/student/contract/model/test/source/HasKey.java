@@ -35,6 +35,7 @@ public interface HasKey extends HasPrimaryKey {
      * </ul>
      * @name Unique Key
      * @readOnly after create
+     * @required
      */
     public String getKey();
 }

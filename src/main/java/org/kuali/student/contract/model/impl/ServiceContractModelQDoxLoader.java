@@ -597,18 +597,19 @@ public class ServiceContractModelQDoxLoader implements
             annotation = this.getAnnotation(getterMethod, setterMethod, beanField, "XmlAttribute");
         }
         if (annotation != null) {
-//            if (beanField.getName().equals("typeKey")) {
-//                System.out.println("typekey.annotation=" + annotation);
-//            }
-//            if (beanField.getName().equals("stateKey")) {
-//                System.out.println("statekey.annotation=" + annotation);
-//            }
             Object required = annotation.getNamedParameter("required");
             if (required != null) {
                 if (required.toString().equalsIgnoreCase("true")) {
                     return "Required";
                 }
             }
+        }
+        DocletTag tag = getterMethod.getTagByName("required", true);
+        if (tag != null) {
+            if (tag.getValue() == null) {
+                return "Required";
+            }
+            return "Required " + tag.getValue();
         }
         return null;
     }

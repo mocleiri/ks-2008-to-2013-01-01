@@ -36,6 +36,7 @@ public interface HasId extends HasPrimaryKey {
      * </ul>
      * @name Unique Id
      * @readOnly
+     * @required on update
      */
     public String getId();
 }
