@@ -34,6 +34,7 @@ public class MessageStructure {
     private String status;
     private String xmlAttribute;
     private String implNotes;
+    private boolean overriden;
 
     public String getId() {
         return id;
@@ -137,5 +138,13 @@ public class MessageStructure {
 
     public void setImplNotes(String implNotes) {
         this.implNotes = implNotes;
+    }
+
+    public boolean isOverriden() {
+        return overriden;
+    }
+
+    public void setOverriden(boolean overriden) {
+        this.overriden = overriden;
     }
 }

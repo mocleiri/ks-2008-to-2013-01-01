@@ -306,6 +306,7 @@ public class ServiceContractModelQDoxLoader implements
             xmlType.setService(serviceKey);
             xmlType.setVersion("IGNORE -- SAME AS SERVICE");
             xmlType.setPrimitive(calcPrimitive(messageStructureJavaClass));
+            xmlType.setJavaPackage(messageStructureJavaClass.getPackageName());
             if (xmlType.getPrimitive().equals(XmlType.COMPLEX)) {
                 addMessageStructure(messageStructureJavaClass, serviceKey);
             }
@@ -501,6 +502,10 @@ public class ServiceContractModelQDoxLoader implements
                     beanField)));
             ms.setImplNotes(calcImplementationNotes(getterMethod, setterMethod, beanField));
             ms.setStatus("???");
+            if (ms.getId().equals("AcademicCalendarInfo.typeKey")) {
+                System.out.println("debug from here");
+            }
+            ms.setOverriden(this.calcOverridden(messageStructureJavaClass, getterMethod));
             JavaClass subObjToAdd = this.calcRealJavaClassOfGetterReturn(getterMethod);
             if (!subObjToAdd.isEnum()) {
                 if (!subObjToAdd.getName().equals("Object")) {
@@ -522,6 +527,24 @@ public class ServiceContractModelQDoxLoader implements
             }
         }
         return;
+    }
+
+    private boolean calcOverridden(JavaClass mainClass, JavaMethod getterMethod) {
+        JavaMethod infcGetter = null;
+        if (getterMethod.getParentClass().isInterface()) {
+            infcGetter = getterMethod;
+        }
+        if (infcGetter == null) {
+            infcGetter = findInterfaceMethod(mainClass, getterMethod);
+        }
+        if (infcGetter == null) {
+            return false;
+        }
+        Annotation annotation = this.getAnnotation(infcGetter, null, null, "Override");
+        if (annotation != null) {
+            return true;
+        }
+        return false;
     }
 
     private String calcComment(JavaClass javaClass) {
@@ -752,25 +775,13 @@ public class ServiceContractModelQDoxLoader implements
         if (isDescriptionOk(desc)) {
             return desc;
         }
-        desc = calcDescriptionRecursively(findInterfaceMethod(method));
+        desc = calcDescriptionRecursively(findInterfaceMethod(method.getParentClass(), method));
         if (isDescriptionOk(desc)) {
             return desc;
         }
         desc = calcDescriptionRecursively(findSuperMethod(method));
         if (isDescriptionOk(desc)) {
             return desc;
-        }
-        return null;
-    }
-
-    private JavaMethod findInterfaceMethod(JavaMethod method) {
-        for (JavaClass interfaceClass :
-                method.getParentClass().getImplementedInterfaces()) {
-            for (JavaMethod superMethod : interfaceClass.getMethods(true)) {
-                if (method.getCallSignature().equals(superMethod.getCallSignature())) {
-                    return superMethod;
-                }
-            }
         }
         return null;
     }
@@ -787,9 +798,25 @@ public class ServiceContractModelQDoxLoader implements
                 return superMethod;
             }
         }
-
-
         return null;
+    }
+
+    private JavaMethod findInterfaceMethod(JavaClass parentClass, JavaMethod method) {
+        String callSig = method.getCallSignature();
+        while (true) {
+            for (JavaClass infcClass : parentClass.getImplementedInterfaces()) {
+                for (JavaMethod superMethod : infcClass.getMethods()) {
+                    if (callSig.equals(superMethod.getCallSignature())) {
+                        return superMethod;
+                    }
+                }
+            }
+            JavaClass grandParent = parentClass.getSuperJavaClass();
+            if (grandParent == null) {
+                return null;
+            }
+            parentClass = grandParent;
+        }
     }
 
     private boolean isDescriptionOk(String desc) {
