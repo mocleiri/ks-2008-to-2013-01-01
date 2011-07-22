@@ -245,8 +245,8 @@ public class ServiceContractModelQDoxLoader implements
     private List<String> calcIncludedServices(JavaClass javaClass) {
         List<String> includedServices = new ArrayList<String>();
         for (JavaClass interfaceClass : javaClass.getImplementedInterfaces()) {
-            System.out.println("ServiceContractModelQDoxLoader:" + javaClass.getName()
-                    + " implements " + interfaceClass.getName());
+//            System.out.println("ServiceContractModelQDoxLoader:" + javaClass.getName()
+//                    + " implements " + interfaceClass.getName());
             includedServices.add(interfaceClass.getName());
         }
         return includedServices;
@@ -346,7 +346,7 @@ public class ServiceContractModelQDoxLoader implements
         }
         for (JavaClass infc : javaClass.getImplementedInterfaces()) {
             if (infc.getName().equals(nameInfc)) {
-                System.out.println("found matching interface " + infc.getName());
+//                System.out.println("found matching interface " + infc.getName());
                 return infc;
             }
             if (infc.getName().equals(nameWithOutInfo)) {
@@ -502,9 +502,9 @@ public class ServiceContractModelQDoxLoader implements
                     beanField)));
             ms.setImplNotes(calcImplementationNotes(getterMethod, setterMethod, beanField));
             ms.setStatus("???");
-            if (ms.getId().equals("AcademicCalendarInfo.typeKey")) {
-                System.out.println("debug from here");
-            }
+//            if (ms.getId().equals("AcademicCalendarInfo.typeKey")) {
+//                System.out.println("debug from here");
+//            }
             ms.setOverriden(this.calcOverridden(messageStructureJavaClass, getterMethod));
             JavaClass subObjToAdd = this.calcRealJavaClassOfGetterReturn(getterMethod);
             if (!subObjToAdd.isEnum()) {
@@ -787,9 +787,9 @@ public class ServiceContractModelQDoxLoader implements
     }
 
     private JavaMethod findSuperMethod(JavaMethod method) {
-        System.out.println("Searching for super method for "
-                + method.getParentClass().getName() + "."
-                + method.getCallSignature());
+//        System.out.println("Searching for super method for "
+//                + method.getParentClass().getName() + "."
+//                + method.getCallSignature());
         for (JavaMethod superMethod : method.getParentClass().getMethods(true)) {
             if (method.equals(superMethod)) {
                 continue;

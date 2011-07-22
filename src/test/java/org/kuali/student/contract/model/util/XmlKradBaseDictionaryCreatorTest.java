@@ -79,7 +79,7 @@ public class XmlKradBaseDictionaryCreatorTest {
     private ServiceContractModel getModel() {
         List<String> srcDirs = new ArrayList<String>();
 //        srcDirs.add(TEST_SOURCE_DIRECTORY);
-		srcDirs.add(ENROLL_DIRECTORY);
+        srcDirs.add(ENROLL_DIRECTORY);
 //		srcDirs.add(CORE_DIRECTORY);
 //		srcDirs.add(COMMON_DIRECTORY);
 //		srcDirs.add(LUM_DIRECTORY);
@@ -117,10 +117,17 @@ public class XmlKradBaseDictionaryCreatorTest {
 
         model = this.getModel();
         this.validate(model);
-//        writer = new XmlKradBaseDictionaryCreator (XML_DICTIONARY_DIRECTORY, model, "atpInfo");
-//        writer.write();
-        writer = new XmlKradBaseDictionaryCreator (XML_DICTIONARY_DIRECTORY, model, "AcademicCalendarInfo");
+        String xmlObject = null;
+
+        xmlObject = "atpInfo";
+        writer = new XmlKradBaseDictionaryCreator(XML_DICTIONARY_DIRECTORY, model, xmlObject);
         writer.write();
-        assertTrue(new File(XML_DICTIONARY_DIRECTORY + "/" + "ks-AtpInfo-dictionary.xml").exists());
+        assertTrue(new File(XML_DICTIONARY_DIRECTORY + "/" + "ks-" + xmlObject + "-dictionary.xml").exists());
+
+        xmlObject = "atpInfo";
+        writer = new XmlKradBaseDictionaryCreator(XML_DICTIONARY_DIRECTORY, model, xmlObject);
+        writer.write();
+        assertTrue(new File(XML_DICTIONARY_DIRECTORY + "/" + "ks-" + xmlObject + "-dictionary.xml").exists());
+
     }
 }
