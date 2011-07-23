@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Stack;
@@ -40,7 +41,8 @@ public class XmlKradBaseDictionaryCreator {
     private String directory;
     private String className;
     private XmlType xmlType;
-    private XmlWriter writer;
+    private XmlWriter gwriter;
+    private XmlWriter bwriter;
     private List<MessageStructure> messageStructures;
 
     public XmlKradBaseDictionaryCreator(String directory,
@@ -60,15 +62,23 @@ public class XmlKradBaseDictionaryCreator {
     }
 
     public void write() {
-        this.initXmlWriter();
-        this.writeSpringHeaderOpen();
-        this.writeCommonSubStructuresImports();
-        this.writeObjectStructure();
-        this.writeSpringHeaderClose();
+        this.initXmlWriters();
+        this.writeSpringHeaderOpen(gwriter);
+        this.writeWarning(gwriter);
+        this.writeGeneratedImports(gwriter);
+        this.writeGeneratedObjectStructure(gwriter);
+        this.writeSpringHeaderClose(gwriter);
+
+        this.writeSpringHeaderOpen(bwriter);
+        this.writeNote (bwriter);
+        this.writeBaseImports(bwriter);
+        this.writeBaseObjectStructure(bwriter);
+        this.writeSpringHeaderClose(bwriter);
     }
 
-    private void initXmlWriter() {
-        String fileName = "/ks-" + initUpper(className) + "-dictionary.xml";
+    private void initXmlWriters() {
+        String generatedFileName = "/ks-" + initUpper(className) + "-dictionary-generated.xml";
+        String baseFileName = "/ks-" + initUpper(className) + "-dictionary.xml";
 
         File dir = new File(this.directory);
         //System.out.indentPrintln ("Writing java class: " + fileName + " to " + dir.getAbsolutePath ());
@@ -79,9 +89,16 @@ public class XmlKradBaseDictionaryCreator {
                         + this.directory);
             }
         }
+
         try {
-            PrintStream out = new PrintStream(new FileOutputStream(this.directory + "/" + fileName, false));
-            this.writer = new XmlWriter(out, 0);
+            PrintStream out = new PrintStream(new FileOutputStream(this.directory + "/" + generatedFileName, false));
+            this.gwriter = new XmlWriter(out, 0);
+        } catch (FileNotFoundException ex) {
+            throw new IllegalStateException(ex);
+        }
+        try {
+            PrintStream out = new PrintStream(new FileOutputStream(this.directory + "/" + baseFileName, false));
+            this.bwriter = new XmlWriter(out, 0);
         } catch (FileNotFoundException ex) {
             throw new IllegalStateException(ex);
         }
@@ -113,40 +130,79 @@ public class XmlKradBaseDictionaryCreator {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
-    private void writeSpringHeaderClose() {
-        writer.decrementIndent();
-        writer.indentPrintln("</beans>");
+    private void writeSpringHeaderClose(XmlWriter out) {
+        out.decrementIndent();
+        out.indentPrintln("</beans>");
     }
 
-    private void writeSpringHeaderOpen() {
-        writer.indentPrintln("<!--");
-        writer.indentPrintln(" Copyright 2011 The Kuali Foundation");
-        writer.println("");
-        writer.indentPrintln(" Licensed under the Educational Community License, Version 2.0 (the \"License\");");
-        writer.indentPrintln(" you may not use this file except in compliance with the License.");
-        writer.indentPrintln(" You may obtain a copy of the License at");
-        writer.indentPrintln("");
-        writer.indentPrintln(" http://www.opensource.org/licenses/ecl2.php");
-        writer.println("");
-        writer.indentPrintln(" Unless required by applicable law or agreed to in writing, software");
-        writer.indentPrintln(" distributed under the License is distributed on an \"AS IS\" BASIS,");
-        writer.indentPrintln(" WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.");
-        writer.indentPrintln(" See the License for the specific language governing permissions and");
-        writer.indentPrintln(" limitations under the License.");
-        writer.indentPrintln("-->");
-        writer.indentPrintln("<beans xmlns=\"http://www.springframework.org/schema/beans\"");
-        writer.indentPrintln("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
-        writer.indentPrintln("xsi:schemaLocation=\""
+    private void writeSpringHeaderOpen(XmlWriter out) {
+        out.indentPrintln("<!--");
+        out.indentPrintln(" Copyright 2011 The Kuali Foundation");
+        out.println("");
+        out.indentPrintln(" Licensed under the Educational Community License, Version 2.0 (the \"License\");");
+        out.indentPrintln(" you may not use this file except in compliance with the License.");
+        out.indentPrintln(" You may obtain a copy of the License at");
+        out.indentPrintln("");
+        out.indentPrintln(" http://www.opensource.org/licenses/ecl2.php");
+        out.println("");
+        out.indentPrintln(" Unless required by applicable law or agreed to in writing, software");
+        out.indentPrintln(" distributed under the License is distributed on an \"AS IS\" BASIS,");
+        out.indentPrintln(" WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.");
+        out.indentPrintln(" See the License for the specific language governing permissions and");
+        out.indentPrintln(" limitations under the License.");
+        out.indentPrintln("-->");
+        out.indentPrintln("<beans xmlns=\"http://www.springframework.org/schema/beans\"");
+        out.indentPrintln("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+        out.indentPrintln("xsi:schemaLocation=\""
                 + "http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" + "\">");
-        writer.println("");
-        writer.incrementIndent();
-        writer.indentPrintln("<import resource=\"classpath:ks-base-dictionary.xml\"/>");
+        out.println("");
+        out.incrementIndent();
     }
 
-    private void writeCommonSubStructuresImports() {
+    private void writeWarning(XmlWriter out) {
+        out.println("");
+        out.indentPrintln("<!-- ********************************************************");
+        out.indentPrintln("                           WARNING ");
+        out.indentPrintln("                 DO NOT UPDATE THIS FILE MANUALLY");
+        out.indentPrintln("    This dictionary file was automatically generated on " + new Date());
+        out.indentPrintln("    The DictionaryGeneratorMojo reads the service contract ");
+        out.indentPrintln("    and creates these ks-XXXX-dictionary-generated.xml files.");
+        out.indentPrintln("    ");
+        out.indentPrintln("    If this file is out of sync with the contract re-run the mojo.");
+        out.indentPrintln("    ");
+        out.indentPrintln("    To add in additional constraints or change these default values (perhaps");
+        out.indentPrintln("    because the generator is not perfect) please update the corresponding ");
+        out.indentPrintln("    ks-XXXX-dictionary.xml instead of this one.");
+        out.indentPrintln("************************************************************* -->");
+    }
+
+    private void writeNote(XmlWriter out) {
+        out.println("");
+        out.indentPrintln("<!-- ********************************************************");
+        out.indentPrintln("                           NOTE");
+        out.indentPrintln("              THIS FILE WAS INTENDED TO BE MODIFIED");
+        out.println ("");        
+        out.indentPrintln("    While this file was originally generated on " + new Date());
+        out.indentPrintln("    it was intended to be subsequently modified by hand.");
+        out.indentPrintln("    It imports a corresponding ks-XXXX-dictionary-generated.xml file");
+        out.indentPrintln("    that was also automatically generated by the DictionaryCreatorMojo.");
+        out.indentPrintln("    This file gives you the ability to layer in addiditional definitions");
+        out.indentPrintln("    that are not/cannot be generated simply by reading the service contract");
+        out.println ("");
+        out.indentPrintln("    The goal is to be able to easily re-generate the ks-XXXX-dictionary-generated.xml file");        
+        out.indentPrintln("    without affecting the manually entered additions that are coded here.");              
+        out.indentPrintln("************************************************************* -->");
+    }
+
+    private void writeGeneratedImports(XmlWriter out) {
+        out.indentPrintln("<import resource=\"classpath:ks-base-dictionary.xml\"/>");
         // TODO: only write out the ones that are used in this structure
-        writer.indentPrintln("<import resource=\"classpath:ks-RichTextInfo-dictionary.xml\"/>");
-        writer.indentPrintln("<import resource=\"classpath:ks-MetaInfo-dictionary.xml\"/>");
+//        out.indentPrintln("<import resource=\"classpath:ks-RichTextInfo-dictionary.xml\"/>");
+//        out.indentPrintln("<import resource=\"classpath:ks-MetaInfo-dictionary.xml\"/>");
+    }
+
+    private void writeBaseImports(XmlWriter out) {
+        out.indentPrintln("<import resource=\"classpath:ks-" + initUpper(className) + "-dictionary-generated.xml\"/>");
     }
 
     private String stripListOffEnd(String name) {
@@ -168,7 +224,7 @@ public class XmlKradBaseDictionaryCreator {
             }
             if (first) {
                 first = false;
-                writer.indentPrintln("<ul>");
+                gwriter.indentPrintln("<ul>");
             }
             if (!stack.contains(st.getName())) {
                 stack.push(st.getName());
@@ -177,7 +233,7 @@ public class XmlKradBaseDictionaryCreator {
             }
         }
         if (!first) {
-            writer.indentPrintln("</ul>");
+            gwriter.indentPrintln("</ul>");
         }
     }
 
@@ -193,12 +249,12 @@ public class XmlKradBaseDictionaryCreator {
         return sb.toString();
     }
 
-    private void writeObjectStructure() {
+    private void writeGeneratedObjectStructure(XmlWriter out) {
         //Step 1, create the abstract structure
-        writer.println("");
-        writer.indentPrintln("<!-- " + className + "-->");
-        writer.indentPrintln("<bean id=\"" + initUpper(className) + "-parent\" abstract=\"true\" parent=\"DataObjectEntry\">");
-        writer.incrementIndent();
+        out.println("");
+        out.indentPrintln("<!-- " + className + "-->");
+        out.indentPrintln("<bean id=\"" + initUpper(className) + "-generated\" abstract=\"true\" parent=\"DataObjectEntry\">");
+        out.incrementIndent();
         writeProperty("name", initLower(className));
         writeProperty("objectClass", xmlType.getJavaPackage() + "." + initUpper(className));
         writeProperty("objectLabel", calcObjectLabel());
@@ -207,44 +263,39 @@ public class XmlKradBaseDictionaryCreator {
         if (titleAttribute != null) {
             writeProperty("titleAttribute", titleAttribute);
         }
-        writer.indentPrintln("<property name=\"primaryKeys\">");
+        out.indentPrintln("<property name=\"primaryKeys\">");
         List<String> pks = calcPrimaryKeys();
         if (pks != null && !pks.isEmpty()) {
-            writer.incrementIndent();
-            writer.indentPrintln("<list>");
-            writer.incrementIndent();
+            out.incrementIndent();
+            out.indentPrintln("<list>");
+            out.incrementIndent();
             for (String pk : pks) {
                 addValue(pk);
             }
-            writer.decrementIndent();
-            writer.indentPrintln("</list>");
-            writer.decrementIndent();
+            out.decrementIndent();
+            out.indentPrintln("</list>");
+            out.decrementIndent();
         }
-        writer.indentPrintln("</property>");
-        writer.indentPrintln("<property name=\"attributes\">");
-        writer.incrementIndent();
-        writer.indentPrintln("<list>");
-        writer.incrementIndent();
-        this.writeAttributeRefBeans(className, null, new Stack<String>(), this.messageStructures);
-        writer.decrementIndent();
-        writer.indentPrintln("</list>");
-        writer.decrementIndent();
-        writer.indentPrintln("</property>");
-        writer.decrementIndent();
-        writer.indentPrintln("</bean>");
-
-        //Create the instance
-        writer.println("");
-        writer.indentPrintln("<bean id=\"" + initUpper(className) + "\" parent=\"" + initUpper(className) + "-parent\"/>");
-        writer.println("");
+        out.indentPrintln("</property>");
+        out.indentPrintln("<property name=\"attributes\">");
+        out.incrementIndent();
+        out.indentPrintln("<list>");
+        out.incrementIndent();
+        this.writeGeneratedAttributeRefBeans(className, null, new Stack<String>(), this.messageStructures, out);
+        out.decrementIndent();
+        out.indentPrintln("</list>");
+        out.decrementIndent();
+        out.indentPrintln("</property>");
+        out.decrementIndent();
+        out.indentPrintln("</bean>");
 
         //Step 2, loop through attributes
-        this.writeAttributeDefinitions(className, null, new Stack<String>(), this.messageStructures);
+        this.writeGeneratedAttributeDefinitions(className, null, new Stack<String>(), this.messageStructures, out);
 
     }
 
     private void addValue(String value) {
-        writer.indentPrintln("<value>" + value + "</value>");
+        gwriter.indentPrintln("<value>" + value + "</value>");
     }
 
     private String calcObjectLabel() {
@@ -266,14 +317,14 @@ public class XmlKradBaseDictionaryCreator {
                 " ");
     }
 
-    private void writeAttributeRefBeans(String className, String parentFieldName,
-            Stack<String> parents, List<MessageStructure> fields) {
+    private void writeGeneratedAttributeRefBeans(String className, String parentFieldName,
+            Stack<String> parents, List<MessageStructure> fields, XmlWriter out) {
         if (parents.contains(className)) {
             return;
         }
         for (MessageStructure ms : fields) {
             String fieldName = calcFieldName(className, parentFieldName, ms);
-            writer.indentPrintln("<ref bean=\"" + fieldName + "\"/>");
+            out.indentPrintln("<ref bean=\"" + fieldName + "\"/>");
             // Add complex sub-types fields
             String childTypeName = this.stripListOffEnd(ms.getType());
             XmlType childType = this.finder.findXmlType(childTypeName);
@@ -286,26 +337,25 @@ public class XmlKradBaseDictionaryCreator {
                 if (childFields.isEmpty()) {
                     throw new IllegalStateException(childTypeName);
                 }
-                writeAttributeRefBeans(childTypeName, fieldName, parents, childFields);
+                writeGeneratedAttributeRefBeans(childTypeName, fieldName, parents, childFields, out);
                 parents.pop();
             }
         }
     }
 
-    private void writeAttributeDefinitions(String className, String parentFieldName,
-            Stack<String> parents, List<MessageStructure> fields) {
+    private void writeGeneratedAttributeDefinitions(String className, String parentFieldName,
+            Stack<String> parents, List<MessageStructure> fields, XmlWriter out) {
         if (parents.contains(className)) {
             return;
         }
         for (MessageStructure ms : fields) {
-            writer.println("");
             String fieldName = calcFieldName(className, parentFieldName, ms);
             String childTypeName = this.stripListOffEnd(ms.getType());
             XmlType childType = this.finder.findXmlType(childTypeName);
             if (childType == null) {
                 throw new IllegalStateException(childTypeName);
             }
-            writeAttributeDefinition(className, parentFieldName, ms);
+            writeGeneratedAttributeDefinition(className, parentFieldName, ms, out);
 
             // Add complex sub-types fields
             if (childType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
@@ -314,33 +364,88 @@ public class XmlKradBaseDictionaryCreator {
                 if (childFields.isEmpty()) {
                     throw new IllegalStateException(childTypeName);
                 }
-                writeAttributeDefinitions(childTypeName, fieldName, parents, childFields);
+                writeGeneratedAttributeDefinitions(childTypeName, fieldName, parents, childFields, out);
                 parents.pop();
             }
         }
     }
 
-    private void writeAttributeDefinition(String className, String parentFieldName, MessageStructure ms) {
+    private void writeGeneratedAttributeDefinition(String className, String parentFieldName, MessageStructure ms, XmlWriter out) {
 
         //Create the abstract field
         String fieldName = this.calcFieldName(className, parentFieldName, ms);
         String baseKualiType = this.calcBaseKualiType(ms);
-
-        writer.indentPrintln("<bean id=\"" + fieldName + "-parent\" abstract=\"true\" parent=\"" + baseKualiType + "\">");
-        writer.incrementIndent();
+        out.println("");
+        out.indentPrintln("<bean id=\"" + fieldName + "-generated\" abstract=\"true\" parent=\"" + baseKualiType + "\">");
+        out.incrementIndent();
         writeProperty("name", initLower(ms.getShortName()));
         if (ms.isOverriden()) {
             writeProperty("shortLabel", ms.getName());
         }
-        writer.decrementIndent();
+        out.decrementIndent();
         // TODO: implement maxoccurs
 //        if (isList(pd)) {
 //            addProperty("maxOccurs", "" + DictionaryConstants.UNBOUNDED, s);
 //        }
-        writer.indentPrintln("</bean>");
+        out.indentPrintln("</bean>");
+    }
 
-        //Create the instance
-        writer.indentPrintln("<bean id=\"" + fieldName + "\" parent=\"" + fieldName + "-parent\"/>");
+    private void writeBaseObjectStructure(XmlWriter out) {
+        //Step 1, create the parent bean
+        out.println("");
+        out.indentPrintln("<!-- " + className + "-->");
+        out.indentPrintln("<bean id=\"" + initUpper(className) + "-parent\" abstract=\"true\" parent=\"" + initUpper(className) + "-generated\">");
+        out.writeComment("insert any overrides to the generated object definitions here");
+        out.indentPrintln("</bean>");
+
+        //Create the actual instance of the bean
+        out.indentPrintln("<bean id=\"" + initUpper(className) + "\" parent=\"" + initUpper(className) + "-parent\"/>");
+        out.println("");
+
+        //Step 2, loop through attributes
+        this.writeBaseAttributeDefinitions(className, null, new Stack<String>(), this.messageStructures, out);
+
+    }
+
+    private void writeBaseAttributeDefinitions(String className, String parentFieldName,
+            Stack<String> parents, List<MessageStructure> fields, XmlWriter out) {
+        if (parents.contains(className)) {
+            return;
+        }
+        for (MessageStructure ms : fields) {
+            String fieldName = calcFieldName(className, parentFieldName, ms);
+            String childTypeName = this.stripListOffEnd(ms.getType());
+            XmlType childType = this.finder.findXmlType(childTypeName);
+            if (childType == null) {
+                throw new IllegalStateException(childTypeName);
+            }
+            writeBaseAttributeDefinition(className, parentFieldName, ms, out);
+
+            // Add complex sub-types fields
+            if (childType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+                parents.push(className);
+                List<MessageStructure> childFields = this.finder.findMessageStructures(childTypeName);
+                if (childFields.isEmpty()) {
+                    throw new IllegalStateException(childTypeName);
+                }
+                writeBaseAttributeDefinitions(childTypeName, fieldName, parents, childFields, out);
+                parents.pop();
+            }
+        }
+    }
+
+    private void writeBaseAttributeDefinition(String className, String parentFieldName, MessageStructure ms, XmlWriter out) {
+
+        //Create the abstract field
+        String fieldName = this.calcFieldName(className, parentFieldName, ms);
+//        String baseKualiType = this.calcBaseKualiType(ms);
+        out.println("");
+        out.indentPrintln("<bean id=\"" + fieldName + "-parent\" abstract=\"true\" parent=\"" + fieldName + "-generated\">");
+        out.writeComment("insert any overrides to the generated attribute definitions here");
+        out.indentPrintln("</bean>");
+
+        //Create the actual bean instance
+        out.indentPrintln("<bean id=\"" + fieldName + "\" parent=\"" + fieldName + "-parent\"/>");
     }
 
     private String calcBaseKualiType(MessageStructure ms) {
@@ -503,6 +608,6 @@ public class XmlKradBaseDictionaryCreator {
     }
 
     private void writeProperty(String propertyName, String propertyValue) {
-        writer.indentPrintln("<property name=\"" + propertyName + "\" value=\"" + propertyValue + "\"/>");
+        gwriter.indentPrintln("<property name=\"" + propertyName + "\" value=\"" + propertyValue + "\"/>");
     }
 }
