@@ -1,4 +1,4 @@
-package org.kuali.student.contract.mojo;
+package org.kuali.student.datadictionary.mojo;
 
 import java.io.File;
 import java.util.Collection;
@@ -13,7 +13,7 @@ import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.XmlType;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
-import org.kuali.student.contract.model.util.KradDictionaryCreator;
+import org.kuali.student.datadictionary.util.KradDictionaryCreator;
 import org.kuali.student.contract.model.validation.ServiceContractModelValidator;
 
 /**

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.contract.mojo;
+package org.kuali.student.datadictionary.mojo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -85,9 +85,9 @@ public class KSDictionaryCreatorMojoTest {
 //		srcDirs.add(LUM_DIRECTORY);
         KSDictionaryCreatorMojo instance = new KSDictionaryCreatorMojo();
         instance.setSourceDirs(srcDirs);
-        instance.setOutputDirectory(new File (XML_DICTIONARY_DIRECTORY)); 
-        // Be careful when you uncomment this one 
-//        instance.setOutputDirectory(new File(ENROLL_RESOURCES_DIRECTORY));
+//        instance.setOutputDirectory(new File (XML_DICTIONARY_DIRECTORY)); 
+        // Be careful when you uncomment this one it will overwrite stuff in another project
+        instance.setOutputDirectory(new File(ENROLL_RESOURCES_DIRECTORY));
         instance.setWriteManual(true);
         instance.setWriteGenerated(false);
         List<String> classNames = new ArrayList();

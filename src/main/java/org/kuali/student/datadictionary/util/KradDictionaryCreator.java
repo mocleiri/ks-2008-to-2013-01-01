@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.contract.model.util;
+package org.kuali.student.datadictionary.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.XmlType;
+import org.kuali.student.contract.model.util.ModelFinder;
 import org.kuali.student.contract.writer.XmlWriter;
 
 /**
@@ -519,14 +520,12 @@ public class KradDictionaryCreator {
     private void writeManualObjectStructure(XmlWriter out) {
         //Step 1, create the parent bean
         out.println("");
-        out.indentPrintln("<!-- " + className + "-->");
+        out.indentPrintln("<!-- " + className + "-->");        
+        //Create the actual instance of the bean
+        out.indentPrintln("<bean id=\"" + initUpper(className) + "\" parent=\"" + initUpper(className) + "-parent\"/>");       
         out.indentPrintln("<bean id=\"" + initUpper(className) + "-parent\" abstract=\"true\" parent=\"" + initUpper(className) + "-generated\">");
         out.writeComment("insert any overrides to the generated object definitions here");
         out.indentPrintln("</bean>");
-
-        //Create the actual instance of the bean
-        out.indentPrintln("<bean id=\"" + initUpper(className) + "\" parent=\"" + initUpper(className) + "-parent\"/>");
-        out.println("");
 
         //Step 2, loop through attributes
         this.writeManualAttributeDefinitions(className, null, new Stack<String>(), this.messageStructures, out);
@@ -571,13 +570,12 @@ public class KradDictionaryCreator {
         String name = calcName(parentName, ms);
         String beanName = calcBeanName(name);
 //        String baseKualiType = this.calcBaseKualiType(ms);
-        out.println("");
+        //Create the actual bean instance
+        out.println("");           
+        out.indentPrintln("<bean id=\"" + beanName + "\" parent=\"" + beanName + "-parent\"/>");           
         out.indentPrintln("<bean id=\"" + beanName + "-parent\" abstract=\"true\" parent=\"" + beanName + "-generated\">");
         out.writeComment("insert any overrides to the generated attribute definitions here");
         out.indentPrintln("</bean>");
-
-        //Create the actual bean instance
-        out.indentPrintln("<bean id=\"" + beanName + "\" parent=\"" + beanName + "-parent\"/>");
     }
     /**
      * list of predefined fields that should map to entries in ks-base-dictionary.xml
