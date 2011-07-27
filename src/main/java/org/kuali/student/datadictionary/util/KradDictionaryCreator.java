@@ -241,6 +241,9 @@ public class KradDictionaryCreator {
             if (ms.getShortName().equals("attributes")) {
                 continue;
             }
+            if (ms.getType().endsWith("List")) {
+                continue;
+            }            
             XmlType st = finder.findXmlType(this.stripListOffEnd(ms.getType()));
             if (st == null) {
                 throw new NullPointerException(ms.getType() + " does not exist in list of types with parents " + calcParents(stack));
@@ -356,6 +359,9 @@ public class KradDictionaryCreator {
             if (ms.getShortName().equals("attributes")) {
                 continue;
             }
+            if (ms.getType().endsWith("List")) {
+                continue;
+            }
             String name = calcName(parentName, ms);
             String beanName = calcBeanName(name);
             out.indentPrintln("<ref bean=\"" + beanName + "\"/>");
@@ -387,6 +393,9 @@ public class KradDictionaryCreator {
             if (ms.getShortName().equals("attributes")) {
                 continue;
             }
+            if (ms.getType().endsWith("List")) {
+                continue;
+            }            
             String name = calcName(parentName, ms);
             String beanName = calcBeanName(name);
             String childXmlTypeName = this.stripListOffEnd(ms.getType());
@@ -542,6 +551,9 @@ public class KradDictionaryCreator {
             if (ms.getShortName().equals("attributes")) {
                 continue;
             }
+            if (ms.getType().endsWith("List")) {
+                continue;
+            }            
             String name = calcName(parentName, ms);
             String beanName = calcBeanName(name);
             String childXmlTypeName = this.stripListOffEnd(ms.getType());
