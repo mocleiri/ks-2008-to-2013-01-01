@@ -24,6 +24,10 @@ import org.kuali.student.contract.model.validation.ServiceContractModelValidator
 public class KSDictionaryCreatorMojo extends AbstractMojo {
 
     /**
+     * @parameter expression=true
+     **/
+    private boolean throwExceptionIfNotAllFilesProcessed;
+    /**
      * @parameter
      **/
     private List<String> sourceDirs;
@@ -43,6 +47,14 @@ public class KSDictionaryCreatorMojo extends AbstractMojo {
      * @parameter
      */
     private List<String> classNames;
+
+    public boolean isThrowExceptionIfNotAllFilesProcessed() {
+        return throwExceptionIfNotAllFilesProcessed;
+    }
+
+    public void setThrowExceptionIfNotAllFilesProcessed(boolean throwExceptionIfNotAllFilesProcessed) {
+        this.throwExceptionIfNotAllFilesProcessed = throwExceptionIfNotAllFilesProcessed;
+    }
 
     public File getOutputDirectory() {
         return outputDirectory;
@@ -136,7 +148,13 @@ public class KSDictionaryCreatorMojo extends AbstractMojo {
                 buf.append(className);
                 comma = ", ";
             }
-            throw new MojoExecutionException(buf.toString());
+            if (throwExceptionIfNotAllFilesProcessed) {
+                throw new MojoExecutionException(buf.toString());
+            }
+            else
+            {
+                getLog ().info(buf);
+            }
         }
     }
 }

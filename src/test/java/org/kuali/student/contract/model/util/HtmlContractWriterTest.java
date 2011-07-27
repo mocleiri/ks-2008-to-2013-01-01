@@ -61,7 +61,7 @@ public class HtmlContractWriterTest {
     // "C:/svn/maven-dictionary-generator/trunk/src/main/java/org/kuali/student/core";
     private static final String COMMON_DIRECTORY =
             "C:/svn/ks-1.3/ks-common/ks-common-api/src/main/java";
-    private static final String ENROLL_DIRECTORY =
+    private static final String ENROLL_PROJECT_SOURCE_DIRECTORY =
             "C:/svn/ks-1.3/ks-enroll/ks-enroll-api/src/main/java";
     private static final String LUM_DIRECTORY =
             "C:/svn/ks-1.3/ks-lum/ks-lum-api/src/main/java";
@@ -79,7 +79,7 @@ public class HtmlContractWriterTest {
     private ServiceContractModel getModel() {
         List<String> srcDirs = new ArrayList<String>();
         srcDirs.add(TEST_SOURCE_DIRECTORY);
-//		srcDirs.add(ENROLL_DIRECTORY);
+//		srcDirs.add(ENROLL_PROJECT_SOURCE_DIRECTORY);
 //		srcDirs.add(CORE_DIRECTORY);
 //		srcDirs.add(COMMON_DIRECTORY);
 //		srcDirs.add(LUM_DIRECTORY);
@@ -121,9 +121,9 @@ public class HtmlContractWriterTest {
 
         assertTrue(new File(HTML_DIRECTORY + "/" + "index.html").exists());
         assertTrue(
-                new File(HTML_DIRECTORY + "/" + "LuiPersonRelationService.html").exists());
+                new File(HTML_DIRECTORY + "/" + "LprService.html").exists());
         assertTrue(
-                new File(HTML_DIRECTORY + "/" + "LuiPersonRelationInfo.html").exists());
+                new File(HTML_DIRECTORY + "/" + "LprInfo.html").exists());
         assertTrue(new File(HTML_DIRECTORY + "/" + "ContextInfo.html").exists());
         assertTrue(new File(HTML_DIRECTORY + "/" + "RichTextInfo.html").exists());
         assertTrue(new File(HTML_DIRECTORY + "/" + "MetaInfo.html").exists());

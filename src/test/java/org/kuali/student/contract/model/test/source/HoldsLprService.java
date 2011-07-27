@@ -14,7 +14,7 @@
  */
 package org.kuali.student.contract.model.test.source;
 
-import org.kuali.student.contract.model.test.source.LuiPersonRelationService;
+import org.kuali.student.contract.model.test.source.LprService;
 
 /**
  * Holds LuiPersonRelationService
@@ -23,8 +23,8 @@ import org.kuali.student.contract.model.test.source.LuiPersonRelationService;
  */
 public interface HoldsLprService {
 
-	public LuiPersonRelationService getLprService();
+	public LprService getLprService();
 
 
-	public void setLprService(LuiPersonRelationService lprService);
+	public void setLprService(LprService lprService);
 }

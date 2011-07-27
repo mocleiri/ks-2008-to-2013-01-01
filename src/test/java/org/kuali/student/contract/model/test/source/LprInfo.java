@@ -27,9 +27,9 @@ import javax.xml.bind.annotation.XmlType;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiPersonRelationInfo", propOrder = {"id", "typeKey", "stateKey", "luiId", "personId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
-public class LuiPersonRelationInfo extends RelationshipInfo
-        implements LuiPersonRelation, Serializable {
+@XmlType(name = "LprInfo", propOrder = {"id", "typeKey", "stateKey", "luiId", "personId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+public class LprInfo extends RelationshipInfo
+        implements Lpr, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
@@ -39,14 +39,14 @@ public class LuiPersonRelationInfo extends RelationshipInfo
     @XmlAnyElement
     private final List<Element> _futureElements;
 
-    private LuiPersonRelationInfo() {
+    private LprInfo() {
         super ();
         luiId = null;
         personId = null;
         _futureElements = null;
     }
 
-    private LuiPersonRelationInfo(LuiPersonRelation builder) {
+    private LprInfo(Lpr builder) {
         super(builder);
         this.luiId = builder.getLuiId();
         this.personId = builder.getPersonId();
@@ -64,7 +64,7 @@ public class LuiPersonRelationInfo extends RelationshipInfo
     }
 
 
-    public static class Builder extends RelationshipInfo.Builder implements ModelBuilder<LuiPersonRelationInfo>, LuiPersonRelation {
+    public static class Builder extends RelationshipInfo.Builder implements ModelBuilder<LprInfo>, Lpr {
 
         private String luiId;
         private String personId;
@@ -72,15 +72,15 @@ public class LuiPersonRelationInfo extends RelationshipInfo
         public Builder() {
         }
 
-        public Builder(LuiPersonRelation lprInfo) {
+        public Builder(Lpr lprInfo) {
             super(lprInfo);
             this.luiId = lprInfo.getLuiId();
             this.personId = lprInfo.getPersonId();
         }
 
         @Override
-        public LuiPersonRelationInfo build() {
-            return new LuiPersonRelationInfo(this);
+        public LprInfo build() {
+            return new LprInfo(this);
         }
 
         @Override

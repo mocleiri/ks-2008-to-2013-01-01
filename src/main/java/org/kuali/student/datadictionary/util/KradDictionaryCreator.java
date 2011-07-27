@@ -619,6 +619,8 @@ public class KradDictionaryCreator {
         Map<String, String> map = new HashMap<String, String>();
         map.put("startDate", "BaseKuali.startDate");
         map.put("endDate", "BaseKuali.endDate");
+        map.put("start", "BaseKuali.start");        
+        map.put("end", "BaseKuali.end");        
         map.put("OrgId", "BaseKuali.orgId"); 
         map.put("OrgIds", "BaseKuali.orgId");         
         map.put("PersonId", "BaseKuali.personId");
@@ -656,7 +658,9 @@ public class KradDictionaryCreator {
         map.put("Date", "BaseKuali.date");
         map.put("Boolean", "BaseKuali.boolean");
         map.put("Integer", "BaseKuali.integer");
-        map.put("Complex", "BaseKuali.complex");
+        map.put("Long", "BaseKuali.long");        
+        map.put("Float", "BaseKuali.float");        
+        map.put("Double", "BaseKuali.double");        
         // convert to lower case
         typeMap = new HashMap(map.size());
         for (String key : map.keySet()) {
@@ -686,8 +690,17 @@ public class KradDictionaryCreator {
             return baseKualiType;
         }
 
-        // all else fails call it a string??
-        return "BaseKuali.string";
+        XmlType msXmlType = finder.findXmlType(type);
+        if (msXmlType == null) {
+            throw new IllegalStateException (ms.getId() + " has an invalid type " + ms.getType());
+        }
+            
+        if (msXmlType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+            return "BaseKuali.complex";
+        }
+        throw new IllegalStateException (ms.getId() + " has an invalid type " + ms.getType());
+        // all else fails just say it is a string
+//        return "BaseKuali.string";
 
     }
 

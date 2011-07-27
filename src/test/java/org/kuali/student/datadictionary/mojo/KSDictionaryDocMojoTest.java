@@ -64,6 +64,7 @@ public class KSDictionaryDocMojoTest {
         instance.setInputFiles(supportFiles);        
         List<String> inputFiles = new ArrayList ();
         inputFiles.add("ks-AtpInfo-dictionary.xml");        
+//        inputFiles.add("ks-LprInfo-dictionary.xml");            
         instance.setInputFiles(inputFiles);
         instance.setHtmlDirectory(new File (DICTIONARY_DOC_DIRECTORY));
         instance.setProjectUrl(PROJECT_URL);

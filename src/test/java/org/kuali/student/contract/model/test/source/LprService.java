@@ -41,7 +41,7 @@ import javax.jws.soap.SOAPBinding;
  */
 @WebService(name = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/wsdl/luiPersonRelation")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LuiPersonRelationService extends TypeService, StateService {
+public interface LprService extends TypeService, StateService {
 
     /**
      * Retrieves the Relation for the specified LUI Person Relation
@@ -55,7 +55,7 @@ public interface LuiPersonRelationService extends TypeService, StateService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public LuiPersonRelationInfo fetchLuiPersonRelation(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LprInfo fetchLuiPersonRelation(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves the Relation for the specified list of LUI Person Relation Ids
@@ -69,7 +69,7 @@ public interface LuiPersonRelationService extends TypeService, StateService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsByIdList(@WebParam(name = "luiPersonRelationIdList") List<String> luiPersonRelationIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<LprInfo> findLuiPersonRelationsByIdList(@WebParam(name = "luiPersonRelationIdList") List<String> luiPersonRelationIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves the LUI Ids for Person related to LUI
@@ -118,7 +118,7 @@ public interface LuiPersonRelationService extends TypeService, StateService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
      */
-    public List<LuiPersonRelationInfo> findLuiPersonRelations(@WebParam(name = "personId") String personId, @WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<LprInfo> findLuiPersonRelations(@WebParam(name = "personId") String personId, @WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves LUI Person Relation Ids
@@ -149,7 +149,7 @@ public interface LuiPersonRelationService extends TypeService, StateService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
      */
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsForPerson(@WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<LprInfo> findLuiPersonRelationsForPerson(@WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves LUI Person Relation Ids for Person
@@ -178,7 +178,7 @@ public interface LuiPersonRelationService extends TypeService, StateService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<LprInfo> findLuiPersonRelationsForLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves LUIPersonRelation for LUI
@@ -208,7 +208,7 @@ public interface LuiPersonRelationService extends TypeService, StateService {
      * @throws PermissionDeniedException   authorization failure
      */
     public List<ValidationResultInfo> validateLuiPersonRelation(@WebParam(name = "validationType") String validationType,
-            @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo,
+            @WebParam(name = "luiPersonRelationInfo") LprInfo luiPersonRelationInfo,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -253,7 +253,7 @@ public interface LuiPersonRelationService extends TypeService, StateService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
      */
-    public String createLuiPersonRelation(@WebParam(name = "personId") String personId, @WebParam(name = "luiId") String luiId, @WebParam(name = "luiPersonRelationTypeKey") String luiPersonRelationTypeKey, @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo, @WebParam(name = "context") ContextInfo context)
+    public String createLuiPersonRelation(@WebParam(name = "personId") String personId, @WebParam(name = "luiId") String luiId, @WebParam(name = "luiPersonRelationTypeKey") String luiPersonRelationTypeKey, @WebParam(name = "luiPersonRelationInfo") LprInfo luiPersonRelationInfo, @WebParam(name = "context") ContextInfo context)
             throws DataValidationErrorException,
             AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -283,7 +283,7 @@ public interface LuiPersonRelationService extends TypeService, StateService {
             @WebParam(name = "luiIdList") List<String> luiIdList,
             @WebParam(name = "relationState") String relationState,
             @WebParam(name = "luiPersonRelationTypeKey") String luiPersonRelationTypeKey,
-            @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo,
+            @WebParam(name = "luiPersonRelationInfo") LprInfo luiPersonRelationInfo,
             @WebParam(name = "context") ContextInfo context)
             throws DataValidationErrorException,
             AlreadyExistsException,
@@ -321,7 +321,7 @@ public interface LuiPersonRelationService extends TypeService, StateService {
             @WebParam(name = "personIdList") List<String> personIdList,
             @WebParam(name = "relationState") String relationState,
             @WebParam(name = "luiPersonRelationTypeKey") String luiPersonRelationTypeKey,
-            @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo,
+            @WebParam(name = "luiPersonRelationInfo") LprInfo luiPersonRelationInfo,
             @WebParam(name = "context") ContextInfo context)
             throws AlreadyExistsException,
             DataValidationErrorException,
@@ -351,8 +351,8 @@ public interface LuiPersonRelationService extends TypeService, StateService {
      * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException if optimistic lock version ind has changed
      */
-    public LuiPersonRelationInfo updateLuiPersonRelation(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId,
-            @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo,
+    public LprInfo updateLuiPersonRelation(@WebParam(name = "luiPersonRelationId") String luiPersonRelationId,
+            @WebParam(name = "luiPersonRelationInfo") LprInfo luiPersonRelationInfo,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException,
             DataValidationErrorException,

@@ -27,9 +27,9 @@ package org.kuali.student.contract.model.test.source;
  * @Author KSContractMojo
  * @Author Kamal
  * @Since Tue Mar 01 15:53:57 PST 2011
- * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationInfo+Structure">LuiPersonRelationInfo</a>
+ * @See <a href="https://wiki.kuali.org/display/KULSTU/luiPersonRelationInfo+Structure">LprInfo</a>
  */
-public interface LuiPersonRelation
+public interface Lpr
         extends Relationship {
 
  /**
