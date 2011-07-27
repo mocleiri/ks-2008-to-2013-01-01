@@ -85,9 +85,9 @@ public class KSDictionaryCreatorMojoTest {
 //		srcDirs.add(LUM_DIRECTORY);
         KSDictionaryCreatorMojo instance = new KSDictionaryCreatorMojo();
         instance.setSourceDirs(srcDirs);
-//        instance.setOutputDirectory(new File (XML_DICTIONARY_DIRECTORY)); 
+        instance.setOutputDirectory(new File (XML_DICTIONARY_DIRECTORY)); 
         // Be careful when you uncomment this one it will overwrite stuff in another project
-        instance.setOutputDirectory(new File(ENROLL_RESOURCES_DIRECTORY));
+//        instance.setOutputDirectory(new File(ENROLL_RESOURCES_DIRECTORY));
         instance.setWriteManual(true);
         instance.setWriteGenerated(false);
         List<String> classNames = new ArrayList();
