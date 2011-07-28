@@ -88,9 +88,9 @@ public class KSDictionaryCreatorMojoTest {
 //		srcDirs.add(LUM_DIRECTORY);
         KSDictionaryCreatorMojo instance = new KSDictionaryCreatorMojo();
         instance.setSourceDirs(srcDirs);
-//        instance.setOutputDirectory(new File (TARGET_GENERATED_SOURCES)); 
+        instance.setOutputDirectory(new File (TARGET_GENERATED_SOURCES)); 
         // Be careful when you uncomment this one it will overwrite stuff in another project
-        instance.setOutputDirectory(new File(ENROLL_PROJECT_RESOURCES_DIRECTORY));
+//        instance.setOutputDirectory(new File(ENROLL_PROJECT_RESOURCES_DIRECTORY));
         instance.setWriteManual(true);
         instance.setWriteGenerated(false);
         instance.setThrowExceptionIfNotAllFilesProcessed(false);

@@ -483,9 +483,11 @@ public class KradDictionaryCreator {
     }
 
     private void writeReadOnlyAttributeSecurity(XmlWriter out) {
-        out.println("<property name=\"attributeSecurity\">");
-        out.println("<ref bean=\"BaseKuali.readOnlyAttributeSecurity\"/>");
-        out.println("</property>");
+        out.indentPrintln ("<!-- commented out until KRAD bug gets fixed that requires mask to also be entered");
+        out.indentPrintln("<property name=\"attributeSecurity\">");
+        out.indentPrintln("<ref bean=\"BaseKuali.readOnlyAttributeSecurity\"/>");
+        out.indentPrintln("</property>");
+        out.indentPrintln ("-->");        
     }
 
     private String calcShortLabel(MessageStructure ms) {
