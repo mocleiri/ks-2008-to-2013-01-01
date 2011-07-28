@@ -65,21 +65,27 @@ public class ServiceContractModelQDoxLoaderTest {
     @After
     public void tearDown() {
     }
-    private static final String POC_DIRECTORY =
-            "C:/svn/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/java";
+
     private static final String RESOURCES_DIRECTORY = "src/test/resources";
     private static final String TEST_SOURCE_DIRECTORY =
             "src/test/java/org/kuali/student/contract/model/test/source";
-
+    private static final String ENROLL_PROJECT_SRC_MAIN = "C:/svn/ks-1.3/ks-enroll/ks-enroll-api/src/main";
+    private static final String ENROLL_PROJECT_JAVA_DIRECTORY = ENROLL_PROJECT_SRC_MAIN + "/java";
+    
+    private static ServiceContractModel model = null;
     private ServiceContractModel getModel() {
+        if (model != null) {
+            return model;
+        }
         List<String> srcDirs = new ArrayList();
         System.out.println("User directory=" + System.getProperty("user.dir"));
         System.out.println("Current directory=" + new File(".").getAbsolutePath());
-//  srcDirs.add (POC_DIRECTORY);
+//        srcDirs.add (ENROLL_PROJECT_JAVA_DIRECTORY);
         srcDirs.add(TEST_SOURCE_DIRECTORY);
         ServiceContractModel instance = new ServiceContractModelQDoxLoader(srcDirs);
         instance = new ServiceContractModelCache(instance);
         validate(instance);
+        model = instance;
         return instance;
     }
 
@@ -103,13 +109,13 @@ public class ServiceContractModelQDoxLoaderTest {
         Collection<String> errors =
                 new ServiceContractModelValidator(model).validate();
         if (errors.size() > 0) {
-            StringBuffer buf = new StringBuffer();
-            buf.append(errors.size() + " errors found while validating the data.");
+            StringBuilder buf = new StringBuilder();
+            buf.append(errors.size()).append(" errors found while validating the data.");
             int cnt = 0;
             for (String msg : errors) {
                 cnt++;
                 buf.append("\n");
-                buf.append("*error*" + cnt + ":" + msg);
+                buf.append("*error*").append(cnt).append(":").append(msg);
             }
 
             fail(buf.toString());
@@ -187,8 +193,8 @@ public class ServiceContractModelQDoxLoaderTest {
         ServiceContractModel model = getModel();
         List<MessageStructure> result = model.getMessageStructures();
         for (MessageStructure ms : result) {
-            if (ms.getName().equalsIgnoreCase("attributes")) {
-                System.out.println("MessageStructure=" + ms.getId() + " " + ms.getType());
+            if (ms.getId().equalsIgnoreCase("academicCalendarInfo.typeKey")) {
+                System.out.println("MessageStructure=" + ms.getId() + " " + ms.getType() + "required=["+ ms.getRequired() + "]");
             }
         }
         if (result.size() < 10) {

@@ -38,7 +38,7 @@ public class KSDictionaryCreatorMojoTest {
     private static final String ENROLL_PROJECT_SRC_MAIN = "C:/svn/ks-1.3/ks-enroll/ks-enroll-api/src/main";
     private static final String ENROLL_PROJECT_JAVA_DIRECTORY = ENROLL_PROJECT_SRC_MAIN + "/java";
     private static final String ENROLL_PROJECT_RESOURCES_DIRECTORY = ENROLL_PROJECT_SRC_MAIN + "/resources";
-    ;      
+      
     private static final String LUM_DIRECTORY =
             "C:/svn/ks-1.3/ks-lum/ks-lum-api/src/main/java";
     private static final String RICE_DIRECTORY =
@@ -80,7 +80,7 @@ public class KSDictionaryCreatorMojoTest {
     public void testExecute() throws Exception {
         System.out.println("execute");
         List<String> srcDirs = new ArrayList<String>();
-        srcDirs.add(TEST_SOURCE_DIRECTORY);
+//        srcDirs.add(TEST_SOURCE_DIRECTORY);
         srcDirs.add (TEST_ATP_SOURCE_DIRECTORY);
 //        srcDirs.add(ENROLL_PROJECT_JAVA_DIRECTORY);
 //		srcDirs.add(CORE_DIRECTORY);
@@ -88,11 +88,11 @@ public class KSDictionaryCreatorMojoTest {
 //		srcDirs.add(LUM_DIRECTORY);
         KSDictionaryCreatorMojo instance = new KSDictionaryCreatorMojo();
         instance.setSourceDirs(srcDirs);
-        instance.setOutputDirectory(new File (TARGET_GENERATED_SOURCES)); 
+//        instance.setOutputDirectory(new File (TARGET_GENERATED_SOURCES)); 
         // Be careful when you uncomment this one it will overwrite stuff in another project
-//        instance.setOutputDirectory(new File(ENROLL_RESOURCES_DIRECTORY));
+        instance.setOutputDirectory(new File(ENROLL_PROJECT_RESOURCES_DIRECTORY));
         instance.setWriteManual(true);
-        instance.setWriteGenerated(true);
+        instance.setWriteGenerated(false);
         instance.setThrowExceptionIfNotAllFilesProcessed(false);
         List<String> classNames = new ArrayList();
         // Atp
@@ -124,6 +124,6 @@ public class KSDictionaryCreatorMojoTest {
         classNames.add("SeatPoolDefinitionInfo");
         instance.setClassNames(classNames);
         instance.execute();
-        assertTrue(new File(instance.getOutputDirectory() + "/" + "ks-LprInfo-dictionary.xml").exists());
+//        assertTrue(new File(instance.getOutputDirectory() + "/" + "ks-LprInfo-dictionary.xml").exists());
     }
 }

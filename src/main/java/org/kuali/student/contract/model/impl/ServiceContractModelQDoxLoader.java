@@ -632,7 +632,8 @@ public class ServiceContractModelQDoxLoader implements
             if (tag.getValue() == null) {
                 return "Required";
             }
-            return "Required " + tag.getValue();
+            String required = "Required " + tag.getValue();
+            return required.trim();
         }
         return null;
     }
@@ -644,7 +645,8 @@ public class ServiceContractModelQDoxLoader implements
             if (tag.getValue() == null) {
                 return "Read only";
             }
-            return "Read only " + tag.getValue();
+            String readOnly = "Read only " + tag.getValue();
+            return readOnly.trim();
         }
         return null;
     }
