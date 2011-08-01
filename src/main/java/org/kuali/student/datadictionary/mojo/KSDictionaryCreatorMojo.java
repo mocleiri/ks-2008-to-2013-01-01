@@ -32,7 +32,7 @@ public class KSDictionaryCreatorMojo extends AbstractMojo {
      **/
     private List<String> sourceDirs;
     /**
-     * @parameter expression="${outputDirectory}" default-value="${project.build.directory}/classes"
+     * @parameter expression="${outputDirectory}" default-value="${project.build.directory}/generated-sources/datadictionary"
      */
     private File outputDirectory;
     /**
