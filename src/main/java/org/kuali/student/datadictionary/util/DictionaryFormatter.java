@@ -27,13 +27,13 @@ import java.util.Date;
 import java.util.List;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
-import org.kuali.rice.kns.datadictionary.control.ControlDefinition;
 import org.kuali.rice.kns.datadictionary.validation.constraint.BaseConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.CaseConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.CommonLookupParam;
 import org.kuali.rice.kns.datadictionary.validation.constraint.LookupConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
+import org.kuali.rice.kns.uif.control.Control;
 
 public class DictionaryFormatter {
 
@@ -689,7 +689,7 @@ public class DictionaryFormatter {
     }
 
     private String calcWidget(AttributeDefinition ad) {
-        ControlDefinition control = ad.getControl();
+        Control control = ad.getControlField();
         if (control == null) {
             return " ";
         }

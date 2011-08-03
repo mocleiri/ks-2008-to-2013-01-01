@@ -104,9 +104,10 @@ public class HtmlContractWriter {
         writer.indentPrintln("</ul>");
         writer.indentPrintln("</div>");
         writer.indentPrintln("</div>");
-
-        this.writeAlphabeticalList();
+        
         this.writeMainOrRootList();
+        
+        this.writeAlphabeticalList();
 
         writer.writeHeaderBodyAndFooterOutToFile();
 

@@ -15,6 +15,7 @@
  */
 package org.kuali.student.contract.model.util;
 
+import org.kuali.student.contract.model.impl.ServiceContractModelPescXsdLoader;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,12 +70,11 @@ public class HtmlContractWriterTest {
             "C:/svn/rice/rice-release-1-0-2-1-br/api/src/main/java";
     private static final String TEST_SOURCE_DIRECTORY =
             "src/test/java/org/kuali/student/contract/model/test/source";
-    private static final String HTML_DIRECTORY = "target/html/contract";
+    private static final String HTML_CONTRACT_DIRECTORY = "target/html/contract";
+    private static final String HTML_PESC_DIRECTORY = "target/html/pesc";    
     private static final String RESOURCES_DIRECTORY =
             // "C:/svn/student/ks-core/ks-core-api/src/main/java";
             "src/main/resources";
-    private static final String PESC_CORE_MAIN = RESOURCES_DIRECTORY
-            + "/CoreMain_v1.8.0.xsd";
 
     private ServiceContractModel getModel() {
         List<String> srcDirs = new ArrayList<String>();
@@ -88,6 +88,25 @@ public class HtmlContractWriterTest {
         return new ServiceContractModelCache(instance);
 
     }
+    
+    // pesc stuff
+    private static final String PESC_DIRECTORY =
+            RESOURCES_DIRECTORY + "/pesc";
+    private static final String PESC_CORE_MAIN = PESC_DIRECTORY + "/CoreMain.xsd";
+    private static final String PESC_ACAD_REC = PESC_DIRECTORY + "/AcademicRecord_v1.5.0.xsd";
+    private static final String PESC_COLL_TRANS = PESC_DIRECTORY + "/CollegeTranscript_v1.2.0.xsd";
+
+    private ServiceContractModel getPescModel() {
+        List<String> xsdFileNames = new ArrayList();
+//        xsdFileNames.add(PESC_CORE_MAIN);
+//        xsdFileNames.add(PESC_ACAD_REC);
+        xsdFileNames.add(PESC_COLL_TRANS);
+        ServiceContractModel instance = new ServiceContractModelPescXsdLoader(xsdFileNames);
+        instance = new ServiceContractModelCache(instance);
+        validate(instance);
+        return instance;
+    }
+
 
     private void validate(ServiceContractModel model) {
         Collection<String> errors =
@@ -110,28 +129,44 @@ public class HtmlContractWriterTest {
      * Test of run
      */
     @Test
-    public void testRun() {
+    public void testRunPesc() {
+        ServiceContractModel model = null;
+        HtmlContractWriter writer = null;
+
+        model = this.getPescModel();
+        this.validate(model);
+        writer = new HtmlContractWriter(HTML_PESC_DIRECTORY, model);
+        writer.write();
+
+        assertTrue(new File(HTML_PESC_DIRECTORY + "/" + "index.html").exists());
+    }
+    
+    /**
+     * Test of run
+     */
+//    @Test
+    public void testRun () {
         ServiceContractModel model = null;
         HtmlContractWriter writer = null;
 
         model = this.getModel();
         this.validate(model);
-        writer = new HtmlContractWriter(HTML_DIRECTORY, model);
+        writer = new HtmlContractWriter(HTML_CONTRACT_DIRECTORY, model);
         writer.write();
 
-        assertTrue(new File(HTML_DIRECTORY + "/" + "index.html").exists());
+        assertTrue(new File(HTML_CONTRACT_DIRECTORY + "/" + "index.html").exists());
         assertTrue(
-                new File(HTML_DIRECTORY + "/" + "LprService.html").exists());
+                new File(HTML_CONTRACT_DIRECTORY + "/" + "LprService.html").exists());
         assertTrue(
-                new File(HTML_DIRECTORY + "/" + "LprInfo.html").exists());
-        assertTrue(new File(HTML_DIRECTORY + "/" + "ContextInfo.html").exists());
-        assertTrue(new File(HTML_DIRECTORY + "/" + "RichTextInfo.html").exists());
-        assertTrue(new File(HTML_DIRECTORY + "/" + "MetaInfo.html").exists());
+                new File(HTML_CONTRACT_DIRECTORY + "/" + "LprInfo.html").exists());
+        assertTrue(new File(HTML_CONTRACT_DIRECTORY + "/" + "ContextInfo.html").exists());
+        assertTrue(new File(HTML_CONTRACT_DIRECTORY + "/" + "RichTextInfo.html").exists());
+        assertTrue(new File(HTML_CONTRACT_DIRECTORY + "/" + "MetaInfo.html").exists());
 
-        assertTrue(new File(HTML_DIRECTORY + "/" + "StateService.html").exists());
-        assertTrue(new File(HTML_DIRECTORY + "/" + "StateInfo.html").exists());
+        assertTrue(new File(HTML_CONTRACT_DIRECTORY + "/" + "StateService.html").exists());
+        assertTrue(new File(HTML_CONTRACT_DIRECTORY + "/" + "StateInfo.html").exists());
 
-        assertTrue(new File(HTML_DIRECTORY + "/" + "TypeService.html").exists());
-        assertTrue(new File(HTML_DIRECTORY + "/" + "TypeInfo.html").exists());
+        assertTrue(new File(HTML_CONTRACT_DIRECTORY + "/" + "TypeService.html").exists());
+        assertTrue(new File(HTML_CONTRACT_DIRECTORY + "/" + "TypeInfo.html").exists());
     }
 }
