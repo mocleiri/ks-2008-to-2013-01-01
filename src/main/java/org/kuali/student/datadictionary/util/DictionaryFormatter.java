@@ -34,6 +34,7 @@ import org.kuali.rice.kns.datadictionary.validation.constraint.LookupConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
 import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
 import org.kuali.rice.kns.uif.control.Control;
+import org.kuali.rice.kns.uif.control.TextControl;
 
 public class DictionaryFormatter {
 
@@ -248,7 +249,7 @@ public class DictionaryFormatter {
         out.println("Cross Field");
         out.println("</th>");
         out.println("<th>");
-        out.println("Default Widget");
+        out.println("Default Control");
         out.println("</th>");
         out.println("</tr>");
 //        for (AttributeDefinition ad : getSortedFields()) {
@@ -297,7 +298,7 @@ public class DictionaryFormatter {
             out.println(nbsp(calcCrossField(ad)));
             out.println("</td>");
             out.println("<td>");
-            out.println(nbsp(calcWidget(ad)));
+            out.println(nbsp(calcControl(ad)));
             out.println("</td>");
             out.println("</tr>");
         }
@@ -334,7 +335,6 @@ public class DictionaryFormatter {
             return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
         }
     }
-
 
     private String formatAsString(List<String> discrepancies) {
         int i = 0;
@@ -688,10 +688,21 @@ public class DictionaryFormatter {
         return " ";
     }
 
-    private String calcWidget(AttributeDefinition ad) {
+    private String calcControl(AttributeDefinition ad) {
         Control control = ad.getControlField();
         if (control == null) {
             return " ";
+        }
+        if (control instanceof TextControl) {
+            TextControl textControl = (TextControl) control;
+            if (textControl.getDatePicker() != null) {
+                return "DateControl";
+            }
+            if (textControl.getStyleClasses() != null) {
+                if (textControl.getStyleClasses().contains("amount")) {
+                    return "CurrencyControl";
+                }
+            }
         }
         return control.getClass().getSimpleName();
     }
