@@ -35,12 +35,12 @@ import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
 public class DictionaryValidator {
 
     private DateTimeService dateTimeService;
-    private DataObjectEntry ode;
+    private DataObjectEntry doe;
     private Set<DataObjectEntry> alreadyValidated;
 
-    public DictionaryValidator(DataObjectEntry ode,
+    public DictionaryValidator(DataObjectEntry doe,
             Set<DataObjectEntry> alreadyValidated) {
-        this.ode = ode;
+        this.doe = doe;
         this.alreadyValidated = alreadyValidated;
     }
 
@@ -54,13 +54,13 @@ public class DictionaryValidator {
 
     public List<String> validate() {
         List<String> errors = new ArrayList();
-        if (ode.getFullClassName() == null) {
+        if (doe.getFullClassName() == null) {
             errors.add("The class name cannot be be left null");
         }
-        if (ode.getEntryClass() == null) {
+        if (doe.getEntryClass() == null) {
             errors.add("The entry class should not be left null");
         }
-        if (!ode.getEntryClass().getName().equals(ode.getFullClassName())) {
+        if (!doe.getEntryClass().getName().equals(doe.getFullClassName())) {
             errors.add("The entry class should match the full class name");
         }
 
@@ -69,16 +69,16 @@ public class DictionaryValidator {
 //   errors.add ("The name does not exist on the class path");
 //  }
 
-        if (ode.getAttributes() == null) {
+        if (doe.getAttributes() == null) {
             errors.add("getAttribues () is null -- null for field defintion");
             return errors;
         }
-        if (ode.getAttributes().size() == 0) {
+        if (doe.getAttributes().isEmpty()) {
             errors.add("No fields defined for complex object structure");
             return errors;
         }
         Set<String> fieldNames = new HashSet();
-        for (AttributeDefinition ad : ode.getAttributes()) {
+        for (AttributeDefinition ad : doe.getAttributes()) {
             if (ad.getName() != null) {
                 if (!fieldNames.add(ad.getName())) {
                     errors.add(ad.getName() + " is defined more than once");
@@ -86,6 +86,7 @@ public class DictionaryValidator {
             }
             errors.addAll(validateAttributeDefinition(ad));
         }
+        doe.completeValidation();
         return errors;
     }
 
