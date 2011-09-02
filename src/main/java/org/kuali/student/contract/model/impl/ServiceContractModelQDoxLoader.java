@@ -306,7 +306,7 @@ public class ServiceContractModelQDoxLoader implements
             xmlType.setService(serviceKey);
             xmlType.setVersion("IGNORE -- SAME AS SERVICE");
             xmlType.setPrimitive(calcPrimitive(messageStructureJavaClass));
-            xmlType.setJavaPackage(messageStructureJavaClass.getPackageName());
+            xmlType.setJavaPackage(calcJavaPackage (messageStructureJavaClass));
             if (xmlType.getPrimitive().equals(XmlType.COMPLEX)) {
                 addMessageStructure(messageStructureJavaClass, serviceKey);
             }
@@ -315,6 +315,11 @@ public class ServiceContractModelQDoxLoader implements
         }
     }
 
+    private String calcJavaPackage (JavaClass javaClass) {
+        String packageName = javaClass.getPackageName();
+        return packageName;
+    }
+    
     private String calcMessageStructureDesc(JavaClass javaClass) {
         {
             String desc = javaClass.getComment();

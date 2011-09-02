@@ -25,28 +25,33 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.DataObjectEntry;
-import org.kuali.rice.kns.datadictionary.validation.constraint.BaseConstraint;
-import org.kuali.rice.kns.datadictionary.validation.constraint.CaseConstraint;
-import org.kuali.rice.kns.datadictionary.validation.constraint.CommonLookupParam;
-import org.kuali.rice.kns.datadictionary.validation.constraint.LookupConstraint;
-import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
-import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
-import org.kuali.rice.kns.uif.control.Control;
-import org.kuali.rice.kns.uif.control.TextControl;
+import java.util.Map;
+import java.util.Stack;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.AttributeDefinitionBase;
+import org.kuali.rice.krad.datadictionary.CollectionDefinition;
+import org.kuali.rice.krad.datadictionary.ComplexAttributeDefinition;
+import org.kuali.rice.krad.datadictionary.DataObjectEntry;
+import org.kuali.rice.krad.datadictionary.validation.constraint.BaseConstraint;
+import org.kuali.rice.krad.datadictionary.validation.constraint.CaseConstraint;
+import org.kuali.rice.krad.datadictionary.validation.constraint.CommonLookupParam;
+import org.kuali.rice.krad.datadictionary.validation.constraint.LookupConstraint;
+import org.kuali.rice.krad.datadictionary.validation.constraint.ValidCharactersConstraint;
+import org.kuali.rice.krad.datadictionary.validation.constraint.WhenConstraint;
+import org.kuali.rice.krad.uif.control.Control;
+import org.kuali.rice.krad.uif.control.TextControl;
 
 public class DictionaryFormatter {
 
-    private DataObjectEntry ode;
-    private String projectUrl;
-    private String dictFileName;
+    private DataObjectEntry doe;
+    private Map<String, DataObjectEntry> beansOfType;
+    private String beanId;
     private String outputFileName;
 
-    public DictionaryFormatter(DataObjectEntry ode, String projectUrl, String dictFileName, String outputFileName) {
-        this.ode = ode;
-        this.projectUrl = projectUrl;
-        this.dictFileName = dictFileName;
+    public DictionaryFormatter(DataObjectEntry doe, Map<String, DataObjectEntry> beansOfType, String beanId, String outputFileName) {
+        this.doe = doe;
+        this.beansOfType = beansOfType;
+        this.beanId = beanId;
         this.outputFileName = outputFileName;
     }
 
@@ -59,7 +64,7 @@ public class DictionaryFormatter {
             throw new IllegalArgumentException(this.outputFileName, ex);
         }
         PrintStream out = new PrintStream(outputStream);
-        writeHeader(out, dictFileName);
+        writeHeader(out, beanId);
         writeBody(out);
         writeFooter(out);
         out.close();
@@ -82,11 +87,8 @@ public class DictionaryFormatter {
         out.println("<a href=\"index.html\">home</a>");
         out.println("<br>");
         out.println("(!) This page was automatically generated on " + new Date());
-        out.print(" and is a formatted view of ");
-        writeLink(out, projectUrl + "/" + this.dictFileName, "this file");
-        out.print(" out on subversion.");
 //  builder.append ("======= start dump of object structure definition ========");
-        out.println("<h1>" + this.dictFileName + "</h1>");
+        out.println("<h1>" + this.beanId + "</h1>");
 
         out.println("<br>");
         out.println("<table border=1>");
@@ -96,7 +98,7 @@ public class DictionaryFormatter {
         out.println("Name");
         out.println("</th>");
         out.println("<td>");
-        out.println(ode.getName());
+        out.println(doe.getName());
         out.println("</td>");
         out.println("</tr>");
 
@@ -105,7 +107,7 @@ public class DictionaryFormatter {
         out.println("Label");
         out.println("</th>");
         out.println("<td>");
-        out.println(ode.getObjectLabel());
+        out.println(doe.getObjectLabel());
         out.println("</td>");
         out.println("</tr>");
 
@@ -114,7 +116,7 @@ public class DictionaryFormatter {
         out.println("JSTL Key");
         out.println("</th>");
         out.println("<td>");
-        out.println(ode.getJstlKey());
+        out.println(doe.getJstlKey());
         out.println("</td>");
         out.println("</tr>");
 
@@ -123,30 +125,30 @@ public class DictionaryFormatter {
         out.println("Java Class");
         out.println("</th>");
         out.println("<td>");
-        out.println(ode.getFullClassName());
+        out.println(doe.getFullClassName());
         out.println("</td>");
         out.println("</tr>");
         out.println("<tr>");
 
-        if (!ode.getObjectClass().getName().equals(ode.getFullClassName())) {
+        if (!doe.getDataObjectClass().getName().equals(doe.getFullClassName())) {
             out.println("<tr>");
             out.println("<th bgcolor=lightblue>");
             out.println("Object Class");
             out.println("</th>");
             out.println("<td>");
-            out.println(ode.getObjectClass().getName());
+            out.println(doe.getDataObjectClass().getName());
             out.println("</td>");
             out.println("</tr>");
             out.println("<tr>");
         }
 
-        if (!ode.getEntryClass().getName().equals(ode.getFullClassName())) {
+        if (!doe.getEntryClass().getName().equals(doe.getFullClassName())) {
             out.println("<tr>");
             out.println("<th bgcolor=lightblue>");
             out.println("Entry Class");
             out.println("</th>");
             out.println("<td>");
-            out.println(ode.getEntryClass().getName());
+            out.println(doe.getEntryClass().getName());
             out.println("</td>");
             out.println("</tr>");
             out.println("<tr>");
@@ -157,7 +159,7 @@ public class DictionaryFormatter {
         out.println("Description");
         out.println("</th>");
         out.println("<td>");
-        out.println(ode.getObjectDescription());
+        out.println(doe.getObjectDescription());
         out.println("</td>");
         out.println("</tr>");
 
@@ -168,7 +170,7 @@ public class DictionaryFormatter {
         out.println("<td>");
         StringBuilder bldr = new StringBuilder();
         String comma = "";
-        for (String pk : ode.getPrimaryKeys()) {
+        for (String pk : doe.getPrimaryKeys()) {
             bldr.append(comma);
             comma = ", ";
             bldr.append(pk);
@@ -182,7 +184,7 @@ public class DictionaryFormatter {
         out.println("Field to use as the title (or name)");
         out.println("</th>");
         out.println("<td>");
-        out.println(ode.getTitleAttribute());
+        out.println(doe.getTitleAttribute());
         out.println("</td>");
         out.println("</tr>");
 
@@ -192,9 +194,10 @@ public class DictionaryFormatter {
         // fields
         out.println("<h1>Field Definitions</h1>");
         // check for discrepancies first
-        List<String> discrepancies = new Dictionary2BeanComparer(ode.getFullClassName(), ode).compare();
+        List<String> discrepancies = new Dictionary2BeanComparer(doe.getFullClassName(), doe).compare();
         if (discrepancies.isEmpty()) {
-            out.println("No discrepancies were found between the dictionary definition and the java object");
+            out.println("No discrepancies were found between the dictionary definition and the java object -- ");
+            out.println("WARNING: take this with a grain of salt - the comparison does not dig into complex sub-objects nor collections so...");
         } else {
             out.println("<b>" + discrepancies.size() + " discrepancie(s) were found between the dictionary definition and the java object" + "</b>");
             out.println("<ol>");
@@ -237,7 +240,7 @@ public class DictionaryFormatter {
         out.println("Default");
         out.println("</th>");
         out.println("<th>");
-        out.println("Repeats?<br>WIP");
+        out.println("Repeats?");
         out.println("</th>");
         out.println("<th>");
         out.println("Valid Characters");
@@ -252,78 +255,231 @@ public class DictionaryFormatter {
         out.println("Default Control");
         out.println("</th>");
         out.println("</tr>");
-//        for (AttributeDefinition ad : getSortedFields()) {
-        for (AttributeDefinition ad : ode.getAttributes()) {
-            out.println("<tr>");
-            out.println("<td>");
-            out.println(nbsp(ad.getName()));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcRequired(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcDataType(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcLength(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcShortLabel(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcSummary(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcLabel(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcDescription(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcDynamicHiddenReadOnly(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcDefaultValue(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcRepeating(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcForceUpperValidCharsMinMax(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcLookup(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcCrossField(ad)));
-            out.println("</td>");
-            out.println("<td>");
-            out.println(nbsp(calcControl(ad)));
-            out.println("</td>");
-            out.println("</tr>");
-        }
+        this.writeAttributes(out, doe, new Stack<String>());
         out.println("</table>");
         return;
     }
 
-    private String calcShortLabel(AttributeDefinition ad) {
+    private void writeAttributes(PrintStream out, DataObjectEntry ode, Stack<String> parents) {
+//        for (AttributeDefinition ad : getSortedFields()) {
+        if (ode.getAttributes() != null) {
+            for (AttributeDefinition ad : ode.getAttributes()) {
+                out.println("<tr>");
+                out.println("<td>");
+                out.println(nbsp(calcName(ad.getName(), parents)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcRequired(ad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcDataType(ad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcLength(ad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcShortLabel(ad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcSummary(ad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcLabel(ad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcDescription(ad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcDynamicHiddenReadOnly(ad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcDefaultValue(ad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcForceUpperValidCharsMinMax(ad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcLookup(ad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcCrossField(ad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcControl(ad)));
+                out.println("</td>");
+                out.println("</tr>");
+            }
+        }
+        if (ode.getComplexAttributes() != null) {
+            for (ComplexAttributeDefinition cad : ode.getComplexAttributes()) {
+                out.println("<tr>");
+                out.println("<td>");
+                out.println(nbsp(calcName(cad.getName(), parents)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcRequired(cad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println("Complex");
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcShortLabel(cad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcSummary(cad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcLabel(cad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcDescription(cad)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("</tr>");
+                parents.push(cad.getName());
+                this.writeAttributes(out, (DataObjectEntry) cad.getDataObjectEntry(), parents);
+                parents.pop();
+            }
+        }
+        if (ode.getCollections() != null) {
+            for (CollectionDefinition cd : ode.getCollections()) {
+                out.println("<tr>");
+                out.println("<td>");
+                out.println(nbsp(calcName(cd.getName(), parents)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcRequired(cd)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println("Complex");
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcShortLabel(cd)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcSummary(cd)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcLabel(cd)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(calcDescription(cd)));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp("Repeating"));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("<td>");
+                out.println(nbsp(null));
+                out.println("</td>");
+                out.println("</tr>");
+                DataObjectEntry childDoe = this.getDataOjbectEntry(cd.getDataObjectClass());
+                if (childDoe == null) {
+                    throw new NullPointerException ("Could not find a data object entry, " + cd.getDataObjectClass() + " for field " + calcName(cd.getName(), parents));
+                }
+                parents.push(cd.getName());
+                this.writeAttributes(out, (DataObjectEntry) childDoe, parents);
+                parents.pop();
+            }
+        }
+    }
+
+    private DataObjectEntry getDataOjbectEntry(String className) {
+        for (DataObjectEntry doe : this.beansOfType.values()) {
+            if (doe.getDataObjectClass().getName().equals(className)) {
+                return doe;
+            }
+        }
+        return null;
+    }
+
+    private String calcName(String name, Stack<String> parents) {
+        StringBuilder sb = new StringBuilder();
+        for (String parent : parents) {
+            sb.append(parent);
+            sb.append(".");
+        }
+        sb.append(name);
+        return sb.toString();
+    }
+
+    private String calcShortLabel(CollectionDefinition cd) {
+        return cd.getShortLabel();
+    }
+
+    private String calcShortLabel(AttributeDefinitionBase ad) {
         return ad.getShortLabel();
     }
 
-    private String calcLabel(AttributeDefinition ad) {
+    private String calcLabel(CollectionDefinition cd) {
+        return cd.getLabel();
+    }
+
+    private String calcLabel(AttributeDefinitionBase ad) {
         return ad.getLabel();
     }
 
-    private String calcSummary(AttributeDefinition ad) {
+    private String calcSummary(CollectionDefinition ad) {
         return ad.getSummary();
     }
 
-    private String calcDescription(AttributeDefinition ad) {
+    private String calcSummary(AttributeDefinitionBase ad) {
+        return ad.getSummary();
+    }
+
+    private String calcDescription(CollectionDefinition cd) {
+        return cd.getDescription();
+    }
+
+    private String calcDescription(AttributeDefinitionBase ad) {
         return ad.getDescription();
     }
 
     private List<AttributeDefinition> getSortedFields() {
-        List<AttributeDefinition> fields = ode.getAttributes();
+        List<AttributeDefinition> fields = doe.getAttributes();
         Collections.sort(fields, new AttributeDefinitionNameComparator());
         return fields;
     }
@@ -450,7 +606,29 @@ public class DictionaryFormatter {
         return fieldName + "." + simpleName;
     }
 
-    private String calcRequired(AttributeDefinition ad) {
+    private String calcRequired(CollectionDefinition cd) {
+        if (cd.getMinOccurs() != null) {
+            if (cd.getMinOccurs() >= 1) {
+                return "required";
+            }
+        }
+        // TODO: Deal with collections
+//        if (ad.getMaximumNumberOfElements() != null) {
+//            if (ad.getMaximumNumberOfElements().intValue() == 0) {
+//                return "Not allowed";
+//            }
+//        }
+//
+//        if (ad.getMinimumNumberOfElements() != null) {
+//            if (ad.getMinimumNumberOfElements().intValue() >= 1) {
+//                return "required";
+//            }
+//        }
+        return " ";
+//  return "optional";
+    }
+
+    private String calcRequired(AttributeDefinitionBase ad) {
         if (ad.isRequired() != null) {
             if (ad.isRequired()) {
                 return "required";
@@ -643,34 +821,6 @@ public class DictionaryFormatter {
         return list;
     }
 
-    private String calcRepeating(AttributeDefinition ad) {
-        // TODO: deal with collections
-        return "????";
-//        if (ad.getMaximumNumberOfElements() == null) {
-//            return "???";
-//        }
-//        if (ad.getMaximumNumberOfElements().intValue() == DictionaryConstants.UNBOUNDED) {
-//            if (ad.getMinimumNumberOfElements() != null && ad.getMinimumNumberOfElements() > 1) {
-//                return "repeating: minimum " + ad.getMinimumNumberOfElements() + " times";
-//            }
-//            return "repeating: unlimited";
-//        }
-//        if (ad.getMaximumNumberOfElements().intValue() == 0) {
-//            return "NOT USED";
-//        }
-//        if (ad.getMaximumNumberOfElements().intValue() == 1) {
-//            return " ";
-////   return "single";
-//        }
-//
-//        if (ad.getMinimumNumberOfElements() != null) {
-//            if (ad.getMinimumNumberOfElements().intValue() > 1) {
-//                return "repeating: " + ad.getMinimumNumberOfElements() + " to " + ad.getMaximumNumberOfElements()
-//                        + " times";
-//            }
-//        }
-//        return "repeating: maximum " + ad.getMaximumNumberOfElements() + " times";
-    }
 
     private String calcLength(AttributeDefinition ad) {
         if (ad.getMaxLength() != null) {
@@ -728,7 +878,7 @@ public class DictionaryFormatter {
         return b.toString();
     }
 
-    private String calcCrossFieldRequire(AttributeDefinition ad) {
+    private String calcCrossFieldRequire(AttributeDefinitionBase ad) {
 //        if (ad.getRequireConstraint() == null) {
 //            return null;
 //        }

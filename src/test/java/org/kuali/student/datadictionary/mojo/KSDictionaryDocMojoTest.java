@@ -30,7 +30,6 @@ import static org.junit.Assert.*;
  */
 public class KSDictionaryDocMojoTest {
     private static final String DICTIONARY_DOC_DIRECTORY = "target/site/dictionary";
-    private static String PROJECT_URL = "https://test.kuali.org/svn/student/tools/ks-contractdoc-plugin/src/test/resources/";
     public KSDictionaryDocMojoTest() {
     }
 
@@ -59,17 +58,19 @@ public class KSDictionaryDocMojoTest {
         KSDictionaryDocMojo instance = new KSDictionaryDocMojo();
         List<String> supportFiles = new ArrayList ();
 //        supportFiles.add("ks-AtpInfo-dictionary-generated.xml");        
-//        supportFiles.add("ks-base-dictionary");          
-//        supportFiles.add("ks-base-dictionary-validchars");      
-        instance.setInputFiles(supportFiles);        
+        supportFiles.add("ks-base-dictionary.xml");          
+        supportFiles.add("ks-base-dictionary-validchars.xml");
+        supportFiles.add("org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml");
+        supportFiles.add("org/kuali/rice/krad/uif/UifControlDefinitions.xml");
+        supportFiles.add("org/kuali/rice/krad/uif/UifMiscDefinitions.xml");
+        instance.setSupportFiles(supportFiles);        
         List<String> inputFiles = new ArrayList ();
         inputFiles.add("ks-AtpInfo-dictionary.xml");        
 //        inputFiles.add("ks-LprInfo-dictionary.xml");            
         instance.setInputFiles(inputFiles);
         instance.setHtmlDirectory(new File (DICTIONARY_DOC_DIRECTORY));
-        instance.setProjectUrl(PROJECT_URL);
         instance.execute();
         assertTrue(new File(instance.getHtmlDirectory() + "/" + "index.html").exists());        
-        assertTrue(new File(instance.getHtmlDirectory() + "/" + "ks-AtpInfo-dictionary.html").exists());
+        assertTrue(new File(instance.getHtmlDirectory() + "/" + "AtpInfo.html").exists());
     }
 }

@@ -20,9 +20,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.text.BreakIterator;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -216,6 +216,8 @@ public class KradDictionaryCreator {
     }
 
     private void writeGeneratedImports(XmlWriter out) {
+        // don't actually generate imports because it slows down the springbean generation
+        out.writeCommentBox("The following file is required for this file to load:\n ks-base-dictionary.xml\nplus any of its dependencies");
         out.indentPrintln("<import resource=\"classpath:ks-base-dictionary.xml\"/>");
         // TODO: only write out the ones that are used in this structure
 //        out.indentPrintln("<import resource=\"classpath:ks-RichTextInfo-dictionary.xml\"/>");
@@ -223,8 +225,26 @@ public class KradDictionaryCreator {
     }
 
     private void writeManualImports(XmlWriter out) {
-        out.writeComment("This file gets generated during the build and put into the target/classes directory");
+        out.writeComment("The following file gets generated during the build and gets put into the target/classes directory");
         out.indentPrintln("<import resource=\"classpath:ks-" + initUpper(className) + "-dictionary-generated.xml\"/>");
+        List<String> imports = this.getComplexSubObjectsThatAreLists();
+        if (!imports.isEmpty()) {
+            out.writeComment("TODO: remove these once the jira about lists of complex objects gets fixed");
+            for (String impName : imports) {
+                out.indentPrintln("<import resource=\"classpath:ks-" + initUpper(impName) + "-dictionary.xml\"/>");
+            }
+        }
+    }
+
+    private List<String> getComplexSubObjectsThatAreLists() {
+        List<String> list = new ArrayList();
+        for (MessageStructure ms : this.messageStructures) {
+            switch (this.calculateCategory(ms)) {
+                case LIST_OF_COMPLEX:
+                    list.add(this.stripListOffEnd(ms.getType()));
+            }
+        }
+        return list;
     }
 
     private String stripListOffEnd(String name) {
@@ -234,48 +254,13 @@ public class KradDictionaryCreator {
         return name;
     }
 
-    private void writeSubStructures(XmlType type, Stack<String> stack) {
-        boolean first = true;
-        for (MessageStructure ms : finder.findMessageStructures(type.getName())) {
-            // skip dynamic attributes
-            if (ms.getShortName().equals("attributes")) {
-                continue;
-            }
-            if (ms.getType().endsWith("List")) {
-                continue;
-            }            
-            XmlType st = finder.findXmlType(this.stripListOffEnd(ms.getType()));
-            if (st == null) {
-                throw new NullPointerException(ms.getType() + " does not exist in list of types with parents " + calcParents(stack));
-            }
-            if (!st.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
-                continue;
-            }
-            if (first) {
-                first = false;
-                gwriter.indentPrintln("<ul>");
-            }
-            if (!stack.contains(st.getName())) {
-                stack.push(st.getName());
-                this.writeSubStructures(st, stack);
-                stack.pop();
-            }
+    private String calcDataObjectClass(XmlType xmlType) {
+        // this is those packages that are not included in the sources for Enroll-API for the model
+        // so the package is null but the name is the full package spec
+        if (xmlType.getJavaPackage() == null || xmlType.getJavaPackage().isEmpty()) {
+            return xmlType.getName();
         }
-        if (!first) {
-            gwriter.indentPrintln("</ul>");
-        }
-    }
-
-    private String calcParents(Stack<String> stack) {
-        StringBuilder sb = new StringBuilder();
-        String dot = "";
-        Enumeration<String> en = stack.elements();
-        while (en.hasMoreElements()) {
-            sb.append(dot);
-            dot = ".";
-            sb.append(en.nextElement());
-        }
-        return sb.toString();
+        return xmlType.getJavaPackage() + "." + initUpper(xmlType.getName());
     }
 
     private void writeGeneratedObjectStructure(XmlWriter out) {
@@ -285,9 +270,9 @@ public class KradDictionaryCreator {
         out.indentPrintln("<bean id=\"" + initUpper(className) + "-generated\" abstract=\"true\" parent=\"DataObjectEntry\">");
         out.incrementIndent();
         writeProperty("name", initLower(className), out);
-        writeProperty("objectClass", xmlType.getJavaPackage() + "." + initUpper(className), out);
+        writeProperty("dataObjectClass", calcDataObjectClass(xmlType), out);
         writeProperty("objectLabel", calcObjectLabel(), out);
-        writeProperty("objectDescription", xmlType.getDesc(), out);
+        writePropertyValue("objectDescription", xmlType.getDesc(), out);
         String titleAttribute = calcTitleAttribute();
         if (titleAttribute != null) {
             writeProperty("titleAttribute", titleAttribute, out);
@@ -306,21 +291,56 @@ public class KradDictionaryCreator {
             out.decrementIndent();
         }
         out.indentPrintln("</property>");
+
+        this.writeAllGeneratedAttributeRefBeans(className, null, new Stack<String>(), this.messageStructures, out);
+
+        out.indentPrintln("</bean>");
+
+        //Step 2, loop through attributes
+        this.writeGeneratedAttributeDefinitions(className, null, new Stack<String>(), this.messageStructures, out);
+    }
+
+    private void writeAllGeneratedAttributeRefBeans(String currentClassName,
+            String parentName,
+            Stack<String> parents,
+            List<MessageStructure> fields,
+            XmlWriter out) {
+        if (parents.contains(currentClassName)) {
+            return;
+        }
+        out.println("");
         out.indentPrintln("<property name=\"attributes\">");
         out.incrementIndent();
         out.indentPrintln("<list>");
         out.incrementIndent();
-        this.writeGeneratedAttributeRefBeans(className, null, new Stack<String>(), this.messageStructures, out);
+        this.writeGeneratedAttributeRefBeans(currentClassName, parentName, parents, fields, out, Category.PRIMITIVE);
+        out.decrementIndent();
+        out.indentPrintln("</list>");
+        out.decrementIndent();
+        out.indentPrintln("</property>");
+
+        out.println("");
+        out.indentPrintln("<property name=\"complexAttributes\">");
+        out.incrementIndent();
+        out.indentPrintln("<list>");
+        out.incrementIndent();
+        this.writeGeneratedAttributeRefBeans(currentClassName, parentName, parents, fields, out, Category.COMPLEX);
+        out.decrementIndent();
+        out.indentPrintln("</list>");
+        out.decrementIndent();
+        out.indentPrintln("</property>");
+
+        out.println("");
+        out.indentPrintln("<property name=\"collections\">");
+        out.incrementIndent();
+        out.indentPrintln("<list>");
+        out.incrementIndent();
+        this.writeGeneratedAttributeRefBeans(currentClassName, parentName, parents, fields, out, Category.LIST_OF_COMPLEX);
         out.decrementIndent();
         out.indentPrintln("</list>");
         out.decrementIndent();
         out.indentPrintln("</property>");
         out.decrementIndent();
-        out.indentPrintln("</bean>");
-
-        //Step 2, loop through attributes
-        this.writeGeneratedAttributeDefinitions(className, null, new Stack<String>(), this.messageStructures, out);
-
     }
 
     private void addValue(String value) {
@@ -349,71 +369,102 @@ public class KradDictionaryCreator {
                 " ");
     }
 
-    private void writeGeneratedAttributeRefBeans(String currentClass, String parentName,
-            Stack<String> parents, List<MessageStructure> fields, XmlWriter out) {
+    private enum Category {
+
+        PRIMITIVE, COMPLEX, LIST_OF_COMPLEX, LIST_OF_PRIMITIVE, DYNAMIC_ATTRIBUTE
+    };
+
+    private Category calculateCategory(MessageStructure ms) {
+        if (ms.getShortName().equals("attributes")) {
+            return Category.DYNAMIC_ATTRIBUTE;
+        }
+        String childXmlTypeName = this.stripListOffEnd(ms.getType());
+        XmlType childXmlType = this.finder.findXmlType(childXmlTypeName);
+        if (childXmlType == null) {
+            throw new IllegalStateException(childXmlTypeName);
+        }
+        if (ms.getType().endsWith("List")) {
+            if (childXmlType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+                return Category.LIST_OF_COMPLEX;
+            }
+            return Category.LIST_OF_PRIMITIVE;
+        }
+        if (childXmlType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+            return Category.COMPLEX;
+        }
+        return Category.PRIMITIVE;
+    }
+
+    private void writeGeneratedAttributeRefBeans(String currentClass,
+            String parentName,
+            Stack<String> parents,
+            List<MessageStructure> fields,
+            XmlWriter out,
+            Category filter) {
         if (parents.contains(currentClass)) {
             return;
         }
         for (MessageStructure ms : fields) {
-            // skip dynamic attributes
-            if (ms.getShortName().equals("attributes")) {
+            Category category = this.calculateCategory(ms);
+            if (!category.equals(filter)) {
                 continue;
             }
-            if (ms.getType().endsWith("List")) {
-                continue;
-            }
-            String name = calcName(parentName, ms);
-            String beanName = calcBeanName(name);
-            out.indentPrintln("<ref bean=\"" + beanName + "\"/>");
-            // Add complex sub-types fields
             String childXmlTypeName = this.stripListOffEnd(ms.getType());
             XmlType childXmlType = this.finder.findXmlType(childXmlTypeName);
             if (childXmlType == null) {
                 throw new IllegalStateException(childXmlTypeName);
             }
-            if (childXmlType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
-                parents.push(currentClass);
-                List<MessageStructure> childFields = this.finder.findMessageStructures(childXmlTypeName);
-//                if (childFields.isEmpty()) {
-//                    throw new IllegalStateException(childXmlTypeName);
-//                }
-                writeGeneratedAttributeRefBeans(childXmlTypeName, name, parents, childFields, out);
-                parents.pop();
-            }
+            String pathName = calcPathName(parentName, ms);
+            String beanName = calcBeanName(pathName);
+            // TODO: change this once they fix the list of complex jira
+//            if (filter.equals(Category.LIST_OF_COMPLEX)) {
+//                beanName = initUpper(childXmlTypeName);
+//            }
+            out.indentPrintln("<ref bean=\"" + beanName + "\"/>");
+//
+//            // Add complex sub-types fields
+//            switch (category) {
+//                case COMPLEX:
+//                case LIST_OF_COMPLEX:
+//                    parents.push(currentClass);
+//                    List<MessageStructure> childFields = this.finder.findMessageStructures(childXmlTypeName);
+//                    writeGeneratedAttributeRefBeans(childXmlTypeName, pathName, parents, childFields, out, filter);
+//                    parents.pop();
+//            }
         }
     }
 
-    private void writeGeneratedAttributeDefinitions(String currentClassName, String parentName,
-            Stack<String> parents, List<MessageStructure> fields, XmlWriter out) {
+    private void writeGeneratedAttributeDefinitions(String currentClassName,
+            String parentName,
+            Stack<String> parents,
+            List<MessageStructure> fields,
+            XmlWriter out) {
         if (parents.contains(currentClassName)) {
             return;
         }
         for (MessageStructure ms : fields) {
-            // skip dynamic attributes
-            if (ms.getShortName().equals("attributes")) {
-                continue;
+            Category category = this.calculateCategory(ms);
+            switch (category) {
+                case DYNAMIC_ATTRIBUTE:
+                    continue;
             }
-            if (ms.getType().endsWith("List")) {
-                continue;
-            }            
-            String name = calcName(parentName, ms);
-            String beanName = calcBeanName(name);
+            String pathName = calcPathName(parentName, ms);
+            String beanName = calcBeanName(pathName);
             String childXmlTypeName = this.stripListOffEnd(ms.getType());
             XmlType childXmlType = this.finder.findXmlType(childXmlTypeName);
             if (childXmlType == null) {
                 throw new IllegalStateException(childXmlTypeName);
             }
-            writeGeneratedAttributeDefinition(currentClassName, parentName, ms, out);
+            writeGeneratedAttributeDefinition(currentClassName, parentName, parents, ms, out);
 
             // Add complex sub-types fields
-            if (childXmlType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
-                parents.push(currentClassName);
-                List<MessageStructure> childFields = this.finder.findMessageStructures(childXmlTypeName);
-//                if (childFields.isEmpty()) {
-//                    throw new IllegalStateException(childXmlTypeName);
-//                }
-                writeGeneratedAttributeDefinitions(childXmlTypeName, name, parents, childFields, out);
-                parents.pop();
+            switch (category) {
+                case COMPLEX:
+//                case LIST_OF_COMPLEX:
+                    parents.push(currentClassName);
+                    List<MessageStructure> childFields = this.finder.findMessageStructures(childXmlTypeName);
+                    writeGeneratedAttributeDefinitions(childXmlTypeName, pathName, parents, childFields, out);
+                    parents.pop();
             }
         }
     }
@@ -429,26 +480,71 @@ public class KradDictionaryCreator {
         return false;
     }
 
-    private void writeGeneratedAttributeDefinition(String currentClassName, String parentName, MessageStructure ms, XmlWriter out) {
+    private void writeGeneratedAttributeDefinition(String currentClassName, String parentName, Stack<String> parents, MessageStructure ms, XmlWriter out) {
 
         //Create the abstract field
-        String name = calcName(parentName, ms);
-        String beanName = calcBeanName(name);
-        String baseKualiType = this.calcBaseKualiType(ms);
+        String pathName = calcPathName(parentName, ms);
+        String beanName = calcBeanName(pathName);
+        String baseKualiParentBean = this.calcBaseKualiParentBean(ms);
         out.println("");
-        out.indentPrintln("<bean id=\"" + beanName + "-generated\" abstract=\"true\" parent=\"" + baseKualiType + "\">");
+        out.indentPrintln("<bean id=\"" + beanName + "-generated\" abstract=\"true\" parent=\"" + baseKualiParentBean + "\">");
         out.incrementIndent();
-        writeProperty("name", name, out);
-        writeProperty("childEntryName", calcChildEntryName(ms), out);
-        if (this.shouldWriteDetails(ms)) {
-            writeProperty("required", calcRequired(ms), out);
-            writeProperty("shortLabel", calcShortLabel(ms), out);
-            writePropertyValue("summary", calcSummary(ms), out);
-            writeProperty("label", calcLabel(ms), out);
-            writePropertyValue("description", calcDescription(ms), out);
-            if (this.calcReadOnly(ms)) {
-                this.writeReadOnlyAttributeSecurity(out);
-            }
+        writeProperty("name", calcSimpleName(ms), out);
+        switch (this.calculateCategory(ms)) {
+            case PRIMITIVE:
+                if (this.shouldWriteDetails(ms)) {
+                    writeProperty("shortLabel", calcShortLabel(ms), out);
+                    writePropertyValue("summary", calcSummary(ms), out);
+                    writeProperty("label", calcLabel(ms), out);
+                    writePropertyValue("description", calcDescription(ms), out);
+                    if (this.calcReadOnly(ms)) {
+                        this.writeReadOnlyAttributeSecurity(out);
+                    }
+                    writeProperty("required", calcRequired(ms), out);
+                }
+                break;
+            case LIST_OF_PRIMITIVE:
+                // TODO: deal with once https://jira.kuali.org/browse/KULRICE-5439 is fixed                    
+                // for now treat the same as List of Complex, i.e. CollectionDefinition
+                writeProperty("shortLabel", calcShortLabel(ms), out);
+                writePropertyValue("summary", calcSummary(ms), out);
+                writeProperty("label", calcLabel(ms), out);
+                writeProperty("elementLabel", calcElementLabel(ms), out);
+                writePropertyValue("description", calcDescription(ms), out);
+                writeProperty("minOccurs", calcMinOccurs(ms), out);
+                writeProperty("dataObjectClass", calcDataObjectClass(ms), out);
+                break;
+            case LIST_OF_COMPLEX:
+                writeProperty("shortLabel", calcShortLabel(ms), out);
+                writePropertyValue("summary", calcSummary(ms), out);
+                writeProperty("label", calcLabel(ms), out);
+                writeProperty("elementLabel", calcElementLabel(ms), out);
+                writePropertyValue("description", calcDescription(ms), out);
+                writeProperty("minOccurs", calcMinOccurs(ms), out);
+                writeProperty("dataObjectClass", calcDataObjectClass(ms), out);
+                break;
+            case COMPLEX:
+                writeProperty("shortLabel", calcShortLabel(ms), out);
+                writePropertyValue("summary", calcSummary(ms), out);
+                writeProperty("label", calcLabel(ms), out);
+                writePropertyValue("description", calcDescription(ms), out);
+                writeProperty("required", calcRequired(ms), out);
+                writePropertyStart("dataObjectEntry", out);
+                out.indentPrintln("<bean parent=\"DataObjectEntry\">");
+                out.incrementIndent();
+                writeProperty("name", calcSimpleName(ms), out);
+                writeProperty("dataObjectClass", calcDataObjectClass(ms), out);
+                writeProperty("objectLabel", calcLabel(ms), out);
+                writePropertyValue("objectDescription", calcDescription(ms), out);
+
+                String childXmlTypeName = this.stripListOffEnd(ms.getType());
+                List<MessageStructure> childFields = this.finder.findMessageStructures(childXmlTypeName);
+                writeAllGeneratedAttributeRefBeans(childXmlTypeName, pathName, parents, childFields, out);
+                out.indentPrintln("</bean>");
+                writePropertyEnd(out);
+                break;
+            default:
+                throw new IllegalStateException("unknown/unhandled type " + ms.getId());
         }
         out.decrementIndent();
         // TODO: implement maxoccurs
@@ -458,19 +554,24 @@ public class KradDictionaryCreator {
         out.indentPrintln("</bean>");
     }
 
-    private String calcBeanName(String name) {
-        return initUpper(className) + "." + name;
+    private String calcDataObjectClass(MessageStructure ms) {
+        XmlType msType = this.finder.findXmlType(this.stripListOffEnd(ms.getType()));
+        return this.calcDataObjectClass(msType);
     }
 
-    private String calcName(String parentName, MessageStructure ms) {
-        String name = this.calcChildEntryName(ms);
+    private String calcBeanName(String pathName) {
+        return initUpper(className) + "." + pathName;
+    }
+
+    private String calcPathName(String parentName, MessageStructure ms) {
+        String name = this.calcSimpleName(ms);
         if (parentName == null) {
             return name;
         }
         return parentName + "." + name;
     }
 
-    private String calcChildEntryName(MessageStructure ms) {
+    private String calcSimpleName(MessageStructure ms) {
         String name = initLower(ms.getShortName());
         return name;
     }
@@ -483,11 +584,19 @@ public class KradDictionaryCreator {
     }
 
     private void writeReadOnlyAttributeSecurity(XmlWriter out) {
-        out.indentPrintln ("<!-- commented out until KRAD bug gets fixed that requires mask to also be entered");
+        out.indentPrintln("<!-- commented out until KRAD bug gets fixed that requires mask to also be entered");
         out.indentPrintln("<property name=\"attributeSecurity\">");
         out.indentPrintln("<ref bean=\"BaseKuali.readOnlyAttributeSecurity\"/>");
         out.indentPrintln("</property>");
-        out.indentPrintln ("-->");        
+        out.indentPrintln("-->");
+    }
+
+    private String calcElementLabel(MessageStructure ms) {
+        String label = this.calcShortLabel(ms);
+        if (label.endsWith("s")) {
+            label = label.substring(0, label.length() - 1);
+        }
+        return label;
     }
 
     private String calcShortLabel(MessageStructure ms) {
@@ -517,6 +626,14 @@ public class KradDictionaryCreator {
         return ms.getDescription();
     }
 
+    private String calcMinOccurs(MessageStructure ms) {
+        String required = this.calcRequired(ms);
+        if ("false".equals(required)) {
+            return "0";
+        }
+        return "1";
+    }
+
     private String calcRequired(MessageStructure ms) {
         if (ms.getRequired() == null) {
             return "false";
@@ -531,9 +648,9 @@ public class KradDictionaryCreator {
     private void writeManualObjectStructure(XmlWriter out) {
         //Step 1, create the parent bean
         out.println("");
-        out.indentPrintln("<!-- " + className + "-->");        
+        out.indentPrintln("<!-- " + className + "-->");
         //Create the actual instance of the bean
-        out.indentPrintln("<bean id=\"" + initUpper(className) + "\" parent=\"" + initUpper(className) + "-parent\"/>");       
+        out.indentPrintln("<bean id=\"" + initUpper(className) + "\" parent=\"" + initUpper(className) + "-parent\"/>");
         out.indentPrintln("<bean id=\"" + initUpper(className) + "-parent\" abstract=\"true\" parent=\"" + initUpper(className) + "-generated\">");
         out.writeComment("insert any overrides to the generated object definitions here");
         out.indentPrintln("</bean>");
@@ -549,15 +666,15 @@ public class KradDictionaryCreator {
             return;
         }
         for (MessageStructure ms : fields) {
+            Category cat = this.calculateCategory(ms);
             // skip dynamic attributes
-            if (ms.getShortName().equals("attributes")) {
-                continue;
+            switch (cat) {
+                case DYNAMIC_ATTRIBUTE:
+                    continue;
             }
-            if (ms.getType().endsWith("List")) {
-                continue;
-            }            
-            String name = calcName(parentName, ms);
-            String beanName = calcBeanName(name);
+
+            String pathName = calcPathName(parentName, ms);
+            String beanName = calcBeanName(pathName);
             String childXmlTypeName = this.stripListOffEnd(ms.getType());
             XmlType childXmlType = this.finder.findXmlType(childXmlTypeName);
             if (childXmlType == null) {
@@ -566,14 +683,15 @@ public class KradDictionaryCreator {
             writeManualAttributeDefinition(currentClass, parentName, ms, out);
 
             // Add complex sub-types fields
-            if (childXmlType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
-                parents.push(currentClass);
-                List<MessageStructure> childFields = this.finder.findMessageStructures(childXmlTypeName);
+            switch (cat) {
+                case COMPLEX:
+                    parents.push(currentClass);
+                    List<MessageStructure> childFields = this.finder.findMessageStructures(childXmlTypeName);
 //                if (childFields.isEmpty()) {
 //                    throw new IllegalStateException(childXmlTypeName);
 //                }
-                writeManualAttributeDefinitions(childXmlTypeName, name, parents, childFields, out);
-                parents.pop();
+                    writeManualAttributeDefinitions(childXmlTypeName, pathName, parents, childFields, out);
+                    parents.pop();
             }
         }
     }
@@ -581,12 +699,12 @@ public class KradDictionaryCreator {
     private void writeManualAttributeDefinition(String currentClass, String parentName, MessageStructure ms, XmlWriter out) {
 
         //Create the abstract field
-        String name = calcName(parentName, ms);
-        String beanName = calcBeanName(name);
+        String pathName = calcPathName(parentName, ms);
+        String beanName = calcBeanName(pathName);
 //        String baseKualiType = this.calcBaseKualiType(ms);
         //Create the actual bean instance
-        out.println("");           
-        out.indentPrintln("<bean id=\"" + beanName + "\" parent=\"" + beanName + "-parent\"/>");           
+        out.println("");
+        out.indentPrintln("<bean id=\"" + beanName + "\" parent=\"" + beanName + "-parent\"/>");
         out.indentPrintln("<bean id=\"" + beanName + "-parent\" abstract=\"true\" parent=\"" + beanName + "-generated\">");
         out.writeComment("insert any overrides to the generated attribute definitions here");
         out.indentPrintln("</bean>");
@@ -603,15 +721,15 @@ public class KradDictionaryCreator {
         map.put("name", "BaseKuali.name");
         map.put("descr", "BaseKuali.descr");
         map.put("plain", "BaseKuali.descr.plain");
-        map.put("formatted", "BaseKuali.descr.formatted");        
+        map.put("formatted", "BaseKuali.descr.formatted");
         map.put("desc", "BaseKuali.desc"); // r1 compatibility
         map.put("typeKey", "BaseKuali.typeKey");
         map.put("stateKey", "BaseKuali.stateKey");
         map.put("type", "BaseKuali.type"); // r1 compatibility
         map.put("state", "BaseKuali.state"); // r1 compatibility
         map.put("effectiveDate", "BaseKuali.effectiveDate");
-        map.put("expirationDate", "BaseKuali.expirationDate");       
-        map.put("meta", "BaseKuali.meta");        
+        map.put("expirationDate", "BaseKuali.expirationDate");
+        map.put("meta", "BaseKuali.meta");
         map.put("createTime", "BaseKuali.meta.createTime");
         map.put("updateTime", "BaseKuali.meta.updateTime");
         map.put("createId", "BaseKuali.meta.createId");
@@ -621,7 +739,7 @@ public class KradDictionaryCreator {
         predefinedFieldMap = new HashMap(map.size());
         for (String key : map.keySet()) {
             predefinedFieldMap.put(key.toLowerCase(), map.get(key));
-        }        
+        }
     }
     /**
      * list of fields that if they end with the key the should be based on the entry
@@ -633,24 +751,24 @@ public class KradDictionaryCreator {
         Map<String, String> map = new HashMap<String, String>();
         map.put("startDate", "BaseKuali.startDate");
         map.put("endDate", "BaseKuali.endDate");
-        map.put("start", "BaseKuali.start");        
-        map.put("end", "BaseKuali.end");        
-        map.put("OrgId", "BaseKuali.orgId"); 
-        map.put("OrgIds", "BaseKuali.orgId");         
+        map.put("start", "BaseKuali.start");
+        map.put("end", "BaseKuali.end");
+        map.put("OrgId", "BaseKuali.orgId");
+        map.put("OrgIds", "BaseKuali.orgId");
         map.put("PersonId", "BaseKuali.personId");
         map.put("PersonIds", "BaseKuali.personId");
         map.put("PrincipalId", "BaseKuali.principalId");
-        map.put("PrincipalIds", "BaseKuali.principalId");        
+        map.put("PrincipalIds", "BaseKuali.principalId");
         map.put("CluId", "BaseKuali.cluId");
-        map.put("CluIds", "BaseKuali.cluId");        
+        map.put("CluIds", "BaseKuali.cluId");
         map.put("LuiId", "BaseKuali.luiId");
-        map.put("LuiIds", "BaseKuali.luiId");        
-        map.put("AtpKey", "BaseKuali.atpKey");        
-        map.put("AtpKeys", "BaseKuali.atpKey");        
+        map.put("LuiIds", "BaseKuali.luiId");
+        map.put("AtpKey", "BaseKuali.atpKey");
+        map.put("AtpKeys", "BaseKuali.atpKey");
         map.put("TermKey", "BaseKuali.termKey");
-        map.put("TermKeys", "BaseKuali.termKey");         
-        map.put("CampusCalendarKey", "BaseKuali.campusCalendarKey");               
-        map.put("CampusCalendarKeys", "BaseKuali.campusCalendarKey");               
+        map.put("TermKeys", "BaseKuali.termKey");
+        map.put("CampusCalendarKey", "BaseKuali.campusCalendarKey");
+        map.put("CampusCalendarKeys", "BaseKuali.campusCalendarKey");
         map.put("Code", "BaseKuali.code");
         // convert to lower case
         endsWithMap = new HashMap(map.size());
@@ -672,18 +790,31 @@ public class KradDictionaryCreator {
         map.put("Date", "BaseKuali.date");
         map.put("Boolean", "BaseKuali.boolean");
         map.put("Integer", "BaseKuali.integer");
-        map.put("Long", "BaseKuali.long");        
-        map.put("Float", "BaseKuali.float");        
-        map.put("Double", "BaseKuali.double");        
+        map.put("Long", "BaseKuali.long");
+        map.put("Float", "BaseKuali.float");
+        map.put("Double", "BaseKuali.double");
         // convert to lower case
         typeMap = new HashMap(map.size());
         for (String key : map.keySet()) {
-            typeMap.put(key.toLowerCase (), map.get(key));
+            typeMap.put(key.toLowerCase(), map.get(key));
         }
     }
 
-    private String calcBaseKualiType(MessageStructure ms) {
-
+    private String calcBaseKualiParentBean(MessageStructure ms) {
+        switch (this.calculateCategory(ms)) {
+            case COMPLEX:
+                return "ComplexAttributeDefinition";
+            case LIST_OF_COMPLEX:
+                return "CollectionDefinition";
+            case LIST_OF_PRIMITIVE:
+                // TODO: deal with once https://jira.kuali.org/browse/KULRICE-5439 is fixed
+                System.out.println("Treating list of primitives same as collection defintion: " + ms.getId());
+                return "CollectionDefinition";
+            case PRIMITIVE:
+                break;
+            default:
+                throw new IllegalStateException("unknown/uhandled category " + ms.getId());
+        }
         String name = ms.getShortName();
         String baseKualiType = predefinedFieldMap.get(name.toLowerCase());
         if (baseKualiType != null) {
@@ -692,7 +823,7 @@ public class KradDictionaryCreator {
 
         // check ends with
         for (String key : endsWithMap.keySet()) {
-            if (name.toLowerCase ().endsWith(key)) {
+            if (name.toLowerCase().endsWith(key)) {
                 return endsWithMap.get(key);
             }
         }
@@ -703,19 +834,7 @@ public class KradDictionaryCreator {
         if (baseKualiType != null) {
             return baseKualiType;
         }
-
-        XmlType msXmlType = finder.findXmlType(type);
-        if (msXmlType == null) {
-            throw new IllegalStateException (ms.getId() + " has an invalid type " + ms.getType());
-        }
-            
-        if (msXmlType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
-            return "BaseKuali.complex";
-        }
-        throw new IllegalStateException (ms.getId() + " has an invalid type " + ms.getType());
-        // all else fails just say it is a string
-//        return "BaseKuali.string";
-
+        throw new IllegalStateException("All primitives are supposed to be handled by a predefined type " + ms.getId());
     }
 
     private String calcTitleAttribute() {
@@ -794,19 +913,27 @@ public class KradDictionaryCreator {
         return Collections.EMPTY_LIST;
     }
 
+    private void writePropertyStart(String propertyName, XmlWriter out) {
+        out.indentPrintln("<property name=\"" + propertyName + "\">");
+        out.incrementIndent();
+    }
+
+    private void writePropertyEnd(XmlWriter out) {
+        out.decrementIndent();
+        out.indentPrintln("</property>");
+    }
+
     private void writeProperty(String propertyName, String propertyValue, XmlWriter out) {
         out.indentPrintln("<property name=\"" + propertyName + "\" value=\"" + replaceDoubleQuotes(propertyValue) + "\"/>");
     }
 
     private void writePropertyValue(String propertyName, String propertyValue, XmlWriter out) {
-        out.indentPrintln("<property name=\"" + propertyName + "\">");
-        out.incrementIndent();
+        writePropertyStart(propertyName, out);
         out.indentPrintln("<value>");
         // TODO: worry about the value starting on a new line i.e. is it trimmed when loaded?
         out.println(escapeHtml(propertyValue));
         out.indentPrintln("</value>");
-        out.decrementIndent();
-        out.indentPrintln("</property>");
+        writePropertyEnd(out);
     }
 
     private String escapeHtml(String str) {

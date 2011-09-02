@@ -19,53 +19,74 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import org.kuali.rice.kns.datadictionary.DataObjectEntry;
+import java.util.Set;
+import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DictionaryTesterHelper {
 
-    private String outputFileName;
-    private String dictFileName;
-    private List<String>supportFiles;
-    private String projectUrl;
+    private String outputDir;
+    private Set<String> configFiles;
+    private ApplicationContext ac = null;
 
-    public DictionaryTesterHelper(String outputFileName,
-            String projectUrl,
-            String dictFileName,
-            List<String> supportFiles) {
-        this.outputFileName = outputFileName;
-        this.projectUrl = projectUrl;
-        this.dictFileName = dictFileName;
-        this.supportFiles = supportFiles;
+    public DictionaryTesterHelper(String outputDir,
+            Set<String> configFiles) {
+        this.outputDir = outputDir;
+        this.configFiles = configFiles;
     }
 
-    public List<String> doTest() {
-//        if (!new File(dictFileName).exists()) {
-//            throw new IllegalArgumentException(dictFileName + " does not exist");
-//        }
-//        ApplicationContext ac = new FileSystemXmlApplicationContext(dictFileName);
-        List<String> configLocations = new ArrayList (supportFiles);
+    public void loadApplicationContext() {
+        System.out.println ("DictionaryTesterHelper: begin loading application context");
+        List<String> configLocations = new ArrayList(configFiles);
 //        System.out.println ("DictionaryTesterHelper: adding " + supportFiles.size() + " support files");
-        configLocations.add("classpath:" + dictFileName);
+//        configLocations.add("classpath:" + dictFileName);
         String[] configLocs = configLocations.toArray(new String[0]);
-        ApplicationContext ac = new ClassPathXmlApplicationContext(configLocs);
-        Map<String, DataObjectEntry> beansOfType =
-                (Map<String, DataObjectEntry>) ac.getBeansOfType(DataObjectEntry.class);
-        for (DataObjectEntry doe : beansOfType.values()) {
-            System.out.println("Loading object structure: " + doe.getFullClassName());
-            if ("org.kuali.rice.kns.bo.AttributeReferenceDummy".equals (doe.getFullClassName())) {
+        ac = new ClassPathXmlApplicationContext(configLocs);
+        System.out.println ("DictionaryTesterHelper: end loading application context");        
+    }
+
+    public Map<String, DataObjectEntry> getDataObjectEntryBeans () {
+      return (Map<String, DataObjectEntry>) ac.getBeansOfType(DataObjectEntry.class);  
+    }
+    
+    public List<String> doTest() {
+        List<String> outputFileNames = new ArrayList();
+        if (ac == null) {
+            loadApplicationContext ();
+        }
+        Map<String, DataObjectEntry> beansOfType = this.getDataObjectEntryBeans();
+                
+        for (String beanId : beansOfType.keySet()) {
+            DataObjectEntry doe = beansOfType.get(beanId);
+            if ("org.kuali.rice.krad.bo.AttributeReferenceDummy".equals(doe.getFullClassName())) {
                 continue;
             }
+            System.out.println("Processing data object entry: " + doe.getDataObjectClass().getName());
             DictionaryValidator validator = new DictionaryValidator(doe, new HashSet());
             List<String> errors = validator.validate();
-            if (errors.size() > 0) {
-                return errors;
+            if (errors != null) {
+                if (!errors.isEmpty()) {
+                    throw new IllegalArgumentException("Errors validating bean "
+                            + beanId + "\n" + this.formatAsString(errors));
+                }
             }
-            DictionaryFormatter formatter = new DictionaryFormatter(doe, projectUrl, dictFileName, outputFileName);
+            String outputFileName = beanId + ".html";
+            outputFileNames.add(outputFileName);
+            String fullOutputFileName = this.outputDir + "/" + outputFileName;
+            DictionaryFormatter formatter = new DictionaryFormatter(doe, beansOfType, beanId, fullOutputFileName);
             formatter.formatForHtml();
-            return new ArrayList<String>();
         }
-        return null;
+        return outputFileNames;
+    }
+
+    private String formatAsString(List<String> errors) {
+        int i = 0;
+        StringBuilder builder = new StringBuilder();
+        for (String error : errors) {
+            i++;
+            builder.append(i).append(". ").append(error).append("\n");
+        }
+        return builder.toString();
     }
 }

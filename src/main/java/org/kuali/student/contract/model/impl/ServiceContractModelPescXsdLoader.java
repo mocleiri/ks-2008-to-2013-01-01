@@ -136,7 +136,7 @@ public class ServiceContractModelPescXsdLoader implements
 //        parser.setAnnotationParser(new XsdAnnotationParserFactory());        
         try {
             for (String xsdFileName : this.xsdFileNames) {
-                System.out.println("Parsing " + xsdFileName);
+//                System.out.println("Parsing " + xsdFileName);
                 parser.parse(new File(xsdFileName));
             }
         } catch (SAXException ex) {
@@ -165,15 +165,15 @@ public class ServiceContractModelPescXsdLoader implements
             this.addElementDecl(element);
         }
         for (XSSimpleType st : schema.getSimpleTypes().values()) {
-            System.out.println("SimpleType =" + st.getName() + " namespace=" + st.getTargetNamespace());
+//            System.out.println("SimpleType =" + st.getName() + " namespace=" + st.getTargetNamespace());
             addSimpleType(st);
         }
         for (XSComplexType ct : schema.getComplexTypes().values()) {
             if (!shouldInclude(ct)) {
-                System.out.println("Skipping ComplexType =" + ct.getName() + " namespace=" + ct.getTargetNamespace());
+//                System.out.println("Skipping ComplexType =" + ct.getName() + " namespace=" + ct.getTargetNamespace());
                 continue;
             }
-            System.out.println("ComplexType =" + ct.getName() + " namespace=" + ct.getTargetNamespace());
+//            System.out.println("ComplexType =" + ct.getName() + " namespace=" + ct.getTargetNamespace());
             addComplexType(ct);
         }
     }
@@ -188,8 +188,8 @@ public class ServiceContractModelPescXsdLoader implements
     private void addSimpleType(XSSimpleType simpleType) {
         XmlType xmlType = xmlTypeMap.get(simpleType.getName());
         if (xmlType != null) {
-            System.out.println("Already processed simple Type="
-                    + simpleType.getName());
+//            System.out.println("Already processed simple Type="
+//                    + simpleType.getName());
             return;
         }
         xmlType = new XmlType();
@@ -210,10 +210,10 @@ public class ServiceContractModelPescXsdLoader implements
         String name = element.getName();
         XmlType xmlType = xmlTypeMap.get(name);
         if (xmlType != null) {
-            System.out.println("Already processed element name=" + name);
+//            System.out.println("Already processed element name=" + name);
             return;
         }
-        System.out.println("processing element=" + name);
+//        System.out.println("processing element=" + name);
         xmlType = new XmlType();
         xmlTypeMap.put(name, xmlType);
         xmlType.setName(name);
@@ -228,10 +228,10 @@ public class ServiceContractModelPescXsdLoader implements
     private void addComplexType(XSComplexType complexType, String name) {
         XmlType xmlType = xmlTypeMap.get(name);
         if (xmlType != null) {
-            System.out.println("Already processed complex Type=" + name);
+//            System.out.println("Already processed complex Type=" + name);
             return;
         }
-        System.out.println("processing complex type=" + name);
+//        System.out.println("processing complex type=" + name);
         xmlType = new XmlType();
         xmlTypeMap.put(name, xmlType);
         xmlType.setName(name);
@@ -259,9 +259,9 @@ public class ServiceContractModelPescXsdLoader implements
                 }
             }
         }
-        if (!found) {
-            System.out.println("*** WARNING *** Complex Type, " + xmlType.getName() + ", has no message structure fields");
-        }
+//        if (!found) {
+//            System.out.println("*** WARNING *** Complex Type, " + xmlType.getName() + ", has no message structure fields");
+//        }
     }
 
     private String calcMissing(String str) {
@@ -293,7 +293,7 @@ public class ServiceContractModelPescXsdLoader implements
         ms.setId(xmlObject + "." + ms.getShortName());
         ms.setType(calcType(element, xmlObject + "" + ms.getShortName()));
         ms.setDescription(calcMissing(calcDesc(element.getAnnotation())));
-        System.out.println("Element " + ms.getId() + " " + ms.getType());
+//        System.out.println("Element " + ms.getId() + " " + ms.getType());
         ms.setRequired(calcRequired(element));
         ms.setCardinality(calcCardinality(element));
     }
@@ -353,9 +353,9 @@ public class ServiceContractModelPescXsdLoader implements
     }
 
     private String calcCardinality(XSElementDecl element) {
-        if (element.getName().equals ("NoteMessage")) {
-            System.out.println ("start debugging because NoteMessage has maxOccurs=unbounded");
-        }
+//        if (element.getName().equals ("NoteMessage")) {
+//            System.out.println ("start debugging because NoteMessage has maxOccurs=unbounded");
+//        }
         if (this.getIsRepeated(element)) {
             return "Many";
         }

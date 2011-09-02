@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.DataObjectEntry;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.ComplexAttributeDefinition;
+import org.kuali.rice.krad.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 
 public class Dictionary2BeanComparer {
 
@@ -45,8 +47,8 @@ public class Dictionary2BeanComparer {
         } catch (ClassNotFoundException ex) {
             return Arrays.asList("Cannot compare the dictionary entry to it's object because the object's class cannot be found");
         }
-        Stack<AttributeDefinition> parentFields = new Stack<AttributeDefinition>();
-        Stack<Class<?>> parentClasses = new Stack<Class<?>> ();
+        Stack<DataDictionaryDefinitionBase> parentFields = new Stack<DataDictionaryDefinitionBase>();
+        Stack<Class<?>> parentClasses = new Stack<Class<?>>();
         DataObjectEntry osBean = new Bean2DictionaryConverter(clazz, parentFields, parentClasses).convert();
         return compare(osDict, osBean);
 
@@ -58,7 +60,7 @@ public class Dictionary2BeanComparer {
         compareAddDiscrepancy(discrepancies, "Java class name", osDict.getFullClassName(), osBean.getFullClassName());
         compareAddDiscrepancy(discrepancies, "Entry class", osDict.getEntryClass(), osBean.getEntryClass());
         for (AttributeDefinition adDict : osDict.getAttributes()) {
-            AttributeDefinition adBean = findField(adDict.getName(), osBean);
+            AttributeDefinition adBean = findAttributeDefinition(adDict.getName(), osBean);
             if (adBean == null) {
 //                if (!adDict.isDynamic()) {
                 discrepancies.add("Field " + adDict.getName() + " does not exist in the corresponding java class");
@@ -69,8 +71,26 @@ public class Dictionary2BeanComparer {
             // TODO: deal with collections
 //            compareAddDiscrepancy(discrepancies, adDict.getName() + " maxOccurs", adDict.getMaximumNumberOfElements(), adBean.getMaximumNumberOfElements());
         }
+        for (ComplexAttributeDefinition cadDict : osDict.getComplexAttributes()) {
+            ComplexAttributeDefinition cadBean = findComplexAttributeDefinition(cadDict.getName(), osBean);
+            if (cadBean == null) {
+//                if (!adDict.isDynamic()) {
+                discrepancies.add("Field " + cadDict.getName() + " does not exist in the corresponding java class");
+//                }
+                continue;
+            }
+             // TODO: deal with collections
+//            compareAddDiscrepancy(discrepancies, adDict.getName() + " maxOccurs", adDict.getMaximumNumberOfElements(), adBean.getMaximumNumberOfElements());
+        }
         for (AttributeDefinition fdBean : osBean.getAttributes()) {
-            AttributeDefinition fdDict = findField(fdBean.getName(), osDict);
+            AttributeDefinition fdDict = findAttributeDefinition(fdBean.getName(), osDict);
+            if (fdDict == null) {
+                discrepancies.add("Field " + fdBean.getName() + " missing from the dictictionary");
+                continue;
+            }
+        }
+        for (ComplexAttributeDefinition fdBean : osBean.getComplexAttributes()) {
+            ComplexAttributeDefinition fdDict = findComplexAttributeDefinition(fdBean.getName(), osDict);
             if (fdDict == null) {
                 discrepancies.add("Field " + fdBean.getName() + " missing from the dictictionary");
                 continue;
@@ -79,10 +99,19 @@ public class Dictionary2BeanComparer {
         return discrepancies;
     }
 
-    private AttributeDefinition findField(String name, DataObjectEntry ode) {
+    private AttributeDefinition findAttributeDefinition(String name, DataObjectEntry ode) {
         for (AttributeDefinition fd : ode.getAttributes()) {
             if (name.equals(fd.getName())) {
                 return fd;
+            }
+        }
+        return null;
+    }
+
+    private ComplexAttributeDefinition findComplexAttributeDefinition(String name, DataObjectEntry ode) {
+        for (ComplexAttributeDefinition cad : ode.getComplexAttributes()) {
+            if (name.equals(cad.getName())) {
+                return cad;
             }
         }
         return null;
@@ -131,4 +160,3 @@ public class Dictionary2BeanComparer {
         return field + " inconsistent: dictionary='" + value1 + "'], java class='" + value2 + "'";
     }
 }
-

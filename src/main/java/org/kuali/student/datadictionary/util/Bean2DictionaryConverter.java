@@ -23,17 +23,20 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 import java.util.Stack;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.DataObjectEntry;
-import org.kuali.rice.kns.datadictionary.validation.DataType;
+import org.kuali.rice.core.api.uif.DataType;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.CollectionDefinition;
+import org.kuali.rice.krad.datadictionary.ComplexAttributeDefinition;
+import org.kuali.rice.krad.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 
 public class Bean2DictionaryConverter {
 
     private Class<?> clazz;
-    private Stack<AttributeDefinition> parentFields;
+    private Stack<DataDictionaryDefinitionBase> parentFields;
     private Stack<Class<?>> parentClasses;
 
-    public Bean2DictionaryConverter(Class<?> clazz, Stack<AttributeDefinition> parentFields, Stack<Class<?>> parentClasses) {
+    public Bean2DictionaryConverter(Class<?> clazz, Stack<DataDictionaryDefinitionBase> parentFields, Stack<Class<?>> parentClasses) {
         this.clazz = clazz;
         this.parentFields = parentFields;
         this.parentClasses = parentClasses;
@@ -41,12 +44,12 @@ public class Bean2DictionaryConverter {
 
     public DataObjectEntry convert() {
         DataObjectEntry ode = new DataObjectEntry();
-        ode.setObjectClass(clazz);
-        addAttributeDefinitions(ode);
+        ode.setDataObjectClass(clazz);
+        addFields("", ode);
         return ode;
     }
 
-    public void addAttributeDefinitions(DataObjectEntry ode) {
+    public void addFields(String debuggingContext, DataObjectEntry ode) {
         BeanInfo beanInfo;
         try {
             beanInfo = Introspector.getBeanInfo(clazz);
@@ -63,43 +66,82 @@ public class Bean2DictionaryConverter {
             if ("attributes".equals(pd.getName())) {
                 continue;
             }
+            String name = calcName(pd.getName());
             Class<?> actualClass = calcActualClass(clazz, pd);
-            AttributeDefinition ad = calcAttributeDefinition(clazz, pd, actualClass);
-            ode.getAttributes().add(ad);
-            if (ad.getDataType().equals(DataType.COMPLEX)) {
+            DataType dt = calcDataType(debuggingContext + "." + clazz.getSimpleName() + "." + name, actualClass);
+            DataDictionaryDefinitionBase dddef = calcDataDictionaryDefinition(pd, dt);
+            if (dddef instanceof AttributeDefinition) {
+                AttributeDefinition ad = (AttributeDefinition) dddef;
+                ode.getAttributes().add(ad);
+            } else if (dddef instanceof ComplexAttributeDefinition) {
+                ComplexAttributeDefinition cad = (ComplexAttributeDefinition) dddef;
+                ode.getComplexAttributes().add(cad);
                 if (!parentClasses.contains(clazz)) {
-                    parentFields.push(ad);
+                    parentFields.push(dddef);
                     parentClasses.push(clazz);
                     Bean2DictionaryConverter subConverter = new Bean2DictionaryConverter(actualClass, parentFields, parentClasses);
-                    subConverter.addAttributeDefinitions(ode);
+                    subConverter.addFields(debuggingContext + "." + clazz.getSimpleName() + name, ode);
                     parentFields.pop();
                     parentClasses.pop();
                 }
+            } else if (dddef instanceof CollectionDefinition) {
+                CollectionDefinition cd = (CollectionDefinition) dddef;
+                ode.getCollections().add(cd);
+                // TODO: handle collections of primitives
+                // DataType == null means it is a complex
+//                TODO: add back in this logic once they fix the jira about collectoin definition not working right                
+//                if (dt == null) {
+//                    if (!parentClasses.contains(clazz)) {
+//                        parentFields.push(dddef);
+//                        parentClasses.push(clazz);
+//                        Bean2DictionaryConverter subConverter = new Bean2DictionaryConverter(actualClass, parentFields, parentClasses);
+//                        subConverter.addFields(debuggingContext + "." + clazz.getSimpleName() + name, ode);
+//                        parentFields.pop();
+//                        parentClasses.pop();
+//                    }
+//                }
+            }
+            if (dddef instanceof ComplexAttributeDefinition || dddef instanceof CollectionDefinition) {
             }
         }
     }
 
-    private AttributeDefinition calcAttributeDefinition(Class<?> clazz, PropertyDescriptor pd, Class<?> actualClass) {
-        AttributeDefinition ad = new AttributeDefinition();
-        ad.setName(calcName(pd.getName()));
+    private DataDictionaryDefinitionBase calcDataDictionaryDefinition(PropertyDescriptor pd, DataType dataType) {
         Class<?> pt = pd.getPropertyType();
         if (List.class.equals(pt)) {
-//            TODO: fix this to use a CollectionDefinition
-//            ad.setMaxOccurs(DictionaryConstants.UNBOUNDED);
-            ad.setDataType(calcDataType(clazz.getName(), actualClass));
-        } else {
-//            ad.setMaxOccurs(DictionaryConstants.SINGLE);
-            ad.setDataType(calcDataType(clazz.getName(), actualClass));
+            if (dataType != null) {
+                System.out.println("WARNING: Can't handle lists of primitives just yet: " + calcName(pd.getName()));
+            }
+            CollectionDefinition cd = new CollectionDefinition();
+            cd.setName(calcName(pd.getName()));
+//            cd.setDataObjectClass(pt);
+            return cd;
         }
-        return ad;
+        if (dataType != null) {
+            AttributeDefinition ad = new AttributeDefinition();
+            ad.setName(calcName(pd.getName()));
+            ad.setDataType(dataType);
+            return ad;
+        }
+        ComplexAttributeDefinition cad = new ComplexAttributeDefinition();
+        cad.setName(calcName(pd.getName()));
+//        cad.setDataObjectEntry(pt);
+        return cad;
     }
 
     private String calcName(String leafName) {
         StringBuilder bldr = new StringBuilder();
         if (!parentFields.isEmpty()) {
-            AttributeDefinition parent = parentFields.peek();
-            bldr.append(parent.getName());
-            bldr.append(".");
+            DataDictionaryDefinitionBase parent = parentFields.peek();
+            if (parent instanceof ComplexAttributeDefinition) {
+                ComplexAttributeDefinition cad = (ComplexAttributeDefinition) parent;
+                bldr.append(cad.getName());
+                bldr.append(".");
+            } else if (parent instanceof CollectionDefinition) {
+                CollectionDefinition cad = (CollectionDefinition) parent;
+                bldr.append(cad.getName());
+                bldr.append(".");
+            }
         }
         bldr.append(initLower(leafName));
         return bldr.toString();
@@ -125,7 +167,10 @@ public class Bean2DictionaryConverter {
         // we use the work around if it gets an interface
         pt = pd.getPropertyType();
         if (pt.isInterface()) {
-            pt = workAround (clazz, pd.getReadMethod().getName());
+            if (pd.getReadMethod() == null) {
+                throw new NullPointerException (clazz.getName() + "." + pd.getName() + " has no read method");
+            }
+            pt = workAround(clazz, pd.getReadMethod().getName());
         }
         if (List.class.equals(pt)) {
             pt = ComplexSubstructuresHelper.getActualClassFromList(clazz, pd.getName());
@@ -133,12 +178,11 @@ public class Bean2DictionaryConverter {
         return pt;
     }
 
-    
-    private static Class<?> workAround (Class <?> currentTargetClass, String methodName) {
-        Method method = findMethodImplFirst (currentTargetClass, methodName);
+    private static Class<?> workAround(Class<?> currentTargetClass, String methodName) {
+        Method method = findMethodImplFirst(currentTargetClass, methodName);
         return method.getReturnType();
     }
-    
+
     /**
      * Got this code from:
      * http://raulraja.com/2009/09/12/java-beans-introspector-odd-behavio/
@@ -169,8 +213,7 @@ public class Bean2DictionaryConverter {
         }
         return method;
     }
-    
-    
+
     public static DataType calcDataType(String context, Class<?> pt) {
         if (int.class.equals(pt) || Integer.class.equals(pt)) {
             return DataType.INTEGER;
@@ -193,7 +236,7 @@ public class Bean2DictionaryConverter {
         } else if (Object.class.equals(pt)) {
             return DataType.STRING;
         } else if (pt.getName().startsWith("org.kuali.student.")) {
-            return DataType.COMPLEX;
+            return null;
         } else {
             throw new RuntimeException("Found unknown/unhandled type of object in bean " + pt.getName() + " in " + context);
         }

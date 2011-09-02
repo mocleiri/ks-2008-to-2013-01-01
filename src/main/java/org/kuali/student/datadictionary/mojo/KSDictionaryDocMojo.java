@@ -24,11 +24,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.student.datadictionary.util.DictionaryFormatter;
 import org.kuali.student.datadictionary.util.DictionaryTesterHelper;
 
@@ -58,10 +62,6 @@ public class KSDictionaryDocMojo extends AbstractMojo {
      * @parameter expression="${htmlDirectory}" default-value="${project.build.directory}/site/services/dictionarydocs"
      */
     private File htmlDirectory;
-    /**
-     * @parameter
-     **/
-    private String projectUrl;
 
     public void setHtmlDirectory(File htmlDirectory) {
         this.htmlDirectory = htmlDirectory;
@@ -79,18 +79,8 @@ public class KSDictionaryDocMojo extends AbstractMojo {
         return project;
     }
 
-    public String getProjectUrl() {
-        return projectUrl;
-    }
-    
-    
-
     public void setInputFiles(List<String> inputFiles) {
         this.inputFiles = inputFiles;
-    }
-
-    public void setProjectUrl(String projectUrl) {
-        this.projectUrl = projectUrl;
     }
 
     public List<String> getSupportFiles() {
@@ -140,23 +130,20 @@ public class KSDictionaryDocMojo extends AbstractMojo {
             }
         }
 
+        Set<String> inpFiles = new LinkedHashSet(this.inputFiles.size());
         for (String dictFileName : this.inputFiles) {
             if (dictFileName.endsWith(".xml")) {
-                String outputFileName = replaceXmlWithHtml(dictFileName);
-                String fullOutputFileName = this.htmlDirectory.getAbsolutePath() + "/" + outputFileName;
-                DictionaryTesterHelper tester = new DictionaryTesterHelper(fullOutputFileName, this.projectUrl, dictFileName, supportFiles);
-                List errors = tester.doTest();
-                if (errors == null) {
-                    continue;
-                }
-                if (errors.isEmpty()) {
-                    continue;
-                }
-//            throw new MojoExecutionException("Errors validating dictionary file "
-                throw new IllegalArgumentException("Errors validating dictionary file "
-                        + dictFileName + "\n" + this.formatAsString(errors));
+                inpFiles.add(dictFileName);
             }
         }
+
+        Set<String> configFiles = new LinkedHashSet(this.inputFiles.size() + supportFiles.size());
+        configFiles.addAll(inpFiles);
+        configFiles.addAll(this.supportFiles);
+
+        String outputDir = this.htmlDirectory.getAbsolutePath();
+        DictionaryTesterHelper tester = new DictionaryTesterHelper(outputDir, configFiles);
+        List<String> outputFileNames = tester.doTest();
 
         // write out the index file
         String indexFileName = this.htmlDirectory.getPath() + "/" + "index.html";
@@ -172,44 +159,13 @@ public class KSDictionaryDocMojo extends AbstractMojo {
         DictionaryFormatter.writeHeader(out, "Data Dictionary Index");
         out.println("<h1>Data Dictionary Index</h1>");
         String endUL = "";
-        for (String dictFileName : this.inputFiles) {
-            if (dictFileName.endsWith(".xml")) {
-                String outputFileName = replaceXmlWithHtml(dictFileName);
-                String text = outputFileName.substring(0, outputFileName.length() - ".html".length()) + ".xml";
-                out.println("<li><a href=\"" + outputFileName + "\">" + text + "</a>");
-            } else {
-                out.println(endUL);
-                endUL = "</ul>";
-                out.println("<h3>" + dictFileName + "</h3>");
-                out.println("<ul>");
-            }
-
+        Map<String, DataObjectEntry> beansOfType = tester.getDataObjectEntryBeans();
+        for (String beanId : beansOfType.keySet()) {
+            String outputFileName = beanId + ".html";
+            out.println("<li><a href=\"" + outputFileName + "\">" + beanId + "</a>");
         }
         out.println("</ul>");
         DictionaryFormatter.writeFooter(out);
         this.getLog().info("finished generating dictionary documentation");
-    }
-
-    private String replaceXmlWithHtml(String dictFileName) {
-        // strip off .xml
-        if (dictFileName.endsWith(".xml")) {
-            dictFileName = dictFileName.substring(0, dictFileName.length() - ".xml".length());
-        }
-        dictFileName = dictFileName + ".html";
-        int i = dictFileName.lastIndexOf("/");
-        if (i != -1) {
-            dictFileName = dictFileName.substring(i + 1);
-        }
-        return dictFileName;
-    }
-
-    private String formatAsString(List<String> errors) {
-        int i = 0;
-        StringBuilder builder = new StringBuilder();
-        for (String error : errors) {
-            i++;
-            builder.append(i).append(". ").append(error).append("\n");
-        }
-        return builder.toString();
     }
 }

@@ -23,14 +23,14 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.DataObjectEntry;
-import org.kuali.rice.kns.datadictionary.validation.DataType;
-import org.kuali.rice.kns.datadictionary.validation.ValidationUtils;
-import org.kuali.rice.kns.datadictionary.validation.constraint.CaseConstraint;
-import org.kuali.rice.kns.datadictionary.validation.constraint.LookupConstraint;
-import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
-import org.kuali.rice.kns.datadictionary.validation.constraint.WhenConstraint;
+import org.kuali.rice.core.api.uif.DataType;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.DataObjectEntry;
+import org.kuali.rice.krad.datadictionary.validation.ValidationUtils;
+import org.kuali.rice.krad.datadictionary.validation.constraint.CaseConstraint;
+import org.kuali.rice.krad.datadictionary.validation.constraint.LookupConstraint;
+import org.kuali.rice.krad.datadictionary.validation.constraint.ValidCharactersConstraint;
+import org.kuali.rice.krad.datadictionary.validation.constraint.WhenConstraint;
 
 public class DictionaryValidator {
 
@@ -98,13 +98,13 @@ public class DictionaryValidator {
             errors.add("name cannot be blank");
         } else if (ad.getDataType() == null) {
             errors.add(ad.getName () + " has a null data type");
-        } else if (ad.getDataType().equals(DataType.COMPLEX)) {
-            errorIfNotNull(errors, ad, "exclusiveMin", ad.getExclusiveMin());
-            errorIfNotNull(errors, ad, "inclusiveMax", ad.getInclusiveMax());
-            errorIfNotNull(errors, ad, "max length", ad.getMaxLength());
-            errorIfNotNull(errors, ad, "min length", ad.getMinLength());
-            errorIfNotNull(errors, ad, "valid chars", ad.getValidCharactersConstraint());
-            errorIfNotNull(errors, ad, "lookup", ad.getLookupDefinition());
+//        } else if (ad.getDataType().equals(DataType.COMPLEX)) {
+//            errorIfNotNull(errors, ad, "exclusiveMin", ad.getExclusiveMin());
+//            errorIfNotNull(errors, ad, "inclusiveMax", ad.getInclusiveMax());
+//            errorIfNotNull(errors, ad, "max length", ad.getMaxLength());
+//            errorIfNotNull(errors, ad, "min length", ad.getMinLength());
+//            errorIfNotNull(errors, ad, "valid chars", ad.getValidCharactersConstraint());
+//            errorIfNotNull(errors, ad, "lookup", ad.getLookupDefinition());
         }
 //        validateConversion(errors, ad.getName(), "defaultValue", ad.getDataType(), ad.getDefaultValue());
         validateConversion(errors, ad.getName(), "exclusiveMin", ad.getDataType(), ad.getExclusiveMin());

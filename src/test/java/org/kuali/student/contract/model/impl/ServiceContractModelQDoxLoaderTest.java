@@ -164,7 +164,7 @@ public class ServiceContractModelQDoxLoaderTest {
             System.out.println(service.getKey() + " " + service.getName() + " "
                     + service.getVersion() + " " + service.getStatus());
         }
-        assertEquals(3, result.size());
+        assertEquals(4, result.size());
     }
 
     /**
