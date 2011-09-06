@@ -170,10 +170,12 @@ public class DictionaryFormatter {
         out.println("<td>");
         StringBuilder bldr = new StringBuilder();
         String comma = "";
-        for (String pk : doe.getPrimaryKeys()) {
-            bldr.append(comma);
-            comma = ", ";
-            bldr.append(pk);
+        if (doe.getPrimaryKeys() != null) {
+            for (String pk : doe.getPrimaryKeys()) {
+                bldr.append(comma);
+                comma = ", ";
+                bldr.append(pk);
+            }
         }
         out.println(bldr.toString());
         out.println("</td>");
@@ -418,11 +420,14 @@ public class DictionaryFormatter {
                 out.println("</tr>");
                 DataObjectEntry childDoe = this.getDataOjbectEntry(cd.getDataObjectClass());
                 if (childDoe == null) {
-                    throw new NullPointerException ("Could not find a data object entry, " + cd.getDataObjectClass() + " for field " + calcName(cd.getName(), parents));
+                    // TODO: uncomment this but right now there are xml files that don't have one defined and it seems to work so...
+//                    throw new NullPointerException ("Could not find a data object entry, " + cd.getDataObjectClass() + " for field " + calcName(cd.getName(), parents));
+                    System.out.println("Could not find a data object entry, " + cd.getDataObjectClass() + " for field " + calcName(cd.getName(), parents));
+                } else {
+                    parents.push(cd.getName());
+                    this.writeAttributes(out, (DataObjectEntry) childDoe, parents);
+                    parents.pop();
                 }
-                parents.push(cd.getName());
-                this.writeAttributes(out, (DataObjectEntry) childDoe, parents);
-                parents.pop();
             }
         }
     }
@@ -820,7 +825,6 @@ public class DictionaryFormatter {
         }
         return list;
     }
-
 
     private String calcLength(AttributeDefinition ad) {
         if (ad.getMaxLength() != null) {
