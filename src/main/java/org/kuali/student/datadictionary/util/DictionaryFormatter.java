@@ -83,8 +83,22 @@ public class DictionaryFormatter {
         out.println("</html>");
     }
 
+    private String initUpper(String str) {
+        if (str == null) {
+            return null;
+        }
+        if (str.length() == 0) {
+            return str;
+        }
+        if (str.length() == 1) {
+            return str.toUpperCase();
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
     private void writeBody(PrintStream out) {
         out.println("<a href=\"index.html\">home</a>");
+        out.println("<a href=\"../contractdocs/" + initUpper(doe.getName()) + ".html\">contract doc</a>");
         out.println("<br>");
         out.println("(!) This page was automatically generated on " + new Date());
 //  builder.append ("======= start dump of object structure definition ========");

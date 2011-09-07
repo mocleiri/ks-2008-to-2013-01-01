@@ -45,8 +45,32 @@ public class HtmlContractMessageStructureWriter {
         this.finder = new ModelFinder(this.model);
     }
 
+    private String initUpper(String str) {
+        if (str == null) {
+            return null;
+        }
+        if (str.length() == 0) {
+            return str;
+        }
+        if (str.length() == 1) {
+            return str.toUpperCase();
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
+    private boolean isMainMessageStructure(XmlType xmlType) {
+        if (!HtmlContractMessageStructureWriter.calcOtherXmlTypeUsages(model,
+                xmlType).isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
     public void write() {
-        writer.print("<a href=\"index.html\">home</a>");
+        writer.println("<a href=\"index.html\">home</a>");
+        if (this.isMainMessageStructure(xmlType)) {
+            writer.println("<a href=\"../dictionarydocs/" + initUpper(xmlType.getName()) + ".html\">dictionary doc</a>");
+        }
         this.writeStyleSheet();
         writer.writeTag("h1", xmlType.getName());
 
@@ -117,8 +141,8 @@ public class HtmlContractMessageStructureWriter {
         writer.indentPrintln("<th class=\"h\">Name</th>");
         writer.indentPrintln("<th class=\"h\">Type</th>");
         writer.indentPrintln("<th class=\"h\">Description</th>");
-        writer.indentPrintln ("<th class=\"h\">Required?</th>");
-        writer.indentPrintln ("<th class=\"h\">Read only?</th>");        
+        writer.indentPrintln("<th class=\"h\">Required?</th>");
+        writer.indentPrintln("<th class=\"h\">Read only?</th>");
         writer.indentPrintln("<th class=\"h\">Cardinality</th>");
         writer.indentPrintln("<th class=\"h\">XML Attribute?</th>");
 //        writer.indentPrintln ("<th class=\"h\">Status</th>"); 
@@ -152,12 +176,12 @@ public class HtmlContractMessageStructureWriter {
     private Set<ServiceMethod> calcUsageByMethods(XmlType xmlType) {
         Set<ServiceMethod> methods = new LinkedHashSet();
         for (ServiceMethod method : model.getServiceMethods()) {
-            if (stripListFromType (method.getReturnValue().getType()).equalsIgnoreCase(xmlType.getName())) {
+            if (stripListFromType(method.getReturnValue().getType()).equalsIgnoreCase(xmlType.getName())) {
                 methods.add(method);
                 continue;
             }
             for (ServiceMethodParameter param : method.getParameters()) {
-                if (stripListFromType (param.getType()).equalsIgnoreCase(xmlType.getName())) {
+                if (stripListFromType(param.getType()).equalsIgnoreCase(xmlType.getName())) {
                     methods.add(method);
                     break;
                 }
@@ -177,7 +201,7 @@ public class HtmlContractMessageStructureWriter {
             if (ms.getType() == null) {
                 throw new NullPointerException(ms.getId() + " has no type set");
             }
-            if (stripListFromType (ms.getType()).equalsIgnoreCase(xmlType.getName())) {
+            if (stripListFromType(ms.getType()).equalsIgnoreCase(xmlType.getName())) {
                 xmlTypeNames.add(ms.getXmlObject());
             }
         }
@@ -208,9 +232,9 @@ public class HtmlContractMessageStructureWriter {
         }
         writer.writeTag("td", "class=\"structDesc\"", addHTMLBreaks(missingData(
                 ms.getDescription())));
-        writer.writeTag ("td", "class=\"structOpt\"", checkForNbsp (ms.getRequired ()));
-        writer.writeTag ("td", "class=\"structOpt\"", checkForNbsp (ms.getReadOnly()));
-  
+        writer.writeTag("td", "class=\"structOpt\"", checkForNbsp(ms.getRequired()));
+        writer.writeTag("td", "class=\"structOpt\"", checkForNbsp(ms.getReadOnly()));
+
         writer.writeTag("td", "class=\"structCard\"", ms.getCardinality());
         writer.writeTag("td", "class=\"structAttr\"", ms.getXmlAttribute());
 //      writer.writeTag ("td", "class=\"structStatus\"", ms.getStatus ());
@@ -232,7 +256,6 @@ public class HtmlContractMessageStructureWriter {
         }
         return str;
     }
-
 
     private static String stripListFromType(String type) {
         if (type.endsWith("List")) {
