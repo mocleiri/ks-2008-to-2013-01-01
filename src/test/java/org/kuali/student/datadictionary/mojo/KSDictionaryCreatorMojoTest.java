@@ -94,59 +94,79 @@ public class KSDictionaryCreatorMojoTest {
         instance.setThrowExceptionIfNotAllFilesProcessed(false);
         List<String> classNames = new ArrayList();
         // Atp
-        classNames.add("AtpInfo");
-        classNames.add("MilestoneInfo");
-        classNames.add("AtpMilestoneRelationInfo");
-        classNames.add("AtpAtpRelationInfo");
-        // Acal
-        classNames.add("AcademicCalendarInfo");
-        classNames.add("CampusCalendarInfo");
-        classNames.add("TermInfo");
-        classNames.add("RegistrationDateGroupInfo");
-        classNames.add("HolidayInfo");
-        classNames.add("KeyDateInfo");
-        // LPR 
-        classNames.add("LuiPersonRelationInfo");
-        classNames.add("LprRosterInfo");
-        classNames.add("LprRosterEntryInfo");
-        classNames.add("LprTransactionInfo");
-        classNames.add("LprTransactionItemInfo");
-        classNames.add("RequestOptionInfo");
-        classNames.add("LprTransactionItemResultInfo");
-        // Hold
-        classNames.add("HoldInfo");
-        classNames.add("IssueInfo");
-        classNames.add("RestrictionInfo");
-        // LUI 
-        classNames.add("LuiInfo");
-        classNames.add("LuiIdentifierInfo");
-        classNames.add("LuCodeInfo");
-        classNames.add("FeeInfo");
-        classNames.add("CurrencyAmountInfo");
-        classNames.add("RevenueInfo");
-        classNames.add("AffiliatedOrgInfo");
-        classNames.add("MeetingScheduleInfo");
-        classNames.add("LuiLuiRelationInfo");
-        classNames.add("LuiCapacityInfo");
-        // Course Offering
-        classNames.add("CourseOfferingInfo");
-        classNames.add("OfferingInstructorInfo");
-        classNames.add("ActivityOfferingInfo");
-        classNames.add("RegistrationGroupInfo");
-        classNames.add("SeatPoolDefinitionInfo");
+//        classNames.add("AtpInfo");
+//        classNames.add("MilestoneInfo");
+//        classNames.add("AtpMilestoneRelationInfo");
+//        classNames.add("AtpAtpRelationInfo");
+//        // Acal
+//        classNames.add("AcademicCalendarInfo");
+//        classNames.add("CampusCalendarInfo");
+//        classNames.add("TermInfo");
+//        classNames.add("RegistrationDateGroupInfo");
+//        classNames.add("HolidayInfo");
+//        classNames.add("KeyDateInfo");
+//        // LPR 
+//        classNames.add("LuiPersonRelationInfo");
+//        classNames.add("LprRosterInfo");
+//        classNames.add("LprRosterEntryInfo");
+//        classNames.add("LprTransactionInfo");
+//        classNames.add("LprTransactionItemInfo");
+//        classNames.add("RequestOptionInfo");
+//        classNames.add("LprTransactionItemResultInfo");
+//        // Hold
+//        classNames.add("HoldInfo");
+//        classNames.add("IssueInfo");
+//        classNames.add("RestrictionInfo");
+//        // LUI 
+//        classNames.add("LuiInfo");
+//        classNames.add("LuiIdentifierInfo");
+//        classNames.add("LuCodeInfo");
+//        classNames.add("FeeInfo");
+//        classNames.add("CurrencyAmountInfo");
+//        classNames.add("RevenueInfo");
+//        classNames.add("AffiliatedOrgInfo");
+//        classNames.add("MeetingScheduleInfo");
+//        classNames.add("LuiLuiRelationInfo");
+//        classNames.add("LuiCapacityInfo");
+        
+//        // Course Offering
+//        classNames.add("CourseOfferingInfo");
+//        classNames.add("CourseWaitlistEntryInfo");
+//        classNames.add("OfferingInstructorInfo");
+//        classNames.add("ActivityOfferingInfo");
+//        classNames.add("RegistrationGroupInfo");
+//        classNames.add("SeatPoolDefinitionInfo");
 //        classNames.add("StatementTreeViewInfo");
 //        classNames.add("ReqComponentInfo");
 //        classNames.add("ReqCompFieldInfo");
 
-        // Course registration
-        classNames.add("CourseRegistrationInfo");
-        classNames.add("ActivityRegistrationInfo");
-        classNames.add("RegGroupRegistrationInfo");
-        classNames.add("RegRequestInfo");
-        classNames.add("RegRequestItemInfo");
-        classNames.add("RegResponseInfo");
-        classNames.add("RegResponseItemInfo");
-
+//        // Course registration
+//        classNames.add("CourseRegistrationInfo");
+//        classNames.add("ActivityRegistrationInfo");
+//        classNames.add("RegGroupRegistrationInfo");
+//        classNames.add("RegRequestInfo");
+//        classNames.add("RegRequestItemInfo");
+//        classNames.add("RegResponseInfo");
+//        classNames.add("RegResponseItemInfo");
+//
+//          // Exemption
+//        classNames.add("ExemptionInfo");
+//        classNames.add("ExemptionRequestInfo");
+//
+//        // Grading
+//        classNames.add("GradeRosterInfo");
+//        classNames.add("GradeRosterEntryInfo");
+//        classNames.add("GradeValuesGroupInfo"); 
+//        
+//        // LRR
+//        classNames.add("LearningResultRecordInfo");
+//        classNames.add("ResultSourceInfo");       
+//        
+//        // LRC
+//        classNames.add("ResultValuesGroupInfo");
+//        classNames.add("ResultValueInfo");     
+//        classNames.add("ResultScaleInfo"); 
+        
         instance.setClassNames(classNames);
         instance.execute();
 //        assertTrue(new File(instance.getOutputDirectory() + "/" + "ks-LprInfo-dictionary.xml").exists());
