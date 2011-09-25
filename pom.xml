@@ -15,7 +15,7 @@
     <description>Generates documentation for Kuali Student service contracts</description>
     <properties>
 <!--        <cxf.version>2.2.10</cxf.version>-->
-        <kuali.rice.version>2.0.0-m7</kuali.rice.version>
+        <kuali.rice.version>2.0.0-m8</kuali.rice.version>
     </properties>
     <repositories>
         <repository>
@@ -39,7 +39,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>3.0.5.RELEASE</version>
+            <version>3.1.0.M2</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
