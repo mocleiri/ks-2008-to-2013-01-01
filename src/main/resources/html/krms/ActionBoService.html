@@ -1,0 +1,366 @@
+<html>
+<head>
+<title>ActionBoService</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a><style type="text/css">
+
+table#serviceMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#serviceMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#serviceMetaTable td#serviceName {
+border:1px solid #000000;
+width:85%;
+}
+table#serviceMetaTable td#serviceVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#serviceMetaTable td#serviceVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.methodTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.methodTable td.d {
+border:1px solid #000000;
+}
+
+table.methodTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+
+table.methodTable td.methodName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:center;
+width:85%;
+font-weight:bold;
+font-style:italic;
+}
+
+table.methodTable td.methodDesc {
+border:1px solid #000000;
+width:85%;
+}
+
+table.methodTable td.methodParamType {
+border:1px solid #000000;
+width:21%;
+font-style:italic;
+}
+table.methodTable td.methodParamName {
+border:1px solid #000000;
+width:21%;
+}
+table.methodTable td.methodParamDesc {
+border:1px solid #000000;
+width:43%;
+}
+table.methodTable td.methodReturnType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+
+table.methodTable td.methodReturnDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.methodErrors {
+border:1px solid #000000;
+width:85%;
+}
+
+
+table.methodTable td.methodErrorType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+table.methodTable td.methodErrorDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.capabilityDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.usecaseDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+</style>
+<h1>ActionBoService</h1>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=serviceName colspan=2>ActionBo</td>
+</tr>
+<tr>
+<th class=h>Version</th>
+</tr>
+<tr>
+<th class=h>Included Services</th>
+<td id=serviceVersion colspan=2>&nbsp;</td>
+</tr>
+</table>
+<p>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>
+This is the interface for accessing KRMS repository Action related<br>business objects.
+</th>
+</tr>
+</table>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="ListOfOperations"></a>Operations</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="#ActionBo-createAction">createAction</a></li><li><a href="#ActionBo-updateAction">updateAction</a></li><li><a href="#ActionBo-getActionByActionId">getActionByActionId</a></li><li><a href="#ActionBo-getActionByNameAndNamespace">getActionByNameAndNamespace</a></li><li><a href="#ActionBo-getActionsByRuleId">getActionsByRuleId</a></li><li><a href="#ActionBo-getActionByRuleIdAndSequenceNumber">getActionByRuleIdAndSequenceNumber</a></li></ul>
+</div>
+</div>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="MainMessageStructures"></a>Main Message Structures</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="ActionDefinition.html">ActionDefinition</a></li><li><a href="void.html">void</a></li></ul>
+<p>
+<a name="ActionBo-createAction"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">createAction</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link ActionDefinition} exactly like the parameter passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="ActionDefinition.html">ActionDefinition</a>
+</td><td class="methodParamName">action</td>
+<td class="methodParamDesc"> The Action to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ActionDefinition.html">ActionDefinition</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="ActionBo-updateAction"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateAction</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update an existing {@link ActionDefinition}.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="ActionDefinition.html">ActionDefinition</a>
+</td><td class="methodParamName">action</td>
+<td class="methodParamDesc"> The Action to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="void.html">void</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="ActionBo-getActionByActionId"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getActionByActionId</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Retrieves an Action from the repository based on the given action id.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">actionId</td>
+<td class="methodParamDesc">the id of the Action to retrieve</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ActionDefinition.html">ActionDefinition</a>
+</td><td class="methodReturnDesc">an {@link ActionDefinition} identified by the given actionId.  <br>A null reference is returned if an invalid or non-existent id is supplied.</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="ActionBo-getActionByNameAndNamespace"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getActionByNameAndNamespace</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Retrieves an Action from the repository based on the provided action name<br>and namespace.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">name</td>
+<td class="methodParamDesc">the name of the Action to retrieve.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespace</td>
+<td class="methodParamDesc">the namespace that the action is under.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ActionDefinition.html">ActionDefinition</a>
+</td><td class="methodReturnDesc">an {@link ActionDefinition} identified by the given name and namespace.  <br>A null reference is returned if an invalid or non-existent name and<br>namespace combination is supplied.</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="ActionBo-getActionsByRuleId"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getActionsByRuleId</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Retrieves an ordered List of Actions associated with a<br>{@link org.kuali.rice.krms.api.repository.rule.RuleDefinition}.<br>The order of the list is determined by the sequenceNumber property<br>of the Actions.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">ruleId</td>
+<td class="methodParamDesc">the id of the rule</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ActionDefinition.html">ActionDefinitionList</a>
+</td><td class="methodReturnDesc">a list of {@link ActionDefinition} associated with the given rule.  <br>A null reference is returned if an invalid or ruleId is supplied.</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="ActionBo-getActionByRuleIdAndSequenceNumber"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getActionByRuleIdAndSequenceNumber</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Retrieves an specific Action associated with a Rule.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">ruleId</td>
+<td class="methodParamDesc">the id of the rule</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Integer.html">Integer</a>
+</td><td class="methodParamName">sequenceNumber</td>
+<td class="methodParamDesc">an Integer that represents the sequence number of the action.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ActionDefinition.html">ActionDefinition</a>
+</td><td class="methodReturnDesc">an {@link ActionDefinition} identified associated with the <br>Rule and identified by the given sequenceNumber<br>A null reference is returned if an invalid or non-existent name and<br>namespace combination is supplied.</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+
+</body>
+</html>

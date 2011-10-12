@@ -1,0 +1,323 @@
+<html>
+<head>
+<title>RuleRepositoryService</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a><style type="text/css">
+
+table#serviceMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#serviceMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#serviceMetaTable td#serviceName {
+border:1px solid #000000;
+width:85%;
+}
+table#serviceMetaTable td#serviceVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#serviceMetaTable td#serviceVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.methodTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.methodTable td.d {
+border:1px solid #000000;
+}
+
+table.methodTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+
+table.methodTable td.methodName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:center;
+width:85%;
+font-weight:bold;
+font-style:italic;
+}
+
+table.methodTable td.methodDesc {
+border:1px solid #000000;
+width:85%;
+}
+
+table.methodTable td.methodParamType {
+border:1px solid #000000;
+width:21%;
+font-style:italic;
+}
+table.methodTable td.methodParamName {
+border:1px solid #000000;
+width:21%;
+}
+table.methodTable td.methodParamDesc {
+border:1px solid #000000;
+width:43%;
+}
+table.methodTable td.methodReturnType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+
+table.methodTable td.methodReturnDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.methodErrors {
+border:1px solid #000000;
+width:85%;
+}
+
+
+table.methodTable td.methodErrorType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+table.methodTable td.methodErrorDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.capabilityDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.usecaseDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+</style>
+<h1>RuleRepositoryService</h1>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=serviceName colspan=2>RuleRepository</td>
+</tr>
+<tr>
+<th class=h>Version</th>
+</tr>
+<tr>
+<th class=h>Included Services</th>
+<td id=serviceVersion colspan=2>&nbsp;</td>
+</tr>
+</table>
+<p>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>
+The rule repository contains all of the information about context definitions,<br>agendas, and business rules.
+</th>
+</tr>
+</table>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="ListOfOperations"></a>Operations</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="#RuleRepository-selectContext">selectContext</a></li><li><a href="#RuleRepository-getAgendaTree">getAgendaTree</a></li><li><a href="#RuleRepository-getAgendaTrees">getAgendaTrees</a></li><li><a href="#RuleRepository-getRule">getRule</a></li><li><a href="#RuleRepository-getRules">getRules</a></li></ul>
+</div>
+</div>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="MainMessageStructures"></a>Main Message Structures</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextSelectionCriteria.html">ContextSelectionCriteria</a></li><li><a href="AgendaTreeDefinition.html">AgendaTreeDefinition</a></li><li><a href="RuleDefinition.html">RuleDefinition</a></li></ul>
+<p>
+<a name="RuleRepository-selectContext"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">selectContext</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Locates a ContextDefinition based on the given map of context qualifiers.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="ContextSelectionCriteria.html">ContextSelectionCriteria</a>
+</td><td class="methodParamName">contextSelectionCriteria</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ContextDefinition.html">ContextDefinition</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="RuleRepository-getAgendaTree"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getAgendaTree</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Retrieves the agenda tree for the given agendaId.  The agenda tree includes<br>the entire agenda definition in the appropriate order and with the<br>defined agenda branching.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">agendaId</td>
+<td class="methodParamDesc">the id of the agenda for which to retrieve the agenda tree</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="AgendaTreeDefinition.html">AgendaTreeDefinition</a>
+</td><td class="methodReturnDesc">the agenda tree, or null if no agenda could be located for the given agendaId</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="RuleRepository-getAgendaTrees"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getAgendaTrees</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Retrieves all of the agendas trees for the given list of agendaIds.  The agenda tree includes<br>the entire agenda definition in the appropriate order and with the<br>defined agenda branching.<br><br><p>The list which is returned from this operation may not be the same size as the list<br>which is passed to this method.  If an agenda doesn't exist for a given agenda id then<br>no result for that id will be returned in the list.  As a result of this, the returned<br>list can be empty, but it will never be null.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">StringList</a>
+</td><td class="methodParamName">agendaIds</td>
+<td class="methodParamDesc">the list of agenda ids for which to retrieve the agenda trees</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="AgendaTreeDefinition.html">AgendaTreeDefinitionList</a>
+</td><td class="methodReturnDesc">the list of agenda trees for the given ids, this list will only contain agenda trees for the ids<br>that were resolved successfully, it will never return null but could return an empty list if no agenda<br>trees could be loaded for the given set of ids</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="RuleRepository-getRule"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRule</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Retrieves the rule for the given ruleId.  The rule includes the propositions<br>which define the condition that is to be evaluated on the rule.  It also<br>defines a collection of actions which will be invoked if the rule succeeds.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">ruleId</td>
+<td class="methodParamDesc">the id of the rule to retrieve</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RuleDefinition.html">RuleDefinition</a>
+</td><td class="methodReturnDesc">the rule definition, or null if no rule could be located for the given ruleId</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="RuleRepository-getRules"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRules</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Retrieves all of the rules for the given list of ruleIds.  The rule includes the propositions<br>which define the condition that is to be evaluated on the rule.  It also<br>defines a collection of actions which will be invoked if the rule succeeds.<br><br><p>The list which is returned from this operation may not be the same size as the list<br>which is passed to this method.  If a rule doesn't exist for a given rule id then<br>no result for that id will be returned in the list.  As a result of this, the returned<br>list can be empty, but it will never be null.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">StringList</a>
+</td><td class="methodParamName">ruleIds</td>
+<td class="methodParamDesc">the list of rule ids for which to retrieve the rules</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RuleDefinition.html">RuleDefinitionList</a>
+</td><td class="methodReturnDesc">the list of rules for the given ids, this list will only contain rules for the ids<br>that were resolved successfully, it will never return null but could return an empty list if no<br>rules could be loaded for the given set of ids</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+
+</body>
+</html>

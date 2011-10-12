@@ -1,0 +1,389 @@
+<html>
+<head>
+<title>TermBoService</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a><style type="text/css">
+
+table#serviceMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#serviceMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#serviceMetaTable td#serviceName {
+border:1px solid #000000;
+width:85%;
+}
+table#serviceMetaTable td#serviceVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#serviceMetaTable td#serviceVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.methodTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.methodTable td.d {
+border:1px solid #000000;
+}
+
+table.methodTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+
+table.methodTable td.methodName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:center;
+width:85%;
+font-weight:bold;
+font-style:italic;
+}
+
+table.methodTable td.methodDesc {
+border:1px solid #000000;
+width:85%;
+}
+
+table.methodTable td.methodParamType {
+border:1px solid #000000;
+width:21%;
+font-style:italic;
+}
+table.methodTable td.methodParamName {
+border:1px solid #000000;
+width:21%;
+}
+table.methodTable td.methodParamDesc {
+border:1px solid #000000;
+width:43%;
+}
+table.methodTable td.methodReturnType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+
+table.methodTable td.methodReturnDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.methodErrors {
+border:1px solid #000000;
+width:85%;
+}
+
+
+table.methodTable td.methodErrorType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+table.methodTable td.methodErrorDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.capabilityDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.usecaseDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+</style>
+<h1>TermBoService</h1>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=serviceName colspan=2>TermBo</td>
+</tr>
+<tr>
+<th class=h>Version</th>
+</tr>
+<tr>
+<th class=h>Included Services</th>
+<td id=serviceVersion colspan=2>&nbsp;</td>
+</tr>
+</table>
+<p>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>
+BO service for terms and related entities
+</th>
+</tr>
+</table>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="ListOfOperations"></a>Operations</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="#TermBo-getTermSpecificationById">getTermSpecificationById</a></li><li><a href="#TermBo-createTermSpecification">createTermSpecification</a></li><li><a href="#TermBo-getTermById">getTermById</a></li><li><a href="#TermBo-createTermDefinition">createTermDefinition</a></li><li><a href="#TermBo-getTermResolverById">getTermResolverById</a></li><li><a href="#TermBo-getTermResolversByNamespace">getTermResolversByNamespace</a></li><li><a href="#TermBo-createTermResolver">createTermResolver</a></li></ul>
+</div>
+</div>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="MainMessageStructures"></a>Main Message Structures</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="TermSpecificationDefinition.html">TermSpecificationDefinition</a></li><li><a href="TermDefinition.html">TermDefinition</a></li><li><a href="TermResolverDefinition.html">TermResolverDefinition</a></li></ul>
+<p>
+<a name="TermBo-getTermSpecificationById"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getTermSpecificationById</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">???</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="TermSpecificationDefinition.html">TermSpecificationDefinition</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="TermBo-createTermSpecification"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">createTermSpecification</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">???</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="TermSpecificationDefinition.html">TermSpecificationDefinition</a>
+</td><td class="methodParamName">termSpec</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="TermSpecificationDefinition.html">TermSpecificationDefinition</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="TermBo-getTermById"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getTermById</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">???</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="TermDefinition.html">TermDefinition</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="TermBo-createTermDefinition"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">createTermDefinition</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">???</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="TermDefinition.html">TermDefinition</a>
+</td><td class="methodParamName">termDef</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="TermDefinition.html">TermDefinition</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="TermBo-getTermResolverById"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getTermResolverById</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">???</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="TermResolverDefinition.html">TermResolverDefinition</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="TermBo-getTermResolversByNamespace"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getTermResolversByNamespace</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">???</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespace</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="TermResolverDefinition.html">TermResolverDefinitionList</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="TermBo-createTermResolver"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">createTermResolver</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">???</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="TermResolverDefinition.html">TermResolverDefinition</a>
+</td><td class="methodParamName">termResolver</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="TermResolverDefinition.html">TermResolverDefinition</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+
+</body>
+</html>

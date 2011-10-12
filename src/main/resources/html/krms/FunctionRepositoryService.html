@@ -1,0 +1,224 @@
+<html>
+<head>
+<title>FunctionRepositoryService</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a><style type="text/css">
+
+table#serviceMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#serviceMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#serviceMetaTable td#serviceName {
+border:1px solid #000000;
+width:85%;
+}
+table#serviceMetaTable td#serviceVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#serviceMetaTable td#serviceVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.methodTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.methodTable td.d {
+border:1px solid #000000;
+}
+
+table.methodTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+
+table.methodTable td.methodName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:center;
+width:85%;
+font-weight:bold;
+font-style:italic;
+}
+
+table.methodTable td.methodDesc {
+border:1px solid #000000;
+width:85%;
+}
+
+table.methodTable td.methodParamType {
+border:1px solid #000000;
+width:21%;
+font-style:italic;
+}
+table.methodTable td.methodParamName {
+border:1px solid #000000;
+width:21%;
+}
+table.methodTable td.methodParamDesc {
+border:1px solid #000000;
+width:43%;
+}
+table.methodTable td.methodReturnType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+
+table.methodTable td.methodReturnDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.methodErrors {
+border:1px solid #000000;
+width:85%;
+}
+
+
+table.methodTable td.methodErrorType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+table.methodTable td.methodErrorDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.capabilityDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.usecaseDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+</style>
+<h1>FunctionRepositoryService</h1>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=serviceName colspan=2>FunctionRepository</td>
+</tr>
+<tr>
+<th class=h>Version</th>
+</tr>
+<tr>
+<th class=h>Included Services</th>
+<td id=serviceVersion colspan=2>&nbsp;</td>
+</tr>
+</table>
+<p>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>
+The function repository contains information about custom functions which<br>can be used on propositions that are defined when constructing rules.
+</th>
+</tr>
+</table>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="ListOfOperations"></a>Operations</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="#FunctionRepository-getFunction">getFunction</a></li><li><a href="#FunctionRepository-getFunctions">getFunctions</a></li></ul>
+</div>
+</div>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="MainMessageStructures"></a>Main Message Structures</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="FunctionDefinition.html">FunctionDefinition</a></li></ul>
+<p>
+<a name="FunctionRepository-getFunction"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getFunction</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Retrieves the function for the given functionId.  The function can be used when<br>constructing propositions and defines the type of the parameters to the function<br>as well as it's return type.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">functionId</td>
+<td class="methodParamDesc">the id of the function to retrieve</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="FunctionDefinition.html">FunctionDefinition</a>
+</td><td class="methodReturnDesc">the function definition, or null if no function could be located for the given functionId</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="FunctionRepository-getFunctions"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getFunctions</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Retrieves all of the functions for the given list of functionIds.  The<br>function can be used when constructing propositions and defines the type<br>of the parameters to the function as well as it's return type.<br><br><p>The list which is returned from this operation may not be the same size as the list<br>which is passed to this method.  If a function doesn't exist for a given function id then<br>no result for that id will be returned in the list.  As a result of this, the returned<br>list can be empty, but it will never be null.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">StringList</a>
+</td><td class="methodParamName">functionIds</td>
+<td class="methodParamDesc">the list of function ids for which to retrieve the functions</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="FunctionDefinition.html">FunctionDefinitionList</a>
+</td><td class="methodReturnDesc">the list of functions for the given ids, this list will only contain functions for the ids<br>that were resolved successfully, it will never return null but could return an empty list if no<br>functions could be loaded for the given set of ids</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+
+</body>
+</html>
