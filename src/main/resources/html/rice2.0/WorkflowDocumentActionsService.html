@@ -1,0 +1,2057 @@
+<html>
+<head>
+<title>WorkflowDocumentActionsService</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a><style type="text/css">
+
+table#serviceMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#serviceMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#serviceMetaTable td#serviceName {
+border:1px solid #000000;
+width:85%;
+}
+table#serviceMetaTable td#serviceVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#serviceMetaTable td#serviceVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.methodTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.methodTable td.d {
+border:1px solid #000000;
+}
+
+table.methodTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+
+table.methodTable td.methodName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:center;
+width:85%;
+font-weight:bold;
+font-style:italic;
+}
+
+table.methodTable td.methodDesc {
+border:1px solid #000000;
+width:85%;
+}
+
+table.methodTable td.methodParamType {
+border:1px solid #000000;
+width:21%;
+font-style:italic;
+}
+table.methodTable td.methodParamName {
+border:1px solid #000000;
+width:21%;
+}
+table.methodTable td.methodParamDesc {
+border:1px solid #000000;
+width:43%;
+}
+table.methodTable td.methodReturnType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+
+table.methodTable td.methodReturnDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.methodErrors {
+border:1px solid #000000;
+width:85%;
+}
+
+
+table.methodTable td.methodErrorType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+table.methodTable td.methodErrorDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.capabilityDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.usecaseDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+</style>
+<h1>WorkflowDocumentActionsService</h1>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=serviceName colspan=2>WorkflowDocumentActions</td>
+</tr>
+<tr>
+<th class=h>Version</th>
+</tr>
+<tr>
+<th class=h>Included Services</th>
+<td id=serviceVersion colspan=2>&nbsp;</td>
+</tr>
+</table>
+<p>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>
+This service defines various operations which are used to perform actions against a workflow<br>{@link Document}. These actions include creation, routing, approval, acknowledgment, saving,<br>updating document data, etc.<br><br><p><br>It also includes operations that allow for loading of information about which actions a given<br>principal is permitted to execute against a given document ({@link ValidActions}), as well as<br>providing information about what actions a particular principal has been requested to execute<br>against a given document ({@link RequestedActions}).<br><br><p><br>This service can be used in conjunction with the {@link WorkflowDocumentService} which provides<br>additional operations that relate to documents (but not document actions).<br><br><p><br>Unless otherwise specified, all parameters to all methods must not be null. If the argument is a<br>string value it must also not be "blank" (either the empty string or a string of only<br>whitespace). In the cases where this is violated, a {@link RiceIllegalArgumentException} will be<br>thrown. Additionally, unless otherwise specified, all methods will return non-null return values.<br>In the case of collections, an empty collection will be returned in preference to a null<br>collection value. All collections which are returned from methods on this service will be<br>unmodifiable collections.<br><br><p><br>Many of the actions trigger processing by the workflow engine. Unless otherwise specified, any<br>method on this service which performs an action against the document will also submit the<br>document to the workflow engine after performing the action. This may trigger the workflow<br>document to transition to the next node in the workflow process or activate additional action<br>requests depending on what the current state of the active node instance(s) is on the document.<br><br><p><br>Workflow engine processing may happen either asynchronously or synchronously depending on<br>configuration and capabilities of the back end workflow engine implementation. However,<br>asynchronous operation is suggested for most use cases. This means that when operating in<br>asynchronous mode, after an action is submitted against the document there may be a delay in<br>state changes to the document. For example, if a principal submits an approve against a document<br>that triggers transition to the next node in the workflow process (generating new action requests<br>in the process) those new actions requests will not be represented in the information returned in<br>the {@link DocumentActionResult} result object. Though future invocations of<br>{@link #determineRequestedActions(String, String)} and similar methods may yield such<br>information, though it may do so after an non-deterministic amount of time since the workflow<br>engine makes no guarantees about how quickly it will complete processing. Additionally,<br>asynchronous workflow processing is scheduled in a work queue and therefore it may not be picked<br>up for processing immediately depending on system load and other factors.<br><br><p><br>If there is an error during asynchronous workflow processing then the document will be put into<br>exception routing (which can be executed in various ways depending on how the document type<br>defines it's exception policy). Regardless of the exact process that gets triggered during<br>exception routing, the end result is a set of {@link ActionRequestType#COMPLETE} requests to<br>those principals who are capable of resolving the exception scenario as well as the document's<br>status being transitioned to {@link DocumentStatus#EXCEPTION}. Once they have resolved any<br>barriers to successful processing of the document, they can take the<br>{@link #complete(DocumentActionParameters)} action against the document in order to satisfy the<br>outstanding exception request(s) and send the document back through the workflow engine.<br><br><p><br>In contrast, when operating the workflow engine in synchronous mode, processing will happen<br>immediately and control will not be returned to the caller until all outstanding processing has<br>completed. As a result, the information returned in the {@link DocumentActionResult} will always<br>be in a consistent state after each action is performed. When operating in synchronous mode, the<br>process of exception routing does not occur when failures are encountered during workflow engine<br>processing, rather any exceptions that are raised during processing will instead be thrown back<br>to the calling code.<br><br><p><br>Implementations of this service are required to be thread-safe and should be able to be invoked<br>either locally or remotely.
+</th>
+</tr>
+</table>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="ListOfOperations"></a>Operations</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="#WorkflowDocumentActions-create">create</a></li><li><a href="#WorkflowDocumentActions-determineValidActions">determineValidActions</a></li><li><a href="#WorkflowDocumentActions-determineRequestedActions">determineRequestedActions</a></li><li><a href="#WorkflowDocumentActions-acknowledge">acknowledge</a></li><li><a href="#WorkflowDocumentActions-approve">approve</a></li><li><a href="#WorkflowDocumentActions-adHocToPrincipal">adHocToPrincipal</a></li><li><a href="#WorkflowDocumentActions-adHocToGroup">adHocToGroup</a></li><li><a href="#WorkflowDocumentActions-revokeAdHocRequestById">revokeAdHocRequestById</a></li><li><a href="#WorkflowDocumentActions-revokeAdHocRequests">revokeAdHocRequests</a></li><li><a href="#WorkflowDocumentActions-revokeAllAdHocRequests">revokeAllAdHocRequests</a></li><li><a href="#WorkflowDocumentActions-cancel">cancel</a></li><li><a href="#WorkflowDocumentActions-clearFyi">clearFyi</a></li><li><a href="#WorkflowDocumentActions-complete">complete</a></li><li><a href="#WorkflowDocumentActions-disapprove">disapprove</a></li><li><a href="#WorkflowDocumentActions-route">route</a></li><li><a href="#WorkflowDocumentActions-blanketApprove">blanketApprove</a></li><li><a href="#WorkflowDocumentActions-blanketApproveToNodes">blanketApproveToNodes</a></li><li><a href="#WorkflowDocumentActions-returnToPreviousNode">returnToPreviousNode</a></li><li><a href="#WorkflowDocumentActions-move">move</a></li><li><a href="#WorkflowDocumentActions-takeGroupAuthority">takeGroupAuthority</a></li><li><a href="#WorkflowDocumentActions-releaseGroupAuthority">releaseGroupAuthority</a></li><li><a href="#WorkflowDocumentActions-save">save</a></li><li><a href="#WorkflowDocumentActions-saveDocumentData">saveDocumentData</a></li><li><a href="#WorkflowDocumentActions-delete">delete</a></li><li><a href="#WorkflowDocumentActions-logAnnotation">logAnnotation</a></li><li><a href="#WorkflowDocumentActions-initiateIndexing">initiateIndexing</a></li><li><a href="#WorkflowDocumentActions-superUserBlanketApprove">superUserBlanketApprove</a></li><li><a href="#WorkflowDocumentActions-superUserNodeApprove">superUserNodeApprove</a></li><li><a href="#WorkflowDocumentActions-superUserTakeRequestedAction">superUserTakeRequestedAction</a></li><li><a href="#WorkflowDocumentActions-superUserDisapprove">superUserDisapprove</a></li><li><a href="#WorkflowDocumentActions-superUserCancel">superUserCancel</a></li><li><a href="#WorkflowDocumentActions-superUserReturnToPreviousNode">superUserReturnToPreviousNode</a></li><li><a href="#WorkflowDocumentActions-placeInExceptionRouting">placeInExceptionRouting</a></li><li><a href="#WorkflowDocumentActions-validateWorkflowAttributeDefinition">validateWorkflowAttributeDefinition</a></li><li><a href="#WorkflowDocumentActions-isUserInRouteLog">isUserInRouteLog</a></li><li><a href="#WorkflowDocumentActions-isUserInRouteLogWithOptionalFlattening">isUserInRouteLogWithOptionalFlattening</a></li><li><a href="#WorkflowDocumentActions-reResolveRoleByDocTypeName">reResolveRoleByDocTypeName</a></li><li><a href="#WorkflowDocumentActions-reResolveRoleByDocumentId">reResolveRoleByDocumentId</a></li><li><a href="#WorkflowDocumentActions-executeSimulation">executeSimulation</a></li><li><a href="#WorkflowDocumentActions-isFinalApprover">isFinalApprover</a></li><li><a href="#WorkflowDocumentActions-isLastApproverAtNode">isLastApproverAtNode</a></li><li><a href="#WorkflowDocumentActions-routeNodeHasApproverActionRequest">routeNodeHasApproverActionRequest</a></li><li><a href="#WorkflowDocumentActions-documentWillHaveAtLeastOneActionRequest">documentWillHaveAtLeastOneActionRequest</a></li><li><a href="#WorkflowDocumentActions-getPrincipalIdsInRouteLog">getPrincipalIdsInRouteLog</a></li></ul>
+</div>
+</div>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="MainMessageStructures"></a>Main Message Structures</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="Document.html">Document</a></li><li><a href="ValidActions.html">ValidActions</a></li><li><a href="RequestedActions.html">RequestedActions</a></li><li><a href="DocumentActionResult.html">DocumentActionResult</a></li><li><a href="DocumentActionParameters.html">DocumentActionParameters</a></li><li><a href="void.html">void</a></li><li><a href="RemotableAttributeError.html">RemotableAttributeError</a></li><li><a href="WorkflowAttributeDefinition.html">WorkflowAttributeDefinition</a></li><li><a href="DocumentDetail.html">DocumentDetail</a></li><li><a href="RoutingReportCriteria.html">RoutingReportCriteria</a></li></ul>
+<p>
+<a name="WorkflowDocumentActions-create"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">create</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Creates a new document instance from the given document type. The initiator of the resulting<br>document will be the same as the initiator that is passed to this method. Optional<br>{@link DocumentUpdate} and {@link DocumentContentUpdate} parameters can be supplied in order<br>to create the document with these additional pieces of data already set.<br><br><p><br>By default, if neither the {@link DocumentUpdate} or {@link DocumentContentUpdate} is passed<br>to this method, the document that is created and returned from this operation will have the<br>following initial state:<br><br><ul><br><ol><br>{@code status} set to {@link DocumentStatus#INITIATED}<br></ol><br><ol><br>{@code createDate} and {@code dateLastModified} set to the current date and time<br></ol><br><ol><br>{@code current} set to 'true'<br></ol><br><ol><br>{@code documentContent} set to the default and empty content<br></ol><br></ul><br><br><p><br>Additionally, the initial {@link org.kuali.rice.kew.api.document.node.RouteNodeInstance} for the workflow process on the document<br>will be created and linked to the document as it's initial node. Once the document is<br>created, the {@link #route(DocumentActionParameters)} operation must be invoked in order to<br>submit it to the workflow engine for initial processing.<br><br><p><br>In certain situations, the given principal may not be permitted to initiate documents of the<br>given type. In these cases an {@link InvalidActionTakenException} will be thrown.</td>
+</tr>
+<tr>
+<th class=h rowspan=4>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentTypeName</td>
+<td class="methodParamDesc">the name of the document type from which to create this document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">initiatorPrincipalId</td>
+<td class="methodParamDesc">the id of the principal who is initiating this document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="DocumentUpdate.html">DocumentUpdate</a>
+</td><td class="methodParamName">documentUpdate</td>
+<td class="methodParamDesc">specifies additional document to set on the document upon creation,<br>       this is optional and if null is passed then the document will be created with the<br>       default document state</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="DocumentContentUpdate.html">DocumentContentUpdate</a>
+</td><td class="methodParamName">documentContentUpdate</td>
+<td class="methodParamDesc">defines what the initial document content for the document<br>       should be, this is optional if null is passed then the document will be created with<br>       the default empty document content</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Document.html">Document</a>
+</td><td class="methodReturnDesc">the document that was created</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code principalId} is null or blank</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>IllegalDocumentTypeException</td>
+<td class="methodErrorDesc">if the specified document type is not active</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-determineValidActions"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">determineValidActions</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Determines which actions against the document with the given id are valid for the principal<br>with the given id.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the id of the document for which to determine valid actions</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">the id of the principal for which to determine valid actions against the<br>       given document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ValidActions.html">ValidActions</a>
+</td><td class="methodReturnDesc">a {@link ValidActions} object which contains the valid actions for the given<br>        principal against the given document</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null or blank</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-determineRequestedActions"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">determineRequestedActions</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Determines which actions are requested against the document with the given id for the<br>principal with the given id. These are generally derived based on action requests that are<br>currently pending against the document.<br><br><p><br>This method is distinguished from {@link #determineValidActions(String, String)} in that fact<br>that valid actions are the actions that the principal is permitted to take, while requested<br>actions are those that the principal is specifically being asked to take. Note that the<br>actions that are requested are used when assembling valid actions but are not necessarily the<br>only authoritative source for determination of valid actions for the principal, as<br>permissions and other configuration can also come into play.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the id of the document for which to determine requested actions</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">the id of the principal for which to determine requested actions against<br>       the given document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RequestedActions.html">RequestedActions</a>
+</td><td class="methodReturnDesc">a {@link RequestedActions} object which contains the actions that are being requested<br>        from the given principal against the given document</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null or blank</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-acknowledge"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">acknowledge</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes an {@link ActionType#ACKNOWLEDGE} action for the given principal and document<br>specified in the supplied parameters. When a principal acknowledges a document, any of the<br>principal's pending action requests at or below the acknowledge level (which includes fyi<br>requests as well) will be satisfied by the principal's action. The principal's action should<br>be recorded with the document as an {@link ActionTaken}.<br><br><p><br>Depending on document type policy, a pending action request at or below the acknowledge level<br>may have to exist on the document in order for the principal to take this action. Otherwise<br>an {@link InvalidActionTakenException} may be thrown. In order to determine if an acknowledge<br>action is valid, the {@link ValidActions} or {@link RequestedActions} for the document can be<br>checked.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-approve"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">approve</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes an {@link ActionType#APPROVE} action for the given principal and document specified<br>in the supplied parameters. When a principal approves a document, any of the principal's<br>pending action requests at or below the approve level (which includes complete, acknowledge,<br>and fyi requests as well) will be satisfied by the principal's action. The principal's action<br>should be recorded with the document as an {@link ActionTaken}.<br><br><p><br>Depending on document type policy, a pending action request at or below the approve level may<br>have to exist on the document in order for the principal to take this action. Otherwise an<br>{@link InvalidActionTakenException} may be thrown. In order to determine if an approve action<br>is valid, the {@link ValidActions} or {@link RequestedActions} for the document can be<br>checked.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-adHocToPrincipal"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">adHocToPrincipal</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes an {@link ActionType#ADHOC_REQUEST} action for the given principal and document<br>specified in the supplied parameters to create an ad hoc action request to the target<br>principal specified in the {@code AdHocToPrincipal}.<br><br><p><br>Operates as per {@link #adHocToGroup(DocumentActionParameters, AdHocToGroup)} with the<br>exception that this method is used to send an adhoc request to principal instead of a group.<br><br><p><br>Besides this difference, the same rules that are in play for sending ad hoc requests to group<br>apply for sending ad hoc requests to principals.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="AdHocToPrincipal.html">AdHocToPrincipal</a>
+</td><td class="methodParamName">adHocToPrincipal</td>
+<td class="methodParamDesc">defines various pieces of information that informs what type of ad<br>       hoc request should be created</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-adHocToGroup"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">adHocToGroup</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes an {@link ActionType#ADHOC_REQUEST} action for the given group and document<br>specified in the supplied parameters to create an ad hoc action request to the target group<br>specified in the {@code AdHocToGroup}. The {@code AdHocToGroup} contains additional<br>information on how the ad hoc action request should be created, including the type of request<br>to generate, at which node it should generated, etc.<br><br><p><br>The policy for how ad hoc actions handle request generation and interact with the workflow<br>engine is different depending on the state of the document when the request to generate the<br>ad hoc is submitted. There are also different scenarios under which certain types of ad hoc<br>actions are allowed to be executed (throwing {@link InvalidActionTakenException} in<br>situations where the actions are not permitted). The rules are defined as follows:<br><br><ol><br><li>If the status of the document is {@link DocumentStatus#INITIATED} then the action request<br>will be generated with a status of {@link ActionRequestStatus#INITIALIZED} and no processing<br>directives will be submitted to the workflow engine. When the document is routed, these ad<br>hoc requests will get activated</li><br><li>If the ad hoc request being created is an {@link ActionRequestType#COMPLETE} or<br>{@link ActionRequestType#APPROVE} and the document is in a "terminal" state (either<br>{@link DocumentStatus#CANCELED}, {@link DocumentStatus#DISAPPROVED},<br>{@link DocumentStatus#PROCESSED}, {@link DocumentStatus#FINAL}) or is in<br>{@link DocumentStatus#EXCEPTION} status, then an {@link InvalidActionTakenException} will be<br>thrown. This is because submitting such an action with a document in that state would result<br>in creation of an illegal action request.</li><br><li>If the document is in a "terminal" state (see above for definition) then the request will<br>be immediately (and synchronously) activated.</li><br><li>Otherwise, after creating the ad hoc request it will be in the<br>{@link ActionRequestStatus#INITIALIZED} status, and the document will be immediately<br>forwarded to the workflow engine for processing at which point the ad hoc request will<br>activated at the appropriate time.</li><br></ol><br><br><p><br>Unlink other actions, ad hoc actions don't result in the recording of an {@link ActionTaken}<br>against the document. Instead, only the requested ad hoc {@link ActionRequest} is created.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="AdHocToGroup.html">AdHocToGroup</a>
+</td><td class="methodParamName">adHocToGroup</td>
+<td class="methodParamDesc">defines various pieces of information that informs what type of ad hoc<br>       request should be created</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principals i is not allowed to execute<br>        this action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-revokeAdHocRequestById"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">revokeAdHocRequestById</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes an {@link ActionType#ADHOC_REQUEST_REVOKE} action for the given principal and<br>document specified in the supplied parameters against the action request with the given id.<br>The process of revoking an ad hoc request simply deactivates the request associating the<br>generated {@link ActionTaken} of the revoke action with the deactivated request (this allows<br>for it to be determined what caused the ad hoc request to be deactivated). As with other<br>actions, this action taken is then recorded with the document.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">actionRequestId</td>
+<td class="methodParamDesc">the id of the action request to revoke</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-revokeAdHocRequests"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">revokeAdHocRequests</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes an {@link ActionType#ADHOC_REQUEST_REVOKE} action which revokes all pending ad hoc<br>action requests that match the supplied {@link AdHocRevoke} criteria for the given principal<br>and document specified in the supplied parameters. The process of revoking an ad hoc requests<br>simply deactivates all ad hoc requests that match the given {@code AdHocRevoke} criteria,<br>associating the generated {@link ActionTaken} of the revoke action with the deactivated<br>requests (this allows for it to be determined what caused the ad hoc request to be<br>deactivated). As with other actions, this action taken is then recorded with the document.<br><br><p><br>It's possible that the given ad hoc revoke command will match no action requests on the<br>document, in which case this method will complete successfully but no requests will be<br>deactivated.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="AdHocRevoke.html">AdHocRevoke</a>
+</td><td class="methodParamName">revoke</td>
+<td class="methodParamDesc">the criteria for matching ad hoc action requests on the specified document that<br>       should be revoked</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-revokeAllAdHocRequests"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">revokeAllAdHocRequests</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes an {@link ActionType#ADHOC_REQUEST_REVOKE} action which revokes all pending ad hoc<br>action requests for the given principal and document specified in the supplied parameters.<br>This process of revoking all ad hoc requests will simply deactivate all ad hoc requests on<br>the specified document, associating the generated {@link ActionTaken} of the revoke action<br>with the deactivated requests (this allows for it to be determined what caused the ad hoc<br>request to be deactivated). As with other actions, this action taken is then recorded with<br>the document.<br><br><p><br>It's possible that the specified document will have no pending adhoc requests, in which case<br>this method will complete successfully but no requests will be deactivated.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-cancel"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">cancel</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes a {@link ActionType#CANCEL} action for the given principal and document specified in<br>the supplied parameters. When a principal cancels a document, all pending action requests on<br>the document are deactivated and the the principal's action will be recorded on the document<br>as an {@link ActionTaken}. Additionally, the document will be (synchronously) transitioned to<br>the {@link DocumentStatus#CANCELED} status.<br><br><p><br>In order to cancel a document, the principal must have permission to cancel documents of the<br>appropriate type, and one of the following must hold true:<br><br><ol><br><li>The document must have a status of {@link DocumentStatus#INITIATED} <strong>or</strong></li><br><li>The document must have a status of {@link DocumentStatus#SAVED} <strong>or</strong></li><br><li>The principal must have a pending "complete" or "approve" request on the document.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-clearFyi"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">clearFyi</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes an {@link ActionType#FYI} action for the given principal and document specified in<br>the supplied parameters. When a principal clears fyis on a document, any of the principal's<br>pending fyis will be satisfied by the principal's action. The principal's action should be<br>recorded with the document as an {@link ActionTaken}.<br><br><p><br>Depending on document type policy, a pending fyi request may have to exist on the document in<br>order for the principal to take this action. Otherwise an {@link InvalidActionTakenException}<br>may be thrown. In order to determine if an fyi action is valid, the {@link ValidActions} or<br>{@link RequestedActions} for the document can be checked.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-complete"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">complete</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes an {@link ActionType#COMPLETE} action for the given principal and document specified<br>in the supplied parameters. When a principal completes a document, any of the principal's<br>pending action requests at or below the complete level (which includes approve, acknowledge,<br>and fyi requests as well) will be satisfied by the principal's action. The principal's action<br>should be recorded with the document as an {@link ActionTaken}.<br><br><p><br>Depending on document type policy, a pending action request at or below the complete level<br>may have to exist on the document in order for the principal to take this action. Otherwise<br>an {@link InvalidActionTakenException} may be thrown. In order to determine if an complete<br>action is valid, the {@link ValidActions} or {@link RequestedActions} for the document can be<br>checked.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-disapprove"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">disapprove</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes a {@link ActionType#DISAPPROVE} action for the given principal and document<br>specified in the supplied parameters. When a principal disapproves a document, all pending<br>action requests on the document are deactivated and the the principal's action will be<br>recorded on the document as an {@link ActionTaken}. Additionally, the document will be<br>(synchronously) transitioned to the {@link DocumentStatus#DISAPPROVED} status.<br><br><p><br>Depending on document type policy and configuration, notifications may be sent to past<br>approvers of the document. By default, an "acknowledge" request will be sent to each<br>principal who took an "approve" or "complete" action on the document previously.<br><br><p><br>In order to disapprove a document, the principal must have a pending approve or complete<br>request on the document.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-route"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">route</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Submits a document that is in either the "initiated" or "saved" state to the workflow engine<br>for processing. The route action triggers the beginning of the routing process and<br>(synchronously) switches the status of the document to {@link DocumentStatus#ENROUTE}. It<br>then queues up a request to the workflow engine to process the document.<br><br><p><br>When the route action is executed, an {@link ActionType#COMPLETE} action is recorded on the<br>document for the principal who executed the route action. At this point in time, any action<br>requests that are currently on the document in an "initialized" state will be activated.<br>Requests of this nature can commonly exist if ad hoc requests have been attached to the<br>document prior to execution of the route action.<br><br><p><br>By default, the principal who initiated the document is the same principal who must submit<br>the route command. However, a document type policy can be set which will relax this<br>constraint.<br><br><p><br>The route action should ideally only ever be executed once for a given document. Depending on<br>document type policy, attempting to execute a "route" action against a document which is<br>already enroute or in a terminal state may result in an {@link InvalidActionTakenException}<br>being thrown.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-blanketApprove"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">blanketApprove</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a full {@link ActionType#BLANKET_APPROVE} action for the given<br>principal and document specified in the supplied parameters. Blanket approval will<br>orchestrate a document from it's current node all the way to the end of the document's<br>workflow process. During this process, it will automatically act on all "approve" and<br>"complete" requests, effectively bypassing them. When it does this, it will notify the<br>original recipients of these requests by routing acknowledge requests to them.<br><br><p><br>Blanket approve processing is handled by a special mode of the workflow engine which runs the<br>document through it's full processing lifecycle, ensuring that it makes it's way to the end<br>of it's route path (by bypassing any steps that would cause the process to halt, such as<br>approval requests). Because of this nature, blanket approve processing behavior is governed<br>by the same configuration as the rest of the workflow engine. So depending on whether the<br>engine is configured or synchronous or asynchronous operation, the blanket approve processing<br>will behave in the same manner.<br><br><p><br>In order to execute a blanket approve operation, the principal must have permissions to do<br>so.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-blanketApproveToNodes"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">blanketApproveToNodes</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a {@link ActionType#BLANKET_APPROVE} action which orchestrates the<br>document to the given set of node names for the given principal and document specified in the<br>supplied parameters. This method functions the same as<br>{@link #blanketApprove(DocumentActionParameters)} with the exception that the blanket approve<br>process will be halted once all node names in the given set have been reached.<br><br><p><br>If null or an empty set is passed for {@code nodeNames} on this method, it's behavior will be<br>equivalent to {@link #blanketApprove(DocumentActionParameters)}.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">StringList</a>
+</td><td class="methodParamName">nodeNames</td>
+<td class="methodParamDesc">a set of node names to which to blanket approve the given document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-returnToPreviousNode"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">returnToPreviousNode</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a {@link ActionType#RETURN_TO_PREVIOUS} action for the given<br>principal and document specified in the supplied parameters. Return a document to a previous<br>node will allow for the document to be pushed back to an earlier node in the process based on<br>the criteria present in the {@link ReturnPoint} that is passed to this method.<br><br><p><br>The document is synchronously returned to the suggested return point (assuming the desired<br>return point can be identified for the given document), and then the document will be<br>submitted to the engine for further processing (effectively, re-establishing the flow of the<br>document from the target return point).<br><br><p><br>Return the document to the first node in the document is treated as a special case and,<br>rather then transitioning the document back to the "initiated" status, will route a<br>"complete" request to the initiator of the document. The effectively enacts a return to the<br>document initiator in these cases.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="ReturnPoint.html">ReturnPoint</a>
+</td><td class="methodParamName">returnPoint</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-move"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">move</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a {@link ActionType#MOVE} action for the given<br>principal and document specified in the supplied parameters. Move a document to a<br>node will allow for the document to be pushed to a different node in the process based on<br>the criteria present in the {@link MovePoint} that is passed to this method.<br><br><p /><br>The document is synchronously moved to the suggested move point (assuming the desired<br>move point can be identified for the given document), and then the document will be<br>submitted to the engine for further processing (effectively, re-establishing the flow of the<br>document from the target return point).</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="MovePoint.html">MovePoint</a>
+</td><td class="methodParamName">movePoint</td>
+<td class="methodParamDesc">the point to move the document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-takeGroupAuthority"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">takeGroupAuthority</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a {@link ActionType#TAKE_GROUP_AUTHORITY} action for the given<br>principal and document specified in the supplied parameters. Takes authority of a group by a<br>member of that group.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">groupId</td>
+<td class="methodParamDesc">the group id to take authority of</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-releaseGroupAuthority"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">releaseGroupAuthority</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a {@link ActionType#RELEASE_GROUP_AUTHORITY} action for the given<br>principal and document specified in the supplied parameters. Releases authority of a group by a<br>member of that group.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">groupId</td>
+<td class="methodParamDesc">the group id to take authority of</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-save"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">save</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a {@link ActionType#SAVE} action for the given<br>principal and document specified in the supplied parameters. Saves a document to a<br>at the current point.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-saveDocumentData"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">saveDocumentData</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a {@link ActionType#SAVE} action for the given<br>principal and document specified in the supplied parameters. Saves the current document data for<br>the document.  Note that passing an annotation to this will have no effect because it is not<br>recorded in the route log</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-delete"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">delete</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Deletes the document.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of the document to delete</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Document.html">Document</a>
+</td><td class="methodReturnDesc">the document that was removed from the system</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-logAnnotation"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">logAnnotation</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Records the non-routed document action. - Checks to make sure the document status<br>allows the action. Records the action.</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of the document to delete</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">annotation</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="void.html">void</a>
+</td><td class="methodReturnDesc">the document that was removed from the system</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-initiateIndexing"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">initiateIndexing</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">???</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of the document to delete</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="void.html">void</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-superUserBlanketApprove"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">superUserBlanketApprove</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a {@link ActionType#SU_BLANKET_APPROVE} action for the given<br>principal and document specified in the supplied parameters. Does a blanket approve for a super user<br>and runs post-processing depending on {@code executePostProcessor}</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="boolean.html">boolean</a>
+</td><td class="methodParamName">executePostProcessor</td>
+<td class="methodParamDesc">boolean value determining if the post-processor should be run or not</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-superUserNodeApprove"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">superUserNodeApprove</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a {@link ActionType#SU_APPROVE} action for the given<br>principal and document specified in the supplied parameters. Does an approve for a super user<br>on a node and runs post-processing depending on {@code executePostProcessor}</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="boolean.html">boolean</a>
+</td><td class="methodParamName">executePostProcessor</td>
+<td class="methodParamDesc">boolean value determining if the post-processor should be run or not</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">nodeName</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-superUserTakeRequestedAction"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">superUserTakeRequestedAction</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a {@link ActionType#SU_APPROVE} action for the given<br>actionRequestId and principal and document specified in the supplied parameters. Does an approve for a super user<br>on a node and runs post-processing depending on {@code executePostProcessor}</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="boolean.html">boolean</a>
+</td><td class="methodParamName">executePostProcessor</td>
+<td class="methodParamDesc">boolean value determining if the post-processor should be run or not</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">actionRequestId</td>
+<td class="methodParamDesc">unique Id of an action request to take action on</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-superUserDisapprove"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">superUserDisapprove</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a {@link ActionType#SU_DISAPPROVE} action for the given<br>principal and document specified in the supplied parameters. Does a disapprove for a super user<br>on a node and runs post-processing depending on {@code executePostProcessor}</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="boolean.html">boolean</a>
+</td><td class="methodParamName">executePostProcessor</td>
+<td class="methodParamDesc">boolean value determining if the post-processor should be run or not</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-superUserCancel"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">superUserCancel</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a {@link ActionType#SU_CANCEL} action for the given<br>principal and document specified in the supplied parameters. Does an cancel for a super user<br>on a node and runs post-processing depending on {@code executePostProcessor}</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="boolean.html">boolean</a>
+</td><td class="methodParamName">executePostProcessor</td>
+<td class="methodParamDesc">boolean value determining if the post-processor should be run or not</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-superUserReturnToPreviousNode"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">superUserReturnToPreviousNode</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Triggers the execution of a {@link ActionType#SU_RETURN_TO_PREVIOUS} action for the given<br>principal and document specified in the supplied parameters. Returns the document to the<br>previous node for a super user on a node and runs post-processing depending on {@code executePostProcessor}</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="boolean.html">boolean</a>
+</td><td class="methodParamName">executePostProcessor</td>
+<td class="methodParamDesc">boolean value determining if the post-processor should be run or not</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="ReturnPoint.html">ReturnPoint</a>
+</td><td class="methodParamName">returnPoint</td>
+<td class="methodParamDesc">point to return to</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-placeInExceptionRouting"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">placeInExceptionRouting</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Places a document in exception routing or the given principal and document specified in the supplied parameters.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="DocumentActionParameters.html">DocumentActionParameters</a>
+</td><td class="methodParamName">parameters</td>
+<td class="methodParamDesc">the parameters which indicate which principal is executing the action<br>       against which document, as well as additional operations to take against the document,<br>       such as updating document data</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentActionResult.html">DocumentActionResult</a>
+</td><td class="methodReturnDesc">the result of executing the action, including a view on the updated state of the<br>        document and related actions</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=3>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidDocumentContentException</td>
+<td class="methodErrorDesc">if the document content on the<br>        {@link DocumentContentUpdate} supplied with the {@code parameters} is invalid.</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>InvalidActionTakenException</td>
+<td class="methodErrorDesc">if the supplied principal is not allowed to execute this<br>        action</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-validateWorkflowAttributeDefinition"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">validateWorkflowAttributeDefinition</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Validates a workflow attribute definition and returns a list of validation errors</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="WorkflowAttributeDefinition.html">WorkflowAttributeDefinition</a>
+</td><td class="methodParamName">definition</td>
+<td class="methodParamDesc">WorkflowAttributeDefinition to validate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RemotableAttributeError.html">RemotableAttributeErrorList</a>
+</td><td class="methodReturnDesc">a list of RemotableAttributeErrors caused by validation of the passed in {@code definition}</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code parameters} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-isUserInRouteLog"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">isUserInRouteLog</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Determines if a passed in user exists in a document's route log or future route depending on the passed in<br>{@code lookFuture} value</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">unique Id of document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">unique Id of Principal to look for in document's route log</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="boolean.html">boolean</a>
+</td><td class="methodParamName">lookFuture</td>
+<td class="methodParamDesc">boolean value determines whether or not to look at the future route log</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">boolean value representing if a principal exists in a Document's route log</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-isUserInRouteLogWithOptionalFlattening"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">isUserInRouteLogWithOptionalFlattening</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Determines if a passed in user exists in a document's route log or future route depending on the passed in<br>{@code lookFuture} value and {@code flattenNodes}</td>
+</tr>
+<tr>
+<th class=h rowspan=4>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">unique Id of document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">unique Id of Principal to look for in document's route log</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="boolean.html">boolean</a>
+</td><td class="methodParamName">lookFuture</td>
+<td class="methodParamDesc">boolean value determines whether or not to look at the future route log</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="boolean.html">boolean</a>
+</td><td class="methodParamName">flattenNodes</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">boolean value representing if a principal exists in a Document's route log</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-reResolveRoleByDocTypeName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">reResolveRoleByDocTypeName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Re-resolves the given role for all documents for the given document type (including children).</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentTypeName</td>
+<td class="methodParamDesc">documentTypeName of DocuemntType for role</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">roleName</td>
+<td class="methodParamDesc">name of Role to reresolve</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">qualifiedRoleNameLabel</td>
+<td class="methodParamDesc">qualified role name label</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="void.html">void</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentTypeName} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-reResolveRoleByDocumentId"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">reResolveRoleByDocumentId</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Re-resolves the given role for all documents for the given document id (including children).</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">documentId of Docuemnt for role</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">roleName</td>
+<td class="methodParamDesc">name of Role to reresolve</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">qualifiedRoleNameLabel</td>
+<td class="methodParamDesc">qualified role name label</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="void.html">void</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentTypeName} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-executeSimulation"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">executeSimulation</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes a simulation of a document to get all previous and future route information</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="RoutingReportCriteria.html">RoutingReportCriteria</a>
+</td><td class="methodParamName">reportCriteria</td>
+<td class="methodParamDesc">criteria for the simulation to follow</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentDetail.html">DocumentDetail</a>
+</td><td class="methodReturnDesc">DocumentDetail object representing the results of the simulation</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code reportCriteria} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-isFinalApprover"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">isFinalApprover</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Determines if a passed in user is the final approver for a document</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">unique Id of the document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">unique Id of Principal to look for in document's route log</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">boolean value representing if a principal is the final approver for a document</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-isLastApproverAtNode"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">isLastApproverAtNode</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Determines if a passed in user is the last approver at a specified route node</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">unique Id of the document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">unique Id of Principal to look for in document's route log</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">nodeName</td>
+<td class="methodParamDesc">name of route node to determine last approver for</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">boolean value representing if a principal is the last approver at the specified route node</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-routeNodeHasApproverActionRequest"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">routeNodeHasApproverActionRequest</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Determines if a route node has an 'approve action' request</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">docType</td>
+<td class="methodParamDesc">document type of document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">docContent</td>
+<td class="methodParamDesc">string representing content of document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">nodeName</td>
+<td class="methodParamDesc">name of route node to determine if approve action request exists</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">boolean value representing if a route node has an 'approve action' request</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code docType} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-documentWillHaveAtLeastOneActionRequest"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">documentWillHaveAtLeastOneActionRequest</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Determines if a document has at least one action request</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="RoutingReportCriteria.html">RoutingReportCriteria</a>
+</td><td class="methodParamName">reportCriteria</td>
+<td class="methodParamDesc">criteria for routing report</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">StringList</a>
+</td><td class="methodParamName">actionRequestedCodes</td>
+<td class="methodParamDesc">list of action request codes to see if they exist for the document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="boolean.html">boolean</a>
+</td><td class="methodParamName">ignoreCurrentActionRequests</td>
+<td class="methodParamDesc">boolean value to determine if current action requests should be ignored</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">boolean value representing if a document will have at least one action request</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code docType} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocumentActions-getPrincipalIdsInRouteLog"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getPrincipalIdsInRouteLog</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Returns a list of principal Ids that exist in a route log</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">unique id of the document to get the route log for</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="boolean.html">boolean</a>
+</td><td class="methodParamName">lookFuture</td>
+<td class="methodParamDesc">boolean value that determines if the method should look at future action requests</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">StringList</a>
+</td><td class="methodReturnDesc">list of principal ids that exist in a route log</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+
+</body>
+</html>

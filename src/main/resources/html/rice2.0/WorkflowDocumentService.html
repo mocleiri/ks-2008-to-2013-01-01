@@ -1,0 +1,1264 @@
+<html>
+<head>
+<title>WorkflowDocumentService</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a><style type="text/css">
+
+table#serviceMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#serviceMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#serviceMetaTable td#serviceName {
+border:1px solid #000000;
+width:85%;
+}
+table#serviceMetaTable td#serviceVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#serviceMetaTable td#serviceVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.methodTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.methodTable td.d {
+border:1px solid #000000;
+}
+
+table.methodTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+
+table.methodTable td.methodName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:center;
+width:85%;
+font-weight:bold;
+font-style:italic;
+}
+
+table.methodTable td.methodDesc {
+border:1px solid #000000;
+width:85%;
+}
+
+table.methodTable td.methodParamType {
+border:1px solid #000000;
+width:21%;
+font-style:italic;
+}
+table.methodTable td.methodParamName {
+border:1px solid #000000;
+width:21%;
+}
+table.methodTable td.methodParamDesc {
+border:1px solid #000000;
+width:43%;
+}
+table.methodTable td.methodReturnType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+
+table.methodTable td.methodReturnDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.methodErrors {
+border:1px solid #000000;
+width:85%;
+}
+
+
+table.methodTable td.methodErrorType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+table.methodTable td.methodErrorDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.capabilityDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.usecaseDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+</style>
+<h1>WorkflowDocumentService</h1>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=serviceName colspan=2>WorkflowDocument</td>
+</tr>
+<tr>
+<th class=h>Version</th>
+</tr>
+<tr>
+<th class=h>Included Services</th>
+<td id=serviceVersion colspan=2>&nbsp;</td>
+</tr>
+</table>
+<p>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>
+TODO ... annotate for JAX-WS!
+</th>
+</tr>
+</table>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="ListOfOperations"></a>Operations</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="#WorkflowDocument-getDocument">getDocument</a></li><li><a href="#WorkflowDocument-doesDocumentExist">doesDocumentExist</a></li><li><a href="#WorkflowDocument-getDocumentContent">getDocumentContent</a></li><li><a href="#WorkflowDocument-getRootActionRequests">getRootActionRequests</a></li><li><a href="#WorkflowDocument-getActionRequestsForPrincipalAtNode">getActionRequestsForPrincipalAtNode</a></li><li><a href="#WorkflowDocument-getActionsTaken">getActionsTaken</a></li><li><a href="#WorkflowDocument-getDocumentDetailByAppId">getDocumentDetailByAppId</a></li><li><a href="#WorkflowDocument-getDocumentDetail">getDocumentDetail</a></li><li><a href="#WorkflowDocument-getRouteNodeInstance">getRouteNodeInstance</a></li><li><a href="#WorkflowDocument-getApplicationDocumentId">getApplicationDocumentId</a></li><li><a href="#WorkflowDocument-documentSearch">documentSearch</a></li><li><a href="#WorkflowDocument-getRouteNodeInstances">getRouteNodeInstances</a></li><li><a href="#WorkflowDocument-getActiveRouteNodeInstances">getActiveRouteNodeInstances</a></li><li><a href="#WorkflowDocument-getTerminalRouteNodeInstances">getTerminalRouteNodeInstances</a></li><li><a href="#WorkflowDocument-getCurrentRouteNodeInstances">getCurrentRouteNodeInstances</a></li><li><a href="#WorkflowDocument-getPreviousRouteNodeNames">getPreviousRouteNodeNames</a></li><li><a href="#WorkflowDocument-getDocumentStatus">getDocumentStatus</a></li><li><a href="#WorkflowDocument-getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId">getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId</a></li><li><a href="#WorkflowDocument-getDocumentInitiatorPrincipalId">getDocumentInitiatorPrincipalId</a></li><li><a href="#WorkflowDocument-getRoutedByPrincipalIdByDocumentId">getRoutedByPrincipalIdByDocumentId</a></li><li><a href="#WorkflowDocument-getActionsRequested">getActionsRequested</a></li><li><a href="#WorkflowDocument-getSearchableAttributeStringValuesByKey">getSearchableAttributeStringValuesByKey</a></li><li><a href="#WorkflowDocument-getSearchableAttributeDateTimeValuesByKey">getSearchableAttributeDateTimeValuesByKey</a></li><li><a href="#WorkflowDocument-getSearchableAttributeFloatValuesByKey">getSearchableAttributeFloatValuesByKey</a></li><li><a href="#WorkflowDocument-getSearchableAttributeLongValuesByKey">getSearchableAttributeLongValuesByKey</a></li><li><a href="#WorkflowDocument-getDocumentStatusTransitionHistory">getDocumentStatusTransitionHistory</a></li><li><a href="#WorkflowDocument-addDocumentLink">addDocumentLink</a></li><li><a href="#WorkflowDocument-deleteDocumentLink">deleteDocumentLink</a></li><li><a href="#WorkflowDocument-deleteDocumentLinksByDocumentId">deleteDocumentLinksByDocumentId</a></li><li><a href="#WorkflowDocument-getOutgoingDocumentLinks">getOutgoingDocumentLinks</a></li><li><a href="#WorkflowDocument-getIncomingDocumentLinks">getIncomingDocumentLinks</a></li><li><a href="#WorkflowDocument-getDocumentLink">getDocumentLink</a></li></ul>
+</div>
+</div>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="MainMessageStructures"></a>Main Message Structures</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="Document.html">Document</a></li><li><a href="DocumentContent.html">DocumentContent</a></li><li><a href="ActionRequest.html">ActionRequest</a></li><li><a href="ActionTaken.html">ActionTaken</a></li><li><a href="DocumentDetail.html">DocumentDetail</a></li><li><a href="RouteNodeInstance.html">RouteNodeInstance</a></li><li><a href="DocumentSearchResults.html">DocumentSearchResults</a></li><li><a href="DateTime.html">DateTime</a></li><li><a href="BigDecimal.html">BigDecimal</a></li><li><a href="DocumentStatusTransition.html">DocumentStatusTransition</a></li><li><a href="DocumentLink.html">DocumentLink</a></li></ul>
+<p>
+<a name="WorkflowDocument-getDocument"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getDocument</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link Document} from a documentId.<br><br><p><br>  This method will return null if the Document does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of the document to return</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Document.html">Document</a>
+</td><td class="methodReturnDesc">the document with the passed in id value</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-doesDocumentExist"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">doesDocumentExist</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Returns a boolean depending on if a {@link Document} exists with the specified documentId<br><br><p><br>  This method will return false if the responsibility does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of the document to check for existence</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">boolean value representative of whether the document exists</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getDocumentContent"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getDocumentContent</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets {@link DocumentContent} from a documentId.<br><br><p><br>  This method will return null if the document does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of the document content to return</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentContent.html">DocumentContent</a>
+</td><td class="methodReturnDesc">the documentContent with the passed in id value</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getRootActionRequests"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRootActionRequests</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of root ActionRequests for a given documentId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ActionRequest.html">ActionRequestList</a>
+</td><td class="methodReturnDesc">the list of root ActionRequests for a given documentId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getActionRequestsForPrincipalAtNode"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getActionRequestsForPrincipalAtNode</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of ActionRequests for a given documentId, nodeName and principalId</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">nodeName</td>
+<td class="methodParamDesc">the name of a RouteNode</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">the unique id of a principal</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ActionRequest.html">ActionRequestList</a>
+</td><td class="methodReturnDesc">the list of ActionRequests for a given documentId, nodeName, and principalId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getActionsTaken"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getActionsTaken</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of past {@link ActionTaken} of a {@link Document} with the given documentId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ActionTaken.html">ActionTakenList</a>
+</td><td class="methodReturnDesc">the list of past ActionTakens for a given documentId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getDocumentDetailByAppId"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getDocumentDetailByAppId</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link DocumentDetail} of a {@link Document} with the given documentTypeName and appId</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentTypeName</td>
+<td class="methodParamDesc">the name of the DocumentType</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">appId</td>
+<td class="methodParamDesc">the unique id of the application</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentDetail.html">DocumentDetail</a>
+</td><td class="methodReturnDesc">a {@link DocumentDetail} for with the given documentTypeName and appId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentTypeName} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getDocumentDetail"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getDocumentDetail</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link DocumentDetail} of a {@link Document} with the given documentId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of the Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentDetail.html">DocumentDetail</a>
+</td><td class="methodReturnDesc">a {@link DocumentDetail} for with the given documentId</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getRouteNodeInstance"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRouteNodeInstance</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link RouteNodeInstance} with the given nodeInstanceId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">routeNodeInstanceId</td>
+<td class="methodParamDesc">the unique id of the {@link RouteNodeInstance}</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RouteNodeInstance.html">RouteNodeInstance</a>
+</td><td class="methodReturnDesc">a {@link DocumentDetail} for with the given documentId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code nodeInstanceId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getApplicationDocumentId"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getApplicationDocumentId</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a value application document id of a {@link Document} with the given documentId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of the Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">String</a>
+</td><td class="methodReturnDesc">the value of the applicationDocumentId for the {@link Document} with the given documentId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-documentSearch"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">documentSearch</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes a search for workflow documents using the given criteria and as the principal with the given id.  Since<br>documents can define security which permits access to view certain search results, the given principal id will<br>be used when evaluating which documents should be filtered from the results because of lack of access.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">the id of the principal to execute the search as, if this value is non-null then security<br>filtering will be executed against the results, if it is null then no filtering will be performed</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="DocumentSearchCriteria.html">DocumentSearchCriteria</a>
+</td><td class="methodParamName">criteria</td>
+<td class="methodParamDesc">the criteria to use when executing the search</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentSearchResults.html">DocumentSearchResults</a>
+</td><td class="methodReturnDesc">the results of the search, this will never be null but may contain an empty list of results</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if the given criteria is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getRouteNodeInstances"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRouteNodeInstances</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of all {@link RouteNodeInstance} for a {@link Document} with the given documentId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RouteNodeInstance.html">RouteNodeInstanceList</a>
+</td><td class="methodReturnDesc">the list of {@link RouteNodeInstance}s for the {@link Document} with the given documentId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getActiveRouteNodeInstances"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getActiveRouteNodeInstances</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of active {@link RouteNodeInstance} for a {@link Document} with the given documentId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RouteNodeInstance.html">RouteNodeInstanceList</a>
+</td><td class="methodReturnDesc">the list of active {@link RouteNodeInstance}s for the {@link Document} with the given documentId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getTerminalRouteNodeInstances"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getTerminalRouteNodeInstances</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of terminal {@link RouteNodeInstance}s for a {@link Document} with the given documentId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RouteNodeInstance.html">RouteNodeInstanceList</a>
+</td><td class="methodReturnDesc">the list of terminal {@link RouteNodeInstance}s for the {@link Document} with the given documentId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getCurrentRouteNodeInstances"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getCurrentRouteNodeInstances</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of current {@link RouteNodeInstance}s for a {@link Document} with the given documentId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RouteNodeInstance.html">RouteNodeInstanceList</a>
+</td><td class="methodReturnDesc">the list of current {@link RouteNodeInstance}s for the {@link Document} with the given documentId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getPreviousRouteNodeNames"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getPreviousRouteNodeNames</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of all previous {@link RouteNodeInstance}'s node names for a {@link Document} with the given documentId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">StringList</a>
+</td><td class="methodReturnDesc">the list of all previous {@link RouteNodeInstance}'s node names for the {@link Document} with the<br>given documentId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getDocumentStatus"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getDocumentStatus</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the status value for a {@link Document} with the given documentId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">String</a>
+</td><td class="methodReturnDesc">the status value for the {@link Document} with the<br>given documentId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of principalId values for a {@link Document} with the given documentId<br>and action request code that have pending action requests</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">actionRequestedCd</td>
+<td class="methodParamDesc">code for the pending action requested</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">StringList</a>
+</td><td class="methodReturnDesc">a list of principalIds for the {@link Document} with the<br>given parameters and have a pending action request</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getDocumentInitiatorPrincipalId"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getDocumentInitiatorPrincipalId</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the {@link Document} initiator's principalId with the given documentId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">String</a>
+</td><td class="methodReturnDesc">the {@link Document} initiator's principalId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getRoutedByPrincipalIdByDocumentId"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRoutedByPrincipalIdByDocumentId</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the {@link Document}'s 'routed by' principalId with the given documentId<br>Returns null if the document is not found</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">String</a>
+</td><td class="methodReturnDesc">the {@link Document}'s 'routed by' principalId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getActionsRequested"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getActionsRequested</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a map of actions requested for a given principalId and documentId<br>The action request code is filled for the key value of the map, and a string representation<br>of a boolean value is the value.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodReturnDesc">the {@link Document}'s 'routed by' principalId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getSearchableAttributeStringValuesByKey"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getSearchableAttributeStringValuesByKey</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Does a direct search for searchableAttributes without going through the document search<br>This returns a list of String values for String searchableAttributes</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">key</td>
+<td class="methodParamDesc">the searchableAttributes key value</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">StringList</a>
+</td><td class="methodReturnDesc">a list of String values for the {@link Document} with the<br>given documentId and searchable attribute key</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getSearchableAttributeDateTimeValuesByKey"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getSearchableAttributeDateTimeValuesByKey</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Does a direct search for searchableAttributes without going through the document search<br>This returns a list of DateTime values for date/time searchableAttributes</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">key</td>
+<td class="methodParamDesc">the searchableAttributes key value</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DateTime.html">DateTimeList</a>
+</td><td class="methodReturnDesc">a list of DateTime values for the {@link Document} with the<br>given documentId and searchable attribute key</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getSearchableAttributeFloatValuesByKey"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getSearchableAttributeFloatValuesByKey</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Does a direct search for searchableAttributes without going through the document search<br>This returns a list of BigDecimal values for decimal searchableAttributes</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">key</td>
+<td class="methodParamDesc">the searchableAttributes key value</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="BigDecimal.html">BigDecimalList</a>
+</td><td class="methodReturnDesc">a list of BigDecimal values for the {@link Document} with the<br>given documentId and searchable attribute key</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getSearchableAttributeLongValuesByKey"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getSearchableAttributeLongValuesByKey</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Does a direct search for searchableAttributes without going through the document search<br>This returns a list of Long values for long searchableAttributes</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">key</td>
+<td class="methodParamDesc">the searchableAttributes key value</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Long.html">LongList</a>
+</td><td class="methodReturnDesc">a list of BigDecimal values for the {@link Document} with the<br>given documentId and searchable attribute key</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getDocumentStatusTransitionHistory"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getDocumentStatusTransitionHistory</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of DocumentStatusTransitions for the {@link Document} with the given documentId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentStatusTransition.html">DocumentStatusTransitionList</a>
+</td><td class="methodReturnDesc">a list of DocumentStatusTransitions for the {@link Document} with the<br>given documentId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-addDocumentLink"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addDocumentLink</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Saves the passed in {@link DocumentLink}.  If the {@link DocumentLink}'s id field is created.  This method<br>actually creates two different links in the database (one from the document being<br>linked to the target and vice-versa).  If the links already exist, then the call is ignored.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="DocumentLink.html">DocumentLink</a>
+</td><td class="methodParamName">documentLink</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentLink.html">DocumentLink</a>
+</td><td class="methodReturnDesc">the newly saved {@link DocumentLink}</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentLink} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-deleteDocumentLink"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">deleteDocumentLink</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Removes the  {@link DocumentLink} with the given documentLinkId.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentLinkId</td>
+<td class="methodParamDesc">the unique id of a Document</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentLink.html">DocumentLink</a>
+</td><td class="methodReturnDesc">the deleted {@link DocumentLink}</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentLink} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-deleteDocumentLinksByDocumentId"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">deleteDocumentLinksByDocumentId</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Removes all {@link DocumentLink}s for the given {@link Document} with the given originatingDocumentId.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">originatingDocumentId</td>
+<td class="methodParamDesc">the unique id of the originating Document of the document links to delete</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentLink.html">DocumentLinkList</a>
+</td><td class="methodReturnDesc">a list of the deleted {@link DocumentLink}s</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentLink} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getOutgoingDocumentLinks"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getOutgoingDocumentLinks</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of all {@link DocumentLink}s for outgoing links from the {@link Document} with the given documentId.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">originatingDocumentId</td>
+<td class="methodParamDesc">the unique id of the originating Document of the document links to retrieve</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentLink.html">DocumentLinkList</a>
+</td><td class="methodReturnDesc">a list of the outgoing {@link DocumentLink}s for the originating document</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code originatingDocumentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getIncomingDocumentLinks"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getIncomingDocumentLinks</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of all {@link DocumentLink}s for incoming links from the {@link Document} with the given documentId.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">originatingDocumentId</td>
+<td class="methodParamDesc">the unique id of the incoming Document of the document links to retrieve</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentLink.html">DocumentLinkList</a>
+</td><td class="methodReturnDesc">a list of the outgoing {@link DocumentLink}s for the incoming document</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code originatingDocumentId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="WorkflowDocument-getDocumentLink"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getDocumentLink</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the {@link DocumentLink} for  with the given documentLinkId.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentLinkId</td>
+<td class="methodParamDesc">the unique id of the {@link DocumentLink} to retrieve</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="DocumentLink.html">DocumentLink</a>
+</td><td class="methodReturnDesc">a {@link DocumentLink} with the passed in documentLinkId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">if {@code documentLinkId} is null</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+
+</body>
+</html>

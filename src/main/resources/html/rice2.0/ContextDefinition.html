@@ -1,0 +1,267 @@
+<html>
+<head>
+<title>ContextDefinition</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a>
+<a href="../dictionarydocs/ContextDefinition.html">dictionary doc</a>
+<style type="text/css">
+
+table#structureMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#structureMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#structureMetaTable td#structureName {
+border:1px solid #000000;
+width:85%;
+}
+table#structureMetaTable td#structureVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#structureMetaTable td#structureVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.structTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.structTable td.d {
+border:1px solid #000000;
+}
+
+table.structTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+}
+
+table.structTable td.structSName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:left;
+vertical-align:top;
+font-weight:bold;
+font-style:italic;
+
+}
+
+table.structTable td.structLName {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structType {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+font-style:italic;
+
+}
+
+table.structTable td.structDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structOpt {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structReq {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+
+table.structTable td.structCard {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structAttr {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structElem {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structStatus {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+
+}
+
+table.structTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+
+</style>
+<h1>ContextDefinition</h1>
+<table id="structureMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=structureName colspan=2>ContextDefinition</td>
+</tr>
+<tr>
+<th rowspan=3 class=h>Usage</th>
+<td id="structureVersion" colspan=2><a href="RuleRepositoryService.html">RuleRepositoryService</a>
+<a href=" ContextBoService.html"> ContextBoService</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="RuleRepositoryService.html#RuleRepository-selectContext">selectContext</a>
+<a href="ContextBoService.html#ContextBo-createContext">createContext</a>
+<a href="ContextBoService.html#ContextBo-updateContext">updateContext</a>
+<a href="ContextBoService.html#ContextBo-getContextByContextId">getContextByContextId</a>
+<a href="ContextBoService.html#ContextBo-getContextByNameAndNamespace">getContextByNameAndNamespace</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2></td></tr>
+<th class=h>Type</th>
+<td id=structureVersion colspan=2>Complex</td>
+</tr>
+</table>
+<h2>Description</h2>
+An immutable representation of a context definition.  A context definition<br>defines information about a context which can be loaded into the rules<br>engine for evaluation.<br><br>A context definition includes a list of agendas which are valid within the<br>context.  Typically, during rule engine execution, one or more of these<br>agendas is selected for execution based on a given set of selection criteria.
+<h2><a name="StructureDefinition"></a>Structure Definition</h2>
+<table class="structTable">
+<tr>
+<th class="h">ShortName</th>
+<th class="h">Name</th>
+<th class="h">Type</th>
+<th class="h">Description</th>
+<th class="h">Required?</th>
+<th class="h">Read only?</th>
+<th class="h">Cardinality</th>
+<th class="h">XML Attribute?</th>
+<th class="h">Implementation Notes</th>
+</tr>
+<tr>
+<td class="structSName">id</td>
+<td class="structLName">Id</td>
+<td class="structType">String</td>
+<td class="structDesc">The unique identifier for an object.  This can be null.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">namespace</td>
+<td class="structLName">Namespace</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the namespace of the context definition.  The combination of<br>namespace and name represent a unique business key for the context<br>definition.  The namespace should never be null or blank.</td>
+<td class="structOpt">Required</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">name</td>
+<td class="structLName">Name</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the name of the context definition.  The combination of name and namespaceCode<br>represent a unique business key for the context definition.  The name should never be<br>null or blank.</td>
+<td class="structOpt">Required</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">typeId</td>
+<td class="structLName">Type Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the type id for the context definition.  If the type id is null, that means<br>this context definition is of the default type.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">description</td>
+<td class="structLName">Description</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the description of the context definition.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">agendas</td>
+<td class="structLName">Agendas</td>
+<td class="structType"><a href="AgendaDefinition.html">AgendaDefinitionList</a>
+</td><td class="structDesc">Returns the list of agendas contained within the context definition.<br>This method should never return null but can return null.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">Many</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">attributes</td>
+<td class="structLName">Attributes</td>
+<td class="structType">Map<String, String></td>
+<td class="structDesc">This method returns a list of attributes associated with the <br>a context.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">versionNumber</td>
+<td class="structLName">Version Number</td>
+<td class="structType">Long</td>
+<td class="structDesc">Returns the version number for this object.  In general, this value should only<br>be null if the object has not yet been stored to a persistent data store.<br>This version number is generally used for the purposes of optimistic locking.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+</table>
+
+</body>
+</html>

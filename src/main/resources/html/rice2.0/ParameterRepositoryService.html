@@ -1,0 +1,473 @@
+<html>
+<head>
+<title>ParameterRepositoryService</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a><style type="text/css">
+
+table#serviceMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#serviceMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#serviceMetaTable td#serviceName {
+border:1px solid #000000;
+width:85%;
+}
+table#serviceMetaTable td#serviceVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#serviceMetaTable td#serviceVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.methodTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.methodTable td.d {
+border:1px solid #000000;
+}
+
+table.methodTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+
+table.methodTable td.methodName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:center;
+width:85%;
+font-weight:bold;
+font-style:italic;
+}
+
+table.methodTable td.methodDesc {
+border:1px solid #000000;
+width:85%;
+}
+
+table.methodTable td.methodParamType {
+border:1px solid #000000;
+width:21%;
+font-style:italic;
+}
+table.methodTable td.methodParamName {
+border:1px solid #000000;
+width:21%;
+}
+table.methodTable td.methodParamDesc {
+border:1px solid #000000;
+width:43%;
+}
+table.methodTable td.methodReturnType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+
+table.methodTable td.methodReturnDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.methodErrors {
+border:1px solid #000000;
+width:85%;
+}
+
+
+table.methodTable td.methodErrorType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+table.methodTable td.methodErrorDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.capabilityDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.usecaseDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+</style>
+<h1>ParameterRepositoryService</h1>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=serviceName colspan=2>ParameterRepository</td>
+</tr>
+<tr>
+<th class=h>Version</th>
+</tr>
+<tr>
+<th class=h>Included Services</th>
+<td id=serviceVersion colspan=2>&nbsp;</td>
+</tr>
+</table>
+<p>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>
+Service for interacting with {@link Parameter Parameters}.
+</th>
+</tr>
+</table>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="ListOfOperations"></a>Operations</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="#ParameterRepository-createParameter">createParameter</a></li><li><a href="#ParameterRepository-updateParameter">updateParameter</a></li><li><a href="#ParameterRepository-getParameter">getParameter</a></li><li><a href="#ParameterRepository-getParameterValueAsString">getParameterValueAsString</a></li><li><a href="#ParameterRepository-getParameterValueAsBoolean">getParameterValueAsBoolean</a></li><li><a href="#ParameterRepository-getParameterValuesAsString">getParameterValuesAsString</a></li><li><a href="#ParameterRepository-getSubParameterValueAsString">getSubParameterValueAsString</a></li><li><a href="#ParameterRepository-getSubParameterValuesAsString">getSubParameterValuesAsString</a></li><li><a href="#ParameterRepository-findParameters">findParameters</a></li></ul>
+</div>
+</div>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="MainMessageStructures"></a>Main Message Structures</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="Parameter.html">Parameter</a></li><li><a href="ParameterKey.html">ParameterKey</a></li><li><a href="ParameterQueryResults.html">ParameterQueryResults</a></li><li><a href="QueryByCriteria.html">QueryByCriteria</a></li></ul>
+<p>
+<a name="ParameterRepository-createParameter"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">createParameter</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link Parameter} exactly like the parameter passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="Parameter.html">Parameter</a>
+</td><td class="methodParamName">parameter</td>
+<td class="methodParamDesc">the parameter to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Parameter.html">Parameter</a>
+</td><td class="methodReturnDesc">the parameter that was created</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="ParameterRepository-updateParameter"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateParameter</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link Parameter}.<br><br> <p><br>    If the parameter does not exist under the application<br>    code passed, then this method will check if the parameter<br>    exists under the default rice application id and<br>    will update that parameter.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="Parameter.html">Parameter</a>
+</td><td class="methodParamName">parameter</td>
+<td class="methodParamDesc">the parameter to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Parameter.html">Parameter</a>
+</td><td class="methodReturnDesc">the parameter that was updated</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="ParameterRepository-getParameter"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getParameter</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link Parameter} from a {@link ParameterKey}.<br><br><p><br>    If the parameter does not exist under the application<br>    code passed, then this method will check if the parameter<br>    exists under the default rice application id and<br>    will return that parameter.<br></p><br><br><p><br>  This method will return null if the parameter does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="ParameterKey.html">ParameterKey</a>
+</td><td class="methodParamName">key</td>
+<td class="methodParamDesc">the key to retrieve the parameter by. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Parameter.html">Parameter</a>
+</td><td class="methodReturnDesc">a {@link Parameter} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="ParameterRepository-getParameterValueAsString"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getParameterValueAsString</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link ParameterContract#getValue()} from a {@link ParameterKey}.<br><br> <p><br>    If the parameter does not exist under the application<br>    code passed, then this method will check if the parameter<br>    exists under the default rice application id and<br>    will return that parameter.<br></p><br><br><p><br>  This method will return null if the parameter does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="ParameterKey.html">ParameterKey</a>
+</td><td class="methodParamName">key</td>
+<td class="methodParamDesc">the key to retrieve the parameter by. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">String</a>
+</td><td class="methodReturnDesc">a string value or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="ParameterRepository-getParameterValueAsBoolean"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getParameterValueAsBoolean</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link ParameterContract#getValue()} as a Boolean from a {@link ParameterKey}.<br><br><p><br>    If the parameter does not exist under the application<br>    code passed, then this method will check if the parameter<br>    exists under the default rice application id and<br>    will return that parameter.<br></p><br><br><p><br>  This method will return null if the parameter does not exist or is not a valid truth value.<br></p><br><br>valid true values (case insensitive):<br><ul><br>    <li>Y</li><br>    <li>true</li><br>    <li>on</li><br>    <li>1</li><br>    <li>t</li><br>    <li>enabled</li><br></ul><br><br>valid false values (case insensitive):<br><ul><br>    <li>N</li><br>    <li>false</li><br>    <li>off</li><br>    <li>0</li><br>    <li>f</li><br>    <li>disabled</li><br></ul></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="ParameterKey.html">ParameterKey</a>
+</td><td class="methodParamName">key</td>
+<td class="methodParamDesc">the key to retrieve the parameter by. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Boolean.html">Boolean</a>
+</td><td class="methodReturnDesc">a boolean value or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="ParameterRepository-getParameterValuesAsString"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getParameterValuesAsString</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link ParameterContract#getValue()} from a {@link ParameterKey}<br>where the value is split on a semi-colon delimeter and each token is trimmed<br>of white space.<br><br>for example:  param_name=foo; bar; baz<br><br>will yield a collection containing foo, bar, baz<br><br><p><br>    If the parameter does not exist under the application<br>    code passed, then this method will check if the parameter<br>    exists under the default rice application id and<br>    will return that parameter.<br></p><br><br><p><br>  This method will always return an <b>immutable</b> Collection<br>  even when no values exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="ParameterKey.html">ParameterKey</a>
+</td><td class="methodParamName">key</td>
+<td class="methodParamDesc">the key to retrieve the parameter by. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">StringList</a>
+</td><td class="methodReturnDesc">an immutable collection of strings</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="ParameterRepository-getSubParameterValueAsString"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getSubParameterValueAsString</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link ParameterContract#getValue()} from a {@link ParameterKey}<br>where the value is split on a semi-colon delimeter and each token is trimmed<br>of white space.  Those values are themselves keyvalue pairs which are searched<br>for the sub parameter name.<br><br>for example:<br><br>param_name=foo=f1; bar=b1; baz=z1<br>subParameterName=bar<br><br>will yield b1<br><br><p>if multiple subparameters are contained in the parameter value the first one is returned</p><br><br><p><br>    If the parameter does not exist under the application<br>    code passed, then this method will check if the parameter<br>    exists under the default rice application id and<br>    will return that parameter.<br></p><br><br><p><br>  This method will always return null when the subparameter does not<br>  exist or if the parameter value does not conform to the following format(s):<br>  <ol><br>     <li>subparameter_name=subparameter_value;</li><br>  </ol><br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="ParameterKey.html">ParameterKey</a>
+</td><td class="methodParamName">key</td>
+<td class="methodParamDesc">the key to retrieve the parameter by. cannot be null.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">subParameterName</td>
+<td class="methodParamDesc">the sub parameter to search for</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">String</a>
+</td><td class="methodReturnDesc">a string value or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="ParameterRepository-getSubParameterValuesAsString"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getSubParameterValuesAsString</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link ParameterContract#getValue()} from a {@link ParameterKey}<br>where the value is split on a semi-colon delimeter and each token is trimmed<br>of white space.  Those values are themselves keyvalue pairs which are searched<br>for the sub parameter name.  After the sub parameter is found it is split on a comma<br>and trimmed or whitespace before adding it to the final collection for return.<br><br>for example:<br><br>param_name=foo=f1,f2,f3; bar=b1,b2; baz=z1<br>subParameterName=bar<br><br>will yield a collection containing b1, b2<br><br><p>if multiple subparameters are contained in the parameter value the first one is returned</p><br><br><p><br>    If the parameter does not exist under the application<br>    code passed, then this method will check if the parameter<br>    exists under the default rice application id and<br>    will return that parameter.<br></p><br><br><p><br>  This method will always return an <b>immutable</b> Collection<br>  even when no values exist.<br></p><br><br> <p><br>  This method will always return an empty <b>immutable</b> Collection when<br>  the subparameter does not exist or if the parameter value does not<br>  conform to the following format(s):<br>  <ol><br>     <li>subparameter_name=subparameter_value;</li><br>     <li>subparameter_name=subparameter_value1, subparameter_value2;</li><br>     <li>subparameter_name=subparameter_value1, subparameter_value2,;</li><br>  </ol><br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="ParameterKey.html">ParameterKey</a>
+</td><td class="methodParamName">key</td>
+<td class="methodParamDesc">the key to retrieve the parameter by. cannot be null.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">subParameterName</td>
+<td class="methodParamDesc">the sub parameter to search for</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">StringList</a>
+</td><td class="methodReturnDesc">an immutable collection of strings</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="ParameterRepository-findParameters"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findParameters</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">???</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="QueryByCriteria.html">QueryByCriteria</a>
+</td><td class="methodParamName">queryByCriteria</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ParameterQueryResults.html">ParameterQueryResults</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+
+</body>
+</html>

@@ -1,0 +1,577 @@
+<html>
+<head>
+<title>RuleService</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a><style type="text/css">
+
+table#serviceMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#serviceMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#serviceMetaTable td#serviceName {
+border:1px solid #000000;
+width:85%;
+}
+table#serviceMetaTable td#serviceVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#serviceMetaTable td#serviceVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.methodTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.methodTable td.d {
+border:1px solid #000000;
+}
+
+table.methodTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+
+table.methodTable td.methodName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:center;
+width:85%;
+font-weight:bold;
+font-style:italic;
+}
+
+table.methodTable td.methodDesc {
+border:1px solid #000000;
+width:85%;
+}
+
+table.methodTable td.methodParamType {
+border:1px solid #000000;
+width:21%;
+font-style:italic;
+}
+table.methodTable td.methodParamName {
+border:1px solid #000000;
+width:21%;
+}
+table.methodTable td.methodParamDesc {
+border:1px solid #000000;
+width:43%;
+}
+table.methodTable td.methodReturnType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+
+table.methodTable td.methodReturnDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.methodErrors {
+border:1px solid #000000;
+width:85%;
+}
+
+
+table.methodTable td.methodErrorType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+table.methodTable td.methodErrorDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.capabilityDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.usecaseDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+</style>
+<h1>RuleService</h1>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=serviceName colspan=2>Rule</td>
+</tr>
+<tr>
+<th class=h>Version</th>
+</tr>
+<tr>
+<th class=h>Included Services</th>
+<td id=serviceVersion colspan=2>&nbsp;</td>
+</tr>
+</table>
+<p>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>
+Copyright 2005-2011 The Kuali Foundation<br><br>Licensed under the Educational Community License, Version 2.0 (the "License");<br>you may not use this file except in compliance with the License.<br>You may obtain a copy of the License at<br><br>http://www.opensource.org/licenses/ecl2.php<br><br>Unless required by applicable law or agreed to in writing, software<br>distributed under the License is distributed on an "AS IS" BASIS,<br>WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>See the License for the specific language governing permissions and<br>limitations under the License.
+</th>
+</tr>
+</table>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="ListOfOperations"></a>Operations</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="#Rule-getRule">getRule</a></li><li><a href="#Rule-getRuleByName">getRuleByName</a></li><li><a href="#Rule-getRulesByTemplateId">getRulesByTemplateId</a></li><li><a href="#Rule-getRulesByTemplateNameAndDocumentTypeName">getRulesByTemplateNameAndDocumentTypeName</a></li><li><a href="#Rule-getRulesByTemplateNameAndDocumentTypeNameAndEffectiveDate">getRulesByTemplateNameAndDocumentTypeNameAndEffectiveDate</a></li><li><a href="#Rule-findRules">findRules</a></li><li><a href="#Rule-ruleReport">ruleReport</a></li><li><a href="#Rule-getRuleTemplate">getRuleTemplate</a></li><li><a href="#Rule-getRuleTemplateByName">getRuleTemplateByName</a></li><li><a href="#Rule-findRuleTemplates">findRuleTemplates</a></li><li><a href="#Rule-getRuleResponsibility">getRuleResponsibility</a></li><li><a href="#Rule-getRuleDelegationsByResponsibiltityId">getRuleDelegationsByResponsibiltityId</a></li></ul>
+</div>
+</div>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="MainMessageStructures"></a>Main Message Structures</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="Rule.html">Rule</a></li><li><a href="RuleQueryResults.html">RuleQueryResults</a></li><li><a href="QueryByCriteria.html">QueryByCriteria</a></li><li><a href="RuleReportCriteria.html">RuleReportCriteria</a></li><li><a href="RuleTemplate.html">RuleTemplate</a></li><li><a href="RuleTemplateQueryResults.html">RuleTemplateQueryResults</a></li><li><a href="RuleResponsibility.html">RuleResponsibility</a></li><li><a href="RuleDelegation.html">RuleDelegation</a></li></ul>
+<p>
+<a name="Rule-getRule"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRule</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">gets a Rule identified by the passed in id</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">unique id for the Rule</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Rule.html">Rule</a>
+</td><td class="methodReturnDesc">Rule with the passed in unique id</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Rule-getRuleByName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRuleByName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">gets a Rule identified by the passed in rule name</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">name</td>
+<td class="methodParamDesc">name of the Rule</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Rule.html">Rule</a>
+</td><td class="methodReturnDesc">Rule with the passed in unique id</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Rule-getRulesByTemplateId"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRulesByTemplateId</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">gets a list of Rules with the specified templateId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">templateId</td>
+<td class="methodParamDesc">unique id for the Rule</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Rule.html">RuleList</a>
+</td><td class="methodReturnDesc">Rules with the passed in templateId, or an empty list if none exist</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Rule-getRulesByTemplateNameAndDocumentTypeName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRulesByTemplateNameAndDocumentTypeName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of Rules with the specified templateId and documentTypeName.  Scales up the hierarchy of<br>documentTypes</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">templateName</td>
+<td class="methodParamDesc">unique name for the Rule Template.  Cannot be null or empty</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentTypeName</td>
+<td class="methodParamDesc">documentTypeName for Rule.  Cannot be null or empty</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Rule.html">RuleList</a>
+</td><td class="methodReturnDesc">Rules with the passed in templateId, documentTypeName (or parent document type)or an empty list if none exist</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Rule-getRulesByTemplateNameAndDocumentTypeNameAndEffectiveDate"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRulesByTemplateNameAndDocumentTypeNameAndEffectiveDate</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a list of Rules with the specified templateId and documentTypeName.  Scales up the hierarchy of<br>documentTypes</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">templateName</td>
+<td class="methodParamDesc">unique name for the Rule Template.  Cannot be null or empty</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">documentTypeName</td>
+<td class="methodParamDesc">documentTypeName for Rule.  Cannot be null or empty</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="DateTime.html">DateTime</a>
+</td><td class="methodParamName">effectiveDate</td>
+<td class="methodParamDesc">date for rule effectiveness. Can be null.  If null, current time is used.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Rule.html">RuleList</a>
+</td><td class="methodReturnDesc">Rules with the passed in templateId, documentTypeName (or parent document type)or an empty list if none exist</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Rule-findRules"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findRules</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Query for rules based on the given search criteria which is a Map of rule field names to values.<br><br><p><br>This method returns it's results as a List of Rules that match the given search criteria.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="QueryByCriteria.html">QueryByCriteria</a>
+</td><td class="methodParamName">queryByCriteria</td>
+<td class="methodParamDesc">the criteria.  Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RuleQueryResults.html">RuleQueryResults</a>
+</td><td class="methodReturnDesc">a list of Rule objects in which the given criteria match Rule properties.  An empty list is returned if an invalid or<br>        non-existent criteria is supplied.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Rule-ruleReport"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">ruleReport</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Executes a simulation of a document to get all previous and future route information</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="RuleReportCriteria.html">RuleReportCriteria</a>
+</td><td class="methodParamName">reportCriteria</td>
+<td class="methodParamDesc">criteria for the rule report to follow</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Rule.html">RuleList</a>
+</td><td class="methodReturnDesc">list of Rules representing the results of the rule report</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Rule-getRuleTemplate"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRuleTemplate</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">gets a RuleTemplate identified by the passed in id</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">unique id for the RuleTemplate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RuleTemplate.html">RuleTemplate</a>
+</td><td class="methodReturnDesc">RuleTemplate with the passed in unique id</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Rule-getRuleTemplateByName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRuleTemplateByName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">gets a RuleTemplate identified by the passed in name</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">name</td>
+<td class="methodParamDesc">unique name for the RuleTemplate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RuleTemplate.html">RuleTemplate</a>
+</td><td class="methodReturnDesc">RuleTemplate with the passed in unique name</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Rule-findRuleTemplates"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findRuleTemplates</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Query for rules based on the given search criteria which is a Map of ruleTemplate field names to values.<br><br><p><br>This method returns it's results as a List of RuleTemplates that match the given search criteria.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="QueryByCriteria.html">QueryByCriteria</a>
+</td><td class="methodParamName">queryByCriteria</td>
+<td class="methodParamDesc">the criteria.  Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RuleTemplateQueryResults.html">RuleTemplateQueryResults</a>
+</td><td class="methodReturnDesc">a list of RuleTemplate objects in which the given criteria match RuleTemplate properties.<br>An empty list is returned if an invalid or non-existent criteria is supplied.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Rule-getRuleResponsibility"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRuleResponsibility</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">gets a RuleResponsibility identified by the passed in responsibilityId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">responsibilityId</td>
+<td class="methodParamDesc">unique id for the RuleResponsibility</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RuleResponsibility.html">RuleResponsibility</a>
+</td><td class="methodReturnDesc">RuleResponsibility with the passed in unique responsibilityId</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Rule-getRuleDelegationsByResponsibiltityId"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRuleDelegationsByResponsibiltityId</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">gets a RuleDelegations identified by the passed in id for responsibility</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">unique id for the RuleDelegation's Responsibility</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="RuleDelegation.html">RuleDelegationList</a>
+</td><td class="methodReturnDesc">List of RuleDelegations with the provided ReponsibilityId.  Returns an empty list if none exist.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+
+</body>
+</html>

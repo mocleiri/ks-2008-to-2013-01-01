@@ -1,0 +1,354 @@
+<html>
+<head>
+<title>Document</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a>
+<style type="text/css">
+
+table#structureMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#structureMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#structureMetaTable td#structureName {
+border:1px solid #000000;
+width:85%;
+}
+table#structureMetaTable td#structureVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#structureMetaTable td#structureVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.structTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.structTable td.d {
+border:1px solid #000000;
+}
+
+table.structTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+}
+
+table.structTable td.structSName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:left;
+vertical-align:top;
+font-weight:bold;
+font-style:italic;
+
+}
+
+table.structTable td.structLName {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structType {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+font-style:italic;
+
+}
+
+table.structTable td.structDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structOpt {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structReq {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+
+table.structTable td.structCard {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structAttr {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structElem {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structStatus {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+
+}
+
+table.structTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+
+</style>
+<h1>Document</h1>
+<table id="structureMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=structureName colspan=2>Document</td>
+</tr>
+<tr>
+<th rowspan=3 class=h>Usage</th>
+<td id="structureVersion" colspan=2><a href="WorkflowDocumentActionsService.html">WorkflowDocumentActionsService</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="WorkflowDocumentActionsService.html#WorkflowDocumentActions-create">create</a>
+<a href="WorkflowDocumentActionsService.html#WorkflowDocumentActions-delete">delete</a>
+<a href="WorkflowDocumentService.html#WorkflowDocument-getDocument">getDocument</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="DocumentActionResult.html">DocumentActionResult</a>
+<a href="DocumentDetail.html">DocumentDetail</a>
+<a href="DocumentSearchResult.html">DocumentSearchResult</a>
+</td></tr>
+<th class=h>Type</th>
+<td id=structureVersion colspan=2>Complex</td>
+</tr>
+</table>
+<h2>Description</h2>
+Copyright 2005-2011 The Kuali Foundation<br><br>Licensed under the Educational Community License, Version 2.0 (the "License");<br>you may not use this file except in compliance with the License.<br>You may obtain a copy of the License at<br><br>http://www.opensource.org/licenses/ecl2.php<br><br>Unless required by applicable law or agreed to in writing, software<br>distributed under the License is distributed on an "AS IS" BASIS,<br>WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>See the License for the specific language governing permissions and<br>limitations under the License.
+<h2><a name="StructureDefinition"></a>Structure Definition</h2>
+<table class="structTable">
+<tr>
+<th class="h">ShortName</th>
+<th class="h">Name</th>
+<th class="h">Type</th>
+<th class="h">Description</th>
+<th class="h">Required?</th>
+<th class="h">Read only?</th>
+<th class="h">Cardinality</th>
+<th class="h">XML Attribute?</th>
+<th class="h">Implementation Notes</th>
+</tr>
+<tr>
+<td class="structSName">documentId</td>
+<td class="structLName">Document Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Retrieve the document id</td>
+<td class="structOpt">Required</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">status</td>
+<td class="structLName">Status</td>
+<td class="structType">DocumentStatus</td>
+<td class="structDesc">Retrieve the document status</td>
+<td class="structOpt">Required</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateCreated</td>
+<td class="structLName">Date Created</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Retrieve the document creation date</td>
+<td class="structOpt">Required</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateLastModified</td>
+<td class="structLName">Date Last Modified</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Retrieve the document last-modified date</td>
+<td class="structOpt">Required</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateApproved</td>
+<td class="structLName">Date Approved</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Retrieve the document approval date</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateFinalized</td>
+<td class="structLName">Date Finalized</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Retrieve the document finalization date</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">title</td>
+<td class="structLName">Title</td>
+<td class="structType">String</td>
+<td class="structDesc">Retrieve the document title</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">applicationDocumentId</td>
+<td class="structLName">Application Document Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Retrieve the application document id.  The Application Document Id is used to record an application-relevant<br>id for the workflow document.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">initiatorPrincipalId</td>
+<td class="structLName">Initiator Principal Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Retrieve the initiator principal id</td>
+<td class="structOpt">Required</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">routedByPrincipalId</td>
+<td class="structLName">Routed By Principal Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Retrieve the router principal id</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">documentTypeName</td>
+<td class="structLName">Document Type Name</td>
+<td class="structType">String</td>
+<td class="structDesc">Retrieve the name of the type of this document</td>
+<td class="structOpt">Required</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">documentTypeId</td>
+<td class="structLName">Document Type Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Retrieve the id of the type of this document</td>
+<td class="structOpt">Required</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">documentHandlerUrl</td>
+<td class="structLName">Document Handler Url</td>
+<td class="structType">String</td>
+<td class="structDesc">Retrieve the document handler url</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">applicationDocumentStatus</td>
+<td class="structLName">Application Document Status</td>
+<td class="structType">String</td>
+<td class="structDesc">Retrieve the application document status. The Application Document Status is used<br>to track document/applicaiton specific statuses</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">applicationDocumentStatusDate</td>
+<td class="structLName">Application Document Status Date</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Retrieve the application document status date<br>TODO: explain what the application document status date field is</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">variables</td>
+<td class="structLName">Variables</td>
+<td class="structType">Map<String, String></td>
+<td class="structDesc">Retrieve the currently defined internal workflow engine variables for the document<br>NOTE: use of workflow engine variables is an advanced technique requiring specific crafting of the<br>workflow document routing; these variables will not be useful for the majority of workflow use cases</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+</table>
+
+</body>
+</html>

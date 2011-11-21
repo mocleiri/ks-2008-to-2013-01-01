@@ -1,0 +1,482 @@
+<html>
+<head>
+<title>DocumentSearchCriteria</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a>
+<style type="text/css">
+
+table#structureMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#structureMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#structureMetaTable td#structureName {
+border:1px solid #000000;
+width:85%;
+}
+table#structureMetaTable td#structureVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#structureMetaTable td#structureVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.structTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.structTable td.d {
+border:1px solid #000000;
+}
+
+table.structTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+}
+
+table.structTable td.structSName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:left;
+vertical-align:top;
+font-weight:bold;
+font-style:italic;
+
+}
+
+table.structTable td.structLName {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structType {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+font-style:italic;
+
+}
+
+table.structTable td.structDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structOpt {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structReq {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+
+table.structTable td.structCard {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structAttr {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structElem {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structStatus {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+
+}
+
+table.structTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+
+</style>
+<h1>DocumentSearchCriteria</h1>
+<table id="structureMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=structureName colspan=2>DocumentSearchCriteria</td>
+</tr>
+<tr>
+<th rowspan=3 class=h>Usage</th>
+<td id="structureVersion" colspan=2><a href="WorkflowDocumentService.html">WorkflowDocumentService</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="WorkflowDocumentService.html#WorkflowDocument-documentSearch">documentSearch</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="DocumentSearchResults.html">DocumentSearchResults</a>
+</td></tr>
+<th class=h>Type</th>
+<td id=structureVersion colspan=2>Complex</td>
+</tr>
+</table>
+<h2>Description</h2>
+An immutable data transfer object implementation of the {@link DocumentSearchCriteriaContract}.  Instances of this<br>class should be constructed using the nested {@link Builder} class.
+<h2><a name="StructureDefinition"></a>Structure Definition</h2>
+<table class="structTable">
+<tr>
+<th class="h">ShortName</th>
+<th class="h">Name</th>
+<th class="h">Type</th>
+<th class="h">Description</th>
+<th class="h">Required?</th>
+<th class="h">Read only?</th>
+<th class="h">Cardinality</th>
+<th class="h">XML Attribute?</th>
+<th class="h">Implementation Notes</th>
+</tr>
+<tr>
+<td class="structSName">documentId</td>
+<td class="structLName">Document Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the document id criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">documentStatuses</td>
+<td class="structLName">Document Statuses</td>
+<td class="structType">DocumentStatusList</td>
+<td class="structDesc">Returns an unmodifiable list of document statuses to search against when executing the document search.  If there<br>is more than one of these, then the search should treat this as an "OR" case (i.e. search for documents with one<br>or more of these statuses).</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">Many</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">documentStatusCategories</td>
+<td class="structLName">Document Status Categories</td>
+<td class="structType">DocumentStatusCategoryList</td>
+<td class="structDesc">Returns an unmodifiable list of document status categories to search against when executing the document search.<br>If there is more than one of these, then the search should treat this as an "OR" case (i.e. search for documents<br>that have a status contained in one or more of these categories).</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">Many</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">title</td>
+<td class="structLName">Title</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the document title criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">applicationDocumentId</td>
+<td class="structLName">Application Document Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the application document id criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">applicationDocumentStatus</td>
+<td class="structLName">Application Document Status</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the application document status criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">initiatorPrincipalName</td>
+<td class="structLName">Initiator Principal Name</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the criteria for the principal name of the document initiator to search against when executing the<br>document search.  Follows the rules for principal name criteria (see class-level documentation).</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">viewerPrincipalName</td>
+<td class="structLName">Viewer Principal Name</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the criteria for the principal name of a "viewer" of a document (someone who received an action request<br>related to the document) to search against when executing the document search.  Follows the rules for principal<br>name criteria (see class-level documentation).</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">viewerGroupId</td>
+<td class="structLName">Viewer Group Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the criteria for the id of a group who is a "viewer" of a document (a group who received an action request<br>related to the document) to search against when executing the document search.  Group id criteria follows rules<br>similar to principal name criteria:<br><br><ul><br>  <li>only literal group ids that resolve to a valid group are allowed</li><br>  <li>however, if the group ids don't resolve to valid groups, this simply means the search will return no results</li><br>  <li>"!" is allowed before a group id</li><br>  <li>when wanting to search on more than one viewer group id, use of "|" and "&&" is allowed, though they cannot be used together</li><br></ul></td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">approverPrincipalName</td>
+<td class="structLName">Approver Principal Name</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the criteria for the principal name of an "approver" of a document (someone who took action against<br>the document) to search against when executing the document search.  Follows the rules for principal name<br>criteria (see class-level documentation).</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">routeNodeName</td>
+<td class="structLName">Route Node Name</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the route node name criteria to search against when executing the document search.  By default this will<br>match only documents which are at the node with the given name, unless {@link #getRouteNodeLookupLogic()} returns<br>a non-null value that specifies different criteria for how the route node-based lookup should be performed.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">routeNodeLookupLogic</td>
+<td class="structLName">Route Node Lookup Logic</td>
+<td class="structType">RouteNodeLookupLogic</td>
+<td class="structDesc">Returns the logic that should be used when performing a document search against the route name.  This essentially<br>allows for the criteria to specify whether or not it should look at documents which are currently before, exactly<br>at, or after the specified route node.  This value only has an effect if the route node name is also defined<br>on this criteria.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">documentTypeName</td>
+<td class="structLName">Document Type Name</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the document type name criteria to search against when executing the document search.  If the document<br>type name matches a single document type exactly, this might trigger document search customizations which are<br>tied to that document type (assuming the document type has such customizations configured).<br><br><p>In order for the map of document attribute values to be properly searchable, this document type name should<br>result to a valid document type.  This is because the document type itself defines information about custom<br>document attributes and the parameters around how searches against those attributes can be executed.</p><br><br><p>Note that searches against a document type name should be document type hierarchy-aware.  Meaning that the<br>search should also return results for any documents that have document types that are children of the specified<br>document type name (assuming that the specified document type name is valid and not wildcarded at all).</p></td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">additionalDocumentTypeNames</td>
+<td class="structLName">Additional Document Type Names</td>
+<td class="structType">StringList</td>
+<td class="structDesc">Returns an optional list of additional document type name criteria against which to search.  The search should<br>effectively return all documents that have a document type name within the set of the main document type name on<br>the criteria as well as any additional document type names.<br><br><p>As with {@link #getDocumentTypeName()}, the additional document type name criteria is document type hierarchy<br>aware.</p></td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">Many</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateCreatedFrom</td>
+<td class="structLName">Date Created From</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Returns the inclusive lower end of the date created criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateCreatedTo</td>
+<td class="structLName">Date Created To</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Returns the inclusive upper end of the date created criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateLastModifiedFrom</td>
+<td class="structLName">Date Last Modified From</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Returns the inclusive lower end of the date last modified criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateLastModifiedTo</td>
+<td class="structLName">Date Last Modified To</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Returns the inclusive upper end of the date last modified criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateApprovedFrom</td>
+<td class="structLName">Date Approved From</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Returns the inclusive lower end of the date approved criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateApprovedTo</td>
+<td class="structLName">Date Approved To</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Returns the inclusive upper end of the date approved criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateFinalizedFrom</td>
+<td class="structLName">Date Finalized From</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Returns the inclusive lower end of the date finalized criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateFinalizedTo</td>
+<td class="structLName">Date Finalized To</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Returns the inclusive upper end of the date finalized criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateApplicationDocumentStatusChangedFrom</td>
+<td class="structLName">Date Application Document Status Changed From</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Returns the inclusive lower end of the date of application document status change criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dateApplicationDocumentStatusChangedTo</td>
+<td class="structLName">Date Application Document Status Changed To</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Returns the inclusive upper end of the date of application document status change criteria to search against when executing the document search.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">documentAttributeValues</td>
+<td class="structLName">Document Attribute Values</td>
+<td class="structType">Map<String, String></td>
+<td class="structDesc">Returns a map of document attribute values to search against when executing the document search.  The key of the<br>map is the name of the document attribute, while the list of values contains values of those attributes to search<br>against.  These individual attribute values support the different search operations where appropriate.  The<br>resulting List of criteria values however should ultimately be "or"-ed together when executing the document<br>search.<br><br><p>In order for the document attribute values to be processed as part of the criteria during the search, the<br>{@link #getDocumentTypeName()} must return a valid name of a document type which is configured to understand the<br>attributes passed as part of the document attribute values map.</p></td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">saveName</td>
+<td class="structLName">Save Name</td>
+<td class="structType">String</td>
+<td class="structDesc">Return the name under which to save this criteria so that it can be recalled and used again in the future.  If no<br>save name is specified, then this criteria will not be saved for future use.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">startAtIndex</td>
+<td class="structLName">Start At Index</td>
+<td class="structType">Integer</td>
+<td class="structDesc">Returns the 0-based index in the result set at which to start returning results from a document search which is<br>performed using this criteria.  If not specified, results from the search should be returned starting at the<br>beginning of the result set.  If this index is larger then the total number of results returned by the actual<br>search, then no values should be returned.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">maxResults</td>
+<td class="structLName">Max Results</td>
+<td class="structType">Integer</td>
+<td class="structDesc">Returns the requested maximum number of documents that should be returned from a document search performed using this<br>criteria.  If not specified, it is up to the document search implementation to decide how many results to return.<br>It is likely in such cases that the implementation will use a default result cap in order to prevent too many<br>documents from being returned.<br><br><p>It is important to note that this value is meant simply as a request to the document search for the number of<br>results to return.  The implementation may return fewer results then requested if it decides to impose it's own<br>internal cap on results.</p></td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+</table>
+
+</body>
+</html>

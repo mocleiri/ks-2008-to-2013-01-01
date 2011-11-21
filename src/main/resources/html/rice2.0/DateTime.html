@@ -1,0 +1,461 @@
+<html>
+<head>
+<title>DateTime</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a>
+<style type="text/css">
+
+table#structureMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#structureMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#structureMetaTable td#structureName {
+border:1px solid #000000;
+width:85%;
+}
+table#structureMetaTable td#structureVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#structureMetaTable td#structureVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.structTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.structTable td.d {
+border:1px solid #000000;
+}
+
+table.structTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+}
+
+table.structTable td.structSName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:left;
+vertical-align:top;
+font-weight:bold;
+font-style:italic;
+
+}
+
+table.structTable td.structLName {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structType {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+font-style:italic;
+
+}
+
+table.structTable td.structDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structOpt {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structReq {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+
+table.structTable td.structCard {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structAttr {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structElem {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structStatus {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+
+}
+
+table.structTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+
+</style>
+<h1>DateTime</h1>
+<table id="structureMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=structureName colspan=2>DateTime</td>
+</tr>
+<tr>
+<th rowspan=3 class=h>Usage</th>
+<td id="structureVersion" colspan=2><a href="WorkflowDocumentActionsService.html">WorkflowDocumentActionsService</a>
+<a href=" ActionListService.html"> ActionListService</a>
+<a href=" NoteService.html"> NoteService</a>
+<a href=" RuleService.html"> RuleService</a>
+<a href=" GroupService.html"> GroupService</a>
+<a href=" IdentityService.html"> IdentityService</a>
+<a href=" PermissionService.html"> PermissionService</a>
+<a href=" RoleService.html"> RoleService</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="WorkflowDocumentService.html#WorkflowDocument-getSearchableAttributeDateTimeValuesByKey">getSearchableAttributeDateTimeValuesByKey</a>
+<a href="RuleService.html#Rule-getRulesByTemplateNameAndDocumentTypeNameAndEffectiveDate">getRulesByTemplateNameAndDocumentTypeNameAndEffectiveDate</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="Document.html">Document</a>
+<a href="ActionRequest.html">ActionRequest</a>
+<a href="ActionTaken.html">ActionTaken</a>
+<a href="ActionItem.html">ActionItem</a>
+<a href="DocumentSearchCriteria.html">DocumentSearchCriteria</a>
+<a href="DocumentStatusTransition.html">DocumentStatusTransition</a>
+<a href="Note.html">Note</a>
+<a href="Rule.html">Rule</a>
+<a href="GroupMember.html">GroupMember</a>
+<a href="EntityName.html">EntityName</a>
+<a href="EntityAddress.html">EntityAddress</a>
+<a href="EntityAddressContract.html">EntityAddressContract</a>
+<a href="EntityCitizenship.html">EntityCitizenship</a>
+<a href="EntityNameContract.html">EntityNameContract</a>
+<a href="DelegateMember.html">DelegateMember</a>
+<a href="RoleMember.html">RoleMember</a>
+</td></tr>
+<th class=h>Type</th>
+<td id=structureVersion colspan=2>Complex</td>
+</tr>
+</table>
+<h2>Description</h2>
+&nbsp;
+<h2><a name="StructureDefinition"></a>Structure Definition</h2>
+<table class="structTable">
+<tr>
+<th class="h">ShortName</th>
+<th class="h">Name</th>
+<th class="h">Type</th>
+<th class="h">Description</th>
+<th class="h">Required?</th>
+<th class="h">Read only?</th>
+<th class="h">Cardinality</th>
+<th class="h">XML Attribute?</th>
+<th class="h">Implementation Notes</th>
+</tr>
+<tr>
+<td class="structSName">chronology</td>
+<td class="structLName">Chronology</td>
+<td class="structType"><a href="Chronology.html">Chronology</a>
+</td><td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">millis</td>
+<td class="structLName">Millis</td>
+<td class="structType">long</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">weekOfWeekyear</td>
+<td class="structLName">Week Of Weekyear</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">weekyear</td>
+<td class="structLName">Weekyear</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">monthOfYear</td>
+<td class="structLName">Month Of Year</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">yearOfEra</td>
+<td class="structLName">Year Of Era</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">yearOfCentury</td>
+<td class="structLName">Year Of Century</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">centuryOfEra</td>
+<td class="structLName">Century Of Era</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">millisOfSecond</td>
+<td class="structLName">Millis Of Second</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">millisOfDay</td>
+<td class="structLName">Millis Of Day</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">secondOfMinute</td>
+<td class="structLName">Second Of Minute</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">secondOfDay</td>
+<td class="structLName">Second Of Day</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">minuteOfHour</td>
+<td class="structLName">Minute Of Hour</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">minuteOfDay</td>
+<td class="structLName">Minute Of Day</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">hourOfDay</td>
+<td class="structLName">Hour Of Day</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">year</td>
+<td class="structLName">Year</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dayOfMonth</td>
+<td class="structLName">Day Of Month</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dayOfWeek</td>
+<td class="structLName">Day Of Week</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">era</td>
+<td class="structLName">Era</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">dayOfYear</td>
+<td class="structLName">Day Of Year</td>
+<td class="structType">int</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">afterNow</td>
+<td class="structLName">After Now</td>
+<td class="structType">boolean</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">beforeNow</td>
+<td class="structLName">Before Now</td>
+<td class="structType">boolean</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">equalNow</td>
+<td class="structLName">Equal Now</td>
+<td class="structType">boolean</td>
+<td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">zone</td>
+<td class="structLName">Zone</td>
+<td class="structType"><a href="DateTimeZone.html">DateTimeZone</a>
+</td><td class="structDesc">???</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+</table>
+
+</body>
+</html>

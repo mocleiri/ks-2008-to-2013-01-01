@@ -1,0 +1,675 @@
+<html>
+<head>
+<title>ResponsibilityService</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a><style type="text/css">
+
+table#serviceMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#serviceMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#serviceMetaTable td#serviceName {
+border:1px solid #000000;
+width:85%;
+}
+table#serviceMetaTable td#serviceVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#serviceMetaTable td#serviceVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.methodTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.methodTable td.d {
+border:1px solid #000000;
+}
+
+table.methodTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+
+table.methodTable td.methodName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:center;
+width:85%;
+font-weight:bold;
+font-style:italic;
+}
+
+table.methodTable td.methodDesc {
+border:1px solid #000000;
+width:85%;
+}
+
+table.methodTable td.methodParamType {
+border:1px solid #000000;
+width:21%;
+font-style:italic;
+}
+table.methodTable td.methodParamName {
+border:1px solid #000000;
+width:21%;
+}
+table.methodTable td.methodParamDesc {
+border:1px solid #000000;
+width:43%;
+}
+table.methodTable td.methodReturnType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+
+table.methodTable td.methodReturnDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.methodErrors {
+border:1px solid #000000;
+width:85%;
+}
+
+
+table.methodTable td.methodErrorType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+table.methodTable td.methodErrorDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.capabilityDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.usecaseDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+</style>
+<h1>ResponsibilityService</h1>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=serviceName colspan=2>Responsibility</td>
+</tr>
+<tr>
+<th class=h>Version</th>
+</tr>
+<tr>
+<th class=h>Included Services</th>
+<td id=serviceVersion colspan=2>&nbsp;</td>
+</tr>
+</table>
+<p>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>
+This service provides operations for determining what responsibility actions<br>a principal has and for querying about responsibility data.  It also provides several<br>write operations.<br><br><p><br>A responsibility represents an action that a principal is requested to<br>take.  This is used for defining workflow actions (such as approve,<br>acknowledge, fyi) that the principal has the responsibility to take.  The<br>workflow engine integrates with this service to provide responsibility-driven routing.<br><p/><br><br><p><br>A responsibility is very similar to a permission in a couple of ways.<br>First of all, responsibilities are always granted to a role, never assigned<br>directly to a principal or group.  Furthermore, in a similar fashion to<br>permissions, a role has the concept of a responsibility template.  The<br>responsibility template specifies what additional responsibility details<br>need to be defined when the responsibility is created.<br><p/>
+</th>
+</tr>
+</table>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="ListOfOperations"></a>Operations</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="#Responsibility-createResponsibility">createResponsibility</a></li><li><a href="#Responsibility-updateResponsibility">updateResponsibility</a></li><li><a href="#Responsibility-getResponsibility">getResponsibility</a></li><li><a href="#Responsibility-findRespByNamespaceCodeAndName">findRespByNamespaceCodeAndName</a></li><li><a href="#Responsibility-getResponsibilityTemplate">getResponsibilityTemplate</a></li><li><a href="#Responsibility-findRespTemplateByNamespaceCodeAndName">findRespTemplateByNamespaceCodeAndName</a></li><li><a href="#Responsibility-hasResponsibility">hasResponsibility</a></li><li><a href="#Responsibility-hasResponsibilityByTemplateName">hasResponsibilityByTemplateName</a></li><li><a href="#Responsibility-getResponsibilityActions">getResponsibilityActions</a></li><li><a href="#Responsibility-getResponsibilityActionsByTemplateName">getResponsibilityActionsByTemplateName</a></li><li><a href="#Responsibility-getRoleIdsForResponsibility">getRoleIdsForResponsibility</a></li><li><a href="#Responsibility-findResponsibilities">findResponsibilities</a></li><li><a href="#Responsibility-findResponsibilityTemplates">findResponsibilityTemplates</a></li></ul>
+</div>
+</div>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="MainMessageStructures"></a>Main Message Structures</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="Responsibility.html">Responsibility</a></li><li><a href="Template.html">Template</a></li><li><a href="ResponsibilityAction.html">ResponsibilityAction</a></li><li><a href="ResponsibilityQueryResults.html">ResponsibilityQueryResults</a></li><li><a href="QueryByCriteria.html">QueryByCriteria</a></li><li><a href="TemplateQueryResults.html">TemplateQueryResults</a></li></ul>
+<p>
+<a name="Responsibility-createResponsibility"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">createResponsibility</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link Responsibility} exactly like the responsibility passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="Responsibility.html">Responsibility</a>
+</td><td class="methodParamName">responsibility</td>
+<td class="methodParamDesc">the responsibility to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Responsibility.html">Responsibility</a>
+</td><td class="methodReturnDesc">the id of the newly created object.  will never be null.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Responsibility-updateResponsibility"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateResponsibility</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will up ev a {@link Responsibility}.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="Responsibility.html">Responsibility</a>
+</td><td class="methodParamName">responsibility</td>
+<td class="methodParamDesc">the responsibility to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Responsibility.html">Responsibility</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Responsibility-getResponsibility"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getResponsibility</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link Responsibility} from an id.<br><br><p><br>  This method will return null if the responsibility does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the unique id to retrieve the responsibility by. cannot be null or blank.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Responsibility.html">Responsibility</a>
+</td><td class="methodReturnDesc">a {@link Responsibility} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Responsibility-findRespByNamespaceCodeAndName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findRespByNamespaceCodeAndName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Finds a {@link Responsibility} for namespaceCode and name.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">the namespace code.  cannot be null or blank.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">name</td>
+<td class="methodParamDesc">the responsibility name. cannot be null or blank.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Responsibility.html">Responsibility</a>
+</td><td class="methodReturnDesc">a {@link Responsibility} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Responsibility-getResponsibilityTemplate"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getResponsibilityTemplate</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link Template} from an id.<br><br><p><br>  This method will return null if the template does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the unique id to retrieve the template by. cannot be null or blank.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Template.html">Template</a>
+</td><td class="methodReturnDesc">a {@link Template} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Responsibility-findRespTemplateByNamespaceCodeAndName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findRespTemplateByNamespaceCodeAndName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Finds a {@link Template} for namespaceCode and name.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">the namespace code.  cannot be null or blank.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">name</td>
+<td class="methodParamDesc">the template name. cannot be null or blank.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Template.html">Template</a>
+</td><td class="methodReturnDesc">a {@link Template} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Responsibility-hasResponsibility"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">hasResponsibility</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Checks in a given principal id has a responsibility using the passed in responsibility information.</td>
+</tr>
+<tr>
+<th class=h rowspan=5>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">the principal id to check.  cannot be null or blank.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">the namespace code.  cannot be null or blank.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">respName</td>
+<td class="methodParamDesc">the responsibility name. cannot be null or blank.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">qualification</td>
+<td class="methodParamDesc">the qualification for the responsibility. cannot be null.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">respDetails</td>
+<td class="methodParamDesc">the responsibility details. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">true is principal has responsibility</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Responsibility-hasResponsibilityByTemplateName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">hasResponsibilityByTemplateName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Checks in a given principal id has a responsibility using the passed in responsibility <b>template</b> information.</td>
+</tr>
+<tr>
+<th class=h rowspan=5>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">the principal id to check.  cannot be null or blank.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">the namespace code.  cannot be null or blank.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">respTemplateName</td>
+<td class="methodParamDesc">the responsibility template name. cannot be null or blank.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">qualification</td>
+<td class="methodParamDesc">the qualification for the responsibility. cannot be null.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">respDetails</td>
+<td class="methodParamDesc">the responsibility details. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">true is principal has responsibility</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Responsibility-getResponsibilityActions"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getResponsibilityActions</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a List of {@link ResponsibilityAction} based on passed in responsibility information.</td>
+</tr>
+<tr>
+<th class=h rowspan=4>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">the namespace code.  cannot be null or blank.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">respName</td>
+<td class="methodParamDesc">the responsibility name. cannot be null or blank.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">qualification</td>
+<td class="methodParamDesc">the qualification for the responsibility. cannot be null.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">respDetails</td>
+<td class="methodParamDesc">the responsibility details. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ResponsibilityAction.html">ResponsibilityActionList</a>
+</td><td class="methodReturnDesc">an immutable list of ResponsibilityAction. Will not return null.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Responsibility-getResponsibilityActionsByTemplateName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getResponsibilityActionsByTemplateName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a List of {@link ResponsibilityAction} based on passed in responsibility template information.</td>
+</tr>
+<tr>
+<th class=h rowspan=4>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">the namespace code.  cannot be null or blank.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">respTemplateName</td>
+<td class="methodParamDesc">the responsibility name. cannot be null or blank.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">qualification</td>
+<td class="methodParamDesc">the qualification for the responsibility. cannot be null.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">respDetails</td>
+<td class="methodParamDesc">the responsibility details. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ResponsibilityAction.html">ResponsibilityActionList</a>
+</td><td class="methodReturnDesc">an immutable list of ResponsibilityAction. Will not return null.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Responsibility-getRoleIdsForResponsibility"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRoleIdsForResponsibility</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a List of roleIds that the responsibility is associated with.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the unique id to retrieve the roleIds for. cannot be null or blank.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">StringList</a>
+</td><td class="methodReturnDesc">an immutable list of roleIds. Will not return null.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Responsibility-findResponsibilities"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findResponsibilities</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This method find Responsibilities based on a query criteria.  The criteria cannot be null.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="QueryByCriteria.html">QueryByCriteria</a>
+</td><td class="methodParamName">queryByCriteria</td>
+<td class="methodParamDesc">the criteria.  Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="ResponsibilityQueryResults.html">ResponsibilityQueryResults</a>
+</td><td class="methodReturnDesc">query results.  will never return null.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Responsibility-findResponsibilityTemplates"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findResponsibilityTemplates</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This method find Responsibility Templates based on a query criteria.  The criteria cannot be null.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="QueryByCriteria.html">QueryByCriteria</a>
+</td><td class="methodParamName">queryByCriteria</td>
+<td class="methodParamDesc">the criteria.  Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="TemplateQueryResults.html">TemplateQueryResults</a>
+</td><td class="methodReturnDesc">query results.  will never return null.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+
+</body>
+</html>

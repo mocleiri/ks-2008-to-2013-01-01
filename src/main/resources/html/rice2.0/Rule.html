@@ -1,0 +1,334 @@
+<html>
+<head>
+<title>Rule</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a>
+<style type="text/css">
+
+table#structureMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#structureMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#structureMetaTable td#structureName {
+border:1px solid #000000;
+width:85%;
+}
+table#structureMetaTable td#structureVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#structureMetaTable td#structureVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.structTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.structTable td.d {
+border:1px solid #000000;
+}
+
+table.structTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+}
+
+table.structTable td.structSName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:left;
+vertical-align:top;
+font-weight:bold;
+font-style:italic;
+
+}
+
+table.structTable td.structLName {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structType {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+font-style:italic;
+
+}
+
+table.structTable td.structDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structOpt {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structReq {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+
+table.structTable td.structCard {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structAttr {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structElem {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structStatus {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+
+}
+
+table.structTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+
+</style>
+<h1>Rule</h1>
+<table id="structureMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=structureName colspan=2>Rule</td>
+</tr>
+<tr>
+<th rowspan=3 class=h>Usage</th>
+<td id="structureVersion" colspan=2><a href="RuleService.html">RuleService</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="RuleService.html#Rule-getRule">getRule</a>
+<a href="RuleService.html#Rule-getRuleByName">getRuleByName</a>
+<a href="RuleService.html#Rule-getRulesByTemplateId">getRulesByTemplateId</a>
+<a href="RuleService.html#Rule-getRulesByTemplateNameAndDocumentTypeName">getRulesByTemplateNameAndDocumentTypeName</a>
+<a href="RuleService.html#Rule-getRulesByTemplateNameAndDocumentTypeNameAndEffectiveDate">getRulesByTemplateNameAndDocumentTypeNameAndEffectiveDate</a>
+<a href="RuleService.html#Rule-ruleReport">ruleReport</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="RuleDelegation.html">RuleDelegation</a>
+<a href="RuleQueryResults.html">RuleQueryResults</a>
+</td></tr>
+<th class=h>Type</th>
+<td id=structureVersion colspan=2>Complex</td>
+</tr>
+</table>
+<h2>Description</h2>
+Copyright 2005-2011 The Kuali Foundation<br><br>Licensed under the Educational Community License, Version 2.0 (the "License");<br>you may not use this file except in compliance with the License.<br>You may obtain a copy of the License at<br><br>http://www.opensource.org/licenses/ecl2.php<br><br>Unless required by applicable law or agreed to in writing, software<br>distributed under the License is distributed on an "AS IS" BASIS,<br>WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>See the License for the specific language governing permissions and<br>limitations under the License.
+<h2><a name="StructureDefinition"></a>Structure Definition</h2>
+<table class="structTable">
+<tr>
+<th class="h">ShortName</th>
+<th class="h">Name</th>
+<th class="h">Type</th>
+<th class="h">Description</th>
+<th class="h">Required?</th>
+<th class="h">Read only?</th>
+<th class="h">Cardinality</th>
+<th class="h">XML Attribute?</th>
+<th class="h">Implementation Notes</th>
+</tr>
+<tr>
+<td class="structSName">id</td>
+<td class="structLName">Id</td>
+<td class="structType">String</td>
+<td class="structDesc">The unique identifier for an object.  This can be null.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">name</td>
+<td class="structLName">Name</td>
+<td class="structType">String</td>
+<td class="structDesc">Unique Name for the Rule.<br><br><p><br>This is the unique name of the Rule<br><br></p></td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">ruleTemplate</td>
+<td class="structLName">Rule Template</td>
+<td class="structType"><a href="RuleTemplate.html">RuleTemplate</a>
+</td><td class="structDesc">Unique Id for Template of Rule.<br><br><p><br>This is the unique Id of the rule template of the rule<br></p></td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">active</td>
+<td class="structLName">Active</td>
+<td class="structType">boolean</td>
+<td class="structDesc">The active indicator for the rule.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">description</td>
+<td class="structLName">Description</td>
+<td class="structType">String</td>
+<td class="structDesc">The description of the rule.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">docTypeName</td>
+<td class="structLName">Doc Type Name</td>
+<td class="structType">String</td>
+<td class="structDesc">The documentTypeName of the rule.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">fromDate</td>
+<td class="structLName">From Date</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">The ending date of the rule.<br><br><p>This is the date from which the rule stops being be used</p></td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">toDate</td>
+<td class="structLName">To Date</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">The ending date of the rule.<br><br><p>This is the date from which the rule starts to be used</p></td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">forceAction</td>
+<td class="structLName">Force Action</td>
+<td class="structType">boolean</td>
+<td class="structDesc">Shows if rule will force its action.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">previousRuleId</td>
+<td class="structLName">Previous Rule Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Unique id for the previous version of this Rule.<br><br><p><br>This is the unique id value of the previous version of this Rule.<br></p></td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">ruleResponsibilities</td>
+<td class="structLName">Rule Responsibilities</td>
+<td class="structType"><a href="RuleResponsibility.html">RuleResponsibilityList</a>
+</td><td class="structDesc">List of rule responsibilities associated with the Rule</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">Many</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">ruleExtensions</td>
+<td class="structLName">Rule Extensions</td>
+<td class="structType"><a href="RuleExtension.html">RuleExtensionList</a>
+</td><td class="structDesc">List of rule extensions associated with the Rule</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">Many</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">ruleTemplateName</td>
+<td class="structLName">Rule Template Name</td>
+<td class="structType">String</td>
+<td class="structDesc">Template Name of the Rule.<br><br><p><br>This is the name of the rule template for the rule<br></p></td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">ruleExpressionDef</td>
+<td class="structLName">Rule Expression Def</td>
+<td class="structType"><a href="RuleExpression.html">RuleExpression</a>
+</td><td class="structDesc">Expression for rule to evaluate.<br><br><p><br>This is expression definition of the rule<br></p></td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+</table>
+
+</body>
+</html>

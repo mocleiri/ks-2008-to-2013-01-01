@@ -1,0 +1,472 @@
+<html>
+<head>
+<title>EntityBioDemographics</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a>
+<style type="text/css">
+
+table#structureMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#structureMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#structureMetaTable td#structureName {
+border:1px solid #000000;
+width:85%;
+}
+table#structureMetaTable td#structureVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#structureMetaTable td#structureVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.structTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.structTable td.d {
+border:1px solid #000000;
+}
+
+table.structTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+}
+
+table.structTable td.structSName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:left;
+vertical-align:top;
+font-weight:bold;
+font-style:italic;
+
+}
+
+table.structTable td.structLName {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structType {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+font-style:italic;
+
+}
+
+table.structTable td.structDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structOpt {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structReq {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+
+table.structTable td.structCard {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structAttr {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structElem {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structStatus {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+
+}
+
+table.structTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+
+</style>
+<h1>EntityBioDemographics</h1>
+<table id="structureMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=structureName colspan=2>EntityBioDemographics</td>
+</tr>
+<tr>
+<th rowspan=3 class=h>Usage</th>
+<td id="structureVersion" colspan=2><a href="IdentityService.html">IdentityService</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="IdentityService.html#Identity-addBioDemographicsToEntity">addBioDemographicsToEntity</a>
+<a href="IdentityService.html#Identity-updateBioDemographics">updateBioDemographics</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="Entity.html">Entity</a>
+</td></tr>
+<th class=h>Type</th>
+<td id=structureVersion colspan=2>Complex</td>
+</tr>
+</table>
+<h2>Description</h2>
+Copyright 2005-2011 The Kuali Foundation<br><br>Licensed under the Educational Community License, Version 2.0 (the "License");<br>you may not use this file except in compliance with the License.<br>You may obtain a copy of the License at<br><br>http://www.opensource.org/licenses/ecl2.php<br><br>Unless required by applicable law or agreed to in writing, software<br>distributed under the License is distributed on an "AS IS" BASIS,<br>WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>See the License for the specific language governing permissions and<br>limitations under the License.
+<h2><a name="StructureDefinition"></a>Structure Definition</h2>
+<table class="structTable">
+<tr>
+<th class="h">ShortName</th>
+<th class="h">Name</th>
+<th class="h">Type</th>
+<th class="h">Description</th>
+<th class="h">Required?</th>
+<th class="h">Read only?</th>
+<th class="h">Cardinality</th>
+<th class="h">XML Attribute?</th>
+<th class="h">Implementation Notes</th>
+</tr>
+<tr>
+<td class="structSName">entityId</td>
+<td class="structLName">Entity Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s identity id.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">deceasedDate</td>
+<td class="structLName">Deceased Date</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s deceased date.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">birthDate</td>
+<td class="structLName">Birth Date</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s birth date.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">age</td>
+<td class="structLName">Age</td>
+<td class="structType">Integer</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s current age based on birth date if present.  Age calculation uses<br>deceased date if present.</td>
+<td class="structOpt">Required</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">genderCode</td>
+<td class="structLName">Gender Code</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s gender code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">genderChangeCode</td>
+<td class="structLName">Gender Change Code</td>
+<td class="structType">String</td>
+<td class="structDesc">Get the {@link EntityBioDemographicsContract}'s gender change code<br>Corresponds to PESC GenderChangeCode</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">maritalStatusCode</td>
+<td class="structLName">Marital Status Code</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s marital status code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">primaryLanguageCode</td>
+<td class="structLName">Primary Language Code</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s primary language code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">secondaryLanguageCode</td>
+<td class="structLName">Secondary Language Code</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s secondary language code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">birthCountry</td>
+<td class="structLName">Birth Country</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s country of birth code.<br>Corresponds to PESC BirthCountry.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">birthStateProvinceCode</td>
+<td class="structLName">Birth State Province Code</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s birth state or extra-state jurisdiction code.  Corresponds to PESC BirthStateProvinceCode.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">birthCity</td>
+<td class="structLName">Birth City</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s city of birth. Corresponds to PESC BirthCity.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">geographicOrigin</td>
+<td class="structLName">Geographic Origin</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s geographic origin.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">birthDateUnmasked</td>
+<td class="structLName">Birth Date Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s unmasked birth date.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">genderCodeUnmasked</td>
+<td class="structLName">Gender Code Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s unmasked gender code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">genderChangeCodeUnmasked</td>
+<td class="structLName">Gender Change Code Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Get the {@link EntityBioDemographicsContract}'s gender change code<br>Corresponds to PESC GenderChangeCode</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">maritalStatusCodeUnmasked</td>
+<td class="structLName">Marital Status Code Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s unmasked martial status code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">primaryLanguageCodeUnmasked</td>
+<td class="structLName">Primary Language Code Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s unmasked primary language code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">secondaryLanguageCodeUnmasked</td>
+<td class="structLName">Secondary Language Code Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s unmasked secondary language code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">birthCountryUnmasked</td>
+<td class="structLName">Birth Country Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s unmasked country of birth code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">birthStateProvinceCodeUnmasked</td>
+<td class="structLName">Birth State Province Code Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s unmasked birth state or extra-state jurisdiction code. Corresponds to PESC BirthStateProvinceCode.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">birthCityUnmasked</td>
+<td class="structLName">Birth City Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s unmasked city of birth. Corresponds to PESC BirthCity.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">geographicOriginUnmasked</td>
+<td class="structLName">Geographic Origin Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityBioDemographicsContract}'s unmasked geographic origin.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">noteMessage</td>
+<td class="structLName">Note Message</td>
+<td class="structType">String</td>
+<td class="structDesc">Get the note associated with this {@link EntityBioDemographicsContract}<br>Corresponds to PESC NoteMessage</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">suppressPersonal</td>
+<td class="structLName">Suppress Personal</td>
+<td class="structType">boolean</td>
+<td class="structDesc">Returns a boolean value that determines if personal fields should be suppressed.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">versionNumber</td>
+<td class="structLName">Version Number</td>
+<td class="structType">Long</td>
+<td class="structDesc">Returns the version number for this object.  In general, this value should only<br>be null if the object has not yet been stored to a persistent data store.<br>This version number is generally used for the purposes of optimistic locking.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">objectId</td>
+<td class="structLName">Object Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Return the globally unique object id of this object.  In general, this value should only<br>be null if the object has not yet been stored to a persistent data store.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,507 @@
+<html>
+<head>
+<title>EntityAddress</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a>
+<style type="text/css">
+
+table#structureMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#structureMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#structureMetaTable td#structureName {
+border:1px solid #000000;
+width:85%;
+}
+table#structureMetaTable td#structureVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#structureMetaTable td#structureVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.structTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.structTable td.d {
+border:1px solid #000000;
+}
+
+table.structTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+}
+
+table.structTable td.structSName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:left;
+vertical-align:top;
+font-weight:bold;
+font-style:italic;
+
+}
+
+table.structTable td.structLName {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structType {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+font-style:italic;
+
+}
+
+table.structTable td.structDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structOpt {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structReq {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+
+table.structTable td.structCard {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structAttr {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structElem {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structStatus {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+
+}
+
+table.structTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+
+</style>
+<h1>EntityAddress</h1>
+<table id="structureMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=structureName colspan=2>EntityAddress</td>
+</tr>
+<tr>
+<th rowspan=3 class=h>Usage</th>
+<td id="structureVersion" colspan=2><a href="IdentityService.html">IdentityService</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="IdentityService.html#Identity-addAddressToEntity">addAddressToEntity</a>
+<a href="IdentityService.html#Identity-updateAddress">updateAddress</a>
+<a href="IdentityService.html#Identity-inactivateAddress">inactivateAddress</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="EntityTypeContactInfoDefault.html">EntityTypeContactInfoDefault</a>
+<a href="EntityTypeContactInfo.html">EntityTypeContactInfo</a>
+</td></tr>
+<th class=h>Type</th>
+<td id=structureVersion colspan=2>Complex</td>
+</tr>
+</table>
+<h2>Description</h2>
+Copyright 2005-2011 The Kuali Foundation<br><br>Licensed under the Educational Community License, Version 2.0 (the "License");<br>you may not use this file except in compliance with the License.<br>You may obtain a copy of the License at<br><br>http://www.opensource.org/licenses/ecl2.php<br><br>Unless required by applicable law or agreed to in writing, software<br>distributed under the License is distributed on an "AS IS" BASIS,<br>WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>See the License for the specific language governing permissions and<br>limitations under the License.
+<h2><a name="StructureDefinition"></a>Structure Definition</h2>
+<table class="structTable">
+<tr>
+<th class="h">ShortName</th>
+<th class="h">Name</th>
+<th class="h">Type</th>
+<th class="h">Description</th>
+<th class="h">Required?</th>
+<th class="h">Read only?</th>
+<th class="h">Cardinality</th>
+<th class="h">XML Attribute?</th>
+<th class="h">Implementation Notes</th>
+</tr>
+<tr>
+<td class="structSName">id</td>
+<td class="structLName">Id</td>
+<td class="structType">String</td>
+<td class="structDesc">The unique identifier for an object.  This can be null.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">entityTypeCode</td>
+<td class="structLName">Entity Type Code</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this entityTypeCode of the {@link EntityAddressContract}'s object.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">entityId</td>
+<td class="structLName">Entity Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this id of the parent identity object.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">addressType</td>
+<td class="structLName">Address Type</td>
+<td class="structType"><a href="CodedAttribute.html">CodedAttribute</a>
+</td><td class="structDesc">Gets this {@link EntityAddressContract}'s address type code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">attentionLine</td>
+<td class="structLName">Attention Line</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the attention line for this {@link EntityAddressContract}<br>Corresponds to PESC AttentionLine</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">line1</td>
+<td class="structLName">Line1</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s first line.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">line2</td>
+<td class="structLName">Line2</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s second line.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">line3</td>
+<td class="structLName">Line3</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s third line.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">city</td>
+<td class="structLName">City</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s city name.<br>Corresponds to PESC City.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">stateProvinceCode</td>
+<td class="structLName">State Province Code</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s state code.<br>Corresponds to PESC StateProvinceCode.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">postalCode</td>
+<td class="structLName">Postal Code</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s postal code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">countryCode</td>
+<td class="structLName">Country Code</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s country code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">attentionLineUnmasked</td>
+<td class="structLName">Attention Line Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the unmasked attention line for this {@link EntityAddressContract}</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">line1Unmasked</td>
+<td class="structLName">Line1 Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s unmasked first line.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">line2Unmasked</td>
+<td class="structLName">Line2 Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s unmasked second line.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">line3Unmasked</td>
+<td class="structLName">Line3 Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s unmasked third line.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">cityUnmasked</td>
+<td class="structLName">City Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s unmasked city name.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">stateProvinceCodeUnmasked</td>
+<td class="structLName">State Province Code Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s unmasked state code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">postalCodeUnmasked</td>
+<td class="structLName">Postal Code Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s unmasked postal code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">countryCodeUnmasked</td>
+<td class="structLName">Country Code Unmasked</td>
+<td class="structType">String</td>
+<td class="structDesc">Gets this {@link EntityAddressContract}'s unmasked country code.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">addressFormat</td>
+<td class="structLName">Address Format</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the {@link EntityAddressContract}'s address format<br>Corresponds to PESC AddressFormat</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">modifiedDate</td>
+<td class="structLName">Modified Date</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Returns the {@link EntityAddressContract}'s modification date<br>Corresponds to PESC ModifiedDate</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">validatedDate</td>
+<td class="structLName">Validated Date</td>
+<td class="structType"><a href="DateTime.html">DateTime</a>
+</td><td class="structDesc">Returns the {@link EntityAddressContract}'s validation date<br>Corresponds to PESC ValidatedDate</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">validated</td>
+<td class="structLName">Validated</td>
+<td class="structType">boolean</td>
+<td class="structDesc">Returns whether the {@link EntityAddressContract} is validated<br>Corresponds to PESC Validated</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">noteMessage</td>
+<td class="structLName">Note Message</td>
+<td class="structType">String</td>
+<td class="structDesc">Returns the {@link EntityAddressContract}'s note/message<br>Corresponds to PESC NoteMessage</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">suppressAddress</td>
+<td class="structLName">Suppress Address</td>
+<td class="structType">boolean</td>
+<td class="structDesc">Returns a boolean value that determines if address fields should be suppressed.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">defaultValue</td>
+<td class="structLName">Default Value</td>
+<td class="structType">boolean</td>
+<td class="structDesc">The default value for this object.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">active</td>
+<td class="structLName">Active</td>
+<td class="structType">boolean</td>
+<td class="structDesc">The active indicator for an object.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">versionNumber</td>
+<td class="structLName">Version Number</td>
+<td class="structType">Long</td>
+<td class="structDesc">Returns the version number for this object.  In general, this value should only<br>be null if the object has not yet been stored to a persistent data store.<br>This version number is generally used for the purposes of optimistic locking.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">objectId</td>
+<td class="structLName">Object Id</td>
+<td class="structType">String</td>
+<td class="structDesc">Return the globally unique object id of this object.  In general, this value should only<br>be null if the object has not yet been stored to a persistent data store.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+</table>
+
+</body>
+</html>

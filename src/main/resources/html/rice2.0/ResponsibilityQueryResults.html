@@ -1,0 +1,207 @@
+<html>
+<head>
+<title>ResponsibilityQueryResults</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a>
+<a href="../dictionarydocs/ResponsibilityQueryResults.html">dictionary doc</a>
+<style type="text/css">
+
+table#structureMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#structureMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#structureMetaTable td#structureName {
+border:1px solid #000000;
+width:85%;
+}
+table#structureMetaTable td#structureVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#structureMetaTable td#structureVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.structTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.structTable td.d {
+border:1px solid #000000;
+}
+
+table.structTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+}
+
+table.structTable td.structSName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:left;
+vertical-align:top;
+font-weight:bold;
+font-style:italic;
+
+}
+
+table.structTable td.structLName {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structType {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+font-style:italic;
+
+}
+
+table.structTable td.structDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+table.structTable td.structOpt {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structReq {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+
+table.structTable td.structCard {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structAttr {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structElem {
+border:1px solid #000000;
+background:#ccccff;
+vertical-align:top;
+text-align: center;
+}
+
+table.structTable td.structStatus {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+text-align: center;
+
+}
+
+table.structTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+vertical-align:top;
+
+}
+
+
+</style>
+<h1>ResponsibilityQueryResults</h1>
+<table id="structureMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=structureName colspan=2>ResponsibilityQueryResults</td>
+</tr>
+<tr>
+<th rowspan=3 class=h>Usage</th>
+<td id="structureVersion" colspan=2><a href="ResponsibilityService.html">ResponsibilityService</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2><a href="ResponsibilityService.html#Responsibility-findResponsibilities">findResponsibilities</a>
+</td></tr>
+<tr>
+<td id="structureVersion" colspan=2></td></tr>
+<th class=h>Type</th>
+<td id=structureVersion colspan=2>Complex</td>
+</tr>
+</table>
+<h2>Description</h2>
+&nbsp;
+<h2><a name="StructureDefinition"></a>Structure Definition</h2>
+<table class="structTable">
+<tr>
+<th class="h">ShortName</th>
+<th class="h">Name</th>
+<th class="h">Type</th>
+<th class="h">Description</th>
+<th class="h">Required?</th>
+<th class="h">Read only?</th>
+<th class="h">Cardinality</th>
+<th class="h">XML Attribute?</th>
+<th class="h">Implementation Notes</th>
+</tr>
+<tr>
+<td class="structSName">results</td>
+<td class="structLName">Results</td>
+<td class="structType"><a href="Responsibility.html">ResponsibilityList</a>
+</td><td class="structDesc">Return the list of results that are contained within.  This list can<br>be empty but it should never be null.</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">Many</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">totalRowCount</td>
+<td class="structLName">Total Row Count</td>
+<td class="structType">Integer</td>
+<td class="structDesc">Gets the total number of records that match the executed query.  Note<br>that this number will not necessarily match the number of results<br>returned by {@link #getResults()} as the query may cut off the number<br>of records returned by the actual query request.  In these cases, the<br>total row count represents the total number of results which would be<br>returned by the query if there was no cap on the results returned (i.e.<br>the equivalent of the result of a "count" query in SQL).<br><br><p><br>The total row count is optional depending on whether or not the<br>client requested the total row count when invoking the query.  The client<br>requests this information by setting the {@link CountFlag#INCLUDE} or<br>{@link CountFlag#ONLY} on the {@link QueryByCriteria}.  It's also<br>possible that the query is unable to produce a total row count depending<br>on the back-end implementation, in which cases this value will also not<br>be available.<br></p><br><br><p><br>Will never be less than 0.<br><p></td>
+<td class="structOpt">&nbsp;</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+<tr>
+<td class="structSName">moreResultsAvailable</td>
+<td class="structLName">More Results Available</td>
+<td class="structType">boolean</td>
+<td class="structDesc">Indicates if there are more results available for the query immediately<br>following the last result that was returned.  In this case, the records<br>returned in {@link #getResults()} will not include the complete result<br>set for the query.  This could be because the query only requested a<br>certain number of rows, or that the query couldn't return the number<br>of rows that were requested.<br><br><p><br>It is intended that this value be used to facilitate paging or<br>reporting in the client in cases where that is desired.<br></p><br><br><p><br>This information will only be available if the client sets a limit on the<br>results returned.  This limit is set with the maxResults field on the<br>{@link QueryByCriteria}.<br></p></td>
+<td class="structOpt">Required</td>
+<td class="structOpt">&nbsp;</td>
+<td class="structCard">One</td>
+<td class="structAttr">No</td>
+<td class="commentsDesc">&nbsp;</td>
+</tr>
+</table>
+
+</body>
+</html>

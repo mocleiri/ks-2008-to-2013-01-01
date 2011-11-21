@@ -1,0 +1,1044 @@
+<html>
+<head>
+<title>PermissionService</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a><style type="text/css">
+
+table#serviceMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#serviceMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#serviceMetaTable td#serviceName {
+border:1px solid #000000;
+width:85%;
+}
+table#serviceMetaTable td#serviceVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#serviceMetaTable td#serviceVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.methodTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.methodTable td.d {
+border:1px solid #000000;
+}
+
+table.methodTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+
+table.methodTable td.methodName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:center;
+width:85%;
+font-weight:bold;
+font-style:italic;
+}
+
+table.methodTable td.methodDesc {
+border:1px solid #000000;
+width:85%;
+}
+
+table.methodTable td.methodParamType {
+border:1px solid #000000;
+width:21%;
+font-style:italic;
+}
+table.methodTable td.methodParamName {
+border:1px solid #000000;
+width:21%;
+}
+table.methodTable td.methodParamDesc {
+border:1px solid #000000;
+width:43%;
+}
+table.methodTable td.methodReturnType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+
+table.methodTable td.methodReturnDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.methodErrors {
+border:1px solid #000000;
+width:85%;
+}
+
+
+table.methodTable td.methodErrorType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+table.methodTable td.methodErrorDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.capabilityDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.usecaseDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+</style>
+<h1>PermissionService</h1>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=serviceName colspan=2>Permission</td>
+</tr>
+<tr>
+<th class=h>Version</th>
+</tr>
+<tr>
+<th class=h>Included Services</th>
+<td id=serviceVersion colspan=2>&nbsp;</td>
+</tr>
+</table>
+<p>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>
+This service provides operations for evaluating permissions and querying for permission data.<br><br><p>A permission is the ability to perform an action.  All permissions have a permission template.<br>Both permissions and permission templates are uniquely identified by a namespace code plus a name.<br>The permission template defines the course-grained permission and specifies what additional<br>permission details need to be collected on permissions that use that template.  For example, a<br>permission template might have a name of "Initiate Document" which requires a permission detail<br>specifying the document type that can be initiated.  A permission created from the "Initiate Document"<br>template would define the name of the specific Document Type that can be initiated as a permission<br>detail.<br><br><p>The isAuthorized and isAuthorizedByTemplateName operations<br>on this service are used to execute authorization checks for a principal against a<br>permission.  Permissions are always assigned to roles (never directly to a principal or<br>group).  A particular principal will be authorized for a given permission if the permission<br>evaluates to true (according to the permission evaluation logic and based on any supplied<br>permission details) and that principal is assigned to a role which has been granted the permission.<br><br><p>The actual logic for how permission evaluation logic is defined and executed is dependent upon<br>the permission service implementation.  However, it will typically be associated with the permission<br>template used on the permission.
+</th>
+</tr>
+</table>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="ListOfOperations"></a>Operations</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="#Permission-createPermission">createPermission</a></li><li><a href="#Permission-updatePermission">updatePermission</a></li><li><a href="#Permission-hasPermission">hasPermission</a></li><li><a href="#Permission-isAuthorized">isAuthorized</a></li><li><a href="#Permission-hasPermissionByTemplateName">hasPermissionByTemplateName</a></li><li><a href="#Permission-isAuthorizedByTemplateName">isAuthorizedByTemplateName</a></li><li><a href="#Permission-getPermissionAssignees">getPermissionAssignees</a></li><li><a href="#Permission-getPermissionAssigneesByTemplateName">getPermissionAssigneesByTemplateName</a></li><li><a href="#Permission-isPermissionDefined">isPermissionDefined</a></li><li><a href="#Permission-isPermissionDefinedByTemplateName">isPermissionDefinedByTemplateName</a></li><li><a href="#Permission-getAuthorizedPermissions">getAuthorizedPermissions</a></li><li><a href="#Permission-getAuthorizedPermissionsByTemplateName">getAuthorizedPermissionsByTemplateName</a></li><li><a href="#Permission-getPermission">getPermission</a></li><li><a href="#Permission-findPermByNamespaceCodeAndName">findPermByNamespaceCodeAndName</a></li><li><a href="#Permission-findPermsByNamespaceCodeTemplateName">findPermsByNamespaceCodeTemplateName</a></li><li><a href="#Permission-getPermissionTemplate">getPermissionTemplate</a></li><li><a href="#Permission-findPermTemplateByNamespaceCodeAndName">findPermTemplateByNamespaceCodeAndName</a></li><li><a href="#Permission-getAllTemplates">getAllTemplates</a></li><li><a href="#Permission-getRoleIdsForPermission">getRoleIdsForPermission</a></li><li><a href="#Permission-findPermissions">findPermissions</a></li><li><a href="#Permission-findPermissionTemplates">findPermissionTemplates</a></li></ul>
+</div>
+</div>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="MainMessageStructures"></a>Main Message Structures</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="Permission.html">Permission</a></li><li><a href="Assignee.html">Assignee</a></li><li><a href="Template.html">Template</a></li><li><a href="PermissionQueryResults.html">PermissionQueryResults</a></li><li><a href="QueryByCriteria.html">QueryByCriteria</a></li><li><a href="TemplateQueryResults.html">TemplateQueryResults</a></li></ul>
+<p>
+<a name="Permission-createPermission"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">createPermission</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link Permission} exactly like the permission passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="Permission.html">Permission</a>
+</td><td class="methodParamName">permission</td>
+<td class="methodParamDesc">the permission to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Permission.html">Permission</a>
+</td><td class="methodReturnDesc">the id of the newly created object.  will never be null.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-updatePermission"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updatePermission</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link Permission}.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="Permission.html">Permission</a>
+</td><td class="methodParamName">permission</td>
+<td class="methodParamDesc">the permission to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Permission.html">Permission</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-hasPermission"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">hasPermission</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Checks whether the principal has been granted a permission matching the given details<br>without taking role qualifiers into account.<br><br>This method should not be used for true authorization checks since a principal<br>may only have this permission within a given context.  It could be used to<br>identify that the user would have some permissions within a certain area.<br>Later checks would identify exactly what permissions were granted.<br><br>It can also be used when the client application KNOWS that this is a role which<br>is never qualified.</td>
+</tr>
+<tr>
+<th class=h rowspan=4>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">permissionName</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">permissionDetails</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-isAuthorized"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">isAuthorized</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Checks whether the given qualified permission is granted to the principal given<br>the passed roleQualification.  If no roleQualification is passed (null or empty)<br>then this method behaves the same as {@link #hasPermission(String, String, String, Map<String, String>)}.<br><br>Each role assigned to the principal is checked for qualifications.  If a qualifier <br>exists on the principal's membership in that role, that is checked first through<br>the role's type service.  Once it is determined that the principal has the role<br>in the given context (qualification), the permissions are examined.<br><br>Each permission is checked against the permissionDetails.  The PermissionTypeService<br>is called for each permission with the given permissionName to see if the <br>permissionDetails matches its details.</td>
+</tr>
+<tr>
+<th class=h rowspan=5>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">permissionName</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">permissionDetails</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">qualification</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-hasPermissionByTemplateName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">hasPermissionByTemplateName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Checks whether the principal has been granted a permission matching the given details<br>without taking role qualifiers into account.<br><br>This method should not be used for true authorization checks since a principal<br>may only have this permission within a given context.  It could be used to<br>identify that the user would have some permissions within a certain area.<br>Later checks would identify exactly what permissions were granted.<br><br>It can also be used when the client application KNOWS that this is a role which<br>is never qualified.</td>
+</tr>
+<tr>
+<th class=h rowspan=4>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">permissionTemplateName</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">permissionDetails</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-isAuthorizedByTemplateName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">isAuthorizedByTemplateName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Checks whether the given qualified permission is granted to the principal given<br>the passed roleQualification.  If no roleQualification is passed (null or empty)<br>then this method behaves the same as {@link #hasPermission(String, String, String, Map<String, String>)}.<br><br>Each role assigned to the principal is checked for qualifications.  If a qualifier <br>exists on the principal's membership in that role, that is checked first through<br>the role's type service.  Once it is determined that the principal has the role<br>in the given context (qualification), the permissions are examined.<br><br>Each permission is checked against the permissionDetails.  The PermissionTypeService<br>is called for each permission with the given permissionName to see if the <br>permissionDetails matches its details.</td>
+</tr>
+<tr>
+<th class=h rowspan=5>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">permissionTemplateName</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">permissionDetails</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">qualification</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-getPermissionAssignees"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getPermissionAssignees</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Get the list of principals/groups who have a given permission.  This also returns delegates<br>for the given principals/groups who also have this permission given the context in the<br>qualification parameter.<br><br>Each role assigned to the principal is checked for qualifications.  If a qualifier <br>exists on the principal's membership in that role, that is checked first through<br>the role's type service.  Once it is determined that the principal has the role<br>in the given context (qualification), the permissions are examined.</td>
+</tr>
+<tr>
+<th class=h rowspan=4>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">permissionName</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">permissionDetails</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">qualification</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Assignee.html">AssigneeList</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-getPermissionAssigneesByTemplateName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getPermissionAssigneesByTemplateName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Get the list of principals/groups who have a given permission that match the given <br>permission template and permission details.  This also returns delegates<br>for the given principals/groups who also have this permission given the context in the<br>qualification parameter.<br><br>Each role assigned to the principal is checked for qualifications.  If a qualifier <br>exists on the principal's membership in that role, that is checked first through<br>the role's type service.  Once it is determined that the principal has the role<br>in the given context (qualification), the permissions are examined.</td>
+</tr>
+<tr>
+<th class=h rowspan=4>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">permissionTemplateName</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">permissionDetails</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">qualification</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Assignee.html">AssigneeList</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-isPermissionDefined"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">isPermissionDefined</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Returns true if the given permission is defined on any Roles.</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">permissionName</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">permissionDetails</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-isPermissionDefinedByTemplateName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">isPermissionDefinedByTemplateName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Returns true if the given permission template is defined on any Roles.</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">permissionTemplateName</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">permissionDetails</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="boolean.html">boolean</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-getAuthorizedPermissions"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getAuthorizedPermissions</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Returns permissions (with their details) that are granted to the principal given<br>the passed qualification.  If no qualification is passed (null or empty)<br>then this method does not check any qualifications on the roles.<br><br>All permissions with the given name are checked against the permissionDetails.  <br>The PermissionTypeService is called for each permission to see if the <br>permissionDetails matches its details.<br><br>An asterisk (*) as a value in any permissionDetails key-value pair will match any value.<br>This forms a way to provide a wildcard to obtain multiple permissions in one call.<br><br>After the permissions are determined, the roles that hold those permissions are determined.<br>Each role that matches between the principal and the permission objects is checked for <br>qualifications.  If a qualifier <br>exists on the principal's membership in that role, that is checked through<br>the role's type service.</td>
+</tr>
+<tr>
+<th class=h rowspan=5>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">permissionName</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">permissionDetails</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">qualification</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Permission.html">PermissionList</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-getAuthorizedPermissionsByTemplateName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getAuthorizedPermissionsByTemplateName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Returns permissions (with their details) that are granted to the principal given<br>the passed qualification.  If no qualification is passed (null or empty)<br>then this method does not check any qualifications on the roles.<br><br>All permissions with the given name are checked against the permissionDetails.  <br>The PermissionTypeService is called for each permission to see if the <br>permissionDetails matches its details.<br><br>An asterisk (*) as a value in any permissionDetails key-value pair will match any value.<br>This forms a way to provide a wildcard to obtain multiple permissions in one call.<br><br>After the permissions are determined, the roles that hold those permissions are determined.<br>Each role that matches between the principal and the permission objects is checked for <br>qualifications.  If a qualifier <br>exists on the principal's membership in that role, that is checked through<br>the role's type service.</td>
+</tr>
+<tr>
+<th class=h rowspan=5>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">permissionTemplateName</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">permissionDetails</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">qualification</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Permission.html">PermissionList</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-getPermission"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getPermission</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Get the permission object with the given ID.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Permission.html">Permission</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-findPermByNamespaceCodeAndName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findPermByNamespaceCodeAndName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Get the Permission object with the unique combination of namespace and permission name.<br><br>If any parameter is blank, this method returns <code>null</code>.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">name</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Permission.html">Permission</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-findPermsByNamespaceCodeTemplateName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findPermsByNamespaceCodeTemplateName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Return the permission object for the given unique combination of namespace,<br>component and permission template name.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">templateName</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Permission.html">PermissionList</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-getPermissionTemplate"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getPermissionTemplate</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Return the Permission Template given the Template ID.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Template.html">Template</a>
+</td><td class="methodReturnDesc">PermissionTemplate</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-findPermTemplateByNamespaceCodeAndName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findPermTemplateByNamespaceCodeAndName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Return the Permission Template given the Template Name and Namespace Code.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">name</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Template.html">Template</a>
+</td><td class="methodReturnDesc">PermissionTemplate</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-getAllTemplates"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getAllTemplates</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Return all Permission Templates.</td>
+</tr>
+<tr>
+<th class=h>Parameters</th>
+<td class="methodParamType">None</td>
+<td class="methodParamName">None</td>
+<td class="methodParamDesc">No Parameters</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Template.html">TemplateList</a>
+</td><td class="methodReturnDesc">PermissionTemplate</td>
+</tr>
+</tr>
+<tr>
+<th class=h>Errors</th>
+<td class="methodErrorType" colspan=2>NONE</td>
+<td class="methodErrorDesc">No Errors</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-getRoleIdsForPermission"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getRoleIdsForPermission</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Get the role IDs for the given permission.</td>
+</tr>
+<tr>
+<th class=h rowspan=3>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">namespaceCode</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">permissionName</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="Map<String, String>.html">Map<String, String></a>
+</td><td class="methodParamName">permissionDetails</td>
+<td class="methodParamDesc">???</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="String.html">StringList</a>
+</td><td class="methodReturnDesc">???</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-findPermissions"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findPermissions</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This method find Permissions based on a query criteria.  The criteria cannot be null.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="QueryByCriteria.html">QueryByCriteria</a>
+</td><td class="methodParamName">queryByCriteria</td>
+<td class="methodParamDesc">the criteria.  Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="PermissionQueryResults.html">PermissionQueryResults</a>
+</td><td class="methodReturnDesc">query results.  will never return null.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Permission-findPermissionTemplates"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findPermissionTemplates</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This method find Permission Templates based on a query criteria.  The criteria cannot be null.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="QueryByCriteria.html">QueryByCriteria</a>
+</td><td class="methodParamName">queryByCriteria</td>
+<td class="methodParamDesc">the criteria.  Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="TemplateQueryResults.html">TemplateQueryResults</a>
+</td><td class="methodReturnDesc">query results.  will never return null.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+
+</body>
+</html>

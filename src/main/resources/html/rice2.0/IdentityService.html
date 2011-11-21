@@ -1,0 +1,2485 @@
+<html>
+<head>
+<title>IdentityService</title>
+</head>
+<body bgcolor="#ffffff" topmargin=0 marginheight=0>
+<a href="index.html">home</a><style type="text/css">
+
+table#serviceMetaTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+table#serviceMetaTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+table#serviceMetaTable td#serviceName {
+border:1px solid #000000;
+width:85%;
+}
+table#serviceMetaTable td#serviceVersion {
+border:1px solid #000000;
+width:70%;
+}
+table#serviceMetaTable td#serviceVersionHistory {
+border:1px solid #000000;
+width:15%;
+}
+
+</style>
+<style type="text/css">
+
+table.methodTable {
+border-collapse:collapse;
+border:1px solid #000000;
+width:95%;
+}
+
+table.methodTable td.d {
+border:1px solid #000000;
+}
+
+table.methodTable th.h {
+border:1px solid #000000;
+background-color:#eeeeee;
+width:15%;
+}
+
+table.methodTable td.methodName {
+border:1px solid #000000;
+background-color:#f2f2f2;
+color:#222222;
+text-align:center;
+width:85%;
+font-weight:bold;
+font-style:italic;
+}
+
+table.methodTable td.methodDesc {
+border:1px solid #000000;
+width:85%;
+}
+
+table.methodTable td.methodParamType {
+border:1px solid #000000;
+width:21%;
+font-style:italic;
+}
+table.methodTable td.methodParamName {
+border:1px solid #000000;
+width:21%;
+}
+table.methodTable td.methodParamDesc {
+border:1px solid #000000;
+width:43%;
+}
+table.methodTable td.methodReturnType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+
+table.methodTable td.methodReturnDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.methodErrors {
+border:1px solid #000000;
+width:85%;
+}
+
+
+table.methodTable td.methodErrorType {
+border:1px solid #000000;
+width:42%;
+font-style:italic;
+}
+table.methodTable td.methodErrorDesc {
+border:1px solid #000000;
+width:43%;
+}
+
+table.methodTable td.capabilityDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.usecaseDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+
+table.methodTable td.commentsDesc {
+border:1px solid #000000;
+background:#ffffff;
+}
+</style>
+<h1>IdentityService</h1>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>Name</th>
+<td id=serviceName colspan=2>Identity</td>
+</tr>
+<tr>
+<th class=h>Version</th>
+</tr>
+<tr>
+<th class=h>Included Services</th>
+<td id=serviceVersion colspan=2>&nbsp;</td>
+</tr>
+</table>
+<p>
+<table id="serviceMetaTable">
+<tr>
+<th class=h>
+This service provides operations to query for principal and identity data.<br><br><p>A principal represents an identity that can authenticate.  In essence, a principal can be<br>thought of as an "account" or as an identity's authentication credentials.  A principal has<br>an id which is used to uniquely identify it.  It also has a name which represents the<br>principal's username and is typically what is entered when authenticating.  All principals<br>are associated with one and only one identity.<br><br><p>An identity represents a person or system.  Additionally, other "types" of entities can<br>be defined in KIM.  Information like name, phone number, etc. is associated with an identity.<br>It is the representation of a concrete person or system.  While an identity will typically<br>have a single principal associated with it, it is possible for an identity to have more than<br>one principal or even no principals at all (in the case where the identity does not actually<br>authenticate).<br><br><p>This service also provides operations for querying various pieces of reference data, such as <br>address types, affiliation types, phone types, etc.
+</th>
+</tr>
+</table>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="ListOfOperations"></a>Operations</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="#Identity-findEntityDefaults">findEntityDefaults</a></li><li><a href="#Identity-findEntities">findEntities</a></li><li><a href="#Identity-getEntity">getEntity</a></li><li><a href="#Identity-getEntityByPrincipalId">getEntityByPrincipalId</a></li><li><a href="#Identity-getEntityByPrincipalName">getEntityByPrincipalName</a></li><li><a href="#Identity-createEntity">createEntity</a></li><li><a href="#Identity-updateEntity">updateEntity</a></li><li><a href="#Identity-inactivateEntity">inactivateEntity</a></li><li><a href="#Identity-getEntityDefault">getEntityDefault</a></li><li><a href="#Identity-getEntityDefaultByPrincipalId">getEntityDefaultByPrincipalId</a></li><li><a href="#Identity-getEntityDefaultByPrincipalName">getEntityDefaultByPrincipalName</a></li><li><a href="#Identity-getPrincipal">getPrincipal</a></li><li><a href="#Identity-getPrincipalByPrincipalName">getPrincipalByPrincipalName</a></li><li><a href="#Identity-getPrincipalByPrincipalNameAndPassword">getPrincipalByPrincipalNameAndPassword</a></li><li><a href="#Identity-addPrincipalToEntity">addPrincipalToEntity</a></li><li><a href="#Identity-updatePrincipal">updatePrincipal</a></li><li><a href="#Identity-inactivatePrincipal">inactivatePrincipal</a></li><li><a href="#Identity-inactivatePrincipalByName">inactivatePrincipalByName</a></li><li><a href="#Identity-addEntityTypeContactInfoToEntity">addEntityTypeContactInfoToEntity</a></li><li><a href="#Identity-updateEntityTypeContactInfo">updateEntityTypeContactInfo</a></li><li><a href="#Identity-inactivateEntityTypeContactInfo">inactivateEntityTypeContactInfo</a></li><li><a href="#Identity-addAddressToEntity">addAddressToEntity</a></li><li><a href="#Identity-updateAddress">updateAddress</a></li><li><a href="#Identity-inactivateAddress">inactivateAddress</a></li><li><a href="#Identity-addEmailToEntity">addEmailToEntity</a></li><li><a href="#Identity-updateEmail">updateEmail</a></li><li><a href="#Identity-inactivateEmail">inactivateEmail</a></li><li><a href="#Identity-addPhoneToEntity">addPhoneToEntity</a></li><li><a href="#Identity-updatePhone">updatePhone</a></li><li><a href="#Identity-inactivatePhone">inactivatePhone</a></li><li><a href="#Identity-addExternalIdentifierToEntity">addExternalIdentifierToEntity</a></li><li><a href="#Identity-updateExternalIdentifier">updateExternalIdentifier</a></li><li><a href="#Identity-addAffiliationToEntity">addAffiliationToEntity</a></li><li><a href="#Identity-updateAffiliation">updateAffiliation</a></li><li><a href="#Identity-inactivateAffiliation">inactivateAffiliation</a></li><li><a href="#Identity-addNameToEntity">addNameToEntity</a></li><li><a href="#Identity-updateName">updateName</a></li><li><a href="#Identity-inactivateName">inactivateName</a></li><li><a href="#Identity-addEmploymentToEntity">addEmploymentToEntity</a></li><li><a href="#Identity-updateEmployment">updateEmployment</a></li><li><a href="#Identity-inactivateEmployment">inactivateEmployment</a></li><li><a href="#Identity-addBioDemographicsToEntity">addBioDemographicsToEntity</a></li><li><a href="#Identity-updateBioDemographics">updateBioDemographics</a></li><li><a href="#Identity-getEntityPrivacyPreferences">getEntityPrivacyPreferences</a></li><li><a href="#Identity-addPrivacyPreferencesToEntity">addPrivacyPreferencesToEntity</a></li><li><a href="#Identity-updatePrivacyPreferences">updatePrivacyPreferences</a></li><li><a href="#Identity-addCitizenshipToEntity">addCitizenshipToEntity</a></li><li><a href="#Identity-updateCitizenship">updateCitizenship</a></li><li><a href="#Identity-inactivateCitizenship">inactivateCitizenship</a></li><li><a href="#Identity-addEthnicityToEntity">addEthnicityToEntity</a></li><li><a href="#Identity-updateEthnicity">updateEthnicity</a></li><li><a href="#Identity-addResidencyToEntity">addResidencyToEntity</a></li><li><a href="#Identity-updateResidency">updateResidency</a></li><li><a href="#Identity-addVisaToEntity">addVisaToEntity</a></li><li><a href="#Identity-updateVisa">updateVisa</a></li><li><a href="#Identity-getEntityType">getEntityType</a></li><li><a href="#Identity-getAddressType">getAddressType</a></li><li><a href="#Identity-getAffiliationType">getAffiliationType</a></li><li><a href="#Identity-getCitizenshipStatus">getCitizenshipStatus</a></li><li><a href="#Identity-getEmploymentType">getEmploymentType</a></li><li><a href="#Identity-getEmploymentStatus">getEmploymentStatus</a></li><li><a href="#Identity-getExternalIdentifierType">getExternalIdentifierType</a></li><li><a href="#Identity-getNameType">getNameType</a></li><li><a href="#Identity-getPhoneType">getPhoneType</a></li><li><a href="#Identity-getEmailType">getEmailType</a></li></ul>
+</div>
+</div>
+<div class="panel" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);">
+<div class="panelHeader" style="border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+<b><a name="MainMessageStructures"></a>Main Message Structures</b>
+</div><div class="panelContent" style="background-color: rgb(255, 255, 255);">
+<ul>
+<li><a href="EntityDefaultQueryResults.html">EntityDefaultQueryResults</a></li><li><a href="QueryByCriteria.html">QueryByCriteria</a></li><li><a href="EntityQueryResults.html">EntityQueryResults</a></li><li><a href="Entity.html">Entity</a></li><li><a href="EntityDefault.html">EntityDefault</a></li><li><a href="Principal.html">Principal</a></li><li><a href="EntityTypeContactInfo.html">EntityTypeContactInfo</a></li><li><a href="EntityAddress.html">EntityAddress</a></li><li><a href="EntityEmail.html">EntityEmail</a></li><li><a href="EntityPhone.html">EntityPhone</a></li><li><a href="EntityExternalIdentifier.html">EntityExternalIdentifier</a></li><li><a href="EntityAffiliation.html">EntityAffiliation</a></li><li><a href="EntityName.html">EntityName</a></li><li><a href="EntityEmployment.html">EntityEmployment</a></li><li><a href="EntityBioDemographics.html">EntityBioDemographics</a></li><li><a href="EntityPrivacyPreferences.html">EntityPrivacyPreferences</a></li><li><a href="EntityCitizenship.html">EntityCitizenship</a></li><li><a href="EntityEthnicity.html">EntityEthnicity</a></li><li><a href="EntityResidency.html">EntityResidency</a></li><li><a href="EntityVisa.html">EntityVisa</a></li><li><a href="CodedAttribute.html">CodedAttribute</a></li><li><a href="EntityAffiliationType.html">EntityAffiliationType</a></li><li><a href="EntityExternalIdentifierType.html">EntityExternalIdentifierType</a></li></ul>
+<p>
+<a name="Identity-findEntityDefaults"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findEntityDefaults</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This method finds EntityDefault data based on a query criteria.  The criteria cannot be null.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="QueryByCriteria.html">QueryByCriteria</a>
+</td><td class="methodParamName">query</td>
+<td class="methodParamDesc">the criteria.  Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityDefaultQueryResults.html">EntityDefaultQueryResults</a>
+</td><td class="methodReturnDesc">query results.  will never return null.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-findEntities"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">findEntities</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This method finds Entities based on a query criteria.  The criteria cannot be null.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="QueryByCriteria.html">QueryByCriteria</a>
+</td><td class="methodParamName">query</td>
+<td class="methodParamDesc">the criteria.  Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityQueryResults.html">EntityQueryResults</a>
+</td><td class="methodReturnDesc">query results.  will never return null.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link org.kuali.rice.kim.api.identity.entity.Entity} from an id.<br><br><p><br>  This method will return null if the Entity does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the unique id to retrieve the entity by. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Entity.html">Entity</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.entity.Entity} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getEntityByPrincipalId"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getEntityByPrincipalId</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link org.kuali.rice.kim.api.identity.entity.Entity} from a principalId.<br><br><p><br>  This method will return null if the Entity does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">the unique id to retrieve the entity by. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Entity.html">Entity</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.entity.Entity} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getEntityByPrincipalName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getEntityByPrincipalName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link org.kuali.rice.kim.api.identity.entity.Entity} from a principalName.<br><br><p><br>  This method will return null if the Entity does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalName</td>
+<td class="methodParamDesc">the unique id to retrieve the entity by. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Entity.html">Entity</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.entity.Entity} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-createEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">createEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.entity.Entity} exactly like the entity passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="Entity.html">Entity</a>
+</td><td class="methodParamName">entity</td>
+<td class="methodParamDesc">the entity to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Entity.html">Entity</a>
+</td><td class="methodReturnDesc">the newly created Entity object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updateEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.entity.Entity}.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="Entity.html">Entity</a>
+</td><td class="methodParamName">entity</td>
+<td class="methodParamDesc">the entity to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Entity.html">Entity</a>
+</td><td class="methodReturnDesc">the updated Entity object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-inactivateEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">inactivateEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will inactivate a {@link org.kuali.rice.kim.api.identity.entity.Entity}.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the unique id of the entity to inactivate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Entity.html">Entity</a>
+</td><td class="methodReturnDesc">the inactivated Entity object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getEntityDefault"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getEntityDefault</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link org.kuali.rice.kim.api.identity.entity.EntityDefault} from an id.<br>{@link org.kuali.rice.kim.api.identity.entity.EntityDefault} is a condensed version of {@link org.kuali.rice.kim.api.identity.entity.Entity} that contains<br>default values of its subclasses<br><br><p><br>  This method will return null if the Entity does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the unique id to retrieve the entity by. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityDefault.html">EntityDefault</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.entity.EntityDefault} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getEntityDefaultByPrincipalId"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getEntityDefaultByPrincipalId</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link org.kuali.rice.kim.api.identity.entity.EntityDefault} from an principalId.<br>{@link org.kuali.rice.kim.api.identity.entity.EntityDefault} is a condensed version of {@link org.kuali.rice.kim.api.identity.entity.Entity} that contains<br>default values of its subclasses<br><br><p><br>  This method will return null if the Entity does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">the unique id to retrieve the entity by. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityDefault.html">EntityDefault</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.entity.EntityDefault} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getEntityDefaultByPrincipalName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getEntityDefaultByPrincipalName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link org.kuali.rice.kim.api.identity.entity.EntityDefault} from an principalName.<br>{@link org.kuali.rice.kim.api.identity.entity.EntityDefault} is a condensed version of {@link org.kuali.rice.kim.api.identity.entity.Entity} that contains<br>default values of its subclasses<br><br><p><br>  This method will return null if the Entity does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalName</td>
+<td class="methodParamDesc">the unique id to retrieve the entity by. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityDefault.html">EntityDefault</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.entity.EntityDefault} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getPrincipal"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getPrincipal</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link org.kuali.rice.kim.api.identity.principal.Principal} from an principalId.<br><br><p><br>  This method will return null if the Principal does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">the unique id to retrieve the principal by. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Principal.html">Principal</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.principal.Principal} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getPrincipalByPrincipalName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getPrincipalByPrincipalName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link org.kuali.rice.kim.api.identity.principal.Principal} from an principalName.<br><br><p><br>  This method will return null if the Principal does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalName</td>
+<td class="methodParamDesc">the unique id to retrieve the principal by. cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Principal.html">Principal</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.principal.Principal} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getPrincipalByPrincipalNameAndPassword"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getPrincipalByPrincipalNameAndPassword</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link org.kuali.rice.kim.api.identity.principal.Principal} from an principalName and password.<br><br><p><br>  This method will return null if the Principal does not exist or the password is incorrect.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalName</td>
+<td class="methodParamDesc">the unique id to retrieve the principal by. cannot be null.</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">password</td>
+<td class="methodParamDesc">the password for the principal</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Principal.html">Principal</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.principal.Principal} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addPrincipalToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addPrincipalToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.principal.Principal} exactly like the principal passed in.<br><br>The principal object passed in must be populated with an entityId and a principalName</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="Principal.html">Principal</a>
+</td><td class="methodParamName">principal</td>
+<td class="methodParamDesc">the principal to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Principal.html">Principal</a>
+</td><td class="methodReturnDesc">the newly created Principal object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updatePrincipal"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updatePrincipal</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.principal.Principal} exactly like the principal passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="Principal.html">Principal</a>
+</td><td class="methodParamName">principal</td>
+<td class="methodParamDesc">the principal to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Principal.html">Principal</a>
+</td><td class="methodReturnDesc">the updated Principal object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-inactivatePrincipal"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">inactivatePrincipal</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will inactivate a {@link org.kuali.rice.kim.api.identity.principal.Principal}.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalId</td>
+<td class="methodParamDesc">the unique id of the principal to inactivate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Principal.html">Principal</a>
+</td><td class="methodReturnDesc">the inactivated Principal object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-inactivatePrincipalByName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">inactivatePrincipalByName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will inactivate a {@link org.kuali.rice.kim.api.identity.principal.Principal}.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">principalName</td>
+<td class="methodParamDesc">the unique principalName of the principal to inactivate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="Principal.html">Principal</a>
+</td><td class="methodReturnDesc">the inactivated Principal object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addEntityTypeContactInfoToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addEntityTypeContactInfoToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo} exactly like the entityTypeContactInfo passed in.<br><br>The EntityTypeContactInfo object passed in must be populated with an entityId and a entityTypeCode</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityTypeContactInfo.html">EntityTypeContactInfo</a>
+</td><td class="methodParamName">entityTypeContactInfo</td>
+<td class="methodParamDesc">the EntityTypeContactInfo to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityTypeContactInfo.html">EntityTypeContactInfo</a>
+</td><td class="methodReturnDesc">the newly created EntityTypeContactInfo object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updateEntityTypeContactInfo"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateEntityTypeContactInfo</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo} exactly like the entityTypeContactInfo passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityTypeContactInfo.html">EntityTypeContactInfo</a>
+</td><td class="methodParamName">entityTypeContactInfo</td>
+<td class="methodParamDesc">the EntityTypeContactInfo to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityTypeContactInfo.html">EntityTypeContactInfo</a>
+</td><td class="methodReturnDesc">the updated EntityTypeContactInfo object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-inactivateEntityTypeContactInfo"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">inactivateEntityTypeContactInfo</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will inactivate a {@link org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo} with the passed in parameters.</td>
+</tr>
+<tr>
+<th class=h rowspan=2>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">entityId</td>
+<td class="methodParamDesc">the entityId of the EntityTypeContactInfo to inactivate</td>
+</tr>
+<tr>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">entityTypeCode</td>
+<td class="methodParamDesc">the entityTypeCode of the EntityTypeContactInfo to inactivate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityTypeContactInfo.html">EntityTypeContactInfo</a>
+</td><td class="methodReturnDesc">the inactivated EntityTypeContactInfo object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addAddressToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addAddressToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.address.EntityAddress} exactly like the address passed in.<br><br>The EntityAddress object passed in must be populated with an entityId and a entityTypeCode</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityAddress.html">EntityAddress</a>
+</td><td class="methodParamName">address</td>
+<td class="methodParamDesc">the EntityAddress to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityAddress.html">EntityAddress</a>
+</td><td class="methodReturnDesc">the newly created EntityAddress object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updateAddress"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateAddress</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.address.EntityAddress} exactly like the address passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityAddress.html">EntityAddress</a>
+</td><td class="methodParamName">address</td>
+<td class="methodParamDesc">the EntityAddress to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityAddress.html">EntityAddress</a>
+</td><td class="methodReturnDesc">the updated EntityAddress object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-inactivateAddress"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">inactivateAddress</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will inactivate a {@link org.kuali.rice.kim.api.identity.address.EntityAddress} with the id passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the unique id of the EntityAddress to inactivate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityAddress.html">EntityAddress</a>
+</td><td class="methodReturnDesc">the updated EntityAddress object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addEmailToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addEmailToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.email.EntityEmail} exactly like the email passed in.<br><br>The EntityEmail object passed in must be populated with an entityId and a entityTypeCode</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityEmail.html">EntityEmail</a>
+</td><td class="methodParamName">email</td>
+<td class="methodParamDesc">the EntityEmail to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityEmail.html">EntityEmail</a>
+</td><td class="methodReturnDesc">the newly created EntityEmail object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updateEmail"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateEmail</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.email.EntityEmail} exactly like the email passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityEmail.html">EntityEmail</a>
+</td><td class="methodParamName">email</td>
+<td class="methodParamDesc">the EntityEmail to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityEmail.html">EntityEmail</a>
+</td><td class="methodReturnDesc">the updated EntityEmail object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-inactivateEmail"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">inactivateEmail</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will inactivate the {@link org.kuali.rice.kim.api.identity.email.EntityEmail} with the passed in id.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the unique id of the EntityEmail to inactivate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityEmail.html">EntityEmail</a>
+</td><td class="methodReturnDesc">the inactivated EntityEmail object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addPhoneToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addPhoneToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.phone.EntityPhone} exactly like the phone passed in.<br><br>The EntityPhone object passed in must be populated with an entityId and a entityTypeCode</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityPhone.html">EntityPhone</a>
+</td><td class="methodParamName">phone</td>
+<td class="methodParamDesc">the EntityPhone to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityPhone.html">EntityPhone</a>
+</td><td class="methodReturnDesc">the newly created EntityPhone object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updatePhone"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updatePhone</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.phone.EntityPhone} exactly like the phone passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityPhone.html">EntityPhone</a>
+</td><td class="methodParamName">phone</td>
+<td class="methodParamDesc">the EntityPhone to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityPhone.html">EntityPhone</a>
+</td><td class="methodReturnDesc">the updated EntityPhone object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-inactivatePhone"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">inactivatePhone</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will inactivate the {@link org.kuali.rice.kim.api.identity.phone.EntityPhone} with the passed in id.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the unique id of the EntityPhone to inactivate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityPhone.html">EntityPhone</a>
+</td><td class="methodReturnDesc">the inactivated EntityPhone object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addExternalIdentifierToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addExternalIdentifierToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.external.EntityExternalIdentifier} exactly like the externalId passed in.<br><br>The EntityExternalIdentifier object passed in must be populated with an entityId and a externalIdentifierTypeCode</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityExternalIdentifier.html">EntityExternalIdentifier</a>
+</td><td class="methodParamName">externalId</td>
+<td class="methodParamDesc">the EntityExternalIdentifier to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityExternalIdentifier.html">EntityExternalIdentifier</a>
+</td><td class="methodReturnDesc">the newly created EntityExternalIdentifier object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updateExternalIdentifier"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateExternalIdentifier</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.external.EntityExternalIdentifier} exactly like the externalId passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityExternalIdentifier.html">EntityExternalIdentifier</a>
+</td><td class="methodParamName">externalId</td>
+<td class="methodParamDesc">the EntityExternalIdentifier to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityExternalIdentifier.html">EntityExternalIdentifier</a>
+</td><td class="methodReturnDesc">the updated EntityExternalIdentifier object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addAffiliationToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addAffiliationToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.affiliation.EntityAffiliation} exactly like the affiliation passed in.<br><br>The EntityAffiliation object passed in must be populated with an entityId and a affiliationType</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityAffiliation.html">EntityAffiliation</a>
+</td><td class="methodParamName">affiliation</td>
+<td class="methodParamDesc">the EntityAffiliation to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityAffiliation.html">EntityAffiliation</a>
+</td><td class="methodReturnDesc">the newly created EntityAffiliation object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updateAffiliation"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateAffiliation</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.affiliation.EntityAffiliation} exactly like the affiliation passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityAffiliation.html">EntityAffiliation</a>
+</td><td class="methodParamName">affiliation</td>
+<td class="methodParamDesc">the EntityAffiliation to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityAffiliation.html">EntityAffiliation</a>
+</td><td class="methodReturnDesc">the updated EntityAffiliation object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-inactivateAffiliation"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">inactivateAffiliation</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will inactivate a {@link org.kuali.rice.kim.api.identity.affiliation.EntityAffiliation} with the id passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the unique id of the  EntityAffiliation to inactivate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityAffiliation.html">EntityAffiliation</a>
+</td><td class="methodReturnDesc">the updated EntityAffiliation object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addNameToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addNameToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.name.EntityName} exactly like the name passed in.<br><br>The EntityName object passed in must be populated with an entityId and a nameType</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityName.html">EntityName</a>
+</td><td class="methodParamName">name</td>
+<td class="methodParamDesc">the EntityName to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityName.html">EntityName</a>
+</td><td class="methodReturnDesc">the newly created EntityName object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updateName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.name.EntityName} exactly like the name passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityName.html">EntityName</a>
+</td><td class="methodParamName">name</td>
+<td class="methodParamDesc">the EntityName to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityName.html">EntityName</a>
+</td><td class="methodReturnDesc">the updated EntityName object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-inactivateName"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">inactivateName</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will inactivate a {@link org.kuali.rice.kim.api.identity.name.EntityName} with the passed in id.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the unique id of the EntityName to inactivate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityName.html">EntityName</a>
+</td><td class="methodReturnDesc">the inactivated EntityName object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addEmploymentToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addEmploymentToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.employment.EntityEmployment} exactly like the employment passed in.<br><br>The EntityEmployment object passed in must be populated with an entityId and a employmentType</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityEmployment.html">EntityEmployment</a>
+</td><td class="methodParamName">employment</td>
+<td class="methodParamDesc">the EntityEmployment to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityEmployment.html">EntityEmployment</a>
+</td><td class="methodReturnDesc">the newly created EntityName object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updateEmployment"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateEmployment</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.employment.EntityEmployment} exactly like the employment passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityEmployment.html">EntityEmployment</a>
+</td><td class="methodParamName">employment</td>
+<td class="methodParamDesc">the EntityEmployment to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityEmployment.html">EntityEmployment</a>
+</td><td class="methodReturnDesc">the updated EntityEmployment object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-inactivateEmployment"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">inactivateEmployment</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will inactivate a {@link org.kuali.rice.kim.api.identity.employment.EntityEmployment} with the passed in id.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the unique id of the EntityEmployment to inactivate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityEmployment.html">EntityEmployment</a>
+</td><td class="methodReturnDesc">the inactivated EntityEmployment object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addBioDemographicsToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addBioDemographicsToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.personal.EntityBioDemographics} exactly like the bioDemographics passed in.<br><br>The EntityBioDemographics object passed in must be populated with an entityId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityBioDemographics.html">EntityBioDemographics</a>
+</td><td class="methodParamName">bioDemographics</td>
+<td class="methodParamDesc">the EntityBioDemographics to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityBioDemographics.html">EntityBioDemographics</a>
+</td><td class="methodReturnDesc">the newly created EntityBioDemographics object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updateBioDemographics"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateBioDemographics</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.personal.EntityBioDemographics} exactly like the bioDemographics passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityBioDemographics.html">EntityBioDemographics</a>
+</td><td class="methodParamName">bioDemographics</td>
+<td class="methodParamDesc">the EntityBioDemographics to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityBioDemographics.html">EntityBioDemographics</a>
+</td><td class="methodReturnDesc">the updated EntityBioDemographics object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getEntityPrivacyPreferences"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getEntityPrivacyPreferences</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets a {@link org.kuali.rice.kim.api.identity.privacy.EntityPrivacyPreferences} for a given id.<br><br><p><br>  This method will return null if the EntityPrivacyPreferences does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the unique id to retrieve the EntityPrivacyPreferences by. Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityPrivacyPreferences.html">EntityPrivacyPreferences</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.privacy.EntityPrivacyPreferences} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addPrivacyPreferencesToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addPrivacyPreferencesToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.privacy.EntityPrivacyPreferences} exactly like the privacyPreferences passed in.<br><br>The EntityPrivacyPreferences object passed in must be populated with an entityId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityPrivacyPreferences.html">EntityPrivacyPreferences</a>
+</td><td class="methodParamName">privacyPreferences</td>
+<td class="methodParamDesc">the EntityPrivacyPreferences to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityPrivacyPreferences.html">EntityPrivacyPreferences</a>
+</td><td class="methodReturnDesc">the newly created EntityPrivacyPreferences object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updatePrivacyPreferences"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updatePrivacyPreferences</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.privacy.EntityPrivacyPreferences} exactly like the privacyPreferences passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityPrivacyPreferences.html">EntityPrivacyPreferences</a>
+</td><td class="methodParamName">privacyPreferences</td>
+<td class="methodParamDesc">the EntityPrivacyPreferences to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityPrivacyPreferences.html">EntityPrivacyPreferences</a>
+</td><td class="methodReturnDesc">the updated EntityPrivacyPreferences object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addCitizenshipToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addCitizenshipToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.citizenship.EntityCitizenship} exactly like the citizenship passed in.<br><br>The EntityCitizenship object passed in must be populated with an entityId and a status</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityCitizenship.html">EntityCitizenship</a>
+</td><td class="methodParamName">citizenship</td>
+<td class="methodParamDesc">the EntityCitizenship to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityCitizenship.html">EntityCitizenship</a>
+</td><td class="methodReturnDesc">the newly created EntityCitizenship object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updateCitizenship"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateCitizenship</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.citizenship.EntityCitizenship} exactly like the citizenship passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityCitizenship.html">EntityCitizenship</a>
+</td><td class="methodParamName">citizenship</td>
+<td class="methodParamDesc">the EntityCitizenship to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityCitizenship.html">EntityCitizenship</a>
+</td><td class="methodReturnDesc">the updated EntityCitizenship object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-inactivateCitizenship"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">inactivateCitizenship</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will inactivate a {@link org.kuali.rice.kim.api.identity.citizenship.EntityCitizenship} with the unique id passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">id</td>
+<td class="methodParamDesc">the id of the EntityCitizenship to inactivate</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityCitizenship.html">EntityCitizenship</a>
+</td><td class="methodReturnDesc">the inactivated EntityCitizenship object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addEthnicityToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addEthnicityToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link EntityEthnicity} exactly like the ethnicity passed in.<br><br>The EntityEthnicity object passed in must be populated with an entityId and a ethnicity code</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityEthnicity.html">EntityEthnicity</a>
+</td><td class="methodParamName">ethnicity</td>
+<td class="methodParamDesc">the EntityEthnicity to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityEthnicity.html">EntityEthnicity</a>
+</td><td class="methodReturnDesc">the newly created EntityEthnicity object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updateEthnicity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateEthnicity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link EntityEthnicity} exactly like the ethnicity passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityEthnicity.html">EntityEthnicity</a>
+</td><td class="methodParamName">ethnicity</td>
+<td class="methodParamDesc">the EntityEthnicity to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityEthnicity.html">EntityEthnicity</a>
+</td><td class="methodReturnDesc">the updated EntityEthnicity object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addResidencyToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addResidencyToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.residency.EntityResidency} exactly like the residency passed in.<br><br>The EntityResidency object passed in must be populated with an entityId</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityResidency.html">EntityResidency</a>
+</td><td class="methodParamName">residency</td>
+<td class="methodParamDesc">the EntityResidency to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityResidency.html">EntityResidency</a>
+</td><td class="methodReturnDesc">the newly created EntityResidency object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updateResidency"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateResidency</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.residency.EntityResidency} exactly like the residency passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityResidency.html">EntityResidency</a>
+</td><td class="methodParamName">residency</td>
+<td class="methodParamDesc">the EntityResidency to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityResidency.html">EntityResidency</a>
+</td><td class="methodReturnDesc">the updated EntityResidency object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-addVisaToEntity"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">addVisaToEntity</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will create a {@link org.kuali.rice.kim.api.identity.visa.EntityVisa} exactly like the visa passed in.<br><br>The EntityVisa object passed in must be populated with an entityId and a visaTypeKey</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityVisa.html">EntityVisa</a>
+</td><td class="methodParamName">visa</td>
+<td class="methodParamDesc">the EntityVisa to create</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityVisa.html">EntityVisa</a>
+</td><td class="methodReturnDesc">the newly created EntityVisa object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-updateVisa"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">updateVisa</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">This will update a {@link org.kuali.rice.kim.api.identity.visa.EntityVisa} exactly like the visa passed in.</td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="EntityVisa.html">EntityVisa</a>
+</td><td class="methodParamName">visa</td>
+<td class="methodParamDesc">the EntityVisa to update</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityVisa.html">EntityVisa</a>
+</td><td class="methodReturnDesc">the updated EntityVisa object.</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=2>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+<tr>
+<td class="methodErrorType" colspan=2>RiceIllegalStateException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getEntityType"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getEntityType</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the {@link org.kuali.rice.kim.api.identity.CodedAttribute} for a given EntityType code.<br><br><p><br>  This method will return null if the code does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">code</td>
+<td class="methodParamDesc">the unique id to retrieve the Type by. Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="CodedAttribute.html">CodedAttribute</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.CodedAttribute} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getAddressType"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getAddressType</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the {@link org.kuali.rice.kim.api.identity.CodedAttribute} for a given EntityAddressType code.<br><br><p><br>  This method will return null if the code does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">code</td>
+<td class="methodParamDesc">the unique id to retrieve the Type by. Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="CodedAttribute.html">CodedAttribute</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.CodedAttribute} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getAffiliationType"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getAffiliationType</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the {@link org.kuali.rice.kim.api.identity.affiliation.EntityAffiliationType} for a given EntityAffiliationType code.<br><br><p><br>  This method will return null if the code does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">code</td>
+<td class="methodParamDesc">the unique id to retrieve the EntityAffiliationType by. Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityAffiliationType.html">EntityAffiliationType</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.affiliation.EntityAffiliationType} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getCitizenshipStatus"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getCitizenshipStatus</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the {@link org.kuali.rice.kim.api.identity.CodedAttribute} for a given EntityCitizenship status code.<br><br><p><br>  This method will return null if the code does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">code</td>
+<td class="methodParamDesc">the unique id to retrieve the Type by. Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="CodedAttribute.html">CodedAttribute</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.CodedAttribute} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getEmploymentType"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getEmploymentType</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the {@link org.kuali.rice.kim.api.identity.CodedAttribute} for a given EntityEmployment type code.<br><br><p><br>  This method will return null if the code does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">code</td>
+<td class="methodParamDesc">the unique id to retrieve the Type by. Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="CodedAttribute.html">CodedAttribute</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.CodedAttribute} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getEmploymentStatus"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getEmploymentStatus</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the {@link org.kuali.rice.kim.api.identity.CodedAttribute} for a given EntityEmployment status code.<br><br><p><br>  This method will return null if the code does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">code</td>
+<td class="methodParamDesc">the unique id to retrieve the Type by. Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="CodedAttribute.html">CodedAttribute</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.CodedAttribute} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getExternalIdentifierType"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getExternalIdentifierType</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the {@link org.kuali.rice.kim.api.identity.external.EntityExternalIdentifierType} for a given type code.<br><br><p><br>  This method will return null if the code does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">code</td>
+<td class="methodParamDesc">the unique id to retrieve the EntityExternalIdentifierType by. Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="EntityExternalIdentifierType.html">EntityExternalIdentifierType</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.CodedAttribute} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getNameType"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getNameType</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the {@link org.kuali.rice.kim.api.identity.CodedAttribute} for a given EntityName type code.<br><br><p><br>  This method will return null if the code does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">code</td>
+<td class="methodParamDesc">the unique id to retrieve the Type by. Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="CodedAttribute.html">CodedAttribute</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.CodedAttribute} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getPhoneType"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getPhoneType</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the {@link org.kuali.rice.kim.api.identity.CodedAttribute} for a given EntityPhone type code.<br><br><p><br>  This method will return null if the code does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">code</td>
+<td class="methodParamDesc">the unique id to retrieve the Type by. Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="CodedAttribute.html">CodedAttribute</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.CodedAttribute} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+<p>
+<a name="Identity-getEmailType"></a>
+<p>
+<table class="methodTable">
+<tr>
+<th class=h>Method</th>
+<th class=h colspan=3 class="methodName">getEmailType</th>
+</tr>
+<tr>
+<th class=h>Description</th>
+<td colspan=3 class="methodDesc">Gets the {@link org.kuali.rice.kim.api.identity.CodedAttribute} for a given EntityEmail type code.<br><br><p><br>  This method will return null if the code does not exist.<br></p></td>
+</tr>
+<tr>
+<th class=h rowspan=1>Parameters</th>
+<td class="methodParamType"><a href="String.html">String</a>
+</td><td class="methodParamName">code</td>
+<td class="methodParamDesc">the unique id to retrieve the Type by. Cannot be null.</td>
+</tr>
+<tr>
+<th class=h>Return</th>
+<td colspan=2 class="methodReturnType"><a href="CodedAttribute.html">CodedAttribute</a>
+</td><td class="methodReturnDesc">a {@link org.kuali.rice.kim.api.identity.CodedAttribute} or null</td>
+</tr>
+</tr>
+<tr>
+<th class=h rowspan=1>Errors</th>
+<td class="methodErrorType" colspan=2>RiceIllegalArgumentException</td>
+<td class="methodErrorDesc">???</td>
+</tr>
+</table>
+<p>
+<a href="#ListOfOperations">Back to Operations</a>
+<p>
+
+</body>
+</html>
