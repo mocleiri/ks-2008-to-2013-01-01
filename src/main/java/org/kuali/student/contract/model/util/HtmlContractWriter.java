@@ -142,6 +142,10 @@ public class HtmlContractWriter {
     }
 
     private static String calcArea(String implProject) {
+        // group all student services together
+        if (implProject.startsWith("org.kuali.student")) {
+            return "Kuali Student Services";
+        }
         if (implProject.startsWith("org.kuali.")) {
             implProject = implProject.substring("org.kuali.".length());
         }
