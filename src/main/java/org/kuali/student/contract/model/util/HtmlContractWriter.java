@@ -81,6 +81,16 @@ public class HtmlContractWriter {
                     return e1.getName().compareTo(e2.getName());
                 }
             };
+    private static final Comparator<Service> SERVICE_IMPL_NAME_COMPARATOR =
+            new Comparator<Service>() {
+
+                @Override
+                public int compare(Service e1, Service e2) {
+                    String x1 = calcArea(e1) + "." + e1.getName();
+                    String x2 = calcArea(e2) + "." + e2.getName();
+                    return x1.compareTo(x2);
+                }
+            };
 
     private void writeIndexPage() {
         writer.print("<a href=\"index.html\">home</a>");
@@ -94,23 +104,51 @@ public class HtmlContractWriter {
                 "</div><div class=\"panelContent\" style=\"background-color: rgb(255, 255, 255);\">");
         writer.indentPrintln("<ul>");
         List<Service> services = new ArrayList(model.getServices());
-        Collections.sort(services, SERVICE_NAME_COMPARATOR);
+        Collections.sort(services, SERVICE_IMPL_NAME_COMPARATOR);
+        String oldArea = "";
         for (Service service : services) {
+            String newArea = calcArea(service);
+            if (!newArea.equals(oldArea)) {
+                if (!oldArea.isEmpty()) {
+                    writer.indentPrintln("</ul>");
+                    writer.decrementIndent();
+                }
+                writer.indentPrintln("<li>" + calcArea(service) + "</li>");
+                writer.incrementIndent();
+                writer.indentPrintln("<ul>");
+                oldArea = newArea;
+            }
             writer.indentPrint("<li>");
             writer.print("<a href=\"" + service.getName() + ".html"
                     + "\">" + service.getName() + "</a>");
             writer.print("</li>");
         }
         writer.indentPrintln("</ul>");
+        writer.decrementIndent();
+        writer.indentPrintln("</ul>");        
         writer.indentPrintln("</div>");
         writer.indentPrintln("</div>");
-        
+
         this.writeMainOrRootList();
-        
+
         this.writeAlphabeticalList();
 
         writer.writeHeaderBodyAndFooterOutToFile();
 
+    }
+
+    private static String calcArea(Service service) {
+        return calcArea(service.getImplProject());
+    }
+
+    private static String calcArea(String implProject) {
+        if (implProject.startsWith("org.kuali.")) {
+            implProject = implProject.substring("org.kuali.".length());
+        }
+        if (implProject.contains(".api.")) {
+            implProject = implProject.substring(0, implProject.indexOf(".api."));
+        }
+        return implProject;
     }
 
     private void writeMainOrRootList() {

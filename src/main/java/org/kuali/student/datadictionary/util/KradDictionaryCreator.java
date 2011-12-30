@@ -763,12 +763,12 @@ public class KradDictionaryCreator {
         map.put("CluIds", "BaseKuali.cluId");
         map.put("LuiId", "BaseKuali.luiId");
         map.put("LuiIds", "BaseKuali.luiId");
-        map.put("AtpKey", "BaseKuali.atpKey");
-        map.put("AtpKeys", "BaseKuali.atpKey");
-        map.put("TermKey", "BaseKuali.termKey");
-        map.put("TermKeys", "BaseKuali.termKey");
-        map.put("CampusCalendarKey", "BaseKuali.campusCalendarKey");
-        map.put("CampusCalendarKeys", "BaseKuali.campusCalendarKey");
+        map.put("AtpId", "BaseKuali.atpId");
+        map.put("AtpIds", "BaseKuali.atpId");
+        map.put("TermId", "BaseKuali.termId");
+        map.put("TermIds", "BaseKuali.termId");
+        map.put("HolidayCalendarId", "BaseKuali.holidayCalendarId");
+        map.put("HolidayCalendarIds", "BaseKuali.holidayCalendarId");
         map.put("Code", "BaseKuali.code");
         // convert to lower case
         endsWithMap = new HashMap(map.size());

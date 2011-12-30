@@ -62,9 +62,23 @@ public class ServiceContractModelQDoxLoader implements
     private List<ServiceMethod> serviceMethods = null;
     private Map<String, XmlType> xmlTypeMap = null;
     private List<MessageStructure> messageStructures;
+    private boolean validateKualiStudent = true;
 
     public ServiceContractModelQDoxLoader(List<String> sourceDirectories) {
         this.sourceDirectories = sourceDirectories;
+    }
+
+    public ServiceContractModelQDoxLoader(List<String> sourceDirectories, boolean validateKualiStudent) {
+        this.sourceDirectories = sourceDirectories;
+        this.setValidateKualiStudent(validateKualiStudent);
+    }
+
+    public boolean isValidateKualiStudent() {
+        return validateKualiStudent;
+    }
+
+    public void setValidateKualiStudent(boolean validateKualiStudent) {
+        this.validateKualiStudent = validateKualiStudent;
     }
 
     @Override
@@ -131,6 +145,13 @@ public class ServiceContractModelQDoxLoader implements
         return bldr.toString();
     }
 
+    private void checkIfExists(String sourceDirectory) {
+        File file = new File(sourceDirectory);
+        if (!file.isDirectory()) {
+            throw new IllegalArgumentException(sourceDirectory + " is not a directory on disk");
+        }
+    }
+
     private void parse() {
 //  System.out.println ("ServiceContractModelQDoxLoader: Starting parse");
         services = new ArrayList();
@@ -140,6 +161,7 @@ public class ServiceContractModelQDoxLoader implements
         DefaultDocletTagFactory dtf = new DefaultDocletTagFactory();
         JavaDocBuilder builder = new JavaDocBuilder(dtf);
         for (String sourceDirectory : sourceDirectories) {
+            checkIfExists(sourceDirectory);
             builder.addSourceTree(new File(sourceDirectory));
         }
         List<JavaClass> sortedClasses = Arrays.asList(builder.getClasses());
@@ -159,6 +181,7 @@ public class ServiceContractModelQDoxLoader implements
             service.setVersion(this.calcVersion(javaClass));
             service.setStatus("???");
             service.setIncludedServices(calcIncludedServices(javaClass));
+            service.setImplProject(javaClass.getPackageName());
 
 //   for (DocletTag tag : javaClass.getTags ())
 //   {
@@ -208,11 +231,20 @@ public class ServiceContractModelQDoxLoader implements
                 // return values
                 ServiceMethodReturnValue rv = new ServiceMethodReturnValue();
                 serviceMethod.setReturnValue(rv);
-                rv.setType(calcType(javaMethod.getReturnType()));
+                Type returnType = null;
+                try {
+                    returnType = javaMethod.getReturnType();
+                } catch (NullPointerException ex) {
+                    System.out.println("Nullpinter getting return type: " + javaMethod.getCallSignature());
+                    returnType = null;
+                }
+
+                rv.setType(calcType(returnType));
                 rv.setDescription(calcMissing(this.calcReturnDescription(javaMethod)));
-                addXmlTypeAndMessageStructure(calcRealJavaClass(
-                        javaMethod.getReturnType()),
-                        serviceMethod.getService());
+                if (returnType != null) {
+                    addXmlTypeAndMessageStructure(calcRealJavaClass(returnType),
+                            serviceMethod.getService());
+                }
             }
         }
     }
@@ -236,6 +268,12 @@ public class ServiceContractModelQDoxLoader implements
 //                        + "." + javaClass.getName ());
                 return true;
             }
+        }
+        // This includes RICE's business object services even though they are not web services
+        // because often they are the only real service they have exposed and it helps to document
+        // them to see what the data really is like
+        if (javaClass.getName().endsWith("BoService")) {
+            return true;
         }
 //  System.out.println ("skipping service because it is not a web service="
 //                      + javaClass.getPackageName () + "." + javaClass.getName ());
@@ -306,7 +344,7 @@ public class ServiceContractModelQDoxLoader implements
             xmlType.setService(serviceKey);
             xmlType.setVersion("IGNORE -- SAME AS SERVICE");
             xmlType.setPrimitive(calcPrimitive(messageStructureJavaClass));
-            xmlType.setJavaPackage(calcJavaPackage (messageStructureJavaClass));
+            xmlType.setJavaPackage(calcJavaPackage(messageStructureJavaClass));
             if (xmlType.getPrimitive().equals(XmlType.COMPLEX)) {
                 addMessageStructure(messageStructureJavaClass, serviceKey);
             }
@@ -315,11 +353,11 @@ public class ServiceContractModelQDoxLoader implements
         }
     }
 
-    private String calcJavaPackage (JavaClass javaClass) {
+    private String calcJavaPackage(JavaClass javaClass) {
         String packageName = javaClass.getPackageName();
         return packageName;
     }
-    
+
     private String calcMessageStructureDesc(JavaClass javaClass) {
         {
             String desc = javaClass.getComment();
@@ -432,6 +470,19 @@ public class ServiceContractModelQDoxLoader implements
                     if (value instanceof String) {
                         String shortName = (String) value;
                         shortName = this.stripQuotes(shortName);
+                        if (shortName.contains(".Elements.")) {
+                            String newShortName = getShortNameFromElements(shortName, messageStructureJavaClass);
+                            if (newShortName == null) {
+                                continue;
+                            }
+                            shortName = newShortName;
+                        } else if (shortName.startsWith("CoreConstants.CommonElements.")) {
+                            String newShortName = getCoreConstants(shortName);
+                            if (newShortName == null) {
+                                continue;
+                            }
+                            shortName = newShortName;
+                        }
                         if (shortName.equals("_futureElements")) {
                             continue;
                         }
@@ -445,6 +496,42 @@ public class ServiceContractModelQDoxLoader implements
         return null;
     }
 
+    private String getShortNameFromElements(String shortName, JavaClass messageStructureJavaClass) {
+        JavaClass elementsJavaClass = messageStructureJavaClass.getNestedClassByName("Elements");
+        if (elementsJavaClass == null) {
+            return null;
+        }
+        String fieldName = shortName.substring(shortName.indexOf(".Elements.") + ".Elements.".length());
+        JavaField field = elementsJavaClass.getFieldByName(fieldName);
+        String initExpr = field.getInitializationExpression();
+        return stripQuotes(initExpr);
+    }
+
+    private String getCoreConstants(String shortName) {
+        if (shortName.endsWith("VERSION_NUMBER")) {
+            return "versionNumber";
+        }
+        if (shortName.endsWith("OBJECT_ID")) {
+            return "objectId";
+        }
+        if (shortName.endsWith("ACTIVE")) {
+            return "active";
+        }
+        if (shortName.endsWith("ACTIVE_FROM_DATE")) {
+            return "activeFromDate";
+        }
+        if (shortName.endsWith("ACTIVE_TO_DATE")) {
+            return "activeToDate";
+        }
+        if (shortName.endsWith("ATTRIBUTES")) {
+            return "attributes";
+        }
+        if (shortName.endsWith("FUTURE_ELEMENTS")) {
+            return "_futureElements";
+        }
+        throw new RuntimeException("Unknown shortName " + shortName);
+    }
+
     private void addMessageStructure(JavaClass messageStructureJavaClass,
             String serviceKey) {
         Set<JavaClass> subObjectsToAdd = new LinkedHashSet();
@@ -454,9 +541,11 @@ public class ServiceContractModelQDoxLoader implements
             JavaMethod getterMethod = findGetterMethod(messageStructureJavaClass,
                     shortName);
             if (getterMethod == null) {
-                throw new IllegalArgumentException("shortName has no corresponding getter method: "
-                        + messageStructureJavaClass.getName()
-                        + "." + shortName);
+                if (this.validateKualiStudent) {
+                    throw new IllegalArgumentException("shortName has no corresponding getter method: "
+                            + messageStructureJavaClass.getFullyQualifiedName()
+                            + "." + shortName);
+                }
             }
             JavaField beanField = this.findField(messageStructureJavaClass,
                     shortName, setterMethod);
@@ -488,7 +577,7 @@ public class ServiceContractModelQDoxLoader implements
             ms.setId(ms.getXmlObject() + "." + ms.getShortName());
             ms.setName(calcMissing(calcName(messageStructureJavaClass, getterMethod, setterMethod,
                     beanField, shortName)));
-            ms.setType(calcTypeOfGetterMethodReturn(getterMethod));
+            ms.setType(calcType(messageStructureJavaClass, getterMethod, setterMethod, beanField, shortName));
             if (ms.getType().equals("Object")) {
                 System.out.println("WARNING " + ms.getId()
                         + " has Object as it's type ==> Changing to String");
@@ -502,7 +591,7 @@ public class ServiceContractModelQDoxLoader implements
             ms.setXmlAttribute(this.calcXmlAttribute(beanField));
             ms.setRequired(calcRequired(getterMethod, setterMethod, beanField));
             ms.setReadOnly(calcReadOnly(getterMethod, setterMethod, beanField));
-            ms.setCardinality(this.calcCardinalityOfReturn(getterMethod));
+            ms.setCardinality(this.calcCardinality(messageStructureJavaClass, getterMethod, setterMethod, beanField, shortName));
             ms.setDescription(calcMissing(calcDescription(messageStructureJavaClass, getterMethod, setterMethod,
                     beanField)));
             ms.setImplNotes(calcImplementationNotes(getterMethod, setterMethod, beanField));
@@ -512,14 +601,16 @@ public class ServiceContractModelQDoxLoader implements
 //            }
             ms.setOverriden(this.calcOverridden(messageStructureJavaClass, getterMethod));
             JavaClass subObjToAdd = this.calcRealJavaClassOfGetterReturn(getterMethod);
-            if (!subObjToAdd.isEnum()) {
-                if (!subObjToAdd.getName().equals("Object")) {
-                    if (!subObjToAdd.getName().equals("LocaleKeyList")) {
-                        if (!subObjToAdd.getName().equals("MessageGroupKeyList")) {
-                            subObjectsToAdd.add(subObjToAdd);
+            if (subObjToAdd != null) {
+//                if (!subObjToAdd.isEnum()) {
+                    if (!subObjToAdd.getName().equals("Object")) {
+                        if (!subObjToAdd.getName().equals("LocaleKeyList")) {
+                            if (!subObjToAdd.getName().equals("MessageGroupKeyList")) {
+                                subObjectsToAdd.add(subObjToAdd);
+                            }
                         }
                     }
-                }
+//                }
             }
         }
         // now add all it's complex sub-objects if they haven't already been added
@@ -535,6 +626,9 @@ public class ServiceContractModelQDoxLoader implements
     }
 
     private boolean calcOverridden(JavaClass mainClass, JavaMethod getterMethod) {
+        if (getterMethod == null) {
+            return false;
+        }
         JavaMethod infcGetter = null;
         if (getterMethod.getParentClass().isInterface()) {
             infcGetter = getterMethod;
@@ -632,35 +726,41 @@ public class ServiceContractModelQDoxLoader implements
                 }
             }
         }
-        DocletTag tag = getterMethod.getTagByName("required", true);
-        if (tag != null) {
-            if (tag.getValue() == null) {
-                return "Required";
+        if (getterMethod != null) {
+            DocletTag tag = getterMethod.getTagByName("required", true);
+            if (tag != null) {
+                if (tag.getValue() == null) {
+                    return "Required";
+                }
+                String required = "Required " + tag.getValue();
+                return required.trim();
             }
-            String required = "Required " + tag.getValue();
-            return required.trim();
         }
         return null;
     }
 
     private String calcReadOnly(JavaMethod getterMethod,
             JavaMethod setterMethod, JavaField beanField) {
-        DocletTag tag = getterMethod.getTagByName("readOnly", true);
-        if (tag != null) {
-            if (tag.getValue() == null) {
-                return "Read only";
+        if (getterMethod != null) {
+            DocletTag tag = getterMethod.getTagByName("readOnly", true);
+            if (tag != null) {
+                if (tag.getValue() == null) {
+                    return "Read only";
+                }
+                String readOnly = "Read only " + tag.getValue();
+                return readOnly.trim();
             }
-            String readOnly = "Read only " + tag.getValue();
-            return readOnly.trim();
         }
         return null;
     }
 
     private String calcImplementationNotes(JavaMethod getterMethod,
             JavaMethod setterMethod, JavaField beanField) {
-        DocletTag tag = getterMethod.getTagByName("impl", true);
-        if (tag != null) {
-            return tag.getValue();
+        if (getterMethod != null) {
+            DocletTag tag = getterMethod.getTagByName("impl", true);
+            if (tag != null) {
+                return tag.getValue();
+            }
         }
         return null;
     }
@@ -699,9 +799,11 @@ public class ServiceContractModelQDoxLoader implements
 
     private String calcNameFromTag(JavaMethod getterMethod,
             JavaMethod setterMethod, JavaField beanField) {
-        DocletTag tag = getterMethod.getTagByName("name", true);
-        if (tag != null) {
-            return tag.getValue();
+        if (getterMethod != null) {
+            DocletTag tag = getterMethod.getTagByName("name", true);
+            if (tag != null) {
+                return tag.getValue();
+            }
         }
         return null;
     }
@@ -747,9 +849,11 @@ public class ServiceContractModelQDoxLoader implements
             JavaMethod setterMethod,
             JavaField beanField) {
         String desc = null;
-        desc = getterMethod.getComment();
-        if (isCommentNotEmpty(desc)) {
-            return desc;
+        if (getterMethod != null) {
+            desc = getterMethod.getComment();
+            if (isCommentNotEmpty(desc)) {
+                return desc;
+            }
         }
         if (setterMethod != null) {
             desc = setterMethod.getComment();
@@ -816,7 +920,7 @@ public class ServiceContractModelQDoxLoader implements
 
     private JavaMethod findInterfaceMethod(JavaClass mainClass, JavaMethod method) {
         String callSig = method.getCallSignature();
-        JavaClass classToSearch = mainClass;       
+        JavaClass classToSearch = mainClass;
 //        log ("Searching mainClass " + classToSearch.getName() + " for " + callSig, callSig);
         while (true) {
             for (JavaClass infcClass : classToSearch.getImplementedInterfaces()) {
@@ -825,13 +929,13 @@ public class ServiceContractModelQDoxLoader implements
 //                    recursionCntr = 0;
                     return meth;
                 }
-            }         
+            }
             JavaClass superClass = classToSearch.getSuperJavaClass();
             if (superClass == null) {
 //                recursionCntr = 0;                
 //                log ("Did not find " + callSig + " on " + mainClass, callSig); 
                 return null;
-            }           
+            }
             classToSearch = superClass;
 //            log ("Searching superClass " + classToSearch.getName() + " for " + callSig, callSig);                
         }
@@ -845,7 +949,6 @@ public class ServiceContractModelQDoxLoader implements
 //            System.out.println (message);
 //        }
 //    }
-    
 //    private int recursionCntr = 0;
     private JavaMethod findMethodOnInterfaceRecursively(JavaClass infcClass, String callSig) {
 //        recursionCntr++;
@@ -1157,23 +1260,32 @@ public class ServiceContractModelQDoxLoader implements
                 + " does not start with is or get");
     }
 
-    private String calcCardinalityOfReturn(JavaMethod getterMethod) {
-        if (isReturnAList(getterMethod)) {
+    private String calcCardinality(JavaClass mainClass, JavaMethod getterMethod,
+            JavaMethod setterMethod, JavaField beanField, String shortName) {
+        if (isReturnACollection(mainClass, getterMethod, setterMethod, beanField, shortName)) {
             return "Many";
         }
         return "One";
     }
 
-    private boolean isReturnAList(JavaMethod method) {
-        return isList(method.getReturnType());
+    private boolean isReturnACollection(JavaClass mainClass, JavaMethod getterMethod,
+            JavaMethod setterMethod, JavaField beanField, String shortName) {
+        if (getterMethod != null) {
+            return isCollection(getterMethod.getReturnType());
+        }
+        if (beanField != null) {
+            return isCollection(beanField.getType());
+        }
+        // TODO: check setterMethod
+        return false;
     }
 
-    private boolean isList(Type type) {
+    private boolean isCollection(Type type) {
         JavaClass javaClass = type.getJavaClass();
-        return this.isList(javaClass);
+        return this.isCollection(javaClass);
     }
 
-    private boolean isList(JavaClass javaClass) {
+    private boolean isCollection(JavaClass javaClass) {
         if (javaClass.getName().equals("LocalKeyList")) {
             return true;
         }
@@ -1189,7 +1301,23 @@ public class ServiceContractModelQDoxLoader implements
         if (javaClass.getName().equals(Collection.class.getSimpleName())) {
             return true;
         }
+        if (javaClass.getName().equals(Set.class.getSimpleName())) {
+            return true;
+        }
         return false;
+    }
+
+    private String calcType(JavaClass mainClass, JavaMethod getterMethod,
+            JavaMethod setterMethod, JavaField beanField, String shortName) {
+        if (getterMethod != null) {
+            return calcTypeOfGetterMethodReturn(getterMethod);
+        }
+        if (beanField != null) {
+            Type type = beanField.getType();
+            return calcType(type);
+        }
+        // TODO: calc type based on the setterMethod
+        return null;
     }
 
     private String calcTypeOfGetterMethodReturn(JavaMethod getterMethod) {
@@ -1207,7 +1335,10 @@ public class ServiceContractModelQDoxLoader implements
     }
 
     private String calcType(Type type) {
-        if (isList(type.getJavaClass())) {
+        if (type == null) {
+            return "void";
+        }
+        if (isCollection(type.getJavaClass())) {
             return calcType(calcRealJavaClass(type)) + "List";
         }
         return calcType(calcRealJavaClass(type));
@@ -1256,6 +1387,9 @@ public class ServiceContractModelQDoxLoader implements
     }
 
     private JavaClass calcRealJavaClassOfGetterReturn(JavaMethod getterMethod) {
+        if (getterMethod == null) {
+            return null;
+        }
         Type type = getterMethod.getReturnType();
         return this.calcRealJavaClass(type);
     }
@@ -1271,6 +1405,9 @@ public class ServiceContractModelQDoxLoader implements
     }
 
     private JavaClass calcRealJavaClass(Type type) {
+        if (type == null) {
+            return null;
+        }
         JavaClass javaClass = type.getJavaClass();
         if (javaClass.getName().equals(LOCALE_KEY_LIST)) {
             return STRING_JAVA_CLASS;
@@ -1278,7 +1415,7 @@ public class ServiceContractModelQDoxLoader implements
         if (javaClass.getName().equals(MESSAGE_GROUP_KEY_LIST)) {
             return STRING_JAVA_CLASS;
         }
-        if (!this.isList(javaClass)) {
+        if (!this.isCollection(javaClass)) {
             return javaClass;
         }
 

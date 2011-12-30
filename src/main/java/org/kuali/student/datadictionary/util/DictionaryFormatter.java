@@ -909,7 +909,7 @@ public class DictionaryFormatter {
 //        for (RequiredConstraint rc : ad.getRequireConstraint()) {
 //            b.append(comma);
 //            comma = ", ";
-//            b.append(rc.getFieldPath());
+//            b.append(rc.getPropertyName());
 //        }
 //        if (ad.getRequireConstraint().size() == 1) {
 //            b.append(" is");
@@ -930,7 +930,7 @@ public class DictionaryFormatter {
             b.append("\\\\");
             b.append("\n");
             b.append("when ");
-            b.append(cc.getFieldPath());
+            b.append(cc.getPropertyName());
             b.append(" ");
             if (!cc.isCaseSensitive()) {
                 b.append("ignoring case ");

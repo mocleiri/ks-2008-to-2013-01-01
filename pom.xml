@@ -15,7 +15,7 @@
     <description>Generates documentation for Kuali Student service contracts</description>
     <properties>
 <!--        <cxf.version>2.2.10</cxf.version>-->
-        <kuali.rice.version>2.0.0-m8</kuali.rice.version>
+        <kuali.rice.version>2.0.0-b1</kuali.rice.version>
     </properties>
     <repositories>
         <repository>

@@ -68,11 +68,20 @@ public class HtmlContractWriterTest {
             "C:/svn/ks-1.3/ks-lum/ks-lum-api/src/main/java";
     private static final String RICE_DIRECTORY =
             "C:/svn/rice/rice-release-1-0-2-1-br/api/src/main/java";
+    private static final String RICE_CORE_API_DIRECTORY = "C:/svn/rice/trunk/core/api/src/main/java";
+    private static final String RICE_KIM_API_DIRECTORY = "C:/svn/rice/trunk/kim/kim-api/src/main/java";
+    private static final String RICE_LOCATION_API_DIRECTORY = "C:/svn/rice/trunk/location/api/src/main/java";
+    private static final String RICE_KEW_API_DIRECTORY = "C:/svn/rice/trunk/kew/api/src/main/java";
+    private static final String RICE_KEN_API_DIRECTORY = "C:/svn/rice/trunk/ken/api/src/main/java";
+    private static final String RICE_KSB_API_DIRECTORY = "C:/svn/rice/trunk/ksb/api/src/main/java";
+    private static final String RICE_KRMS_API_DIRECTORY = "C:/svn/rice/trunk/krms/api/src/main/java";
+    private static final String RICE_KRMS_IMPL_DIRECTORY = "C:/svn/rice/trunk/krms/impl/src/main/java";
     private static final String TEST_SOURCE_DIRECTORY =
             "src/test/java/org/kuali/student/contract/model/test/source";
     private static final String HTML_CONTRACT_DIRECTORY = "target/html/contract";
     private static final String HTML_CONTRACT_DIRECTORY_TEST = HTML_CONTRACT_DIRECTORY + "/test";    
     private static final String HTML_CONTRACT_DIRECTORY_ENROLL = HTML_CONTRACT_DIRECTORY + "/enroll";         
+    private static final String HTML_CONTRACT_DIRECTORY_RICE = HTML_CONTRACT_DIRECTORY + "/rice";      
     private static final String HTML_CONTRACT_DIRECTORY_PESC = HTML_CONTRACT_DIRECTORY + "/pesc";    
     private static final String RESOURCES_DIRECTORY =
             // "C:/svn/student/ks-core/ks-core-api/src/main/java";
@@ -91,9 +100,27 @@ public class HtmlContractWriterTest {
 
     }
     
+    private ServiceContractModel getRiceModel() {
+        List<String> srcDirs = new ArrayList<String>();
+//        srcDirs.add(TEST_SOURCE_DIRECTORY);
+        srcDirs.add(RICE_CORE_API_DIRECTORY); 
+        srcDirs.add(RICE_KIM_API_DIRECTORY); 
+        srcDirs.add(RICE_LOCATION_API_DIRECTORY); 
+        srcDirs.add(RICE_KEW_API_DIRECTORY); 
+        srcDirs.add(RICE_KEN_API_DIRECTORY); 
+        srcDirs.add(RICE_KSB_API_DIRECTORY); 
+        srcDirs.add(RICE_KRMS_API_DIRECTORY); 
+		srcDirs.add(RICE_KRMS_IMPL_DIRECTORY);
+//		srcDirs.add(CORE_DIRECTORY);
+//		srcDirs.add(COMMON_DIRECTORY);
+//		srcDirs.add(LUM_DIRECTORY);
+        ServiceContractModel instance = new ServiceContractModelQDoxLoader(
+                srcDirs, false);
+        return new ServiceContractModelCache(instance);
+
+    }    
     
-    
-     private ServiceContractModel getEnrollModel() {
+    private ServiceContractModel getEnrollModel() {
         List<String> srcDirs = new ArrayList<String>();
 //        srcDirs.add(TEST_SOURCE_DIRECTORY);
 		srcDirs.add(ENROLL_PROJECT_SOURCE_DIRECTORY);
@@ -144,7 +171,7 @@ public class HtmlContractWriterTest {
     /**
      * Test of run
      */
-    @Test
+//    @Test
     public void testRunPesc() {
         ServiceContractModel model = null;
         HtmlContractWriter writer = null;
@@ -190,7 +217,7 @@ public class HtmlContractWriterTest {
     /**
      * Test of run
      */
-    @Test
+//    @Test
     public void testEnrollRun () {
         ServiceContractModel model = null;
         HtmlContractWriter writer = null;
@@ -198,6 +225,22 @@ public class HtmlContractWriterTest {
         model = this.getEnrollModel();
         this.validate(model);
         writer = new HtmlContractWriter(HTML_CONTRACT_DIRECTORY_ENROLL, model);
+        writer.write();
+
+//        assertTrue(new File(HTML_CONTRACT_DIRECTORY_ENROLL + "/" + "index.html").exists());
+    }
+    
+    /**
+     * Test of run
+     */
+//    @Test
+    public void testRiceRun () {
+        ServiceContractModel model = null;
+        HtmlContractWriter writer = null;
+
+        model = this.getRiceModel();
+        this.validate(model);
+        writer = new HtmlContractWriter(HTML_CONTRACT_DIRECTORY_RICE, model);
         writer.write();
 
 //        assertTrue(new File(HTML_CONTRACT_DIRECTORY_ENROLL + "/" + "index.html").exists());

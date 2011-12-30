@@ -62,7 +62,9 @@ public class KSDictionaryDocMojoTest {
         supportFiles.add("ks-base-dictionary-validchars.xml");
         supportFiles.add("org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml");
         supportFiles.add("org/kuali/rice/krad/uif/UifControlDefinitions.xml");
-        supportFiles.add("org/kuali/rice/krad/uif/UifMiscDefinitions.xml");
+        supportFiles.add("org/kuali/rice/krad/uif/UifWidgetDefinitions.xml");        
+        supportFiles.add("org/kuali/rice/krad/uif/UifFieldDefinitions.xml");
+        supportFiles.add("org/kuali/rice/krad/uif/UifGroupDefinitions.xml");
         instance.setSupportFiles(supportFiles);        
         List<String> inputFiles = new ArrayList ();
         inputFiles.add("ks-AtpInfo-dictionary.xml");        

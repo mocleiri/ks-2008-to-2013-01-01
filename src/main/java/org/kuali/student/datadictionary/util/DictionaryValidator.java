@@ -289,11 +289,11 @@ public class DictionaryValidator {
                         + cc.getOperator());
             }
         }
-        if (cc.getFieldPath() == null) {
+        if (cc.getPropertyName() == null) {
             errors.add(
                     "field " + fd.getName()
                     + " has a case constraint with a null for the field to use for the comparison");
-        } else if (cc.getFieldPath().trim().equals("")) {
+        } else if (cc.getPropertyName().trim().equals("")) {
             errors.add(
                     "field " + fd.getName()
                     + " has a case constraint with blanks for the field to use for the comparison");
