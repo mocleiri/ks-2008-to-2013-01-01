@@ -1346,6 +1346,7 @@ public class ServiceContractModelQDoxLoader implements
 
     private String calcType(JavaClass javaClass) {
         if (javaClass.isEnum()) {
+            // TODO: instead of hand mapping this take it based on the class in the @XmlEnum(String.class) tag
             if (javaClass.getName().equals("ErrorLevel")) {
                 return "Integer";
             }
@@ -1365,6 +1366,9 @@ public class ServiceContractModelQDoxLoader implements
                 return "String";
             }
             if (javaClass.getName().equals("Usage")) {
+                return "String";
+            }
+            if (javaClass.getName().equals("StatementOperator")) {
                 return "String";
             }
         }
