@@ -354,6 +354,16 @@ public class ModelFinder {
         return null;
     }
 
+    public List<ServiceMethod> findServiceMethods(String service) {
+        List<ServiceMethod> methods = new ArrayList<ServiceMethod>();
+        for (ServiceMethod method : serviceContractModel.getServiceMethods()) {
+            if (method.getService().equalsIgnoreCase(service)) {
+                methods.add(method);
+            }
+        }
+        return methods;
+    }
+
     public ServiceMethod findServiceMethod(String service, String name) {
         for (ServiceMethod method : serviceContractModel.getServiceMethods()) {
             if (method.getService().equalsIgnoreCase(service)) {
