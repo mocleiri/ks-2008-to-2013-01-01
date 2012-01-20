@@ -15,6 +15,7 @@
  */
 package org.kuali.student.contract.model.util;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -173,9 +174,21 @@ public class HtmlContractMessageStructureWriter {
         return str.replaceAll("(\r\n|\r|\n|\n\r)", "<br>");
     }
 
+    public static Set<String> calcUsageByService(ServiceContractModel mdl, XmlType xmlType) {
+        Set<String> services = new HashSet();
+        for (ServiceMethod method : calcUsageByMethods(mdl, xmlType)) {
+            services.add(method.getService());
+        }
+        return services;
+    }
+
     private Set<ServiceMethod> calcUsageByMethods(XmlType xmlType) {
+        return calcUsageByMethods(model, xmlType);
+    }
+
+    public static Set<ServiceMethod> calcUsageByMethods(ServiceContractModel mdl, XmlType xmlType) {
         Set<ServiceMethod> methods = new LinkedHashSet();
-        for (ServiceMethod method : model.getServiceMethods()) {
+        for (ServiceMethod method : mdl.getServiceMethods()) {
             if (stripListFromType(method.getReturnValue().getType()).equalsIgnoreCase(xmlType.getName())) {
                 methods.add(method);
                 continue;

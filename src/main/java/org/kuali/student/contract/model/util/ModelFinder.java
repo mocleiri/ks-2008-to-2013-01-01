@@ -384,6 +384,17 @@ public class ModelFinder {
         }
         return list;
     }
+
+    public MessageStructure findMessageStructure(String xmlType, String shortName) {
+        for (MessageStructure ms : serviceContractModel.getMessageStructures()) {
+            if (ms.getXmlObject().equalsIgnoreCase(xmlType)) {
+                if (ms.getShortName().equalsIgnoreCase(shortName)) {
+                    return ms;
+                }
+            }
+        }
+        return null;
+    }
     private Type defaultType = null;
 
     public Type getDefaultType() {
@@ -417,4 +428,3 @@ public class ModelFinder {
         return defaultState;
     }
 }
-
