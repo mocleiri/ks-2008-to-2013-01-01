@@ -90,6 +90,17 @@ public class R1R2ServiceContractComparisonTest {
     private static ServiceContractModel model1 = null;
     private static ServiceContractModel model2 = null;
 
+    /**
+     * Test of getServiceMethods method, of class ServiceContractModelQDoxLoader.
+     */
+    @Test
+    public void testCompareModels() {
+        System.out.println("compareModels");
+        compareTypes();
+        System.out.println("===== service method comparison ====");
+        compareMethods();
+    }
+
     private ServiceContractModel getModel1() {
         if (model1 != null) {
             return model1;
@@ -117,7 +128,7 @@ public class R1R2ServiceContractComparisonTest {
         System.out.println("User directory=" + System.getProperty("user.dir"));
         System.out.println("Current directory=" + new File(".").getAbsolutePath());
         srcDirs.add(ENROLL_PROJECT_JAVA_DIRECTORY);
-        boolean validateKualiStudent = false;
+        boolean validateKualiStudent = true;
         ServiceContractModel instance = new ServiceContractModelQDoxLoader(srcDirs, validateKualiStudent);
 
         instance = new ServiceContractModelCache(instance);
@@ -175,27 +186,25 @@ public class R1R2ServiceContractComparisonTest {
         return finder2;
     }
 
-    /**
-     * Test of getServiceMethods method, of class ServiceContractModelQDoxLoader.
-     */
-    @Test
-    public void testCompareModels() {
-        System.out.println("compareModels");
-//        compareTypes();
-        System.out.println("===== service method comparison ====");
-        compareMethods();
-    }
-
     private void compareMethods() {
         for (ServiceMethod method : model1.getServiceMethods()) {
             findCompareMethod(method);
         }
     }
-
+            
     private ServiceMethod findMethod(ServiceMethod method1) {
         ServiceMethod method2 = finder2.findServiceMethod(method1.getService(), method1.getName());
+        if (method2 == null) {
+            if (method1.getService().equals("LuService")) {
+                method2 = finder2.findServiceMethod("CluService", method1.getName());
+                if (method2 == null) {
+                    method2 = finder2.findServiceMethod("LuiService", method1.getName());
+                }
+            }
+        }
         return method2;
     }
+
     private String calcMethods(ServiceMethod method1) {
         StringBuilder bldr = new StringBuilder();
         String comma = "";
@@ -206,7 +215,7 @@ public class R1R2ServiceContractComparisonTest {
         }
         return bldr.toString();
     }
-    
+
     private String calcPossibleMethods(ServiceMethod method1) {
         StringBuilder bldr = new StringBuilder();
         String comma = "";
@@ -248,16 +257,16 @@ public class R1R2ServiceContractComparisonTest {
         ServiceMethod method2 = findMethod(method1);
         if (method2 == null) {
 //            String possibleMethods = calcPossibleMethods(method1);
-            if (isTypeMethod (method1)) {
-                System.out.println("# (*g) " + method1.getService() + "." + method1.getName() + " has no corresponding method in r2 -- is a type method use TypeService instead"); 
+            if (isTypeMethod(method1)) {
+                System.out.println("# (*g) " + method1.getService() + "." + method1.getName() + " has no corresponding method in r2 -- is a type method use TypeService instead");
                 return;
             }
             System.out.println("# " + method1.getService() + "." + method1.getName() + " has no corresponding method in r2: " + this.calcPossibleMethods(method1));
             return;
         }
     }
-    
-    private boolean isTypeMethod (ServiceMethod method1) {
+
+    private boolean isTypeMethod(ServiceMethod method1) {
         if (method1.getReturnValue().getType().endsWith("TypeInfo")) {
             return true;
         }
@@ -342,7 +351,7 @@ public class R1R2ServiceContractComparisonTest {
         knownFieldRenames = renames;
         return;
     }
-
+    
     private XmlType findType(XmlType r1) {
         XmlType r2 = finder2.findXmlType(r1.getName());
         if (r2 == null) {
