@@ -67,6 +67,7 @@ public class R1R2ServiceContractComparisonTest {
         loadKnownObjectRenames();
         loadKnownUnconvertedObjects();
         loadKnownFieldRenames();
+        loadKnownFieldIssues();
     }
 
     @After
@@ -75,7 +76,7 @@ public class R1R2ServiceContractComparisonTest {
     private static final String RESOURCES_DIRECTORY = "src/test/resources";
     private static final String TEST_SOURCE_DIRECTORY =
             "src/test/java/org/kuali/student/contract/model/test/source";
-    private static final String ENROLL_PROJECT_SRC_MAIN = "C:/svn/ks-1.3/ks-enroll/ks-enroll-api/src/main";
+    private static final String ENROLL_PROJECT_SRC_MAIN = "C:/svn/ks-1.3-services/ks-enroll/ks-enroll-api/src/main";
     private static final String ENROLL_PROJECT_JAVA_DIRECTORY = ENROLL_PROJECT_SRC_MAIN + "/java";
     private static final String RICE_CORE_API_DIRECTORY = "C:/svn/rice/trunk/core/api/src/main/java";
     private static final String RICE_KIM_API_DIRECTORY = "C:/svn/rice/trunk/kim/kim-api/src/main/java";
@@ -84,9 +85,10 @@ public class R1R2ServiceContractComparisonTest {
     private static final String RICE_KEN_API_DIRECTORY = "C:/svn/rice/trunk/ken/api/src/main/java";
     private static final String RICE_KSB_API_DIRECTORY = "C:/svn/rice/trunk/ksb/api/src/main/java";
     private static final String RICE_KRMS_API_DIRECTORY = "C:/svn/rice/trunk/krms/api/src/main/java";
-    private static final String CORE_API_DIRECTORY = "C:/svn/ks-1.3/ks-core/ks-core-api/src/main/java";
-    private static final String COMMON_API_DIRECTORY = "C:/svn/ks-1.3/ks-common/ks-common-api/src/main/java";
-    private static final String LUM_API_DIRECTORY = "C:/svn/ks-1.3/ks-lum/ks-lum-api/src/main/java";
+    private static final String R1_PROJECT_DIRECTORY = "C:/svn/student/";
+    private static final String CORE_API_DIRECTORY = R1_PROJECT_DIRECTORY + "ks-core/ks-core-api/src/main/java";
+    private static final String COMMON_API_DIRECTORY = R1_PROJECT_DIRECTORY + "ks-common/ks-common-api/src/main/java";
+    private static final String LUM_API_DIRECTORY = R1_PROJECT_DIRECTORY + "ks-lum/ks-lum-api/src/main/java";
     private static ServiceContractModel model1 = null;
     private static ServiceContractModel model2 = null;
 
@@ -191,7 +193,7 @@ public class R1R2ServiceContractComparisonTest {
             findCompareMethod(method);
         }
     }
-            
+
     private ServiceMethod findMethod(ServiceMethod method1) {
         ServiceMethod method2 = finder2.findServiceMethod(method1.getService(), method1.getName());
         if (method2 == null) {
@@ -324,6 +326,21 @@ public class R1R2ServiceContractComparisonTest {
         missings.add("ScaleInfo");
         missings.add("GradeInfo");
         missings.add("ResultComponentInfo");
+        missings.add("QueryParamInfo");
+        missings.add("FieldDescriptor");
+        missings.add("SearchSelector");
+        missings.add("ObjectStructure");
+        missings.add("Type");
+        missings.add("State");
+        missings.add("Field");
+        missings.add("ConstraintDescriptor");
+        missings.add("ConstraintSelector");
+        missings.add("RequireConstraint");
+        missings.add("TypeStateCaseConstraint");
+        missings.add("TypeStateWhenConstraint");
+        missings.add("OccursConstraint");
+        missings.add("ResultColumnInfo");
+        missings.add("SearchCriteriaTypeInfo");
         knownUnconvertedObjects = missings;
         return;
     }
@@ -332,6 +349,12 @@ public class R1R2ServiceContractComparisonTest {
     private void loadKnownObjectRenames() {
         Map<String, String> renames = new HashMap<String, String>();
         renames.put("Message", "MessageInfo");
+        renames.put("SearchRequest", "SearchRequestInfo");
+        renames.put("SearchResult", "SearchResultInfo");
+        renames.put("SearchParam", "SearchParamInfo");
+        renames.put("SearchResultRow", "SearchResultRowInfo");
+        renames.put("SearchResultCell", "SearchResultCellInfo");
+        renames.put("Message", "MessageInfo");
         knownObjectRenames = renames;
         return;
     }
@@ -339,6 +362,7 @@ public class R1R2ServiceContractComparisonTest {
 
     private void loadKnownFieldRenames() {
         Map<String, String> renames = new HashMap<String, String>();
+        renames.put("id", "key"); // not all the time but when it happens want to catch if id not found
         renames.put("desc", "descr");
         renames.put("state", "stateKey");
         renames.put("type", "typeKey");
@@ -348,10 +372,54 @@ public class R1R2ServiceContractComparisonTest {
         renames.put("endTerm", "endTermId");
         renames.put("longDesc", "longDescr");
         renames.put("shortDesc", "shortDescr");
+        renames.put("objectTypeURI", "refObjectUri");
+        renames.put("detailDesc", "descr");
         knownFieldRenames = renames;
         return;
     }
-    
+    private Map<String, String> knownFieldIssues = null;
+
+    private void loadKnownFieldIssues() {
+        Map<String, String> issues = new HashMap<String, String>();
+        issues.put("AtpInfo.key", "Switched from key to Id");
+        issues.put("MilestoneInfo.key", "Switched from key to Id");
+        issues.put("AtpInfo.id", ""); // suppress the extra field message from the r2 side
+        issues.put("MilestoneInfo.id", ""); // ditto
+        issues.put("Message.locale", "the type was changed from String to LocaleInfo to hold the different parts of the locale info");
+        issues.put("SearchRequest.params", "");
+        issues.put("SearchResult.rows", "");
+        issues.put("SearchResultRow.cells", "");
+        issues.put("ValidationResultInfo.errorLevel", "");
+        issues.put("ValidationResultInfo.level", "");
+        issues.put("ValidationResultInfo.ok", "");
+        issues.put("ValidationResultInfo.warn", "");
+        issues.put("ValidationResultInfo.error", "");
+        issues.put("DocumentInfo.documentBinaryInfo", "renamd to just documentBinary (removing the trailing Info from the field name)");
+        issues.put("OrgHierarchyInfo.key", "Switched from key to Id");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+
+        knownFieldIssues = issues;
+        return;
+    }
+
     private XmlType findType(XmlType r1) {
         XmlType r2 = finder2.findXmlType(r1.getName());
         if (r2 == null) {
@@ -380,18 +448,57 @@ public class R1R2ServiceContractComparisonTest {
             System.out.println("# " + calcService(r1) + " Service:" + r1.getName() + " has no corresponding object in r2");
             return;
         }
+        Set<MessageStructure> usedInR2 = new HashSet<MessageStructure>();
         for (MessageStructure ms : finder1.findMessageStructures(r1.getName())) {
-            findCompareMessageStructure(ms, r2);
+            MessageStructure used = findCompareMessageStructure(ms, r2);
+            if (used != null) {
+                usedInR2.add(used);
+            }
+        }
+        // Don't report extra fields on type info
+        if (!r2.getName().equals("TypeInfo")) {
+            for (MessageStructure ms : finder2.findMessageStructures(r2.getName())) {
+                if (usedInR2.contains(ms)) {
+                    continue;
+                }
+                String issue = this.knownFieldIssues.get(ms.getXmlObject() + "." + ms.getShortName());
+                if (issue != null) {
+                    if (!issue.isEmpty()) {
+                        System.out.println("# (/) " + ms.getXmlObject() + "." + ms.getShortName() + ": " + issue);
+                    }
+                    continue;
+                }
+                System.out.println("# " + calcService(r1) + " Service: " + ms.getXmlObject() + "." + ms.getShortName() + " - new field added in R2");
+            }
         }
     }
 
-    private void findCompareMessageStructure(MessageStructure r1, XmlType xmlType2) {
+    private MessageStructure findCompareMessageStructure(MessageStructure r1, XmlType xmlType2) {
         MessageStructure r2 = findMessageStructure(r1, xmlType2);
+        String issue = this.knownFieldIssues.get(r1.getXmlObject() + "." + r1.getShortName());
+        if (issue != null) {
+            if (!issue.isEmpty()) {
+                System.out.println("# (/) " + r1.getXmlObject() + "." + r1.getShortName() + ": " + issue);
+            }
+            return r2;
+        }
         if (r2 == null) {
+            if (xmlType2.getName().equals("TypeInfo")) {
+                if (r1.getShortName().endsWith("Type")
+                        || r1.getShortName().endsWith("TypeInfo")
+                        || r1.getShortName().endsWith("Types")
+                        || r1.getShortName().endsWith("TypeInfos")) {
+                    System.out.println("# (/) " + r1.getXmlObject() + "." + r1.getShortName() + " was extra data on type: use type-type relationship instead");
+                    return null;
+                }
+                System.out.println("# (?) " + r1.getXmlObject() + "." + r1.getShortName() + " was extra data on type, store in dynamic attribute?");
+                return null;
+            }
             System.out.println("# " + r1.getXmlObject() + "." + r1.getShortName() + " not found in r2: renamed to one of these? " + calcFieldNames(xmlType2));
-            return;
+            return null;
         }
         compareType(r1, r2);
+        return r2;
     }
 
     private void compareType(MessageStructure r1, MessageStructure r2) {

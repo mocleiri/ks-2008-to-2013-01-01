@@ -271,18 +271,22 @@ public class DictionaryFormatter {
         out.println("Default Control");
         out.println("</th>");
         out.println("</tr>");
-        this.writeAttributes(out, doe, new Stack<String>());
+        this.writeAttributes(out, doe, new Stack<String>(), new Stack<DataObjectEntry>());
         out.println("</table>");
         return;
     }
 
-    private void writeAttributes(PrintStream out, DataObjectEntry ode, Stack<String> parents) {
+    private void writeAttributes(PrintStream out, DataObjectEntry ode, Stack<String> parentNames, Stack<DataObjectEntry> parents) {
+        // stop recursion
+        if (parents.contains(ode)) {
+            return;
+        }
 //        for (AttributeDefinition ad : getSortedFields()) {
         if (ode.getAttributes() != null) {
             for (AttributeDefinition ad : ode.getAttributes()) {
                 out.println("<tr>");
                 out.println("<td>");
-                out.println(nbsp(calcName(ad.getName(), parents)));
+                out.println(nbsp(calcName(ad.getName(), parentNames)));
                 out.println("</td>");
                 out.println("<td>");
                 out.println(nbsp(calcRequired(ad)));
@@ -333,7 +337,7 @@ public class DictionaryFormatter {
             for (ComplexAttributeDefinition cad : ode.getComplexAttributes()) {
                 out.println("<tr>");
                 out.println("<td>");
-                out.println(nbsp(calcName(cad.getName(), parents)));
+                out.println(nbsp(calcName(cad.getName(), parentNames)));
                 out.println("</td>");
                 out.println("<td>");
                 out.println(nbsp(calcRequired(cad)));
@@ -378,8 +382,10 @@ public class DictionaryFormatter {
                 out.println(nbsp(null));
                 out.println("</td>");
                 out.println("</tr>");
-                parents.push(cad.getName());
-                this.writeAttributes(out, (DataObjectEntry) cad.getDataObjectEntry(), parents);
+                parentNames.push(cad.getName());
+                parents.push(ode);
+                this.writeAttributes(out, (DataObjectEntry) cad.getDataObjectEntry(), parentNames, parents);
+                parentNames.pop();
                 parents.pop();
             }
         }
@@ -387,7 +393,7 @@ public class DictionaryFormatter {
             for (CollectionDefinition cd : ode.getCollections()) {
                 out.println("<tr>");
                 out.println("<td>");
-                out.println(nbsp(calcName(cd.getName(), parents)));
+                out.println(nbsp(calcName(cd.getName(), parentNames)));
                 out.println("</td>");
                 out.println("<td>");
                 out.println(nbsp(calcRequired(cd)));
@@ -436,10 +442,12 @@ public class DictionaryFormatter {
                 if (childDoe == null) {
                     // TODO: uncomment this but right now there are xml files that don't have one defined and it seems to work so...
 //                    throw new NullPointerException ("Could not find a data object entry, " + cd.getDataObjectClass() + " for field " + calcName(cd.getName(), parents));
-                    System.out.println("Could not find a data object entry, " + cd.getDataObjectClass() + " for field " + calcName(cd.getName(), parents));
+                    System.out.println("Could not find a data object entry, " + cd.getDataObjectClass() + " for field " + calcName(cd.getName(), parentNames));
                 } else {
-                    parents.push(cd.getName());
-                    this.writeAttributes(out, (DataObjectEntry) childDoe, parents);
+                    parentNames.push(cd.getName());
+                    parents.push(ode);
+                    this.writeAttributes(out, (DataObjectEntry) childDoe, parentNames, parents);
+                    parentNames.pop();
                     parents.pop();
                 }
             }
