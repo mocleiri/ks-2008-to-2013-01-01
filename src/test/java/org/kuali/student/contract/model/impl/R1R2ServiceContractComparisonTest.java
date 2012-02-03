@@ -18,6 +18,7 @@ package org.kuali.student.contract.model.impl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -30,8 +31,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import org.junit.Ignore;
 import org.kuali.student.contract.model.MessageStructure;
+import org.kuali.student.contract.model.Service;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.ServiceMethod;
 import org.kuali.student.contract.model.ServiceMethodParameter;
@@ -60,7 +61,18 @@ public class R1R2ServiceContractComparisonTest {
 
     @Before
     public void setUp() {
+
+        System.out.println("This section was created by programmatically comparing the message structures.");
+        System.out.println("Run on: " + new Date());
+        System.out.println("See [R1R2ServiceContractComparisonTest.java|https://test.kuali.org/svn/student/tools/maven-kscontractdoc-plugin/trunk/src/test/java/org/kuali/student/contract/model/impl/R1R2ServiceContractComparisonTest.java]");
+        System.out.println("");
+        System.out.println("*TABLE OF CONTENTS*");
+        System.out.println("{toc}");
+        System.out.println("");
+        System.out.println("h1. Loading models of the contracts from the source code");
+        System.out.println("h2. Log from loading model #1");
         getModel1();
+        System.out.println("h2. Log from loading model #2");
         getModel2();
         getFinder1();
         getFinder2();
@@ -68,6 +80,7 @@ public class R1R2ServiceContractComparisonTest {
         loadKnownUnconvertedObjects();
         loadKnownFieldRenames();
         loadKnownFieldIssues();
+        loadKnownMethodRenames();
     }
 
     @After
@@ -97,9 +110,11 @@ public class R1R2ServiceContractComparisonTest {
      */
     @Test
     public void testCompareModels() {
-        System.out.println("compareModels");
+        System.out.println("");
+        System.out.println("h1. Message Structure Comparison");
         compareTypes();
-        System.out.println("===== service method comparison ====");
+        System.out.println("");
+        System.out.println("h1. Service Method Comparison");
         compareMethods();
     }
 
@@ -188,99 +203,13 @@ public class R1R2ServiceContractComparisonTest {
         return finder2;
     }
 
-    private void compareMethods() {
-        for (ServiceMethod method : model1.getServiceMethods()) {
-            findCompareMethod(method);
-        }
-    }
-
-    private ServiceMethod findMethod(ServiceMethod method1) {
-        ServiceMethod method2 = finder2.findServiceMethod(method1.getService(), method1.getName());
-        if (method2 == null) {
-            if (method1.getService().equals("LuService")) {
-                method2 = finder2.findServiceMethod("CluService", method1.getName());
-                if (method2 == null) {
-                    method2 = finder2.findServiceMethod("LuiService", method1.getName());
-                }
-            }
-        }
-        return method2;
-    }
-
-    private String calcMethods(ServiceMethod method1) {
-        StringBuilder bldr = new StringBuilder();
-        String comma = "";
-        for (ServiceMethod method2 : finder2.findServiceMethods(method1.getService())) {
-            bldr.append(comma);
-            comma = ", ";
-            bldr.append(method2.getName());
-        }
-        return bldr.toString();
-    }
-
-    private String calcPossibleMethods(ServiceMethod method1) {
-        StringBuilder bldr = new StringBuilder();
-        String comma = "";
-        for (ServiceMethod method2 : findPossibleMethods(method1)) {
-            bldr.append(comma);
-            comma = ", ";
-            bldr.append(method2.getName());
-        }
-        return bldr.toString();
-    }
-
-    private List<ServiceMethod> findPossibleMethods(ServiceMethod method1) {
-        List<ServiceMethod> methods = new ArrayList<ServiceMethod>();
-        for (ServiceMethod method2 : finder2.findServiceMethods(method1.getService())) {
-            if (isPossibleMatch(method1, method2)) {
-                methods.add(method2);
-            }
-        }
-        return methods;
-    }
-
-    private boolean isPossibleMatch(ServiceMethod method1, ServiceMethod method2) {
-        if (!method1.getService().equalsIgnoreCase(method2.getService())) {
-            return false;
-        }
-        if (method1.getName().contains(method2.getName())) {
-            return true;
-        }
-        if (method2.getName().contains(method1.getName())) {
-            return true;
-        }
-        if (method1.getName().substring(0, 5).equals(method2.getName().substring(0, 5))) {
-            return true;
-        }
-        return false;
-    }
-
-    private void findCompareMethod(ServiceMethod method1) {
-        ServiceMethod method2 = findMethod(method1);
-        if (method2 == null) {
-//            String possibleMethods = calcPossibleMethods(method1);
-            if (isTypeMethod(method1)) {
-                System.out.println("# (*g) " + method1.getService() + "." + method1.getName() + " has no corresponding method in r2 -- is a type method use TypeService instead");
-                return;
-            }
-            System.out.println("# " + method1.getService() + "." + method1.getName() + " has no corresponding method in r2: " + this.calcPossibleMethods(method1));
-            return;
-        }
-    }
-
-    private boolean isTypeMethod(ServiceMethod method1) {
-        if (method1.getReturnValue().getType().endsWith("TypeInfo")) {
-            return true;
-        }
-        if (method1.getReturnValue().getType().endsWith("TypeInfoList")) {
-            return true;
-        }
-        return false;
-    }
-
     private void compareTypes() {
-        for (XmlType type : model1.getXmlTypes()) {
-            findCompareType(type);
+        for (Service service : model1.getServices()) {
+            System.out.println("");
+            System.out.println("h2. " + service.getName());
+            for (XmlType type : finder1.findAllComplexTypesInService(service.getKey())) {
+                findCompareType(type);
+            }
         }
     }
 
@@ -305,42 +234,46 @@ public class R1R2ServiceContractComparisonTest {
         }
         return bldr.toString();
     }
-    private Set<String> knownUnconvertedObjects = null;
+    private Map<String, String> knownUnconvertedObjects = null;
 
     private void loadKnownUnconvertedObjects() {
-        Set<String> missings = new HashSet<String>();
-        missings.add("ObjectStructureDefinition");
-        missings.add("FieldDefinition");
-        missings.add("ValidCharsConstraint");
-        missings.add("RequiredConstraint");
-        missings.add("CaseConstraint");
-        missings.add("WhenConstraint");
-        missings.add("Constraint");
-        missings.add("MustOccurConstraint");
-        missings.add("LookupConstraint");
-        missings.add("CommonLookupParam");
-        missings.add("CommonLookup");
-        missings.add("DateRangeInfo");
-        missings.add("CredentialInfo");
-        missings.add("CreditInfo");
-        missings.add("ScaleInfo");
-        missings.add("GradeInfo");
-        missings.add("ResultComponentInfo");
-        missings.add("QueryParamInfo");
-        missings.add("FieldDescriptor");
-        missings.add("SearchSelector");
-        missings.add("ObjectStructure");
-        missings.add("Type");
-        missings.add("State");
-        missings.add("Field");
-        missings.add("ConstraintDescriptor");
-        missings.add("ConstraintSelector");
-        missings.add("RequireConstraint");
-        missings.add("TypeStateCaseConstraint");
-        missings.add("TypeStateWhenConstraint");
-        missings.add("OccursConstraint");
-        missings.add("ResultColumnInfo");
-        missings.add("SearchCriteriaTypeInfo");
+        Map<String, String> missings = new HashMap<String, String>();
+        missings.put("ObjectStructureDefinition", "Old R1 dictionary not converted");
+        missings.put("FieldDefinition", "Old R1 dictionary not converted");
+        missings.put("ValidCharsConstraint", "Old R1 dictionary not converted");
+        missings.put("RequiredConstraint", "Old R1 dictionary not converted");
+        missings.put("CaseConstraint", "Old R1 dictionary not converted");
+        missings.put("WhenConstraint", "Old R1 dictionary not converted");
+        missings.put("Constraint", "Old R1 dictionary not converted");
+        missings.put("MustOccurConstraint", "Old R1 dictionary not converted");
+        missings.put("LookupConstraint", "Old R1 dictionary not converted");
+        missings.put("CommonLookupParam", "Old R1 dictionary not converted");
+        missings.put("CommonLookup", "Old R1 dictionary not converted");
+        missings.put("DateRangeInfo", "DateRange was merged in with Milestone");
+        missings.put("CredentialInfo", "LRC was revamped and Class II like objects were dropped");
+        missings.put("CreditInfo", "LRC was revamped and Class II like objects were dropped");
+        missings.put("ScaleInfo", "Changed to be ResultScaleInfo");
+        missings.put("GradeInfo", "LRC was revamped and Class II like objects were dropped");
+        missings.put("ResultComponentInfo", "Changed to be ResultValuesGroupInfo");
+        missings.put("QueryParamInfo", "Is really a type object that holds typing info information about a parameter model as TypeInfo and use type-type relation to connnect it to search criteria");
+        missings.put("FieldDescriptor", "Old pre-R1 dictionary structure that were attached to search param types were dropped -- ui dictionary provided that info");
+        missings.put("SearchSelector", "Old pre-R1 dictionary structure that were attached to search param types were dropped -- ui dictionary provided that info");
+        missings.put("ObjectStructure", "Old pre-R1 dictionary structure that were attached to search param types were dropped -- ui dictionary provided that info");
+        missings.put("Type", "Old pre-R1 dictionary structure that were attached to search param types were dropped -- ui dictionary provided that info");
+        missings.put("State", "Old pre-R1 dictionary structure that were attached to search param types were dropped -- ui dictionary provided that info");
+        missings.put("Field", "Old pre-R1 dictionary structure that were attached to search param types were dropped -- ui dictionary provided that info");
+        missings.put("ConstraintDescriptor", "Old pre-R1 dictionary structure that were attached to search param types were dropped -- ui dictionary provided that info");
+        missings.put("ConstraintSelector", "Old pre-R1 dictionary structure that were attached to search param types were dropped -- ui dictionary provided that info");
+        missings.put("RequireConstraint", "Old pre-R1 dictionary structure that were attached to search param types were dropped -- ui dictionary provided that info");
+        missings.put("TypeStateCaseConstraint", "Old pre-R1 dictionary structure that were attached to search param types were dropped -- ui dictionary provided that info");
+        missings.put("TypeStateWhenConstraint", "Old pre-R1 dictionary structure that were attached to search param types were dropped -- ui dictionary provided that info");
+        missings.put("OccursConstraint", " Old pre-R1 dictionary structure that were attached to search param types were dropped -- ui dictionary provided that info");
+        missings.put("ResultColumnInfo", " is really a type that describes the type of result that comes back, store as a TypeInfo object and use type-type relation to connect to result");
+//        missings.put("SearchCriteriaTypeInfo", "The search criteria is really a type stucture that should be modeled as as TypeInfo and type-type relationship to connect it to a search type");
+        missings.put("java.lang.String", "");
+        missings.put("Map<String, String>", "");
+        missings.put("LuiInfo", "Lui was pulled out and put in it's own service.  The LuiInfo object was not used in R1 and was radically redesigned in R2");
+
         knownUnconvertedObjects = missings;
         return;
     }
@@ -373,7 +306,20 @@ public class R1R2ServiceContractComparisonTest {
         renames.put("longDesc", "longDescr");
         renames.put("shortDesc", "shortDescr");
         renames.put("objectTypeURI", "refObjectUri");
+        // TODO: this works but really should make these specific to the object they are connected with
         renames.put("detailDesc", "descr");
+        renames.put("milestoneDate", "startDate");
+        renames.put("success", "isSuccess");
+        renames.put("relationType", "relationTypeKey");
+        renames.put("unitType", "unitTypeKey");
+        renames.put("enrollable", "isEnrollable");
+        renames.put("hazardousForDisabledStudents", "isHazardousForDisabledStudents");
+        renames.put("versionInfo", "version");
+        renames.put("primary", "isPrimary");
+        renames.put("activityType", "typeKey");
+        renames.put("loRepository", "loRepositoryKey");
+        renames.put("queryParamValueList", "queryParamValues");
+        renames.put("credentialProgramType", "typeKey");
         knownFieldRenames = renames;
         return;
     }
@@ -385,6 +331,7 @@ public class R1R2ServiceContractComparisonTest {
         issues.put("MilestoneInfo.key", "Switched from key to Id");
         issues.put("AtpInfo.id", ""); // suppress the extra field message from the r2 side
         issues.put("MilestoneInfo.id", ""); // ditto
+        issues.put("MilestoneInfo.atpId", "Is not in R2 because a Milestone can be connected to more than one ATP so it is managed through a relationship");
         issues.put("Message.locale", "the type was changed from String to LocaleInfo to hold the different parts of the locale info");
         issues.put("SearchRequest.params", "");
         issues.put("SearchResult.rows", "");
@@ -396,13 +343,12 @@ public class R1R2ServiceContractComparisonTest {
         issues.put("ValidationResultInfo.error", "");
         issues.put("DocumentInfo.documentBinaryInfo", "renamd to just documentBinary (removing the trailing Info from the field name)");
         issues.put("OrgHierarchyInfo.key", "Switched from key to Id");
-        issues.put("", "");
-        issues.put("", "");
-        issues.put("", "");
-        issues.put("", "");
-        issues.put("", "");
-        issues.put("", "");
-        issues.put("", "");
+        issues.put("SearchResultTypeInfo.resultColumns", "ResultColumns is really anotther type to describe the column, Use type-type relation to hold that info");
+        issues.put("ReqCompFieldTypeInfo.fieldDescriptor", "was dropped because it was an Old Pre-R1 dictionary and was not used -- UI dictionary provides that info instead");
+        issues.put("LuTypeInfo.instructionalFormat", "Instructional format is a TypeInfo object and should be modeled as such using the type-type relation to connect it to a learning unit type");
+        issues.put("LuTypeInfo.deliveryMethod", "Delivery method is a TypeInfo object and should be modeled as such using type-type relation to connect it to a learning unit type");
+        issues.put("SearchCriteriaTypeInfo.queryParams", "Query Params is a TypeInfo that describes the parameter, model as type and type-type relation");
+        issues.put("OrgOrgRelationTypeInfo.orgHierarchyKey", "This was removed because a particular relation type can participate in more than one hierarchies!");
         issues.put("", "");
         issues.put("", "");
         issues.put("", "");
@@ -440,12 +386,17 @@ public class R1R2ServiceContractComparisonTest {
         if (r1.getName().endsWith("List")) {
             return;
         }
-        if (this.knownUnconvertedObjects.contains(r1.getName())) {
+        if (this.knownUnconvertedObjects.containsKey(r1.getName())) {
+            String message = this.knownUnconvertedObjects.get(r1.getName());
+            if (message.isEmpty()) {
+                return;
+            }
+            System.out.println("# (/) " + r1.getName() + ":" + message);
             return;
         }
         XmlType r2 = findType(r1);
         if (r2 == null) {
-            System.out.println("# " + calcService(r1) + " Service:" + r1.getName() + " has no corresponding object in r2");
+            System.out.println("# " + r1.getName() + ": has no corresponding object in r2");
             return;
         }
         Set<MessageStructure> usedInR2 = new HashSet<MessageStructure>();
@@ -464,11 +415,11 @@ public class R1R2ServiceContractComparisonTest {
                 String issue = this.knownFieldIssues.get(ms.getXmlObject() + "." + ms.getShortName());
                 if (issue != null) {
                     if (!issue.isEmpty()) {
-                        System.out.println("# (/) " + ms.getXmlObject() + "." + ms.getShortName() + ": " + issue);
+                        System.out.println("# (*g) " + ms.getXmlObject() + "." + ms.getShortName() + ": " + issue);
                     }
                     continue;
                 }
-                System.out.println("# " + calcService(r1) + " Service: " + ms.getXmlObject() + "." + ms.getShortName() + " - new field added in R2");
+                System.out.println("# (+) " + ms.getXmlObject() + "." + ms.getShortName() + " - new field added in R2");
             }
         }
     }
@@ -478,7 +429,7 @@ public class R1R2ServiceContractComparisonTest {
         String issue = this.knownFieldIssues.get(r1.getXmlObject() + "." + r1.getShortName());
         if (issue != null) {
             if (!issue.isEmpty()) {
-                System.out.println("# (/) " + r1.getXmlObject() + "." + r1.getShortName() + ": " + issue);
+                System.out.println("# (*g) " + r1.getXmlObject() + "." + r1.getShortName() + ": " + issue);
             }
             return r2;
         }
@@ -488,13 +439,13 @@ public class R1R2ServiceContractComparisonTest {
                         || r1.getShortName().endsWith("TypeInfo")
                         || r1.getShortName().endsWith("Types")
                         || r1.getShortName().endsWith("TypeInfos")) {
-                    System.out.println("# (/) " + r1.getXmlObject() + "." + r1.getShortName() + " was extra data on type: use type-type relationship instead");
+                    System.out.println("# (*g) " + r1.getXmlObject() + "." + r1.getShortName() + " was a type stored on a type: use type-type relationship instead");
                     return null;
                 }
-                System.out.println("# (?) " + r1.getXmlObject() + "." + r1.getShortName() + " was extra data on type, store in dynamic attribute?");
+                System.out.println("# (!) " + r1.getXmlObject() + "." + r1.getShortName() + " was extra data on type, store in dynamic attribute if actually used");
                 return null;
             }
-            System.out.println("# " + r1.getXmlObject() + "." + r1.getShortName() + " not found in r2: renamed to one of these? " + calcFieldNames(xmlType2));
+            System.out.println("# (-) " + r1.getXmlObject() + "." + r1.getShortName() + " not found in r2: renamed to one of these? " + calcFieldNames(xmlType2));
             return null;
         }
         compareType(r1, r2);
@@ -515,11 +466,12 @@ public class R1R2ServiceContractComparisonTest {
         if (r1.getShortName().equals("desc") || r1.getShortName().equals("descr")) {
             if (r1.getType().equals("String")) {
                 if (r2.getType().equals("RichTextInfo")) {
+                    System.out.println("# (*g) " + r1.getXmlObject() + "." + r1.getShortName() + ": description type were changed to RichText, use plain version");
                     return;
                 }
             }
         }
-        System.out.println("# " + r1.getXmlObject() + "." + r1.getShortName() + ": the type was changed from " + r1.getType() + " to " + r2.getType());
+        System.out.println("# (!) " + r1.getXmlObject() + "." + r1.getShortName() + ": the type was changed from " + r1.getType() + " to " + r2.getType());
     }
 
     private MessageStructure findMessageStructure(MessageStructure r1, XmlType xmlType2) {
@@ -529,11 +481,158 @@ public class R1R2ServiceContractComparisonTest {
             if (renamed != null) {
                 r2 = finder2.findMessageStructure(xmlType2.getName(), renamed);
                 if (r2 == null) {
-                    System.out.println("# " + r1.getXmlObject() + "." + r1.getShortName() + " was renamed to " + xmlType2.getName() + "." + renamed + " BUT IT STILL DIDN'T EXIST IN R2");
+                    System.out.println("# (-) " + r1.getXmlObject() + "." + r1.getShortName()
+                            + " was renamed to " + xmlType2.getName() + "." + renamed
+                            + " BUT IT STILL DIDN'T EXIST IN R2");
+                    return null;
+                }
+                System.out.println("# (*g) " + r1.getXmlObject() + "." + r1.getShortName()
+                        + " was renamed to " + xmlType2.getName() + "." + renamed);
+            }
+        }
+        return r2;
+    }
+
+    private void compareMethods() {
+        for (Service service : model1.getServices()) {
+            System.out.println("");
+            System.out.println("h2. " + service.getName());
+            List<ServiceMethod> methodsInService = finder1.findServiceMethods(service.getKey());
+            for (ServiceMethod method : methodsInService) {
+                findCompareMethod(method);
+            }
+        }
+    }
+
+    private void findCompareMethod(ServiceMethod method1) {
+        ServiceMethod method2 = findMethod(method1);
+        if (method2 == null) {
+//            String possibleMethods = calcPossibleMethods(method1);
+            if (isTypeMethod(method1)) {
+                System.out.println("# (*g) " + method1.getService() + "Service." + method1.getName() + " was dropped because it is a type, use TypeService instead");
+                return;
+            }
+            String possibleMethods = this.calcPossibleMethods(method1);
+            if (possibleMethods.isEmpty()) {
+                System.out.println("# (-) " + method1.getService() + "Service." + method1.getName() + " could not be found in R2");
+            } else {
+                System.out.println("# (!) " + method1.getService() + "Service." + method1.getName() + " was probably renamed to one of these: "
+                        + possibleMethods);
+            }
+            return;
+        }
+    }
+
+    private ServiceMethod findMethod(ServiceMethod method1) {
+        ServiceMethod method2 = findMethod2(method1.getService(), method1.getName());
+        if (method2 == null) {
+            String methodRename = knownMethodRenames.get(method1.getService() + "." + method1.getName());
+            if (methodRename != null) {
+                method2 = findMethod2(method1.getService(), methodRename);
+                if (method2 == null) {
+                    System.out.println("# (x) " + method1.getService() + "Service." + method1.getName() + " could not be found even after being renamed to " + methodRename);
                     return null;
                 }
             }
         }
-        return r2;
+        return method2;
+    }
+    private Map<String, String> knownMethodRenames = null;
+
+    private void loadKnownMethodRenames() {
+        Map<String, String> renames = new HashMap<String, String>();
+        renames.put("AtpService.getAtpsByAtpType", "getAtpIdsByType");
+        knownMethodRenames = renames;
+        return;
+    }
+
+    private ServiceMethod findMethod2(String serviceKey, String methodName) {
+        ServiceMethod method2 = finder2.findServiceMethod(serviceKey, methodName);
+        if (method2 == null) {
+            if (serviceKey.equals("Lu")) {
+                method2 = finder2.findServiceMethod("Clu", methodName);
+                if (method2 == null) {
+                    method2 = finder2.findServiceMethod("Lui", methodName);
+                }
+            }
+        }
+        return method2;
+    }
+
+    private String calcMethods(ServiceMethod method1) {
+        StringBuilder bldr = new StringBuilder();
+        String comma = "";
+        for (ServiceMethod method2 : finder2.findServiceMethods(method1.getService())) {
+            bldr.append(comma);
+            comma = ", ";
+            bldr.append(method2.getName());
+        }
+        return bldr.toString();
+    }
+
+    private String calcPossibleMethods(ServiceMethod method1) {
+        StringBuilder bldr = new StringBuilder();
+        String comma = "";
+        for (ServiceMethod method2 : findPossibleMethods(method1)) {
+            bldr.append(comma);
+            comma = ", ";
+            bldr.append(method2.getName());
+        }
+        return bldr.toString();
+    }
+
+    private List<ServiceMethod> findPossibleMethods(ServiceMethod method1) {
+        List<ServiceMethod> methods = new ArrayList<ServiceMethod>();
+        List<ServiceMethod> wideNet = null;
+        if (method1.getService().equals("Lu")) {
+            wideNet = finder2.findServiceMethods("Clu");
+            wideNet.addAll(finder2.findServiceMethods("Lui"));
+        } else {
+            wideNet = finder2.findServiceMethods(method1.getService());
+        }
+        for (ServiceMethod method2 : wideNet) {
+            if (isPossibleMatch(method1, method2)) {
+                methods.add(method2);
+            }
+        }
+        return methods;
+    }
+
+    private boolean isPossibleMatch(ServiceMethod method1, ServiceMethod method2) {
+         if (method1.getName().contains(method2.getName())) {
+            return true;
+        }
+        if (method2.getName().contains(method1.getName())) {
+            return true;
+        }
+        if (method1.getName().startsWith("get") && method2.getName().startsWith("get")) {
+            return true;
+        }
+        if (method1.getName().startsWith("add") && method2.getName().startsWith("create")) {
+            return true;
+        }
+        if (method1.getName().startsWith("create") && method2.getName().startsWith("create")) {
+            return true;
+        }
+        if (method1.getName().startsWith("update") && method2.getName().startsWith("update")) {
+            return true;
+        }
+        if (method1.getName().startsWith("delete") && method2.getName().startsWith("delete")) {
+            return true;
+        }
+        if (method1.getName().startsWith("validate") && method2.getName().startsWith("validate")) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isTypeMethod(ServiceMethod method1) {
+        if (method1.getReturnValue().getType().endsWith("TypeInfo")) {
+            return true;
+        }
+        if (method1.getReturnValue().getType().endsWith("TypeInfoList")) {
+            return true;
+        }
+        return false;
     }
 }

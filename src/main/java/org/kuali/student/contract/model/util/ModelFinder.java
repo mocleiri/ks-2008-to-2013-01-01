@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Untility that implements searches of the spreadsheet model that are needed
+ * Utility that implements searches of the spreadsheet model that are needed
  * TODO: refactor all the *Writer to use this instead of their own finds.
  * @author nwright
  */
@@ -295,6 +295,64 @@ public class ModelFinder {
             }
         }
         return null;
+    }
+
+    private static String stripListFromType(String type) {
+        if (type.endsWith("List")) {
+            return type.substring(0, type.length() - "List".length());
+        }
+        return type;
+    }
+
+    private void loadAllComplexSubTypes(Set<XmlType> types, String xmlTypeName) {
+        for (MessageStructure ms : this.findMessageStructures(xmlTypeName)) {
+            XmlType type = this.findXmlType(stripListFromType(ms.getType()));
+            if (type != null) {
+                if (type.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+                    if (types.add(type)) {
+//                        System.out.println("debug: " + xmlTypeName + "." + ms.getShortName() + " " + type.getName());
+                        loadAllComplexSubTypes(types, type.getName());
+                    }
+                }
+            }
+        }
+    }
+
+    public Set<XmlType> findAllComplexSubTypes(String xmlTypeName) {
+        Set<XmlType> types = new LinkedHashSet();
+        this.loadAllComplexSubTypes(types, xmlTypeName);
+        return types;
+    }
+
+    public Set<XmlType> findAllComplexTypesInService(String service) {
+        Set<XmlType> allTypes = findMainXmlTypesInService(service);
+        for (XmlType type : findMainXmlTypesInService(service)) {
+            this.loadAllComplexSubTypes(allTypes, type.getName());
+        }
+        return allTypes;
+    }
+
+    public Set<XmlType> findMainXmlTypesInService(String service) {
+        Set<XmlType> types = new LinkedHashSet();
+        for (ServiceMethod method : this.findServiceMethods(service)) {
+            XmlType type = this.findXmlType(stripListFromType(method.getReturnValue().getType()));
+            if (type != null) {
+                if (type.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+                    types.add(type);
+                }
+            }
+
+            for (ServiceMethodParameter param : method.getParameters()) {
+                type = this.findXmlType(stripListFromType(param.getType()));
+                if (type != null) {
+                    if (type.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+                        types.add(type);
+                    }
+                }
+                break;
+            }
+        }
+        return types;
     }
 
     public Field findField(String id) {
