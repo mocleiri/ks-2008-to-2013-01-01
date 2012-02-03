@@ -70,14 +70,26 @@ public class DictionaryValidator {
 //  }
 
         if (doe.getAttributes() == null) {
-            errors.add("getAttribues () is null -- null for field defintion");
+            errors.add("getAttribues () is null");
             return errors;
         }
-        if (doe.getAttributes().isEmpty()) {
-            errors.add("No fields defined for complex object structure");
+        if (doe.getCollections() == null) {
+            errors.add("getCollections () is null");
             return errors;
         }
+        if (doe.getComplexAttributes() == null) {
+            errors.add("getComplexAttributes ()");
+            return errors;
+        }
+        if (doe.getCollections().isEmpty()
+                && doe.getComplexAttributes().isEmpty()
+                && doe.getAttributes().isEmpty()) {
+            errors.add("No fields of any kind defined for this complex object structure");
+            return errors;
+        }
+
         Set<String> fieldNames = new HashSet();
+
         for (AttributeDefinition ad : doe.getAttributes()) {
             if (ad.getName() != null) {
                 if (!fieldNames.add(ad.getName())) {
@@ -86,7 +98,9 @@ public class DictionaryValidator {
             }
             errors.addAll(validateAttributeDefinition(ad));
         }
+
         doe.completeValidation();
+
         return errors;
     }
 
@@ -97,7 +111,7 @@ public class DictionaryValidator {
         } else if (ad.getName().trim().equals("")) {
             errors.add("name cannot be blank");
         } else if (ad.getDataType() == null) {
-            errors.add(ad.getName () + " has a null data type");
+            errors.add(ad.getName() + " has a null data type");
 //        } else if (ad.getDataType().equals(DataType.COMPLEX)) {
 //            errorIfNotNull(errors, ad, "exclusiveMin", ad.getExclusiveMin());
 //            errorIfNotNull(errors, ad, "inclusiveMax", ad.getInclusiveMax());
@@ -230,18 +244,18 @@ public class DictionaryValidator {
         int typIdx = validChars.indexOf(":");
         String processorType = "regex";
         if (-1 == typIdx) {
-            validChars = "[" + validChars + "]*";
+        validChars = "[" + validChars + "]*";
         } else {
-            processorType = validChars.substring(0, typIdx);
-            validChars = validChars.substring(typIdx + 1);
+        processorType = validChars.substring(0, typIdx);
+        validChars = validChars.substring(typIdx + 1);
         }
         if (!processorType.equalsIgnoreCase("regex")) {
-            errors.add(
-                    "field " + fd.getName()
-                    + " has an invalid valid chars processor type: a simple list of characters or a regex: is supported");
-            return errors;
+        errors.add(
+        "field " + fd.getName()
+        + " has an invalid valid chars processor type: a simple list of characters or a regex: is supported");
+        return errors;
         }
-        */
+         */
         try {
             Pattern pattern = Pattern.compile(validChars);
         } catch (PatternSyntaxException ex) {
