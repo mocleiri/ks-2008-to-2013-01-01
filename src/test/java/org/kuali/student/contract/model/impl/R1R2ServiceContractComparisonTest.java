@@ -81,6 +81,7 @@ public class R1R2ServiceContractComparisonTest {
         loadKnownFieldRenames();
         loadKnownFieldIssues();
         loadKnownMethodRenames();
+        loadKnownMethodIssues ();
     }
 
     @After
@@ -128,6 +129,11 @@ public class R1R2ServiceContractComparisonTest {
         srcDirs.add(COMMON_API_DIRECTORY);
         srcDirs.add(CORE_API_DIRECTORY);
         srcDirs.add(LUM_API_DIRECTORY);
+        System.out.println ("Reading as input:");
+        for (String directory : srcDirs) {
+            System.out.println ("* " + directory);
+        }
+        System.out.println ("");
         boolean validateKualiStudent = false;
         ServiceContractModel instance = new ServiceContractModelQDoxLoader(srcDirs, validateKualiStudent);
 
@@ -145,6 +151,11 @@ public class R1R2ServiceContractComparisonTest {
         System.out.println("User directory=" + System.getProperty("user.dir"));
         System.out.println("Current directory=" + new File(".").getAbsolutePath());
         srcDirs.add(ENROLL_PROJECT_JAVA_DIRECTORY);
+        System.out.println ("Reading as input:");
+        for (String directory : srcDirs) {
+            System.out.println ("* " + directory);
+        }
+        System.out.println ("");     
         boolean validateKualiStudent = true;
         ServiceContractModel instance = new ServiceContractModelQDoxLoader(srcDirs, validateKualiStudent);
 
@@ -505,32 +516,48 @@ public class R1R2ServiceContractComparisonTest {
     }
 
     private void findCompareMethod(ServiceMethod method1) {
+        String issue = knownMethodIssues.get (method1.getService() + "Service." + method1.getName());
+        if (issue != null) {
+            if (!issue.isEmpty()) {
+                System.out.println("# (*g) " + method1.getService() + "Service." + method1.getName()
+                        + ": " + issue);
+            }
+            return;
+        }
         ServiceMethod method2 = findMethod(method1);
         if (method2 == null) {
 //            String possibleMethods = calcPossibleMethods(method1);
             if (isTypeMethod(method1)) {
-                System.out.println("# (*g) " + method1.getService() + "Service." + method1.getName() + " was dropped because it is a type, use TypeService instead");
+                System.out.println("# (*g) " + method1.getService() + "Service." + method1.getName()
+                        + " was dropped because it is a type, use TypeService instead");
                 return;
             }
             String possibleMethods = this.calcPossibleMethods(method1);
             if (possibleMethods.isEmpty()) {
-                System.out.println("# (-) " + method1.getService() + "Service." + method1.getName() + " could not be found in R2");
+                System.out.println("# (-) " + method1.getService() + "Service." + method1.getName()
+                        + " could not be found in R2");
             } else {
-                System.out.println("# (!) " + method1.getService() + "Service." + method1.getName() + " was probably renamed to one of these: "
+                System.out.println("# (!) " + method1.getService() + "Service." + method1.getName()
+                        + " might have been renamed to one of these: "
                         + possibleMethods);
             }
             return;
+        }
+        if (!method1.getName().equals(method2.getName())) {
+            System.out.println("# (*g) " + method1.getService() + "Service." + method1.getName()
+                    + " was renamed to " + method2.getService() + "Service." + method2.getName());
         }
     }
 
     private ServiceMethod findMethod(ServiceMethod method1) {
         ServiceMethod method2 = findMethod2(method1.getService(), method1.getName());
         if (method2 == null) {
-            String methodRename = knownMethodRenames.get(method1.getService() + "." + method1.getName());
+            String methodRename = knownMethodRenames.get(method1.getService() + "Service." + method1.getName());
             if (methodRename != null) {
                 method2 = findMethod2(method1.getService(), methodRename);
                 if (method2 == null) {
-                    System.out.println("# (x) " + method1.getService() + "Service." + method1.getName() + " could not be found even after being renamed to " + methodRename);
+                    System.out.println("# (x) " + method1.getService() + "Service." + method1.getName() 
+                            + " could not be found even after being renamed to " + methodRename);
                     return null;
                 }
             }
@@ -542,10 +569,66 @@ public class R1R2ServiceContractComparisonTest {
     private void loadKnownMethodRenames() {
         Map<String, String> renames = new HashMap<String, String>();
         renames.put("AtpService.getAtpsByAtpType", "getAtpIdsByType");
+        renames.put("AtpService.getMilestonesByAtp", "getMilestonesForAtp");
+        renames.put("AtpService.addMilestone", "addMilestoneToAtp");
+        renames.put("AtpService.removeMilestone", "removeMilestoneFromAtp");
+        renames.put("MessageService.getMessageGroups", "getMessageGroupKeys");
+        renames.put("CommentService.getComments", "getCommentsByReferenceAndType");
+        renames.put("CommentService.getTags", "getTagsByReferenceAndType"); 
+        renames.put("CommentService.addTag", "createTag");
+        renames.put("CommentService.addComment", "createComment");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
         knownMethodRenames = renames;
         return;
     }
 
+      private Map<String, String> knownMethodIssues = null;
+
+    private void loadKnownMethodIssues() {
+        Map<String, String> renames = new HashMap<String, String>();
+        renames.put("AtpService.validateDateRange", "Dropped because DateRange objects were merged in with milestones");
+        renames.put("AtpService.getDateRange", "Dropped because DateRange objects were merged in with milestones");
+        renames.put("AtpService.getDateRangesByAtp", "Dropped because DateRange objects were merged in with milestones");
+        renames.put("AtpService.getDateRangesByDate", "Dropped because DateRange objects were merged in with milestones");
+        renames.put("AtpService.addDateRange", "Dropped because DateRange objects were merged in with milestones");
+        renames.put("AtpService.updateDateRange", "Dropped because DateRange objects were merged in with milestones");
+        renames.put("AtpService.removeDateRange", "Dropped because DateRange objects were merged in with milestones");
+        renames.put("DictionaryService.getObjectTypes", "Dictionary service was completely revamped to match KRAD, old one is still around use that for R1 stuff");
+        renames.put("DictionaryService.getObjectStructure", "Dictionary service was completely revamped to match KRAD, old one is still around use that for R1 stuff");
+        renames.put("CommentService.getCommentsByType", "Renamed and changed to just get Ids, so use getCommentIdsByType then call getCommentsByIds");
+        renames.put("CommentService.getTagsByType", "Renamed and changed to just get Ids, so use getTagIdsByType then call getTagsByIds");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        renames.put("", "");
+        knownMethodIssues = renames;
+        return;
+    }
+    
+    
     private ServiceMethod findMethod2(String serviceKey, String methodName) {
         ServiceMethod method2 = finder2.findServiceMethod(serviceKey, methodName);
         if (method2 == null) {
@@ -618,6 +701,9 @@ public class R1R2ServiceContractComparisonTest {
             return true;
         }
         if (method1.getName().startsWith("delete") && method2.getName().startsWith("delete")) {
+            return true;
+        }
+        if (method1.getName().startsWith("remove") && method2.getName().startsWith("delete")) {
             return true;
         }
         if (method1.getName().startsWith("validate") && method2.getName().startsWith("validate")) {
