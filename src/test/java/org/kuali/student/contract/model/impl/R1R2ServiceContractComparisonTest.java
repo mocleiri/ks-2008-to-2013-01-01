@@ -70,9 +70,9 @@ public class R1R2ServiceContractComparisonTest {
         System.out.println("{toc}");
         System.out.println("");
         System.out.println("h1. Loading models of the contracts from the source code");
-        System.out.println("h2. Log from loading model #1");
+        System.out.println("h2. Log from loading model for R1");
         getModel1();
-        System.out.println("h2. Log from loading model #2");
+        System.out.println("h2. Log from loading model for R2");
         getModel2();
         getFinder1();
         getFinder2();
@@ -217,7 +217,7 @@ public class R1R2ServiceContractComparisonTest {
     private void compareTypes() {
         for (Service service : model1.getServices()) {
             System.out.println("");
-            System.out.println("h2. " + service.getName());
+            System.out.println("h2. " + service.getName() + " Structures");
             for (XmlType type : finder1.findAllComplexTypesInService(service.getKey())) {
                 findCompareType(type);
             }
@@ -507,7 +507,7 @@ public class R1R2ServiceContractComparisonTest {
     private void compareMethods() {
         for (Service service : model1.getServices()) {
             System.out.println("");
-            System.out.println("h2. " + service.getName());
+            System.out.println("h2. " + service.getName() + " Methods");
             List<ServiceMethod> methodsInService = finder1.findServiceMethods(service.getKey());
             for (ServiceMethod method : methodsInService) {
                 findCompareMethod(method);
@@ -577,20 +577,32 @@ public class R1R2ServiceContractComparisonTest {
         renames.put("CommentService.getTags", "getTagsByReferenceAndType"); 
         renames.put("CommentService.addTag", "createTag");
         renames.put("CommentService.addComment", "createComment");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
+        renames.put("CommentService.removeComment", "deleteComment");
+        renames.put("CommentService.removeTag", "deleteTag");
+        renames.put("CommentService.removeComments", "deleteCommentsByReference");
+        renames.put("CommentService.removeTags", "deleteTagsByReference");
+        renames.put("DocumentService.getDocumentsByIdList", "getDocumentsByIds");
+        renames.put("DocumentService.getCategoriesByDocument", "getDocumentCategoriesByDocumentId");
+        renames.put("DocumentService.getRefDocRelationsByDoc", "getRefDocRelationsByDocument");
+        renames.put("EnumerationManagementService.removeEnumeratedValue", "deleteEnumeratedValue");
+        renames.put("OrganizationService.getOrganization", "getOrg");
+        renames.put("OrganizationService.getOrganizationsByIdList", "getOrgsByIds");
+        renames.put("OrganizationService.getOrgOrgRelationsByIdList", "getOrgOrgRelationsByIds");
+        renames.put("OrganizationService.getOrgPersonRelationsByIdList", "getOrgPersonRelationsByIds");
+        renames.put("OrganizationService.getPersonIdsForOrgByRelationType", "");
+        renames.put("OrganizationService.getAllOrgPersonRelationsByPerson", "getOrgPersonRelationsByPerson");
+        renames.put("OrganizationService.getAllOrgPersonRelationsByOrg", "getOrgPersonRelationsByOrg");
+        renames.put("OrganizationService.createOrganization", "createOrg");
+        renames.put("OrganizationService.updateOrganization", "updateOrg");
+        renames.put("OrganizationService.deleteOrganization", "deleteOrg");
+        renames.put("OrganizationService.validateOrganization", "validateOrg");
+        renames.put("OrganizationService.removeOrgOrgRelation", "deleteOrgOrgRelation");
+        renames.put("OrganizationService.removeOrgPersonRelation", "deleteOrgPersonRelation");
+        renames.put("OrganizationService.addPositionRestrictionToOrg", "createOrgPositionRestriction");
+        renames.put("OrganizationService.updatePositionRestrictionForOrg", "updateOrgPositionRestriction");
+        renames.put("OrganizationService.removePositionRestrictionFromOrg", "deleteOrgPositionRestriction");
+        renames.put("StatementService.getStatementsUsingReqComponent", "getStatementsByReqComponent");
+        renames.put("StatementService.getStatementsUsingStatement", "getStatementsForStatement");
         renames.put("", "");
         renames.put("", "");
         renames.put("", "");
@@ -603,28 +615,29 @@ public class R1R2ServiceContractComparisonTest {
       private Map<String, String> knownMethodIssues = null;
 
     private void loadKnownMethodIssues() {
-        Map<String, String> renames = new HashMap<String, String>();
-        renames.put("AtpService.validateDateRange", "Dropped because DateRange objects were merged in with milestones");
-        renames.put("AtpService.getDateRange", "Dropped because DateRange objects were merged in with milestones");
-        renames.put("AtpService.getDateRangesByAtp", "Dropped because DateRange objects were merged in with milestones");
-        renames.put("AtpService.getDateRangesByDate", "Dropped because DateRange objects were merged in with milestones");
-        renames.put("AtpService.addDateRange", "Dropped because DateRange objects were merged in with milestones");
-        renames.put("AtpService.updateDateRange", "Dropped because DateRange objects were merged in with milestones");
-        renames.put("AtpService.removeDateRange", "Dropped because DateRange objects were merged in with milestones");
-        renames.put("DictionaryService.getObjectTypes", "Dictionary service was completely revamped to match KRAD, old one is still around use that for R1 stuff");
-        renames.put("DictionaryService.getObjectStructure", "Dictionary service was completely revamped to match KRAD, old one is still around use that for R1 stuff");
-        renames.put("CommentService.getCommentsByType", "Renamed and changed to just get Ids, so use getCommentIdsByType then call getCommentsByIds");
-        renames.put("CommentService.getTagsByType", "Renamed and changed to just get Ids, so use getTagIdsByType then call getTagsByIds");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        knownMethodIssues = renames;
+        Map<String, String> issues = new HashMap<String, String>();
+        issues.put("AtpService.validateDateRange", "Dropped because DateRange objects were merged in with milestones");
+        issues.put("AtpService.getDateRange", "Dropped because DateRange objects were merged in with milestones");
+        issues.put("AtpService.getDateRangesByAtp", "Dropped because DateRange objects were merged in with milestones");
+        issues.put("AtpService.getDateRangesByDate", "Dropped because DateRange objects were merged in with milestones");
+        issues.put("AtpService.addDateRange", "Dropped because DateRange objects were merged in with milestones");
+        issues.put("AtpService.updateDateRange", "Dropped because DateRange objects were merged in with milestones");
+        issues.put("AtpService.removeDateRange", "Dropped because DateRange objects were merged in with milestones");
+        issues.put("DictionaryService.getObjectTypes", "Dictionary service was completely revamped to match KRAD, old one is still around use that for R1 stuff");
+        issues.put("DictionaryService.getObjectStructure", "Dictionary service was completely revamped to match KRAD, old one is still around use that for R1 stuff");
+        issues.put("CommentService.getCommentsByType", "Renamed and changed to just get Ids, so use getCommentIdsByType then call getCommentsByIds");
+        issues.put("CommentService.getTagsByType", "Renamed and changed to just get Ids, so use getTagIdsByType then call getTagsByIds");
+        issues.put("DocumentService.getRefObjectTypes", "Use type service but (!) there is no getRefObjectUris () method");
+        issues.put("DocumentService.getRefObjectSubTypes", "Use type service but (!) but do not have a refObject 'subtype' defined");
+        issues.put("OrganizationService.getOrgOrgRelationsByRelatedOrg", " (!) the two methods for tranversing by one side of the relationship or other has replaced by a single method that finds relationships no matter which side it is on (?) Need to possibly rethink this it imposes a big change on both the implementation and on the the application. ");        
+        issues.put("OrganizationService.getPersonIdsForOrgByRelationType", "Was removed, instead use getOrgPersonRelationsByTypeAndPerson and loop through the relationships to get the list of personIds that you want.  The issue was the old method did not take into account relationships that are old/inactive so using it would lead to errors that would only appear once transitions occured in the people being related to the org.");
+        issues.put("OrganizationService.getOrgPersonRelationsByPerson", "Renamd to getOrgPersonRelationsByOrgAndPerson, because the R1 was badly named, it said just by person but the parameters required an Org as well!");
+        issues.put("OrganizationService.getPositionRestrictionsByOrg", "use getOrgPositionRestrictionIdsByOrg then call getOrgPositionRestrictionsByIds to get the objects");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        issues.put("", "");
+        knownMethodIssues = issues;
         return;
     }
     
