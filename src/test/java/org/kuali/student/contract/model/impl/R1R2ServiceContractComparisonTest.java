@@ -360,8 +360,7 @@ public class R1R2ServiceContractComparisonTest {
         issues.put("LuTypeInfo.deliveryMethod", "Delivery method is a TypeInfo object and should be modeled as such using type-type relation to connect it to a learning unit type");
         issues.put("SearchCriteriaTypeInfo.queryParams", "Query Params is a TypeInfo that describes the parameter, model as type and type-type relation");
         issues.put("OrgOrgRelationTypeInfo.orgHierarchyKey", "This was removed because a particular relation type can participate in more than one hierarchies!");
-        issues.put("", "");
-        issues.put("", "");
+        issues.put("SearchParam.value", "Renamed to values which is List<String>, in R1 the setValue method was overloaded to take a string or List, Kept in R2 but marked as deprecated");
         issues.put("", "");
         issues.put("", "");
         issues.put("", "");
@@ -383,6 +382,12 @@ public class R1R2ServiceContractComparisonTest {
             String renamedName = this.knownObjectRenames.get(r1.getName());
             if (renamedName != null) {
                 r2 = finder2.findXmlType(renamedName);
+                if (r2 == null) {
+                    System.out.println("# (-) " + r1.getName() + ": was not found even after being renamed to " + renamedName);
+                    return null;
+                }
+                System.out.println("# (/) " + r1.getName() + ": was renamed to " + renamedName);
+                return r2;
             }
         }
         if (r2 == null) {
