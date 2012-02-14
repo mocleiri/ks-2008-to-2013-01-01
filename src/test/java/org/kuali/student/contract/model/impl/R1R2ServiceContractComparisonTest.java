@@ -616,6 +616,18 @@ public class R1R2ServiceContractComparisonTest {
         renames.put("LearningObjectiveService.getLosByRepository", "getLosByLoRepository");
         renames.put("LearningObjectiveService.getLoCategoriesForLo", "getLoCategoriesByLo");
         renames.put("LrcService.getResultComponent", "getResultValuesGroup");
+        renames.put("LuService.getClusByIdList", "getClusByIds");
+        renames.put("LuService.getAllowedLuLuRelationTypesByCluId", "getAllowedCluCluRelationTypesByClu");
+        renames.put("LuService.getClusByRelation", "getClusByRelatedCluAndRelationType");
+        renames.put("LuService.getCluIdsByRelation", "getCluIdsByRelatedCluAndRelationType");
+        renames.put("LuService.getRelatedClusByCluId", "getRelatedClusByCluAndRelationType");
+        renames.put("LuService.getRelatedCluIdsByCluId", "getRelatedCluIdsByCluAndRelationType");
+        renames.put("LuService.getCluPublicationsByCluId", "getCluPublicationsByClu");
+        renames.put("LuService.getResourceRequirementsForCluId", "getResourceRequirementsForClu");
+        renames.put("LuService.getCluSetInfo", "getCluSet");
+        renames.put("LuService.getCluSetInfoByIdList", "getCluSetsByIds");
+        renames.put("LuService.getLuisByIdList", "getLuisByIds");
+        renames.put("", "");
         renames.put("", "");
         renames.put("", "");
         renames.put("", "");
@@ -665,8 +677,7 @@ public class R1R2ServiceContractComparisonTest {
         issues.put("LrcService.updateResultComponent", "rougly maps to updateResultValuesGroup");
         issues.put("LrcService.deleteResultComponent", "rougly maps to deleteResultValuesGroup");
         issues.put("LrcService.getScale", "roughly maps to getResultScale");
-        issues.put("", "");
-        issues.put("", "");
+        issues.put("LuService.getAllowedLuLuRelationTypesByLuiId", "is a type method, use TypeService instead");
         issues.put("", "");
         issues.put("", "");
         knownMethodIssues = issues;
