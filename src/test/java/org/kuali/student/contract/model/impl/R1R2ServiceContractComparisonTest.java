@@ -652,8 +652,8 @@ public class R1R2ServiceContractComparisonTest {
         issues.put("DictionaryService.getObjectStructure", "Dictionary service was completely revamped to match KRAD, old one is still around use that for R1 stuff");
         issues.put("CommentService.getCommentsByType", "Renamed and changed to just get Ids, so use getCommentIdsByType then call getCommentsByIds");
         issues.put("CommentService.getTagsByType", "Renamed and changed to just get Ids, so use getTagIdsByType then call getTagsByIds");
-        issues.put("DocumentService.getRefObjectTypes", "Use type service but (!) there is no getRefObjectUris () method");
-        issues.put("DocumentService.getRefObjectSubTypes", "Use type service but (!) but do not have a refObject 'subtype' defined");
+        issues.put("DocumentService.getRefObjectTypes", "(!) has been dropped from the contract, the document service should store any uri");
+        issues.put("DocumentService.getRefObjectSubTypes", "(!) has been dropped from the contract, the document service should store any uri and sub-object URI");
         issues.put("OrganizationService.getOrgOrgRelationsByRelatedOrg", " (!) the two methods for tranversing by one side of the relationship or other has replaced by a single method that finds relationships no matter which side it is on (?) Need to possibly rethink this it imposes a big change on both the implementation and on the the application. ");        
         issues.put("OrganizationService.getPersonIdsForOrgByRelationType", "Was removed, instead use getOrgPersonRelationsByTypeAndPerson and loop through the relationships to get the list of personIds that you want.  The issue was the old method did not take into account relationships that are old/inactive so using it would lead to errors that would only appear once transitions occured in the people being related to the org.");
         issues.put("OrganizationService.getOrgPersonRelationsByPerson", "Renamd to getOrgPersonRelationsByOrgAndPerson, because the R1 was badly named, it said just by person but the parameters required an Org as well!");
