@@ -627,10 +627,10 @@ public class R1R2ServiceContractComparisonTest {
         renames.put("LuService.getCluSetInfo", "getCluSet");
         renames.put("LuService.getCluSetInfoByIdList", "getCluSetsByIds");
         renames.put("LuService.getLuisByIdList", "getLuisByIds");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
-        renames.put("", "");
+        renames.put("ProgramService.getMajorIdsByCredentialProgramType", "getMajorDisciplineIdsByCredentialProgramType");
+        renames.put("ProgramService.getVariationsByMajorDisciplineId", "getProgramVariationsByMajorDiscipline");
+        renames.put("ProgramService.getHonorsByCredentialProgramType", "getHonorProgramIdsByCredentialProgramType");
+        renames.put("ProposalService.getProposalsByIdList", "getProposalsByIds");
         renames.put("", "");
         renames.put("", "");
         knownMethodRenames = renames;
@@ -678,6 +678,8 @@ public class R1R2ServiceContractComparisonTest {
         issues.put("LrcService.deleteResultComponent", "rougly maps to deleteResultValuesGroup");
         issues.put("LrcService.getScale", "roughly maps to getResultScale");
         issues.put("LuService.getAllowedLuLuRelationTypesByLuiId", "is a type method, use TypeService instead");
+        issues.put("", "");
+        issues.put("", "");
         issues.put("", "");
         issues.put("", "");
         knownMethodIssues = issues;
