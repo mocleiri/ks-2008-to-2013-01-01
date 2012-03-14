@@ -45,10 +45,6 @@
             <artifactId>ks-enroll-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-
-
-
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-jta</artifactId>
@@ -97,12 +93,5 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
-
-
-
-
-
-
     </dependencies>
 </project>
