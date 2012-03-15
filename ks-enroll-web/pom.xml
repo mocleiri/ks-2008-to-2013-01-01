@@ -36,12 +36,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ks-enroll-ui</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ks-enroll-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
