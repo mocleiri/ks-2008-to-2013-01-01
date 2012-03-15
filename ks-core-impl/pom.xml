@@ -8,6 +8,21 @@
   </parent>
   <artifactId>ks-core-impl</artifactId>
   <name>KS Core Impl</name>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <!--
+				Setting forkMode to always. Multiple dao tests using Spring
+				junit class runner doesn't play nice with each other
+				-->
+        <configuration>
+          <forkMode>always</forkMode>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -44,6 +59,12 @@
     <dependency>
 	<groupId>org.apache.openjpa</groupId>
 	<artifactId>openjpa</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>antlr</groupId>
+      <artifactId>antlr</artifactId>
+      <version>${antlr.legacy.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
