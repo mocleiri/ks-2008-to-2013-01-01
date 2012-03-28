@@ -1,6 +1,5 @@
 package org.kuali.student.r2.core.class1.atp.model;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,54 +15,50 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.infc.AtpAtpRelation;
 
 @Entity
 @Table(name = "KSEN_ATPATP_RELTN")
-public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<AtpAtpRelationAttributeEntity> {
-    @ManyToOne
-    @JoinColumn(name="ATP_ID")
-    private AtpEntity atp;
-    
-    @ManyToOne
-    @JoinColumn(name="RELATED_ATP_ID")
-    private AtpEntity relatedAtp;
-    
-    @Column(name="ATP_ATP_RELTN_TYPE")
-    private String atpAtpRelationType;
+public class AtpAtpRelationEntity extends MetaEntity {
 
+    @ManyToOne
+    @JoinColumn(name = "ATP_ID", nullable = false)
+    private AtpEntity atp;
+    @ManyToOne
+    @JoinColumn(name = "RELATED_ATP_ID", nullable = false)
+    private AtpEntity relatedAtp;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
-
-    @Column(name = "ATP_ATP_RELTN_STATE")
-    private String atpAtpRelationState;
- 
+    @Column(name = "ATP_TYPE", nullable = false)
+    private String atpType;
+    @Column(name = "ATP_STATE", nullable = false)
+    private String atpState;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<AtpAtpRelationAttributeEntity> attributes;
 
-   public AtpAtpRelationEntity(){}
-    
-    public AtpAtpRelationEntity(AtpAtpRelation atpAtpRelation){
+    public AtpAtpRelationEntity() {
+    }
+
+    public AtpAtpRelationEntity(AtpAtpRelation atpAtpRelation) {
         this.setId(atpAtpRelation.getId());
+        this.setAtpType(atpAtpRelation.getTypeKey());
+        this.fromDTO(atpAtpRelation);
+    }
+
+    public void fromDTO(AtpAtpRelation atpAtpRelation) {
+        this.setAtpState(atpAtpRelation.getStateKey());
         this.setEffectiveDate(atpAtpRelation.getEffectiveDate());
         this.setExpirationDate(atpAtpRelation.getExpirationDate());
-        this.setAtpRelationType(atpAtpRelation.getTypeKey());
-        this.setAtpState(atpAtpRelation.getStateKey());
         this.setAttributes(new ArrayList<AtpAtpRelationAttributeEntity>());
-        if (null != atpAtpRelation.getAttributes()) {
-            for (Attribute att : atpAtpRelation.getAttributes()) {
-                this.getAttributes().add(new AtpAtpRelationAttributeEntity(att));
-            }
+        for (Attribute att : atpAtpRelation.getAttributes()) {
+            this.getAttributes().add(new AtpAtpRelationAttributeEntity(att));
         }
     }
 
@@ -83,69 +78,66 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
         this.relatedAtp = relatedAtp;
     }
 
-    public String getAtpRelationType() {
-        return atpAtpRelationType;
+    public String getAtpType() {
+        return atpType;
     }
 
-    public void setAtpRelationType(String atpType) {
-        this.atpAtpRelationType = atpType;
+    public void setAtpType(String atpType) {
+        this.atpType = atpType;
     }
 
     public Date getEffectiveDate() {
-    	return effectiveDate != null ? new Date(effectiveDate.getTime()) : null;
+        return effectiveDate != null ? new Date(effectiveDate.getTime()) : null;
     }
 
     public void setEffectiveDate(Date effectiveDate) {
-    	if(effectiveDate != null)
-    		this.effectiveDate = new Date(effectiveDate.getTime());
+        if (effectiveDate != null) {
+            this.effectiveDate = new Date(effectiveDate.getTime());
+        }
     }
 
     public Date getExpirationDate() {
-    	return expirationDate != null ? new Date(expirationDate.getTime()) : null;
+        return expirationDate != null ? new Date(expirationDate.getTime()) : null;
     }
 
     public void setExpirationDate(Date expirationDate) {
-    	if(expirationDate != null)
-    		this.expirationDate = new Date(expirationDate.getTime());
+        if (expirationDate != null) {
+            this.expirationDate = new Date(expirationDate.getTime());
+        }
     }
 
-
     public String getAtpState() {
-        return atpAtpRelationState;
+        return atpState;
     }
 
     public void setAtpState(String atpState) {
-        this.atpAtpRelationState = atpState;
+        this.atpState = atpState;
     }
 
-    @Override
     public void setAttributes(List<AtpAtpRelationAttributeEntity> attributes) {
-        this.attributes = attributes;       
+        this.attributes = attributes;
     }
 
-    @Override
     public List<AtpAtpRelationAttributeEntity> getAttributes() {
         return attributes;
     }
 
     public AtpAtpRelationInfo toDto() {
-        AtpAtpRelationInfo aarInfo = new AtpAtpRelationInfo();
-        aarInfo.setId(getId());
-        aarInfo.setAtpId(atp.getId());
-        aarInfo.setRelatedAtpId(relatedAtp.getId());
-        aarInfo.setEffectiveDate(effectiveDate);
-        aarInfo.setExpirationDate(expirationDate);
-        aarInfo.setStateKey(atpAtpRelationState);
-        aarInfo.setTypeKey(atpAtpRelationType);
-        aarInfo.setMeta(super.toDTO());
-        
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (AtpAtpRelationAttributeEntity att : getAttributes()) {
-        	AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
+        AtpAtpRelationInfo info = new AtpAtpRelationInfo();
+        info.setId(getId());
+        info.setAtpId(atp.getId());
+        info.setRelatedAtpId(relatedAtp.getId());
+        info.setEffectiveDate(effectiveDate);
+        info.setExpirationDate(expirationDate);
+        info.setStateKey(atpState);
+        info.setTypeKey(atpType);
+        info.setMeta(super.toDTO());
+        if (getAttributes() != null) {
+            for (AtpAtpRelationAttributeEntity att : getAttributes()) {
+                AttributeInfo attInfo = att.toDto();
+                info.getAttributes().add(attInfo);
+            }
         }
-        aarInfo.setAttributes(atts);
-        
-        return aarInfo;
+        return info;
     }
 }

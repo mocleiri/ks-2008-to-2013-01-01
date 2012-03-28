@@ -23,6 +23,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import javax.jws.WebParam;
+
 
 public class LuiServiceDecorator implements LuiService
 {	
@@ -81,6 +83,12 @@ public class LuiServiceDecorator implements LuiService
 
         return getNextDecorator().getLuiIdsByCluId(cluId, context);
     }
+
+    @Override
+    public List<String> getLuiIdsByAtpAndType(@WebParam(name = "atpId") String atpId, String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+        {
+            return getNextDecorator().getLuiIdsByAtpAndType(atpId, typeKey, context);
+        }
 
     @Override
     public List<String> getLuiIdsInAtpByCluId(String cluId, String atpId, ContextInfo context) 

@@ -16,10 +16,11 @@
 
 package org.kuali.student.r2.common.util.constants;
 
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.dto.MilestoneInfo;
+
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 
 /**
  * This class holds the constants used by the ATP service.
@@ -130,6 +131,7 @@ public class AtpServiceConstants {
     public static final String MILESTONE_GRADES_DUE_TYPE_KEY = "kuali.atp.milestone.GradesDue";
     public static final String MILESTONE_POST_GRADES_TYPE_KEY = "kuali.atp.milestone.PostGrades";
     // holidays
+    public static final String MILESTONE_HOLIDAY_GROUPING_TYPE_KEY = "kuali.milestone.type.group.holiday";
     public static final String MILESTONE_LABOR_DAY_TYPE_KEY = "kuali.atp.milestone.LaborDay";
     public static final String MILESTONE_FALL_BREAK_TYPE_KEY = "kuali.atp.milestone.FallBreak";
     public static final String MILESTONE_THANKSGIVING_BREAK_TYPE_KEY = "kuali.atp.milestone.ThanksgivingBreak";
@@ -138,8 +140,11 @@ public class AtpServiceConstants {
     public static final String MILESTONE_MEMORIAL_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.MemorialDayObserved";
     public static final String MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.IndependenceDayObserved";
     // events
+    public static final String MILESTONE_EVENT_GROUPING_TYPE_KEY = "kuali.milestone.type.group.event";
     public static final String MILESTONE_HOMECOMING_TYPE_KEY = "kuali.atp.milestone.Homecoming";
     public static final String MILESTONE_FAMILY_WEEKEND_TYPE_KEY = "kuali.atp.milestone.FamilyWeekend";
+    //notes:  kuali.atp.milestone.AlumniDay and  kuali.atp.milestone.Commencement can be  event types as well.
+
     // orientation
     public static final String MILESTONE_MOVE_IN_DATE_TYPE_KEY = "kuali.atp.milestone.Move-inDate";
     public static final String MILESTONE_NEW_STUDENT_CONVOCATION_TYPE_KEY = "kuali.atp.milestone.NewStudentConvocation";
@@ -238,8 +243,8 @@ public class AtpServiceConstants {
      */
     public static final String ATP_DRAFT_STATE_KEY = "kuali.atp.state.Draft";
     public static final String ATP_OFFICIAL_STATE_KEY = "kuali.atp.state.Official";
-    public static final String ATP_PROCESS_KEY = "kuali.atp.process";
-    public static final String[] ATP_PROCESS_STATE_KEYS = {ATP_DRAFT_STATE_KEY, ATP_OFFICIAL_STATE_KEY};
+    public static final String ATP_LIFECYCLE_KEY = "kuali.atp.process";
+    public static final String[] ATP_LIFECYCLE_STATE_KEYS = {ATP_DRAFT_STATE_KEY, ATP_OFFICIAL_STATE_KEY};
 
     /**
      * ATP ATP Relation Types
@@ -253,24 +258,8 @@ public class AtpServiceConstants {
      */
     public static final String ATP_ATP_RELATION_ACTIVE_STATE_KEY = "kuali.atp.atp.relation.state.active";
     public static final String ATP_ATP_RELATION_INACTIVE_STATE_KEY = "kuali.atp.atp.relation.state.inactive";
-    public static final String ATP_ATP_RELATION_PROCESS_KEY = "kuali.atp.atp.relation.process";
-    public static final String[] ATP_ATP_RELATION_PROCESS_STATE_KEYS = {ATP_ATP_RELATION_ACTIVE_STATE_KEY, ATP_ATP_RELATION_INACTIVE_STATE_KEY};
-
-    /**
-     * ATP Milestone Relation Types
-     */
-    public static final String ATP_MILESTONE_RELATION_OWNS_TYPE_KEY = "kuali.atp.milestone.relation.owns";
-    public static final String ATP_MILESTONE_RELATION_REUSES_TYPE_KEY = "kuali.atp.milestone.relation.reuses";
-    public static final String ATP_MILESTONE_RELATION_USES_TYPE_KEY = "kuali.atp.milestone.relation.uses";
-
-    /**
-     * ATP Milestone Relation States
-     */
-    public static final String ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY = "kuali.atp.milestone.relation.state.active";
-    public static final String ATP_MILESTONE_RELATION_INACTIVE_STATE_KEY = "kuali.atp.milestone.relation.state.inactive";
-    public static final String ATP_MILESTONE_RELATION_CANCELED_STATE_KEY = "kuali.atp.milestone.relation.state.canceled";
-    public static final String ATP_MILESTONE_RELATION_PROCESS_KEY = "kuali.atp.milestone.relation.process";
-    public static final String[] ATP_MILESTONE_RELATION_PROCESS_STATE_KEYS = {ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY, ATP_MILESTONE_RELATION_INACTIVE_STATE_KEY};
+    public static final String ATP_ATP_RELATION_LIFECYCLE_KEY = "kuali.atp.atp.relation.process";
+    public static final String[] ATP_ATP_RELATION_LIFECYCLE_STATE_KEYS = {ATP_ATP_RELATION_ACTIVE_STATE_KEY, ATP_ATP_RELATION_INACTIVE_STATE_KEY};
 
     public static final String CAMPUS_LOCATION = "CampusLocation";
 }

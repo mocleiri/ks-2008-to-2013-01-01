@@ -86,7 +86,7 @@ public class TestEnumerationManagementServiceImpl {
         
         assertEquals("kuali.enum.lu.program.level", dto.getKey());
         assertEquals("Program Level", dto.getName());
-        assertEquals("Program Level", dto.getDescr().getPlain());
+        assertEquals("level.descr", dto.getDescr().getPlain());
     }
     
     @Test
@@ -95,7 +95,7 @@ public class TestEnumerationManagementServiceImpl {
         EnumerationInfo dto = enumService.getEnumeration("kuali.enum.lu.program.level", callContext);
         assertEquals("kuali.enum.lu.program.level", dto.getKey());
         assertEquals("Program Level", dto.getName());
-        assertEquals("Program Level", dto.getDescr().getPlain());
+        assertEquals("level.descr", dto.getDescr().getPlain());
         
         //fetchEnumerationMeta for "NULL" key
         EnumerationInfo dto_null = null;
@@ -276,7 +276,7 @@ public class TestEnumerationManagementServiceImpl {
         dtoContext.add(newContext);
         dto.setContexts(dtoContext);
         //add first
-        enumService.addEnumeratedValue("kuali.enum.type.cip2000", dto.getCode(), dto, callContext);
+        dto = enumService.addEnumeratedValue("kuali.enum.type.cip2000", dto.getCode(), dto, callContext);
 
         List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("kuali.enum.type.cip2000", "ContextA", "1", new Date(baseTime), callContext);
         assertEquals(list.size(), 1);

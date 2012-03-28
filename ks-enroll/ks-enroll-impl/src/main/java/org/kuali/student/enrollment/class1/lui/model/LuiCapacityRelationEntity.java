@@ -41,6 +41,4 @@ public class LuiCapacityRelationEntity extends MetaEntity {
     public void setLuiCapacity(LuiCapacityEntity luiCapacity) {
         this.luiCapacity = luiCapacity;
     }
-
-    
 }

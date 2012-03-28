@@ -18,6 +18,7 @@
   <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
   <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
   <import resource="classpath:search-test-context.xml"/>
+
   <!-- Preloaded data -->
   <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
     <property name="jtaTxManager" ref="JtaTxManager" />
@@ -91,14 +92,9 @@
 
   <bean id="atpServiceImpl" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
     <property name="atpDao" ref="atpDao" />
-    <property name="atpTypeDao" ref="atpTypeDao" />
-    <property name="atpStateDao" ref="atpStateDao" />
-    <property name="atpRichTextDao" ref="atpRichTextDao" />
     <property name="atpRelDao" ref="atpAtpRelationDao" />
     <property name="milestoneDao" ref="milestoneDao" />
     <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
-    <property name="stateService" ref="stateService" />
-    <property name="typeService" ref="typeService" />
     <property name="criteriaLookupService" ref="atpCriteriaLookupService"/>
   </bean>
 
@@ -113,7 +109,6 @@
     <property name="keyDateAssembler" ref="keyDateAssembler" />
     <property name="acalEventAssembler" ref="acalEventAssembler" />
     <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal" />
-    <property name="criteriaLookupService" ref="acalCriteriaLookupService"/>
   </bean>
 
   <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
@@ -159,22 +154,11 @@
   </bean>
 
     <bean id="acalServiceCalculation" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
+        <property name="atpService" ref="atpServiceAuthorization"/>
         <property name="nextDecorator" ref="acalService" />
     </bean>
 
   <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
-    <property name="em" ref="entityManager" />
-  </bean>
-
-  <bean id="atpTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao">
-    <property name="em" ref="entityManager" />
-  </bean>
-
-  <bean id="atpStateDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpStateDao">
-    <property name="em" ref="entityManager" />
-  </bean>
-
-  <bean id="atpRichTextDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpRichTextDao">
     <property name="em" ref="entityManager" />
   </bean>
 
@@ -190,28 +174,28 @@
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceImpl"/>
+  <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+      <property name="typeTypeRelationDao" ref="typeTypeRelationDao" />
+      <property name="typeDao" ref="typeDao" />
+ </bean>
 
   <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
     <property name="em" ref="entityManager" />
   </bean>
-
+  <bean id="typeDao" class="org.kuali.student.r2.core.class1.type.dao.TypeDao">
+    <property name="em" ref="entityManager" />
+  </bean>
   <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
     <property name="stateDao" ref="stateDao" />
-    <property name="spDao" ref="stateProcessDao" />
-    <property name="sprDao" ref="stateProcessRelationDao" />
+    <property name="lifecycleDao" ref="lifecycleDao" />
   </bean>
 
   <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
   	<property name="em" ref="entityManager"/>
   </bean>
 
-  <bean id="stateProcessDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
+  <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
   	<property name="em" ref="entityManager"/>
-  </bean>
-
-  <bean id="stateProcessRelationDao" class="org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao">
-	<property name="em" ref="entityManager"/>
   </bean>
 
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />

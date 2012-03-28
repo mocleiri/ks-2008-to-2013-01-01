@@ -10,9 +10,6 @@ import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiCluCluRelationEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
-import org.kuali.student.enrollment.class1.lui.model.LuiResultValuesGroupEntity;
-import org.kuali.student.enrollment.class1.lui.model.LuiUnitsContentOwnerEntity;
-import org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -34,6 +31,8 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebParam;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class LuiServiceImpl implements LuiService {
@@ -131,6 +130,12 @@ public class LuiServiceImpl implements LuiService {
     public List<String> getLuiIdsByCluId(String cluId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return new ArrayList<String>();
     }
+
+    @Override
+    public List<String> getLuiIdsByAtpAndType( String atpId,String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+        {
+            return  new ArrayList<String>();
+        }
 
     @Override
     public List<String> getLuiIdsInAtpByCluId(String cluId, String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -267,9 +272,6 @@ public class LuiServiceImpl implements LuiService {
         }
 
         this.setLuiCluCluRelations(luiInfo.getCluCluRelationIds(), entity.getCluCluReltns(), entity);
-        this.setUnitsContentOwner(luiInfo.getUnitsContentOwner(), entity.getUnitsContentOwners(), entity);
-        this.addUnitsDeployment(luiInfo.getUnitsDeployment(), entity.getUnitsDeployments(), entity);
-        this.addResultValuesGroups(luiInfo.getResultValuesGroupKeys(), entity.getResultValuesGroupRelationEntities(), entity);
 
         luiDao.persist(entity);
 
@@ -292,9 +294,6 @@ public class LuiServiceImpl implements LuiService {
                 modifiedEntity.setAtpId(atpId);
 
             this.setLuiCluCluRelations(luiInfo.getCluCluRelationIds(), entity.getCluCluReltns(), modifiedEntity);
-            this.setUnitsContentOwner(luiInfo.getUnitsContentOwner(), entity.getUnitsContentOwners(), modifiedEntity);
-            this.addUnitsDeployment(luiInfo.getUnitsDeployment(), entity.getUnitsDeployments(), modifiedEntity);
-            this.addResultValuesGroups(luiInfo.getResultValuesGroupKeys(), entity.getResultValuesGroupRelationEntities(), modifiedEntity);
 
             luiDao.merge(modifiedEntity);
             return luiDao.find(modifiedEntity.getId()).toDto();
@@ -323,93 +322,11 @@ public class LuiServiceImpl implements LuiService {
         return status;
     }
 
-    /**
-     * 
-     * Sets the LuiResultValuesGroup entities on the LuiEntity.
-     * 
-     * The method loops thru the existing entities to find already added relations and only add new entities if required. New entities 
-     * are created based on the given resultValuesGroupKeys.  
-     * 
-     * @param resultValuesGroupKeys
-     * @param existingResultValuesGrps
-     * @param entity
-     */
-    private void addResultValuesGroups(final List<String> resultValuesGroupKeys, final List<LuiResultValuesGroupEntity> existingResultValuesGrps, LuiEntity entity) {
+   
 
-        if (resultValuesGroupKeys == null)
-            return;
+   
 
-        keys: for (String resultValueGroupKey : resultValuesGroupKeys) {
-            for (LuiResultValuesGroupEntity existingResultValueGroup : existingResultValuesGrps) {
-                if (existingResultValueGroup.getResultValuesGroupKey().equals(resultValueGroupKey)) {
-                    entity.getResultValuesGroupRelationEntities().add(existingResultValueGroup);
-                    continue keys;
-                }
-            }
-
-            entity.getResultValuesGroupRelationEntities().add(new LuiResultValuesGroupEntity(entity, resultValueGroupKey));
-        }
-
-    }
-
-    /**
-     * 
-     * Sets the LuiResultValuesGroup entities on the LuiEntity.
-     * 
-     * The method loops thru the existing entities to find already added relations and only add new entities if required. New entities 
-     * are created based on the given orgIds. 
-     * 
-     * @param orgIds
-     * @param existingUnitsDeployments
-     * @param entity
-     */
-    private void addUnitsDeployment(final List<String> orgIds, final List<LuiUnitsDeploymentEntity> existingUnitsDeployments, LuiEntity entity) {
-
-        if (orgIds == null)
-            return;
-
-        orgs: for (String orgId : orgIds) {
-            for (LuiUnitsDeploymentEntity existingUnitsDeployment : existingUnitsDeployments) {
-                if (existingUnitsDeployment.getOrgId().equals(orgId)) {
-                    entity.getUnitsDeployments().add(existingUnitsDeployment);
-                    continue orgs;
-                }
-            }
-
-            entity.getUnitsDeployments().add(new LuiUnitsDeploymentEntity(entity, orgId));
-        }
-
-    }
-
-    /**
-     * 
-     * Sets the LuiUnitsContentOwner entities on the LuiEntity.
-     * 
-     * The method loops thru the existing entities to find already added relations and only add new entities if required. New entities 
-     * are created based on the given orgIds.
-     * 
-     * @param orgIds
-     * @param existingUnitsContentOwners
-     * @param entity
-     */
-    private void setUnitsContentOwner(final List<String> orgIds, final List<LuiUnitsContentOwnerEntity> existingUnitsContentOwners, LuiEntity entity) {
-
-        if (orgIds == null)
-            return;
-
-        orgs: for (String orgId : orgIds) {
-            for (LuiUnitsContentOwnerEntity existingUnitsContentOwner : existingUnitsContentOwners) {
-                if (existingUnitsContentOwner.getOrgId().equals(orgId)) {
-                    entity.getUnitsContentOwners().add(existingUnitsContentOwner);
-                    continue orgs;
-                }
-            }
-
-            entity.getUnitsContentOwners().add(new LuiUnitsContentOwnerEntity(entity, orgId));
-        }
-
-    }
-
+   
     /**
      * 
      * Sets the LuiCluCluRelation entities on the LuiEntity.

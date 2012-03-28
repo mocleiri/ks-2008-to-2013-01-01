@@ -115,5 +115,4 @@ public class LuiCapacityEntity extends MetaEntity {
     public void setProcessingOrder(Integer processingOrder) {
         this.processingOrder = processingOrder;
     }
-
 }
