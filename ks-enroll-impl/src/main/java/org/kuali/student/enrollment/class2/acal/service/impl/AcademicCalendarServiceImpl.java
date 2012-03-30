@@ -391,7 +391,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public HolidayCalendarInfo copyHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        throw new OperationFailedException("Method implemented in calculation decorator.");
     }
 
     @Override
@@ -1041,7 +1041,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public TypeInfo getHolidayType(String holidayTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+                MissingParameterException, OperationFailedException, PermissionDeniedException {
         TypeInfo type = typeService.getType(holidayTypeKey, context);
 
 
@@ -1288,10 +1288,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<AcademicCalendarInfo> searchForAcademicCalendars(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-
+        
         List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
         List<AtpInfo> atps = atpService.searchForAtps(criteria, context);
-
+        
         for (AtpInfo atp : atps) {
             try {
                 academicCalendars.add(acalAssembler.assemble(atp, context));
@@ -1299,14 +1299,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 throw new OperationFailedException("AssemblyException : " + e.getMessage());
             }
         }
-
+        
         return academicCalendars;
     }
 
     @Override
     public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-
+        
         List<AtpInfo> results = atpService.searchForAtps(criteria, context);
         List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
 
@@ -1331,7 +1331,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<HolidayInfo> searchForHolidays(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-
+        
         List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(criteria, context);
         List<HolidayInfo> holidayInfos = new ArrayList<HolidayInfo>();
 
@@ -1342,7 +1342,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 throw new OperationFailedException("Error assembling holiday with Id " + milestoneInfo.getId(), e);
             }
         }
-
+        
         return holidayInfos;
     }
 
@@ -1817,7 +1817,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<AcalEventInfo> searchForAcalEvents(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-
+        
         List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(criteria, contextInfo);
         List<AcalEventInfo> acalEventInfos = new ArrayList<AcalEventInfo>();
 
@@ -1828,7 +1828,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 throw new OperationFailedException("Error assembling AcalEvent", e);
             }
         }
-
+        
         return acalEventInfos;
     }
 
@@ -1913,7 +1913,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         try {
             relations = typeService.getTypeTypeRelationsByOwnerType(AtpServiceConstants.MILESTONE_HOLIDAY_GROUPING_TYPE_KEY,
-                    TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
+                            TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException(e.getMessage(), e);
         }
