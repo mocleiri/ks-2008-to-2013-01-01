@@ -35,9 +35,9 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:clientSideValidate="true"  p:render="@{!#view.readOnly}"/>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set as Official" p:methodToCall="setOfficial" p:clientSideJs="submitForm();" p:render="@{official eq true and !#view.readOnly}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set as Official" p:methodToCall="setOfficial" p:render="@{officialButtonVisible and !#view.readOnly}"/>
                         <bean parent="Uif-ActionLink" p:actionLabel="Close" p:methodToCall="close"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="delete" p:render="@{delete eq true and !#view.readOnly}"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="delete" p:render="@{deleteButtonVisible and !#view.readOnly}"/>
                     </list>
                 </property>
             </bean>
@@ -56,7 +56,8 @@
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-MetaSection" parent="Uif-HorizontalBoxSection" >
+    <bean id="KS-AcademicCalendar-MetaSection" parent="Uif-HorizontalBoxSection">
+        <property name="id" value="KS-AcademicCalendar-MetaSection" />
         <property name="title" value="Calendar Information" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
@@ -75,7 +76,7 @@
                     </property>
                     <!-- <property name="optionsFinder">
                       <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.OrgKeyValues"/>
-                  </property>   -->
+                    </property>   -->
                 </bean>
                 <bean parent="Uif-InputField" p:label="Start Date" p:labelPlacement="TOP"
                       p:labelField.renderColon="false" p:labelField.style="display:block;"
@@ -120,18 +121,12 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="eventTypeKey" p:label="Event" p:required="true"
-                      p:render="@{#isAddLine}" p:style="font-weight:bold;" >
+                      p:readOnly="@{!#isAddLine}" p:style="font-weight:bold;" p:alternateDisplayPropertyName="eventTypeName">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcalEventTypeKeyValues" />
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:propertyName="eventTypeName" p:label="" p:readOnly="true"
-                      p:render="@{!#isAddLine}" p:required="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true"
@@ -164,13 +159,13 @@
                  </bean>
                 <!-- NOTE: for progressiveRender condition below, "dateRange eq true" DOESN'T WORK -->
                 <bean parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}"
-                      p:label="End Date" p:required="@{#lp.dateRange eq true}"
-                      p:progressiveRender="@{#lp.dateRange != false}">
+                      p:label="End Date" p:required="@{#lp.dateRange}"
+                      p:progressiveRender="@{#lp.dateRange}">
                     <!-- BUG ALERT:
                         Without the conditional readOnly property, a "delete" action will
                         cause the endDate field ON THE NEXT LINE to be cleared.  Weird.
                     -->
-                    <property name="readOnly" value="@{#lp.dateRange eq false}"/>
+                    <property name="readOnly" value="@{!#lp.dateRange}"/>
                     <!-- END OF BUG ALERT -->
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
@@ -209,7 +204,7 @@
                  <bean parent="Uif-InputField" p:propertyName="dateRange"
                        p:label="Date Range" p:alternateDisplayPropertyName="isDateRangeUI">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
+                        <bean parent="Uif-CheckboxControl" />
                     </property>
                  </bean>
 			</list>
@@ -256,16 +251,23 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="Holiday Calendar ID" p:propertyName="id" p:render="@{#isAddLine}" p:id="hcal_id">
+                <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:render="@{#isAddLine}" p:refreshWhenChanged="academicCalendarInfo.startDate">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="60"/>
+                        <bean parent="Uif-DropdownControl"/>
                     </property>
-                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
-                    <property name="fieldLookup.fieldConversions">
-                        <map>
-                            <entry key="id" value="id" />
-                        </map>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayWrapperListFinder" />
                     </property>
+                    <!--<property name="control">-->
+                        <!--<bean parent="Uif-TextControl" p:size="60"/>-->
+                    <!--</property>-->
+                    <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />-->
+                    <!--<property name="fieldLookup.fieldConversions">-->
+                        <!--<map>-->
+                            <!--<entry key="id" value="id" />-->
+                        <!--</map>-->
+                    <!--</property>-->
+
                 </bean>
                 <bean parent="Uif-InputField"
                       p:propertyName="holidayCalendarInfo.name"

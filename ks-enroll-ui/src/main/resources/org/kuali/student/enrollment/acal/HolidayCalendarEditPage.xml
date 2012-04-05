@@ -26,9 +26,9 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:clientSideValidate="true" />
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set as Official" p:methodToCall="setOfficial" p:clientSideJs="submitForm();" p:render="@{official eq true}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set as Official" p:methodToCall="setOfficial" p:clientSideJs="submitForm();" p:render="@{officialButtonVisible}"/>
                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="delete" p:render="@{delete eq true}"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="delete" p:render="@{deleteButtonVisible}"/>
                     </list>
                 </property>
             </bean>
@@ -134,8 +134,8 @@
                 </bean>
                 <!-- NOTE: for progressiveRender condition below, "dateRange eq true" DOESN'T WORK -->
                 <bean parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}"
-                      p:label="End Date" p:required="@{#lp.dateRange eq true}"
-                      p:progressiveRender="@{#lp.dateRange != false}">
+                      p:label="End Date" p:required="@{#lp.dateRange}"
+                      p:progressiveRender="@{#lp.dateRange}">
                     <!-- BUG ALERT:
                         Without the conditional readOnly property, a "delete" action will
                         cause the endDate field ON THE NEXT LINE to be cleared.  Weird.
@@ -193,7 +193,7 @@
             <list>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteHoliday" p:actionLabel="delete"/>
             </list>
-    </property>
+        </property>
 	</bean>
 
     <util:list id="hcorg-options">
