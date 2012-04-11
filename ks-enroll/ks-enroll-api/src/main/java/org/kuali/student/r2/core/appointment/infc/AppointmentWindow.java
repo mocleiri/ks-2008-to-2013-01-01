@@ -31,6 +31,7 @@ public interface AppointmentWindow extends IdEntity {
      * Window start date ("Aug 05, 2012")
      *
      * @name Start Date
+     * @required
      */
     public Date getStartDate();
 
@@ -47,6 +48,7 @@ public interface AppointmentWindow extends IdEntity {
      * Slot rules for appointment slot generation
      *
      * @name Slot Rules
+     * @required
      */
     public AppointmentSlotRule getSlotRule();
 
@@ -55,7 +57,7 @@ public interface AppointmentWindow extends IdEntity {
      *
      * @impl This milestone may be mapped to an ATP ("FALL2013")
      * @name Period Milestone Id
-     * @impl Based on AppointmentWindow type the dictionary may choose to constrain the periodMilestoneId requirement
+     * @required
      */
     public String getPeriodMilestoneId();
 
@@ -63,7 +65,7 @@ public interface AppointmentWindow extends IdEntity {
      * The Population Id to which the appointment window is assigned.
      *
      * @name Assigned Population Id
-
+     * @required
      */
     public String getAssignedPopulationId();
 
@@ -71,7 +73,7 @@ public interface AppointmentWindow extends IdEntity {
      * Ordering for appointment slots assignment ("random"/"last name"/"GPA")
      *
      * @name Assigned Order Type Key
-
+     * @required
      */
     public String getAssignedOrderTypeKey();
 
@@ -82,5 +84,6 @@ public interface AppointmentWindow extends IdEntity {
      * @impl Choosing this field expands the number_of_appointment_slots so all the persons in a population are assigned.
      */
     public Integer getMaxAppointmentsPerSlot();
+
 
 }
