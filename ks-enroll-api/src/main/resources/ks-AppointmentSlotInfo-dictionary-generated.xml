@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
+		This dictionary file was automatically generated on Wed Apr 11 10:29:09 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -120,7 +120,7 @@ Appointment end date and time (&quot;Aug 05,2012 9:20am&quot;)
 Appointment end date and time (&quot;Aug 05,2012 9:20am&quot;)
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="AppointmentSlotInfo.appointmentWindowId-generated" abstract="true" parent="BaseKuali.string">
