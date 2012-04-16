@@ -20,20 +20,18 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <!--<module>ks-enroll-sql</module>-->
+                <module>ks-enroll-sql</module>
                 <module>ks-enroll-impl</module>
                 <module>ks-enroll-ui</module>
                 <module>ks-enroll-web</module>
             </modules>
         </profile>
-        <!--
         <profile>
             <id>sql-only</id>
             <modules>
                 <module>ks-enroll-sql</module>
             </modules>
         </profile>
-        -->
         <profile>
             <id>skip-all-wars</id>
             <modules>
