@@ -18,11 +18,11 @@ package org.kuali.student.contract.writer.service;
 import java.io.Serializable;
 import java.util.List;
 
-import org.kuali.student.contract.exception.DictionaryExecutionException;
 import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.XmlType;
 import org.kuali.student.contract.model.util.ModelFinder;
+import org.kuali.student.contract.model.validation.DictionaryValidationException;
 import org.kuali.student.contract.writer.JavaClassWriter;
 
 /**
@@ -88,13 +88,21 @@ public class PureJavaInfcBeanWriter extends JavaClassWriter {
 
         List<MessageStructure> list =
                 finder.findMessageStructures(type.getName());
-        if (list.size() == 0) {
-            throw new DictionaryExecutionException("xmlType " + type.getName()
-                    + " has no fields defined in the message structure tab");
-        }
+//        if (list.size() == 0) {
+//            throw new DictionaryExecutionException("xmlType " + type.getName()
+//                    + " has no fields defined in the message structure tab");
+//        }
         for (MessageStructure ms : list) {
             String realType = stripList(PureJavaInfcInfcWriter.calcClassName(ms.getType()));
-            String fieldType = this.calcFieldTypeToUse(ms.getType(), realType);
+            String fieldType = null;
+            if (ms.getId().equals("RegistrationGroupTemplateInfo.activityOfferingCombinations")) {
+                continue;
+            }
+            try {
+             fieldType = this.calcFieldTypeToUse(ms.getType(), realType);
+            } catch (DictionaryValidationException ex) {
+                throw new DictionaryValidationException (ms.getId(), ex);
+            }
             String name = initLower(ms.getShortName());
             indentPrintln("");
             indentPrintln("private " + fieldType + " " + name + ";");

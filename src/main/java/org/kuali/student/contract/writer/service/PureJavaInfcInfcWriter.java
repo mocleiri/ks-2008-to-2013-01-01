@@ -79,12 +79,15 @@ public class PureJavaInfcInfcWriter extends JavaClassWriter {
         openBrace();
 
         List<MessageStructure> list = finder.findMessageStructures(xmlType.getName());
-        if (list.size() == 0) {
-            throw new DictionaryExecutionException(
-                    "xmlType " + xmlType.getName()
-                    + " has no fields defined in the message structure tab");
-        }
+//        if (list.size() == 0) {
+//            throw new DictionaryExecutionException(
+//                    "xmlType " + xmlType.getName()
+//                    + " has no fields defined in the message structure tab");
+//        }
         for (MessageStructure ms : list) {
+            if (ms.getId().equals ("RegistrationGroupTemplateInfo.activityOfferingCombinations")) {
+                continue;
+            }
             String realType = stripList(calcClassName(ms.getType()));
             String type = this.calcFieldTypeToUse(ms.getType(), realType);
             indentPrintln("");

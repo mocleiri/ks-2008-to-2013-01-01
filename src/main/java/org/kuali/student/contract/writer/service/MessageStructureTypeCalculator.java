@@ -77,6 +77,9 @@ public class MessageStructureTypeCalculator {
             if (type.equalsIgnoreCase("integer")) {
                 return "Integer";
             }
+            if (type.equalsIgnoreCase("Float")) {
+                return "Float";
+            }
             if (type.equalsIgnoreCase("long")) {
                 return "Long";
             }
