@@ -63,7 +63,7 @@ public class ValidationDecoratorWriterForOneService {
         }
 
         // the main servKey
-        System.out.println("Generating servKeys API's for " + servKey);
+        System.out.println("Generating validation decroators for " + servKey);
         new ValidationDecoratorServiceWriter(model, directory, rootPackage, servKey, methods).write();
 
     }
