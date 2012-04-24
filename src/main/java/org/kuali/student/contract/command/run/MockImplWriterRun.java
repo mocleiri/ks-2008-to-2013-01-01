@@ -23,15 +23,15 @@ import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
 import org.kuali.student.contract.model.validation.ServiceContractModelValidator;
-import org.kuali.student.contract.writer.service.PureJavaInfcWriter;
+import org.kuali.student.contract.writer.service.MockImplWriter;
 
 /**
  *
  * @author nwright
  */
-public class PureJavaInterfaceWriterRun {
+public class MockImplWriterRun {
 
-    public PureJavaInterfaceWriterRun() {
+    public MockImplWriterRun() {
     }
     private static final String CORE_DIRECTORY =
             "C:/svn/student/ks-core/ks-core-api/src/main/java";
@@ -84,10 +84,10 @@ public class PureJavaInterfaceWriterRun {
 //   ServicesFilter filter = new ServicesFilterByKeys (servicesToProcess);
         String targetDir = "target/gen-src";
 //  targetDir = "src/main/java";
-        PureJavaInfcWriter instance =
-                new PureJavaInfcWriter(model,
+        MockImplWriter instance =
+                new MockImplWriter(model,
                 targetDir,
-                PureJavaInfcWriter.DEFAULT_ROOT_PACKAGE,
+                MockImplWriter.DEFAULT_ROOT_PACKAGE,
                 null);
         instance.write();
 
