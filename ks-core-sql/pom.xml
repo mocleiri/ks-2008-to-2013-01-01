@@ -8,4 +8,22 @@
   </parent>
   <artifactId>ks-core-sql</artifactId>
   <name>KS Core SQL</name>
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*db-version*.sql</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>**/*db-version*.sql</exclude>
+        </excludes>
+      </resource>
+    </resources>
+  </build>
 </project>
