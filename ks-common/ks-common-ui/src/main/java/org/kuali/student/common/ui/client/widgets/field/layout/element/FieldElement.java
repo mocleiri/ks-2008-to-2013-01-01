@@ -15,7 +15,6 @@
 
 package org.kuali.student.common.ui.client.widgets.field.layout.element;
 
-import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
@@ -27,8 +26,9 @@ import org.kuali.student.common.ui.client.widgets.KSTitleDescPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Composite;
@@ -71,6 +71,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @see FieldDescriptor
  * @see FieldLayout
  */
+@Deprecated
 public class FieldElement extends Composite implements FieldLayoutComponent{
 
 	//Layout
@@ -346,12 +347,14 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     	required.setVisible(isRequired);
     }
 
-    public void setInstructions(String text){
+    public void setInstructions(String text) {
     	instructionText = text;
     	if(instructionText != null && !instructionText.trim().equals("")){
     		instructions.setHTML(text);
     		instructions.setVisible(true);
-    	}
+    	} else {
+            instructions.setVisible(false);
+        }
     }
     
     public void setExamples(String examplesText) {
@@ -361,17 +364,18 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
             instructions.setVisible(true);
             examplesButton.setHoverHTML(examplesText);
             examplesButton.getHoverPopup().addStyleName("ks-example-popup");
-        }
-        else {
+        } else {
             examplesButton.setVisible(false);
         }
     }
 
-    public void setConstraintText(String text){
+    public void setConstraintText(String text) {
     	if(text != null && !text.trim().equals("")){
     		constraints.setHTML(text);
     		constraints.setVisible(true);
-    	}
+    	} else {
+            constraints.setVisible(false);
+        }
     }
 
     public void setHelp(final String html){

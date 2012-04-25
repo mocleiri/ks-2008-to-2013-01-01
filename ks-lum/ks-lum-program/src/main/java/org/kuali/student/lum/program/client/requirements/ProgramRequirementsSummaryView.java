@@ -8,11 +8,17 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import org.kuali.student.common.assembly.data.ConstraintMetadata;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -34,8 +40,6 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.statement.dto.*;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
@@ -45,7 +49,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.widgets.EditableHeader;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 import java.util.*;
 
@@ -166,7 +170,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }
 
     protected void updateRequirementWidgets(ProgramRequirementInfo programReqInfo) {
-        if (programReqInfo != null) {
+      if (programReqInfo != null) {
+     
             StatementTypeInfo affectedStatementTypeInfo = rules.getStmtTypeInfo(programReqInfo.getStatement().getType());
             SpanPanel reqPanel = perProgramRequirementTypePanel.get(affectedStatementTypeInfo.getId());
 
@@ -206,7 +211,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         //iterate and display rules for each Program Requirement type e.g. Entrance Requirements, Completion Requirements
         Boolean firstRequirement = true;
-        perProgramRequirementTypePanel.clear();
+        perProgramRequirementTypePanel.clear();  
         for (StatementTypeInfo stmtTypeInfo : rules.getStmtTypes()) {
 
             //create and display one type of program requirement section
@@ -319,7 +324,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 final StatementTreeViewInfo newSubRule = new StatementTreeViewInfo();
                 newSubRule.setId(generateStatementTreeId());
                 newSubRule.setType(stmtTypeId);
-                RichTextInfo text = new RichTextInfo();
+                org.kuali.student.r1.common.dto.RichTextInfo text = new org.kuali.student.r1.common.dto.RichTextInfo();
                 text.setPlain("");
                 newSubRule.setDesc(text);
                 parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>() {
@@ -561,13 +566,13 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         if (internalProgReqID == null) {
             progReqInfo = new ProgramRequirementInfo();
             progReqInfo.setId(NEW_PROG_REQ_ID + Integer.toString(tempStmtTreeID++));   //set unique id
-            progReqInfo.setType("kuali.lu.type.Requirement");
+            progReqInfo.setTypeKey("kuali.lu.type.Requirement");
 
             //create a top level statement tree
             StatementTreeViewInfo stmtTree = new StatementTreeViewInfo();
             stmtTree.setId(generateStatementTreeId());
             stmtTree.setType(stmtTypeId);
-            RichTextInfo text2 = new RichTextInfo();
+            org.kuali.student.r1.common.dto.RichTextInfo text2 = new org.kuali.student.r1.common.dto.RichTextInfo();
             text2.setPlain("");
             stmtTree.setDesc(text2);
             stmtTree.setOperator(StatementOperatorTypeKey.AND); //AND is top level operator for rules within a Program Requirement

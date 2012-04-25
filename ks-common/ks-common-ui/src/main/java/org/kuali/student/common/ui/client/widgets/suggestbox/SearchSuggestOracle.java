@@ -18,26 +18,27 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.dto.SortDirection;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SortDirection;
 
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class SearchSuggestOracle extends IdableSuggestOracle{
     
     private String searchTypeKey;

@@ -12,10 +12,10 @@
 
 package org.kuali.student.common.ui.client.widgets;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
 
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.HasBlurHandlers;
@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSCharCount extends Composite implements HasText, HasInputWidget, HasBlurHandlers {
     VerticalPanel countingPanel;
     Widget inputWidget;

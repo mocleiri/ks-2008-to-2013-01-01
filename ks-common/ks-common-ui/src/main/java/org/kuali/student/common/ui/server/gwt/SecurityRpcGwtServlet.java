@@ -15,16 +15,21 @@
 
 package org.kuali.student.common.ui.server.gwt;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -40,6 +45,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class SecurityRpcGwtServlet extends RemoteServiceServlet implements SecurityRpcService{
 
 	final Logger LOG = Logger.getLogger(SecurityRpcGwtServlet.class);
@@ -54,9 +60,14 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
     }
 
 	@Override
-	public HashMap<String, Boolean> getScreenPermissions(ArrayList<String> screens) {
-		// TODO Auto-generated method stub
-		return null;
+	public HashMap<String, Boolean> getScreenPermissions(ArrayList<String> screens) throws OperationFailedException {
+	    HashMap<String,Boolean> screenPermissions = new HashMap<String,Boolean>();
+        for (String screenName:screens){
+            boolean hasAccess = hasScreenPermission(screenName);
+            screenPermissions.put(screenName, hasAccess);
+        }
+        
+        return screenPermissions;
 	}
 	 
 	@Override
@@ -69,7 +80,7 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		Map<String, String> permDetails = new LinkedHashMap<String, String>();
 		HashMap<String,Boolean> permissions = new HashMap<String,Boolean>();
 		for (String permissionName:permissionNames){
-			boolean hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, permDetails);
+			boolean hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, permDetails, permDetails);
 			permissions.put(permissionName, hasAccess);
 		}
 				
@@ -85,7 +96,7 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
         Map<String, String> permDetails = new LinkedHashMap<String, String>();
         permDetails.put(StudentIdentityConstants.SCREEN_COMPONENT, screenName);
         boolean hasAccess = false;
-        hasAccess = getPermissionService().isAuthorizedByTemplate(principalId, 
+        hasAccess = getPermissionService().isAuthorizedByTemplateName(principalId, 
 					PermissionType.USE_SCREEN.getPermissionNamespace(), 
 					PermissionType.USE_SCREEN.getPermissionTemplateName(), permDetails, 
 					permDetails);
@@ -105,7 +116,7 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		//TODO: Do we need to worry about permission details when checking by permission name
 		Map<String, String> permDetails = new LinkedHashMap<String, String>();
 		boolean hasAccess = false;
-		hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, permDetails);
+		hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, permDetails, permDetails);
 		
 		LOG.debug(principalId + " access : " + hasAccess);
 		
@@ -117,7 +128,6 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 	 * 
 	 * TODO: Need to determine if permission details are required.   
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<String> getPermissionsByType(PermissionType permissionType) throws OperationFailedException {
 		ArrayList<String> matchingPermissions = new ArrayList<String>();
@@ -127,7 +137,7 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		LOG.debug("Retreiving permissions for template: " + permissionType.getPermissionTemplateName() + " for " + principalId);
  
 		Map<String, String> permDetails = new LinkedHashMap<String, String>();
-		List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplate(
+		List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplateName(
 				principalId, permissionType.getPermissionNamespace(), permissionType.getPermissionTemplateName(), permDetails, permDetails);
 
 		for (Permission permissionInfo:permissions){
@@ -137,6 +147,29 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		return matchingPermissions;
 	}
 	
+	/**
+     * This will return all permissions assigned to this user.
+     * 
+     * TODO: Need to determine if permission details are required.   
+     */
+    @Override
+    public ArrayList<String> getPermissionsByType(PermissionType permissionType, HashMap<String,String> attributes) throws OperationFailedException {
+        ArrayList<String> matchingPermissions = new ArrayList<String>();
+        //AttributeSet attributeSet = new AttributeSet(attributes);
+        String principalId = SecurityUtils.getCurrentPrincipalId();
+        
+        LOG.debug("Retreiving permissions for template: " + permissionType.getPermissionTemplateName() + " for " + principalId +" with details: "+attributes!=null?attributes.toString():"null");
+ 
+        List<Permission> permissions = (List<Permission>)getPermissionService().getAuthorizedPermissionsByTemplateName(
+                principalId, permissionType.getPermissionNamespace(), permissionType.getPermissionTemplateName(), attributes, attributes);
+        
+        
+        for (Permission permissionInfo:permissions){
+            matchingPermissions.add(permissionInfo.getName());
+        }
+        
+        return matchingPermissions;
+    }	
 	
 	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;

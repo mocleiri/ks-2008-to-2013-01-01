@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 
 import com.google.gwt.core.client.GWT;
 
+@Deprecated
 public class ReportExportDialog {
 
     private VerticalFlowPanel layout = new VerticalFlowPanel();

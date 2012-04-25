@@ -9,8 +9,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSection
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
@@ -28,6 +26,8 @@ import org.kuali.student.lum.program.client.major.view.ProposalChangeImpactViewC
 import org.kuali.student.lum.program.client.major.view.ProposalInformationViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.SpecializationsViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.SupportingDocsViewConfiguration;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -73,10 +73,12 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 	                        if (result) {
 	                            // Make sure workflow actions and status updated before showing.
 	                            ((WorkflowEnhancedNavController) controller).getWfUtilities().refresh();
+	                         
+	                            
 	                            ((WorkflowEnhancedNavController) controller).getWfUtilities().requestAndSetupModel(new Callback<Boolean>(){
 									public void exec(Boolean modelReadyResult) {
 			                            // Show validation error if they exist
-			                            ((WorkflowEnhancedNavController) controller).getWfUtilities().doValidationCheck(new Callback<List<ValidationResultInfo>>() {
+			                            ((WorkflowEnhancedNavController) controller).getWfUtilities().doValidationCheck(new Callback<List<ValidationResultInfo>>(){
 	                                        @Override
 	                                        public void exec(List<ValidationResultInfo> validationResult) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
 	                                            ErrorLevel isValid = rootSection.processValidationResults(
@@ -96,6 +98,8 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 	                                    });
 									}
 								});
+	                            
+	                         
 	                        }else{
 	                        	onReadyCallback.exec(result);
 	                        }
@@ -145,7 +149,7 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 						if(versionedFromId!=null && !versionedFromId.isEmpty()){
 							//Add the previous start term since we need it as a widget so it can act as a cross field constraint
 							workflowUtilities.addApproveDialogField("", "startTerm",  generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_STARTTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(), true, true);
-						    workflowUtilities.addApproveDialogField("proposal", "prevEndTerm", generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVENDTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
+							workflowUtilities.addApproveDialogField("proposal", "prevEndTerm", generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVENDTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
 							workflowUtilities.addApproveDialogField("proposal", "prevEndProgramEntryTerm", generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVENDPROGRAMENTRYTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
 							workflowUtilities.addApproveDialogField("proposal", "prevEndInstAdmitTerm", generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVENDINSTADMITTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
 							workflowUtilities.updateApproveFields();

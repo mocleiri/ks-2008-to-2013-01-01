@@ -18,7 +18,7 @@ package org.kuali.student.common.ui.client.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -37,5 +37,6 @@ public interface SecurityRpcServiceAsync {
 	public void getPermissions(ArrayList<String> permissionNames, AsyncCallback<HashMap<String,Boolean>> callback);
 	public void hasPermissionByPermissionName(String permissionName, AsyncCallback<Boolean> callback);
 	public void getPermissionsByType(PermissionType type, AsyncCallback<ArrayList<String>> callback);
+	public void getPermissionsByType(PermissionType permissionType, HashMap<String,String> attributes, AsyncCallback<ArrayList<String>> callback);
 	
 }

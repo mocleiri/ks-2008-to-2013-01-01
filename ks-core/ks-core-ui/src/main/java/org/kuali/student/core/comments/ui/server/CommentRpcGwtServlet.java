@@ -21,22 +21,24 @@ import java.util.Map;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 
 
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.core.comment.dto.CommentInfo;
+import org.kuali.student.r1.core.comment.dto.CommentTypeInfo;
+import org.kuali.student.r1.core.comment.service.CommentService;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.core.comment.dto.CommentInfo;
-import org.kuali.student.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.core.comment.service.CommentService;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
 
 public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentService> implements CommentRpcService {
 
 	private static final long serialVersionUID = 1L;
 	private IdentityService identityService;
-
+	
 	public IdentityService getIdentityService() {
         return identityService;
     }
@@ -48,7 +50,7 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
     @Override
 	public CommentInfo addComment(String referenceId, String referenceTypeKey,
 			CommentInfo commentInfo) throws Exception {
-		return service.addComment(referenceId, referenceTypeKey, commentInfo);
+    	return service.addComment(referenceId, referenceTypeKey, commentInfo);
 	}
 
 	@Override
@@ -93,16 +95,35 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
 		}
 		return Boolean.TRUE;
     }
-
+	
 	private String nvl(String inString) {
 	    return (inString == null)? "" : inString;
 	}
 
-    @Override
+    // @Override
+    // TODO KSCM-427 how was this used in CM-1.2
     public String getUserRealName(String userId) {
         Entity kimEntityInfo = identityService.getEntityByPrincipalId(userId);
+        return getUserRealNameByEntityInfo(kimEntityInfo);
+    }
+    
+    @Override
+    public String getUserRealNameByPrincipalId(String principalId) {
+        Entity kimEntityInfo = identityService.getEntityByPrincipalId(principalId);
+        return getUserRealNameByEntityInfo(kimEntityInfo);
+        
+    }
+    
+    @Override
+    public String getPrincipalNameByPrincipalId(String principalId) {
+        Principal kimPrincipalInfo = identityService.getPrincipal(principalId);
+        return kimPrincipalInfo.getPrincipalName();
+        
+    }
+    
+    protected String getUserRealNameByEntityInfo(Entity kimEntityInfo){
         EntityNameContract kimEntityNameInfo = (kimEntityInfo == null)? null : kimEntityInfo.getDefaultName();
-        StringBuilder name = new StringBuilder();
+        StringBuilder name = new StringBuilder(); 
         if (kimEntityNameInfo != null) {
             if (!nvl(kimEntityNameInfo.getFirstName()).trim().isEmpty()) {
                 if (!name.toString().isEmpty()) {
@@ -110,7 +131,7 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
                 }
                 name.append(nvl(kimEntityNameInfo.getFirstName()));
             }
-
+            
             if (!nvl(kimEntityNameInfo.getMiddleName()).trim().isEmpty()) {
                 if (!name.toString().isEmpty()) {
                     name.append(" ");

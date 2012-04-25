@@ -9,11 +9,11 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.core.organization.service.OrganizationService;
 
 public class DepartmentValuesFinder extends KeyValuesBase {
 	private static OrganizationService organizationService;
@@ -42,8 +42,7 @@ public class DepartmentValuesFinder extends KeyValuesBase {
 		searchRequest.addParam("org.queryParam.orgOptionalType", orgTypes);
 		searchRequest.setSortColumn("org.resultColumn.orgOptionalLongName");
 		try {
-			SearchResult results = getOrganizationService().search(searchRequest);
-
+            SearchResult results = getOrganizationService().search(searchRequest);
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = null;
 				String orgLongName = null;

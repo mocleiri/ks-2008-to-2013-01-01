@@ -2,7 +2,7 @@ package org.kuali.student.lum.program.client.variation;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;

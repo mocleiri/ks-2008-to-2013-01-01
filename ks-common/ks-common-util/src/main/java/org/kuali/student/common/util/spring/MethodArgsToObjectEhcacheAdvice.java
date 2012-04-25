@@ -94,19 +94,19 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 
 		return result;
 	}
-
+	
 	private MultiKey getCacheKey(ProceedingJoinPoint pjp) {
-	    List<Object> keyList = new ArrayList<Object>();
-	    keyList.add(pjp.getSignature().getName());
-	    for(Object arg : pjp.getArgs()){
-	    	if(arg==null){
-	    		keyList.add("_null_");
-	    	}else{
-	    		keyList.add(arg.toString());
-	    	}
-	    }
-	    return new MultiKey(keyList.toArray());
-	}
+        List<Object> keyList = new ArrayList<Object>();
+        keyList.add(pjp.getSignature().getName());
+        for(Object arg : pjp.getArgs()){
+            if(arg==null){
+                keyList.add("_null_");
+            }else{
+                keyList.add(arg.toString());
+            }
+        }
+        return new MultiKey(keyList.toArray());
+    }
 
 	/**
 	 * @return the cacheName

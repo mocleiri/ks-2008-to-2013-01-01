@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.rice.test;
 
 import java.lang.annotation.ElementType;
@@ -50,6 +49,7 @@ import org.kuali.rice.core.api.lifecycle.Lifecycle;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
+@Deprecated
 public class BaselineTestCase extends BaseModuleTestCase {
     /**
      * Enum of "baselining" modes that this test case supports

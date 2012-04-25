@@ -27,27 +27,27 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.BooleanValue;
-import org.kuali.student.common.assembly.data.Data.DataValue;
-import org.kuali.student.common.assembly.data.Data.DateValue;
-import org.kuali.student.common.assembly.data.Data.DoubleValue;
-import org.kuali.student.common.assembly.data.Data.FloatValue;
-import org.kuali.student.common.assembly.data.Data.IntegerValue;
-import org.kuali.student.common.assembly.data.Data.LongValue;
-import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.assembly.data.Data.ShortValue;
-import org.kuali.student.common.assembly.data.Data.StringValue;
-import org.kuali.student.common.assembly.data.Data.TimeValue;
-import org.kuali.student.common.assembly.data.Data.TimestampValue;
-import org.kuali.student.common.assembly.data.Data.Value;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.MetadataInterrogator;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.BooleanValue;
+import org.kuali.student.r1.common.assembly.data.Data.DataValue;
+import org.kuali.student.r1.common.assembly.data.Data.DateValue;
+import org.kuali.student.r1.common.assembly.data.Data.DoubleValue;
+import org.kuali.student.r1.common.assembly.data.Data.FloatValue;
+import org.kuali.student.r1.common.assembly.data.Data.IntegerValue;
+import org.kuali.student.r1.common.assembly.data.Data.LongValue;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+import org.kuali.student.r1.common.assembly.data.Data.ShortValue;
+import org.kuali.student.r1.common.assembly.data.Data.StringValue;
+import org.kuali.student.r1.common.assembly.data.Data.TimeValue;
+import org.kuali.student.r1.common.assembly.data.Data.TimestampValue;
+import org.kuali.student.r1.common.assembly.data.Data.Value;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 
 import com.google.gwt.core.client.GWT;
 
@@ -58,6 +58,7 @@ import com.google.gwt.core.client.GWT;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class HasDataValueBinding extends ModelWidgetBindingSupport<HasDataValue>{
 
 	public static HasDataValueBinding INSTANCE = new HasDataValueBinding();

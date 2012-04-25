@@ -55,6 +55,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
+@Deprecated
 public class KSWrapper extends Composite{
 
     private static final String LUM_APP_URL		= "lum.application.url";
@@ -73,7 +74,7 @@ public class KSWrapper extends Composite{
 
 	private KSHeader ksHeader = new KSHeader();
 
-	private StylishDropDown navDropDown = new StylishDropDown(getMessage("wrapperPanelTitleHome"));
+	private StylishDropDown navDropDown = GWT.create(StylishDropDown.class);
 	private Anchor versionAnchor = new Anchor(" ( Version ) ");
 	//private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 
@@ -104,6 +105,7 @@ public class KSWrapper extends Composite{
 		}
     }
 	public KSWrapper(){
+	    navDropDown.initialise(getMessage("wrapperPanelTitleHome"));
 		this.initWidget(layout);
 	}
 	protected void onLoad() {

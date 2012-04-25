@@ -27,7 +27,7 @@
                            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
-	
+
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="properties" value="#{bootstrapConfig.getProperties()}" />
 	</bean>
@@ -64,7 +64,7 @@
 	-->
 		
 	<bean id="ks.messageServiceMock" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.common.messages.service.MessageService" />
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.common.messages.service.MessageService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/messages}MessageService" />
     </bean>	
 
@@ -77,13 +77,23 @@
 		<property name="transactionManager" ref="jtaTransactionManager" />
 		<property name="userTransaction" ref="jtaUserTransaction" />
 		<property name="rootConfig" ref="config" />
-		<property name="serviceNamespace" value="${serviceNamespace}" />
+		<property name="serviceNamespace" value="KSLumUI" />
 		<property name="ksbConfigurer">
 			<bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
                 <property name="serviceServletUrl" value="${serviceServletUrl}" />
 			</bean>
 		</property>
 	</bean-->
+	
+	<bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
+		<property name="dataSource" ref="riceDataSource" />
+		<!--property name="serverDataSource" ref="krWorkflowDataSource"/-->
+		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
+		<property name="transactionManager" ref="jtaTransactionManager" />
+		<property name="userTransaction" ref="jtaUserTransaction" />
+	</bean>
+	
+	<bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer" depends-on="coreConfigurer"/>
 
     <!-- JTA -->
 	<alias name="jtaUserTransaction" alias="userTransaction"/>    

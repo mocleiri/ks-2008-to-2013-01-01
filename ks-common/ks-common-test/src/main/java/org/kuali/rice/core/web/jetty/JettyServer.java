@@ -26,11 +26,12 @@ import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.ServletHolder;
 import org.mortbay.jetty.webapp.WebAppContext;
 
+@Deprecated
 public class JettyServer implements Lifecycle {
-
+	
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 			.getLogger(JettyServer.class);
-
+	
     /**
      * The name of an attribute we set in the ServletContext to indicate to the webapp
      * that it is running within unit tests, in case it needs to alter its configuration
@@ -39,7 +40,7 @@ public class JettyServer implements Lifecycle {
     public static final String JETTYSERVER_TESTMODE_ATTRIB = "JETTYSERVER_TESTMODE";
 
 	private int port;
-	private String contextName;
+	private String contextName;	
 	private String relativeWebappRoot;
 	private Class servletClass;
 	private Server server;
@@ -62,21 +63,21 @@ public class JettyServer implements Lifecycle {
 	public JettyServer(int port, String contextName) {
 		this(port, contextName, null, null);
 	}
-
+	
 	public JettyServer(int port, String contextName, String relativeWebappRoot) {
         this(port, contextName, relativeWebappRoot, null);
-	}
+	}	
 
     public JettyServer(int port, String contextName, Class servletClass) {
         this(port, contextName, null, servletClass);
-    }
+    }   
 
     public JettyServer(int port, String contextName, String relativeWebappRoot, Class servletClass) {
         this.port = port;
         this.contextName = contextName;
         this.relativeWebappRoot = relativeWebappRoot;
         this.servletClass = servletClass;
-    }
+    }   
 
     public void setTestMode(boolean t) {
 	    this.testMode = t;
@@ -108,7 +109,7 @@ public class JettyServer implements Lifecycle {
 	}
 
 	public void stop() throws Exception {
-		server.stop();
+		server.stop(); 
 	}
 
 	public boolean isStarted() {
@@ -143,11 +144,11 @@ public class JettyServer implements Lifecycle {
 			System.setProperty("basedir", System.getProperty("user.dir"));
 		}
 	}
-
+	
 	private boolean useWebAppContext() {
 		return StringUtils.isNotBlank(this.relativeWebappRoot);
 	}
-
+	
 	/**
 	 * A hack for Jetty so that we can detect if context startup failed.  Jetty has no programatic
 	 * way available to detect if context startup failed.  Instead we have to use reflection to
@@ -166,7 +167,7 @@ public class JettyServer implements Lifecycle {
 		}
 		return false;
 	}
-
+	
 	public String getRelativeWebappRoot() {
 		if (relativeWebappRoot == null) {
 			return "/sampleapp/web-root";
@@ -196,8 +197,8 @@ public class JettyServer implements Lifecycle {
 	public void setPort(int port) {
 		this.port = port;
 	}
-
-
+	
+	
 	public boolean isFailOnContextFailure() {
 		return this.failOnContextFailure;
 	}

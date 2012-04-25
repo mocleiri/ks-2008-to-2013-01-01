@@ -27,9 +27,11 @@ import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
-import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 
 import javax.xml.namespace.QName;
 import java.util.*;
@@ -112,7 +114,7 @@ public class KimQualificationHelper {
         return null;
     }
 
-    public static Map<String,String> translateInputAttributeSet(Map<String,String> qualification) {
+    public static Map<String,String> translateInputAttributeSet(Map<String,String> qualification, ContextInfo context) {
 		try {
 			DocumentDetail docDetail = null;
 			// first get a valid DocumentDetailDTO object if possible
@@ -121,7 +123,7 @@ public class KimQualificationHelper {
 			if (StringUtils.isBlank(documentNumber)) {
 			    // if document number is not in qualification try to get it using proposal id qualification
 	            if (StringUtils.isNotBlank(proposalId)) {
-	                ProposalInfo propInfo = getProposalService().getProposal(proposalId);
+	                ProposalInfo propInfo = getProposalService().getProposal(proposalId,context);
 	                documentNumber = propInfo.getWorkflowId();
 	            }
 			}

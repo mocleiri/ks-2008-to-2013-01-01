@@ -21,23 +21,24 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LookupService;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
-import org.kuali.student.common.search.service.SearchManager;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r1.core.organization.service.OrganizationService;
 import org.kuali.student.core.subjectcode.bo.SubjectCode;
 import org.kuali.student.core.subjectcode.bo.SubjectCodeJoinOrg;
-import org.kuali.student.core.subjectcode.service.SubjectCodeService;
+import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.springframework.beans.factory.InitializingBean;
 import org.kuali.student.common.util.DateFormatThread;
 
@@ -54,7 +55,6 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	protected boolean cachingEnabled = false;
 	protected int searchCacheMaxSize = 20;
 	protected int searchCacheMaxAgeSeconds = 90;
-	//protected Map<String,MaxAgeSoftReference<SearchResult>> searchCache;
 	protected Map<String,SearchResult> searchCache;
 	@Override
 	public List<SearchTypeInfo> getSearchTypes()
@@ -195,7 +195,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 			SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
 			orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(orgIdToRowMapping.keySet()));
 			SearchResult orgIdTranslationSearchResult = getOrganizationService().search(orgIdTranslationSearchRequest);
-			
+            			
 			//For each translation, update the result cell with the translated org name
 			for(SearchResultRow row:orgIdTranslationSearchResult.getRows()){
 				//Get Params
@@ -284,8 +284,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if(cachingEnabled){
-            //searchCache = new MapMaker().expireAfterAccess(searchCacheMaxAgeSeconds, TimeUnit.SECONDS).maximumSize(searchCacheMaxSize).softValues().makeMap();
-            searchCache = new MapMaker().expiration(searchCacheMaxAgeSeconds, TimeUnit.SECONDS).softValues().makeMap();
+            searchCache = new MapMaker().expireAfterAccess(searchCacheMaxAgeSeconds, TimeUnit.SECONDS).maximumSize(searchCacheMaxSize).softValues().makeMap();
 		}
 	}
 	

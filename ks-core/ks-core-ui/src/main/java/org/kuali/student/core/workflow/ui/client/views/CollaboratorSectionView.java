@@ -6,13 +6,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestEnum;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.rice.StudentWorkflowConstants.ActionRequestType;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -57,34 +57,37 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Will
  */
 public class CollaboratorSectionView extends SectionView {
-    private WorkflowRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowRpcService.class);
+
+    protected static final String COLLAB_PERSON_SUGGEST_NAME_LABEL_KEY = "collaboratorNameSuggest";
+        
+    protected WorkflowRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowRpcService.class);
 
     private QueryPath collabPath = QueryPath.parse("collaboratorInfo/collaborators");
 
-    private GroupSection section;
-    private FieldDescriptor person;
-    private FieldDescriptor permissions;
-    private FieldDescriptor actionRequests;
+    protected GroupSection section;
+    protected FieldDescriptor person;
+    protected FieldDescriptor permissions;
+    protected FieldDescriptor actionRequests;
     protected FieldDescriptor authorNotation;
-    private KSButton addButton = new KSButton("Add Collaborator", ButtonStyle.SECONDARY);
-    private SimpleWidgetTable table;
-    private VerticalSection tableSection;
-    private InfoMessage saveWarning = new InfoMessage("The document must be saved before Collaborators can be added.", true);
-    private InfoMessage addWarning = new InfoMessage("Both Permission and Action Request must be selected before a collaborator could be added.", false);
-    private SimpleListItems permissionListItems = new SimpleListItems();
-    private SimpleListItems actionRequestListItems = new SimpleListItems();
+    protected KSButton addButton = new KSButton("Add Collaborator", ButtonStyle.SECONDARY);
+    protected SimpleWidgetTable table;
+    protected VerticalSection tableSection;
+    protected InfoMessage saveWarning = new InfoMessage("The document must be saved before Collaborators can be added.", true);
+    protected InfoMessage addWarning = new InfoMessage("Both Permission and Action Request must be selected before a collaborator could be added.", false);
+    protected SimpleListItems permissionListItems = new SimpleListItems();
+    protected SimpleListItems actionRequestListItems = new SimpleListItems();
 
-    private KSDropDown permissionList = new KSDropDown();
-    private KSDropDown actionRequestList = new KSDropDown();
+    protected KSDropDown permissionList = new KSDropDown();
+    protected KSDropDown actionRequestList = new KSDropDown();
 
-    private boolean canRemoveCollaborators = false;
-    private boolean loaded = false;
+    protected boolean canRemoveCollaborators = false;
+    protected boolean loaded = false;
 
-    private String workflowId;
-    private String documentStatus = null;
-    private int numCollabs = 0;
+    protected String workflowId;
+    protected String documentStatus = null;
+    protected int numCollabs = 0;
 
-    List<Data> newCollaborators = new ArrayList<Data>();
+    protected List<Data> newCollaborators = new ArrayList<Data>();
     
     public CollaboratorSectionView(){
     	
@@ -228,7 +231,7 @@ public class CollaboratorSectionView extends SectionView {
         });
     }
 
-    private void refreshDocumentStatus(final Callback<Boolean> onReadyCallback) {
+    protected void refreshDocumentStatus(final Callback<Boolean> onReadyCallback) {
         workflowRpcServiceAsync.getDocumentStatus(workflowId, new KSAsyncCallback<String>() {
             @Override
             public void handleFailure(Throwable caught) {
@@ -237,7 +240,7 @@ public class CollaboratorSectionView extends SectionView {
             }
 
             @Override
-            public void onSuccess(String result) {
+            public void onSuccess(final String result) {
                 documentStatus = result;
                 refreshActionRequestListItems();
                 checkAuthorization(onReadyCallback);
@@ -245,7 +248,7 @@ public class CollaboratorSectionView extends SectionView {
         });
     }
 
-    private void checkAuthorization(final Callback<Boolean> onReadyCallback) {
+    protected void checkAuthorization(final Callback<Boolean> onReadyCallback) {
         workflowRpcServiceAsync.isAuthorizedAddReviewer(workflowId, new KSAsyncCallback<Boolean>() {
             @Override
             public void handleFailure(Throwable caught) {
@@ -299,10 +302,8 @@ public class CollaboratorSectionView extends SectionView {
         // Retrieve permission and action meta data.
         Metadata permissionMeta = model.getMetadata(QueryPath.parse("collaboratorInfo/collaborators/*/permission"));
         Metadata actionMeta = model.getMetadata(QueryPath.parse("collaboratorInfo/collaborators/*/action"));
-
-        // TODO use real keys here
-        // person = new FieldDescriptor("collaboratorInfo", generateMessageInfo("Name"), personIdMeta);
-        person = new FieldDescriptor(null, generateMessageInfo("Name"), personIdMeta);
+        
+        person = new FieldDescriptor(null, new MessageKeyInfo("course", null, getController().getViewContext().getState(), COLLAB_PERSON_SUGGEST_NAME_LABEL_KEY), personIdMeta);
         final KSPicker personPicker = (KSPicker) person.getFieldElement().getFieldWidget();
         personPicker.addFocusLostCallback(new Callback<Boolean>() {
             @Override
@@ -337,23 +338,22 @@ public class CollaboratorSectionView extends SectionView {
         return new MessageKeyInfo(null, null, null, labelKey);
     }
 
-    private boolean isDocumentPreRoute() {
+    protected boolean isDocumentPreRoute() {
         return "I".equals(documentStatus) || "S".equals(documentStatus);
     }
 
-    private void refreshActionRequestListItems() {
+    protected void refreshActionRequestListItems() {
         actionRequestListItems.clear();
-        if (isDocumentPreRoute()){
-            actionRequestListItems.addItem(ActionRequestEnum.FYI.getActionRequestCode(), ActionRequestEnum.FYI.getActionRequestLabel());
-		} else {
-            actionRequestListItems.addItem(ActionRequestEnum.APPROVE.getActionRequestCode(), ActionRequestEnum.APPROVE.getActionRequestLabel());
-            actionRequestListItems.addItem(ActionRequestEnum.ACKNOWLEDGE.getActionRequestCode(), ActionRequestEnum.ACKNOWLEDGE.getActionRequestLabel());
-            actionRequestListItems.addItem(ActionRequestEnum.FYI.getActionRequestCode(), ActionRequestEnum.FYI.getActionRequestLabel());
+        if (isDocumentPreRoute()) {
+            actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(), ActionRequestType.FYI.getActionRequestLabel());
+        } else {
+            actionRequestListItems.addItem(ActionRequestType.APPROVE.getActionRequestCode(), ActionRequestType.APPROVE.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestType.ACKNOWLEDGE.getActionRequestCode(), ActionRequestType.ACKNOWLEDGE.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(), ActionRequestType.FYI.getActionRequestLabel());
 
-		}
-
+        }
         actionRequestList.setListItems(actionRequestListItems);
-        refreshPermissionList(ActionRequestEnum.FYI.getActionRequestCode());
+        refreshPermissionList(ActionRequestType.FYI.getActionRequestCode());
     }
 
     /**
@@ -362,10 +362,10 @@ public class CollaboratorSectionView extends SectionView {
      * remove EDIT permission when a route level changes or users who are sent an ACKKNOWLEDGE or FYI request will keep their
      * edit access across nodes
      */
-    private void refreshPermissionList(String selectedAction) {
+    protected void refreshPermissionList(String selectedAction) {
         permissionListItems.clear();
         // SEE JAVADOC ABOVE IF CODE BELOW IS CHANGED OR OVERRIDEN
-        if (selectedAction != null && selectedAction.equals(ActionRequestEnum.APPROVE.getActionRequestCode()) || isDocumentPreRoute()) {
+        if (selectedAction != null && selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || isDocumentPreRoute()) {
             permissionListItems.addItem(PermissionType.EDIT.getCode(), "Edit, Comment, View");
         }
 
@@ -507,27 +507,27 @@ public class CollaboratorSectionView extends SectionView {
 
     private void addPersonRow(final Data personData, final Integer deleteIndex) {
         final String personName;
-		if (personData.query("lastName") != null){
-			personName = personData.query("lastName") + ", " + personData.query("firstName");
-		} else {
-			personName = personData.query("principalId");
-		}
+        if (personData.query("lastName") != null) {
+            personName = personData.query("lastName") + ", " + personData.query("firstName");
+        } else {
+            personName = personData.query("principalId");
+        }
 
-		Boolean isAuthor = personData.query("author");
-		Boolean canRevokeRequest = personData.query("canRevokeRequest");
+        Boolean isAuthor = personData.query("author");
+        Boolean canRevokeRequest = personData.query("canRevokeRequest");
 
-		//Add person to table widget
-    	List<Widget> rowWidgets = new ArrayList<Widget>();
-		rowWidgets.add(new KSLabel(personName + (isAuthor!=null && isAuthor?" (Author)":"")));
-		rowWidgets.add(new KSLabel(translatePermissionCode((String)personData.query("permission"))));
-		rowWidgets.add(new KSLabel(ActionRequestEnum.getByCode((String) personData.query("action")).getActionRequestLabel()));
-		rowWidgets.add(new KSLabel((String)personData.get("actionRequestStatus")));
+        // Add person to table widget
+        List<Widget> rowWidgets = new ArrayList<Widget>();
+        rowWidgets.add(new KSLabel(personName + (isAuthor != null && isAuthor ? " (Author)" : "")));
+        rowWidgets.add(new KSLabel(translatePermissionCode((String) personData.query("permission"))));
+        rowWidgets.add(new KSLabel(ActionRequestType.getByCode((String) personData.query("action")).getActionRequestLabel()));
+        rowWidgets.add(new KSLabel((String) personData.get("actionRequestStatus")));
 
-		if (canRemoveCollaborators && (canRevokeRequest == null || canRevokeRequest)) {
-            //Add delete widget
+        if (canRemoveCollaborators && (canRevokeRequest == null || canRevokeRequest)) {
+            // Add delete widget
             AbbrButton removeButton = new AbbrButton(AbbrButtonType.DELETE);
             rowWidgets.add(removeButton);
-            //Register remove click handler
+            // Register remove click handler
             if (deleteIndex != null) {
                 // Handler for newly added collaborators
                 removeButton.addClickHandler(new ClickHandler() {
@@ -553,13 +553,12 @@ public class CollaboratorSectionView extends SectionView {
                     }
                 });
             }
-	    } else {
-	        // add a dummy label for table placeholder
-              rowWidgets.add(new KSLabel());
-	    }
+        } else {
+            // add a dummy label for table placeholder
+            rowWidgets.add(new KSLabel());
+        }
 
-		table.addRow(rowWidgets);
-
+        table.addRow(rowWidgets);
     }
 
     @Override

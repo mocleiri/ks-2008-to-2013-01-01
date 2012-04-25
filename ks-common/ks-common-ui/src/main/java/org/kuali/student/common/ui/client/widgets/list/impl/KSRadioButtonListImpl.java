@@ -18,7 +18,6 @@ package org.kuali.student.common.ui.client.widgets.list.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -28,6 +27,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstrac
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
+import org.kuali.student.r1.common.dto.Idable;
 
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -53,6 +53,7 @@ import com.google.gwt.user.client.ui.FlexTable;
  * @author Kuali Student Team 
  *
  */
+@Deprecated
 public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements KeyUpHandler, ValueChangeHandler<Boolean>, HasBlurHandlers, HasFocusHandlers {
     private final FocusGroup focus = new FocusGroup(this);
     private FlexTable layout = new FlexTable();

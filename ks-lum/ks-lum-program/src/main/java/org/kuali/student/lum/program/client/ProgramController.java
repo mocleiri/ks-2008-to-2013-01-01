@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
@@ -33,6 +33,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGrou
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
@@ -374,9 +375,9 @@ public abstract class ProgramController extends MenuSectionController {
     public void setViewContext(ViewContext viewContext) {
         super.setViewContext(viewContext);
         if (viewContext.getId() != null && !viewContext.getId().isEmpty()) {
-            viewContext.setPermissionType(PermissionType.OPEN);
+       //TODO KSCM-427      viewContext.setPermissionType(PermissionType.OPEN);
         } else {
-            viewContext.setPermissionType(PermissionType.INITIATE);
+        	//TODO KSCM-427     viewContext.setPermissionType(PermissionType.INITIATE);
         }
     }
 

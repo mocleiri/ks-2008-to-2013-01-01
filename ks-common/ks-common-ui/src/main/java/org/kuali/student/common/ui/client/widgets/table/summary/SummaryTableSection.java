@@ -5,10 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.MetadataInterrogator;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
@@ -21,12 +17,17 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class SummaryTableSection extends VerticalSection {
     SummaryTable summaryTable = new SummaryTable();
     SummaryTableModel summaryTableModel = new SummaryTableModel();

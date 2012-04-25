@@ -52,21 +52,21 @@
 
 	<!-- Service Clients -->
 	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.r1.core.organization.service.OrganizationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
 	</bean>
 
 	<bean id="atpClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.atp.service.AtpService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.r1.core.atp.service.AtpService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/atp}AtpService" />
 	</bean>
 
 	<bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.r1.core.document.service.DocumentService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService" />
 	</bean>
 	<bean id="personSearchClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.common.search.service.SearchService" />
+        <property name="serviceEndpointInterface" value="org.kuali.student.r1.common.search.service.SearchService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}personsearchService" />
     </bean>
         <!-- TODO: RICE-R2.0 UPGRADE - caching disabled in M7 will be revisited prior to 2.0 release -->
@@ -85,12 +85,12 @@
      </bean>
 
 	<!--<bean id="coreDictionaryServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.dictionary.service.old.DictionaryService" />
+        <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.dictionary.service.old.DictionaryService" />
         <property name="serviceQName" value="coreDictionaryServiceDelegate" />
     </bean>-->
 
     <bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
+        <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.proposal.service.ProposalService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
     </bean>
 
@@ -206,7 +206,7 @@
 		<property name="searchDispatcher" ref="searchDispatcher" />
 		<property name="cachingEnabled" value="true"/>
 	</bean>
-	<bean id="searchDispatcher" class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
+	<bean id="searchDispatcher" class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
 		<property name="services">
 			<list>
 		        <ref bean="orgClient"/>
@@ -217,10 +217,10 @@
 		</property>
 	</bean>
 
-	<bean id="idTranslator" class="org.kuali.student.common.assembly.util.IdTranslator">
+	<bean id="idTranslator" class="org.kuali.student.r1.common.assembly.util.IdTranslator">
 		<constructor-arg ref="searchDispatcher" />
 	</bean>
-	<bean id="idTranslatorAssemblerFilter" class="org.kuali.student.common.assembly.old.IdTranslatorAssemblerFilter">
+	<bean id="idTranslatorAssemblerFilter" class="org.kuali.student.r1.common.assembly.old.IdTranslatorAssemblerFilter">
 		<constructor-arg ref="idTranslator" />
 	</bean>
 
@@ -244,12 +244,12 @@
 	</bean>
 
 	<!-- Metadata lookup service -->
-	<bean id="metadataServiceImpl" class="org.kuali.student.common.assembly.dictionary.old.MetadataServiceImpl">
+	<bean id="metadataServiceImpl" class="org.kuali.student.r1.common.assembly.dictionary.old.MetadataServiceImpl">
         <constructor-arg index="0" value="${ks.core.orchestration.dictionaryContextLocations}"/>
         <!--<constructor-arg index="1" ref="coreDictionaryServiceClient"/>-->
 	</bean>
 
-	<bean id="orgAssemblerFilterManager" class="org.kuali.student.common.assembly.old.AssemblerFilterManager">
+	<bean id="orgAssemblerFilterManager" class="org.kuali.student.r1.common.assembly.old.AssemblerFilterManager">
 		<constructor-arg ref="orgProposalAssembler"/>
 		<property name="filters">
   		<list>

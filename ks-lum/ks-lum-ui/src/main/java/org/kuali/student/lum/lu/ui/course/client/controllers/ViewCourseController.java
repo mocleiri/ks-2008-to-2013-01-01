@@ -18,10 +18,11 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -35,22 +36,22 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
+import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
@@ -66,7 +67,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -75,7 +75,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class ViewCourseController extends TabMenuController implements DocumentLayoutController, HasRequirements{
+public class ViewCourseController extends TabMenuController implements DocumentLayoutController, HasRequirements, RequiresAuthorization {
     private final DataModel cluModel = new DataModel(); 
    
     private WorkQueue modelRequestQueue;
@@ -148,8 +148,6 @@ public class ViewCourseController extends TabMenuController implements DocumentL
             }
             
         });
-        
-    	
     }
     
      
@@ -500,5 +498,32 @@ public class ViewCourseController extends TabMenuController implements DocumentL
             }
         }
         return exportElements;
+    }
+    
+    @Override
+    public boolean isAuthorizationRequired() {
+        return true;
+    }
+
+    @Override
+    public void setAuthorizationRequired(boolean required) {
+        throw new UnsupportedOperationException();
+    }
+    
+    @Override
+    public void checkAuthorization(final AuthorizationCallback authCallback) {
+        Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_FIND_COURSE_SCREEN, new Callback<Boolean>() {
+            @Override
+            public void exec(Boolean result) {
+
+                final boolean isAuthorized = result;
+            
+                if(isAuthorized){
+                    authCallback.isAuthorized();
+                }
+                else
+                    authCallback.isNotAuthorized("User is not authorized: " + LUUIPermissions.USE_FIND_COURSE_SCREEN);
+            }   
+        });
     }
 }

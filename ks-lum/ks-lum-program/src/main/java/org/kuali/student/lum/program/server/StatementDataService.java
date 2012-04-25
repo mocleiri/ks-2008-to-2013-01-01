@@ -4,22 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +30,7 @@ public class StatementDataService implements StatementRpcService{
     
     
     private StatementService statementService;
-    private LuService luService;
+    private CluService cluService;
     
     private static final long serialVersionUID = 822326113643828855L;
     @Override
@@ -36,17 +38,17 @@ public class StatementDataService implements StatementRpcService{
     public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey) throws Exception {
     
         List<StatementTypeInfo> allStatementTypes = new ArrayList<StatementTypeInfo>();
-
-        List<String> topStatementTypes = statementService.getStatementTypesForStatementType(statementTypeKey);
-
+              List<String> topStatementTypes = statementService.getStatementTypesForStatementType(statementTypeKey);
+        
         // loop through top statement types like enrollment eligibility and credit constraints
         for (String topStatementType : topStatementTypes) {           
-            allStatementTypes.add(statementService.getStatementType(topStatementType));
-            List<String> subStatementTypeNames = statementService.getStatementTypesForStatementType(topStatementType);
-
+            //TODO KSCM-392 allStatementTypes.add(statementService.getStatementType(topStatementType));
+            //TODO KSCM-392 List<> types differ, I did not initialized the string 
+            //List<String> subStatementTypeNames = statementService.getStatementTypesForStatementType(topStatementType,ContextUtils.getContextInfo());
+            List<String> subStatementTypeNames = new ArrayList<String>();
             // loop through statement types belonging to the top statement types
             for (String subStatementTypeName : subStatementTypeNames) {
-                allStatementTypes.add(statementService.getStatementType(subStatementTypeName));
+                // TODO KSCM-392 allStatementTypes.add(statementService.getStatementType(subStatementTypeName));
             }
         }
         
@@ -56,12 +58,14 @@ public class StatementDataService implements StatementRpcService{
     @Override
     @Transactional(readOnly=true)
     public List<StatementTypeInfo> getStatementTypesForStatementType(String statementTypeKey) throws Exception {
+    	
         List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
         List<StatementTypeInfo> statementTypes = new ArrayList<StatementTypeInfo>();
         for (String statementTypeName : statementTypeNames) {
             statementTypes.add(statementService.getStatementType(statementTypeName));
         }
         return statementTypes;
+    	
     }
     @Override
     @Transactional(readOnly=true)
@@ -69,7 +73,9 @@ public class StatementDataService implements StatementRpcService{
 
         List<ReqComponentTypeInfo> reqComponentTypeInfoList;
         try { 
-            reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
+
+        	reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
+  
         } catch (Exception ex) {
             LOG.error(ex);
             throw new Exception("Unable to find Requirement Component Types based on LU Statement Type Key:" + luStatementTypeKey, ex);
@@ -95,6 +101,7 @@ public class StatementDataService implements StatementRpcService{
     public List<String> translateReqComponentToNLs(ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys, String language) throws Exception {
     	List<String> nls = new ArrayList<String>(nlUsageTypeKeys.length);
     	for (String typeKey : nlUsageTypeKeys) {
+  
     		nls.add(statementService.translateReqComponentToNL(reqComponentInfo, typeKey, language));
     	}
     	return nls;
@@ -103,21 +110,23 @@ public class StatementDataService implements StatementRpcService{
     @Override
     @Transactional(readOnly=true)
     public CluInfo getClu(String cluId) throws Exception {
-        return luService.getClu(cluId);
+        return cluService.getClu(cluId, ContextUtils.getContextInfo());
     }
 
     @Override
     @Transactional(readOnly=true)
     public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) throws Exception {
-        return luService.getCurrentVersion(refObjectTypeURI, refObjectId);
+
+    	return cluService.getCurrentVersion(refObjectTypeURI, refObjectId, ContextUtils.getContextInfo());
+
     }
 
     public void setStatementService(StatementService statementService) {
         this.statementService = statementService;
     }
 
-    public void setLuService(LuService luService) {
-        this.luService = luService;
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
 
 	@Override

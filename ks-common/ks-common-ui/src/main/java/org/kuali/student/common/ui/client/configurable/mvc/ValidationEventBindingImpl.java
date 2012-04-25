@@ -23,6 +23,7 @@ import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
+
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
@@ -40,6 +41,7 @@ import org.kuali.student.common.ui.client.widgets.search.KSPicker;
  *
  * @author Kuali Student Team
  */
+@Deprecated
 public class ValidationEventBindingImpl implements ValidationEventBinding {
 
     public void bind(final FieldDescriptor fd) {

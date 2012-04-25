@@ -18,6 +18,7 @@ package org.kuali.student.core.workflow.ui.client.service;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.rice.StudentWorkflowConstants.ActionRequestType;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -73,6 +74,6 @@ public interface WorkflowRpcService extends RemoteService {
     public Boolean returnDocumentWithId(String workflowId, String nodeName) throws OperationFailedException;
     public List<String> getPreviousRouteNodeNames(String workflowId) throws OperationFailedException;
 	
-    public Boolean isAuthorizedAddReviewer(String workflowId) throws OperationFailedException;
+	public Boolean isAuthorizedAddReviewer(String workflowId) throws OperationFailedException;
     public Boolean isAuthorizedRemoveReviewers(String workflowId) throws OperationFailedException;
 }

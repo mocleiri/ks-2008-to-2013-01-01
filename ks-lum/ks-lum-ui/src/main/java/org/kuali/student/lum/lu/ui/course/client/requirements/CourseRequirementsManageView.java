@@ -19,7 +19,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.common.util.ContextUtils;
+
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -31,13 +40,6 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqCompEditWidget;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RuleManageWidget;
@@ -47,7 +49,7 @@ import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.common.client.widgets.CourseWidget;
 import org.kuali.student.lum.common.client.widgets.GradeWidget;
 import org.kuali.student.lum.common.client.widgets.ProgramWidget;
-import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
@@ -85,7 +87,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     //view's data
     private StatementTreeViewInfo rule = null;
     private boolean isInitialized = false;
-    private boolean isNewRule = false;
+    protected boolean isNewRule = false;
     private ReqComponentInfo editedReqCompInfo = null;
     private static int tempStmtTreeViewInfoID = 9999;
     private Integer internalCourseReqID = null;
@@ -293,8 +295,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                         if (rule.getStatements() != null && !rule.getStatements().isEmpty()) {
                             StatementTreeViewInfo newStatementTreeViewInfo = new StatementTreeViewInfo();
                             newStatementTreeViewInfo.setId(CourseRequirementsSummaryView.NEW_STMT_TREE_ID + Integer.toString(tempStmtTreeViewInfoID++));
-                            newStatementTreeViewInfo.setOperator(rule.getStatements().get(0).getOperator());
+                            newStatementTreeViewInfo.setOperator(rule.getOperator());
                             newStatementTreeViewInfo.getReqComponents().add(reqComp);
+                            newStatementTreeViewInfo.setType(rule.getType());
                             rule.getStatements().add(newStatementTreeViewInfo);
                         } else {
                             rule.getReqComponents().add(reqComp);
@@ -488,5 +491,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
     public Integer getInternalCourseReqID() {
         return internalCourseReqID;
+    }
+    
+    public RuleManageWidget getRuleManageWidget() {
+        return ruleManageWidget;
     }
 }

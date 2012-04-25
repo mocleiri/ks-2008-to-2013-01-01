@@ -22,11 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.DataValue;
-import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.assembly.data.Data.StringKey;
-import org.kuali.student.common.assembly.data.Data.Value;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
@@ -38,9 +33,9 @@ import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.ValidationProcessable;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
@@ -48,8 +43,13 @@ import org.kuali.student.common.ui.client.widgets.menus.KSListPanel.ListType;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.DataValue;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+import org.kuali.student.r1.common.assembly.data.Data.StringKey;
+import org.kuali.student.r1.common.assembly.data.Data.Value;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -62,6 +62,7 @@ import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSSelectedList extends Composite implements HasDataValue, HasName, HasSelectionChangeHandlers,
         HasWidgetReadyCallback, TranslatableValueWidget, HasInputWidget, HasFocusLostCallbacks, HasCrossConstraints,
         ValidationProcessable {

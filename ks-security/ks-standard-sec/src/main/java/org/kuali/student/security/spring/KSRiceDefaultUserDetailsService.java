@@ -53,8 +53,7 @@ public class KSRiceDefaultUserDetailsService extends KSDefaultUserDetailsService
             username = kimPrincipalInfo.getPrincipalName();
             userId = kimPrincipalInfo.getPrincipalId();
             if(authentication == null){
-            	//password = kimPrincipalInfo.getPassword();
-                password = null;
+            	password = kimPrincipalInfo.getPassword();
             }else{
             	// How will this affect CAS?
             	//password = kimPrincipalInfo.getPassword();

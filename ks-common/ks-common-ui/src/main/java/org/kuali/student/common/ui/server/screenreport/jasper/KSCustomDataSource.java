@@ -10,8 +10,8 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
 import org.kuali.student.common.util.DateFormatThread;
 
 /**
@@ -19,6 +19,7 @@ import org.kuali.student.common.util.DateFormatThread;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
+@Deprecated
 public class KSCustomDataSource implements JRDataSource {
 
     private Iterator<Property> iterator;

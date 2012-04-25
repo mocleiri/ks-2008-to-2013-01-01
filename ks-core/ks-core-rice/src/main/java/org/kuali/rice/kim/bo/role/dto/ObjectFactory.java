@@ -16,6 +16,7 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
+    // TODO KSCM-427 KimPermissionInfo Rice-1.0.3 object and not Rice-2
 //    public KimPermissionInfo createKimPermissionInfo() {
 //        return new KimPermissionInfo();
 //    }

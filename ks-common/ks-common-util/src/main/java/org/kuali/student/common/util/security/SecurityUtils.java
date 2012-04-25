@@ -22,50 +22,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class SecurityUtils {
 	
 	/** 
-	 * This can be used to get the current user's principal id from security context
-	 * 
-	 * @return principal id
-	 */
-	public static String getCurrentPrincipalId() {
-        String principalID=null;
-		
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
-		if(auth!=null){
-        	Object obj = auth.getPrincipal();
-        	if(obj instanceof UserWithId){
-        		//This is actually the user's Principal Id
-        		principalID = ((UserWithId)obj).getUserId();
-        	}
-        }
-		return principalID;
-	}
-	
-	/**
-	 * This can be used to get the current user's principal name from security context
-	 * 
-	 * @return principal name
-	 */
-	public static String getCurrentPrincipalName(){
-		String username = "unknown";
-		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
-		if (auth != null) {
-			Object obj = auth.getPrincipal();
-		    if (obj instanceof UserDetails) {
-		    	username = ((UserDetails)obj).getUsername();
-		    } else {
-		        username = obj.toString();
-		    }
-		}
-
-	    return username;
-	}
-
-	/**
 	 * This can be used to get the current user id from security context
-	 *
+	 * 
 	 * @return userId
 	 */
 	public static String getCurrentUserId() {
@@ -84,21 +42,39 @@ public class SecurityUtils {
         }
 		return username;
 	}
+	/** 
+	 * Add this method to use the new method as specified in Enr-1.0 (ks-1.3) as this method is used in CM
+	 * 
+	 * @return principal id
+	 */
+	@Deprecated
+	public static String getCurrentPrincipalId() {
+		return getCurrentUserId();
+	}
+	
+	public static String getPrincipalUserName(){
+		String username = "unknown";
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+			Object obj = auth.getPrincipal();
+		    if (obj instanceof UserDetails) {
+		    	username = ((UserDetails)obj).getUsername();
+		    } else {
+		        username = obj.toString();
+		    }
+		}
 
-    public static String getPrincipalUserName(){
-        String username = "unknown";
+	    return username;
+	}
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            Object obj = auth.getPrincipal();
-            if (obj instanceof UserDetails) {
-                username = ((UserDetails)obj).getUsername();
-            } else {
-                username = obj.toString();
-            }
-        }
-
-        return username;
-    }
-
+	/**
+	 * This can be used to get the current user's principal name from security context
+	 * 
+	 * @return principal name
+	 */
+	@Deprecated
+	public static String getCurrentPrincipalName(){
+	    return getPrincipalUserName();
+	}
 }

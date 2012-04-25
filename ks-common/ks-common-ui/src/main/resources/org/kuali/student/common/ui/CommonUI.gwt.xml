@@ -30,18 +30,22 @@
 	<inherits name="org.kuali.student.common.ui.theme.standard.StandardTheme" />
 	
 	<!-- Common DTO Inherits -->
-	<inherits name="org.kuali.student.common.Core" />
-	<inherits name="org.kuali.student.common.CoreRice" />
-	<inherits name="org.kuali.student.common.dictionary.Dictionary" />
-	<inherits name="org.kuali.student.common.search.Search" />
-	<inherits name="org.kuali.student.common.validation.Validation" />
-	<inherits name='org.kuali.student.common.assembly.Assembly'/>
-	<inherits name="org.kuali.student.common.messages.Message"/>	
+	<inherits name='org.kuali.student.r1.common.Core'/>
+  	<inherits name='org.kuali.student.r2.common.Core'/>
+	<inherits name="org.kuali.student.r1.common.CoreRice" />
+	<inherits name="org.kuali.student.r1.common.dictionary.Dictionary" />
+	<inherits name="org.kuali.student.r1.common.search.Search" />
+	<inherits name="org.kuali.student.r1.common.validation.Validation" />
+	<inherits name='org.kuali.student.r1.common.assembly.Assembly'/>
+	<inherits name="org.kuali.student.r1.common.messages.Message"/>
+	<inherits name="org.kuali.student.r2.common.messages.Message"/>
+	<inherits name="org.kuali.student.r1.common.Validator"/>
 
 	<!-- Core Inherits -->
-	<inherits name="org.kuali.student.core.comment.Comment" />
-	<inherits name="org.kuali.student.core.document.Document" />
-	<inherits name="org.kuali.student.core.statement.Statement" />
+	<inherits name="org.kuali.student.r1.core.comment.Comment" />
+	<inherits name="org.kuali.student.r1.core.document.Document" />
+	<inherits name="org.kuali.student.r1.core.statement.Statement" />
+	<inherits name="org.kuali.student.r2.core.statement.Statement" />
 
   	<inherits name="com.google.gwt.visualization.Visualization"/>
   	<inherits name="com.google.gwt.libideas.ImmutableResources" />
@@ -51,7 +55,7 @@
 	<inherits name="com.google.gwt.widgetideas.KSWidgetIdeas"/>
 	
 	<!-- Inherit debug module to be able to use ensureDebugIds for Selenium tests -->
-	<inherits name="com.google.gwt.user.Debug"/>
+	<!-- <inherits name="com.google.gwt.user.Debug"/> -->
  
 	<script src="http://www.google.com/jsapi"/>
     

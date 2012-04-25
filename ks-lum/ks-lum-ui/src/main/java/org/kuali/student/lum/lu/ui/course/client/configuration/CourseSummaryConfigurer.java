@@ -7,10 +7,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ListToTextBinding;
@@ -31,12 +34,10 @@ import org.kuali.student.common.ui.client.widgets.table.summary.ShowRowCondition
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentList;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentListBinding;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.lum.common.client.lo.TreeStringBinding;
@@ -256,13 +257,13 @@ public class CourseSummaryConfigurer extends Configurer implements
                                     @Override
                                     public void exec(List<ValidationResultInfo> validationResults) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
 
-                                        tableSection.enableValidation(showingValidation);   //  I think passing true here turns on all validation highlighting automatically (i.e: without requiring "click to show") [KSCM-250]
+                                        tableSection.enableValidation(showingValidation);   //  I think passing true here turns on all validation highlighting automatically (i.e: without requiring "click to show") 
                                         
                                         initializeHeaders(validationResults);
                                         resolveMissingFieldsWarnings();
                                         // proposal submission warnings resolution moved to overridden processValidationResults below.
                                         
-                                        onReadyCallback.exec(result);   // calls CourseProposalController.showView.finalView [KSCM-250]
+                                        onReadyCallback.exec(result);   // calls CourseProposalController.showView.finalView 
                                     }
                                 });
                             } else {
@@ -348,7 +349,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                     }
                 }
 
-                @Override   //overridden from BaseSection to handle conflict warnings   [KSCM-250]
+                @Override   //overridden from BaseSection to handle conflict warnings   
                 public ErrorLevel processValidationResults(List<ValidationResultInfo> validationResults) {                    
 
                     tableSection.processValidationResults(validationResults, false);
@@ -359,7 +360,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                 
                 /* 
                  * Shows proposal submission warnings if appropriate.
-                 *  i.e: If conflict warnings exist //[KSCM-250]
+                 *  i.e: If conflict warnings exist 
                  */
                 public void resolveProposalSubmissionWarnings(){
                     
@@ -868,21 +869,42 @@ public class CourseSummaryConfigurer extends Configurer implements
                     String path) {
                 panel.clear();
                 if (controller instanceof HasRequirements) {
-                    HasRequirements requirementsController = (HasRequirements) controller;
-                    List<StatementTreeViewInfo> statementTreeViewInfos = requirementsController
-                            .getReqDataModel().getCourseReqInfo(
-                                    stmtType.getId());
-                    for (StatementTreeViewInfo rule : statementTreeViewInfos) {
-                        SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(
-                                rule, true,
-                                CourseRequirementsSummaryView
-                                        .getCluSetWidgetList(rule));
-                        panel.add(ruleWidget);
+                    final HasRequirements requirementsController = (HasRequirements) controller;
+                    if (requirementsController.getReqDataModel().isInitialized()) {
+                        List<StatementTreeViewInfo> statementTreeViewInfos = requirementsController
+                                .getReqDataModel().getCourseReqInfo(
+                                        stmtType.getId());
+                        addSubrulePreviewWidget(panel, statementTreeViewInfos);
+                    } else {
+                        requirementsController.getReqDataModel().retrieveCourseRequirements(
+                                AbstractCourseConfigurer.COURSE_PROPOSAL_MODEL, new Callback<Boolean>() {
+                                    @Override
+                                    public void exec(Boolean result) {
+                                        if (result) {
+                                            List<StatementTreeViewInfo> statementTreeViewInfos = requirementsController
+                                                    .getReqDataModel().getCourseReqInfo(
+                                                            stmtType.getId());
+                                            addSubrulePreviewWidget(panel, statementTreeViewInfos);
+                                            //reset initialized property so that rules load on CourseRequirementSummaryView
+                                            requirementsController.getReqDataModel().setInitialized(false);
+                                        }
+                                    }
+                                });
                     }
+
+                }
+            }
+
+            private void addSubrulePreviewWidget(final FlowPanel panel,
+                    List<StatementTreeViewInfo> statementTreeViewInfos) {
+                for (StatementTreeViewInfo rule : statementTreeViewInfos) {
+                    if (!rule.getStatements().isEmpty() || !rule.getReqComponents().isEmpty()) {                             
+                        SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
+                        panel.add(ruleWidget);
+                    }   
                 }
             }
         };
-
         FieldDescriptorReadOnly requisiteField = new FieldDescriptorReadOnly(
                 COURSE + "/" + CreditCourseConstants.ID, new MessageKeyInfo(
                         stmtType.getName()), null, panel);

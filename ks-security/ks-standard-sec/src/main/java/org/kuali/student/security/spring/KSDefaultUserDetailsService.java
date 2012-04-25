@@ -20,20 +20,18 @@ import java.util.List;
 
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.student.common.util.security.UserWithId;
-import org.springframework.util.StringUtils;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.StringUtils;
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 
@@ -90,14 +88,14 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
     	
     	// KS Administrator
     	ArrayList<String> adminRoleIdList = new ArrayList<String>();
-     	Role adminRole = roleService.getRoleByNamespaceCodeAndName(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_ADMIN_ROLE_NAME);
+     	Role adminRole = roleService.getRoleByNameAndNamespaceCode(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_ADMIN_ROLE_NAME);
     	if(adminRole != null) {
     		adminRoleIdList.add(adminRole.getId());
     	}
 
     	// KS User
         ArrayList<String> ksUserRoleIdList = new ArrayList<String>();
-        Role ksUserRole = roleService.getRoleByNamespaceCodeAndName(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_USER_ROLE_NAME);
+        Role ksUserRole = roleService.getRoleByNameAndNamespaceCode(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_USER_ROLE_NAME);
         if(ksUserRole != null) {
         	ksUserRoleIdList.add(ksUserRole.getId());
         }            

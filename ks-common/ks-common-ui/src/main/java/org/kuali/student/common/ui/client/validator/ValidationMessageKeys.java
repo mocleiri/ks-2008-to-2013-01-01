@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.ui.client.validator;
 
+@Deprecated
 public enum ValidationMessageKeys {
 	REQUIRED("validation.required"),
 	MIN_OCCURS("validation.minOccurs", "minOccurs"),

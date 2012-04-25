@@ -18,8 +18,6 @@ package org.kuali.student.common.ui.client.configurable.mvc.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.ModelDefinition;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
@@ -29,6 +27,8 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.ModelDefinition;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
@@ -40,6 +40,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student
  *
  */
+@Deprecated
 public abstract class SectionView extends BaseSection implements View {
 
     protected String modelId;

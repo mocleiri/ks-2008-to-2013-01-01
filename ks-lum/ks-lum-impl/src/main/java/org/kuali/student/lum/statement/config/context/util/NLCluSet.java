@@ -17,7 +17,10 @@ package org.kuali.student.lum.statement.config.context.util;
 
 import java.util.List;
 
-import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+
 
 /**
  * <p><b><u>Warning</u></b><br/>
@@ -39,12 +42,19 @@ public class NLCluSet {
 
 	private String cluSetId;
 	private List<CluInfo> cluList;
+	private CluSetInfo cluSet;
 	
 	public NLCluSet(String cluSetId, List<CluInfo> cluList) {
 		this.cluSetId = cluSetId;
 		this.cluList = cluList;
 	}
-
+	
+	public NLCluSet(String cluSetId, List<CluInfo> cluList, CluSetInfo cluSet) {
+		this.cluSetId = cluSetId;
+		this.cluList = cluList;
+		this.cluSet = cluSet;
+	}
+	
 	/**
 	 * Gets the CLU set id.
 	 * 
@@ -194,4 +204,13 @@ public class NLCluSet {
 		}
 		return "id=" + this.cluSetId;
 	}
+	
+	public String getQueryValueFromParam(String param) {
+		String value = "";
+		if (cluSet.getMembershipQuery() != null && !cluSet.getMembershipQuery().getQueryParamValues().isEmpty()) 
+			for (SearchParamInfo searchParam : cluSet.getMembershipQuery().getQueryParamValues()) 
+				if (searchParam.getKey().equals(param)) 
+					return (String)searchParam.getValue();
+		return value;
+	}	
 }

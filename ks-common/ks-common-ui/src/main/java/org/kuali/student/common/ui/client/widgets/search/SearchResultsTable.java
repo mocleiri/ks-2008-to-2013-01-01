@@ -18,20 +18,14 @@ package org.kuali.student.common.ui.client.widgets.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data.DataType;
-import org.kuali.student.common.assembly.data.LookupResultMetadata;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
@@ -41,12 +35,19 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.RetrieveAdditiona
 import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
 import org.kuali.student.common.ui.client.widgets.table.scroll.RowComparator;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
+import org.kuali.student.r1.common.assembly.data.Data.DataType;
+import org.kuali.student.r1.common.assembly.data.LookupResultMetadata;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+@Deprecated
 public class SearchResultsTable extends Composite{
 
     protected final int PAGE_SIZE = 10;
@@ -95,9 +96,13 @@ public class SearchResultsTable extends Composite{
 	public void setWithMslable(boolean withMslable) {
 		this.withMslable = withMslable;
 	}
+	
+	public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey){
+        initializeTable("", listResultMetadata, resultIdKey, resultDisplayKey);
+	}
 
 	//FIXME do we really need to recreate the table for every refresh?
-    public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey){ 
+	public void initializeTable(String searchId, List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey){  
     	
     	//creating a new table because stale data was corrupting new searches
     	table = new Table();
@@ -114,11 +119,15 @@ public class SearchResultsTable extends Composite{
                 Column col1 = new Column();
                 col1.setId(r.getKey());                
                 String header = "";                
-                if (Application.getApplicationContext().getMessage(r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY) != null) {
+                // KSLAB2571 KSCM1326 - adds SerachID to message override hierarchy
+                if (Application.getApplicationContext().getMessage(searchId + ":"+ r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY) != null) {
+                    header = Application.getApplicationContext().getMessage(searchId + ":"+ r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY);
+                } else if (Application.getApplicationContext().getMessage(r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY) != null) {
                     header = Application.getApplicationContext().getMessage(r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY);
                 } else {
                     header = Application.getApplicationContext().getUILabel("", null, null, r.getName());
-                }                
+                }     
+                          
                 col1.setName(header);
                 col1.setId(r.getKey());
                 col1.setWidth("100px");                    
@@ -166,6 +175,24 @@ public class SearchResultsTable extends Composite{
         }
         else{
         	performOnDemandSearch(0, 0);
+        }
+    }
+    
+    // KSLAB2571 KSCM1326 - Overloaded method to add SerachID to message override hierarchy 
+    public void performSearch(String searchId, SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey, boolean pagedResults) {
+        this.searchRequest = searchRequest;
+        initializeTable(searchId, listResultMetadata, resultIdKey, resultDisplayKey);
+        if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
+            //FIXME Do we still need this if condition?
+            // Added an else to the if(pagedResults) line to prevent searches being executed
+            // twice if the search name includes cross
+            performOnDemandSearch(0, 0);
+        }
+        else if(pagedResults){
+            performOnDemandSearch(0, PAGE_SIZE);
+        }
+        else{
+            performOnDemandSearch(0, 0);
         }
     }
     
