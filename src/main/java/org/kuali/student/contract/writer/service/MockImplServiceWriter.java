@@ -247,6 +247,9 @@ public class MockImplServiceWriter extends JavaClassWriter {
                 case GET_BY_IDS:
                     writeGetByIds(method);
                     break;
+                case GET_IDS_BY_TYPE:
+                    writeGetIdsByType(method);
+                    break;
                 case GET_IDS_BY_OTHER:
                     writeGetIdsByOther(method);
                     break;
@@ -523,6 +526,31 @@ public class MockImplServiceWriter extends JavaClassWriter {
             }
             incrementIndent();
             indentPrintln("if (" + parameter.getName() + ".equals(info.get" + initUpper(parameter.getName()) + "())) {");
+        }
+        indentPrintln("    list.add (info.getId ());");
+        for (ServiceMethodParameter parameter : method.getParameters()) {
+            if (parameter.getType().equals("ContextInfo")) {
+                continue;
+            }
+            indentPrintln("}");
+            decrementIndent();
+        }
+        indentPrintln("}");
+        indentPrintln("return list;");
+    }
+
+    private void writeGetIdsByType(ServiceMethod method) {
+        String objectName = this.calcObjectName(method);
+        String infoName = objectName + "Info";
+        String mapName = calcMapName(method);
+        indentPrintln("List<String> list = new ArrayList<String> ();");
+        indentPrintln("for (" + infoName + " info: " + mapName + ".values ()) {");
+        for (ServiceMethodParameter parameter : method.getParameters()) {
+            if (parameter.getType().equals("ContextInfo")) {
+                continue;
+            }
+            incrementIndent();
+            indentPrintln("if (" + parameter.getName() + ".equals(info.getTypeKey())) {");
         }
         indentPrintln("    list.add (info.getId ());");
         for (ServiceMethodParameter parameter : method.getParameters()) {
