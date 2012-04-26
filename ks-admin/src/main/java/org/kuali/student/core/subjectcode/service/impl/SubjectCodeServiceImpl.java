@@ -9,12 +9,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.namespace.QName;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.MapMaker;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -54,8 +57,8 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	protected boolean cachingEnabled = false;
 	protected int searchCacheMaxSize = 20;
 	protected int searchCacheMaxAgeSeconds = 90;
-	//protected Map<String,MaxAgeSoftReference<SearchResult>> searchCache;
-	protected Map<String,SearchResult> searchCache;
+	protected Cache<String, SearchResult> searchCache;
+	
 	@Override
 	public List<SearchTypeInfo> getSearchTypes()
 			throws OperationFailedException {
@@ -131,7 +134,11 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		
     	if(cachingEnabled){
     		//Get From Cache
-            return searchCache.get(searchRequest.toString());
+            try {
+            	return searchCache.get(searchRequest.toString());
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            }
 		}
 		
 		//Do searches
@@ -284,8 +291,11 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if(cachingEnabled){
-            //searchCache = new MapMaker().expireAfterAccess(searchCacheMaxAgeSeconds, TimeUnit.SECONDS).maximumSize(searchCacheMaxSize).softValues().makeMap();
-            searchCache = new MapMaker().expiration(searchCacheMaxAgeSeconds, TimeUnit.SECONDS).softValues().makeMap();
+            searchCache = CacheBuilder.newBuilder()
+                    .expireAfterAccess(searchCacheMaxAgeSeconds, TimeUnit.SECONDS)
+                    .maximumSize(searchCacheMaxSize)
+                    .softValues()
+                    .build();
 		}
 	}
 	
