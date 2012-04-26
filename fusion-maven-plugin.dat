@@ -1,10 +1,10 @@
 # module = ks-api branch Path = sandbox/ks-1.3-core-slice-demo/modules/ks-api/trunk revision = 30311
 ks-api::sandbox_ks-1.3-core-slice-demo_modules_ks-api_trunk::e8cefd821af23e7d2ffa8d1934d36a5da1abe125
 # module = ks-core branch Path = sandbox/ks-1.3-core-slice-demo/modules/ks-core/trunk revision = 30311
-ks-core::sandbox_ks-1.3-core-slice-demo_modules_ks-core_trunk::d09d5536c2568de15cc90f098631aa573560e1ec
+ks-core::sandbox_ks-1.3-core-slice-demo_modules_ks-core_trunk::4e2de8735288e51630db9264e1c9e637dca14b6b
 # module = ks-lum branch Path = sandbox/ks-1.3-core-slice-demo/modules/ks-lum/trunk revision = 30311
 ks-lum::sandbox_ks-1.3-core-slice-demo_modules_ks-lum_trunk::605762ec478f3619271b83fb7834c6abd0752e7e
 # module = ks-enroll branch Path = sandbox/ks-1.3-core-slice-demo/modules/ks-enroll/trunk revision = 30311
 ks-enroll::sandbox_ks-1.3-core-slice-demo_modules_ks-enroll_trunk::5f06239f51013c8685bb31017266a546aebb53cc
 # module = ks-deployments branch Path = sandbox/ks-1.3-core-slice-demo/modules/ks-deployments/trunk revision = 30311
-ks-deployments::sandbox_ks-1.3-core-slice-demo_modules_ks-deployments_trunk::9cc838bec039fce8ee58d01567f2611cf887f4fe
+ks-deployments::sandbox_ks-1.3-core-slice-demo_modules_ks-deployments_trunk::6b3b1a5cdefe373edb06b1980d07b786fbd11390
