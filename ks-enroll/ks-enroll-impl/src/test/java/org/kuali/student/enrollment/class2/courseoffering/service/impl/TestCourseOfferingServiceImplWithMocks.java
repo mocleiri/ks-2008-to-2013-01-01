@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.junit.Ignore;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
 import org.kuali.student.lum.course.dto.CourseInfo;
@@ -8,7 +10,7 @@ import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.class1.lui.service.impl.LuiTestDataLoader;
+
 import javax.annotation.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.junit.Before;
@@ -20,15 +22,14 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -39,7 +40,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-
+//@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-with-mocks-context.xml"})
 public class TestCourseOfferingServiceImplWithMocks {
@@ -61,7 +62,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         callContext.setPrincipalId(principalId);
         try {
             new CourseR1TestDataLoader(this.courseService).loadData();
-            new LuiTestDataLoader(this.luiService).loadData();
+            new LuiServiceDataLoader(this.luiService).loadData();
             new AcalTestDataLoader(this.acalService).loadData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -70,19 +71,18 @@ public class TestCourseOfferingServiceImplWithMocks {
     }
 
     @Test
-    public void testCRUD() throws AlreadyExistsException, DoesNotExistException,
+    public void testCRUD() throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, VersionMismatchException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException,
             DependentObjectsExistException {
         CourseOfferingInfo co = this.testCRUDCourseOffering();
         FormatOfferingInfo fo = this.testCRUDFormatOffering(co);
         ActivityOfferingInfo ao = this.testCRUDActivityOffering(fo);
         this.testDeletes(co, fo, ao);
     }
-
-    public CourseOfferingInfo testCRUDCourseOffering() throws AlreadyExistsException, DoesNotExistException,
+    public CourseOfferingInfo testCRUDCourseOffering() throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, VersionMismatchException {
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         // get course
         CourseInfo course;
         try {
@@ -91,36 +91,35 @@ public class TestCourseOfferingServiceImplWithMocks {
             throw new RuntimeException(ex);
         }
         // create co from course
+        List<String> optionKeys = new ArrayList<String>();
         CourseOfferingInfo orig = new CourseOfferingInfo();
         orig.setCourseId(course.getId());
         orig.setTermId("testAtpId1");
         orig.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
-        orig.setName("my name");
-        CourseOfferingInfo info = courseOfferingService.createCourseOffering(orig.getCourseId(), orig.getTermId(), orig.getTypeKey(), orig, callContext);
+        orig.setCourseOfferingTitle("my name");
+        CourseOfferingInfo info = courseOfferingService.createCourseOffering(orig.getCourseId(), orig.getTermId(), 
+                orig.getTypeKey(), orig, optionKeys, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
         assertEquals(orig.getCourseId(), info.getCourseId());
         assertEquals(orig.getTermId(), info.getTermId());
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getTypeKey(), info.getTypeKey());
-        assertEquals(orig.getName(), info.getName());
-        assertEquals(course.getSubjectArea(), info.getSubjectArea());
-        assertEquals(course.getCourseNumberSuffix(), info.getCourseNumberSuffix());
-        assertEquals(course.getCourseTitle(), info.getCourseTitle());
-        assertEquals(course.getSubjectArea(), info.getSubjectArea());
         assertEquals(course.getCode(), info.getCourseOfferingCode());
+        assertEquals(course.getCourseNumberSuffix(), info.getCourseNumberSuffix());
+        assertEquals(course.getSubjectArea(), info.getSubjectArea());
         if (course.getDescr() != null) {
             assertEquals(new R1ToR2CopyHelper().copyRichText(course.getDescr()).getPlain(), info.getDescr().getPlain());
             assertEquals(new R1ToR2CopyHelper().copyRichText(course.getDescr()).getFormatted(), info.getDescr().getFormatted());
         }
         // TODO: test for these things 
-//        assertEquals(course.getUnitsContentOwner(), info.getUnitsContentOwner());
-//        assertEquals(course.getUnitsDeployment(), info.getUnitsDeployment());
-//        assertEquals(course.getGradingOptions(), info.getGradingOptionKeys());
-//        assertEquals(course.getCreditOptions(), info.getCreditOptions());
+//        assertEquals(course.getUnitsContentOwnerOrgIds(), info.getUnitsContentOwnerOrgIds());
+//        assertEquals(course.getUnitsDeploymentOrgIds(), info.getUnitsDeploymentOrgIds());
+//        assertEquals(course.getGradingOptions(), info.getGradingOptionIds());
+//        assertEquals(course.getCreditOptionIds(), info.getCreditOptionIds());
 //        assertEquals(new R1ToR2CopyHelper().copyCourseExpenditure(course.getExpenditure()), info.getExpenditure());
-//        assertEquals(new R1ToR2CopyHelper().copyCourseFeeList(course.getFees()), info.getFees());
+//        assertEquals(new R1ToR2CopyHelper().copyCourseFeeList(course.getFeeIds()), info.getFeeIds());
 //        assertEquals(new R1ToR2CopyHelper().copyInstructors(course.getInstructors()), info.getInstructors());
 
 
@@ -168,6 +167,12 @@ public class TestCourseOfferingServiceImplWithMocks {
         return info;
     }
 
+
+
+
+
+
+
     private void testDeletes(CourseOfferingInfo co, FormatOfferingInfo fo, ActivityOfferingInfo ao)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException {
 
@@ -213,7 +218,7 @@ public class TestCourseOfferingServiceImplWithMocks {
             throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DataValidationErrorException,
-            AlreadyExistsException, VersionMismatchException, DependentObjectsExistException {
+                   VersionMismatchException, ReadOnlyException, DependentObjectsExistException {
         FormatOfferingInfo orig = new FormatOfferingInfo();
         orig.setCourseOfferingId(co.getId());
         orig.setFormatId("COURSE1-FORMAT1");
@@ -256,11 +261,12 @@ public class TestCourseOfferingServiceImplWithMocks {
         return info;
     }
 
+
     public ActivityOfferingInfo testCRUDActivityOffering(FormatOfferingInfo fo)
             throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DataValidationErrorException,
-            AlreadyExistsException, VersionMismatchException {
+            ReadOnlyException, VersionMismatchException {
 
         ActivityOfferingInfo orig = new ActivityOfferingInfo();
         orig.setFormatOfferingId(fo.getId());
