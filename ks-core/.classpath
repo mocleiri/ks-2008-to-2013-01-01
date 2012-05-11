@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="ks-core-api/target/classes" path="ks-core-api/src/main/resources"/>
+	<classpathentry kind="src" output="ks-core-api/target/classes" path="ks-core-api/src/main/java"/>
+	<classpathentry kind="src" output="ks-core-ui/target/classes" path="ks-core-ui/src/main/java"/>
+	<classpathentry kind="src" output="ks-core-rice/target/classes" path="ks-core-rice/src/main/resources"/>
+	<classpathentry kind="src" output="ks-core-ui/target/classes" path="ks-core-ui/src/test/java"/>
+	<classpathentry kind="src" output="ks-core-impl/target/classes" path="ks-core-impl/src/test/resources"/>
+	<classpathentry kind="src" output="ks-core-rice/target/classes" path="ks-core-rice/src/main/java"/>
+	<classpathentry kind="src" output="ks-core-ui/target/classes" path="ks-core-ui/src/main/webapp"/>
+	<classpathentry kind="src" output="ks-core-rice/target/classes" path="ks-core-rice/src/test/java"/>
+	<classpathentry kind="src" output="ks-core-impl/target/classes" path="ks-core-impl/src/main/java"/>
+	<classpathentry kind="src" output="ks-core-impl/target/classes" path="ks-core-impl/src/test/java"/>
+	<classpathentry kind="src" output="ks-core-rice/target/classes" path="ks-core-rice/src/test/resources"/>
+	<classpathentry kind="src" output="ks-core-ui/target/classes" path="ks-core-ui/src/main/resources"/>
+	<classpathentry kind="src" output="ks-core-impl/target/classes" path="ks-core-impl/src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/Developer/.m2/repository/org/kuali/rice/rice-core-api/2.0.0-b1/rice-core-api-2.0.0-b1.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="org.kuali.rice"/>
+			<attribute name="maven.artifactId" value="rice-core-api"/>
+			<attribute name="maven.version" value="2.0.0-b1"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
