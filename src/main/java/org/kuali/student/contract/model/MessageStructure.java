@@ -35,6 +35,7 @@ public class MessageStructure {
     private String xmlAttribute;
     private String implNotes;
     private boolean overriden;
+    private boolean deprecated;
 
     public String getId() {
         return id;
@@ -147,4 +148,13 @@ public class MessageStructure {
     public void setOverriden(boolean overriden) {
         this.overriden = overriden;
     }
+
+    public boolean isDeprecated() {
+        return deprecated;
+    }
+
+    public void setDeprecated(boolean deprecated) {
+        this.deprecated = deprecated;
+    }
+   
 }

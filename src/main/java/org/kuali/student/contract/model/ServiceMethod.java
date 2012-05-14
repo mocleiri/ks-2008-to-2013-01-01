@@ -115,4 +115,14 @@ public class ServiceMethod {
         this.implNotes = implNotes;
     }
     
+    private boolean deprecated;
+
+    public boolean isDeprecated() {
+        return deprecated;
+    }
+
+    public void setDeprecated(boolean deprecated) {
+        this.deprecated = deprecated;
+    }
+    
 }

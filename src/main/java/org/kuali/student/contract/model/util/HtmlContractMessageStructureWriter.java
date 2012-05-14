@@ -127,7 +127,7 @@ public class HtmlContractMessageStructureWriter {
         writer.indentPrintln("</table>");
 
         writer.writeTag("h2", "Description");
-        writer.indentPrintln(this.addHTMLBreaks(xmlType.getDesc()));
+        writer.indentPrintln(this.addHTMLBreaks(calcDescription (xmlType)));
 
         if (!xmlType.getPrimitive().equals(XmlType.COMPLEX)) {
             return;
@@ -155,6 +155,23 @@ public class HtmlContractMessageStructureWriter {
         }
         writer.indentPrintln("</table>");
         writer.writeHeaderBodyAndFooterOutToFile();
+    }
+
+    
+     private String calcDescription(XmlType xmlType) {
+        StringBuilder sb = new StringBuilder();
+        String newLine = "";
+        if (xmlType.getDesc() != null && !xmlType.getDesc().trim().isEmpty()) {
+            sb.append(newLine);
+            newLine = "\n";
+            sb.append(xmlType.getDesc ());
+        }
+        if (xmlType.isDeprecated()) {
+            sb.append(newLine);
+            newLine = "\n";
+            sb.append("============== Deprecated ===============");
+        }
+        return sb.toString();
     }
 
     private String checkForNbsp(String str) {
@@ -244,20 +261,36 @@ public class HtmlContractMessageStructureWriter {
             writer.writeTag("td", "class=\"structType\"", ms.getType());
         }
         writer.writeTag("td", "class=\"structDesc\"", addHTMLBreaks(missingData(
-                ms.getDescription())));
+                calcDescription(ms))));
         writer.writeTag("td", "class=\"structOpt\"", checkForNbsp(ms.getRequired()));
         writer.writeTag("td", "class=\"structOpt\"", checkForNbsp(ms.getReadOnly()));
 
         writer.writeTag("td", "class=\"structCard\"", ms.getCardinality());
         writer.writeTag("td", "class=\"structAttr\"", ms.getXmlAttribute());
 //      writer.writeTag ("td", "class=\"structStatus\"", ms.getStatus ());
-        writer.writeTag("td", "class=\"commentsDesc\"", this.checkForNbsp(ms.getImplNotes()));
+        writer.writeTag("td", "class=\"commentsDesc\"", addHTMLBreaks(this.checkForNbsp(ms.getImplNotes())));
         writer.indentPrintln("</tr>");
 
 //  writer.indentPrintln ("</table>");
 //  writer.indentPrintln ("<p>");
 
 //  writer.indentPrintln ("<p>");
+    }
+
+    private String calcDescription(MessageStructure ms) {
+        StringBuilder sb = new StringBuilder();
+        String newLine = "";
+        if (ms.getDescription() != null && !ms.getDescription().trim().isEmpty()) {
+            sb.append(newLine);
+            newLine = "\n";
+            sb.append(ms.getDescription());
+        }
+        if (ms.isDeprecated()) {
+            sb.append(newLine);
+            newLine = "\n";
+            sb.append("============== Deprecated ===============");
+        }
+        return sb.toString();
     }
 
     private String missingData(String str) {

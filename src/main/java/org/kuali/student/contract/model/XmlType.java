@@ -225,4 +225,15 @@ public class XmlType implements Serializable {
     public void setVersion(String version) {
         this.version = version;
     }
+    
+    boolean deprecated;
+
+    public boolean isDeprecated() {
+        return deprecated;
+    }
+
+    public void setDeprecated(boolean deprecated) {
+        this.deprecated = deprecated;
+    }
+    
 }

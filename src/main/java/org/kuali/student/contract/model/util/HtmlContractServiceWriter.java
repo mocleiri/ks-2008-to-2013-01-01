@@ -73,17 +73,24 @@ public class HtmlContractServiceWriter {
 //  writer.indentPrintln ("<div class=\"panel\" style=\"border-width: 1px;\">");
 //  writer.indentPrintln ("<div class=\"panelHeader\" style=\"border-bottom-width: 1px;\">");
         writer.indentPrintln("<p>");
-        writer.indentPrintln("<table id=\"serviceMetaTable\">");
-        writer.indentPrintln("<tr>");
-        writer.indentPrintln("<th class=h>");
+//        writer.indentPrintln("<table id=\"serviceMetaTable\">");
+//        writer.indentPrintln("<tr>");
+//        writer.indentPrintln("<td>");
+        writer.indentPrintln(
+                "<div class=\"panel\" style=\"background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);\">");
+          writer.indentPrintln(
+                "<div class=\"panelHeader\" style=\"border-bottom: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);\">");
         writer.indentPrintln(this.addHTMLBreaks(service.getComments()));
-        writer.indentPrintln("</th>");
-        writer.indentPrintln("</tr>");
-        writer.indentPrintln("</table>");
+        writer.indentPrintln("</div>");
+        writer.indentPrintln("</div>");
+//        writer.indentPrintln("</td>");
+//        writer.indentPrintln("</tr>");
+//        writer.indentPrintln("</table>");
 
 //  writer.indentPrintln ("</div>");
 //  writer.indentPrintln ("</div>");
 
+        writer.indentPrintln("<p>");
         writer.indentPrintln(
                 "<div class=\"panel\" style=\"background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);\">");
         writer.indentPrintln(
@@ -206,7 +213,7 @@ public class HtmlContractServiceWriter {
         writer.indentPrintln("<tr>");
         writer.writeTag("th", "class=h", "Description");
         writer.writeTag("td", "colspan=3 class=\"methodDesc\"",
-                this.addHTMLBreaks(method.getDescription()));
+                this.addHTMLBreaks(calcDescription(method)));
         writer.indentPrintln("</tr>");
 
         if (method.getImplNotes() != null && !method.getImplNotes().isEmpty()) {
@@ -284,6 +291,22 @@ public class HtmlContractServiceWriter {
         writer.indentPrintln("<p>");
         writer.indentPrintln("<a href=\"#ListOfOperations\">Back to Operations</a>");
         writer.indentPrintln("<p>");
+    }
+
+    private String calcDescription(ServiceMethod method) {
+        StringBuilder sb = new StringBuilder();
+        String newLine = "";
+        if (method.getDescription() != null && !method.getDescription().trim().isEmpty()) {
+            sb.append(newLine);
+            newLine = "\n";
+            sb.append(method.getDescription());
+        }
+        if (method.isDeprecated()) {
+            sb.append(newLine);
+            newLine = "\n";
+            sb.append("============== Deprecated ===============");
+        }
+        return sb.toString();
     }
 
     private static String stripListFromType(String type) {

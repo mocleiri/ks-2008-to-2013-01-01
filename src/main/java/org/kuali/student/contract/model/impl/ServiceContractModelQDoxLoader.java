@@ -198,6 +198,7 @@ public class ServiceContractModelQDoxLoader implements
                 serviceMethod.setDescription(calcMissing(javaMethod.getComment()));
                 serviceMethod.setParameters(new ArrayList());
                 serviceMethod.setImplNotes(calcImplementationNotes(javaMethod));
+                serviceMethod.setDeprecated(isDeprecated(javaMethod));
 //    for (DocletTag tag : javaMethod.getTags ())
 //    {
 //     System.out.println ("ServiceContractModelQDoxLoader: Method: "
@@ -351,6 +352,7 @@ public class ServiceContractModelQDoxLoader implements
             xmlTypeMap.put(name, xmlType);
             xmlType.setName(name);
             xmlType.setDesc(this.calcMessageStructureDesc(messageStructureJavaClass));
+            xmlType.setDeprecated(isDeprecated (messageStructureJavaClass));
             xmlType.setService(serviceKey);
             xmlType.setVersion("IGNORE -- SAME AS SERVICE");
             xmlType.setPrimitive(calcPrimitive(messageStructureJavaClass));
@@ -358,9 +360,20 @@ public class ServiceContractModelQDoxLoader implements
             if (xmlType.getPrimitive().equals(XmlType.COMPLEX)) {
                 addMessageStructure(messageStructureJavaClass, serviceKey);
             }
+
         } else {
             addServiceToList(xmlType, serviceKey);
         }
+    }
+
+    private boolean isDeprecated(JavaClass javaClass) {
+        for (Annotation annotation : javaClass.getAnnotations()) {
+            if (annotation.getType().getJavaClass().getName().equals(
+                    "Deprecated")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private String calcJavaPackage(JavaClass javaClass) {
@@ -605,6 +618,7 @@ public class ServiceContractModelQDoxLoader implements
             ms.setDescription(calcMissing(calcDescription(messageStructureJavaClass, getterMethod, setterMethod,
                     beanField)));
             ms.setImplNotes(calcImplementationNotes(getterMethod, setterMethod, beanField));
+            ms.setDeprecated(isDeprecated(getterMethod));
             ms.setStatus("???");
 //            if (ms.getId().equals("AcademicCalendarInfo.typeKey")) {
 //                System.out.println("debug from here");
@@ -773,31 +787,41 @@ public class ServiceContractModelQDoxLoader implements
             String value = tag.getValue();
             bldr.append(value);
         }
-        if (hasOverride (serviceMethod)) {
+        if (hasOverride(serviceMethod)) {
             boolean matchJustOnName = true;
-            JavaMethod overriddenMethod = findInterfaceMethod (serviceMethod.getParentClass(), serviceMethod, matchJustOnName);
+            JavaMethod overriddenMethod = findInterfaceMethod(serviceMethod.getParentClass(), serviceMethod, matchJustOnName);
             if (overriddenMethod == null) {
                 // do it again so we can debug
-                findInterfaceMethod (serviceMethod.getParentClass(), serviceMethod, true);
-                throw new NullPointerException ("could not find overridden method or method that has @Override annotation " + serviceMethod.getCallSignature());
+                findInterfaceMethod(serviceMethod.getParentClass(), serviceMethod, true);
+                throw new NullPointerException("could not find overridden method or method that has @Override annotation " + serviceMethod.getCallSignature());
             }
             bldr.append(newLine);
             newLine = "\n";
-            bldr.append ("Should be implemented in business logic implementation of ");
-            bldr.append (overriddenMethod.getParentClass().getName());
+            bldr.append("Overridden method should be implemented in helper: ");
+            bldr.append(overriddenMethod.getParentClass().getName());
         }
         if (bldr.length() == 0) {
             return null;
         }
         return bldr.toString();
     }
-    
+
     private boolean hasOverride(JavaMethod serviceMethod) {
         for (Annotation annotation : serviceMethod.getAnnotations()) {
-             if (annotation.getType().getJavaClass().getName().equals(
+            if (annotation.getType().getJavaClass().getName().equals(
                     "Override")) {
-                 return true;
-             }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isDeprecated(JavaMethod serviceMethod) {
+        for (Annotation annotation : serviceMethod.getAnnotations()) {
+            if (annotation.getType().getJavaClass().getName().equals(
+                    "Deprecated")) {
+                return true;
+            }
         }
         return false;
     }
