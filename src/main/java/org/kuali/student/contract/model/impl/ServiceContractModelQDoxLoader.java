@@ -197,6 +197,7 @@ public class ServiceContractModelQDoxLoader implements
                 serviceMethod.setName(javaMethod.getName());
                 serviceMethod.setDescription(calcMissing(javaMethod.getComment()));
                 serviceMethod.setParameters(new ArrayList());
+                serviceMethod.setImplNotes(calcImplementationNotes(javaMethod));
 //    for (DocletTag tag : javaMethod.getTags ())
 //    {
 //     System.out.println ("ServiceContractModelQDoxLoader: Method: "
@@ -283,11 +284,20 @@ public class ServiceContractModelQDoxLoader implements
     private List<String> calcIncludedServices(JavaClass javaClass) {
         List<String> includedServices = new ArrayList<String>();
         for (JavaClass interfaceClass : javaClass.getImplementedInterfaces()) {
+            if (isAService(interfaceClass)) {
 //            System.out.println("ServiceContractModelQDoxLoader:" + javaClass.getName()
 //                    + " implements " + interfaceClass.getName());
-            includedServices.add(interfaceClass.getName());
+                includedServices.add(interfaceClass.getName());
+            }
         }
         return includedServices;
+    }
+
+    private boolean isAService(JavaClass interfaceClass) {
+        if (interfaceClass.getName().endsWith("Service")) {
+            return true;
+        }
+        return false;
     }
 
     private String calcParameterDescription(JavaMethod method,
@@ -603,13 +613,13 @@ public class ServiceContractModelQDoxLoader implements
             JavaClass subObjToAdd = this.calcRealJavaClassOfGetterReturn(getterMethod);
             if (subObjToAdd != null) {
 //                if (!subObjToAdd.isEnum()) {
-                    if (!subObjToAdd.getName().equals("Object")) {
-                        if (!subObjToAdd.getName().equals("LocaleKeyList")) {
-                            if (!subObjToAdd.getName().equals("MessageGroupKeyList")) {
-                                subObjectsToAdd.add(subObjToAdd);
-                            }
+                if (!subObjToAdd.getName().equals("Object")) {
+                    if (!subObjToAdd.getName().equals("LocaleKeyList")) {
+                        if (!subObjToAdd.getName().equals("MessageGroupKeyList")) {
+                            subObjectsToAdd.add(subObjToAdd);
                         }
                     }
+                }
 //                }
             }
         }
@@ -634,7 +644,7 @@ public class ServiceContractModelQDoxLoader implements
             infcGetter = getterMethod;
         }
         if (infcGetter == null) {
-            infcGetter = findInterfaceMethod(mainClass, getterMethod);
+            infcGetter = findInterfaceMethod(mainClass, getterMethod, false);
         }
         if (infcGetter == null) {
             return false;
@@ -752,6 +762,44 @@ public class ServiceContractModelQDoxLoader implements
             }
         }
         return null;
+    }
+
+    private String calcImplementationNotes(JavaMethod serviceMethod) {
+        StringBuilder bldr = new StringBuilder();
+        String newLine = "";
+        for (DocletTag tag : serviceMethod.getTagsByName("impl", true)) {
+            bldr.append(newLine);
+            newLine = "\n";
+            String value = tag.getValue();
+            bldr.append(value);
+        }
+        if (hasOverride (serviceMethod)) {
+            boolean matchJustOnName = true;
+            JavaMethod overriddenMethod = findInterfaceMethod (serviceMethod.getParentClass(), serviceMethod, matchJustOnName);
+            if (overriddenMethod == null) {
+                // do it again so we can debug
+                findInterfaceMethod (serviceMethod.getParentClass(), serviceMethod, true);
+                throw new NullPointerException ("could not find overridden method or method that has @Override annotation " + serviceMethod.getCallSignature());
+            }
+            bldr.append(newLine);
+            newLine = "\n";
+            bldr.append ("Should be implemented in business logic implementation of ");
+            bldr.append (overriddenMethod.getParentClass().getName());
+        }
+        if (bldr.length() == 0) {
+            return null;
+        }
+        return bldr.toString();
+    }
+    
+    private boolean hasOverride(JavaMethod serviceMethod) {
+        for (Annotation annotation : serviceMethod.getAnnotations()) {
+             if (annotation.getType().getJavaClass().getName().equals(
+                    "Override")) {
+                 return true;
+             }
+        }
+        return false;
     }
 
     private String calcImplementationNotes(JavaMethod getterMethod,
@@ -886,7 +934,7 @@ public class ServiceContractModelQDoxLoader implements
         if (isCommentNotEmpty(desc)) {
             return desc;
         }
-        JavaMethod infcMethod = findInterfaceMethod(mainClass, method);
+        JavaMethod infcMethod = findInterfaceMethod(mainClass, method, false);
         if (infcMethod != null) {
             desc = infcMethod.getComment();
             if (isCommentNotEmpty(desc)) {
@@ -918,13 +966,16 @@ public class ServiceContractModelQDoxLoader implements
         return null;
     }
 
-    private JavaMethod findInterfaceMethod(JavaClass mainClass, JavaMethod method) {
+    private JavaMethod findInterfaceMethod(JavaClass mainClass, JavaMethod method, boolean matchJustOnName) {
         String callSig = method.getCallSignature();
+        if (matchJustOnName) {
+            callSig = method.getName();
+        }
         JavaClass classToSearch = mainClass;
 //        log ("Searching mainClass " + classToSearch.getName() + " for " + callSig, callSig);
         while (true) {
             for (JavaClass infcClass : classToSearch.getImplementedInterfaces()) {
-                JavaMethod meth = this.findMethodOnInterfaceRecursively(infcClass, callSig);
+                JavaMethod meth = this.findMethodOnInterfaceRecursively(infcClass, callSig, matchJustOnName);
                 if (meth != null) {
 //                    recursionCntr = 0;
                     return meth;
@@ -950,7 +1001,7 @@ public class ServiceContractModelQDoxLoader implements
 //        }
 //    }
 //    private int recursionCntr = 0;
-    private JavaMethod findMethodOnInterfaceRecursively(JavaClass infcClass, String callSig) {
+    private JavaMethod findMethodOnInterfaceRecursively(JavaClass infcClass, String callSig, boolean matchJustOnName) {
 //        recursionCntr++;
 //        log ("Searching interface " + infcClass.getName() + " for " + callSig, callSig);
         for (JavaMethod infcMethod : infcClass.getMethods()) {
@@ -959,10 +1010,15 @@ public class ServiceContractModelQDoxLoader implements
 //                recursionCntr--;
                 return infcMethod;
             }
+            if (matchJustOnName) {
+                if (callSig.equals(infcMethod.getName())) {
+                    return infcMethod;
+                }
+            }
         }
         for (JavaClass subInfc : infcClass.getImplementedInterfaces()) {
 //            log ("Searching  sub-interface " + subInfc.getName() + " for " + callSig, callSig);
-            JavaMethod infcMethod = findMethodOnInterfaceRecursively(subInfc, callSig);
+            JavaMethod infcMethod = findMethodOnInterfaceRecursively(subInfc, callSig, matchJustOnName);
             if (infcMethod != null) {
 //                recursionCntr--;
                 return infcMethod;

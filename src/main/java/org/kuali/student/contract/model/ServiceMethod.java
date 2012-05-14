@@ -103,4 +103,16 @@ public class ServiceMethod {
     public void setErrors(List<ServiceMethodError> errors) {
         this.errors = errors;
     }
+    
+
+    private String implNotes;
+
+    public String getImplNotes() {
+        return implNotes;
+    }
+
+    public void setImplNotes(String implNotes) {
+        this.implNotes = implNotes;
+    }
+    
 }

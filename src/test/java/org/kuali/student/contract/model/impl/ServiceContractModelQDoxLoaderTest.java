@@ -87,14 +87,14 @@ public class ServiceContractModelQDoxLoaderTest {
         System.out.println("User directory=" + System.getProperty("user.dir"));
         System.out.println("Current directory=" + new File(".").getAbsolutePath());
 //        srcDirs.add (ENROLL_PROJECT_JAVA_DIRECTORY);
-//        srcDirs.add(TEST_SOURCE_DIRECTORY);
-        srcDirs.add(RICE_CORE_API_DIRECTORY); 
-        srcDirs.add(RICE_KIM_API_DIRECTORY); 
-        srcDirs.add(RICE_LOCATION_API_DIRECTORY); 
-        srcDirs.add(RICE_KEW_API_DIRECTORY); 
-        srcDirs.add(RICE_KEN_API_DIRECTORY); 
-        srcDirs.add(RICE_KSB_API_DIRECTORY); 
-        srcDirs.add(RICE_KRMS_API_DIRECTORY);     
+        srcDirs.add(TEST_SOURCE_DIRECTORY);
+//        srcDirs.add(RICE_CORE_API_DIRECTORY); 
+//        srcDirs.add(RICE_KIM_API_DIRECTORY); 
+//        srcDirs.add(RICE_LOCATION_API_DIRECTORY); 
+//        srcDirs.add(RICE_KEW_API_DIRECTORY); 
+//        srcDirs.add(RICE_KEN_API_DIRECTORY); 
+//        srcDirs.add(RICE_KSB_API_DIRECTORY); 
+//        srcDirs.add(RICE_KRMS_API_DIRECTORY);     
         boolean validateKualiStudent = false;
         ServiceContractModel instance = new ServiceContractModelQDoxLoader(srcDirs, validateKualiStudent);
         
@@ -146,12 +146,19 @@ public class ServiceContractModelQDoxLoaderTest {
         ServiceContractModel model = getModel();
         List<ServiceMethod> result = model.getServiceMethods();
         System.out.println("Number of methods=" + result.size());
+        boolean getAtpFound = false;
         for (ServiceMethod method : result) {
             System.out.println(dump(method));
+            if (method.getName().equals("getAtp")) {
+                getAtpFound = true;
+                assertEquals ("this is an implementation note\nthis is another", method.getImplNotes());
+            }
         }
+        assertTrue (getAtpFound);
         if (result.size() < 10) {
             fail("too few: " + result.size());
         }
+        
     }
 
     /**

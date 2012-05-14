@@ -209,6 +209,14 @@ public class HtmlContractServiceWriter {
                 this.addHTMLBreaks(method.getDescription()));
         writer.indentPrintln("</tr>");
 
+        if (method.getImplNotes() != null && !method.getImplNotes().isEmpty()) {
+            writer.indentPrintln("<tr>");
+            writer.writeTag("th", "class=h", "Implementation Notes");
+            writer.writeTag("td", "colspan=3 class=\"methodDesc\"",
+                    this.addHTMLBreaks(method.getImplNotes()));
+            writer.indentPrintln("</tr>");
+        }
+
         if (method.getParameters().isEmpty()) {
             writer.indentPrintln("<tr>");
             writer.writeTag("th", "class=h", "Parameters");

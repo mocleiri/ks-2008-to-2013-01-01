@@ -46,6 +46,8 @@ public interface AtpService extends TypeService, StateService {
      * @throws MissingParameterException missing luiPersonRelationId
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @impl this is an implementation note
+     * @impl this is another
      */
     public AtpInfo getAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
