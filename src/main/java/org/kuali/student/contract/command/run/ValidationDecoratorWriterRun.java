@@ -35,8 +35,10 @@ public class ValidationDecoratorWriterRun {
     }
     private static final String CORE_DIRECTORY =
             "C:/svn/student/ks-core/ks-core-api/src/main/java";
-    private static final String ENROLL_DIRECTORY =
+    private static final String ENROLL_SERVICES_DIRECTORY =
             "C:/svn/ks-1.3-services/ks-enroll/ks-enroll-api/src/main/java";
+    private static final String ENROLL_DIRECTORY =
+            "C:/svn/ks-1.3/ks-enroll/ks-enroll-api/src/main/java";
 //                           "C:/svn/maven-dictionary-generator/trunk/src/main/java/org/kuali/student/core";
     private static final String COMMON_DIRECTORY =
             "C:/svn/student/ks-common/ks-common-api/src/main/java";
