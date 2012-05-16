@@ -9,6 +9,10 @@
     </parent>
     <artifactId>ks-rice-lessdep</artifactId>
     <name>KS Rice Less Dependencies</name>
+    <description>
+        This pom is intended to pull in the rice-impl with fewer transitive dependencies
+        Just enough to have a thin version of the ksb running.
+    </description>
     <packaging>pom</packaging>
     <dependencies>
         <dependency>
