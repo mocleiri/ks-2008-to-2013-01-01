@@ -16,6 +16,8 @@
 package org.kuali.student.r2.lum.clu.dto;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.NameInfo;
+import org.kuali.student.r2.common.infc.Name;
 import org.kuali.student.r2.lum.clu.infc.CluIdentifier;
 
 import javax.xml.bind.Element;
@@ -25,6 +27,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +35,7 @@ import java.util.Map;
  * Detailed information about the human readable form of a CLU Identifier
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CluIdentifierInfo", propOrder = {"id", "typeKey", "stateKey", "code", "shortName", "longName", "level", "division", "variation", "suffixCode", "orgId", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "CluIdentifierInfo", propOrder = {"id", "typeKey", "stateKey", "code", "shortName", "longNames", "level", "division", "variation", "suffixCode", "orgId", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdentifier, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,9 +45,9 @@ public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdenti
 
     @XmlElement
     private String shortName;
-
+    
     @XmlElement
-    private String longName;
+    private List<NameInfo> longNames;
 
     @XmlElement
     private String level;
@@ -66,7 +69,7 @@ public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdenti
 //    private List<Element> _futureElements;
 
     public CluIdentifierInfo() {
-
+    	this.setLongNames((new ArrayList<NameInfo>()));
     }
 
     public CluIdentifierInfo(CluIdentifier cluIdentifier) {
@@ -74,7 +77,13 @@ public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdenti
         if (null != cluIdentifier) {
             this.code = cluIdentifier.getCode();
             this.shortName = cluIdentifier.getShortName();
-            this.longName = cluIdentifier.getLongName();
+            
+            this.setLongNames((new ArrayList<NameInfo>()));
+            if (null != cluIdentifier.getLongNames()) {
+                for (Name name : cluIdentifier.getLongNames()) {
+                    this.getLongNames().add(new NameInfo(name));
+                }
+            }
             this.level = cluIdentifier.getLevel();
             this.division = cluIdentifier.getDivision();
             this.variation = cluIdentifier.getVariation();
@@ -99,15 +108,6 @@ public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdenti
 
     public void setShortName(String shortName) {
         this.shortName = shortName;
-    }
-
-    @Override
-    public String getLongName() {
-        return longName;
-    }
-
-    public void setLongName(String longName) {
-        this.longName = longName;
     }
 
     @Override
@@ -158,5 +158,13 @@ public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdenti
 	public void setAttributes(Map<String, String> attributeMap) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setLongNames(List<NameInfo> longNames) {
+		this.longNames = longNames;
+	}
+
+	public List<NameInfo> getLongNames() {
+		return longNames;
 	}
 }

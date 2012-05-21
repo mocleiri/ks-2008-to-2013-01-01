@@ -30,6 +30,7 @@ import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.NameInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
@@ -62,7 +63,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 		if (clu.getOfficialIdentifier() != null) {
 			progReq.setShortTitle(clu.getOfficialIdentifier().getShortName());
-			progReq.setLongTitle(clu.getOfficialIdentifier().getLongName());
+			progReq.setLongTitle(clu.getOfficialIdentifier().getLongNames().get(0).getName());
 		}
 		progReq.setDescr(clu.getDescr());
 
@@ -167,7 +168,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
         progReq.setId(clu.getId());
         CluIdentifierInfo official = null != clu.getOfficialIdentifier() ? clu.getOfficialIdentifier() : new CluIdentifierInfo();
-        official.setLongName(progReq.getLongTitle());
+        official.getLongNames().add(new NameInfo("EN",progReq.getLongTitle()));
         official.setShortName(progReq.getShortTitle());
         
         // We decided not to do null checks in the disassembler.  Instead we will just 

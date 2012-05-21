@@ -25,10 +25,11 @@ import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.AttributeOwner;
 import org.kuali.student.r1.common.entity.BaseEntity;
+import org.kuali.student.r2.common.entity.NameOwner;
 
 @Entity
 @Table(name = "KSLU_CLU_IDENT")
-public class CluIdentifier extends BaseEntity implements AttributeOwner<CluIdentifierAttribute> {
+public class CluIdentifier extends BaseEntity implements AttributeOwner<CluIdentifierAttribute>, NameOwner<CluIdentifierLngName> {
 
     @Column(name = "CD")
     private String code;
@@ -36,8 +37,8 @@ public class CluIdentifier extends BaseEntity implements AttributeOwner<CluIdent
     @Column(name = "SHRT_NAME")
     private String shortName;
 
-    @Column(name = "LNG_NAME")
-    private String longName;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<CluIdentifierLngName> longNames;
 
     @Column(name = "LVL")
     private String level;
@@ -77,14 +78,6 @@ public class CluIdentifier extends BaseEntity implements AttributeOwner<CluIdent
 
     public void setShortName(String shortName) {
         this.shortName = shortName;
-    }
-
-    public String getLongName() {
-        return longName;
-    }
-
-    public void setLongName(String longName) {
-        this.longName = longName;
     }
 
     public String getLevel() {
@@ -149,5 +142,26 @@ public class CluIdentifier extends BaseEntity implements AttributeOwner<CluIdent
 
     public void setAttributes(List<CluIdentifierAttribute> attributes) {
         this.attributes = attributes;
-    }        
+    }
+
+	public void setLongNames(List<CluIdentifierLngName> longNames) {
+		this.longNames = longNames;
+	}
+
+	public List<CluIdentifierLngName> getLongNames() {
+		return longNames;
+	}
+
+	@Override
+	public void setNames(List<CluIdentifierLngName> names) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<CluIdentifierLngName> getNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+       
 }
