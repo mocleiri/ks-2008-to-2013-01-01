@@ -29,6 +29,5 @@
 	<classpathentry kind="src" output="ks-lum-impl/target/classes" path="ks-lum-impl/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="src" path="/ks-common"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
