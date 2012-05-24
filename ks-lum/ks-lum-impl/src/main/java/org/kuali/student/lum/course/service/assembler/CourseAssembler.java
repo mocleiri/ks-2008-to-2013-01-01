@@ -58,6 +58,7 @@ import org.kuali.student.r1.lum.lu.dto.CluInfo;
 import org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluResultInfo;
 import org.kuali.student.r1.lum.lu.dto.LuCodeInfo;
+import org.kuali.student.r2.common.dto.NameInfo;
 import org.kuali.student.r1.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -112,7 +113,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         course.setInstructors(clu.getInstructors());
         course.setStartTerm(clu.getExpectedFirstAtp());
         course.setEndTerm(clu.getLastAtp());
-        course.setCourseTitle(clu.getOfficialIdentifier().getLongName());
+        course.setCourseTitle(clu.getOfficialIdentifier().getLongNames().get(0).getName());
 
         // CrossListings
         List<CourseCrossListingInfo> crossListings = assembleCrossListings(clu.getAlternateIdentifiers());
@@ -320,7 +321,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         CluIdentifierInfo identifier = new CluIdentifierInfo();
         identifier.setType(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_TYPE);
         identifier.setState(course.getState());
-        identifier.setLongName(course.getCourseTitle());
+        NameInfo nameInfo = new NameInfo();
+        nameInfo.setName(course.getCourseTitle());
+        nameInfo.setLocale("EN");
+        identifier.getLongNames().add(nameInfo);
         identifier.setShortName(course.getTranscriptTitle());
         identifier.setSuffixCode(course.getCourseNumberSuffix());
         identifier.setDivision(course.getSubjectArea());
@@ -357,7 +361,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             cluIdentifier.setSuffixCode(course.getCourseNumberSuffix());
             cluIdentifier.setDivision(course.getSubjectArea());
             cluIdentifier.setVariation(variation.getVariationCode());
-            cluIdentifier.setLongName(variation.getVariationTitle());
+            NameInfo name = new NameInfo();
+            name.setName(variation.getVariationTitle());
+            name.setLocale("EN");
+            cluIdentifier.getLongNames().add(name);
             cluIdentifier.setState(course.getState());
             clu.getAlternateIdentifiers().add(cluIdentifier);
         }
@@ -1100,7 +1107,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     variation.setCourseNumberSuffix(cluIdent.getSuffixCode());
                     variation.setSubjectArea(cluIdent.getDivision());
                     variation.setVariationCode(cluIdent.getVariation());
-                    variation.setVariationTitle(cluIdent.getLongName());
+                    variation.setVariationTitle(cluIdent.getLongNames().get(0).getName());
                     variations.add(variation);
                 }
             }

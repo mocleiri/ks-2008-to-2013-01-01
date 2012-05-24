@@ -69,7 +69,7 @@ public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdenti
 //    private List<Element> _futureElements;
 
     public CluIdentifierInfo() {
-    	this.setLongNames((new ArrayList<NameInfo>()));
+
     }
 
     public CluIdentifierInfo(CluIdentifier cluIdentifier) {

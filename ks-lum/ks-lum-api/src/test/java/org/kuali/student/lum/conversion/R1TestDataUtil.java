@@ -36,6 +36,7 @@ import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluFeeInfo;
 import org.kuali.student.r1.lum.lu.dto.CluFeeRecordInfo;
 import org.kuali.student.r1.lum.lu.dto.CluIdentifierInfo;
+import org.kuali.student.r2.common.dto.NameInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo;
@@ -64,7 +65,7 @@ public class R1TestDataUtil {
         Map<String, String> r1Attributes = new HashMap<String, String>();
         r1Attributes.put("R1-Key", "R1-Value");
         return r1Attributes;
-    }
+    } 
 
     public static MetaInfo getMetadataInfoData() {
         MetaInfo r1MetaInfo = new MetaInfo();
@@ -792,7 +793,10 @@ public class R1TestDataUtil {
         r1.setDivision("R1 Division");
         r1.setId("R1 Id");
         r1.setLevel("R1 Level");
-        r1.setLongName("R1 Long Name");
+        NameInfo name = new NameInfo();
+        name.setName("R1 Long Name");
+        name.setLocale("EN");
+        r1.getLongNames().add(name);
         r1.setOrgId("R1 Org Id");
         r1.setShortName("R1 Short Name");
         r1.setState("R1 State");

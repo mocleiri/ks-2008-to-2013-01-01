@@ -160,7 +160,7 @@ public class CluContextImplTest extends AbstractServiceTest {
 
 		Assert.assertEquals("kuali.lu.type.CreditCourse", clu.getTypeKey());
 		Assert.assertEquals("Chem 123", clu.getOfficialIdentifier().getShortName());
-		Assert.assertEquals("Chemistry 123", clu.getOfficialIdentifier().getLongName());
+		Assert.assertEquals("Chemistry 123", clu.getOfficialIdentifier().getLongNames().get(0).getName());
 	}
 
 	@Test

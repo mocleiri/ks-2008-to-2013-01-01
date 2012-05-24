@@ -17,6 +17,7 @@ package org.kuali.student.r1.lum.lu.dto;
  
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -27,6 +28,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.r1.common.dto.Idable;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.r2.common.dto.NameInfo;
 
 /**
  *Detailed information about the human readable form of a CLU Identifier
@@ -43,7 +45,7 @@ public class CluIdentifierInfo implements Serializable, Idable {
     private String shortName;
 
     @XmlElement
-    private String longName;
+    private List<NameInfo> longNames;
 
     @XmlElement
     private String level;
@@ -95,12 +97,12 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.shortName = shortName;
     }
 
-    public String getLongName() {
-        return longName;
+    public List<NameInfo> getLongNames() {
+        return longNames;
     }
 
-    public void setLongName(String longName) {
-        this.longName = longName;
+    public void setLongNames(List<NameInfo> longNames) {
+        this.longNames = longNames;
     }
 
     /**

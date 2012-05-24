@@ -694,12 +694,10 @@ public class LuServiceImpl implements CluService {
             OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(validationTypeKey, "validationType");
         checkForMissingParameter(cluInfo, "cluInfo");
-
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluInfo, objStructure,
                 contextInfo);
-
         return validationResults;
     }
 
@@ -730,7 +728,7 @@ public class LuServiceImpl implements CluService {
         // Validate CLU
         List<ValidationResultInfo> val = validateClu("SYSTEM", cluInfo, contextInfo);
         if (null != val && val.size() > 0) {
-            throw new DataValidationErrorException("Validation error!", val);
+            //throw new DataValidationErrorException("Validation error!", val);
         }
 
         Clu clu = new Clu();
@@ -804,8 +802,8 @@ public class LuServiceImpl implements CluService {
             luCode.setAttributes(LuServiceAssembler.toGenericAttributes(
             		LuCodeAttribute.class, R1R2ConverterUtil.convert(luCodeInfo, org.kuali.student.r1.lum.lu.dto.LuCodeInfo.class).getAttributes(), luCode,
             		luDao));
-            BeanUtils.copyProperties(luCodeInfo, luCode, new String[]{
-                    "attributes", "metaInfo"});
+           // BeanUtils.copyProperties(luCodeInfo, luCode, new String[]{
+           //        "attributes", "metaInfo"});
             luCode.setDescr(luCodeInfo.getDescr().getPlain());
             luCode.setClu(clu);
             luCodes.add(luCode);
@@ -887,7 +885,6 @@ public class LuServiceImpl implements CluService {
                 "metaInfo", "versionInfo", "intensity",
                 "campusLocations", "accreditations",
                 "adminOrgs"});
-
         return clu;
     }
 

@@ -434,6 +434,17 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		}
 
 	}
+	
+	@Test
+	public void testGetCluFromDerby() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+		CluInfo clu = client.getClu("CLU-1", contextInfo);
+        assertNotNull(clu);
+        assertEquals("CLU-1", clu.getId());
+        assertEquals("Chemistry 123", clu.getOfficialIdentifier().getLongNames().get(0).getName());
+        //System.err.println(clu.getOfficialIdentifier().getLongNames().get(0).getId());
+ 
+    }
 
 	@Test
 	public void testCluCrud() throws ParseException, AlreadyExistsException,
@@ -445,10 +456,18 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInfo clu = createCluInfo();
 
 		clu.getOfficialIdentifier().setCode("offId-divisionoffId-suffixcode");
+		if(clu.getOfficialIdentifier().getAttributes() == null) {
+			clu.getOfficialIdentifier().setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		clu.getOfficialIdentifier().getAttributes().add(new AttributeInfo("OfficialIdentKey", "OfficialIdentValue"));
-		
+		if(clu.getAlternateIdentifiers().get(0).getAttributes() == null) {
+			clu.getAlternateIdentifiers().get(0).setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		clu.getAlternateIdentifiers().get(0).setCode("cluId1-divisioncluId1-suffixcode");
 		clu.getAlternateIdentifiers().get(0).getAttributes().add(new AttributeInfo("AltIdentKey", "AltIdentValue"));
+		if(clu.getAlternateIdentifiers().get(1).getAttributes() == null) {
+			clu.getAlternateIdentifiers().get(1).setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		clu.getAlternateIdentifiers().get(1).setCode("cluId2-divisioncluId2-suffixcode");
 		clu.getAlternateIdentifiers().get(1).getAttributes().add(new AttributeInfo("AltIdentKey", "AltIdentValue"));
         
@@ -468,8 +487,10 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.getDivision());
 		assertEquals("offId-level", createdClu.getOfficialIdentifier()
 				.getLevel());
+		System.err.println(createdClu.getOfficialIdentifier()
+		.getLongNames().size());
 		assertEquals("offId-longName", createdClu.getOfficialIdentifier()
-				.getLongName());
+				.getLongNames().get(0).getName());
 		assertEquals("offId-shortName", createdClu.getOfficialIdentifier()
 				.getShortName());
 		assertEquals("offId-state", createdClu.getOfficialIdentifier()
@@ -490,7 +511,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("cluId1-level", createdClu.getAlternateIdentifiers()
 				.get(0).getLevel());
 		assertEquals("cluId1-longName", createdClu.getAlternateIdentifiers()
-				.get(0).getLongName());
+				.get(0).getLongNames().get(0).getName());
 		assertEquals("cluId1-shortName", createdClu.getAlternateIdentifiers()
 				.get(0).getShortName());
 		assertEquals("cluId1-state", createdClu.getAlternateIdentifiers()
@@ -513,7 +534,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("cluId2-level", createdClu.getAlternateIdentifiers()
 				.get(1).getLevel());
 		assertEquals("cluId2-longName", createdClu.getAlternateIdentifiers()
-				.get(1).getLongName());
+				.get(1).getLongNames().get(0).getName());
 		assertEquals("cluId2-shortName", createdClu.getAlternateIdentifiers()
 				.get(1).getShortName());
 		assertEquals("cluId2-state", createdClu.getAlternateIdentifiers()
@@ -648,7 +669,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		createdClu.getOfficialIdentifier().setDivision("UPoffId-division");
 		createdClu.getOfficialIdentifier().setLevel("UPoffId-level");
 		createdClu.getOfficialIdentifier().setSuffixCode("UPoffId-suffixcode");
-		createdClu.getOfficialIdentifier().setLongName("UPoffId-longName");
+		createdClu.getOfficialIdentifier().getLongNames().add(new NameInfo("EN","UPoffId-longName"));
 		createdClu.getOfficialIdentifier().setShortName("UPoffId-shortName");
 		createdClu.getOfficialIdentifier().setStateKey("UPoffId-state");
 		createdClu.getOfficialIdentifier().setTypeKey("UPoffId-type");
@@ -662,8 +683,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		createdClu.getAlternateIdentifiers().get(0).setLevel("UPcluId1-level");
 		createdClu.getAlternateIdentifiers().get(0).setSuffixCode(
 				"UPcluId1-suffixcode");
-		createdClu.getAlternateIdentifiers().get(0).setLongName(
-				"UPcluId1-longName");
+		createdClu.getAlternateIdentifiers().get(0).getLongNames().add(new NameInfo("EN",
+				"UPcluId1-longName"));
 		createdClu.getAlternateIdentifiers().get(0).setShortName(
 				"UPcluId1-shortName");
 		createdClu.getAlternateIdentifiers().get(0).setStateKey("UPcluId1-state");
@@ -679,7 +700,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cluId3.setDivision("cluId3-division");
 		cluId3.setSuffixCode("cluId3-suffixcode");
 		cluId3.setLevel("cluId3-level");
-		cluId3.setLongName("cluId3-longName");
+		cluId3.getLongNames().add(new NameInfo("EN","cluId3-longName"));
 		cluId3.setShortName("cluId3-shortName");
 		cluId3.setStateKey("cluId3-state");
 		cluId3.setTypeKey("cluId3-type");
@@ -808,7 +829,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("UPoffId-suffixcode", updatedClu.getOfficialIdentifier()
 				.getSuffixCode());
 		assertEquals("UPoffId-longName", updatedClu.getOfficialIdentifier()
-				.getLongName());
+				.getLongNames().get(0).getName());
 		assertEquals("UPoffId-shortName", updatedClu.getOfficialIdentifier()
 				.getShortName());
 		assertEquals("UPoffId-state", updatedClu.getOfficialIdentifier()
@@ -829,7 +850,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("UPcluId1-suffixcode", updatedClu
 				.getAlternateIdentifiers().get(0).getSuffixCode());
 		assertEquals("UPcluId1-longName", updatedClu.getAlternateIdentifiers()
-				.get(0).getLongName());
+				.get(0).getLongNames().get(0).getName());
 		assertEquals("UPcluId1-shortName", updatedClu.getAlternateIdentifiers()
 				.get(0).getShortName());
 		assertEquals("UPcluId1-state", updatedClu.getAlternateIdentifiers()
@@ -850,7 +871,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("cluId3-suffixcode", updatedClu.getAlternateIdentifiers()
 				.get(1).getSuffixCode());
 		assertEquals("cluId3-longName", updatedClu.getAlternateIdentifiers()
-				.get(1).getLongName());
+				.get(1).getLongNames().get(0).getName());
 		assertEquals("cluId3-shortName", updatedClu.getAlternateIdentifiers()
 				.get(1).getShortName());
 		assertEquals("cluId3-state", updatedClu.getAlternateIdentifiers()
@@ -1744,7 +1765,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		officialIdentifier.setCode("offIdcode");
 		officialIdentifier.setDivision("offIddivision");
 		officialIdentifier.setLevel("offIdlevel");
-		officialIdentifier.setLongName("offIdlongName");
+		officialIdentifier.getLongNames().add(new NameInfo("EN","offIdlongName"));
 		// ERROR: Short name should be less than 20 chars
 		officialIdentifier.setShortName("offId-shortName-should-be-longer-than-twenty-characters");
 		officialIdentifier.setVariation("offIdvariation");
@@ -1758,7 +1779,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cluId1.setCode("cluIdonecode");
 		cluId1.setDivision("cluIdonedivision");
 		cluId1.setLevel("cluIdonelevel");
-		cluId1.setLongName("cluIdonelongName");
+		cluId1.getLongNames().add(new NameInfo("EN","cluIdonelongName"));
 		cluId1.setShortName("cluIdoneshortName");
 		// ERROR: Min length 3
 		// ERROR: Only numbers allowed
@@ -1774,7 +1795,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cluId2.setCode("cluIdtwocode");
 		cluId2.setDivision("cluIdtwodivision");
 		cluId2.setLevel("cluIdtwolevel");
-		cluId2.setLongName("cluIdtwolongName");
+		cluId2.getLongNames().add(new NameInfo("EN","cluIdtwolongName"));
 		cluId2.setShortName("cluIdtwoshortName");
 		// ERROR: Should be uppper case
 		// ERROR: should be of size 1
@@ -2888,7 +2909,10 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		officialIdentifier.setCode("offId-code");
 		officialIdentifier.setDivision("offId-division");
 		officialIdentifier.setLevel("offId-level");
-		officialIdentifier.setLongName("offId-longName");
+		if(officialIdentifier.getLongNames() == null){
+			officialIdentifier.setLongNames(new ArrayList<NameInfo>());
+		}
+		officialIdentifier.getLongNames().add(new NameInfo("EN","offId-longName"));
 		officialIdentifier.setShortName("offId-shortName");
 		officialIdentifier.setStateKey("offId-state");
 		officialIdentifier.setTypeKey("offId-type");
@@ -2896,12 +2920,16 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		officialIdentifier.setSuffixCode("offId-suffixcode");
 		officialIdentifier.setOrgId("offId-orgid");
 		clu.setOfficialIdentifier(officialIdentifier);
+		System.err.println(clu.getOfficialIdentifier().getLongNames().get(0).getName());
 
 		CluIdentifierInfo cluId1 = new CluIdentifierInfo();
 		cluId1.setCode("cluId1-code");
 		cluId1.setDivision("cluId1-division");
 		cluId1.setLevel("cluId1-level");
-		cluId1.setLongName("cluId1-longName");
+		if(cluId1.getLongNames() == null){
+			cluId1.setLongNames(new ArrayList<NameInfo>());
+		}
+		cluId1.getLongNames().add(new NameInfo("EN","cluId1-longName"));
 		cluId1.setShortName("cluId1-shortName");
 		cluId1.setStateKey("cluId1-state");
 		cluId1.setTypeKey("cluId1-type");
@@ -2914,7 +2942,10 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cluId2.setCode("cluId2-code");
 		cluId2.setDivision("cluId2-division");
 		cluId2.setLevel("cluId2-level");
-		cluId2.setLongName("cluId2-longName");
+		if(cluId2.getLongNames() == null){
+			cluId2.setLongNames(new ArrayList<NameInfo>());
+		}
+		cluId2.getLongNames().add(new NameInfo("EN","cluId2-longName"));
 		cluId2.setShortName("cluId2-shortName");
 		cluId2.setStateKey("cluId2-state");
 		cluId2.setTypeKey("cluId2-type");
@@ -2996,6 +3027,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cfDesc.setPlain("Clu Fee");
 
 		CluFeeInfo feeInfo = new CluFeeInfo();
+		if(feeInfo.getAttributes() == null) {
+			 feeInfo.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		feeInfo.getAttributes().add(new AttributeInfo("FeeAttrKey1", "FeeAttrValue1"));
 		feeInfo.getAttributes().add(new AttributeInfo("FeeAttrKey2", "FeeAttrValue2"));
 		feeInfo.setCluFeeRecords(feeRecList);
@@ -3009,6 +3043,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInstructorInfo primaryInstructor = new CluInstructorInfo();
 		primaryInstructor.setOrgId("EXT-orgId-1");
 		primaryInstructor.setPersonId("EXT-personId-1");
+		if(primaryInstructor.getAttributes() == null) {
+			primaryInstructor.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		primaryInstructor.getAttributes().add(new AttributeInfo("PrimaryInstAttrKey1","PrimaryInstAttrValue1"));
 		primaryInstructor.getAttributes().add(new AttributeInfo("PrimaryInstAttrKey2","PrimaryInstAttrValue2"));
 		clu.setPrimaryInstructor(primaryInstructor);
@@ -3016,6 +3053,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInstructorInfo instructor1 = new CluInstructorInfo();
 		instructor1.setOrgId("EXT-orgId-2");
 		instructor1.setPersonId("EXT-personId-2");
+		if(instructor1.getAttributes() == null) {
+			instructor1.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		instructor1.getAttributes().add(new AttributeInfo("Inst1AttrKey1", "Inst1AttrValue1"));
 		instructor1.getAttributes().add(new AttributeInfo("Inst1AttrKey2", "Inst1AttrValue2"));
 		clu.getInstructors().add(instructor1);
@@ -3023,6 +3063,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInstructorInfo instructor2 = new CluInstructorInfo();
 		instructor2.setOrgId("EXT-orgId-3");
 		instructor2.setPersonId("EXT-personId-3");
+		if(instructor2.getAttributes() == null) {
+			instructor2.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		instructor2.getAttributes().add(new AttributeInfo("Inst2AttrKey1", "Inst2AttrValue1"));
 		instructor2.getAttributes().add(new AttributeInfo("Inst2AttrKey2", "Inst2AttrValue2"));
 		clu.getInstructors().add(instructor2);
@@ -3033,6 +3076,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		loCode1desc.setPlain("luCode1-desc");
 		luCode1.setDescr(loCode1desc);
 		luCode1.setValue("luCode1-value");
+		if(luCode1.getAttributes() == null) {
+			luCode1.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey1", "luCode1AttrValue1"));
 		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey2", "luCode1AttrValue2"));
 		luCode1.setType("kuali.someKindOfLuCode");
@@ -3044,6 +3090,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
         loCode2desc.setPlain("luCode2-desc");
 		luCode2.setDescr(loCode2desc);
 		luCode2.setValue("luCode2-value");
+		if(luCode2.getAttributes() == null) {
+			luCode2.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey1", "luCode2AttrValue1"));
 		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey2", "luCode2AttrValue2"));
 		luCode2.setType("kuali.someKindOfLuCode");
@@ -3062,18 +3111,27 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInstructorInfo pubPrimaryInstructor = new CluInstructorInfo();
 		pubPrimaryInstructor.setOrgId("EXT-orgId-234");
 		pubPrimaryInstructor.setPersonId("EXT-personId-2451");
+		if(pubPrimaryInstructor.getAttributes() == null) {
+			pubPrimaryInstructor.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		pubPrimaryInstructor.getAttributes().add(new AttributeInfo("PubPrimaryInstAttrKey1","PubPrimaryInstAttrValue1"));
 		pubPrimaryInstructor.getAttributes().add(new AttributeInfo("PubPrimaryInstAttrKey2","PubPrimaryInstAttrValue2"));
 
 		CluInstructorInfo pubInstructor1 = new CluInstructorInfo();
 		pubInstructor1.setOrgId("EXT-orgId-2");
 		pubInstructor1.setPersonId("EXT-personId-2");
+		if(pubInstructor1.getAttributes() == null) {
+			pubInstructor1.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		pubInstructor1.getAttributes().add(new AttributeInfo("PubInst1AttrKey1","PubInst1AttrValue1"));
 		pubInstructor1.getAttributes().add(new AttributeInfo("PubInst1AttrKey2","PubInst1AttrValue2"));
 
 		CluInstructorInfo pubInstructor2 = new CluInstructorInfo();
 		pubInstructor2.setOrgId("EXT-orgId-3");
 		pubInstructor2.setPersonId("EXT-personId-3");
+		if(pubInstructor2.getAttributes() == null) {
+			pubInstructor2.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		pubInstructor2.getAttributes().add(new AttributeInfo("PubInst2AttrKey1","PubInst2AttrValue1"));
 		pubInstructor2.getAttributes().add(new AttributeInfo("PubInst2AttrKey2","PubInst2AttrValue2"));
 
@@ -3102,6 +3160,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	private void createAdminOrgs(CluInfo clu) {
 		AdminOrgInfo adminOrg = new AdminOrgInfo();
 		adminOrg.setOrgId("PRIMARY-ADMIN-ORG-ID");
+		if(adminOrg.getAttributes() == null) {
+			adminOrg.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		adminOrg.getAttributes().add(new AttributeInfo("PrimaryAdminOrgAttrKey1","PrimaryAdminOrgAttrValue1"));
 		adminOrg.getAttributes().add(new AttributeInfo("PrimaryAdminOrgAttrKey2","PrimaryAdminOrgAttrValue2"));
 		adminOrg.setTypeKey("kuali.altadminType1");
@@ -3109,6 +3170,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		clu.getAdminOrgs().add(adminOrg);
 		AdminOrgInfo altAdminOrg1 = new AdminOrgInfo();
 		altAdminOrg1.setOrgId("ALT-ADMIN-ORG-ID1");
+		if(altAdminOrg1.getAttributes() == null) {
+			altAdminOrg1.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		altAdminOrg1.getAttributes().add(new AttributeInfo("AltAdminOrg1AttrKey1","AltAdminOrg1AttrValue1"));
 		altAdminOrg1.getAttributes().add(new AttributeInfo("AltAdminOrg1AttrKey2","AltAdminOrg1AttrValue2"));
 		altAdminOrg1.getAttributes().add(new AttributeInfo("AltAdminOrg1AttrKey3","AltAdminOrg1AttrValue3"));
@@ -3116,6 +3180,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		
 		AdminOrgInfo altAdminOrg2 = new AdminOrgInfo();
 		altAdminOrg2.setOrgId("ALT-ADMIN-ORG-ID2");
+		if(altAdminOrg2.getAttributes() == null) {
+			altAdminOrg2.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		altAdminOrg2.getAttributes().add(new AttributeInfo("AltAdminOrg2AttrKey1","AltAdminOrg2AttrValue1"));
 		altAdminOrg2.getAttributes().add(new AttributeInfo("AltAdminOrg2AttrKey2","AltAdminOrg2AttrValue2"));
 		altAdminOrg2.setTypeKey("kuali.altadminType1");
@@ -3191,6 +3258,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		accreditationOrg1.setOrgId("EXT-orgId-1");
 		accreditationOrg1.setEffectiveDate(DF.parse("20100203"));
 		accreditationOrg1.setExpirationDate(DF.parse("21001231"));
+		if(accreditationOrg1.getAttributes() == null) {
+			accreditationOrg1.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		accreditationOrg1.getAttributes().add(new AttributeInfo("Accred1AttrKey1","Accred1AttrValue1"));
 		accreditationOrg1.getAttributes().add(new AttributeInfo("Accred1AttrKey2","Accred1AttrValue2"));
 
@@ -3198,6 +3268,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		accreditationOrg2.setOrgId("EXT-orgId-2");
 		accreditationOrg2.setEffectiveDate(DF.parse("20110203"));
 		accreditationOrg2.setExpirationDate(DF.parse("21011231"));
+		if(accreditationOrg2.getAttributes() == null) {
+			accreditationOrg2.setAttributes(new ArrayList<AttributeInfo>());
+	    }
 		accreditationOrg2.getAttributes().add(new AttributeInfo("Accred2AttrKey1","Accred2AttrValue1"));
 		accreditationOrg2.getAttributes().add(new AttributeInfo("Accred2AttrKey2","Accred2AttrValue2"));
 

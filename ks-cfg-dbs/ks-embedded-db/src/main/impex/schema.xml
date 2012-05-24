@@ -6394,6 +6394,7 @@
     	<column name="NAME" size="255" type="VARCHAR"/>
     	<column name="LOCALE" size="255" type="VARCHAR"/>
     	<column name="OWNER" size="255" type="VARCHAR"/>
+    	<column name="OBJ_ID" size="36" type="VARCHAR"/>
     	<foreign-key foreignTable="KSLU_CLU_IDENT" name="KSLU_CLU_IDENT_LNG_NAME_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
