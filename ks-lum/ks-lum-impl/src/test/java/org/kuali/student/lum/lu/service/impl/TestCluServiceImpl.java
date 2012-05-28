@@ -507,7 +507,6 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.getDivision());
 		assertEquals("offId-level", createdClu.getOfficialIdentifier()
 				.getLevel());
-		.getLongNames().size());
 		assertEquals("offId-longName", createdClu.getOfficialIdentifier()
 				.getLongNames().get(0).getValue());
 		assertEquals("offId-shortName", createdClu.getOfficialIdentifier()
