@@ -6391,7 +6391,7 @@
     </table>
     <table name="KSLU_CLU_IDENT_INTL_VALUES">
     	<column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-    	<column name="NAME" size="255" type="VARCHAR"/>
+    	<column name="VALUE" size="255" type="VARCHAR"/>
     	<column name="LOCALE" size="255" type="VARCHAR"/>
     	<column name="OWNER" size="255" type="VARCHAR"/>
     	<column name="OBJ_ID" size="36" type="VARCHAR"/>
