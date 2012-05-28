@@ -17,9 +17,9 @@ package org.kuali.student.r2.common.entity;
 
 import java.util.List;
 
-public interface NameOwner <T extends NameEntity<?>> {
+public interface LngNameOwner <T extends IntlValueEntity<?>> {
     
-    public void setNames(List<T> names);
+    public void setLongNames(List<T> longNames);
     
-    public List<T> getNames();
+    public List<T> getLongNames();
 }

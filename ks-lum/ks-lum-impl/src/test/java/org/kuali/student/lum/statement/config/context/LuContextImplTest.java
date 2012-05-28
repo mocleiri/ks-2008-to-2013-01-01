@@ -10,7 +10,7 @@ import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.NameInfo;
+import org.kuali.student.r2.common.dto.IntlValueInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
@@ -155,7 +155,7 @@ public class LuContextImplTest {
 
 		Assert.assertEquals("kuali.lu.type.CreditCourse", clu.getTypeKey());
 		Assert.assertEquals("MATH 152", clu.getOfficialIdentifier().getShortName());
-		Assert.assertEquals("MATH 152 Linear Systems", clu.getOfficialIdentifier().getLongNames().get(0).getName());
+		Assert.assertEquals("MATH 152 Linear Systems", clu.getOfficialIdentifier().getLongNames().get(0).getValue());
 	}
 
 	@Test
@@ -221,7 +221,7 @@ public class LuContextImplTest {
 			cluIdent1.setId("IDENT-NL-1");
 			cluIdent1.setCode("MATH152");
 			cluIdent1.setShortName("MATH 152");
-			cluIdent1.getLongNames().add(new NameInfo("EN","MATH 152 Linear Systems"));
+			cluIdent1.getLongNames().add(new IntlValueInfo("EN","MATH 152 Linear Systems"));
 			clu1.setOfficialIdentifier(cluIdent1);
 			cluMap.put("CLU-NL-1", clu1);
 
@@ -232,7 +232,7 @@ public class LuContextImplTest {
 			cluIdent2.setId("IDENT-NL-3");
 			cluIdent2.setCode("MATH180");
 			cluIdent2.setShortName("MATH 180");
-			cluIdent2.getLongNames().add(new NameInfo("EN","MATH 180 Differential Calculus with Physical Applications"));
+			cluIdent2.getLongNames().add(new IntlValueInfo("EN","MATH 180 Differential Calculus with Physical Applications"));
 			clu2.setOfficialIdentifier(cluIdent2);
 			cluMap.put("CLU-NL-3", clu1);
 

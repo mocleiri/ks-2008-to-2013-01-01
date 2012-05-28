@@ -6,7 +6,7 @@ package org.kuali.student.r2.common.infc;
  * @author Kuali Student Team
  *
  */
-public interface Name {
+public interface IntlValue {
 
     /**
      * Locale of the name
@@ -22,6 +22,6 @@ public interface Name {
      *
      * @name name
      */
-    public String getName();
+    public String getValue();
     
 }

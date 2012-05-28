@@ -19,7 +19,7 @@
     <profile>
       <id>default</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <activeByDefault>true</activeByDefault> 
       </activation>
       <modules>
         <module>ks-cxf</module>

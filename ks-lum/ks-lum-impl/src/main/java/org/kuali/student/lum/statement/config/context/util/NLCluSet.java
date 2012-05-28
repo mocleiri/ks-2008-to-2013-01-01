@@ -149,7 +149,7 @@ public class NLCluSet {
             sb.append("(");
         }       
         for(CluInfo clu : this.cluList) {
-            sb.append(clu.getOfficialIdentifier().getLongNames().get(0).getName());
+            sb.append(clu.getOfficialIdentifier().getLongNames().get(0).getValue());
             if (this.cluList.indexOf(clu) < (this.cluList.size() - 1)) {
                 sb.append(separator + " ");
             }

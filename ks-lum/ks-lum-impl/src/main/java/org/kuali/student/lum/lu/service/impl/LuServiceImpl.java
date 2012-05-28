@@ -2798,7 +2798,7 @@ public class LuServiceImpl implements CluService {
                 resultRow.addCell("lu.resultColumn.cluType", clu.getLuType().getId());
                 resultRow.addCell("lu.resultColumn.luOptionalCode", clu.getOfficialIdentifier().getCode());
                 resultRow.addCell("lu.resultColumn.luOptionalShortName", clu.getOfficialIdentifier().getShortName());
-                resultRow.addCell("lu.resultColumn.luOptionalLongName", clu.getOfficialIdentifier().getLongNames().get(0).getName());
+                resultRow.addCell("lu.resultColumn.luOptionalLongName", clu.getOfficialIdentifier().getLongNames().get(0).getValue());
                 resultRow.addCell("lu.resultColumn.luOptionalDependencyType", statementType);
                 resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName", statementTypeName);
                 resultRow.addCell("lu.resultColumn.luOptionalDependencyRootId", rootId);
@@ -2916,7 +2916,7 @@ public class LuServiceImpl implements CluService {
                 resultRow.addCell("lu.resultColumn.cluId", clu.getId());
                 resultRow.addCell("lu.resultColumn.luOptionalCode", clu.getOfficialIdentifier().getCode());
                 resultRow.addCell("lu.resultColumn.luOptionalShortName", clu.getOfficialIdentifier().getShortName());
-                resultRow.addCell("lu.resultColumn.luOptionalLongName", clu.getOfficialIdentifier().getLongNames().get(0).getName());
+                resultRow.addCell("lu.resultColumn.luOptionalLongName", clu.getOfficialIdentifier().getLongNames().get(0).getValue());
                 resultRow.addCell("lu.resultColumn.luOptionalDependencyType", "joint");
                 resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName", "jointly offered");
 
@@ -2931,7 +2931,7 @@ public class LuServiceImpl implements CluService {
 
                 resultRow.addCell("lu.resultColumn.luOptionalCode", altId.getCode());
                 resultRow.addCell("lu.resultColumn.luOptionalShortName", altId.getShortName());
-                resultRow.addCell("lu.resultColumn.luOptionalLongName", altId.getLongNames().get(0).getName());
+                resultRow.addCell("lu.resultColumn.luOptionalLongName", altId.getLongNames().get(0).getValue());
                 resultRow.addCell("lu.resultColumn.luOptionalDependencyType", "crossListed");
                 resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName", "cross-listed");
 

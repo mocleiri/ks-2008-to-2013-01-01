@@ -18,7 +18,7 @@ package org.kuali.student.r2.lum.clu.infc;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
-import org.kuali.student.r2.common.infc.Name;
+import org.kuali.student.r2.common.infc.IntlValue;
 
 /**
  * @Version 2.0
@@ -48,7 +48,7 @@ public interface CluIdentifier extends IdNamelessEntity {
      *
      * @name Long Name
      */
-    public List<? extends Name> getLongNames();
+    public List<? extends IntlValue> getLongNames();
 
     /**
      * A code that indicates whether this is introductory, advanced, etc.

@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.r1.common.dto.Idable;
+import org.kuali.student.r2.common.dto.IntlValueInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.r2.common.dto.NameInfo;
 
 /**
  *Detailed information about the human readable form of a CLU Identifier
@@ -45,7 +45,7 @@ public class CluIdentifierInfo implements Serializable, Idable {
     private String shortName;
 
     @XmlElement
-    private List<NameInfo> longNames;
+    private List<IntlValueInfo> longNames;
 
     @XmlElement
     private String level;
@@ -97,11 +97,11 @@ public class CluIdentifierInfo implements Serializable, Idable {
         this.shortName = shortName;
     }
 
-    public List<NameInfo> getLongNames() {
+    public List<IntlValueInfo> getLongNames() {
         return longNames;
     }
 
-    public void setLongNames(List<NameInfo> longNames) {
+    public void setLongNames(List<IntlValueInfo> longNames) {
         this.longNames = longNames;
     }
 

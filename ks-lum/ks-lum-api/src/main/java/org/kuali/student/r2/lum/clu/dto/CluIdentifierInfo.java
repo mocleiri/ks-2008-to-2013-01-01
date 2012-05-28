@@ -16,14 +16,11 @@
 package org.kuali.student.r2.lum.clu.dto;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.common.dto.NameInfo;
-import org.kuali.student.r2.common.infc.Name;
+import org.kuali.student.r2.common.dto.IntlValueInfo;
+import org.kuali.student.r2.common.infc.IntlValue;
 import org.kuali.student.r2.lum.clu.infc.CluIdentifier;
-
-import javax.xml.bind.Element;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
@@ -47,7 +44,7 @@ public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdenti
     private String shortName;
     
     @XmlElement
-    private List<NameInfo> longNames;
+    private List<IntlValueInfo> longNames;
 
     @XmlElement
     private String level;
@@ -78,10 +75,10 @@ public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdenti
             this.code = cluIdentifier.getCode();
             this.shortName = cluIdentifier.getShortName();
             
-            this.setLongNames((new ArrayList<NameInfo>()));
+            this.setLongNames((new ArrayList<IntlValueInfo>()));
             if (null != cluIdentifier.getLongNames()) {
-                for (Name name : cluIdentifier.getLongNames()) {
-                    this.getLongNames().add(new NameInfo(name));
+                for (IntlValue name : cluIdentifier.getLongNames()) {
+                    this.getLongNames().add(new IntlValueInfo(name));
                 }
             }
             this.level = cluIdentifier.getLevel();
@@ -160,11 +157,11 @@ public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdenti
 		
 	}
 
-	public void setLongNames(List<NameInfo> longNames) {
+	public void setLongNames(List<IntlValueInfo> longNames) {
 		this.longNames = longNames;
 	}
 
-	public List<NameInfo> getLongNames() {
+	public List<IntlValueInfo> getLongNames() {
 		return longNames;
 	}
 }

@@ -11,11 +11,11 @@
   <version>0.0.6-SNAPSHOT</version>
   <name>KS LUM</name>
   <description>KS Learning Unit Management</description>
-  <profiles>
+  <profiles> 
     <profile>
       <id>default</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <activeByDefault>true</activeByDefault> 
       </activation>
       <modules>
         <module>ks-lum-sql</module>

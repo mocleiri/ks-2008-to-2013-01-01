@@ -20,31 +20,31 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.r2.common.entity.NameEntity;
-import org.kuali.student.r2.common.infc.Name;
+import org.kuali.student.r2.common.entity.IntlValueEntity;
+import org.kuali.student.r2.common.infc.IntlValue;
 import org.kuali.student.lum.lu.entity.CluIdentifier;
 
 @Entity
-@Table(name = "KSLU_CLU_IDENT_LNG_NAME")
-public class CluIdentifierLngName extends NameEntity<CluIdentifier>{
+@Table(name = "KSLU_CLU_IDENT_INTL_VALUES")
+public class CluIdentifierIntlValues extends IntlValueEntity<CluIdentifier>{
 
 	@ManyToOne
 	@JoinColumn(name = "OWNER")
 	private CluIdentifier owner;
 	
-    public CluIdentifierLngName(){
+    public CluIdentifierIntlValues(){
     	
     }
-    public CluIdentifierLngName(Name name) {
-        super(name);
+    public CluIdentifierIntlValues(IntlValue value) {
+        super(value);
     }
     
-    public CluIdentifierLngName(String locale, String name) {
-        super(locale, name);
+    public CluIdentifierIntlValues(String locale, String value) {
+        super(locale, value);
     }
     
-    public CluIdentifierLngName(Name name, CluIdentifier owner) {
-        super(name);
+    public CluIdentifierIntlValues(IntlValue value, CluIdentifier owner) {
+        super(value);
         setOwner(owner);
     }
 

@@ -27,7 +27,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.dto.DtoConstants;
-import org.kuali.student.r2.common.dto.NameInfo;
+import org.kuali.student.r2.common.dto.IntlValueInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
@@ -214,8 +214,8 @@ public class ProgramAssemblerUtils {
             if (clu.getOfficialIdentifier().getShortName() != null) {
                 program.setShortTitle(clu.getOfficialIdentifier().getShortName());
             }
-            if (clu.getOfficialIdentifier().getLongNames().get(0).getName() != null) {
-                program.setLongTitle(clu.getOfficialIdentifier().getLongNames().get(0).getName());
+            if (clu.getOfficialIdentifier().getLongNames().get(0).getValue() != null) {
+                program.setLongTitle(clu.getOfficialIdentifier().getLongNames().get(0).getValue());
             }
             if (clu.getOfficialIdentifier().getCode() != null) {
                 program.setCode(clu.getOfficialIdentifier().getCode());
@@ -249,7 +249,7 @@ public class ProgramAssemblerUtils {
         CluIdentifierInfo official = null != clu.getOfficialIdentifier() ? clu.getOfficialIdentifier() : new CluIdentifierInfo();
 
         official.setCode(program.getCode());
-        official.getLongNames().add(new NameInfo("EN",program.getLongTitle()));
+        official.getLongNames().add(new IntlValueInfo("EN",program.getLongTitle()));
         official.setShortName(program.getShortTitle());
         official.setStateKey(program.getStateKey());
         // gotta be this type

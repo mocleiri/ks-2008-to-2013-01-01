@@ -39,7 +39,7 @@ public class NLHelper {
 	
 	public static String getCluOrCluSetAsLongNames(CluInfo clu, NLCluSet cluSet, String separator) {
         if(clu != null) {
-            return clu.getOfficialIdentifier().getLongNames().get(0).getName();
+            return clu.getOfficialIdentifier().getLongNames().get(0).getValue();
         }
         return cluSet.getCluSetAsLongName(separator);
     }

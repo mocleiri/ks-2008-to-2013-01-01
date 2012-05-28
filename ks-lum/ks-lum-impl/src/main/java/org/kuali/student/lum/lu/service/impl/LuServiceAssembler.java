@@ -37,6 +37,7 @@ import org.kuali.student.lum.lu.entity.CluFeeRecord;
 import org.kuali.student.lum.lu.entity.CluFeeRecordAttribute;
 import org.kuali.student.lum.lu.entity.CluIdentifier;
 import org.kuali.student.lum.lu.entity.CluIdentifierAttribute;
+import org.kuali.student.lum.lu.entity.CluIdentifierIntlValues;
 import org.kuali.student.lum.lu.entity.CluInstructor;
 import org.kuali.student.lum.lu.entity.CluLoRelation;
 import org.kuali.student.lum.lu.entity.CluLoRelationType;
@@ -64,10 +65,13 @@ import org.kuali.student.lum.lu.entity.ResultOption;
 import org.kuali.student.lum.lu.entity.ResultUsageType;
 import org.kuali.student.lum.lu.entity.SearchParameter;
 import org.kuali.student.lum.lu.entity.SearchParameterValue;
+import org.kuali.student.r1.common.dao.CrudDao;
 import org.kuali.student.r1.common.dto.AmountInfo;
 import org.kuali.student.r1.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r1.common.dto.TimeAmountInfo;
 import org.kuali.student.r1.common.entity.Amount;
+import org.kuali.student.r1.common.entity.Attribute;
+import org.kuali.student.r1.common.entity.AttributeOwner;
 import org.kuali.student.r1.common.entity.CurrencyAmount;
 import org.kuali.student.r1.common.entity.TimeAmount;
 import org.kuali.student.r1.common.search.dto.SearchParam;
@@ -85,6 +89,9 @@ import org.kuali.student.r1.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.r1.lum.lu.dto.LuiInfo;
 import org.kuali.student.r1.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.ResultUsageTypeInfo;
+import org.kuali.student.r2.common.dto.IntlValueInfo;
+import org.kuali.student.r2.common.entity.IntlValueEntity;
+import org.kuali.student.r2.common.entity.LngNameOwner;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
@@ -1152,16 +1159,67 @@ public class LuServiceAssembler extends BaseAssembler {
     public static CluIdentifier createOfficialIdentifier(CluInfo cluInfo, LuDao dao) throws InvalidParameterException {
         CluIdentifier officialIdentifier = new CluIdentifier();
         BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(),
-                officialIdentifier, new String[]{"attributes"});
+                officialIdentifier, new String[]{"longNames","attributes"});
 
         officialIdentifier.setAttributes(LuServiceAssembler.toGenericAttributes(
                 CluIdentifierAttribute.class, cluInfo.getOfficialIdentifier()
                         .getAttributes(), officialIdentifier, dao));
+        
+        officialIdentifier.setLongNames(LuServiceAssembler.toGenericLongNames(
+        		CluIdentifierIntlValues.class, cluInfo.getOfficialIdentifier()
+        				.getLongNames(), officialIdentifier, dao));
 
         return officialIdentifier;
     }
 
-    public static void updateOfficialIdentifier(Clu clu, CluInfo cluInfo, LuDao dao) throws InvalidParameterException {
+
+	private static List<CluIdentifierIntlValues> toGenericLongNames(
+			Class<CluIdentifierIntlValues> longNameClass,
+			List<IntlValueInfo> longNames, CluIdentifier owner,
+			LuDao dao) {
+
+		List<CluIdentifierIntlValues> resultLongNames = new ArrayList<CluIdentifierIntlValues>();
+
+		if(owner.getLongNames()==null){
+			owner.setLongNames(new ArrayList<CluIdentifierIntlValues>());
+		}
+		
+			Map<String, CluIdentifierIntlValues> currentLongNames = new HashMap<String,CluIdentifierIntlValues>();
+		
+		// Find all the old longnames(if the owner is not null)
+		for (CluIdentifierIntlValues longName : owner.getLongNames()) {
+			currentLongNames.put(longName.getValue(), longName);
+			
+		}
+		
+		//Clear out the long names
+		owner.getLongNames().clear();
+	
+		//Update anything that exists, or create a new long name if it doesn't
+		for (IntlValueInfo intlValue : longNames) {
+			
+			CluIdentifierIntlValues longName;
+			if(currentLongNames.containsKey(intlValue.getValue())){
+				longName = currentLongNames.remove(intlValue.getValue());
+			}else{
+				try{
+					longName = longNameClass.newInstance();
+				}catch(Exception e){
+					throw new RuntimeException("Error copying long names.",e);
+				}
+				longName.setValue(intlValue.getValue());
+				longName.setLocale(intlValue.getLocale());
+				longName.setOwner(owner);
+			}
+			resultLongNames.add(longName);
+		}
+		
+		//Delete leftovers here if behavior is desired
+
+		return resultLongNames;
+	}
+
+	public static void updateOfficialIdentifier(Clu clu, CluInfo cluInfo, LuDao dao) throws InvalidParameterException {
         if (clu.getOfficialIdentifier() == null) {
             clu.setOfficialIdentifier(new CluIdentifier());
         }
@@ -1180,11 +1238,14 @@ public class LuServiceAssembler extends BaseAssembler {
         List<CluIdentifier> alternateIdentifiers = new ArrayList<CluIdentifier>(0);
         for (CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()) {
             CluIdentifier identifier = new CluIdentifier();
-            BeanUtils.copyProperties(cluIdInfo, identifier, new String[]{"attributes"});
+            BeanUtils.copyProperties(cluIdInfo, identifier, new String[]{"longNames","attributes"});
 
 
             identifier.setAttributes(LuServiceAssembler.toGenericAttributes(
                     CluIdentifierAttribute.class, cluIdInfo.getAttributes(), identifier, dao));
+            
+            identifier.setLongNames(LuServiceAssembler.toGenericLongNames(
+            		CluIdentifierIntlValues.class, cluIdInfo.getLongNames(), identifier, dao));
 
             alternateIdentifiers.add(identifier);
         }
