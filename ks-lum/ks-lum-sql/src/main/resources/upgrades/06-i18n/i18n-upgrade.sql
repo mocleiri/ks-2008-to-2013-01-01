@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------------------------------------
--- Create table KSLU_CLU_IDENT_LNG_NAME with FOREIGN (OWNER) KEY which map to KSLU_CLU_IDENT (ID)
+-- Create table KSLU_CLU_IDENT_INTL_VALUES with FOREIGN (OWNER) KEY which map to KSLU_CLU_IDENT (ID)
 ---------------------------------------------------------------------------------------------------------
 CREATE TABLE KSLU_CLU_IDENT_INTL_VALUES
 (
@@ -7,6 +7,7 @@ CREATE TABLE KSLU_CLU_IDENT_INTL_VALUES
         , VALUE VARCHAR2(255)
         , LOCALE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
 )
 /
 
