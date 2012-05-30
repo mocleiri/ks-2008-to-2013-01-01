@@ -22,7 +22,6 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -32,8 +31,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
@@ -53,7 +50,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 @WebService(name = "LrcService", targetNamespace = LrcServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface LRCService extends DataDictionaryService, TypeService, StateService {
+public interface LRCService {
 
     /**
      * Retrieves existing result component by an identifier.
@@ -62,7 +59,7 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
-     * @return details of the results for these ids
+     * @return details of the results for these Ids
      * @throws DoesNotExistException  resultValuesGroupId not found
      * @throws InvalidParameterException invalid resultValuesGroupId
      * @throws MissingParameterException invalid resultValuesGroupId
@@ -74,18 +71,18 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
     /**
      * Retrieves result components by a list of identifiers.
      * 
-     * @param resultValuesGroupIdList  identifiers for result component
+     * @param resultValuesGroupIds  identifiers for result component
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
      * @return result component list
      * @throws DoesNotExistException resultValuesGroup not found
-     * @throws InvalidParameterException invalid resultValuesGroupIdList
-     * @throws MissingParameterException invalid resultValuesGroupIdList
+     * @throws InvalidParameterException invalid resultValuesGroupIds
+     * @throws MissingParameterException invalid resultValuesGroupIds
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByIdList(@WebParam(name = "resultValuesGroupIdList") List<String> resultValuesGroupIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByIds(@WebParam(name = "resultValuesGroupIds") List<String> resultValuesGroupIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of existing result components that a result value is tied to.
@@ -94,7 +91,7 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return details of the results for these ids
+     * @return details of the results for these Ids
      * @throws DoesNotExistException resultValue not found
      * @throws InvalidParameterException invalid resultValueId
      * @throws MissingParameterException invalid resultValueId
@@ -217,18 +214,18 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
     /**
      * Retrieves a list of result value objects for a list of identifiers. 
      * 
-     * @param resultValueIdList identifier for the result
+     * @param resultValueIds identifier for the result
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation      
      * @return list of result group identifiers
      * @throws DoesNotExistException a resultValueId from the list is not found
-     * @throws InvalidParameterException invalid resultValueIdList
-     * @throws MissingParameterException missing resultValueIdList
+     * @throws InvalidParameterException invalid resultValueIds
+     * @throws MissingParameterException missing resultValueIds
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure 
      */
-    public List<ResultValueInfo> getResultValuesByIdList(@WebParam(name = "resultValueIdList") List<String> resultValueIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ResultValueInfo> getResultValuesByIds(@WebParam(name = "resultValueIds") List<String> resultValueIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of result value objects for a specified result

@@ -15,8 +15,10 @@
 
 package org.kuali.student.r2.core.scheduling.infc;
 
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.TimeAmount;
+
+import java.util.List;
 
 
 /**
@@ -29,34 +31,26 @@ import org.kuali.student.r2.common.infc.TimeAmount;
 public interface TimeSlot extends IdEntity {
 
     /**
-     * The weekday codes.
+     * The weekday codes. 
      *
      * @name Weekdays
      * @required
      */
-    public Integer[] getWeekdays();
+    public List<Integer> getWeekdays();
 
     /**
-     * The hour of the day (0-23).
+     *  Start time
      *
-     * @name Hour
-     * @required
+     *  @name Start Time
+     *  @required
      */
-    public Integer getHour();
+    public TimeOfDayInfo getStartTime();
 
     /**
-     * The minute of the hour (0-59).
+     * End time of the time slot
      *
-     * @name Minute
+     * @name End Time
      * @required
      */
-    public Integer getMinute();
-
-    /**
-     * The duration of the time.
-     *
-     * @name Duration
-     * @required
-     */
-    TimeAmount getDuration();
+    public TimeOfDayInfo getEndTime();
 }

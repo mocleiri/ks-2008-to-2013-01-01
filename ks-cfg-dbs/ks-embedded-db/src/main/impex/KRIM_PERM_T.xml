@@ -4,8 +4,8 @@
 <dataset>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows creation and modification of agendas via the agenda editor"
-        NM="Maintain KRMS Agenda" NMSPC_CD="KR-RULE"
-        OBJ_ID="963482EB31804AC9A43EA03E9BFB473E" PERM_ID="10000"
+        NM="Maintain KRMS Agenda" NMSPC_CD="KR-RULE-TEST"
+        OBJ_ID="C134B3B6EEBDECDDE040C60AF05B1C23" PERM_ID="10000"
         PERM_TMPL_ID="10000" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows users to access the Document Operation screen."
@@ -304,8 +304,23 @@
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows use of the cache administration screen"
         NM="Use Cache Adminstration Screen" NMSPC_CD="KR-SYS"
-        OBJ_ID="9278BC8A056347D985FF41C90AC096D6" PERM_ID="3114"
+        OBJ_ID="C134B3B6EEC4ECDDE040C60AF05B1C23" PERM_ID="3114"
         PERM_TMPL_ID="29" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows user to create a new Term maintainence document"
+        NM="Create Term Maintenance Document" NMSPC_CD="KR-NS"
+        OBJ_ID="0dbce939-4f22-4e9b-a4bb-1615c0f411a2" PERM_ID="3115"
+        PERM_TMPL_ID="42" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows user to create a new Context maintainence document"
+        NM="Create Context Maintenance Document" NMSPC_CD="KR-NS"
+        OBJ_ID="cefeed6d-b5e2-40aa-9034-137db317b532" PERM_ID="3116"
+        PERM_TMPL_ID="42" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows user to create a new TermSpecification maintainence document"
+        NM="Create TermSpecification Maintenance Document"
+        NMSPC_CD="KR-NS" OBJ_ID="02bd9acd-48d9-4fec-acbd-6a441c5ea8c2"
+        PERM_ID="3117" PERM_TMPL_ID="42" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to send FYI ad hoc requests for Kuali Documents"
         NM="Send FYI Request Kuali Document" NMSPC_CD="KR-SYS"

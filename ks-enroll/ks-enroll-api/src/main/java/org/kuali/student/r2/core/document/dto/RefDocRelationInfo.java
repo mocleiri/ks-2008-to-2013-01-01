@@ -22,6 +22,7 @@ import org.w3c.dom.Element;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.List;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 
 /**
@@ -34,8 +35,9 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RefDocRelationInfo", propOrder = { "id", "typeKey",
-		"stateKey", "refObjectTypeKey", "refObjectId", "documentId", "title", "effectiveDate",
-		"expirationDate", "meta", "attributes", "_futureElements" })
+		"stateKey", "refObjectTypeKey", "refObjectId", "documentId", "title", "descr", 
+        "effectiveDate", "expirationDate", 
+        "meta", "attributes", "_futureElements" })
 public class RefDocRelationInfo extends RelationshipInfo implements RefDocRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,7 +53,10 @@ public class RefDocRelationInfo extends RelationshipInfo implements RefDocRelati
 
     @XmlElement
     private String title;
-
+    
+    @XmlElement
+    private RichTextInfo descr;
+    
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -65,6 +70,9 @@ public class RefDocRelationInfo extends RelationshipInfo implements RefDocRelati
             this.refObjectId = refDocRelation.getRefObjectId();
             this.documentId = refDocRelation.getDocumentId();
             this.title = refDocRelation.getTitle();
+            if (this.descr != null) {
+                this.descr = new RichTextInfo (refDocRelation.getDescr());
+            }
         }
     }
 
@@ -104,4 +112,13 @@ public class RefDocRelationInfo extends RelationshipInfo implements RefDocRelati
         this.title = title;
     }
 
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
+    }
+ 
 }

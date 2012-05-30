@@ -30,7 +30,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <!--  other attributes not used by UI -->
                 <ref bean="RegistrationGroupInfo.courseOfferingId"/>
                 <ref bean="RegistrationGroupInfo.registrationCode"/>
-                <ref bean="RegistrationGroupInfo.formatId"/>
                 <ref bean="RegistrationGroupInfo.isHonorsOffering"/>
                 <ref bean="RegistrationGroupInfo.maximumEnrollment"/>
                 <ref bean="RegistrationGroupInfo.minimumEnrollment"/>
@@ -61,7 +60,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="controlField">
-            <bean parent="TextControl" p:size="10"/>
+            <bean parent="Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 

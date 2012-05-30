@@ -22,8 +22,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.lum.course.infc.CourseRevenue;
-import org.kuali.student.r2.lum.lu.dto.AffiliatedOrgInfo;
-import org.kuali.student.r2.lum.lu.infc.AffiliatedOrg;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.clu.infc.AffiliatedOrg;
 import org.w3c.dom.Element;
 
 /**
@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
  *      >CourseReenueInfo</>
  */
 
-@XmlType(name = "CourseRevenueInfo", propOrder = {"id", "typeKey", "stateKey", "affiliatedOrgs", "feeType", "meta", "attributes", "versionInfo", "_futureElements"})
+@XmlType(name = "CourseRevenueInfo", propOrder = {"id", "typeKey", "stateKey", "affiliatedOrgs", "feeType", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseRevenueInfo extends IdNamelessEntityInfo implements CourseRevenue, Serializable {
 

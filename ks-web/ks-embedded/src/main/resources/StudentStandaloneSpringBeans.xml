@@ -37,8 +37,21 @@
 		<property name="initializeDataDictionary" value="true" />
 		<property name="dataDictionaryPackages">
 			<list>
+                <!-- rice and basic ks xmls -->
 				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
+                <value>classpath:UifKRADOverrideDefinitions.xml</value>
 				<value>classpath:UifKSDefinitions.xml</value>
+                <value>classpath:ks-ActivityOfferingInfo-dictionary.xml</value>
+                <value>classpath:ks-CourseOfferingInfo-dictionary.xml</value>
+                <value>classpath:ks-EnrollmentFeeInfo-dictionary.xml</value>
+                <value>classpath:ks-FormatOfferingInfo-dictionary.xml</value>
+                <value>classpath:ks-OfferingInstructorInfo-dictionary.xml</value>
+                <value>classpath:ks-SocRolloverResultInfo-dictionary.xml</value>
+                <value>classpath:ks-SocRolloverResultItemInfo-dictionary.xml</value>
+                <value>classpath:ks-TermInfo-dictionary.xml</value>
+
+
+                <!--
 				<value>classpath:AcademicCalendarInfoUI.xml</value>
 				<value>classpath:TermInfoUI.xml</value>
 				<value>classpath:KeyDateInfoUI.xml</value>
@@ -48,21 +61,51 @@
   			    <value>classpath:CourseInfoUI.xml</value>
 				<value>classpath:GradingView.xml</value>
                 <value>classpath:StudentGradeView.xml</value>
-                <value>classpath:EnrollmentLaunchUI.xml</value>
                 <value>classpath:RegistrationGroupInfoUI.xml</value>
                 <value>classpath:ActivityOfferingInfoUI.xml</value>
                 <value>classpath:CourseOfferingWrapper.xml</value>
                 <value>classpath:RegistrationGroupWrapper.xml</value>
                 <value>classpath:ActivityOfferingWrapper.xml</value>
                 <value>classpath:MeetingScheduleWrapper.xml</value>
-                <value>classpath:RegistrationUI.xml</value>
+                <value>classpath:RegistrationUI.xml</value>  -->
 
-				<!--
-				<value>classpath:AcademicCalendarWrapperMaintenance.xml</value>	
- 				<value>classpath:HoldInfo.xml</value>
- 				<value>classpath:IssueInfo.xml</value>
- 				<value>classpath:HoldInfoMaintenanceView.xml</value>
-				-->
+                <!-- Acal -->
+                <value>classpath:org/kuali/student/enrollment/main/EnrollmentHomeView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/CalendarSearchView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarFlowView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarEditPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarViewPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarCopyPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarLookupAndInquiryView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarWrapperLookupAndInquiryView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarFlowView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarCopyPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarEditPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/AcademicTermPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/AcademicTermLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/EnrollmentFeeMaintenanceDocument.xml</value>
+
+
+                <!-- Appointments -->
+                <value>classpath:org/kuali/student/enrollment/appointment/RegistrationWindowsEditPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/appointment/SelectTermForRegWindowsPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/appointment/RegistrationWindowsManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/appointment/StudentPopulationLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/appointment/RegWindowAndAssignmentLookupAndInquiryView.xml</value>
+
+                <!-- Course Offering -->
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingLookupAndInquiryView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingInfoLookupAndInquiryView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/KSPersonMaintenance.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/SocRolloverResultInfoLookpAndInquiryView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/SocRolloverResultItemInfoLookupAndInquiryView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoLookupAndInquiryView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/EnrollmentFeeLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/RolloverResultsPageView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoMaintenanceView.xml</value>
+
 			</list>
 		</property>
 		<property name="packagePrefixes">
@@ -185,12 +228,12 @@
         <property name="checkFutureRequests" value="false" />
 	</bean>
 
-	<bean id="ksCommentOnDocumentRoleTypeService" class="org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl">
+	<bean id="ksCommentOnDocumentRoleTypeService" class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl">
 	    <property name="permissionTemplateNamespace" value="KS-SYS" />
 	    <property name="permissionTemplateName" value="Comment on Document" />
 	</bean>
 
-    <bean id="ksEditDocumentRoleTypeService" class="org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl">
+    <bean id="ksEditDocumentRoleTypeService" class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl">
         <property name="permissionTemplateNamespace" value="KS-SYS" />
         <property name="permissionTemplateName" value="Edit Document" />
     </bean>

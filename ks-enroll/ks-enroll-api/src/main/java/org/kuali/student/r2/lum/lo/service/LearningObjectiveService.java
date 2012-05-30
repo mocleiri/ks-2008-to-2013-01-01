@@ -16,7 +16,6 @@
 package org.kuali.student.r2.lum.lo.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -30,8 +29,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
@@ -48,7 +45,7 @@ import java.util.List;
  */
 @WebService(name = "LearningObjectiveService", targetNamespace = LearningObjectiveServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LearningObjectiveService extends DataDictionaryService, TypeService, StateService {
+public interface LearningObjectiveService {
 
     /**
      * Retrieves a single LoRepository by an LoRepository Key.
@@ -416,6 +413,24 @@ public interface LearningObjectiveService extends DataDictionaryService, TypeSer
      */
     public List<LoCategoryInfo> getLoCategoriesByIds (@WebParam(name = "loCategoryIds") List<String> loCategoryIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    
+    /**
+     * Retrieves a list of LoCategories by their associated repository key
+     * 
+     * @param loRepositoryKey a list of LoCategory identifiers
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoCategories
+     * @throws DoesNotExistException        an loCategoryId in the list was not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loCategoryIds, an Id in the loCategoryIds, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoCategoryInfo> getLoCategoriesByLoRepository (@WebParam(name = "repositoryKey") String loRepositoryKey, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
     /**
      * Retrieves a list of LoCategory Ids by LoCategory Type.
      *
@@ -564,6 +579,22 @@ public interface LearningObjectiveService extends DataDictionaryService, TypeSer
      */
     public StatusInfo addLoCategoryToLo(@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "loId")String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 
+   /**
+     * Removes a LoCategory from a Lo
+     *
+     * @param loCategoryId  the identifier for the LoCategory
+     * @param loId          the identifier for the Lo
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws AlreadyExistsException       LoCategory already exists for Lo
+     * @throws DoesNotExistException        loCategoryId or loId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loCategoryId, loId, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws UnsupportedActionException   loCategoryId and loId are not in the same repository
+     */
+    public StatusInfo removeLoCategoryFromLo(@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "loId")String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 
     /**
      * Retrieves a single LoLoRelation by an LoLoRelation Id.

@@ -16,7 +16,7 @@ public class HolidayAssembler  implements DTOAssembler<HolidayInfo, MilestoneInf
         }
 
         HolidayInfo holidayInfo = new HolidayInfo();
-        holidayInfo.setKey(milestoneInfo.getKey());
+        holidayInfo.setId(milestoneInfo.getId());
         holidayInfo.setName(milestoneInfo.getName());
         holidayInfo.setDescr(milestoneInfo.getDescr());
 
@@ -24,7 +24,7 @@ public class HolidayAssembler  implements DTOAssembler<HolidayInfo, MilestoneInf
         holidayInfo.setEndDate(milestoneInfo.getEndDate());
         holidayInfo.setIsAllDay(milestoneInfo.getIsAllDay());
         holidayInfo.setIsDateRange(milestoneInfo.getIsDateRange());
-
+        holidayInfo.setIsInstructionalDay(milestoneInfo.getIsInstructionalDay());
         holidayInfo.setStateKey(milestoneInfo.getStateKey());
         holidayInfo.setTypeKey(milestoneInfo.getTypeKey());
 
@@ -43,14 +43,17 @@ public class HolidayAssembler  implements DTOAssembler<HolidayInfo, MilestoneInf
 
         MilestoneInfo msInfo = new MilestoneInfo();
 
-        msInfo.setKey(holidayInfo.getKey());
+        msInfo.setId(holidayInfo.getId());
         msInfo.setName(holidayInfo.getName());
         msInfo.setDescr(holidayInfo.getDescr());
 
         msInfo.setStartDate(holidayInfo.getStartDate());
         msInfo.setEndDate(holidayInfo.getEndDate());
+
         msInfo.setIsAllDay(holidayInfo.getIsAllDay());
         msInfo.setIsDateRange(holidayInfo.getIsDateRange());
+        msInfo.setIsInstructionalDay(holidayInfo.getIsInstructionalDay());
+        msInfo.setIsRelative(false);
 
         msInfo.setStateKey(holidayInfo.getStateKey());
         msInfo.setTypeKey(holidayInfo.getTypeKey());

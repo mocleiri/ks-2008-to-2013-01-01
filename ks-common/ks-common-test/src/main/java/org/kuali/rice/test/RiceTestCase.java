@@ -33,7 +33,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
-import org.kuali.rice.core.impl.resourceloader.SpringResourceLoader;
+import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
 import org.kuali.rice.test.lifecycles.PerSuiteDataLoaderLifecycle;
 import org.springframework.core.io.FileSystemResourceLoader;
@@ -375,7 +375,7 @@ public abstract class RiceTestCase extends BaseRiceTestCase {
 
     protected Config getTestHarnessConfig() throws Exception {
         Config config = new JAXBConfigImpl(getConfigLocations(), System.getProperties());
-        config.parseConfig();
+        //config.parseConfig();
         return config;
     }
 

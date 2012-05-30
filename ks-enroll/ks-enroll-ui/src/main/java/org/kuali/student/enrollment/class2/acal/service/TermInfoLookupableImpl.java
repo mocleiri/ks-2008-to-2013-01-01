@@ -6,14 +6,17 @@ import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
 
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
+//Core slice class.
+@Deprecated
 public class TermInfoLookupableImpl extends LookupableImpl {
     public final static String TERM_TYPE_KEY = "typeKey";
     public final static String TERM_KEY = "key";
@@ -27,7 +30,7 @@ public class TermInfoLookupableImpl extends LookupableImpl {
         List<AcademicCalendarInfo> acalInfoList = new ArrayList<AcademicCalendarInfo>();
 
     	String termKey = fieldValues.get(TERM_KEY);
-    	ContextInfo context = ContextInfo.newInstance();
+    	ContextInfo context = new ContextInfo();
         if (StringUtils.isBlank(termKey)) {
             Calendar now = Calendar.getInstance();
             int thisYear = now.get(Calendar.YEAR);
@@ -39,7 +42,7 @@ public class TermInfoLookupableImpl extends LookupableImpl {
                 // and last
                 acalInfoList.addAll(getAcademicCalendarService().getAcademicCalendarsByStartYear(thisYear - 1, context));
                 for (AcademicCalendarInfo acalInfo : acalInfoList) {
-                    termInfoList.addAll(getAcademicCalendarService().getTermsForAcademicCalendar(acalInfo.getKey(), context));
+                    termInfoList.addAll(getAcademicCalendarService().getTermsForAcademicCalendar(acalInfo.getId(), context));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

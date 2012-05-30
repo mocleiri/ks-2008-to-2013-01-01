@@ -18,7 +18,10 @@
 
 <td class="content" valign="top">
 	<mainChannel:ksApplications/>
-	<mainChannel:ksR2Applications/>
+    <mainChannel:wc1Applications/>
+    <mainChannel:ec1Applications/>
+    <mainChannel:coApplications/>
+	<%--<mainChannel:ksR2Applications/>--%>
 </td>
 <td class="content" valign="top">
     <mainChannel:ksMaintenance />

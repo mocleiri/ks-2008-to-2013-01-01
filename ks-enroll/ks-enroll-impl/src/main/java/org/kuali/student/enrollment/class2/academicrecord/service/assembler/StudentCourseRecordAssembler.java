@@ -52,7 +52,7 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 		courseRecord.setPersonId(courseReg.getStudentId());
 		
 		CourseOfferingInfo co = courseReg.getCourseOffering();
-		courseRecord.setCourseTitle(co.getCourseTitle());
+		courseRecord.setCourseTitle(co.getCourseOfferingTitle());
 		courseRecord.setCourseCode(co.getCourseOfferingCode());
 		
 		//TODO:The code or number of the primary activity. how to determine which activity is primary?
@@ -61,8 +61,8 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 			courseRecord.setActivityCode(regGroup.getActivityRegistrations().get(0).getActivityOffering().getActivityCode());
 		
 		try{
-			if(co.getTermKey() != null){
-				AtpInfo atp = getAtpService().getAtp(co.getTermKey(), context);
+			if(co.getTermId() != null){
+				AtpInfo atp = getAtpService().getAtp(co.getTermId(), context);
 					courseRecord.setTermName(atp.getName());
 					courseRecord.setCourseBeginDate(atp.getStartDate());
 					courseRecord.setCourseEndDate(atp.getEndDate());

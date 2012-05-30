@@ -26,9 +26,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.exemption.infc.ExemptionRequest;
-import org.kuali.student.r2.core.exemption.infc.DateOverride;
-import org.kuali.student.r2.core.exemption.infc.LearningResultOverride;
-import org.kuali.student.r2.core.exemption.infc.MilestoneOverride;
 
 import org.w3c.dom.Element;
 
@@ -58,11 +55,11 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
     @XmlElement
     private Date approvedDate;
     @XmlElement
-    private DateOverrideInfo dateOverrideInfo;
+    private DateOverrideInfo dateOverride;
     @XmlElement
-    private MilestoneOverrideInfo milestoneOverrideInfo;
+    private MilestoneOverrideInfo milestoneOverride;
     @XmlElement
-    private LearningResultOverrideInfo learningResultOverrideInfo;
+    private LearningResultOverrideInfo learningResultOverride;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -88,15 +85,15 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
             this.approvedDate = request.getApprovedDate();
 
             if (request.getDateOverride() != null) {
-                this.dateOverrideInfo = new DateOverrideInfo(request.getDateOverride());
+                this.dateOverride = new DateOverrideInfo(request.getDateOverride());
             }
 
             if (request.getMilestoneOverride() != null) {
-                this.milestoneOverrideInfo = new MilestoneOverrideInfo(request.getMilestoneOverride());
+                this.milestoneOverride = new MilestoneOverrideInfo(request.getMilestoneOverride());
             }
 
             if (request.getLearningResultOverride() != null) {
-                this.learningResultOverrideInfo = new LearningResultOverrideInfo(request.getLearningResultOverride());
+                this.learningResultOverride = new LearningResultOverrideInfo(request.getLearningResultOverride());
             }
         }
 
@@ -167,29 +164,29 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
     }
 
     @Override
-    public DateOverride getDateOverride() {
-        return dateOverrideInfo;
+    public DateOverrideInfo getDateOverride() {
+        return dateOverride;
     }
 
     public void setDateOverride(DateOverrideInfo dateOverrideInfo) {
-        this.dateOverrideInfo = dateOverrideInfo;
+        this.dateOverride = dateOverrideInfo;
     }
 
     @Override
-    public MilestoneOverride getMilestoneOverride() {
-        return milestoneOverrideInfo;
+    public MilestoneOverrideInfo getMilestoneOverride() {
+        return milestoneOverride;
     }
 
     public void setMilestoneOverride(MilestoneOverrideInfo milestoneOverrideInfo) {
-        this.milestoneOverrideInfo = milestoneOverrideInfo;
+        this.milestoneOverride = milestoneOverrideInfo;
     }
 
     @Override
-    public LearningResultOverride getLearningResultOverride() {
-        return learningResultOverrideInfo;
+    public LearningResultOverrideInfo getLearningResultOverride() {
+        return learningResultOverride;
     }
 
     public void setLearningResultOverride(LearningResultOverrideInfo learningResultOverrideInfo) {
-        this.learningResultOverrideInfo = learningResultOverrideInfo;
+        this.learningResultOverride = learningResultOverrideInfo;
     }
 }

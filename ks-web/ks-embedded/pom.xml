@@ -138,6 +138,12 @@
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
       <version>${kuali.rice.version}</version>
+      <exclusions>
+        <exclusion>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-cas-client</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
@@ -152,6 +158,11 @@
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-edl-impl</artifactId>
+      <version>${kuali.rice.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-development-tools</artifactId>
       <version>${kuali.rice.version}</version>
     </dependency>
 
@@ -202,7 +213,7 @@
     <dependency>
 		<groupId>org.kuali.student.enroll</groupId>
 		<artifactId>ks-enroll-api</artifactId>
-		<version>${project.version}</version>
+        <version>${project.version}</version>
 	</dependency>
 
 	<!-- TODO: Remove this once mock impls have been moved to a regular jar or replaced with real impls -->
@@ -321,6 +332,5 @@
        <groupId>antlr</groupId>
        <artifactId>antlr</artifactId>
      </dependency>
-
   </dependencies>
 </project>

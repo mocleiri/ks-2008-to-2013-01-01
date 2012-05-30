@@ -8,21 +8,41 @@ BEGIN
 END;
 /
 
-CREATE TABLE KSEN_ATP 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			VER_NBR NUMBER(19,0), 
-			CREATEID VARCHAR2(255), 
-			CREATETIME TIMESTAMP (6), 
-			UPDATEID VARCHAR2(255), 
-			UPDATETIME TIMESTAMP (6), 
-			END_DT TIMESTAMP (6), 
-			NAME VARCHAR2(255), 
-			START_DT TIMESTAMP (6), 
-			ATP_STATE_ID VARCHAR2(255), 
-			ATP_TYPE_ID VARCHAR2(255), 
-			RT_DESCR_ID VARCHAR2(255)
-   )
+CREATE TABLE KSEN_ATP
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	ATP_TYPE             VARCHAR2(255) NOT NULL ,
+	ATP_STATE            VARCHAR2(255) NOT NULL ,
+	NAME                 VARCHAR2(255) NULL ,
+	DESCR_PLAIN          VARCHAR2(4000) NOT NULL ,
+	DESCR_FORMATTED      VARCHAR2(4000) NULL ,
+	ATP_CD               VARCHAR2(255) NULL ,
+	END_DT               TIMESTAMP(6) NOT NULL ,
+	START_DT             TIMESTAMP(6) NOT NULL ,
+	ADMIN_ORG_ID         VARCHAR2(50) NULL ,
+	VER_NBR              NUMBER(19) NULL ,
+	CREATETIME           TIMESTAMP(6) NULL ,
+	CREATEID             VARCHAR2(255) NULL ,
+	UPDATETIME           TIMESTAMP(6) NULL ,
+	UPDATEID             VARCHAR2(255) NULL 
+)
+/
+
+CREATE UNIQUE INDEX KSEN_ATP_P ON KSEN_ATP
+(ID   ASC)
+/
+
+CREATE  INDEX KSEN_ATP_I1 ON KSEN_ATP
+(ATP_TYPE   ASC)
+/
+
+CREATE  INDEX KSEN_ATP_I2 ON KSEN_ATP
+(ATP_CD   ASC)
+/
+
+CREATE  INDEX KSEN_ATP_I3 ON KSEN_ATP
+(START_DT   ASC)
 /
 
 -----------------------------------------------------------------------------
@@ -36,20 +56,37 @@ END;
 /
 
 CREATE TABLE KSEN_ATPATP_RELTN 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			VER_NBR NUMBER(19,0), 
-			CREATEID VARCHAR2(255), 
-			CREATETIME TIMESTAMP (6), 
-			UPDATEID VARCHAR2(255), 
-			UPDATETIME TIMESTAMP (6), 
-			EFF_DT TIMESTAMP (6), 
-			EXPIR_DT TIMESTAMP (6), 
-			ATP_ID VARCHAR2(255), 
-			ATP_STATE_ID VARCHAR2(255), 
-			ATP_RELTN_TYPE_ID VARCHAR2(255), 
-			RELATED_ATP_ID VARCHAR2(255)
+   (	
+    ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	ATP_TYPE             VARCHAR2(255) NOT NULL ,
+	ATP_STATE            VARCHAR2(255) NOT NULL ,
+	ATP_ID               VARCHAR2(255) NOT NULL ,
+	RELATED_ATP_ID       VARCHAR2(255) NOT NULL ,
+	EFF_DT               TIMESTAMP(6) NULL ,
+	EXPIR_DT             TIMESTAMP(6) NULL ,
+	VER_NBR              NUMBER(19) NULL ,
+	CREATETIME           TIMESTAMP(6) NULL ,
+	CREATEID             VARCHAR2(255) NULL ,
+	UPDATETIME           TIMESTAMP(6) NULL ,
+	UPDATEID             VARCHAR2(255) NULL
    )
+/
+
+CREATE UNIQUE INDEX KSEN_ATPATP_RELTN_P ON KSEN_ATPATP_RELTN
+(ID   ASC)
+/
+
+CREATE  INDEX KSEN_ATPATP_RELTN_I1 ON KSEN_ATPATP_RELTN
+(ATP_TYPE   ASC)
+/
+
+CREATE  INDEX KSEN_ATPATP_RELTN_IF1 ON KSEN_ATPATP_RELTN
+(ATP_ID   ASC)
+/
+
+CREATE  INDEX KSEN_ATPATP_RELTN_IF2 ON KSEN_ATPATP_RELTN
+(RELATED_ATP_ID   ASC)
 /
 
 -----------------------------------------------------------------------------
@@ -63,13 +100,23 @@ END;
 /
 
 CREATE TABLE KSEN_ATPATP_RELTN_ATTR 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			ATTR_KEY VARCHAR2(255), 
-			ATTR_VALUE VARCHAR2(2000), 
-			OWNER VARCHAR2(255)
+   (	
+    ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	ATTR_KEY             VARCHAR2(255) NULL ,
+	ATTR_VALUE           VARCHAR2(4000) NULL ,
+	OWNER             VARCHAR2(255) NULL 
    )
 /
+
+CREATE UNIQUE INDEX KSEN_ATPATP_RELTN_ATTR_P ON KSEN_ATPATP_RELTN_ATTR
+(ID   ASC)
+/
+
+CREATE  INDEX KSEN_ATPATP_RELTN_ATTR_IF1 ON KSEN_ATPATP_RELTN_ATTR
+(OWNER   ASC)
+/
+
 
 -----------------------------------------------------------------------------
 -- KSEN_ATPMSTONE_RELTN_ATTR
@@ -101,20 +148,29 @@ END;
 /
 
 CREATE TABLE KSEN_ATPMSTONE_RELTN 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			VER_NBR NUMBER(19,0), 
-			CREATEID VARCHAR2(255), 
-			CREATETIME TIMESTAMP (6), 
-			UPDATEID VARCHAR2(255), 
-			UPDATETIME TIMESTAMP (6), 
-			EFF_DT TIMESTAMP (6), 
-			EXPIR_DT TIMESTAMP (6), 
-			ATP_ID VARCHAR2(255), 
-			ATP_STATE_ID VARCHAR2(255), 
-			AM_RELTN_TYPE_ID VARCHAR2(255), 
-			MSTONE_ID VARCHAR2(255)
+   (	
+		   	ID                   VARCHAR2(255) NOT NULL ,
+			OBJ_ID               VARCHAR2(36) NULL ,
+			VER_NBR              NUMBER(19) NULL ,
+			CREATEID             VARCHAR2(255) NULL ,
+			CREATETIME           TIMESTAMP(6) NULL ,
+			UPDATEID             VARCHAR2(255) NULL ,
+			UPDATETIME           TIMESTAMP(6) NULL ,
+			ATP_ID               VARCHAR2(255) NULL ,
+			MSTONE_ID            VARCHAR2(255) NULL 
    )
+/
+
+CREATE UNIQUE INDEX KSEN_ATPMSTONE_RELTN_P ON KSEN_ATPMSTONE_RELTN
+(ID   ASC)
+/
+
+CREATE  INDEX KSEN_ATPMSTONE_RELTN_IF1 ON KSEN_ATPMSTONE_RELTN
+(ATP_ID   ASC)
+/
+
+CREATE  INDEX KSEN_ATPMSTONE_RELTN_IF2 ON KSEN_ATPMSTONE_RELTN
+(MSTONE_ID   ASC)
 /
 
 -----------------------------------------------------------------------------
@@ -128,12 +184,21 @@ END;
 /
 
 CREATE TABLE KSEN_ATP_ATTR 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			ATTR_KEY VARCHAR2(255), 
-			ATTR_VALUE VARCHAR2(2000), 
-			OWNER VARCHAR2(255)
+   (	
+    ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	ATTR_KEY             VARCHAR2(255) NULL ,
+	ATTR_VALUE           VARCHAR2(4000) NULL ,
+	OWNER             VARCHAR2(255) NULL 
    )
+/
+
+CREATE UNIQUE INDEX KSEN_ATP_ATTR_P ON KSEN_ATP_ATTR
+(ID   ASC)
+/
+
+CREATE  INDEX KSEN_ATP_ATTR_IF1 ON KSEN_ATP_ATTR
+(OWNER   ASC)
 /
 
 -----------------------------------------------------------------------------
@@ -277,115 +342,6 @@ CREATE TABLE KSEN_HOLD_RICH_TEXT
 /
 
 -----------------------------------------------------------------------------
--- KSEN_HOLD_TYPE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_HOLD_TYPE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_HOLD_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE KSEN_HOLD_TYPE 
-   (	TYPE_KEY VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			VER_NBR NUMBER(19,0), 
-			TYPE_DESC VARCHAR2(2000), 
-			EFF_DT TIMESTAMP (6), 
-			EXPIR_DT TIMESTAMP (6), 
-			NAME VARCHAR2(255),
-			REF_OBJECT_URI VARCHAR2(255)
-   )
-/
-
------------------------------------------------------------------------------
--- KSEN_HOLD_TYPE_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_HOLD_TYPE_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_HOLD_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE KSEN_HOLD_TYPE_ATTR 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			ATTR_KEY VARCHAR2(255), 
-			ATTR_VALUE VARCHAR2(2000), 
-			OWNER VARCHAR2(255)
-   )
-/
-
------------------------------------------------------------------------------
--- KSEN_ISSRESTRCTN_RELTN
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_ISSRESTRCTN_RELTN';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_ISSRESTRCTN_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE KSEN_ISSRESTRCTN_RELTN 
-   (	ID VARCHAR2(255), 
-			ISSUE_ID VARCHAR2(255), 
-			RESTRICTION_ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			VER_NBR NUMBER(19,0), 
-			CREATEID VARCHAR2(255), 
-			CREATETIME TIMESTAMP (6), 
-			UPDATEID VARCHAR2(255), 
-			UPDATETIME TIMESTAMP (6)
-   )
-/
-
------------------------------------------------------------------------------
--- KSEN_ISSUE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_ISSUE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_ISSUE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE KSEN_ISSUE 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			VER_NBR NUMBER(19,0), 
-			CREATEID VARCHAR2(255), 
-			CREATETIME TIMESTAMP (6), 
-			UPDATEID VARCHAR2(255), 
-			UPDATETIME TIMESTAMP (6), 
-			NAME VARCHAR2(255), 
-			ORG_ID VARCHAR2(255), 
-			RT_DESCR_ID VARCHAR2(255), 
-			STATE_ID VARCHAR2(255), 
-			TYPE_ID VARCHAR2(255)
-   )
-/
-
------------------------------------------------------------------------------
--- KSEN_ISSUE_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_ISSUE_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_ISSUE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE KSEN_ISSUE_ATTR 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			ATTR_KEY VARCHAR2(255), 
-			ATTR_VALUE VARCHAR2(2000), 
-			OWNER VARCHAR2(255)
-   )
-/
-
------------------------------------------------------------------------------
 -- KSEN_MSTONE
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
@@ -396,22 +352,39 @@ END;
 /
 
 CREATE TABLE KSEN_MSTONE 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			VER_NBR NUMBER(19,0), 
-			CREATEID VARCHAR2(255), 
-			CREATETIME TIMESTAMP (6), 
-			UPDATEID VARCHAR2(255), 
-			UPDATETIME TIMESTAMP (6), 
-			END_DT TIMESTAMP (6), 
-			IS_ALL_DAY NUMBER(1,0), 
-			IS_DATE_RANGE NUMBER(1,0), 
-			NAME VARCHAR2(255), 
-			START_DT TIMESTAMP (6), 
-			MILESTONE_STATE_ID VARCHAR2(255), 
-			MILESTONE_TYPE_ID VARCHAR2(255), 
-			RT_DESCR_ID VARCHAR2(255)
+   (	
+    ID                   VARCHAR2(255) NOT NULL ,
+    OBJ_ID               VARCHAR2(36) NULL ,
+    MSTONE_TYPE          VARCHAR2(255) NOT NULL ,
+    MSTONE_STATE         VARCHAR2(255) NOT NULL ,
+    NAME                 VARCHAR2(255) NULL ,
+    DESCR_PLAIN          VARCHAR2(4000) NOT NULL ,
+    DESCR_FORMATTED      VARCHAR2(4000) NULL ,
+    IS_ALL_DAY           NUMBER(1) NOT NULL ,
+    IS_INSTRCT_DAY       NUMBER(1) NOT NULL ,
+    IS_RELATIVE          NUMBER(1) NOT NULL ,
+    RELATIVE_ANCHOR_MSTONE_ID VARCHAR2(255) NULL ,
+    IS_DATE_RANGE        NUMBER(1) NOT NULL ,
+    START_DT             TIMESTAMP(6) NULL,
+    END_DT               TIMESTAMP(6) NULL,
+    VER_NBR              NUMBER(19) NULL ,
+    CREATETIME           TIMESTAMP(6) NULL ,
+    CREATEID             VARCHAR2(255) NULL ,
+    UPDATETIME           TIMESTAMP(6) NULL ,
+    UPDATEID             VARCHAR2(255) NULL
    )
+/
+
+CREATE UNIQUE INDEX KSEN_MSTONE_P ON KSEN_MSTONE
+(ID   ASC)
+/
+
+CREATE  INDEX KSEN_MSTONE_I1 ON KSEN_MSTONE
+(MSTONE_TYPE   ASC)
+/
+
+CREATE  INDEX KSEN_MSTONE_I2 ON KSEN_MSTONE
+(START_DT   ASC)
 /
 
 -----------------------------------------------------------------------------
@@ -502,25 +475,6 @@ CREATE TABLE KSEN_STATEPROCESS_RELTN
 /
 
 -----------------------------------------------------------------------------
--- KSEN_STATE_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_STATE_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_STATE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE KSEN_STATE_ATTR 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			ATTR_KEY VARCHAR2(255), 
-			ATTR_VALUE VARCHAR2(2000), 
-			OWNER VARCHAR2(255)
-   )
-/
-
------------------------------------------------------------------------------
 -- KSEN_STATE_PROCESS
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
@@ -546,35 +500,6 @@ CREATE TABLE KSEN_STATE_PROCESS
 /
 
 -----------------------------------------------------------------------------
--- KSEN_TYPETYPE_RELTN
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_TYPETYPE_RELTN';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_TYPETYPE_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE KSEN_TYPETYPE_RELTN 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			VER_NBR NUMBER(19,0), 
-			CREATEID VARCHAR2(255), 
-			CREATETIME TIMESTAMP (6), 
-			UPDATEID VARCHAR2(255), 
-			UPDATETIME TIMESTAMP (6), 
-			EFF_DT TIMESTAMP (6), 
-			EXPIR_DT TIMESTAMP (6), 
-			NAME VARCHAR2(255), 
-			OWNER_TYPE_ID VARCHAR2(255), 
-			RANK NUMBER(10,0), 
-			RELATED_TYPE_ID VARCHAR2(255), 
-			TYPETYPE_RELATION_TYPE VARCHAR2(255), 
-			RT_DESCR_ID VARCHAR2(255)
-   )
-/
-
------------------------------------------------------------------------------
 -- KSEN_MSTONE_ATTR
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
@@ -585,12 +510,21 @@ END;
 /
 
 CREATE TABLE KSEN_MSTONE_ATTR
-   (	ID VARCHAR2(255),
-			OBJ_ID VARCHAR2(36),
-			ATTR_KEY VARCHAR2(255),
-			ATTR_VALUE VARCHAR2(2000),
-			OWNER VARCHAR2(255)
+   (	
+    ID                   VARCHAR2(255) NOT NULL ,
+    OBJ_ID               VARCHAR2(36) NULL ,
+    ATTR_KEY             VARCHAR2(255) NULL ,
+    ATTR_VALUE           VARCHAR2(4000) NULL ,
+    OWNER             VARCHAR2(255) NULL
    )
+/
+
+CREATE UNIQUE INDEX KSEN_MSTONE_ATTR_P ON KSEN_MSTONE_ATTR
+(ID   ASC)
+/
+
+CREATE  INDEX KSEN_MSTONE_ATTR_IF1 ON KSEN_MSTONE_ATTR
+(OWNER   ASC)
 /
 
 -----------------------------------------------------------------------------

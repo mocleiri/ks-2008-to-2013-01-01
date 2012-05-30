@@ -20,29 +20,29 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 -->
     
   <bean id="HoldInfo-MaintenanceView" parent="KSMaintenanceView">
-     <property name="title" value="HoldInfo Maintenance"/>
+     <property name="headerText" value="HoldInfo Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
-     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class1.hold.service.HoldInfoMaintainableImpl" />
+     <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.hold.service.HoldInfoMaintainableImpl" />
      
      <property name="items">
        <list merge="true">
-          <bean parent="MaintenanceGroupSectionGridLayout">
-          	 <property name="title" value="Manage Holds for Person"/>
+          <bean parent="Uif-MaintenanceGridSection">
+          	 <property name="headerText" value="Manage Holds for Person"/>
              <property name="items">
                <list>
-                <bean parent="InputField" p:propertyName="personId"/>
-                <bean parent="InputField" p:propertyName="issueId"/>
+                <bean parent="Uif-InputField" p:propertyName="personId"/>
+                <bean parent="Uif-InputField" p:propertyName="issueId"/>
                </list>
              </property>             
           </bean> 
           
-          <bean parent="MaintenanceCollectionGroupSection">
-              <property name="title" value="Issues"/>  
+          <bean parent="Uif-MaintenanceStackedCollectionSection">
+              <property name="headerText" value="Issues"/>  
               <property name="collectionObjectClass" value="org.kuali.student.enrollment.hold.dto.IssueInfo"/>
               <property name="propertyName" value="issueId"/>
               <property name="items">
                 <list>
-                  <bean parent="InputField" p:propertyName="id"/>
+                  <bean parent="Uif-InputField" p:propertyName="id"/>
                 </list>
               </property>   
               <property name="layoutManager.summaryTitle" value="Issues"/> 
@@ -62,7 +62,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="dataObjectClass" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
     <property name="maintainableClass" value="org.kuali.student.enrollment.class1.hold.service.HoldInfoMaintainableImpl"/>
     <property name="documentTypeName" value="HoldInfoMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">
       <list>
         <value>id</value>

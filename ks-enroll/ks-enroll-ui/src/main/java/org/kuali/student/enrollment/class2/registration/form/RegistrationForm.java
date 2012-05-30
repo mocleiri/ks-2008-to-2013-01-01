@@ -53,11 +53,11 @@ public class RegistrationForm extends UifFormBase {
         this.registrationGroupWrappersById = new HashMap<String,RegistrationGroupWrapper>();
     }
 
-    public String getTermKey() {
+    public String getTermId() {
         return termKey;
     }
 
-    public void setTermKey(String termKey) {
+    public void setTermId(String termKey) {
         this.termKey = termKey;
     }
 
@@ -120,10 +120,12 @@ public class RegistrationForm extends UifFormBase {
                 if(regGroupRegistrationInfo.getStateKey().equals(LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY)){
                     for (ActivityRegistrationInfo activityRegistrationInfo : regGroupRegistrationInfo.getActivityRegistrations()) {
                         ActivityOfferingInfo activityOfferingInfo = activityRegistrationInfo.getActivityOffering();
-                        for (MeetingScheduleInfo meetingScheduleInfo : activityOfferingInfo.getMeetingSchedules()) {
-                            MeetingScheduleWrapper meetingScheduleWrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
+                        // TODO: fix this to get the meeting schedule from the schedule Id and the schedule service
+                        List<MeetingScheduleInfo> list = new ArrayList<MeetingScheduleInfo> ();
+                        for (MeetingScheduleInfo info : list) {
+                            MeetingScheduleWrapper meetingScheduleWrapper = new MeetingScheduleWrapper(info);
                             meetingScheduleWrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
-                            meetingScheduleWrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
+                            meetingScheduleWrapper.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
                             meetingScheduleWrapper.setItemId(regGroupRegistrationInfo.getId());
                             // TODO - convert type key to actual activity type
                             String key = activityOfferingInfo.getTypeKey();

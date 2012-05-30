@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 
+//This code is for core slice
 public class AcademicCalendarWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-    String key;
+    String id;
 	AcademicCalendarInfo academicCalendarInfo;
 	List<TermWrapper> termWrapperList;
 
@@ -17,16 +20,16 @@ public class AcademicCalendarWrapper implements Serializable {
 		termWrapperList = new ArrayList<TermWrapper>();
 	}
     /**
-	 * @return the key
+	 * @return the id
 	 */
-	public String getKey() {
-		return key;
+	public String getId() {
+		return id;
 	}
 	/**
-	 * @param key the key to set. It equals to academicCalendarInfo.getKey()
+	 * @param id the id to set. It equals to academicCalendarInfo.getId()
 	 */
-	public void setKey(String key) {
-		this.key = key;
+	public void setId(String id) {
+		this.id = id;
 	}
 	/**
 	 * @return the academicCalendarInfo
@@ -39,7 +42,7 @@ public class AcademicCalendarWrapper implements Serializable {
 	 */
 	public void setAcademicCalendarInfo(AcademicCalendarInfo academicCalendarInfo) {
 		this.academicCalendarInfo = academicCalendarInfo;
-        this.key = academicCalendarInfo.getKey();
+        this.id = academicCalendarInfo.getId();
 	}
 	/**
 	 * @return the termWrapperList
@@ -53,5 +56,13 @@ public class AcademicCalendarWrapper implements Serializable {
 	public void setTermWrapperList(List<TermWrapper> termWrapperList) {
 		this.termWrapperList = termWrapperList;
 	}
-	
+
+    public boolean isOfficial() {
+        return StringUtils.equals(academicCalendarInfo.getStateKey(), AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY);
+    }
+
+    public boolean isNew() {
+        return StringUtils.isBlank(academicCalendarInfo.getId());
+    }
+
 }

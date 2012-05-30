@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.grading.service.impl;
 
-import org.apache.bcel.generic.NEW;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.util.UUIDHelper;
@@ -22,7 +21,6 @@ import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
@@ -35,6 +33,7 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.jws.WebParam;
 import java.util.*;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 public class GradingServiceImpl implements GradingService {
     private LuiPersonRelationService lprService;
@@ -98,7 +97,7 @@ public class GradingServiceImpl implements GradingService {
      * Retrieve information about grade rosters by grader and term
      *
      * @param graderId
-     * @param termKey
+     * @param termId
      * @param context
      *            Context information containing the principalId and locale
      *            information about the caller of service operation
@@ -112,7 +111,7 @@ public class GradingServiceImpl implements GradingService {
      */
     @Override
     public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(@WebParam(name = "graderId") String graderId,
-            @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context)
+            @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return null; // TODO implement method.
@@ -140,7 +139,7 @@ public class GradingServiceImpl implements GradingService {
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<GradeRosterInfo> gradeRosterInfos = new ArrayList<GradeRosterInfo>();
 
-        List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndRosterType(courseOfferingId, LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
+        List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndType(courseOfferingId, LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
         for (LprRosterInfo lprRoster : lprRosters) {
             GradeRosterInfo gradeRosterInfo = assembleGradeRoster(lprRoster, context);
             gradeRosterInfos.add(gradeRosterInfo);
@@ -200,7 +199,7 @@ public class GradingServiceImpl implements GradingService {
      * figure out which students from the activity offerings will be in the
      * roster
      *
-     * @param activityOfferingIdList
+     * @param activityOfferingIds
      * @param rosterTypeKey
      * @param context
      *            Context information containing the principalId and locale
@@ -215,8 +214,8 @@ public class GradingServiceImpl implements GradingService {
      */
     @Override
     public GradeRosterInfo buildInterimGradeRosterByType(
-            @WebParam(name = "activityOfferingIdList") String courseOfferingId,
-            @WebParam(name = "activityOfferingIdList") List<String> activityOfferingIdList,
+            @WebParam(name = "courseOfferingId") String courseOfferingId,
+            @WebParam(name = "activityOfferingIds") List<String> activityOfferingIds,
             @WebParam(name = "rosterTypeKey") String rosterTypeKey, @WebParam(name = "context") ContextInfo context)
             throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -310,13 +309,13 @@ public class GradingServiceImpl implements GradingService {
         }
 
         //Update LRR State
-        List<LprRosterEntryInfo> rosterEntryInfoList = lprService.getEntriesForLprRoster(lprRosterInfo.getId(),context);
+        List<LprRosterEntryInfo> rosterEntryInfoList = lprService.getLprRosterEntriesForRoster(lprRosterInfo.getId(),context);
         List<String> lprIds = new ArrayList();
         for (LprRosterEntryInfo entryInfo : rosterEntryInfoList) {
             lprIds.add(entryInfo.getLprId());
         }
 
-        List<LearningResultRecordInfo> learningResultRecordInfoList = lrrService.getLearningResultRecordsForLprIdList(lprIds,context);
+        List<LearningResultRecordInfo> learningResultRecordInfoList = lrrService.getLearningResultRecordsForLprIds(lprIds,context);
         for (LearningResultRecordInfo learningResultRecordInfo : learningResultRecordInfoList) {
             //process only saved state entries (Skipping deleted state)
             if (StringUtils.equals(learningResultRecordInfo.getStateKey(),LrrServiceConstants.RESULT_RECORD_SAVED_STATE_KEY)){
@@ -371,10 +370,10 @@ public class GradingServiceImpl implements GradingService {
     }
 
     /**
-     * Retrieve a list of grade roster entries based on their ids. The method
+     * Retrieve a list of grade roster entries based on their Ids. The method
      * should fail if there is an error in retrieving any id from the list.
      *
-     * @param gradeRosterEntryIdList
+     * @param gradeRosterEntryIds
      * @param context
      *            Context information containing the principalId and locale
      *            information about the caller of service operation
@@ -387,13 +386,13 @@ public class GradingServiceImpl implements GradingService {
      *             authorization failure
      */
     @Override
-    public List<GradeRosterEntryInfo> getGradeRosterEntriesByIdList(
-            @WebParam(name = "gradeRosterEntryIdList") List<String> gradeRosterEntryIdList,
+    public List<GradeRosterEntryInfo> getGradeRosterEntriesByIds(
+            @WebParam(name = "gradeRosterEntryIds") List<String> gradeRosterEntryIds,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
 
-        List<LprRosterEntryInfo> entries = lprService.getLprRosterEntriesByIdList(gradeRosterEntryIdList, context);
+        List<LprRosterEntryInfo> entries = lprService.getLprRosterEntriesByIds(gradeRosterEntryIds, context);
         return assembleGradeRosterEntries(entries, context);
     }
 
@@ -417,7 +416,7 @@ public class GradingServiceImpl implements GradingService {
             @WebParam(name = "gradeRosterId") String gradeRosterId, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        List<LprRosterEntryInfo> entries = lprService.getEntriesForLprRoster(gradeRosterId, context);
+        List<LprRosterEntryInfo> entries = lprService.getLprRosterEntriesForRoster(gradeRosterId, context);
         return assembleGradeRosterEntries(entries, context);
     }
 
@@ -444,18 +443,18 @@ public class GradingServiceImpl implements GradingService {
             MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
 
 
-        List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndRosterType(courseOfferingId, LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
+        List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndType(courseOfferingId, LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
         Map<String, LprRosterEntryInfo> lprIdToRosterEntryMap = new HashMap<String, LprRosterEntryInfo>();
         for (LprRosterInfo lprRoster : lprRosters) {
             String rosterId = lprRoster.getId();
-            List<LprRosterEntryInfo> rosterEntries = lprService.getEntriesForLprRoster(rosterId, context);
+            List<LprRosterEntryInfo> rosterEntries = lprService.getLprRosterEntriesForRoster(rosterId, context);
             for (LprRosterEntryInfo rosterEntry : rosterEntries) {
                 String lprId = rosterEntry.getLprId();
                 lprIdToRosterEntryMap.put(lprId, rosterEntry);
             }
         }
 
-        List<LuiPersonRelationInfo> lprs = lprService.getLprsByLuiAndPerson(studentId, courseOfferingId, context);
+        List<LuiPersonRelationInfo> lprs = lprService.getLprsByPersonAndLui(studentId, courseOfferingId, context);
         LuiPersonRelationInfo lpr = lprs.get(0); // TODO throw exception if null?
         LprRosterEntryInfo entry = lprIdToRosterEntryMap.get(lpr.getId());
 
@@ -539,16 +538,16 @@ public class GradingServiceImpl implements GradingService {
         List<String> lprRosterEntryIds = new ArrayList();
         lprRosterEntryIds.add(gradeRosterEntryId);
 
-        List<LprRosterEntryInfo> entryInfoList = lprService.getLprRosterEntriesByIdList(lprRosterEntryIds,context);
+        List<LprRosterEntryInfo> entryInfoList = lprService.getLprRosterEntriesByIds(lprRosterEntryIds,context);
         if (entryInfoList.isEmpty()){
             throw new DoesNotExistException("Lpr Roster Entry not exists for the id " + gradeRosterEntryId);
         }
 
         LprRosterEntryInfo entryInfo = entryInfoList.get(0);
-        List<String> lprIdList = new ArrayList();
-        lprIdList.add(entryInfo.getLprId());
+        List<String> lprIds = new ArrayList();
+        lprIds.add(entryInfo.getLprId());
 
-        List<LearningResultRecordInfo> learningResultRecordInfoList = lrrService.getLearningResultRecordsForLprIdList(lprIdList,context);
+        List<LearningResultRecordInfo> learningResultRecordInfoList = lrrService.getLearningResultRecordsForLprIds(lprIds,context);
 
         //If an entry not exists for a student, create one
         if ((learningResultRecordInfoList == null || learningResultRecordInfoList.isEmpty()) && StringUtils.isNotBlank(assignedGradeKey)){
@@ -602,7 +601,7 @@ public class GradingServiceImpl implements GradingService {
         //FIXME: Hardcoded for core slice
         List<String> resultSource = new ArrayList();
         resultSource.add("ResultSource-Sample1");
-        lrrInfo.setResultSourceIdList(resultSource);
+        lrrInfo.setResultSourceIds(resultSource);
 
         lrrInfo.setResultValueKey(assignedGradeKey);
         MetaInfo meta = new MetaInfo();
@@ -640,71 +639,16 @@ public class GradingServiceImpl implements GradingService {
         return false; // TODO implement method.
     }
 
-    /**
-     * Get the list of entry keys in this dictionary
-     * <p/>
-     * The list of keys is stored in the ref object URI strcture E.g
-     * http://student.kuali.org/wsdl/luService/CluInfo will be the objectTypeURI
-     * for the CluInfo structure The refObjectURI has three parts:
-     * <ol>
-     * <li>http://student.kuali.org/wsdl -- which is fixed
-     * <li>luService -- which should match the namespace of the service in which
-     * the object is defined
-     * <li>CluInfo -- which should match the java class's simple name
-     * </ol>
-     *
-     * @param context
-     *            information about the user and locale
-     * @return a list of all the known data dictionary entry keys in the ref
-     *         object URI structure.
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     *             if could not complete the operation
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     *             if entryKey is null
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
-     *             if user does not have permission to call this method
-     */
-    @Override
-    public List<String> getDataDictionaryEntryKeys(@WebParam(name = "context") ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        return null; // TODO implement method.
-    }
-
-    /**
-     * Get the data dictionary entry for the specified entry key
-     *
-     * @param entryKey
-     *            that identifies the dictionary entry, this is done by
-     *            specifying a refObjectURI
-     * @param context
-     *            information about the user and locale
-     * @return the data dictionary entry key
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     *             if could not complete the operation
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     *             if entryKey is null
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     *             if entryKey does not exist in the dictionary
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
-     *             if user does not have permission to call this method
-     */
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(@WebParam(name = "entryKey") String entryKey,
-            @WebParam(name = "context") ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        return null; // TODO implement method.
-    }
-
     @Override
     public List<GradeValuesGroupInfo> getGradeGroupsByKeyList(List<String> gradeGroupKeyList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        List<ResultValuesGroupInfo> resultValuesGroupInfos = lrcService.getResultValuesGroupsByIdList(gradeGroupKeyList, context);
+        List<ResultValuesGroupInfo> resultValuesGroupInfos = lrcService.getResultValuesGroupsByIds(gradeGroupKeyList, context);
         List<GradeValuesGroupInfo> gradeValuesGroupInfos = new ArrayList<GradeValuesGroupInfo>();
 
         for(ResultValuesGroupInfo resultValuesGroupInfo : resultValuesGroupInfos){
-            List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByIdList(resultValuesGroupInfo.getResultValueKeys(),context);
+            List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByIds(resultValuesGroupInfo.getResultValueKeys(),context);
             try {
                 gradeValuesGroupInfos.add(gradeValuesGroupAssembler.assemble(resultValuesGroupInfo,resultValueInfos,context));
             } catch (AssemblyException e) {
@@ -728,14 +672,14 @@ public class GradingServiceImpl implements GradingService {
         List<String> graderIds = new ArrayList<String>();
         List<String> lprRosterEntryIds = new ArrayList<String>();
 
-        List<LprRosterEntryInfo> lprRosterEntries = lprService.getEntriesForLprRoster(lprRosterInfo.getId(), context);
+        List<LprRosterEntryInfo> lprRosterEntries = lprService.getLprRosterEntriesForRoster(lprRosterInfo.getId(), context);
         for (LprRosterEntryInfo lprRosterEntry : lprRosterEntries) {
             String lprId = lprRosterEntry.getLprId();
             lprIdToRosterEntriesMap.put(lprId, lprRosterEntry);
         }
 
         List<String> lprIds = new ArrayList<String>(lprIdToRosterEntriesMap.keySet());
-        List<LuiPersonRelationInfo> lprInfos = lprService.getLprsByIdList(lprIds, context);
+        List<LuiPersonRelationInfo> lprInfos = lprService.getLprsByIds(lprIds, context);
         for (LuiPersonRelationInfo lprInfo : lprInfos) {
             String lprInfoType = lprInfo.getTypeKey();
             if (LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY.equals(lprInfoType)) {
@@ -760,7 +704,7 @@ public class GradingServiceImpl implements GradingService {
         } else if (associatedLuiIds.size() >  1) {
             activityOfferingIds = associatedLuiIds;
 
-            List<String> relatedLuis = luiService.getRelatedLuiIdsByLuiId(activityOfferingIds.get(0), LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
+            List<String> relatedLuis = luiService.getLuiIdsByLuiAndRelationType(activityOfferingIds.get(0), LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
             if (relatedLuis == null || relatedLuis.size() != 1) {
                 throw new OperationFailedException("The provided activity offering is not related to 1 and only 1 course offering.");
             }
@@ -794,7 +738,7 @@ public class GradingServiceImpl implements GradingService {
         }
 
         List<String> lprIds = new ArrayList(lprIdToEntryMap.keySet());
-        List<LuiPersonRelationInfo> lprs = lprService.getLprsByIdList(lprIds, context);
+        List<LuiPersonRelationInfo> lprs = lprService.getLprsByIds(lprIds, context);
 
         Map<String,List> lprToGradeOptions = new HashMap();
 
@@ -809,11 +753,11 @@ public class GradingServiceImpl implements GradingService {
                 throw new OperationFailedException("Could not find course offering " + lpr.getLuiId());
             }
 
-            lprToGradeOptions.put(lpr.getId(),courseOfferingInfo.getGradingOptionKeys());
+            lprToGradeOptions.put(lpr.getId(),courseOfferingInfo.getGradingOptionIds());
 
         }
 
-        List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
+        List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIds(lprIds, context);
         Map<LearningResultRecordInfo, String> lrrToLprIdMap = new HashMap<LearningResultRecordInfo, String>();
         List<String> resultValueKeys = new ArrayList<String>();
         List<LearningResultRecordInfo> filteredLrrs = new ArrayList();
@@ -829,7 +773,7 @@ public class GradingServiceImpl implements GradingService {
             }
         }
 
-        List<ResultValueInfo> resultValues = lrcService.getResultValuesByIdList(resultValueKeys, context);
+        List<ResultValueInfo> resultValues = lrcService.getResultValuesByIds(resultValueKeys, context);
         for (int i = 0; i < resultValues.size(); i++) {
             LearningResultRecordInfo lrr = filteredLrrs.get(i);
             ResultValueInfo resultValue = resultValues.get(i);
@@ -839,11 +783,11 @@ public class GradingServiceImpl implements GradingService {
 
             String resultValuetypeKey = resultValue.getTypeKey();
             String entryAttributesKey = null;
-            if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
+            if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
                 entryAttributesKey = ASSIGNED_GRADE;
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
                 entryAttributesKey = ADMINISTRATIVE_GRADE;
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
                 entryAttributesKey = CREDITS_EARNED;
             } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
                 entryAttributesKey = CALCULATED_GRADE;
@@ -890,7 +834,7 @@ public class GradingServiceImpl implements GradingService {
 
         // TODO Get grading options from courseRegistration instead of courseOffering.
         CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(lpr.getLuiId(),context);
-        gradingOptionKeys.addAll(courseOfferingInfo.getGradingOptionKeys());
+        gradingOptionKeys.addAll(courseOfferingInfo.getGradingOptionIds());
 
         List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLpr(lprId);
         List<String> resultValueKeys = new ArrayList<String>();
@@ -905,15 +849,15 @@ public class GradingServiceImpl implements GradingService {
             }
         }
 
-        List<ResultValueInfo> resultValues = lrcService.getResultValuesByIdList(resultValueKeys, context);
+        List<ResultValueInfo> resultValues = lrcService.getResultValuesByIds(resultValueKeys, context);
         for (int i = 0; i < resultValues.size(); i++) {
             ResultValueInfo resultValue = resultValues.get(i);
             String resultValuetypeKey = resultValue.getTypeKey();
-            if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
+            if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
                 assignedGradeKey = resultValue.getKey();
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
                 administrativeGradeKey = resultValue.getKey();
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
                 creditsEarnedKey = resultValue.getKey();
             } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
                 calculatedGradeKey = resultValue.getKey();

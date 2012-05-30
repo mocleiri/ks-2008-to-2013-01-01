@@ -24,10 +24,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     
     <bean id="TermInfoUI" parent="TermInfo-parent">
        	<property name="objectLabel" value="Term Info"/>
-        <property name="titleAttribute" value="key"/>
+        <property name="titleAttribute" value="id"/>
         <property name="attributes">
             <list>
-                <ref bean="TermInfoUI.key"/>
+                <ref bean="TermInfoUI.id"/>
                 <ref bean="TermInfoUI.typeKey"/>
                 <ref bean="TermInfoUI.startDate"/>
                 <ref bean="TermInfoUI.endDate"/>  
@@ -44,15 +44,15 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         </property>
     </bean>
     
-	<bean id="TermInfoUI.key" parent="TermInfo.key-parent">
-        <property name="label" value="Key" />
+	<bean id="TermInfoUI.id" parent="TermInfo.id-parent">
+        <property name="label" value="ID" />
         <property name="required" value="false"/>
         <property name="unique" value="true"/> 
         <property name="validCharactersConstraint">
             <bean parent="NoWhitespacePatternConstraint"/>
         </property>
     	<property name="controlField">
-      		<bean parent="TextControl" p:size="60"/>
+      		<bean parent="Uif-TextControl" p:size="60"/>
     	</property> 
     	<property name="control">
       		<bean parent="TextControlDefinition" p:size="60"/>
@@ -67,7 +67,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="NoWhitespacePatternConstraint"/>
         </property>
     	<property name="controlField">
-      		<bean parent="TextControl" p:size="60"/>
+      		<bean parent="Uif-TextControl" p:size="60"/>
     	</property>
     	<property name="control">
       		<bean parent="TextControlDefinition" p:size="60"/>
@@ -80,7 +80,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="required" value="true"/>
         <property name="minLength" value="10" />
         <property name="controlField">
-      		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+      		<bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
     	</property>
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
         <property name="summary"  value="Official start date of the Term"/>
@@ -91,49 +91,49 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="required" value="true"/>
         <property name="minLength" value="10" />
         <property name="controlField">
-      		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+      		<bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
     	</property>
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
         <property name="summary"  value="Official end date of the Term"/>
     </bean>
 
-  <bean id="TermInfo-LookupView" parent="KSLookupView">
-    <property name="title" value="Term Info Lookup (by Key)" />
+  <!--<bean id="TermInfo-LookupView" parent="KSLookupView">
+    <property name="headerText" value="Term Info Lookup (by ID)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
-    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupableImpl" />
+    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupableImpl" />
     
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaInputField" p:propertyName="key" />
-<!--    <bean parent="LookupCriteriaInputField" p:propertyName="typeKey"/> -->
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+&lt;!&ndash;    <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"/> &ndash;&gt;
       </list>
     </property>
     <property name="resultFields">
       <list>
-		<bean parent="InputField" p:propertyName="key" />
-        <bean parent="InputField" p:propertyName="typeKey" />
-        <bean parent="InputField" p:propertyName="startDate" />
-        <bean parent="InputField" p:propertyName="endDate" />
+		<bean parent="Uif-InputField" p:propertyName="id" />
+        <bean parent="Uif-InputField" p:propertyName="typeKey" />
+        <bean parent="Uif-InputField" p:propertyName="startDate" />
+        <bean parent="Uif-InputField" p:propertyName="endDate" />
       </list>
     </property>
-  </bean>
+  </bean>-->
 
   <bean id="TermInfo-InquiryView" parent="KSInquiryView">
-     <property name="title" value="Term Info Inquiry"/>
+     <property name="headerText" value="Term Info Inquiry"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoInquiryViewHelperServiceImpl" />
+     <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.TermInfoInquiryViewHelperServiceImpl" />
      
      <property name="Items">
          <list>
-           <bean parent="GroupSectionGridLayout">
+           <bean parent="Uif-Disclosure-GridSection">
              <property name="layoutManager.numberOfColumns" value="2"/>
-             <property name="title" value="Term Info Inquiry"/>
+             <property name="headerText" value="Term Info Inquiry"/>
              <property name="items">
                <list>
-                <bean parent="InputField" p:propertyName="key"/>
-                <bean parent="InputField" p:propertyName="typeKey"/>
-                <bean parent="InputField" p:propertyName="startDate"/>
-                <bean parent="InputField" p:propertyName="endDate"/>
+                <bean parent="Uif-InputField" p:propertyName="id"/>
+                <bean parent="Uif-InputField" p:propertyName="typeKey"/>
+                <bean parent="Uif-InputField" p:propertyName="startDate"/>
+                <bean parent="Uif-InputField" p:propertyName="endDate"/>
                </list>
              </property>             
            </bean>
@@ -142,38 +142,38 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>
     
   <bean id="TermInfo-MaintenanceView" parent="KSMaintenanceView">
-     <property name="title" value="TermInfo Maintenance"/>
+     <property name="headerText" value="TermInfo Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoMaintainableImpl" />
+     <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.TermInfoMaintainableImpl" />
      
      <property name="items">
        <list merge="true">
-          <bean parent="MaintenanceGroupSectionGridLayout">
-          	 <property name="title" value="Term"/>
+          <bean parent="Uif-MaintenanceGridSection">
+          	 <property name="headerText" value="Term"/>
              <property name="items">
                <list>
-                <bean parent="InputField" p:propertyName="typeKey">
+                <bean parent="Uif-InputField" p:propertyName="typeKey">
                     <property name="control">
-              			<bean parent="SelectControl"/>
+              			<bean parent="Uif-DropdownControl"/>
             		</property>
             		<property name="optionsFinder">
               			<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermInfoTypeKeyValues"/>
             		</property>
                 </bean>
-                <bean parent="InputField" p:propertyName="startDate"/>
-                <bean parent="InputField" p:propertyName="endDate"/>
+                <bean parent="Uif-InputField" p:propertyName="startDate"/>
+                <bean parent="Uif-InputField" p:propertyName="endDate"/>
                </list>
              </property>             
           </bean> 
           <!-- 
-          <bean parent="MaintenanceCollectionGroupSection">
-              <property name="title" value="Academic Calendar Terms"/>  
+          <bean parent="Uif-MaintenanceStackedCollectionSection">
+              <property name="headerText" value="Academic Calendar Terms"/>  
               <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
               <property name="propertyName" value="fiscalOfficer.accounts"/>
               <property name="items">
                 <list>
-                  <bean parent="InputField" p:propertyName="startDate"/>
-                  <bean parent="InputField" p:propertyName="endDate"/>
+                  <bean parent="Uif-InputField" p:propertyName="startDate"/>
+                  <bean parent="Uif-InputField" p:propertyName="endDate"/>
                 </list>
               </property>   
               <property name="layoutManager.summaryTitle" value="Term"/> 
@@ -193,10 +193,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="dataObjectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
     <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.TermInfoMaintainableImpl"/>
     <property name="documentTypeName" value="TermInfoMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">
       <list>
-        <value>key</value>
+        <value>id</value>
       </list>
     </property>
   </bean>  

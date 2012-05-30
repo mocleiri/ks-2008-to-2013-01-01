@@ -1,45 +1,51 @@
 /**
- * Copyright 2011 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2011 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.r2.common.util.constants;
 
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.dto.MilestoneInfo;
+
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 
 /**
- * This class holds the constants used by the ATP service
+ * This class holds the constants used by the ATP service.
  *
  * @author nwright
  */
 public class AtpServiceConstants {
 
     /**
-     * Reference Object URI's
+     * Reference Object URIs
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "atp";
+    public static final String SERVICE_NAME_LOCAL_PART = "AtpService";
     public static final String REF_OBJECT_URI_ATP = NAMESPACE + "/" + AtpInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_MILESTONE = NAMESPACE + "/" + MilestoneInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_ATP_ATP_RELATION = NAMESPACE + "/" + AtpAtpRelationInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_TIME_AMOUNT_INFO = NAMESPACE + "/" + TimeAmountInfo.class.getSimpleName();
 
     /**
      * ATP Types
-     */
-    
+     */    
     public static final String ATP_KEY_PREFIX = "kuali.atp.key";
     public static final String ATP_ACADEMIC_CALENDAR_TYPE_KEY = "kuali.atp.type.AcademicCalendar";
-    public static final String ATP_CAMPUS_CALENDAR_TYPE_KEY = "kuali.atp.type.CampusCalendar";
+    public static final String ATP_HOLIDAY_CALENDAR_TYPE_KEY = "kuali.atp.type.HolidayCalendar";
     // reporting groups
     public static final String ATP_AY_TYPE_KEY = "kuali.atp.type.AY";
     public static final String ATP_FY_TYPE_KEY = "kuali.atp.type.FY";
@@ -107,6 +113,7 @@ public class AtpServiceConstants {
     public static final String ATP_ODD_YEARS_TYPE_KEY = "kuali.atp.type.OddYears";
     public static final String ATP_FALL_ODD_YEARS_TYPE_KEY = "kuali.atp.type.FallOddYears";
     public static final String ATP_SPRING_ODD_YEARS_TYPE_KEY = "kuali.atp.type.SpringOddYears";
+
     /**
      * Milstone types
      */
@@ -127,6 +134,7 @@ public class AtpServiceConstants {
     public static final String MILESTONE_GRADES_DUE_TYPE_KEY = "kuali.atp.milestone.GradesDue";
     public static final String MILESTONE_POST_GRADES_TYPE_KEY = "kuali.atp.milestone.PostGrades";
     // holidays
+    public static final String MILESTONE_HOLIDAY_GROUPING_TYPE_KEY = "kuali.milestone.type.group.holiday";
     public static final String MILESTONE_LABOR_DAY_TYPE_KEY = "kuali.atp.milestone.LaborDay";
     public static final String MILESTONE_FALL_BREAK_TYPE_KEY = "kuali.atp.milestone.FallBreak";
     public static final String MILESTONE_THANKSGIVING_BREAK_TYPE_KEY = "kuali.atp.milestone.ThanksgivingBreak";
@@ -135,8 +143,11 @@ public class AtpServiceConstants {
     public static final String MILESTONE_MEMORIAL_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.MemorialDayObserved";
     public static final String MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.IndependenceDayObserved";
     // events
+    public static final String MILESTONE_EVENT_GROUPING_TYPE_KEY = "kuali.milestone.type.group.event";
     public static final String MILESTONE_HOMECOMING_TYPE_KEY = "kuali.atp.milestone.Homecoming";
     public static final String MILESTONE_FAMILY_WEEKEND_TYPE_KEY = "kuali.atp.milestone.FamilyWeekend";
+    //notes:  kuali.atp.milestone.AlumniDay and  kuali.atp.milestone.Commencement can be  event types as well.
+
     // orientation
     public static final String MILESTONE_MOVE_IN_DATE_TYPE_KEY = "kuali.atp.milestone.Move-inDate";
     public static final String MILESTONE_NEW_STUDENT_CONVOCATION_TYPE_KEY = "kuali.atp.milestone.NewStudentConvocation";
@@ -175,8 +186,10 @@ public class AtpServiceConstants {
     public static final String MILESTONE_REFUND_50_TYPE_KEY = "kuali.atp.milestone.Refund50";
     public static final String MILESTONE_REFUND_40_TYPE_KEY = "kuali.atp.milestone.Refund40";
     public static final String MILESTONE_REFUND_20_TYPE_KEY = "kuali.atp.milestone.Refund20";
+
     /**
      * Duration Types
+     * https://wiki.kuali.org/display/STUDENT/Academic+Time+Period+Types+and+States#AcademicTimePeriodTypesandStates-DurationTypes
      */
     public static final String DURATION_FOUR_YEARS_TYPE_KEY = "kuali.atp.duration.FourYears";
     public static final String DURATION_TWO_YEARS_TYPE_KEY = "kuali.atp.duration.TwoYears";
@@ -189,6 +202,9 @@ public class AtpServiceConstants {
     public static final String DURATION_SESSION_TYPE_KEY = "kuali.atp.duration.Session";
     public static final String DURATION_PERIOD_TYPE_KEY = "kuali.atp.duration.Period";
     public static final String DURATION_MINI_MESTER_TYPE_KEY = "kuali.atp.duration.Mini-mester";
+    public static final String DURATION_HOURS_TYPE_KEY = "kuali.atp.duration.Hours";
+    public static final String DURATION_MINUTES_TYPE_KEY = "kuali.atp.duration.Minutes";
+
     /**
      * Season Types
      */
@@ -220,6 +236,7 @@ public class AtpServiceConstants {
     public static final String SEASON_ALTERNATE_YEARS_CYCLE_TYPE_KEY = "kuali.atp.season.AlternateYearsCycle";
     public static final String SEASON_EVEN_YEARS_TYPE_KEY = "kuali.atp.season.EvenYears";
     public static final String SEASON_ODD_YEARS_TYPE_KEY = "kuali.atp.season.OddYears";
+
     /**
      * Milestone States
      */
@@ -232,35 +249,25 @@ public class AtpServiceConstants {
      */
     public static final String ATP_DRAFT_STATE_KEY = "kuali.atp.state.Draft";
     public static final String ATP_OFFICIAL_STATE_KEY = "kuali.atp.state.Official";
-    public static final String ATP_PROCESS_KEY = "kuali.atp.process";
-    public static final String[] ATP_PROCESS_STATE_KEYS = {ATP_DRAFT_STATE_KEY, ATP_OFFICIAL_STATE_KEY};
+    public static final String ATP_LIFECYCLE_KEY = "kuali.atp.process";
+    public static final String[] ATP_LIFECYCLE_STATE_KEYS = {ATP_DRAFT_STATE_KEY, ATP_OFFICIAL_STATE_KEY};
+
     /**
      * ATP ATP Relation Types
      */
     public static final String ATP_ATP_RELATION_INCLUDES_TYPE_KEY = "kuali.atp.atp.relation.includes";
     public static final String ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY ="kuali.atp.atp.relation.associated";
     public static final String ATP_ATP_RELATION_PRECEDES_TYPE_KEY = "kuali.atp.atp.relation.precedes";
+
     /**
      * ATP ATP Relation States
      */
     public static final String ATP_ATP_RELATION_ACTIVE_STATE_KEY = "kuali.atp.atp.relation.state.active";
     public static final String ATP_ATP_RELATION_INACTIVE_STATE_KEY = "kuali.atp.atp.relation.state.inactive";
-    public static final String ATP_ATP_RELATION_PROCESS_KEY = "kuali.atp.atp.relation.process";
-    public static final String[] ATP_ATP_RELATION_PROCESS_STATE_KEYS = {ATP_ATP_RELATION_ACTIVE_STATE_KEY, ATP_ATP_RELATION_INACTIVE_STATE_KEY};
-    /**
-     * ATP Milestone Relation Types
-     */
-    public static final String ATP_MILESTONE_RELATION_OWNS_TYPE_KEY = "kuali.atp.milestone.relation.owns";
-    public static final String ATP_MILESTONE_RELATION_REUSES_TYPE_KEY = "kuali.atp.milestone.relation.reuses";
-    public static final String ATP_MILESTONE_RELATION_USES_TYPE_KEY = "kuali.atp.milestone.relation.uses";
-    /**
-     * ATP Milestone Relation States
-     */
-    public static final String ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY = "kuali.atp.milestone.relation.state.active";
-    public static final String ATP_MILESTONE_RELATION_INACTIVE_STATE_KEY = "kuali.atp.milestone.relation.state.inactive";
-    public static final String ATP_MILESTONE_RELATION_CANCELED_STATE_KEY = "kuali.atp.milestone.relation.state.canceled";
-    public static final String ATP_MILESTONE_RELATION_PROCESS_KEY = "kuali.atp.milestone.relation.process";
-    public static final String[] ATP_MILESTONE_RELATION_PROCESS_STATE_KEYS = {ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY, ATP_MILESTONE_RELATION_INACTIVE_STATE_KEY};
+    public static final String ATP_ATP_RELATION_LIFECYCLE_KEY = "kuali.atp.atp.relation.process";
+    public static final String[] ATP_ATP_RELATION_LIFECYCLE_STATE_KEYS = {ATP_ATP_RELATION_ACTIVE_STATE_KEY, ATP_ATP_RELATION_INACTIVE_STATE_KEY};
 
     public static final String CAMPUS_LOCATION = "CampusLocation";
+    
+    public static final String MILESTONE_KEYDATE_GROUP = "kuali.milestone.type.group.keydate";
 }

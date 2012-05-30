@@ -1,14 +1,17 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+
 import java.io.Serializable;
 
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-
+//This code is for core slice
+//Core slice class.
+@Deprecated
 public class TermWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	String key;
+	String id;
     TermInfo termInfo;
     KeyDateInfo classesMeetDates;
     KeyDateInfo registrationPeriod;
@@ -26,16 +29,16 @@ public class TermWrapper implements Serializable {
 	}
 
     /**
-	 * @return the key
+	 * @return the id
 	 */
-	public String getKey() {
-		return key;
+	public String getId() {
+		return id;
 	}
 	/**
-	 * @param key the key to set. It equals to termInfo.getKey()
+	 * @param id the id to set. It equals to termInfo.getId()
 	 */
-	public void setKey(String key) {
-		this.key = key;
+	public void setId(String id) {
+		this.id = id;
 	}
 	/**
 	 * @return the termInfo
@@ -48,7 +51,7 @@ public class TermWrapper implements Serializable {
 	 */
 	public void setTermInfo(TermInfo termInfo) {
 		this.termInfo = termInfo;
-        this.key = termInfo.getKey();
+        this.id = termInfo.getId();
 	}
 	/**
 	 * @return the classesMeetDates

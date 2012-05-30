@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
+		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -53,16 +53,17 @@ A term is the time period in which a  course may be offered.
 		<property name="titleAttribute" value="name"/>
 		<property name="primaryKeys">
 			<list>
-				<value>key</value>
+				<value>id</value>
 			</list>
 		</property>
 
 		<property name="attributes">
 			<list>
-				<ref bean="TermInfo.key"/>
+				<ref bean="TermInfo.id"/>
 				<ref bean="TermInfo.typeKey"/>
 				<ref bean="TermInfo.stateKey"/>
 				<ref bean="TermInfo.name"/>
+				<ref bean="TermInfo.code"/>
 				<ref bean="TermInfo.startDate"/>
 				<ref bean="TermInfo.endDate"/>
 			</list>
@@ -81,8 +82,8 @@ A term is the time period in which a  course may be offered.
 		</property>
 	</bean>
 
-	<bean id="TermInfo.key-generated" abstract="true" parent="BaseKuali.key">
-		<property name="name" value="key"/>
+	<bean id="TermInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="TermInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
@@ -151,6 +152,23 @@ A description of the entity.
 		<property name="name" value="formatted"/>
 	</bean>
 
+	<bean id="TermInfo.code-generated" abstract="true" parent="BaseKuali.code">
+		<property name="name" value="code"/>
+		<property name="shortLabel" value="Code"/>
+		<property name="summary">
+			<value>
+Gets a display code for this Term.
+			</value>
+		</property>
+		<property name="label" value="Code"/>
+		<property name="description">
+			<value>
+Gets a display code for this Term.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
 	<bean id="TermInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">
 		<property name="name" value="startDate"/>
 		<property name="shortLabel" value="Start Date"/>
@@ -205,7 +223,7 @@ automatically be considered greater than the effective date.
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -225,7 +243,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional

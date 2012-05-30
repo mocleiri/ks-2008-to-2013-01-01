@@ -26,7 +26,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationGroupInfo", propOrder = {"activityOfferingIds", 
-    "courseOfferingId", "registrationCode", "termKey", "formatId", 
+    "courseOfferingId", "registrationCode", "termId", "formatOfferingId",
     "isHonorsOffering", "maximumEnrollment", 
     "minimumEnrollment", "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", 
     "isWaitlistCheckinRequired", "waitlistCheckinFrequency", "id", 
@@ -48,13 +48,13 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     private Integer minimumEnrollment;
 
     @XmlElement
-    private String formatId;
+    private String formatOfferingId;
 
     @XmlElement
     private String registrationCode;
 
     @XmlElement
-    private String termKey;
+    private String termId;
     
     @XmlElement
     private Boolean isHonorsOffering;
@@ -80,14 +80,14 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     public RegistrationGroupInfo() {
         this.activityOfferingIds = new ArrayList<String>();
         this.courseOfferingId = null;
-        this.formatId = null;
+        this.formatOfferingId = null;
         this.hasWaitlist = new Boolean(false);
         this.isHonorsOffering = new Boolean(false);
         this.isWaitlistCheckinRequired = new Boolean(false);
         this.maximumEnrollment = null;
         this.minimumEnrollment = null;
         this.registrationCode = null;
-        this.termKey = null;
+        this.termId = null;
         this.waitlistCheckinFrequency = null;
         this.waitlistMaximum = null;
         this.waitlistTypeKey = null;
@@ -101,14 +101,14 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         
         this.activityOfferingIds = (null != registrationGroup.getActivityOfferingIds()) ? new ArrayList<String>(registrationGroup.getActivityOfferingIds()) : null;
         this.courseOfferingId = registrationGroup.getCourseOfferingId();
-        this.formatId = registrationGroup.getFormatId();
+        this.formatOfferingId = registrationGroup.getFormatOfferingId();
         this.hasWaitlist = registrationGroup.getHasWaitlist();
         this.isHonorsOffering = (null != registrationGroup.getIsHonorsOffering()) ? new Boolean(registrationGroup.getIsHonorsOffering()) : null;
         this.isWaitlistCheckinRequired = (null != registrationGroup.getIsWaitlistCheckinRequired()) ? new Boolean(registrationGroup.getIsWaitlistCheckinRequired()) : null;
         this.maximumEnrollment = registrationGroup.getMaximumEnrollment();
         this.minimumEnrollment = registrationGroup.getMinimumEnrollment();
         this.registrationCode = registrationGroup.getRegistrationCode();
-                this.termKey = registrationGroup.getTermKey();
+                this.termId = registrationGroup.getTermId();
         this.waitlistCheckinFrequency = new TimeAmountInfo(registrationGroup.getWaitlistCheckinFrequency());
         this.waitlistMaximum = registrationGroup.getWaitlistMaximum();
         this.waitlistTypeKey = registrationGroup.getWaitlistTypeKey();
@@ -135,8 +135,8 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     }
 
     @Override
-    public String getFormatId() {
-        return formatId;
+    public String getFormatOfferingId() {
+        return formatOfferingId;
     }
 
     @Override
@@ -145,8 +145,8 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     }
 
    @Override
-    public String getTermKey() {
-        return termKey;
+    public String getTermId() {
+        return termId;
     }
     
     @Override
@@ -195,16 +195,16 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         this.minimumEnrollment = minimumEnrollment;
     }
 
-    public void setFormatId(String formatId) {
-        this.formatId = formatId;
+    public void setFormatOfferingId(String formatOfferingId) {
+        this.formatOfferingId = formatOfferingId;
     }
 
     public void setRegistrationCode(String registrationCode) {
         this.registrationCode = registrationCode;
     }
 
-    public void setTermKey(String termKey) {
-        this.termKey = termKey;
+    public void setTermId(String termId) {
+        this.termId = termId;
     }
 
     public void setIsHonorsOffering(Boolean isHonorsOffering) {

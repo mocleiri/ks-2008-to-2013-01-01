@@ -15,10 +15,11 @@
 
 package org.kuali.student.r2.core.scheduling.infc;
 
-import java.util.List;
-
-import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.DateRange;
+import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+
+import java.util.List;
 
 
 /**
@@ -31,43 +32,46 @@ import org.kuali.student.r2.common.infc.DateRange;
 public interface Schedule extends IdEntity {
 
     /**
-     * The ATP key. Schedule Components are applied to this ATP.
+     * The ATP Id. Schedule Components are applied to this ATP.
      *
-     * @name Atp Key
+     * @name Atp Id
      * @required
      */
-    public String getAtpKey();
+    public String getAtpId();
 
     /**
-     * The Schedule Component Ids. These provide a list of Time Slots
+     * The Schedule Components. These provide a list of Time Slots
      * coupled with Room locations.
      *
-     * @name Schedule Component Ids
+     * @name Schedule Components
      */
-    public List<String> getScheduleComponentIds();
+    public List<ScheduleComponentInfo> getScheduleComponents();
 
     /**
      * A list of blackout dates where a meeting time implied by the
      * ScheduleComponent is skipped.
      *
      * @name Blackout Dates
+     * @deprecated Should this point to a shared set (not really
+     *              deprecated, but ignorable for now.
      */
-    public List<DateRange> getBlackoutDates();
+    public List<? extends DateRange> getBlackoutDates();
 
     /**
-     * A list of Milestone keys where a meeting time that occurs
+     * A list of Milestone Ids where a meeting time that occurs
      * within a Milestone is considered a blackout date. Milestones of
      * any of the Milestone Types that exist in the related ATP are
      * used to determine the blackout dates.
      *
-     * @name Blackout Milestone Keys
+     * @name Blackout Milestone Ids
+     * @deprecated  Should this point to a shared set (think about the common case of lectures usually having the same non-instructional days)?
      */
-    public List<String> getBlackoutMilestoneKeys();
+    public List<String> getBlackoutMilestoneIds();
 
     /**
      * A list of one-time MeetingTimes to add to this Schedule.
      *
      * @name Meeting Times
      */
-    public List<MeetingTime> getMeetingTimes();
+    public List<? extends MeetingTime> getAdditionalMeetingTimes();
 }

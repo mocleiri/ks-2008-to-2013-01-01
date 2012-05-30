@@ -15,8 +15,10 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
+import org.kuali.rice.krad.keyvalues.IndicatorPersonSearchTypeValuesFinder;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
 /**
  * Lui Service Constants
@@ -35,8 +37,10 @@ public class LuiServiceConstants {
      */
 //    public static final String COURSE_BUNDLE_TYPE_KEY = "kuali.lui.type.course.bundle";
     public static final String COURSE_OFFERING_TYPE_KEY = "kuali.lui.type.course.offering";
+     public static final String FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.format.offering";
     public static final String REGISTRATION_GROUP_TYPE_KEY = "kuali.lui.type.registration.group";
 //    public static final String COURSE_FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
+    public static final String ACTIVITY_OFFERING_GROUP_TYPE_KEY = "kuali.lui.type.grouping.activity";
 
     /**
      * Activity types
@@ -63,6 +67,7 @@ public class LuiServiceConstants {
     public static final String SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.selfpaced";
     public static final String COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.compbased";
     public static final String VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.videoconf";
+    public static final String ACTIVITY_OFFERING_TYPE_KEY_PREFIX = "kuali.lui.type.activity.offering.";
     public static final String[] ALL_ACTIVITY_TYPES = {
         LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
         LAB_ACTIVITY_OFFERING_TYPE_KEY,
@@ -164,5 +169,11 @@ public class LuiServiceConstants {
      *  Registration ordering types?
      */
     public static final String ALL_REGISTRATION_ORDERING_TYPE_KEY = "kuali.registration.ordering.type.all";
-//    public static final String SEQUENCED_REGISTRATION_ORDERING_TYPE_KEY = "kuali.registration.ordering.type.sequenced";    
+//    public static final String SEQUENCED_REGISTRATION_ORDERING_TYPE_KEY = "kuali.registration.ordering.type.sequenced";   
+    
+    /**
+     * known lu codes
+     */
+    public static final String HONORS_LU_CODE = "kuali.lu.code.honorsOffering";
+
 }

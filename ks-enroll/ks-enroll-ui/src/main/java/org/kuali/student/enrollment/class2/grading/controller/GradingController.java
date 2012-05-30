@@ -12,7 +12,6 @@ package org.kuali.student.enrollment.class2.grading.controller;
  */
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -38,27 +37,6 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/grading")
 public class GradingController extends UifControllerBase {
-
-    @Override
-    public UifFormBase initForm(HttpServletRequest request) {
-        UifFormBase form = null;
-        String formKeyParam = request.getParameter(UifParameters.FORM_KEY);
-
-        if (StringUtils.isNotBlank(formKeyParam)) {
-            return super.initForm(request);
-        } else {
-            form = createInitialForm(request);
-        }
-
-        return form;
-    }
-
-    // TODO: RICE=M9 UPGRADE check back on this method once rice 2.0 beta is complete
-//    @Override
-    protected Class<? extends UifFormBase> formType() {
-        return GradingForm.class;
-    }
-
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         if (StringUtils.equals(httpServletRequest.getParameter("viewId"), "StudentGradeView")) {
             return new StudentGradeForm();
@@ -96,7 +74,7 @@ public class GradingController extends UifControllerBase {
         resetValuesForPageChange(gradingForm);
 
         //FIXME: Just a workaround as the propertyreplacer not working
-        gradingForm.setTitle(selectedCourse.getCourseOfferingCode() + " - " + selectedCourse.getCourseTitle());
+        gradingForm.setTitle(selectedCourse.getCourseOfferingCode() + " - " + selectedCourse.getCourseOfferingTitle());
 
         List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadStudents(courseId,gradingForm);
 
@@ -164,6 +142,15 @@ public class GradingController extends UifControllerBase {
         gradingForm.setRenderFullView(false);
 
         return getUIFModelAndView(gradingForm, GradingConstants.GRADE_ROSTER_PAGE);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall="  + GradingConstants.LOAD_COURSES_METHOD)
+    public ModelAndView loadCourses(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadCourses(gradingForm);
+        return getUIFModelAndView(gradingForm, GradingConstants.SELECT_COURSE_OFFERING_PAGE);
+
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall="  + GradingConstants.SUBMIT_METHOD)

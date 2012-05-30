@@ -1,3 +1,18 @@
+/**
+ * Copyright 2011 The Kuali Foundation
+ *
+ * Licensed under the the Educational Community License, Version 1.0
+ * (the "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
@@ -5,33 +20,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.util.UUIDHelper;
+
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
-import org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao;
-import org.kuali.student.enrollment.class1.lui.dao.LuiTypeDao;
 import org.kuali.student.enrollment.class1.lui.model.LuCodeEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
-import org.kuali.student.enrollment.class1.lui.model.LuiRichTextEntity;
-import org.kuali.student.enrollment.class1.lui.model.LuiTypeEntity;
-import org.kuali.student.enrollment.class1.lui.model.MeetingScheduleEntity;
+
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.r2.common.dao.TypeTypeRelationDao;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
+
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.entity.BaseAttributeEntity;
-import org.kuali.student.r2.common.entity.TypeEntity;
-import org.kuali.student.r2.common.entity.TypeTypeRelationEntity;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -40,708 +46,674 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.model.StateEntity;
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.lum.lu.service.LuService;
+
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-public class LuiServiceImpl implements LuiService {
-	private LuiDao luiDao;
-	private LuiRichTextDao luiRichTextDao;
-	private LuiTypeDao luiTypeDao;
-	private LuiLuiRelationDao luiLuiRelationDao;
-	private StateService stateService;
-	private TypeTypeRelationDao typeTypeRelationDao;
-	private AtpService atpService;
-	private LuService luService;
-	
-	public LuiDao getLuiDao() {
-		return luiDao;
-	}	
-	public void setLuiDao(LuiDao luiDao) {
-		this.luiDao = luiDao;
-	}
-	
-	public LuiRichTextDao getLuiRichTextDao() {
-		return luiRichTextDao;
-	}
-	public void setLuiRichTextDao(LuiRichTextDao luiRichTextDao) {
-		this.luiRichTextDao = luiRichTextDao;
-	}
-	
-	public LuiTypeDao getLuiTypeDao() {
-		return luiTypeDao;
-	}
-	public void setLuiTypeDao(LuiTypeDao luiTypeDao) {
-		this.luiTypeDao = luiTypeDao;
-	}
-	
-	public LuiLuiRelationDao getLuiLuiRelationDao() {
-		return luiLuiRelationDao;
-	}
-	public void setLuiLuiRelationDao(LuiLuiRelationDao luiLuiRelationDao) {
-		this.luiLuiRelationDao = luiLuiRelationDao;
-	}
-	
-	public StateService getStateService() {
-		return stateService;
-	}
-	public void setStateService(StateService stateService) {
-		this.stateService = stateService;
-	}
-	
-	public TypeTypeRelationDao getTypeTypeRelationDao() {
-		return typeTypeRelationDao;
-	}
-	public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
-		this.typeTypeRelationDao = typeTypeRelationDao;
-	}
-	
-	public AtpService getAtpService() {
-		return atpService;
-	}
-	public void setAtpService(AtpService atpService) {
-		this.atpService = atpService;
-	}
-	
-	public LuService getLuService() {
-		return luService;
-	}
-	public void setLuService(LuService luService) {
-		this.luService = luService;
-	}
 
-	@Override
-	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-			throws OperationFailedException, MissingParameterException,
-			PermissionDeniedException {
-	    return new ArrayList<String>();
-	}
+public class LuiServiceImpl 
+    implements LuiService {
 
-	@Override
-	public DictionaryEntryInfo getDataDictionaryEntry(String entryKey,
-			ContextInfo context) throws OperationFailedException,
-			MissingParameterException, PermissionDeniedException,
-			DoesNotExistException {
-	    return null;
-	}
+    private LuiDao luiDao;
+    private LuiLuiRelationDao luiLuiRelationDao;
 
-	@Override
-	public TypeInfo getType(String typeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-	    return null;
-	}
+    public LuiDao getLuiDao() {
+        return luiDao;
+    }
 
-	@Override
-	public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        List<LuiTypeEntity> luiTypeEntities = luiTypeDao.getLuiTypesByRefObjectUri(refObjectURI);
-        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-        for (LuiTypeEntity luiTypeEntity : luiTypeEntities) {
-            typeInfos.add(luiTypeEntity.toDto());
-        }
+    public void setLuiDao(LuiDao luiDao) {
+        this.luiDao = luiDao;
+    }
 
-        return typeInfos;
-	}
+    public LuiLuiRelationDao getLuiLuiRelationDao() {
+        return luiLuiRelationDao;
+    }
 
-	@Override
-	public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey,
-			String relatedRefObjectURI, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		
-        if ( ! relatedRefObjectURI.startsWith(LuiServiceConstants.NAMESPACE) ) {
-            throw new DoesNotExistException("This method does not know how to handle object type:"
-                    + relatedRefObjectURI);
-        }
+    public void setLuiLuiRelationDao(LuiLuiRelationDao luiLuiRelationDao) {
+        this.luiLuiRelationDao = luiLuiRelationDao;
+    }
 
-        // get the TypeTypeRelations
-        List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao
-                .getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
-                        TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
-        
-//        System.out.println(">>> in LuiServiceImpl.getAllowedTypesForType,find typeTypeRelations.size() = "+typeTypeRelations.size()+
-//        		" for ownerTypeKey="+ownerTypeKey+" and RelationType="+TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
-        
-        // create a List of the related Types' IDs
-        List<String> ids = new ArrayList<String>();
-        for (TypeTypeRelationEntity entity : typeTypeRelations) {
-            ids.add(entity.getRelatedTypeId());
-        }
+    @Override
+    @Transactional(readOnly = true)
+    public LuiInfo getLui(String luiId, ContextInfo context) 
+        throws DoesNotExistException, InvalidParameterException, 
+               MissingParameterException, OperationFailedException, 
+               PermissionDeniedException {
 
-        // now get the List of the related Types based on those IDs
-        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
-       	typeEntities.addAll(luiTypeDao.findByIds(ids));
-
-        // convert them to DTOs and return them
-        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-        for (TypeEntity<? extends BaseAttributeEntity<?>> entity : typeEntities) {
-            typeInfos.add(entity.toDto());
-        }
-        
-        return typeInfos;
-	}
-
-	@Override
-	public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(
-			String ownerTypeKey, String relationTypeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-	    return new ArrayList<TypeTypeRelationInfo>();
-	}
-
-	@Override
-	public LuiInfo getLui(String luiId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		LuiEntity lui = luiDao.find(luiId);
+        LuiEntity lui = luiDao.find(luiId);
         if (null == lui) {
             throw new DoesNotExistException(luiId);
         }
 
-        LuiInfo dto = lui.toDto();
-        if(lui.getOfficialIdentifier() != null) {
-            dto.setOfficialIdentifier(lui.getOfficialIdentifier().toDto());
-        }
+        return lui.toDto();
+    }
 
-        return dto;
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public List<LuiInfo> getLuisByIds(List<String> luiIds, ContextInfo context) 
+        throws DoesNotExistException, InvalidParameterException, 
+               MissingParameterException, OperationFailedException, 
+               PermissionDeniedException {
 
-	@Override
-	public List<LuiInfo> getLuisByIdList(List<String> luiIdList,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-
-        List<LuiEntity> entityList = luiDao.findByIds(luiIdList);
+        List<LuiEntity> entityList = luiDao.findByIds(luiIds);
         List<LuiInfo> infoList = new ArrayList<LuiInfo>();
 
-        for (LuiEntity luiEntity : entityList){
+
+        for (LuiEntity luiEntity : entityList) {
+
             infoList.add(luiEntity.toDto());
         }
 
         return infoList;
-	}
+    }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getLuiIdsByType(String luiTypeKey, ContextInfo context) 
-	    throws DoesNotExistException, InvalidParameterException, 
-		   MissingParameterException, OperationFailedException {
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
 
         // make sure the given type key is a valid lui type
-        findType(luiTypeKey);
 
         List<LuiEntity> luis = luiDao.getLuisByType(luiTypeKey);
-
         List<String> luiIds = new ArrayList<String>();
 
-        for(LuiEntity lui : luis) {
+        for (LuiEntity lui : luis) {
             luiIds.add(lui.getId());
         }
 
         return luiIds;
-	}
-
-	@Override
-	public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-	    return new ArrayList<LuiInfo>();
-	}
-
-	@Override
-	public List<String> getLuiIdsByCluId(String cluId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-	    return new ArrayList<String>();
-	}
-
-	@Override
-	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-	    return new ArrayList<String>();
-	}
-
-	@Override
-	public List<LuiInfo> getLuisByRelation(String relatedLuiId,
-			String luLuRelationTypeKey, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        List<LuiEntity> entityList = luiLuiRelationDao.getLuisByRelation(relatedLuiId, luLuRelationTypeKey);
-        
-        List<LuiInfo> infoList = new ArrayList<LuiInfo>();
-        if(entityList != null && !entityList.isEmpty()){
-	        for (LuiEntity entity : entityList){
-	             infoList.add(entity.toDto());
-	        }
-       
-        }
-        return infoList;
-	}
-
-	@Override
-	public List<String> getLuiIdsByRelation(String relatedLuiId,
-			String luLuRelationTypeKey, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        List<String> returnVals = new ArrayList<String>();
-
-        returnVals.addAll(luiLuiRelationDao.getLuiIdsByRelation(relatedLuiId, luLuRelationTypeKey));
-        return returnVals;
-	}
-
-	@Override
-	public List<LuiInfo> getRelatedLuisByLuiId(String luiId,
-			String luLuRelationTypeKey, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-	    return new ArrayList<LuiInfo>();
-	}
-
-	@Override
-	public List<String> getRelatedLuiIdsByLuiId(String luiId,
-			String luLuRelationTypeKey, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        List<String> returnVals = new ArrayList<String>();
-        returnVals.addAll(luiLuiRelationDao.getRelatedLuisByLuiId(luiId, luLuRelationTypeKey));
-	    return returnVals;
-	}
-
-	@Override
-	public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        LuiLuiRelationEntity obj = luiLuiRelationDao.find(luiLuiRelationId);
-        if (null == obj) {
-            throw new DoesNotExistException(luiLuiRelationId);
-        }
-        return obj.toDto();
-	}
+    }
 
     @Override
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(List<String> luiLuiRelationIdList, ContextInfo context) 
-		    throws DoesNotExistException, InvalidParameterException, 
-		           MissingParameterException, OperationFailedException {
-	    return new ArrayList<LuiLuiRelationInfo>();
-	}
+    @Transactional(readOnly = true)
+    public List<String> getLuiIdsByClu(String cluId, ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
 
-    @Override
-    public List<String> getLuiLuiRelationIdsByType(String luiLuiRelationTypeKey, ContextInfo context) 
-	    throws DoesNotExistException, InvalidParameterException, 
-		       MissingParameterException, OperationFailedException {
-	    return new ArrayList<String>();
-	}
+        List<LuiEntity> luis = luiDao.getLuisByClu(cluId);
+        List<String> luiIds = new ArrayList<String>();
 
-	@Override
-	public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-
-        // Ensure the lui id is valid
-        getLui(luiId, context);
-		
-        List<LuiLuiRelationEntity> relEntities = luiLuiRelationDao.getLuiLuiRelationsByLui(luiId);
-        List<LuiLuiRelationInfo> relInfos = new ArrayList<LuiLuiRelationInfo>();
-        if(relEntities != null && !relEntities.isEmpty()){
-	        for (LuiLuiRelationEntity relEntity : relEntities) {
-	        	LuiLuiRelationInfo relInfo = relEntity.toDto();
-	            relInfos.add(relInfo);
-	        }
+        for (LuiEntity lui : luis) {
+            luiIds.add(lui.getId());
         }
 
-       	return relInfos;
-	}
-
-
-    @Override
-    public List<String> searchForLuiIds(QueryByCriteria criteria, ContextInfo context) 
-	throws InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException {
-
-	return new ArrayList<String>();
+        return luiIds;
     }
 
     @Override
-    public List<LuiInfo> searchForLuis(QueryByCriteria criteria, ContextInfo context) 
-	throws InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly = true)
+    public List<String> getLuiIdsByAtpAndType(String atpId, String typeKey, 
+                                              ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
 
-	return new ArrayList<LuiInfo>();
-    }
+        List<LuiEntity> luis = luiDao.getLuisByAtpAndType(atpId, typeKey);
+        List<String> luiIds = new ArrayList<String>();
 
-	@Override
-	public List<ValidationResultInfo> validateLui(String validationType,
-			LuiInfo luiInfo, ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-	    return new ArrayList<ValidationResultInfo>();
-	}
-
-    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException{
-    	StateEntity state = null;
-		try {
-			StateInfo stInfo = stateService.getState(processKey, stateKey, context);
-        	if(stInfo != null){
-        		state = new StateEntity(stInfo);
-        		return state;
-        	}
-        	else
-        		throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
-		} catch (DoesNotExistException e) {
-			throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
-		}			
-    }
-
-    private LuiTypeEntity findType(String typeId)throws OperationFailedException{
-    	LuiTypeEntity type = luiTypeDao.find(typeId);
-    	if(null != type)
-    		return type;
-    	else
-    		throw new OperationFailedException("The type does not exist. type " + typeId);
-    }
-    
-    //TODO:call LuService 
-    private boolean checkExistenceForClu(String cluId, ContextInfo context){
-    	//clu = luService.getClu(cluId, context);
-    	return true;
-    }
-    
-    private boolean checkExistenceForAtp(String atpKey, ContextInfo context) throws DoesNotExistException,
-	InvalidParameterException, MissingParameterException,
-	OperationFailedException, PermissionDeniedException {
- /*   	boolean existing = false;
-    	try {
-			AtpInfo atp = atpService.getAtp(atpKey, context);
-			
-			if(atp != null)
-				existing = true;
-			else
-				throw new DoesNotExistException("The ATP does not exist. atp " + atpKey);
-		} catch (DoesNotExistException e) {
-			throw new DoesNotExistException("The ATP does not exist. atp " + atpKey);
-		} catch (InvalidParameterException e) {
-		} catch (MissingParameterException e) {
-		} catch (OperationFailedException e) {
-		} catch (PermissionDeniedException e) {
-		}
-		
-		return existing; */
-    	
-    	return true;
-    }
-    
-	@Override
-	@Transactional
-	public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo,
-			ContextInfo context) throws AlreadyExistsException,
-			DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-        LuiEntity entity = new LuiEntity(luiInfo);
-        entity.setId(UUIDHelper.genStringUUID());
-        
-        if( null != cluId && checkExistenceForClu(cluId, context))
-        	entity.setCluId(cluId);
-        
-        if(null != atpKey && checkExistenceForAtp(atpKey, context))
-        	entity.setAtpKey(atpKey);
-
-        if (null != luiInfo.getStateKey())
-        	entity.setLuiState(findState(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, luiInfo.getStateKey(), context));
-        
-        if (null != luiInfo.getTypeKey())
-        	entity.setLuiType(findType(luiInfo.getTypeKey()));
-
-        if (null != luiInfo.getDescr())
-        	entity.setDescr(new LuiRichTextEntity(luiInfo.getDescr()));
-        
-        if (null != luiInfo.getLuiCodes() && !luiInfo.getLuiCodes().isEmpty()){
-        	for (LuCodeEntity luiCode : entity.getLuCodes()){
-        		luiCode.setLui(entity);
-        	}
+        for (LuiEntity lui : luis) {
+            luiIds.add(lui.getId());
         }
 
-        if (null != luiInfo.getMeetingSchedules() && !luiInfo.getMeetingSchedules().isEmpty()){
-        	for (MeetingScheduleEntity schedule : entity.getMeetingSchedules()){
-        		schedule.setLui(entity);
-        	}
+        return luiIds;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> getLuiIdsByAtpAndClu(String cluId, String atpId,ContextInfo context)
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        List<LuiEntity> luis = luiDao.getLuisByAtpAndClu(atpId, cluId);
+        List<String> luiIds = new ArrayList<String>();
+
+        for (LuiEntity lui : luis) {
+            luiIds.add(lui.getId());
         }
 
-        LuiEntity existing = luiDao.find(entity.getId());
-        if( existing != null) {
-            throw new AlreadyExistsException();
-	    }
-        luiDao.persist(entity);
-        
-        return luiDao.find(entity.getId()).toDto();
-	}
+        return luiIds;
+    }
 
-	@Override
-	@Transactional
-	public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo context)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
-    	LuiEntity entity = luiDao.find(luiId);
-        
-        if( null != entity){
-        	LuiEntity modifiedEntity = new LuiEntity(luiInfo);
-        	String cluId = luiInfo.getCluId();
-            if( null != cluId && checkExistenceForClu(cluId, context))
-            	modifiedEntity.setCluId(cluId);
-            
-            String atpKey = luiInfo.getAtpKey();
-            if(null != atpKey && checkExistenceForAtp(atpKey, context))
-            	modifiedEntity.setAtpKey(atpKey);
+    @Override
+    @Transactional(readOnly = true)
+    public List<LuiInfo> getLuisByAtpAndClu(String cluId, String atpId, 
+                                            ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
 
-            if (null != luiInfo.getStateKey())
-            	modifiedEntity.setLuiState(findState(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, luiInfo.getStateKey(), context));
-            
-            if (null != luiInfo.getTypeKey())
-            	modifiedEntity.setLuiType(findType(luiInfo.getTypeKey()));
-
-            if (null != luiInfo.getLuiCodes() && !luiInfo.getLuiCodes().isEmpty()){
-            	for (LuCodeEntity luiCode : modifiedEntity.getLuCodes()){
-            		luiCode.setLui(modifiedEntity);
-            	}
-            }
-
-            if (null != luiInfo.getMeetingSchedules() && !luiInfo.getMeetingSchedules().isEmpty()){
-            	for (MeetingScheduleEntity schedule : modifiedEntity.getMeetingSchedules()){
-            		schedule.setLui(modifiedEntity);
-            	}
-            }
-            
-            luiDao.merge(modifiedEntity);
-	        return luiDao.find(modifiedEntity.getId()).toDto();
+        List<LuiEntity> luiEntities = luiDao.getLuisByAtpAndClu(atpId, cluId);
+        List<LuiInfo> luiInfos = new ArrayList<LuiInfo>();
+        for(LuiEntity luiEntity: luiEntities){
+            luiInfos.add(luiEntity.toDto());
         }
-        else
-            throw new DoesNotExistException(luiId);
-	}
+      return luiInfos;
 
-	@Override
-	@Transactional
-	public StatusInfo deleteLui(String luiId, ContextInfo context)
-			throws DependentObjectsExistException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-        StatusInfo status = new StatusInfo();
-        status.setSuccess(Boolean.TRUE);
-        
-        LuiEntity entity = luiDao.find(luiId);
-        if( null != entity){
-        	List<LuiLuiRelationEntity> rels = luiLuiRelationDao.getLuiLuiRelationsByLui(luiId);
-            if (null != rels && !rels.isEmpty()) {
-                for (LuiLuiRelationEntity rel : rels)
-                	luiLuiRelationDao.remove(rel);
-            }
-            
-            luiDao.remove(entity);
-        }
-        else
-            throw new DoesNotExistException(luiId);
-        
-        return status;
-	}
-
-	@Override
-	public LuiInfo updateLuiState(String luiId, String luState,
-			ContextInfo context) throws DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-	    return null;
-	}
-
-    @Override
-    public List<String> searchForLuiLuiRelationIds(QueryByCriteria criteria, ContextInfo context) 
-	throws InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException {
-
-	return new ArrayList<String>();
     }
 
     @Override
-    public List<LuiLuiRelationInfo> searchForLuiLuiRelations(QueryByCriteria criteria, ContextInfo context) 
-	throws InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException {
-
-	return new ArrayList<LuiLuiRelationInfo>();
-    }
-
-	@Override
-	public List<ValidationResultInfo> validateLuiLuiRelation(
-			String validationType, LuiLuiRelationInfo luiLuiRelationInfo,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-	    return new ArrayList<ValidationResultInfo>();
-	}
-
-    private boolean checkExistenceForRelation(LuiLuiRelationInfo relationInfo) {
-        boolean existing = false;
-
-        List<LuiLuiRelationEntity> rels = luiLuiRelationDao.getLuiLuiRelationsByLui(relationInfo.getLuiId());
-
-        if (rels != null && !rels.isEmpty()) {
-            for (LuiLuiRelationEntity rel : rels) {
-            	if(rel.getLui().getId().equals(relationInfo.getLuiId()) && rel.getRelatedLui().getId().equals(relationInfo.getRelatedLuiId())){
-                    existing = true;
-                    break;
-
-            	}
-            }
-        }
-
-        return existing;
-    }
-	@Override
-	@Transactional
-	public LuiLuiRelationInfo createLuiLuiRelation(String luiId,
-			String relatedLuiId, String luLuRelationTypeKey,
-			LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
-			throws AlreadyExistsException, CircularRelationshipException,
-			DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		
-        if (!checkExistenceForRelation(luiLuiRelationInfo)) {
-            LuiLuiRelationEntity entity = new LuiLuiRelationEntity(luiLuiRelationInfo);
-            entity.setId(UUIDHelper.genStringUUID());
-
-            if (null != luiLuiRelationInfo.getStateKey()) {
-                entity.setLuiLuiRelationState(findState(LuiServiceConstants.LUI_LUI_RELATION_PROCESS_KEY, luiLuiRelationInfo.getStateKey(), context));
-            }
-            if (null != luiLuiRelationInfo.getTypeKey()) {
-            	entity.setLuiLuiRelationType(findType(luiLuiRelationInfo.getTypeKey()));
-            }
-            if (null != luiLuiRelationInfo.getLuiId()) {
-            	entity.setLui(luiDao.find(luiLuiRelationInfo.getLuiId()));
-            }
-            if (null != luiLuiRelationInfo.getRelatedLuiId()) {
-            	entity.setRelatedLui(luiDao.find(luiLuiRelationInfo.getRelatedLuiId()));
-            }
-
-            luiLuiRelationDao.persist(entity);
-
-            return luiLuiRelationDao.find(entity.getId()).toDto();
-        } else
-            throw new AlreadyExistsException("The Lui-Lui relation already exists. lui="
-                    + luiLuiRelationInfo.getLuiId() + ", relatedLui=" + luiLuiRelationInfo.getRelatedLuiId());
-
-	}
-
-	@Override
-	@Transactional
-	public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId,
-			LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
-	    return null;
-	}
-
-	@Override
-	@Transactional
-	public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-        StatusInfo status = new StatusInfo();
-        status.setSuccess(Boolean.TRUE);
-
-        LuiLuiRelationEntity obj = luiLuiRelationDao.find(luiLuiRelationId);
-        if (obj != null)
-        	luiLuiRelationDao.remove(obj);
-        else
-            throw new DoesNotExistException(luiLuiRelationId);
-
-        return status;
-	}
-
-    @Override
-    public LuiCapacityInfo getLuiCapacity(String luiCapacityId, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, 
-	       MissingParameterException, OperationFailedException {
-        return null;
-    }
-
-    @Override
-    public List<LuiCapacityInfo> getLuiCapacitiesByIdList(List<String> luiCapacityIdList, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, 
-	       MissingParameterException, OperationFailedException {
-        return new ArrayList<LuiCapacityInfo>();
-    }
-
-    @Override
-    public List<String> getLuiCapacityIdsByType(String luiCapacityTypeKey, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, 
-	       MissingParameterException, OperationFailedException {
+    @Transactional(readOnly = true)
+    public List<String> searchForLuiIds(QueryByCriteria criteria, 
+                                        ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
         return new ArrayList<String>();
     }
 
     @Override
-    public List<String> searchForLuiCapacityIds(QueryByCriteria criteria, ContextInfo context) 
-	throws InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly = true)
+    public List<LuiInfo> searchForLuis(QueryByCriteria criteria, 
+                                       ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
 
-	return new ArrayList<String>();
+        return new ArrayList<LuiInfo>();
     }
 
     @Override
-    public List<LuiCapacityInfo> searchForLuiCapacities(QueryByCriteria criteria, ContextInfo context) 
-	throws InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException {
-
-	return new ArrayList<LuiCapacityInfo>();
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateLuiCapacity(String validationType, LuiCapacityInfo luiCapacityInfo, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, 
-	       MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateLui(String validationTypeKey, 
+                                                  String luiTypeKey, 
+                                                  String cluId, 
+                                                  String atpId, 
+                                                  LuiInfo luiInfo, 
+                                                  ContextInfo context) 
+        throws DoesNotExistException, InvalidParameterException, 
+               MissingParameterException, OperationFailedException, 
+               PermissionDeniedException {
         return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
-    public LuiCapacityInfo createLuiCapacity(LuiCapacityInfo luiCapacityInfo, ContextInfo context) 
-	throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, 
-	       InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException {
-        return null;
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public LuiInfo createLui(String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo context) 
+        throws DataValidationErrorException, DoesNotExistException, 
+               InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException, 
+               ReadOnlyException {
+
+        if (!cluId.equals(luiInfo.getCluId())) {
+            throw new InvalidParameterException(cluId + " does not match the cluId in the info object " + luiInfo.getCluId());
+        }
+        if (!atpId.equals(luiInfo.getAtpId())) {
+            throw new InvalidParameterException(atpId + " does not match the atp in the info object " + luiInfo.getAtpId());
+        }
+        if (!luiTypeKey.equals(luiInfo.getTypeKey())) {
+            throw new InvalidParameterException(luiTypeKey + " does not match the type in the info object " + luiInfo.getTypeKey());
+        }
+
+        LuiEntity entity = new LuiEntity(luiInfo);
+        entity.setAtpId(atpId);
+        entity.setCluId(cluId);
+        entity.setLuiType(luiTypeKey);
+        entity.setCreateId(context.getPrincipalId());
+        entity.setCreateTime(context.getCurrentDate());
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
+        if(entity.getIdentifiers() != null){
+            for(LuiIdentifierEntity ident:entity.getIdentifiers()){
+                ident.setCreateId(context.getPrincipalId());
+                ident.setCreateTime(context.getCurrentDate());
+                ident.setUpdateId(context.getPrincipalId());
+                ident.setUpdateTime(context.getCurrentDate());
+            }
+        }
+        if(entity.getLuiCodes() != null){
+            for(LuCodeEntity code : entity.getLuiCodes()){
+                code.setCreateId(context.getPrincipalId());
+                code.setCreateTime(context.getCurrentDate());
+                code.setUpdateId(context.getPrincipalId());
+                code.setUpdateTime(context.getCurrentDate());
+            }
+        }
+
+
+        luiDao.persist(entity);
+
+        return entity.toDto();
     }
 
     @Override
-    public LuiCapacityInfo updateLuiCapacity(String luiCapacityId, LuiCapacityInfo luiCapacityInfo, ContextInfo context) 
-	throws DataValidationErrorException, DoesNotExistException, 
-	       InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException, 
-	       VersionMismatchException {
-        return null;
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo context) 
+        throws DataValidationErrorException, DoesNotExistException, 
+               InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException, 
+               ReadOnlyException, VersionMismatchException {
+
+        LuiEntity entity = luiDao.find(luiId);
+
+        if (!luiId.equals(luiInfo.getId())) {
+            throw new InvalidParameterException(luiId + " does not match the id on the object " + luiInfo.getId());
+        }
+        if (null == entity) {
+            throw new DoesNotExistException(luiId);
+        }
+
+        //Transform the DTO to the entity
+        List<Object> orphans = entity.fromDto(luiInfo);
+
+        //Delete any orphaned children
+        for(Object orphan : orphans){
+            luiDao.getEm().remove(orphan);
+        }
+
+        //Update any Meta information
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
+
+        if(entity.getIdentifiers() != null){
+            for(LuiIdentifierEntity ident:entity.getIdentifiers()){
+                ident.setUpdateId(context.getPrincipalId());
+                ident.setUpdateTime(context.getCurrentDate());
+            }
+        }
+        if(entity.getLuiCodes() != null){
+            for(LuCodeEntity code : entity.getLuiCodes()){
+                code.setUpdateId(context.getPrincipalId());
+                code.setUpdateTime(context.getCurrentDate());
+            }
+        }
+
+        //Perform the merge
+        entity = luiDao.merge(entity);
+
+        return entity.toDto();
     }
 
     @Override
-    public StatusInfo deleteLuiCapacity(String luiCapacityId, ContextInfo context) 
-	throws DependentObjectsExistException, DoesNotExistException, 
-	       InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException {
-        return null;
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public StatusInfo deleteLui(String luiId, ContextInfo context) 
+        throws DependentObjectsExistException, DoesNotExistException, 
+               InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        LuiEntity entity = luiDao.find(luiId);
+        if (null == entity) {
+            throw new DoesNotExistException(luiId);
+        }
+        List<LuiLuiRelationEntity> rels = luiLuiRelationDao.getLuiLuiRelationsByLui(luiId);
+        for (LuiLuiRelationEntity rel : rels) {
+            luiLuiRelationDao.remove(rel);
+        }
+        luiDao.remove(entity);
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        return status;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId, 
+                                                ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        return luiLuiRelationDao.find(luiLuiRelationId).toDto();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIds(List<String> luiLuiRelationIds, 
+                                                            ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> getLuiLuiRelationIdsByType(String luiLuiRelationTypeKey, 
+                                                   ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId, 
+                                                            ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException { 
+
+
+
+        List<LuiLuiRelationEntity> relEntities = luiLuiRelationDao.getLuiLuiRelationsByLui(luiId);
+        List<LuiLuiRelationInfo> relInfos = new ArrayList<LuiLuiRelationInfo>();
+        if (relEntities != null && !relEntities.isEmpty()) {
+            for (LuiLuiRelationEntity relEntity : relEntities) {
+                LuiLuiRelationInfo relInfo = relEntity.toDto();
+                relInfos.add(relInfo);
+            }
+        }
+        return relInfos;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLuiAndRelatedLui(String luiId,
+                                                                         String relatedLuiId,
+                                                                         ContextInfo context)
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException { 
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<LuiInfo> getLuiLuiRelationsByLuiAndRelatedLuiType(String luiId,
+                                                                  String relatedLuiTypeKey,
+                                                                  ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LuiInfo> getLuisByRelatedLuiAndRelationType(String relatedLuiId,
+                                                            String luiLuiRelationTypeKey,
+                                                            ContextInfo context)
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+        
+        List<LuiEntity> entityList = luiLuiRelationDao.getLuisByRelation(relatedLuiId, luiLuiRelationTypeKey);
+        List<LuiInfo> infoList = new ArrayList<LuiInfo>();
+        if (entityList != null && !entityList.isEmpty()) {
+            for (LuiEntity entity : entityList) {
+                infoList.add(entity.toDto());
+            }
+
+        }
+
+        return infoList;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> getLuiIdsByRelatedLuiAndRelationType(String relatedLuiId,
+                                                             String luiLuiRelationTypeKey,
+                                                             ContextInfo context)
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        List<String> returnVals = new ArrayList<String>();
+        returnVals.addAll(luiLuiRelationDao.getLuiIdsByRelation(relatedLuiId, luiLuiRelationTypeKey));
+        return returnVals;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> getLuiIdsByLuiAndRelationType(String luiId,
+                                                      String luiLuiRelationTypeKey,
+                                                      ContextInfo context)
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        List<String> returnVals = new ArrayList<String>();
+        returnVals.addAll(luiLuiRelationDao.getRelatedLuisByLuiId(luiId, luiLuiRelationTypeKey));
+        return returnVals;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LuiInfo> getRelatedLuisByLuiAndRelationType(String luiId,
+                                                            String luiLuiRelationTypeKey,
+                                                            ContextInfo context)
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        List<LuiInfo> relatedLuis =  new ArrayList<LuiInfo>();
+        List<LuiEntity> relatedLuiEntities =  luiLuiRelationDao.getRelatedLuisByLuiIdAndRelationType(luiId,luiLuiRelationTypeKey ) ;
+        for(LuiEntity relatedLuiEntity : relatedLuiEntities) {
+            relatedLuis.add(relatedLuiEntity.toDto());
+        }
+
+        return  relatedLuis;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> searchForLuiLuiRelationIds(QueryByCriteria criteria, 
+                                                   ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        // TODO
+        return new ArrayList<String>();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LuiLuiRelationInfo> searchForLuiLuiRelations(QueryByCriteria criteria, 
+                                                             ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        // TODO
+        return new ArrayList<LuiLuiRelationInfo>();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ValidationResultInfo> validateLuiLuiRelation(String validationTypeKey, 
+                                                             String luiId,
+                                                             String relatedLuiId,
+                                                             String luiLuiRelationTypeKey,
+                                                             LuiLuiRelationInfo luiLuiRelationInfo, 
+                                                             ContextInfo context) 
+        throws DoesNotExistException, InvalidParameterException, 
+               MissingParameterException, OperationFailedException {
+
+       List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>() ;
+        ValidationResultInfo invalidIdsValidationInfo = new ValidationResultInfo();
+        if(luiLuiRelationInfo.getLuiId() ==null || luiLuiRelationInfo.getRelatedLuiId() == null)        {
+            invalidIdsValidationInfo.setError("Relation Info is missing relation id data");
+            invalidIdsValidationInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+            validationResultInfos.add(invalidIdsValidationInfo);
+        }
+        ValidationResultInfo typeStateValidation = new ValidationResultInfo();
+        if(luiLuiRelationInfo.getTypeKey() ==null || luiLuiRelationInfo.getStateKey()==null ){
+            typeStateValidation.setError("Missing type or state data");
+            typeStateValidation.setLevel(ValidationResult.ErrorLevel.ERROR);
+            validationResultInfos.add(typeStateValidation);
+
+        }
+            return validationResultInfos;
+    }
+
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public LuiLuiRelationInfo createLuiLuiRelation(String luiId, 
+                                                   String relatedLuiId, 
+                                                   String luiLuiRelationTypeKey, 
+                                                   LuiLuiRelationInfo luiLuiRelationInfo, 
+                                                   ContextInfo context)
+        throws CircularRelationshipException, DataValidationErrorException, 
+               DoesNotExistException, InvalidParameterException,
+               MissingParameterException, OperationFailedException, 
+               PermissionDeniedException, ReadOnlyException  {
+
+        LuiLuiRelationEntity entity = new LuiLuiRelationEntity(luiLuiRelationInfo);
+        entity.setLuiLuiRelationType(luiLuiRelationTypeKey);
+        entity.setLui(luiDao.find(luiId));
+        if (entity.getLui() == null) {
+            throw new DoesNotExistException(luiId);
+        }
+
+        entity.setRelatedLui(luiDao.find(relatedLuiId));
+        if (entity.getRelatedLui() == null) {
+            throw new DoesNotExistException(relatedLuiId);
+        }
+
+        entity.setLuiLuiRelationType(luiLuiRelationTypeKey);
+        entity.setCreateId(context.getPrincipalId());
+        entity.setCreateTime(context.getCurrentDate());
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
+        luiLuiRelationDao.persist(entity);
+
+        return entity.toDto();
+    }
+
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId, 
+                                                   LuiLuiRelationInfo luiLuiRelationInfo, 
+                                                   ContextInfo context) 
+        throws DataValidationErrorException, DoesNotExistException, 
+               InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException, 
+               ReadOnlyException, VersionMismatchException {
+
+        if (!luiLuiRelationId.equals(luiLuiRelationInfo.getId())) {
+            throw new InvalidParameterException(luiLuiRelationId + " does not match the id on the object " + luiLuiRelationInfo.getId());
+        }
+
+        LuiLuiRelationEntity entity = luiLuiRelationDao.find(luiLuiRelationId);
+        if (entity == null) {
+            throw new DoesNotExistException(luiLuiRelationId);
+        }
+
+        entity.fromDto(luiLuiRelationInfo);
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
+        luiLuiRelationDao.merge(entity);
+
+        return entity.toDto();
+    }
+
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId, 
+                                           ContextInfo context) 
+        throws DoesNotExistException, InvalidParameterException, 
+               MissingParameterException, OperationFailedException, 
+               PermissionDeniedException {
+
+        LuiLuiRelationEntity entity = luiLuiRelationDao.find(luiLuiRelationId);
+        if (entity == null) {
+            throw new DoesNotExistException(luiLuiRelationId);
+        }
+        luiLuiRelationDao.remove(entity);
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        return status;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public LuiCapacityInfo getLuiCapacity(String luiCapacityId, 
+                                          ContextInfo context) 
+        throws DoesNotExistException, InvalidParameterException, 
+               MissingParameterException, OperationFailedException, 
+               PermissionDeniedException {
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LuiCapacityInfo> getLuiCapacitiesByIds(List<String> luiCapacityIds, 
+                                                       ContextInfo context) 
+        throws DoesNotExistException, InvalidParameterException, 
+               MissingParameterException, OperationFailedException, 
+               PermissionDeniedException {
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LuiCapacityInfo> getLuiCapacitiesByLui(String luiId, 
+                                                       ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> getLuiCapacityIdsByType(String luiCapacityTypeKey, 
+                                                ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> searchForLuiCapacityIds(QueryByCriteria criteria, 
+                                                ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LuiCapacityInfo> searchForLuiCapacities(QueryByCriteria criteria, 
+                                                        ContextInfo context) 
+        throws InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException {
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLuiCapacity(String validationTypeKey, 
+                                                          String luiCapacityTypeKey, 
+                                                          LuiCapacityInfo luiCapacityInfo, 
+                                                          ContextInfo context) 
+        throws DoesNotExistException, InvalidParameterException, 
+               MissingParameterException, OperationFailedException, 
+               PermissionDeniedException {
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public LuiCapacityInfo createLuiCapacity(String luiCapacityTypeKey, 
+                                             LuiCapacityInfo luiCapacityInfo, 
+                                             ContextInfo context) 
+        throws DataValidationErrorException, DoesNotExistException, 
+               InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException, 
+               ReadOnlyException {
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public LuiCapacityInfo updateLuiCapacity(String luiCapacityId, 
+                                             LuiCapacityInfo luiCapacityInfo, 
+                                             ContextInfo context) 
+        throws DataValidationErrorException, DoesNotExistException, 
+               InvalidParameterException, MissingParameterException, 
+               OperationFailedException, PermissionDeniedException, 
+               ReadOnlyException, VersionMismatchException {
+
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public StatusInfo deleteLuiCapacity(String luiCapacityId, 
+                                        ContextInfo context) 
+        throws DoesNotExistException, InvalidParameterException, 
+               MissingParameterException, OperationFailedException, 
+               PermissionDeniedException {
+
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
-

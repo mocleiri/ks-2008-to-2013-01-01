@@ -63,7 +63,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
     }
 
     public void setLrrService(LearningResultRecordService lrrService) {
-        this.lrrService = lrrService;
+        this.lrrService = lrrService; 
     }
 
     public void setLprService(LuiPersonRelationService lprService) {
@@ -116,7 +116,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
                 lprIds.add(lpr.getId());
             }
 
-            List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
+            List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIds(lprIds, context);
 
             results = new ArrayList<String>();
 

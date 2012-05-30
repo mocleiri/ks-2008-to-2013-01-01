@@ -23,48 +23,44 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.hold.infc.Issue;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "IssueInfo", propOrder = { "key", "typeKey", "stateKey", "name",
-		"descr", "organizationId", "meta", "attributes", "_futureElements" })
-public class IssueInfo extends KeyEntityInfo implements Issue, Serializable {
-	private static final long serialVersionUID = 1L;
+@XmlType(name = "IssueInfo", propOrder = {
+    "id", "typeKey", "stateKey", "name",
+    "descr", "organizationId", "meta",
+    "attributes", "_futureElements"})
+public class IssueInfo extends IdEntityInfo implements Issue, Serializable {
 
-	@XmlElement
-	private String organizationId;
+    private static final long serialVersionUID = 1L;
+    @XmlElement
+    private String organizationId;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
-	@XmlAnyElement
-	private List<Element> _futureElements;
+    public IssueInfo() {
+    }
 
-	public IssueInfo() {
-		super();
-		organizationId = null;
-		_futureElements = null;
-	}
+    /**
+     * Constructs a new IssueInfo from another Issue.
+     * 
+     * @param issue the Issue to copy
+     */
+    public IssueInfo(Issue issue) {
+        super(issue);
+        if (null != issue) {
+            this.organizationId = issue.getOrganizationId();
+        }
+    }
 
-	/**
-	 * Constructs a new IssueInfo from another Issue.
-	 * 
-	 * @param issue the Issue to copy
-	 */
-	public IssueInfo(Issue issue) {
-		super(issue);
-		if (null != issue) {
-			this.organizationId = issue.getOrganizationId();
-		}
+    @Override
+    public String getOrganizationId() {
+        return organizationId;
+    }
 
-		_futureElements = null;
-	}
-
-	@Override
-	public String getOrganizationId() {
-		return organizationId;
-	}
-
-	public void setOrganizationId(String orgId) {
-		this.organizationId = orgId;
-	}
+    public void setOrganizationId(String orgId) {
+        this.organizationId = orgId;
+    }
 }

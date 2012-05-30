@@ -23,10 +23,8 @@ import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.enrollment.grading.service.GradingServiceDecorator;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -37,6 +35,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 
 public class GradingServiceAuthorizationDecorator extends GradingServiceDecorator implements HoldsPermissionService{
@@ -51,20 +50,7 @@ public class GradingServiceAuthorizationDecorator extends GradingServiceDecorato
 	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
 	}
-	
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException {
-        return getNextDecorator().getDataDictionaryEntryKeys(context);
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
-        return getNextDecorator().getDataDictionaryEntry(entryKey, context);
-    }
-
+        
     @Override
     public TypeInfo getGradeRosterType(String gradeRosterTypeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -78,10 +64,10 @@ public class GradingServiceAuthorizationDecorator extends GradingServiceDecorato
     }
 
     @Override
-    public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(String graderId, String termKey, ContextInfo context)
+    public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(String graderId, String termId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getGradeRostersByGraderAndTerm(graderId, termKey, context);
+        return getNextDecorator().getGradeRostersByGraderAndTerm(graderId, termId, context);
     }
 
     @Override
@@ -106,10 +92,10 @@ public class GradingServiceAuthorizationDecorator extends GradingServiceDecorato
     }
 
     @Override
-    public GradeRosterInfo buildInterimGradeRosterByType(String courseOfferingId, List<String> activityOfferingIdList,
+    public GradeRosterInfo buildInterimGradeRosterByType(String courseOfferingId, List<String> activityOfferingIds,
             String rosterTypeKey, ContextInfo context) throws AlreadyExistsException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().buildInterimGradeRosterByType(courseOfferingId, activityOfferingIdList,
+        return getNextDecorator().buildInterimGradeRosterByType(courseOfferingId, activityOfferingIds,
                 rosterTypeKey, context);
     }
 
@@ -149,10 +135,10 @@ public class GradingServiceAuthorizationDecorator extends GradingServiceDecorato
     }
 
     @Override
-    public List<GradeRosterEntryInfo> getGradeRosterEntriesByIdList(List<String> gradeRosterEntryIdList,
+    public List<GradeRosterEntryInfo> getGradeRosterEntriesByIds(List<String> gradeRosterEntryIds,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getGradeRosterEntriesByIdList(gradeRosterEntryIdList, context);
+        return getNextDecorator().getGradeRosterEntriesByIds(gradeRosterEntryIds, context);
     }
 
     @Override

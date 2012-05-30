@@ -39,29 +39,25 @@
     <bean id="acalInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-AcademicCalendarInfo-dictionary.xml" />
     </bean>
-    <bean id="campusCalendarInfoDictionaryLocation" class="java.lang.String">
-        <constructor-arg value="classpath:ks-CampusCalendarInfo-dictionary.xml" />
+    <bean id="holidayCalendarInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-HolidayCalendarInfo-dictionary.xml" />
     </bean>    
     <bean id="termInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-TermInfo-dictionary.xml" />
     </bean>
     <bean id="holidayInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-HolidayInfo-dictionary.xml" />
-    </bean>
-    <bean id="registrationDateGroupInfoDictionaryLocation" class="java.lang.String">
-        <constructor-arg value="classpath:ks-RegistrationDateGroupInfo-dictionary.xml" />
     </bean> 
     <bean id="keyDateInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-KeyDateInfo-dictionary.xml" />
-    </bean>      
+    </bean>  
     <bean name="acalServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
                 <bean parent="acalInfoDictionaryLocation" />
-                <bean parent="campusCalendarInfoDictionaryLocation" />                
+                <bean parent="holidayCalendarInfoDictionaryLocation" />                
                 <bean parent="termInfoDictionaryLocation" />
                 <bean parent="holidayInfoDictionaryLocation" />
-                <bean parent="registrationDateGroupInfoDictionaryLocation" />
                 <bean parent="keyDateInfoDictionaryLocation" />
             </list>
         </constructor-arg>
@@ -73,15 +69,11 @@
     <bean id="issueInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-IssueInfo-dictionary.xml" />
     </bean>
-    <bean id="restrictionInfoDictionaryLocation" class="java.lang.String">
-        <constructor-arg value="classpath:ks-RestrictionInfo-dictionary.xml" />
-    </bean>
     <bean name="holdServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
                 <bean parent="holdInfoDictionaryLocation" />
                 <bean parent="issueInfoDictionaryLocation" />                
-                <bean parent="restrictionInfoDictionaryLocation" />
             </list>
         </constructor-arg>
      </bean>
@@ -104,10 +96,27 @@
     <bean id="courseOfferingInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-CourseOfferingInfo-dictionary.xml" />
     </bean>
+
+    <bean id="activityOfferingInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ActivityOfferingInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="formatOfferingInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-FormatOfferingInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="registrationGroupInfoDictionaryLocation" class="java.lang.String">
+           <constructor-arg value="classpath:ks-RegistrationGroupInfo-dictionary.xml" />
+       </bean>
+
+
     <bean name="courseOfferingServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
-                <bean parent="courseOfferingInfoDictionaryLocation" />          
+                <bean parent="courseOfferingInfoDictionaryLocation" />
+                <bean parent="formatOfferingInfoDictionaryLocation"/>
+                <bean parent="registrationGroupInfoDictionaryLocation"/>
+                <bean parent="activityOfferingInfoDictionaryLocation"/>
             </list>
         </constructor-arg>
      </bean>
@@ -122,17 +131,17 @@
                 <bean parent="milestoneInfoDictionaryLocation" />
                 <bean parent="atpAtpRelationInfoDictionaryLocation" />
                 <bean parent="acalInfoDictionaryLocation" />
-                <bean parent="campusCalendarInfoDictionaryLocation" />                  
+                <bean parent="holidayCalendarInfoDictionaryLocation" />                  
                 <bean parent="termInfoDictionaryLocation" />
                 <bean parent="holidayInfoDictionaryLocation" />
-                <bean parent="registrationDateGroupInfoDictionaryLocation" />
                 <bean parent="keyDateInfoDictionaryLocation" />   
                 <bean parent="holdInfoDictionaryLocation" />
                 <bean parent="issueInfoDictionaryLocation" />                
-                <bean parent="restrictionInfoDictionaryLocation" />    
                 <bean parent="luiInfoDictionaryLocation" />
                 <bean parent="luiLuiRelationInfoDictionaryLocation" />  
-                <bean parent="courseOfferingInfoDictionaryLocation" />                  
+                <bean parent="courseOfferingInfoDictionaryLocation" />
+                <bean parent="activityOfferingInfoDictionaryLocation" />
+                <bean parent="formatOfferingInfoDictionaryLocation" />
             </list>
         </constructor-arg>
     </bean>

@@ -1,8 +1,8 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.document.MaintenanceDocument;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -15,6 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+//Core slice class.
+@Deprecated
 public class TermInfoMaintainableImpl extends MaintainableImpl {
 	private static final long serialVersionUID = 1L;	
 	
@@ -30,19 +32,16 @@ public class TermInfoMaintainableImpl extends MaintainableImpl {
         TermInfo termInfo = (TermInfo)getDataObject();
         String termKey = getTermInfoKey (termInfo);
         System.out.println(">>>termKey = "+termKey);
-        termInfo.setKey(termKey);
         termInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
 
         try{
         	if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {   
-        		getAcademicCalendarService().createTerm(termKey, termInfo, ContextInfo.newInstance());
+        		getAcademicCalendarService().createTerm(termKey, termInfo, new ContextInfo());
         	}
         	else {
-        		getAcademicCalendarService().updateTerm(termKey, termInfo, ContextInfo.newInstance());
+        		getAcademicCalendarService().updateTerm(termKey, termInfo, new ContextInfo());
         	}
-        }catch (AlreadyExistsException aee){
-            
         }catch (DataValidationErrorException dvee){
             
         }catch (InvalidParameterException ipe){
@@ -52,6 +51,8 @@ public class TermInfoMaintainableImpl extends MaintainableImpl {
         }catch (OperationFailedException ofe){
            
         }catch (PermissionDeniedException pde){
+
+        }catch (ReadOnlyException roe){
             
         }catch (DoesNotExistException dee){
             
@@ -63,7 +64,7 @@ public class TermInfoMaintainableImpl extends MaintainableImpl {
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
-    	ContextInfo context = ContextInfo.newInstance();
+    	ContextInfo context = new ContextInfo();
     	try{
     		return getAcademicCalendarService().getTerm(dataObjectKeys.get("key"), context);
             

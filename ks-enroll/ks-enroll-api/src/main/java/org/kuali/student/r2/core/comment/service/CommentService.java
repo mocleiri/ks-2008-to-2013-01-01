@@ -16,7 +16,6 @@
 package org.kuali.student.r2.core.comment.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -29,7 +28,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.CommentServiceConstants;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.TagInfo;
@@ -49,7 +47,7 @@ import java.util.List;
 
 @WebService(name = "CommentService", targetNamespace = CommentServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CommentService extends DataDictionaryService, TypeService {
+public interface CommentService {
 
     /**
      * Retrieves information about a comment.
@@ -260,7 +258,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @param tagIds      list of Tags to be retrieved
      * @param contextInfo Context information containing the principalId and locale
      *                    information about the caller of service operation
-     * @return list of Tag information for the given list of Tag ids
+     * @return list of Tag information for the given list of Tag Ids
      * @throws DoesNotExistException     an tagKey in list not found
      * @throws InvalidParameterException invalid tagKey
      * @throws MissingParameterException tagIds, contextInfo not specified
@@ -275,7 +273,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @param tagTypeKey  type to be retrieved
      * @param contextInfo Context information containing the principalId and locale
      *                    information about the caller of service operation
-     * @return a list of Tag ids
+     * @return a list of Tag Ids
      * @throws InvalidParameterException invalid tagTypeKey
      * @throws MissingParameterException tagTypeKey, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
