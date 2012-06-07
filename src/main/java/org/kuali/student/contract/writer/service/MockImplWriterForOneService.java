@@ -39,16 +39,19 @@ public class MockImplWriterForOneService {
     private String directory;
     private String rootPackage;
     private String servKey;
+    private boolean isR1;
 
     public MockImplWriterForOneService(ServiceContractModel model,
             String directory,
             String rootPackage,
-            String servKey) {
+            String servKey,
+            boolean isR1) {
         this.model = model;
         this.finder = new ModelFinder(model);
         this.directory = directory;
         this.rootPackage = rootPackage;
         this.servKey = servKey;
+        this.isR1 = isR1;
     }
 
     /**
@@ -64,7 +67,7 @@ public class MockImplWriterForOneService {
 
         // the main servKey
         System.out.println("Generating mock impls for " + servKey);
-        new MockImplServiceWriter(model, directory, rootPackage, servKey, methods).write();
+        new MockImplServiceWriter(model, directory, rootPackage, servKey, methods, isR1).write();
 
     }
 

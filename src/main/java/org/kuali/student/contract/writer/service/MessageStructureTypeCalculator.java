@@ -60,6 +60,9 @@ public class MessageStructureTypeCalculator {
             if (type.equalsIgnoreCase("string")) {
                 return "String";
             }
+            if (type.equalsIgnoreCase("java.lang.String")) {
+                return "String";
+            }
             if (type.equalsIgnoreCase("date")) {
                 importsAdd(writer, Date.class.getName());
                 return "Date";

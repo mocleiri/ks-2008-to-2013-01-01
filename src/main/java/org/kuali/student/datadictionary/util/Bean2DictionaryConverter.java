@@ -167,10 +167,12 @@ public class Bean2DictionaryConverter {
         // we use the work around if it gets an interface
         pt = pd.getPropertyType();
         if (pt.isInterface()) {
-            if (pd.getReadMethod() == null) {
-                throw new NullPointerException (clazz.getName() + "." + pd.getName() + " has no read method");
+            if (pd.getReadMethod() != null) {
+                pt = workAround(clazz, pd.getReadMethod().getName());
             }
-            pt = workAround(clazz, pd.getReadMethod().getName());
+//            else {
+//                throw new NullPointerException (clazz.getName() + "." + pd.getName() + " has no corresponding read method");
+//            }
         }
         
         if (List.class.equals(pt)) {

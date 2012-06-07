@@ -18,7 +18,6 @@ package org.kuali.student.contract.command.run;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
@@ -45,7 +44,9 @@ public class MockImplWriterRun {
 
     private static ServiceContractModel getModel() {
         List<String> srcDirs = new ArrayList();
-        srcDirs.add(ENROLL_DIRECTORY);
+        srcDirs.add(LUM_DIRECTORY);
+        srcDirs.add(CORE_DIRECTORY);
+        srcDirs.add(COMMON_DIRECTORY);
         ServiceContractModel instance = new ServiceContractModelQDoxLoader(srcDirs);
         return new ServiceContractModelCache(instance);
     }
@@ -53,14 +54,14 @@ public class MockImplWriterRun {
     private static void validate(ServiceContractModel model) {
         Collection<String> errors =
                 new ServiceContractModelValidator(model).validate();
-        if (errors.size() > 0) {
-            StringBuffer buf = new StringBuffer();
-            buf.append(errors.size() + " errors found while validating the data.");
+        if (!errors.isEmpty()) {
+            StringBuilder buf = new StringBuilder();
+            buf.append(errors.size()).append(" errors found while validating the data.");
             int cnt = 0;
             for (String msg : errors) {
                 cnt++;
                 buf.append("\n");
-                buf.append("*error*" + cnt + ":" + msg);
+                buf.append("*error*").append(cnt).append(":").append(msg);
             }
 
             throw new IllegalArgumentException(buf.toString());
@@ -84,11 +85,14 @@ public class MockImplWriterRun {
 //   ServicesFilter filter = new ServicesFilterByKeys (servicesToProcess);
         String targetDir = "target/gen-src";
 //  targetDir = "src/main/java";
+        boolean isR1 = true;
         MockImplWriter instance =
                 new MockImplWriter(model,
                 targetDir,
-                MockImplWriter.DEFAULT_ROOT_PACKAGE,
-                null);
+                MockImplWriter.ROOT_PACKAGE,
+//                MockImplWriter.ENROLLMENT_ROOT_PACKAGE,
+                null,
+                isR1);
         instance.write();
 
     }

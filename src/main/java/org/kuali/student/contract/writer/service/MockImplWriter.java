@@ -40,17 +40,22 @@ public class MockImplWriter {
     private ServiceContractModel model;
     private String directory;
     private String rootPackage;
-    public static final String DEFAULT_ROOT_PACKAGE = "org.kuali.student.enrollment";
+    public static final String ROOT_PACKAGE = "org.kuali.student";
+    public static final String LUM_ROOT_PACKAGE = "org.kuali.student.lum";
+    public static final String ENROLLMENT_ROOT_PACKAGE = "org.kuali.student.enrollment";
     private ServicesFilter filter;
+    private boolean isR1;
 
     public MockImplWriter(ServiceContractModel model,
             String directory,
             String rootPackage,
-            ServicesFilter filter) {
+            ServicesFilter filter,
+            boolean isR1) {
         this.model = model;
         this.directory = directory;
         this.rootPackage = rootPackage;
         this.filter = filter;
+        this.isR1 = isR1;
     }
 
     /**
@@ -61,7 +66,7 @@ public class MockImplWriter {
         this.validate();
 
         for (Service service : filterServices()) {
-            new MockImplWriterForOneService(model, directory, rootPackage, service.getKey()).write();
+            new MockImplWriterForOneService(model, directory, rootPackage, service.getKey(), isR1).write();
         }
 
 //        // the Info interfaces's

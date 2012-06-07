@@ -18,7 +18,6 @@ package org.kuali.student.contract.command.run;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
@@ -55,14 +54,14 @@ public class EachMethodServiceWriterRun {
     private static void validate(ServiceContractModel model) {
         Collection<String> errors =
                 new ServiceContractModelValidator(model).validate();
-        if (errors.size() > 0) {
-            StringBuffer buf = new StringBuffer();
-            buf.append(errors.size() + " errors found while validating the data.");
+        if (!errors.isEmpty()) {
+            StringBuilder buf = new StringBuilder();
+            buf.append(errors.size()).append(" errors found while validating the data.");
             int cnt = 0;
             for (String msg : errors) {
                 cnt++;
                 buf.append("\n");
-                buf.append("*error*" + cnt + ":" + msg);
+                buf.append("*error*").append(cnt).append(":").append(msg);
             }
 
             throw new IllegalArgumentException(buf.toString());
