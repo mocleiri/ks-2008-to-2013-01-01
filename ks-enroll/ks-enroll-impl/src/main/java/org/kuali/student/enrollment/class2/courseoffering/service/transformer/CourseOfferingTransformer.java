@@ -4,8 +4,8 @@ import org.apache.commons.lang.ArrayUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
+import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
@@ -15,6 +15,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.*;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 
 import java.util.ArrayList;
@@ -205,6 +206,8 @@ public class CourseOfferingTransformer {
         lui.setMinimumEnrollment(co.getMinimumEnrollment());
         lui.getResultValuesGroupKeys().addAll(co.getGradingOptionIds());
         lui.getResultValuesGroupKeys().addAll(co.getStudentRegistrationOptionIds());
+        options.add(co.getCreditOptionId());
+        lui.setResultValuesGroupKeys(options);
 
         LuiIdentifierInfo oi = lui.getOfficialIdentifier();
         if (oi == null) {
@@ -258,39 +261,37 @@ public class CourseOfferingTransformer {
             }
         }
 
-        if (courseInfo.getCreditOptions() == null) {
-            courseOfferingInfo.setCreditOptionIds(null);
-        } else if (courseInfo.getCreditOptions().isEmpty()) {
-            courseOfferingInfo.setCreditOptionIds(null);
-        } else {
-            List<String> creditOptionIds =  new ArrayList<String>();
-            for( ResultComponentInfo creditOption: courseInfo.getCreditOptions()){
-                creditOptionIds.add(creditOption.getId());
 
-             }
-
-            courseOfferingInfo.setCreditOptionIds(creditOptionIds);
-
+        // TODO
+        // courseOfferingInfo.setGradingOptionIds(courseInfo.getGradingOptions());
+        if ((courseInfo.getCreditOptions() != null) && !courseInfo.getCreditOptions().isEmpty()) {
+            /* TODO: which one shouldbe copied ? */
+            courseOfferingInfo.setCreditOptionId(courseInfo.getCreditOptions().get(0).getId());
         }
+
         courseOfferingInfo.setDescr(new R1ToR2CopyHelper().copyRichText(courseInfo.getDescr()));
         courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
     }
 
     // this is not currently in use and needs to be revisited and plugged into the impl
-    public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LuiPersonRelationService lprService)
+    public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LprService lprService)
             throws OperationFailedException {
-        List<LuiPersonRelationInfo> lprs = null;;
+        List<LprInfo> lprs = null;;
         try {
             lprs = lprService.getLprsByLui(luiId, context);
         } catch (Exception e) {
             throw new OperationFailedException("DoesNotExistException: " + e.getMessage());
         }
 
-        for (LuiPersonRelationInfo lpr : lprs) {
-            if (lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
+        for (LprInfo lpr : lprs) {
+            if (lpr.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
                 OfferingInstructorInfo instructor = new OfferingInstructorInfo();
                 instructor.setPersonId(lpr.getPersonId());
-                instructor.setPercentageEffort(lpr.getCommitmentPercent());
+                if (lpr.getCommitmentPercent() != null) {
+                    instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+                } else {
+                    instructor.setPercentageEffort(null);
+                }
                 instructor.setId(lpr.getId());
                 instructor.setTypeKey(lpr.getTypeKey());
                 instructor.setStateKey(lpr.getStateKey());

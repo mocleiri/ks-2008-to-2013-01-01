@@ -1,3 +1,18 @@
+/**
+ * Copyright 2012 The Kuali Foundation
+ *
+ * Licensed under the the Educational Community License, Version 1.0
+ * (the "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.enrollment.class1.lpr.model;
 
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
@@ -11,68 +26,170 @@ import org.kuali.student.r2.common.infc.Attribute;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
+import org.kuali.student.common.entity.KSEntityConstants;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
+import org.kuali.student.r2.common.helper.EntityMergeHelper;
+import org.kuali.student.r2.common.helper.EntityMergeHelper.EntityMergeResult;
+import org.kuali.student.r2.common.util.RichTextHelper;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS")
-public class LprTransactionEntity extends MetaEntity implements AttributeOwner<LprTransAttributeEntity> {
+public class LprTransactionEntity extends MetaEntity {
 
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "REQ_PERSON_ID")
+    @Column(name = "REQUESTING_PERS_ID")
     private String requestingPersonId;
 
     @Column(name = "ATP_ID")
     private String atpId;
+
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String descrFormatted;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private LprRichTextEntity descr;
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String descrPlain;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "LPR_TRANS_ID")
-    private Set<LprTransactionItemEntity> lprTransactionItems;
-
-    @Column(name = "LPR_TYPE_ID")
+    @Column(name = "LPR_TRANS_TYPE", nullable=false)
     private String lprTransType;
 
-    @Column(name = "STATE_ID")
+    @Column(name = "LRP_TRANS_STATE", nullable=false)
     private String lprTransState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<LprTransAttributeEntity> attributes;
+    private List<LprTransactionAttributeEntity> attributes;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="owner")
+    private List<LprTransactionItemEntity> lprTransactionItems;
+
 
     public LprTransactionEntity() {}
 
     public LprTransactionEntity(LprTransaction lprTransaction) {
         super(lprTransaction);
-        this.setName(lprTransaction.getName());
-        this.setRequestingPersonId(lprTransaction.getRequestingPersonId());
-        this.requestingPersonId = lprTransaction.getAtpId();
-        this.lprTransactionItems = new HashSet<LprTransactionItemEntity>();
-        this.setLprTransState(lprTransaction.getStateKey());
-        this.setLprTransType(lprTransaction.getTypeKey());
+        
+        // TODO: determine if these are the static fields on the Entity.
         this.setId(lprTransaction.getId());
-        this.setDescr(new LprRichTextEntity(lprTransaction.getDescr()));
-        // this.setAttributes(new ArrayList<LprTransAttributeEntity>());
-        if (null != lprTransaction.getAttributes()) {
-            for (Attribute att : lprTransaction.getAttributes()) {
-                this.getAttributes().add(new LprTransAttributeEntity(att));
-
-            }
-        }
-
+        this.setLprTransType(lprTransaction.getTypeKey());
+        
+       this.fromDto(lprTransaction);
     }
 
+    @SuppressWarnings("unchecked")
+	public List<Object>fromDto (LprTransaction lprTransaction) {
+    	
+    	List<Object>orphanList = new ArrayList<Object>();
+		
+    	 this.setName(lprTransaction.getName());
+    	 
+         this.setRequestingPersonId(lprTransaction.getRequestingPersonId());
+         this.setAtpId(lprTransaction.getAtpId());
+         
+         this.setLprTransState(lprTransaction.getStateKey());
+         
+         
+         if (lprTransaction.getDescr() != null) {
+             this.setDescrFormatted(lprTransaction.getDescr().getFormatted());
+             this.setDescrPlain(lprTransaction.getDescr().getPlain());
+         } else {
+             this.setDescrFormatted(null);
+             this.setDescrPlain(null);
+         }
+         
+         
+         EntityMergeHelper<LprTransactionAttributeEntity, Attribute>attributeMergeHelper = new EntityMergeHelper<LprTransactionAttributeEntity, Attribute>();
+         
+         EntityMergeResult<LprTransactionAttributeEntity> attributeMergeResults = attributeMergeHelper.merge(this.attributes, (List<Attribute>) lprTransaction.getAttributes(), new EntityMergeHelper.EntityMergeOptions<LprTransactionAttributeEntity, Attribute>() {
+
+			@Override
+			public String getEntityId(LprTransactionAttributeEntity entity) {
+				return entity.getId();
+			}
+
+			@Override
+			public String getInfoId(Attribute info) {
+				return info.getId();
+			}
+
+			@Override
+			public List<Object> merge(LprTransactionAttributeEntity entity,
+					Attribute info) {
+				
+				entity.fromDto(info);
+				
+				entity.setOwner(LprTransactionEntity.this);
+				
+				return new ArrayList<Object>();
+			}
+
+			@Override
+			public LprTransactionAttributeEntity create(Attribute att) {
+				LprTransactionAttributeEntity attr = new LprTransactionAttributeEntity(att);
+				
+				attr.setOwner(LprTransactionEntity.this);
+				
+				return attr;
+				
+			}
+        	 
+		});
+         
+         this.setAttributes(attributeMergeResults.getMergedList());
+         
+         orphanList.addAll(attributeMergeResults.getOrphanList());
+         
+         
+         EntityMergeHelper<LprTransactionItemEntity, LprTransactionItem>transactionItemMergeHelper = new EntityMergeHelper<LprTransactionItemEntity, LprTransactionItem>();
+         
+         EntityMergeResult<LprTransactionItemEntity> transactionItemMergeResult = transactionItemMergeHelper.merge(this.lprTransactionItems, (List<LprTransactionItem>) lprTransaction.getLprTransactionItems(), new EntityMergeHelper.EntityMergeOptions<LprTransactionItemEntity, LprTransactionItem>() {
+
+			@Override
+			public String getEntityId(LprTransactionItemEntity entity) {
+				return entity.getId();
+			}
+
+			@Override
+			public String getInfoId(LprTransactionItem info) {
+				return info.getId();
+			}
+
+			@Override
+			public List<Object> merge(LprTransactionItemEntity entity,
+					LprTransactionItem info) {
+				
+				List<Object>orphanList = entity.fromDto(info);
+				
+				entity.setOwner(LprTransactionEntity.this);
+				
+				return orphanList;
+			}
+
+			@Override
+			public LprTransactionItemEntity create(LprTransactionItem info) {
+				LprTransactionItemEntity lprTransactionItemEntity = new LprTransactionItemEntity(info);
+			
+				lprTransactionItemEntity.setOwner(LprTransactionEntity.this);
+				
+				return lprTransactionItemEntity;
+			}
+        	 
+		});
+         
+         this.setLprTransactionItems(transactionItemMergeResult.getMergedList());
+         
+         orphanList.addAll(transactionItemMergeResult.getOrphanList());
+		
+		return orphanList;
+    }
+    
+    
     public LprTransactionInfo toDto() {
 
         LprTransactionInfo lpr = new LprTransactionInfo();
@@ -82,17 +199,20 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
             lpr.setTypeKey(this.getLprTransType());
         if (this.getLprTransState() != null)
             lpr.setStateKey(this.getLprTransState());
+        
         lpr.setMeta(super.toDTO());
-        if (this.getDescr() != null)
-            lpr.setDescr(this.getDescr().toDto());
+       
         if (getAttributes() != null) {
             List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-            for (LprTransAttributeEntity att : getAttributes()) {
+            for (LprTransactionAttributeEntity att : getAttributes()) {
                 AttributeInfo attInfo = att.toDto();
                 atts.add(attInfo);
             }
             lpr.setAttributes(atts);
         }
+        
+        lpr.setDescr(new RichTextHelper().toRichTextInfo(getDescrPlain(), getDescrFormatted()));
+
         lpr.setName(getName());
         lpr.setRequestingPersonId(getRequestingPersonId());
         lpr.setAtpId(getAtpId());        
@@ -113,14 +233,6 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public LprRichTextEntity getDescr() {
-        return descr;
-    }
-
-    public void setDescr(LprRichTextEntity descr) {
-        this.descr = descr;
     }
 
     public String getLprTransType() {
@@ -165,14 +277,50 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         this.lprTransactionItems = lprTransactionItems;
     }
 
-    @Override
-    public void setAttributes(Set<LprTransAttributeEntity> attributes) {
-        this.setAttributes(attributes);
+    public void setAttributes(List<LprTransactionAttributeEntity> attributes) {
+       this.attributes = attributes;
     }
 
-    @Override
-    public Set<LprTransAttributeEntity> getAttributes() {
+    public List<LprTransactionAttributeEntity> getAttributes() {
         return this.attributes;
     }
 
+	public String getDescrFormatted() {
+		return descrFormatted;
+	}
+
+	public void setDescrFormatted(String descrFormatted) {
+		this.descrFormatted = descrFormatted;
+	}
+
+	public String getDescrPlain() {
+		return descrPlain;
+	}
+
+	public void setDescrPlain(String descrPlain) {
+		this.descrPlain = descrPlain;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("LprTransactionEntity [version=");
+		builder.append(getVersionNumber());
+		builder.append(", id=");
+		builder.append(getId());
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", requestingPersonId=");
+		builder.append(requestingPersonId);
+		builder.append(", atpId=");
+		builder.append(atpId);
+		builder.append(", lprTransType=");
+		builder.append(lprTransType);
+		builder.append(", lprTransState=");
+		builder.append(lprTransState);
+		builder.append("]");
+		return builder.toString();
+	}
+
+	
 }

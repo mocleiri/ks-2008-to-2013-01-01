@@ -246,10 +246,9 @@ public class LuiServiceImpl
         entity.setAtpId(atpId);
         entity.setCluId(cluId);
         entity.setLuiType(luiTypeKey);
-        entity.setCreateId(context.getPrincipalId());
-        entity.setCreateTime(context.getCurrentDate());
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+        
+        entity.setEntityCreated(context);
+        
         if(entity.getIdentifiers() != null){
             for(LuiIdentifierEntity ident:entity.getIdentifiers()){
                 ident.setCreateId(context.getPrincipalId());
@@ -291,6 +290,9 @@ public class LuiServiceImpl
         }
 
         //Transform the DTO to the entity
+       
+        entity.setEntityUpdated(context);
+        
         List<Object> orphans = entity.fromDto(luiInfo);
 
         //Delete any orphaned children
@@ -299,8 +301,6 @@ public class LuiServiceImpl
         }
 
         //Update any Meta information
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
 
         if(entity.getIdentifiers() != null){
             for(LuiIdentifierEntity ident:entity.getIdentifiers()){
@@ -563,10 +563,9 @@ public class LuiServiceImpl
         }
 
         entity.setLuiLuiRelationType(luiLuiRelationTypeKey);
-        entity.setCreateId(context.getPrincipalId());
-        entity.setCreateTime(context.getCurrentDate());
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+        
+        entity.setEntityCreated(context);
+        
         luiLuiRelationDao.persist(entity);
 
         return entity.toDto();
@@ -592,8 +591,9 @@ public class LuiServiceImpl
         }
 
         entity.fromDto(luiLuiRelationInfo);
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+        
+        entity.setEntityUpdated(context);
+        
         luiLuiRelationDao.merge(entity);
 
         return entity.toDto();

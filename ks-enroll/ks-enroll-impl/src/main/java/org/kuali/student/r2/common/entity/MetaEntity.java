@@ -19,6 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.infc.HasMeta;
 import org.kuali.student.r2.common.infc.Meta;
@@ -31,12 +32,17 @@ public abstract class MetaEntity extends BaseVersionEntity {
     // @Version
     // private long versionInd;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(updatable = false)
+    @Column(name="CREATETIME", updatable = false, nullable=false)
     private Date createTime;
-    @Column(updatable = false)
+    
+    @Column(name="CREATEID", updatable = false, nullable=false)
     private String createId;
+    
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="UPDATETIME")
     private Date updateTime;
+    
+    @Column(name="UPDATEID")
     private String updateId;
 
     // public long getVersionInd() {
@@ -62,7 +68,26 @@ public abstract class MetaEntity extends BaseVersionEntity {
             }
         }
     }
+    
 
+    public void setEntityCreated(ContextInfo context) {
+    	
+    	if (context != null) {
+    		this.setCreateTime(context.getCurrentDate());
+    		this.setCreateId(context.getPrincipalId());
+    	
+    		setEntityUpdated(context);
+    	}
+    }
+    
+    public void setEntityUpdated (ContextInfo context) {
+    	
+    	if (context != null) {
+    		this.setUpdateTime(context.getCurrentDate());
+    		this.setUpdateId(context.getPrincipalId());
+    	}
+    }
+    
     public Date getCreateTime() {
         return createTime;
     }

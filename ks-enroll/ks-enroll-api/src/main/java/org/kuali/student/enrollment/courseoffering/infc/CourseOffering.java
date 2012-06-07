@@ -164,19 +164,38 @@ public interface CourseOffering extends IdNamelessEntity{
     public List<String> getJointOfferingIds();
 
     /******** Assessment Information ***************/
+
     /**
-     * The options/scales that indicate the allowable grades that can be
-     * awarded. Typically the values here are constrained by the values on the
-     * canonical course. If the value is set here then the Clu must have a
-     * grading option set on the canonical activity. For example: an id might
-     * point to Pass/Fail or Letter Graded option.
+     * The options/scales that indicate the allowable grades within a
+     * grading scheme that can be awarded. Typically, the values here
+     * are constrained by the values on the canonical course. If the
+     * value is set here then the Clu must have a grading option set
+     * on the canonical activity. For example: an id might point to
+     * Pass/Fail or Letter Graded option.
      * 
-     * @name: Grading Option Ids
-     * @impl these are actually Ids to ResultValuesGroup. Lui.resultOptionIds
-     *       returns a list of resultOptions. Filter options with grading type
-     *       and those should give the resultValueGroupIds
+     * @name: Grading Option Id
+     * @impl Lui.resultOptionIds of type ???
      */
-    public List<String> getGradingOptionIds();
+    public String getGradingOptionId();
+
+    /**
+     * The options/scales that indicate the allowable grades within a
+     * grading scheme in which an eligible student can register. This
+     * list of options includes the Grading Option Id plus any
+     * additional grading schemes, such as P/F or Audit.
+     * 
+     * @name: registration Grading Option Ids
+     * @impl Lui.resultOptionIds of type ???
+     */
+    public List<String> getRegistrationGradingOptionIds();
+
+    /**
+     * A display string for the credit option.
+     * 
+     * @name Credit Option Display
+     * @readOnly
+     */
+    public String getCreditOptionDisplay();
 
     /**
      * The options/scales that indicate the allowable grades that can be
@@ -203,12 +222,11 @@ public interface CourseOffering extends IdNamelessEntity{
      * value but a ResultValuesGroup could contain a range (with increments) or
      * even a discrete list of possible credit values.
      * 
-     * @name Credit Options
+     * @name Credit Option Id
      * @impl Lui.resultOptionIds returns a list of resultOptions. Filter option
-     *       with credit type and that should give the resultValueGroup
+     *       with credit type and that should give the resultValueGroup.
      */
-    public List<String> getCreditOptionIds();
-
+    public String getCreditOptionId();
 
 
     /******** Personnel Information *****************/
@@ -362,7 +380,6 @@ public interface CourseOffering extends IdNamelessEntity{
      * @name Is Evaluated
      */
     public Boolean getIsEvaluated();
-
     /**
      * Gets the Course Offering URL.
      *
@@ -370,3 +387,4 @@ public interface CourseOffering extends IdNamelessEntity{
      */
     public String getCourseOfferingURL();
 }
+

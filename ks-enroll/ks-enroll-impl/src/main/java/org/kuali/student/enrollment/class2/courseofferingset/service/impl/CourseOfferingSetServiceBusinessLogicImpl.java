@@ -379,4 +379,6 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         }
         return list;
     }
+                info.setCourseOfferingsCreated(success);
+                info.setCourseOfferingsSkipped(failure);
 }

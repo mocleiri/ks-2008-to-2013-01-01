@@ -34,12 +34,11 @@ import org.junit.Test;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -125,11 +124,11 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
     public void testValidate() throws Exception {
         System.out.println("validate");
         DataDictionaryValidator.ValidationType validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
-        LuiPersonRelationInfo lpri = new LuiPersonRelationInfo();
+        LprInfo lpri = new LprInfo();
         lpri.setPersonId("personId.1");
         lpri.setLuiId("luiId.1");
-        lpri.setTypeKey(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY);
-        lpri.setStateKey(LuiPersonRelationServiceConstants.APPLIED_STATE_KEY);
+        lpri.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);
+        lpri.setStateKey(LprServiceConstants.APPLIED_STATE_KEY);
         lpri.setEffectiveDate(parseDate("2010-01-01"));
         ContextInfo context = getContext1();
 

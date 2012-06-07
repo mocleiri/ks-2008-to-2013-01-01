@@ -94,7 +94,13 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public CourseOfferingAdminDisplayInfo getCourseOfferingAdminDisplay(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CourseOfferingAdminDisplayInfo getCourseOfferingAdminDisplay(@WebParam(name = "courseOfferingId") String courseOfferingId, 
+                                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+                                                                    throws DoesNotExistException, 
+                                                                        InvalidParameterException, 
+                                                                        MissingParameterException, 
+                                                                        OperationFailedException, 
+                                                                        PermissionDeniedException;
 
     /**
      * Retrieve a list of CourseOfferingAdminDisplayInfos
@@ -131,7 +137,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public ActivityOfferingAdminDisplayInfo getActivityOfferingAdminDisplay(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieve a list of ActivityOfferingAdminDisplayInfos
+     * Retrieve a list of ActivitAOfferingAdminDisplayInfos
      * corresponding to a list of ActivityOfferingIds.
      *
      * @param activityOfferingIds a list of ActivityOffering identifiers
@@ -165,6 +171,51 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ActivityOfferingAdminDisplayInfo> getActivityOfferingAdminDisplaysForCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * This method returns the TypeInfo for a given course offering type key.
+     *
+     * @param courseOfferingTypeKey Key of the type
+     * @param context                 Context information containing the principalId and locale
+     *                                information about the caller of service operation
+     * @return Information about the Type
+     * @throws DoesNotExistException     courseOfferingTypeKey not found
+     * @throws InvalidParameterException invalid courseOfferingTypeKey
+     * @throws MissingParameterException missing courseOfferingTypeKey
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public TypeInfo getCourseOfferingType(@WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * This method returns the valid course offering types.
+     *
+     * @param context Context information containing the principalId and locale
+     *                information about the caller of service operation
+     * @return a list of valid course offering Types
+     * @throws InvalidParameterException invalid context
+     * @throws MissingParameterException missing context
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TypeInfo> getCourseOfferingTypes(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * This method returns the valid instructor (lpr) types for a
+     * course offering type.
+     *
+     * @param courseOfferingTypeKey a key for a course offering type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of valid instructor types
+     * @throws DoesNotExistException courseOfferingTypeKey not found
+     * @throws InvalidParameterException contextInfo is not valud
+     * @throws MissingParameterException courseOfferingTypeKey or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TypeInfo> getInstructorTypesForCourseOfferingType(@WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve information about a CourseOffering
@@ -313,7 +364,6 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      */
     public List<String> getCourseOfferingIdsByType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    
     /**
      * Get the valid options that can be specified to control 
      * canonical course to course offering operations.  
@@ -341,7 +391,6 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public List<String> getValidCanonicalCourseToCourseOfferingOptionKeys(@WebParam(name = "context") ContextInfo context) 
             throws InvalidParameterException, MissingParameterException, 
             OperationFailedException, PermissionDeniedException, ReadOnlyException;
-
     
      /**
      * Get the valid rollover option keys
@@ -703,6 +752,23 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws PermissionDeniedException authorization failure
      */
     public List<TypeInfo> getActivityOfferingTypesForActivityType(@WebParam(name = "activityTypeKey") String activityTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * This method returns the valid instructor (lpr) types for an
+     * activity offering type.
+     *
+     * @param activityOfferingTypeKey a key for an activity offering type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of valid instructor types
+     * @throws DoesNotExistException     activityOfferingTypeKey not found
+     * @throws InvalidParameterException context is not valud
+     * @throws MissingParameterException activityOfferingTypeKey or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TypeInfo> getInstructorTypesForActivityOfferingType(@WebParam(name = "activityOfferingTypeKey") String activityOfferingTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve information about an ActivityOffering

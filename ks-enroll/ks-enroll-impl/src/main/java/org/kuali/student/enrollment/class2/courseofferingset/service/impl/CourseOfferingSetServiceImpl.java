@@ -111,10 +111,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         SocEntity entity = new SocEntity(info);
         entity.setId(info.getId());
         entity.setSocType(typeKey);
-        entity.setCreateId(context.getPrincipalId());
-        entity.setCreateTime(context.getCurrentDate());
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+        
+        entity.setEntityCreated(context);
+        
         socDao.persist(entity);
         return entity.toDto();
     }
@@ -131,10 +130,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         SocRolloverResultEntity entity = new SocRolloverResultEntity(info);
         entity.setId(info.getId());
         entity.setSocRorType(typeKey);
-        entity.setCreateId(context.getPrincipalId());
-        entity.setCreateTime(context.getCurrentDate());
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+       
+        entity.setEntityCreated(context);
+        
         socRorDao.persist(entity);
         return entity.toDto();
     }
@@ -151,10 +149,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         SocRolloverResultItemEntity entity = new SocRolloverResultItemEntity(info);
         entity.setId(info.getId());
         entity.setSocRorType(typeKey);
-        entity.setCreateId(context.getPrincipalId());
-        entity.setCreateTime(context.getCurrentDate());
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+       
+        entity.setEntityCreated(context);
+        
         socRorItemDao.persist(entity);
         return entity.toDto();
     }
@@ -177,10 +174,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             SocRolloverResultItemEntity entity = new SocRolloverResultItemEntity(info);
             entity.setId(info.getId());
             entity.setSocRorType(typeKey);
-            entity.setCreateId(context.getPrincipalId());
-            entity.setCreateTime(context.getCurrentDate());
-            entity.setUpdateId(context.getPrincipalId());
-            entity.setUpdateTime(context.getCurrentDate());
+           
+            entity.setEntityCreated(context);
+            
             socRorItemDao.persist(entity);
         }
         return new Integer(count);
@@ -579,8 +575,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new DoesNotExistException(id);
         }
         entity.fromDTO(info);
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+       
+        entity.setEntityUpdated(context);
+        
         socDao.merge(entity);
         return entity.toDto();
     }
@@ -596,8 +593,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new DoesNotExistException(id);
         }
         entity.setItemsProcessed(itemsProcessed);
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+       
+        entity.setEntityUpdated(context);
+        
         socRorDao.merge(entity);
         return entity.toDto();
     }
@@ -626,8 +624,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         }
         entity.setOptions(notDeletedOptions);
         entity.fromDTO(info);
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+       
+        entity.setEntityUpdated(context);
+        
         socRorDao.merge(entity);
         return entity.toDto();
     }
@@ -643,8 +642,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new DoesNotExistException(id);
         }
         entity.fromDTO(info);
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+       
+        entity.setEntityUpdated(context);
+        
         socRorItemDao.merge(entity);
         return entity.toDto();
     }
