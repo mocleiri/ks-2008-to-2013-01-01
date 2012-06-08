@@ -253,7 +253,7 @@
  </bean>
  <bean id="courseInfo.courseSpecificLOs" parent="courseInfo.courseSpecificLOs-parent" />
 
- <bean id="courseInfo.courseTitle-parent" abstract="true" parent="cluIdentifierInfo.longName-parent">
+ <bean id="courseInfo.courseTitle-parent" abstract="true" parent="cluIdentifierInfo.longNames-parent">
   <!--TODO: make this required to submit (see descr) and allow longer when draft-->
   <property name="name" value="courseTitle" />
   <property name="minOccurs" value="1" />

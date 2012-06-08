@@ -300,6 +300,14 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         
         return section;
     }
+    
+    protected VerticalSection generateCourseTitle(){
+		
+    	
+    	
+    	return null;
+    	
+    }
             
 
     protected GroupSection generateCourseNumberSection() {

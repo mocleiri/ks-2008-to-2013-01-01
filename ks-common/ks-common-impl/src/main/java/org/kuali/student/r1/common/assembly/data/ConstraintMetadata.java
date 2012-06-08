@@ -64,6 +64,8 @@ public class ConstraintMetadata implements Serializable {
 	private boolean requiredForNextState = false;
 	
 	private String nextState;
+	
+	private boolean multiLang;
 
 	public List<ConstraintMetadata> getChildConstraints() {
 		return childConstraints;
@@ -193,6 +195,14 @@ public class ConstraintMetadata implements Serializable {
 		this.nextState = nextState;
 	}	
 	
+	public void setMultiLang(boolean multiLang) {
+		this.multiLang = multiLang;
+	}
+
+	public boolean isMultiLang() {
+		return multiLang;
+	}
+	
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -231,6 +241,8 @@ public class ConstraintMetadata implements Serializable {
         sb.append(Boolean.toString(requiredForNextState));
         sb.append(", nextState: ");
         sb.append(nextState);
+        sb.append(", multiLang: ");
+        sb.append(Boolean.toString(multiLang));
         sb.append(", ChildConstraints: {");
         if (null != childConstraints) {
             for (ConstraintMetadata constraint : childConstraints) {
@@ -239,4 +251,6 @@ public class ConstraintMetadata implements Serializable {
         }
         sb.append("}");
     }
+
+
 }

@@ -44,6 +44,9 @@ public class FieldDefinition extends Constraint {
 	protected boolean readOnly = false;
 	
 	@XmlElement
+	protected boolean multiLang = false;
+	
+	@XmlElement
 	protected boolean hide = false;
 	
 	@XmlElement
@@ -93,6 +96,12 @@ public class FieldDefinition extends Constraint {
 	}
 	public void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
+	}
+	public boolean isMultiLang() {
+		return multiLang;
+	}
+	public void setMultiLang(boolean multiLang) {
+		this.multiLang = multiLang;
 	}
 	public boolean isHide() {
 		return hide;

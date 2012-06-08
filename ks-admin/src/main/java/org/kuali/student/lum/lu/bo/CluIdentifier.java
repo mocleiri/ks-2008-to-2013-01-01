@@ -1,6 +1,10 @@
 package org.kuali.student.lum.lu.bo;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.OneToMany;
 
 import org.kuali.student.core.bo.KsBusinessObjectBase;
 
@@ -14,8 +18,8 @@ public class CluIdentifier extends KsBusinessObjectBase {
     @Column(name = "SHRT_NAME")
     private String shortName;
 
-    @Column(name = "LNG_NAME")
-    private String longName;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner") 
+    private List<CluIdentifier> longNames;
 
     @Column(name = "LVL")
     private String level;
@@ -55,12 +59,12 @@ public class CluIdentifier extends KsBusinessObjectBase {
 		this.shortName = shortName;
 	}
 
-	public String getLongName() {
-		return longName;
+	public List<CluIdentifier> getLongNames() {
+		return longNames;
 	}
 
-	public void setLongName(String longName) {
-		this.longName = longName;
+	public void setLongNames(List<CluIdentifier> longNames) {
+		this.longNames = longNames;
 	}
 
 	public String getLevel() {

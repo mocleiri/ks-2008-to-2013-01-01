@@ -582,7 +582,7 @@
                 <ref bean="cluIdentifierInfo.division"/>
                 <ref bean="cluIdentifierInfo.id"/>
                 <ref bean="cluIdentifierInfo.level"/>
-                <ref bean="cluIdentifierInfo.longName"/>
+                <ref bean="cluIdentifierInfo.longNames"/>
                 <ref bean="cluIdentifierInfo.orgId"/>
                 <ref bean="cluIdentifierInfo.shortName"/>
                 <ref bean="cluIdentifierInfo.stateKey"/>
@@ -616,10 +616,10 @@
     </bean>
     <bean id="cluIdentifierInfo.level" parent="cluIdentifierInfo.level-parent"/>
 
-    <bean id="cluIdentifierInfo.longName-parent" abstract="true" parent="baseKualiName">
-        <property name="name" value="longName"/>
+    <bean id="cluIdentifierInfo.longNames-parent" abstract="true" parent="baseKualiName">
+        <property name="name" value="longNames"/>
     </bean>
-    <bean id="cluIdentifierInfo.longName" parent="cluIdentifierInfo.longName-parent"/>
+    <bean id="cluIdentifierInfo.longNames" parent="cluIdentifierInfo.longNames-parent"/>
 
     <bean id="cluIdentifierInfo.orgId-parent" abstract="true" parent="baseKualiOrgId">
         <property name="name" value="orgId"/>

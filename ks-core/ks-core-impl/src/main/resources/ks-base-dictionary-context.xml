@@ -313,6 +313,9 @@
         <property name="minLength" value="1" />
         <property name="validChars" ref="lineText"/>
     </bean>
+    <bean id="baseKualiMultiLangName" parent="baseKualiName" abstract="true">
+        <property name="multiLang" value="true" />
+    </bean>
     <bean id="baseKualiNameRequired" parent="baseKualiName" abstract="true">
         <property name="minOccurs" value="1" />
     </bean>

@@ -48,6 +48,7 @@ public class KSTextBox extends TextBox implements HasWatermark{
     public KSTextBox() {
         super();
         setupDefaultStyle();
+        
     }
 
     /**

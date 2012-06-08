@@ -44,4 +44,7 @@ public class WidgetConfigInfo {
 	public boolean canEdit = true;
 	public boolean canUnmask = false;
 	public boolean canView = true;
+	
+	//I8N
+	public boolean multiLang = false;
 }

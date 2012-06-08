@@ -26,6 +26,7 @@ import org.kuali.student.common.ui.client.widgets.KSPlaceholder;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.MultiLangTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
@@ -67,6 +68,7 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 			config.canEdit = meta.isCanEdit();
 			config.canUnmask = meta.isCanUnmask();
 			config.canView = meta.isCanView();
+			config.multiLang = MetadataInterrogator.isMultiLang(meta);
 		}
 		return _getWidget(config);
 	}
@@ -122,7 +124,13 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
                 } else {
                     result = new KSPicker(config);
                 }
-            } else {
+            }
+		    
+		    else if(config.multiLang = true){
+		    	result = new MultiLangTextBox();
+		    
+		    }else {
+		    
                 switch (config.type) {
                     case BOOLEAN:
                         result = new KSCheckBox();

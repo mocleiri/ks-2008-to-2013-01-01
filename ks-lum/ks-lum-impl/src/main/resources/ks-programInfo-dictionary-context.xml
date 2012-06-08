@@ -398,7 +398,7 @@
  <bean id="majorDisciplineInfo.shortTitle" parent="majorDisciplineInfo.shortTitle-parent">
  </bean>
 
- <bean id="majorDisciplineInfo.longTitle-parent" abstract="true" parent="cluIdentifierInfo.longName-parent">
+ <bean id="majorDisciplineInfo.longTitle-parent" abstract="true" parent="cluIdentifierInfo.longNames-parent">
   <property name="name" value="longTitle"/>
   <property name="maxLength" value="120"/>
   <property name="minOccurs" value="1"/>
@@ -441,7 +441,7 @@
  </bean>
 
  <bean id="majorDisciplineInfo.diplomaTitle-parent" abstract="true"
-	parent="cluIdentifierInfo.longName-parent">
+	parent="cluIdentifierInfo.longNames-parent">
 	<property name="name" value="diplomaTitle" />
 	<property name="maxLength" value="120" />
 	<property name="caseConstraint">
@@ -461,7 +461,7 @@
 						</property>
 						<property name="constraint">
 							<!--Copy all the properties from above adding minOccurs = 1 -->
-							<bean parent="cluIdentifierInfo.longName-parent">
+							<bean parent="cluIdentifierInfo.longNames-parent">
 								<property name="minOccurs" value="1" />
 								<property name="maxLength" value="120" />
 							</bean>
