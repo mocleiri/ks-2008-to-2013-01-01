@@ -29,6 +29,7 @@
 		<profile>
 			<id>standalone-only-wars</id>
 			<modules>
+				<module>myplan-standalone</module>
 			</modules>
 		</profile>
 		<profile>

@@ -29,7 +29,7 @@
 
     <param name="module.name">myplan-embedded</param>
     <param name="application.id">myplan</param>
-    <param name="config.location">classpath:META-INF/standalone-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/embedded-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
 
