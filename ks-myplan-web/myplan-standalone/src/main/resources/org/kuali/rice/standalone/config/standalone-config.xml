@@ -192,6 +192,10 @@
     <param name="ks.academicRecord.enable.caching">true</param>
     <param name="ks.degreeAudit.enable.caching">true</param>
 
+    <!-- UW SWS Service Impl -->
+    <param name="uw.studentservice.impl">edu.uw.kuali.student.lib.client.studentservice.StudentServiceClientImpl</param>
+
+
     <!--<param name="css.files" override="true">ks-myplan/css/myplan.css,${css.files}</param>-->
 
     <!-- Default config file location -->

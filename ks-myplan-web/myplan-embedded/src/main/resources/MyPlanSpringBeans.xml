@@ -47,7 +47,7 @@
                 <value>classpath:MyPlanDataObjects.xml</value>
                 <value>classpath:CourseSearchUI.xml</value>
                 <value>classpath:CourseDetailsUI.xml</value>
-                <value>classpath:PlanItemsUI.xml</value>
+                 <value>classpath:PlanItemsUI.xml</value>
                 <value>classpath:DegreeAuditUI.xml</value>
                 <value>classpath:DegreeAuditDetailsUI.xml</value>
                 <!--

@@ -14,9 +14,17 @@
       <param-name>web.bootstrap.spring.file</param-name>
       <param-value>classpath:org/kuali/rice/embedded/config/EmbeddedSpringBeans.xml</param-value>
     </context-param>
+    <context-param>
+        <param-name>org.restlet.component</param-name>
+        <param-value>courseSearchComponent</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:MyPlanRestletContext.xml</param-value>
+    </context-param>
 
-    <!-- KS Spring Security Config - Begin .... !!! REMOVE THIS AFTER PERFORMANCE TESTING !!! -->
-	<context-param>
+	<!-- KS Spring Security Config - Begin -->
+	<!--<context-param>
     	<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:ks-spring-security.xml</param-value>
   	 </context-param>
@@ -33,9 +41,10 @@
 	<filter-mapping>
 	  <filter-name>springSecurityFilterChain</filter-name>
 	  <url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping>-->
 
 	<!-- KS Spring Security Config - End -->
+
 
     <filter>
         <filter-name>UserLoginFilter</filter-name>
@@ -158,7 +167,11 @@
 	<listener>
 		<listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
 	</listener>
-	
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
 	<!-- added by bonnie,  Krad needs this -->
 	<listener>
        <listener-class>org.apache.tiles.web.startup.simple.SimpleTilesListener</listener-class>
@@ -241,6 +254,14 @@
         <load-on-startup>2</load-on-startup>
 	</servlet>
 
+
+    <!-- Restlet servlet -->
+    <servlet>
+        <servlet-name>coursesearch</servlet-name>
+        <servlet-class>org.restlet.ext.spring.SpringServerServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
 	<servlet>
 		<servlet-name>remoting</servlet-name>
 		<servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
@@ -266,13 +287,17 @@
 		<servlet-name>edoclite</servlet-name>
 		<servlet-class>org.kuali.rice.edl.impl.EDLServlet</servlet-class>
 	</servlet>
-	
-	<!-- added by bonnie -->
+
     <servlet>
        <servlet-name>myplan</servlet-name>
        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
        <load-on-startup>3</load-on-startup>
     </servlet>
+
+    <servlet-mapping>
+        <servlet-name>coursesearch</servlet-name>
+        <url-pattern>/search/*</url-pattern>
+    </servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>

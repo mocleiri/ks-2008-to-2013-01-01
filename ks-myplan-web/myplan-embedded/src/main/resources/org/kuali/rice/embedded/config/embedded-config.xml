@@ -221,6 +221,12 @@
 
     <!--<param name="css.files" override="true">ks-myplan/css/myplan.css,${css.files}</param>-->
 
+    <!-- UW SWS Service Impl -->
+    <param name="uw.studentservice.impl">edu.uw.kuali.student.lib.client.studentservice.StudentServiceClientImpl</param>
+
+        <param name="courseSearchBaseUrl">${application.url}</param>
+
+
     <!-- default config files -->
     <param name="config.location">${user.home}/kuali/main/${environment}/myplan-config.xml</param>
     <param name="config.location">/data/myplan/etc/myplan-config.xml</param>

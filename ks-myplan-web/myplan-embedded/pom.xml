@@ -17,12 +17,12 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
-	    <resources>
+        <resources>
             <resource>
-        		<directory>src/main/resources</directory>
-        		<filtering>true</filtering>
-      		</resource>
-    	</resources>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
         <plugins>
             <plugin>
@@ -107,12 +107,12 @@
                 <artifactId>buildnumber-maven-plugin</artifactId>
                 <version>1.0</version>
                 <executions>
-                      <execution>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>create</goal>
-                            </goals>
-                      </execution>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
                 </executions>
                 <configuration>
                     <doCheck>false</doCheck>
@@ -126,6 +126,7 @@
     <dependencies>
 
         <!-- add this dependency for dynamic loading of spring beans-->
+
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-development-tools</artifactId>
@@ -310,11 +311,37 @@
             <artifactId>antlr</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
+        </dependency>
+
+        <!-- Restlet stuff -->
+        <dependency>
+            <groupId>org.restlet.jee</groupId>
+            <artifactId>org.restlet</artifactId>
+            <version>${restlet.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.restlet.jee</groupId>
+            <artifactId>org.restlet.ext.servlet</artifactId>
+            <version>${restlet.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.restlet.jee</groupId>
+            <artifactId>org.restlet.ext.spring</artifactId>
+            <version>${restlet.version}</version>
+        </dependency>
+        <!-- End restlet stuff -->
+
+
+        <!-- Added To speed up bean loading -->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
