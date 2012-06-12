@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-	<display-name>Standalone</display-name>
+	<display-name>MyPlan Embedded</display-name>
 
+    <!-- On the application servers this param is set in /usr/local/tomcat/conf/context.xml and will not allow overrides. -->
     <context-param>
       <param-name>environment</param-name>
       <param-value>dev</param-value>
@@ -11,7 +12,7 @@
     <!-- Change this if you want to use a different Spring file -->
     <context-param>
       <param-name>web.bootstrap.spring.file</param-name>
-      <param-value>classpath:org/kuali/rice/standalone/config/StandaloneSpringBeans.xml</param-value>
+      <param-value>classpath:org/kuali/rice/embedded/config/EmbeddedSpringBeans.xml</param-value>
     </context-param>
     <context-param>
         <param-name>org.restlet.component</param-name>

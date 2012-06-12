@@ -48,29 +48,28 @@
 
     <param name="jpa.vendor">hibernate</param>
 
-	<param name="ks.myplan.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
-	<param name="ks.myplan.datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
-	<param name="ks.myplan.datasource.driver.name.mysql">com.mysql.jdbc.Driver</param>
-	<param name="ks.myplan.datasource.driver.name">${ks.myplan.datasource.driver.name.${db.vendor}}</param>
+    <param name="ks.myplan.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
+    <param name="ks.myplan.datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
+    <param name="ks.myplan.datasource.driver.name.mysql">com.mysql.jdbc.Driver</param>
+    <param name="ks.myplan.datasource.driver.name">${ks.myplan.datasource.driver.name.${db.vendor}}</param>
 
-	<param name="ks.myplan.datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="ks.myplan.datasource.url.derby">jdbc:derby://localhost:1527/derby/enroll;create=true</param>
-	<param name="ks.myplan.datasource.url.mysql">jdbc:mysql://localhost/KSEMBEDDED</param>
+    <param name="ks.myplan.datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
+    <param name="ks.myplan.datasource.url.derby">jdbc:derby://localhost:1527/derby/enroll;create=true</param>
+    <param name="ks.myplan.datasource.url.mysql">jdbc:mysql://localhost/KSEMBEDDED</param>
     <param name="ks.myplan.datasource.url">${ks.myplan.datasource.url.${db.vendor}}</param>
 
-	<param name="ks.myplan.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
-	<param name="ks.myplan.jpa.DatabasePlatform.derby">org.hibernate.dialect.DerbyDialect</param>
-	<param name="ks.myplan.jpa.DatabasePlatform.mysql">org.hibernate.dialect.MySQLDialect</param>
-	<param name="ks.myplan.jpa.DatabasePlatform">${ks.myplan.jpa.DatabasePlatform.${db.vendor}}</param>
+    <param name="ks.myplan.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
+    <param name="ks.myplan.jpa.DatabasePlatform.derby">org.hibernate.dialect.DerbyDialect</param>
+    <param name="ks.myplan.jpa.DatabasePlatform.mysql">org.hibernate.dialect.MySQLDialect</param>
+    <param name="ks.myplan.jpa.DatabasePlatform">${ks.myplan.jpa.DatabasePlatform.${db.vendor}}</param>
 
-	<param name="ks.myplan.datasource.validationQuery.oracle">select 1 from dual</param>
-	<param name="ks.myplan.datasource.validationQuery.derby">values(1)</param>
-	<param name="ks.myplan.datasource.validationQuery.mysql">select 1</param>
-	<param name="ks.myplan.datasource.validationQuery">${ks.myplan.datasource.validationQuery.${db.vendor}}</param>
+    <param name="ks.myplan.datasource.validationQuery.oracle">select 1 from dual</param>
+    <param name="ks.myplan.datasource.validationQuery.derby">values(1)</param>
+    <param name="ks.myplan.datasource.validationQuery.mysql">select 1</param>
+    <param name="ks.myplan.datasource.validationQuery">${ks.myplan.datasource.validationQuery.${db.vendor}}</param>
 
-	<param name="ks.myplan.datasource.username">ksmyplan</param>
-	<param name="ks.myplan.datasource.password">ksmyplan</param>
-
+    <param name="ks.myplan.datasource.username">ksmyplan</param>
+    <param name="ks.myplan.datasource.password">ksmyplan</param>
     <param name="ks.myplan.datasource.maxSize" override="false">10</param>
     <param name="ks.myplan.datasource.minSize" override="false">2</param>
     <param name="ks.myplan.datasource.maxWait" override="false">600</param>
@@ -113,7 +112,7 @@
     <param name="secure.workflowutility.soapservice.endpoint">false</param>
 
     <!-- KIM -->
-    <param name="kim.soapExposedService.jaxws.security">false</param>
+    <param name="kim.soapExposedService.jaxws.security">true</param>
     <!-- END KUALI STUDENT SETTINGS OVERRIDES -->
 
     <!-- Datasource Configuration -->
@@ -141,33 +140,7 @@
 
     <param name="transaction.timeout">3600</param>
 
-    <!-- Login Filter Configuration - Dummy Login Filter (CAS later?) -->
-    <!--    <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>-->
-    <!--    <param name="filtermapping.login.1">/*</param>-->
-
-    <!-- additional config files -->
-    <!--
-        Setting this property allows selective loading lum or core project or both
-    -->
-    <!--
-    <param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
-        classpath:ks-spring-security-saml.xml,classpath:ks-spring-security-sts.xml
-    </param>
-     -->
-
-    <!--
-      this property allows switching between the ks-embedded-admin-context which loads
-      the ks admin app into rice the old ks-embedded-context.xml which skips ks admin
-      and loads a mock messageservice impl
-    -->
-    <!-- <param name="ks.embedded.context">classpath:ks-embedded-admin-context.xml</param> -->
-
     <!-- additional context files -->
-    <!-- 
-    <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.KS-SYS.additionalSpringFiles">${ks.projects},${ks.embedded.context},${ks.authentication.context},${ks.institutional.context}</param>
-	-->
-
     <param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
 
     <param name="ks.rice.label">RICE</param>
@@ -212,28 +185,24 @@
     <param name="ks.statement.enable.caching">true</param>
     <param name="ks.lu.enable.caching">true</param>
     <param name="ks.searchForm.enable.caching">true</param>
-    <param name="ks.degreeAudit.enable.caching">true</param>
     <param name="ks.academicCalendar.enable.caching">true</param>
     <param name="myplan.cache.config.file">classpath:myplan-ehcache.xml</param>
     <param name="myplan.courseSearch.enable.caching">true</param>
     <param name="ks.courseOffering.enable.caching">true</param>
     <param name="ks.academicRecord.enable.caching">true</param>
+    <param name="ks.degreeAudit.enable.caching">true</param>
+
+    <!-- UW SWS Service Impl -->
+    <param name="uw.studentservice.impl">edu.uw.kuali.student.lib.client.studentservice.StudentServiceClientImpl</param>
+
 
     <!--<param name="css.files" override="true">ks-myplan/css/myplan.css,${css.files}</param>-->
 
-    <!-- default config files -->
+    <!-- Default config file location -->
     <param name="config.location">${user.home}/kuali/main/${environment}/myplan-config.xml</param>
+    <!-- App server config file location -->
     <param name="config.location">/data/myplan/etc/myplan-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
-
-
-    <!-- TODO: fix me for rice-2.0.0-rc1 Cannot nest same property inside (circular reference exception thrown)-->
-    <!--<param name="css.files" override="true">${css.files}</param>-->
-    <!--<param name="javascript.files" override="true">${javascript.files}</param>-->
-
-    <!--R-->
-    <param name="courseSearchBaseUrl">${application.url}</param>
-
 
     <param name="ks.institutional.context">classpath:uw-override-context.xml</param>
 </config>
