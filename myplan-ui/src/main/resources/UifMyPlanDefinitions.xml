@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+        >
+    <!--
+    Copyright 2007-2009 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    -->
+    <bean id="MyPlanTheme" abstract="true" parent="MyPlanTheme-parentBean"/>
+    <bean id="MyPlanTheme-parentBean" parent="Uif-KradTheme">
+        <property name="cssFiles">
+            <list merge="true">
+                <value>ks-myplan/css/myplan.css</value>
+                <value>ks-myplan/jquery-bubblepopup/jquery.bubblepopup.css</value>
+                <value>ks-myplan/jquery-ui/jquery-ui.css</value>
+            </list>
+        </property>
+        <property name="scriptFiles">
+            <list merge="true">
+                <value>ks-myplan/scripts/myplan.widgets.js</value>
+                <value>ks-myplan/scripts/myplan.events.js</value>
+                <value>ks-myplan/plugins/jquery.subscribe.js</value>
+                <value>ks-myplan/jquery-bubblepopup/jquery.bubblepopup.min.js</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- View without the header and footer and just the theme -->
+    <bean id="MyPlanBaseFormView" abstract="true" parent="Uif-FormView">
+        <property name="theme">
+            <bean parent="MyPlanTheme"/>
+        </property>
+    </bean>
+
+
+    <bean id="MyPlanFormView" abstract="true" parent="MyPlanBaseFormView">
+
+        <property name="applicationHeader">
+            <bean parent="Uif-HeaderOne" p:id="ks-banner"
+                  p:template="/ks-myplan/WEB-INF/jsp/templates/MyPlanApplicationHeader.jsp"
+                  p:cssClasses="fl-container-flex"/>
+        </property>
+
+        <property name="applicationFooter">
+            <bean parent="Uif-FooterBase" p:template="/ks-myplan/WEB-INF/jsp/templates/MyPlanApplicationFooter.jsp"
+                  p:cssClasses="fl-container-flex ks-page-bottom"/>
+        </property>
+
+    </bean>
+
+    <bean id="MyPlanBaseLookupView" abstract="true" parent="Uif-LookupView">
+        <property name="theme">
+            <bean parent="MyPlanTheme"/>
+        </property>
+    </bean>
+
+
+    <bean id="MyPlanLookupView" abstract="true" parent="MyPlanBaseLookupView">
+        <property name="applicationHeader">
+            <bean parent="Uif-HeaderOne" p:id="ks-banner"
+                  p:template="/ks-myplan/WEB-INF/jsp/templates/MyPlanApplicationHeader.jsp"
+                  p:cssClasses="fl-container-flex"/>
+        </property>
+
+        <property name="applicationFooter">
+            <bean parent="Uif-FooterBase" p:template="/ks-myplan/WEB-INF/jsp/templates/MyPlanApplicationFooter.jsp"
+                  p:cssClasses="fl-container-flex ks-page-bottom"/>
+        </property>
+    </bean>
+
+    <bean id="MyPlanBaseInquiryView" abstract="true" parent="Uif-InquiryView">
+        <property name="theme">
+            <bean parent="MyPlanTheme"/>
+        </property>
+    </bean>
+
+    <bean id="MyPlanInquiryView" abstract="true" parent="MyPlanBaseInquiryView">
+
+        <property name="applicationHeader">
+            <bean parent="Uif-HeaderOne" p:id="ks-banner"
+                  p:template="/ks-myplan/WEB-INF/jsp/templates/MyPlanApplicationHeader.jsp"
+                  p:cssClasses="fl-container-flex"/>
+        </property>
+
+        <property name="applicationFooter">
+            <bean parent="Uif-FooterBase" p:template="/ks-myplan/WEB-INF/jsp/templates/MyPlanApplicationFooter.jsp"
+                  p:cssClasses="fl-container-flex ks-page-bottom"/>
+        </property>
+
+    </bean>
+
+    <bean id="MyPlanBaseMaintenanceView" abstract="true" parent="Uif-MaintenanceView">
+        <property name="theme">
+            <bean parent="MyPlanTheme"/>
+        </property>
+    </bean>
+
+    <bean id="MyPlanMaintenanceView" abstract="true" parent="MyPlanBaseMaintenanceView">
+
+        <property name="footer" ref="MyPlanFooterDocument"/>
+
+        <property name="applicationHeader">
+            <bean parent="Uif-HeaderOne" p:id="ks-banner"
+                  p:template="/ks-myplan/WEB-INF/jsp/templates/MyPlanApplicationHeader.jsp"
+                  p:cssClasses="fl-container-flex"/>
+        </property>
+
+        <property name="applicationFooter">
+            <bean parent="Uif-FooterBase" p:template="/ks-myplan/WEB-INF/jsp/templates/MyPlanApplicationFooter.jsp"
+                  p:cssClasses="fl-container-flex ks-page-bottom"/>
+        </property>
+
+    </bean>
+
+    <bean id="MyPlanFooterDocument" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="performRouteReport" p:actionLabel="Route Report"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="sendAdHocRequests" p:actionLabel="Send Adhoc"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('route', replacePage);"
+                      p:actionLabel="Submit"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('save', replacePage);"
+                      p:actionLabel="Save"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>
+                <bean parent="Uif-PrimaryActionButton"
+                      p:clientSideJs="validateAndSubmit('blanketApprove', replacePage);" p:actionLabel="Blanket Approve"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('approve', replacePage);"
+                      p:actionLabel="Approve"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="disapprove" p:actionLabel="Disapprove"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="fyi" p:actionLabel="FYI"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="acknowledge" p:actionLabel="Acknowledge"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                <bean parent="Uif-ActionLink" p:clientSideJs="validateAndSubmit('copy', replacePage);"
+                      p:actionLabel="Copy"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="MyPlanFooter_SubmitCancel" parent="MyPlanFooterDocument">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('route', replacePage);"
+                      p:actionLabel="Submit"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="MyPlanHeader_Empty" parent="Uif-HeaderOne">
+        <property name="items">
+            <list/>
+        </property>
+    </bean>
+
+    <bean id="UifMyPlan-HorizontalStackedSubCollection-WithinSection"
+          parent="Uif-StackedSubCollection-WithinSection-parentBean">
+        <property name="layoutManager">
+            <bean parent="UifMyPlan-HorizontalStackedCollectionLayout"/>
+        </property>
+    </bean>
+
+
+    <bean id="UifMyPlan-HorizontalStackedCollectionLayout"
+          parent="Uif-StackedCollectionLayout-WithBoxItems-parentBean">
+        <property name="template" value="/ks-myplan/WEB-INF/jsp/templates/layout/override/horizontalstacked.jsp"/>
+
+        <property name="addLineGroup">
+            <bean parent="Uif-CollectionVerticalBoxItem">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>uif-collectionAddItem</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="lineGroupPrototype">
+            <bean parent="Uif-CollectionVerticalBoxItem"/>
+        </property>
+
+        <property name="subCollectionFieldGroupPrototype">
+            <bean parent="Uif-VerticalFieldGroup" p:cssClasses="uif-subCollection"/>
+        </property>
+
+    </bean>
+
+    <bean id="myplan_section" parent="Uif-VerticalBoxSubSection" p:headerText="YOUR STUFF (TBD)">
+        <property name="header">
+            <bean parent="Uif-HeaderFive" p:style="background: #ccc;" />
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>fl-container-200</value>
+                <value>myplan-section</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="watch_list"/>
+                <ref bean="degree_audits_list"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="watch_list" parent="Uif-VerticalBoxGroup" p:headerText="Bookmarked Courses List" >
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-saved-courses-summary</value>
+                <value>myplan-stacked-list</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="onDocumentReadyScript" value="
+            myplanRetrieveComponent('watch_list','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
+            jq('#watch_list_div')
+                .subscribe('PLAN_ITEM_DELETED', function(data){
+                    if (data.planItemType === 'wishlist') {
+                        deleteIntervalId = setInterval(function(){
+                            if (!jq('.jquerybubblepopup.jquerybubblepopup-myplan').length) {
+                                myplanRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
+                                clearInterval(deleteIntervalId);
+                            }
+                        }, 500 );
+                    }
+                })
+                .subscribe('PLAN_ITEM_ADDED', function(data){
+                    if (data.planItemType === 'wishlist') {
+                        myplanRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'},data.planItemId);
+                    }
+                });
+        "/>
+    </bean>
+
+    <bean id="degree_audits_list" parent="Uif-VerticalBoxGroup" p:headerText="Recent Audit Reports">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-recent-audit</value>
+                <value>myplan-stacked-list</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+
+        <property name="onDocumentReadyScript"
+                  value="myplanRetrieveComponent('degree_audits_list','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});"/>
+    </bean>
+    <bean id="text1">
+        <property name="instructionalText"
+                  value="Select the campus and enter degree program to run audit"/>
+    </bean>
+
+    <bean id="data_list_formatter" class="org.kuali.student.myplan.course.util.CollectionListPropertyEditor">
+        <property name="emptyListMessage" value="None"/>
+        <!-- This is available too
+        <property name="emptyListStyleClasses">
+            <list merge="true">
+                <value></value>
+            </list>
+        </property>
+        -->
+    </bean>
+
+    <bean id="crud_message_matrix_formatter" class="org.kuali.student.myplan.course.util.CrudMessageMatrixFormatter"/>
+
+    <bean id="scheduled_terms_list_formatter" class="org.kuali.student.myplan.course.util.ScheduledTermsPropertyEditor">
+        <property name="emptyListMessage" value="Not currently scheduled"/>
+        <property name="emptyListStyleClasses">
+            <list merge="true">
+                <value>empty</value>
+            </list>
+        </property>
+        <property name="styleClasses">
+            <list merge="true">
+                <value>scheduled</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="terms_formatter" class="org.kuali.student.myplan.course.util.CollectionListPropertyEditor">
+        <property name="emptyListMessage" value="No projected quarter information is available"/>
+        <property name="emptyListStyleClasses">
+            <list merge="true">
+                <value>empty</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="timestamp_formatter" class="org.kuali.student.myplan.course.util.TimestampPropertyEditor"/>
+
+
+</beans>

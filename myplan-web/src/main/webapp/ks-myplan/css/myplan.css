@@ -1,0 +1,838 @@
+*,
+*:active,
+*:focus {
+	outline: 0;
+}
+/* Hide messaging globally */
+#errorsFieldForPage_div {
+    display: none;
+}
+.jquerybubblepopup #errorsFieldForPage_div {
+    display: block;
+}
+body {
+    font: 12px/1.2em Helvetica, Arial, clean, sans-serif;
+}
+pre {
+    overflow-x: auto; /* Use horizontal scroller if needed; for Firefox 2, not needed in Firefox 3 */
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+a,
+a:hover,
+a:active,
+a:visited,
+a:focus {
+    outline: 0;
+    border: none;
+    color: #1d8fd9;
+}
+#Uif-Application {
+	margin:0 auto;
+	padding: 10px 0 10px 10px;
+	width: 950px;
+}
+.uif-pageContentWrapper,
+.uif-viewHeader,
+.uif-header {
+    margin: 0;
+}
+#appheader_div {
+	width: 940px;
+}
+#appheader_div #appheading_div {
+    overflow:auto;
+}
+#appheader_div #applogo_div,
+#appheader_div #appuser_div {
+    width:50%;
+    float:left;
+    overflow:auto;
+}
+#appheader_div #applogo_div {
+    font-size: 3em;
+    line-height: normal;
+}
+#appheader_div #applogo_div span{
+    font-size: 50%;
+    color: #999999;
+}
+#appheader_div #appuser_div {
+    text-align:right;
+    overflow: hidden;
+}
+#appheader_div #appuser_div .links ul,
+#appheader_div #appuser_div .links ul li {
+    list-style:none;
+    margin: 0;
+    padding: 0;
+}
+#appheader_div #appuser_div .links ul li {
+    display:inline-block;
+}
+#appheader_div #appnav_div {
+    clear: both;
+    border: solid 1px #e5e5e5;
+    background: #f5f5f5;
+    color: #999999;
+    padding: 15px;
+    margin: 10px 0px 0px 0px;
+}
+#appnav_div ul,
+#appnav_div ul li,
+#appfooter_div ul,
+#appfooter_div ul li {
+    list-style: none;
+    margin:  0;
+    padding:  0;
+}
+#appnav_div ul li,
+#appfooter_div ul li {
+    display: inline-block;
+    margin-left: 2em;
+}
+#appnav_div ul li:first-child,
+#appfooter_div ul li:first-child {
+    margin:  0;
+}
+#appfooter_div {
+	border: solid 1px #e5e5e5;
+    background: #f5f5f5;
+    color: #999999;
+    padding: 15px;
+    margin: 10px auto 0px;
+    width: 908px;
+}
+.myplan-view {
+	margin-top:10px;
+}
+.myplan-view #Uif-ViewContentWrapper {
+	min-height: 450px;
+}
+/* Overwrite KRAD Styles ########################################################################### */
+.myplan-view #Uif-PageContentWrapper,
+.myplan-view #viewfooter_div {
+	margin: 0;
+	padding: 0;
+    width: auto;
+    clear: both;
+}
+.myplan-view #Uif-Navigation {
+	display: none;
+}
+.myplan-view .uif-pageHeaderField .uif-header {
+    border: none;
+    font: bold 1.72em/1.5em Georgia, "Times New Roman", Serif !important;
+    padding: 0;
+}
+.myplan-view .kr-breadcrumbs {
+    margin: 0 0 1em 0;
+    padding: 0;
+    width: auto;
+    clear: both;
+}
+.myplan-view .uif-boxLayoutVerticalItem,
+.jquerybubblepopup .uif-boxLayoutVerticalItem {
+	margin: 0 0 10px 0;
+}
+.myplan-view .uif-boxLayoutHorizontalItem,
+.jquerybubblepopup .uif-boxLayoutHorizontalItem {
+	margin: 0 10px 0 0;
+}
+.myplan-view .uif-instructionalMessage {
+	max-width: none;
+    font-size: 1em;
+}
+.myplan-view .uif-collectionGroup > div:nth-child(2) {
+    padding: 0;
+    margin: 0;
+}
+button.myplan-button,
+button.myplan-button:hover  {
+    line-height: 22px;
+    height: 24px;
+	padding: 0px 10px;
+    border: solid 1px #969696;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+}
+button.myplan-button-blue,
+button.myplan-button-blue:hover {
+	color: #FFF;
+    text-shadow: 0px 1px 0px #333;
+    background: #007DD6;
+    background: -moz-linear-gradient(top, #8BCEFD 0%, #007DD6 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #8BCEFD), color-stop(100%, #007DD6)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #8BCEFD 0%,#007DD6 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #8BCEFD 0%, #007DD6 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #8BCEFD 0%, #007DD6 100%); /* IE10+ */
+    background: linear-gradient(top, #8BCEFD 0%, #007DD6 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8BCEFD', endColorstr='#007DD6', GradientType=0);  /* IE6-9 */
+}
+button.myplan-button-gray,
+button.myplan-button-gray:hover {
+    color: #333;
+    text-shadow: 0px 1px 0px #FFF;
+    background: #EBEBEB;
+    background: -moz-linear-gradient(top, #FDFDFD 0%, #EBEBEB 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FDFDFD), color-stop(100%, #EBEBEB)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #FDFDFD 0%,#EBEBEB 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #FDFDFD 0%, #EBEBEB 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #FDFDFD 0%, #EBEBEB 100%); /* IE10+ */
+    background: linear-gradient(top, #FDFDFD 0%, #EBEBEB 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FDFDFD', endColorstr='#EBEBEB', GradientType=0);  /* IE6-9 */
+}
+button.myplan-button-transparent,
+button.myplan-button-transparent:hover {
+    color: #1D8FD9;
+    text-shadow: none;
+    border-color: transparent !important;
+    background: transparent !important;
+    filter: none;
+}
+.myplan-stacked-list,
+.myplan-stacked-list ul,
+.myplan-stacked-list li,
+.myplan-stacked-list ul li,
+.myplan-stacked-list dl,
+.myplan-stacked-list dd,
+.myplan-stacked-list dl dd {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.myplan-stacked-list li,
+.myplan-stacked-list ul li,
+.myplan-stacked-list dd,
+.myplan-stacked-list dl dd {
+    display: block;
+}
+.myplan-data-list dl,
+.myplan-data-list dl dd {
+    margin: 0;
+    padding: 0;
+    display: inline;
+}
+.myplan-data-list dd.scheduled,
+.myplan-data-list dd.projected {
+    clear: both;
+    display: block;
+}
+.myplan-data-list .scheduled dl dd,
+.myplan-data-list dl.scheduled dd {
+    background: #ccc;
+    color: #333;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+    font-weight: bold;
+    font-size: 80%;
+    padding: 0 4px;
+    clear: none;
+    margin-right: 0.33em;
+    line-height: 1.8em;
+    display: inline-block;
+}
+.myplan-data-list dl dd:before {
+    content: ", ";
+}
+.myplan-data-list dl dd:first-child:before,
+.myplan-data-list .scheduled:before,
+.myplan-data-list .projected:before,
+.myplan-data-list .scheduled dl dd:before,
+.myplan-data-list dl.scheduled dd:before {
+    content: "";
+}
+.myplan-carousel-list > .uif-headerField .uif-header {
+    text-align: center;
+}
+.myplan-carousel-list {
+    overflow: hidden;
+}
+.myplan-carousel-list ul {
+    width: 20000em;
+}
+.myplan-carousel-list ul,
+.myplan-carousel-list ul li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.myplan-carousel-list ul li {
+    float:left;
+}
+.myplan-carousel-list ul li > .uif-group {
+    border:solid 1px #ccc;
+    width: 160px;
+    margin: 0 10px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+    background: url(../images/bkgrdDotted.gif);
+    min-height: 520px;
+}
+.myplan-carousel-list ul li .uif-group .uif-groupHeader {
+    display:block;
+    white-space:nowrap;
+    text-align:center;
+    background:#ccc;
+    color: #333;
+    font-weight:bold;
+    height: 26px;
+    line-height: 26px;
+    border-radius: 4px 4px 0px 0px;
+    -webkit-border-radius: 4px 4px 0px 0px;
+	-moz-border-radius: 4px 4px 0px 0px;
+}
+.myplan-carousel-list ul li .uif-group .uif-groupHeader.myplan-term-past {
+    color: #aaa;
+}
+.myplan-carousel-list ul li .uif-group .uif-groupHeader.myplan-term-current {
+    background-color: #666;
+    color: #fff;
+    font-size: 1.25em;
+}
+.myplan-carousel-list ul li .uif-group .uif-stackedCollectionLayout {
+    overflow: hidden;
+    background: none;
+    padding: 0px;
+}
+.myplan-carousel-list ul li .uif-group .uif-stackedCollectionLayout > .uif-collectionItem {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    background: none;
+}
+.myplan-carousel-list ul li .myplan-carousel-term.myplan-term-fixed-height .uif-stackedCollectionLayout {
+    height: 208px;
+}
+.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem {
+    margin-top: 1px;
+    font-size: 90%;
+    height: 25px;
+    line-height: 25px;
+    padding: 0 4px 0 24px;
+    display: block;
+}
+.myplan-carousel-list ul li .myplan-carousel-term h6.uif-headerText {
+    color: #aaa;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size:85%;
+    background: #f5f5f5;
+    height: 26px;
+    line-height: 26px;
+    padding: 0 4px;
+    display: block;
+}
+.myplan-carousel-prev,
+.myplan-carousel-next {
+    cursor: pointer;
+}
+.myplan-carousel-prev.disabled,
+.myplan-carousel-next.disabled {
+    visibility: hidden;
+}
+.myplan-carousel-term-total {
+    background:#ccc;
+    font-weight:bold;
+    color:#666;
+    font-size:90%;
+    height: 26px;
+    line-height: 26px;
+    padding: 0 4px;
+    display: block;
+}
+/* Layout styles ########################################################################### */
+.myplan-container-720 {
+    width: 720px;
+}
+.myplan-course-search-panel {
+	background: #d6d6d6;
+	border: solid 2px #a9a9a9;
+	padding: 10px 0 0 10px;
+	border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+    overflow: hidden;
+}
+.myplan-remove-margin .uif-boxLayoutVerticalItem,
+.myplan-remove-margin .uif-boxLayoutHorizontalItem {
+    margin: 0;
+    padding: 0;
+}
+.myplan-message-border {
+    padding: 5px;
+    display: block;
+    float: left;
+    margin: 0 !important;
+    border: solid 1px #d7d7d7;
+    background: #e4e4e4;
+}
+.myplan-message-noborder {
+    padding: 5px;
+    display: block;
+    float: left;
+    border: none;
+    margin: 0 !important;
+}
+.myplan-message-success {
+    background: #e4e4e4 url(../images/iconSuccess16.png) no-repeat 5px center;
+    padding-left: 26px !important;
+}
+.myplan-message-error {
+    background: #ffd4d4 url(../images/iconError16.png) no-repeat 5px center;
+    border-color: #e3b8b8;
+    padding-left: 26px !important;
+
+}
+.myplan-message-info {
+    background: #e4e4e4 url(../images/iconInfo16.png) no-repeat 5px center;
+    padding-left: 26px !important;
+}
+/* Text styles ########################################################################### */
+.myplan-text-italic {
+    font-style: italic !important;
+}
+.myplan-text-align-left {
+    text-align: left !important;
+}
+.myplan-text-nowrap {
+    white-space: nowrap !important;
+}
+.myplan-text-wrap {
+    white-space: normal !important;
+}
+.myplan-text-normal,
+.myplan-text-normal label {
+    font-weight: normal !important;
+}
+.myplan-text-ellipsis {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
+}
+/* Styles for Course Search Panel ################################################################################## */
+.myplan-course-search-panel input[type='text'] {
+    border: solid 1px #969696;
+    padding: 4px;
+    width: 200px;
+}
+/* Styles for Facet Panel ################################################################################## */
+.myplan-facets-panel {
+	border: solid 1px #a9a9a9;
+    border-top: none;
+    font-size: 90%;
+    width: 128px;
+}
+.myplan-facets-panel a, .myplan-facets-panel a:hover{
+    color: #000;
+}
+.myplan-facets-panel .uif-boxLayoutVerticalItem,
+.myplan-facets-panel .myplan-facets-group ul,
+.myplan-facets-panel .myplan-facets-group ul li {
+    margin: 0;
+    padding: 0;
+}
+.myplan-facets-panel .myplan-facets-group .uif-listCollectionGroup {
+	max-height: 95px;
+	overflow-y: auto;
+    border-top: solid 1px #a9a9a9;
+    padding-top: 3px;
+}
+.myplan-facets-panel .myplan-facets-group .uif-listCollectionGroup div[id$='_group'] {
+	overflow: hidden;
+}
+.myplan-facets-group a[id$='_toggle'] {
+    text-decoration: none;
+}
+.myplan-facets-panel .uif-header {
+	display: block;
+	background: #cccccc;
+	border-top: solid 1px #a9a9a9;
+	padding: 4px 0px 4px 4px;
+    white-space: nowrap;
+}
+.myplan-facets-panel .uif-header .uif-headerText {
+    text-transform: none;
+	font-weight: normal;
+	color: #000;
+	font-size: 1em;
+}
+.myplan-facets-panel .myplan-facets-group .uif-header {
+    background: #e9e9e9;
+}
+.myplan-facets-panel .myplan-facets-group .uif-header .uif-headerText {
+	font-size: 1em !important;
+	font-weight: bold;
+}
+.myplan-facets-panel .myplan-facets-group .uif-header img.expand_collapse-buttons {
+    float: right;
+    background: url('../images/facetExpandCollapse.png') no-repeat 0px 0px;
+    margin: 0;
+}
+.myplan-facets-panel .myplan-facets-group .uif-header img.expand_collapse-buttons[alt="expand"] {
+    background-position: 0px 0px;
+}
+.myplan-facets-panel .myplan-facets-group .uif-header img.expand_collapse-buttons[alt="collapse"] {
+    background-position: 0px -14px;
+}
+.myplan-facets-panel .myplan-facets-group span.all {
+    border-top: solid 1px #a9a9a9;
+    display: none;
+}
+.myplan-facets-panel .myplan-facets-group a.item {
+    padding: 0 0 0 21px;
+    background: url('../images/facetCheckbox.png') no-repeat 0px 0px;
+    min-height: 16px;
+    line-height: 16px;
+    display: block;
+    margin: 0 0 3px 3px;
+    cursor: pointer;
+    opacity: 1;
+}
+.myplan-facets-panel .myplan-facets-group a.item.all {
+	margin-top: 3px;
+}
+.myplan-facets-panel .myplan-facets-group a.item.checked {
+    background-position: 0px -32px;
+}
+.myplan-facets-panel .myplan-facets-group a.item.static,
+.myplan-facets-panel .myplan-facets-group a.item.static:hover {
+    background-position: 0px -32px;
+	cursor: default;
+    text-decoration: none;
+}
+.myplan-facets-panel .myplan-facets-group a.item span {
+    color: #999;
+    text-decoration: none;
+}
+.myplan-facets-panel .myplan-facets-group a.item.disabled,
+.myplan-facets-panel .myplan-facets-group a.item.disabled:hover {
+    text-decoration: none;
+    cursor: default;
+    opacity: 0.33;
+}
+/* Styles for course search results ########################################################################### */
+.dataTables_wrapper {
+	width: 580px;
+	float: left;
+}
+.dataTables_wrapper .dataTables_info {
+    float: none;
+    font-size: 150%;
+    margin: 0;
+}
+.dataTables_wrapper .dataTables_length {
+    float: right;
+    text-align: right;
+    clear: both;
+    margin: 0 0 0.5em 0;
+}
+.dataTables_wrapper .myplan-course-search-results-datatable {
+    border: solid 1px #a9a9a9;
+    border-bottom: none;
+    line-height: 1.8em;
+    margin: 0;
+    width: 578px;
+    clear: both;
+}
+.dataTables_wrapper .myplan-course-search-results-datatable .fl-text-align-center {
+	text-align: center;
+}
+table.myplan-course-search-results-datatable thead tr {
+	background: #d6d6d6;
+	border: none;
+}
+table.myplan-course-search-results-datatable thead tr th {
+    border: none;
+    padding: 3px;
+    line-height: 19px;
+    font-weight: bold;
+    color: #5f5e5f;
+    font-size: 88%;
+    text-transform: none;
+}
+table.myplan-course-search-results-datatable .sorting,
+table.myplan-course-search-results-datatable .sorting_disabled,
+table.myplan-course-search-results-datatable .sorting_asc,
+table.myplan-course-search-results-datatable .sorting_desc {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+table.myplan-course-search-results-datatable .sorting {
+    background-image: url('../images/sortBoth.png');
+}
+table.myplan-course-search-results-datatable .sorting_asc {
+    background-image: url('../images/sortAsc.png');
+}
+table.myplan-course-search-results-datatable .sorting_desc {
+    background-image: url('../images/sortDesc.png');
+}
+table.myplan-course-search-results-datatable tbody tr {
+	border: none;
+}
+table.myplan-course-search-results-datatable tbody tr th,
+table.myplan-course-search-results-datatable tbody tr td {
+    vertical-align: middle;
+    border: none;
+}
+table.myplan-course-search-results-datatable tbody tr td {
+	line-height: 1.8em;
+    height: 1.8em;
+    padding: 2px 3px;
+}
+table.myplan-course-search-results-datatable tbody tr td a.myplan-text-ellipsis {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
+}
+table.myplan-course-search-results-datatable .odd,
+table.myplan-course-search-results-datatable .odd td[class^='sorting_'] {
+    background: #fff;
+}
+table.myplan-course-search-results-datatable .even,
+table.myplan-course-search-results-datatable .even td[class^='sorting_'] {
+    background: #eee;
+}
+table.myplan-course-search-results-datatable .odd:hover,
+table.myplan-course-search-results-datatable .even:hover {
+    background: #ddd;
+}
+.dataTables_wrapper .dataTables_paginate.paging_full_numbers {
+    width: auto;
+    float: none;
+    clear: both;
+    background: #d6d6d6;
+    border: solid 1px #a9a9a9;
+    border-top: none;
+    text-align: right;
+    overflow: hidden;
+    padding: 5px 0px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button,
+.dataTables_wrapper .dataTables_paginate .paginate_active {
+	padding: 2px 7px;
+	margin: 0 3px;
+}
+.dataTables_wrapper .dataTables_paginate .first,
+.dataTables_wrapper .dataTables_paginate .last {
+	display:none;
+}
+.dataTables_wrapper .dataTables_paginate .previous{
+	border-right: solid 1px #000;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+.dataTables_wrapper .dataTables_paginate .next {
+	border-left: solid 1px #000;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_active {
+    font-weight:bold;
+    background: #666;
+    color:#fff;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_active:hover {
+	cursor: pointer;
+}
+.dataTables_wrapper .dataTables_paginate .previous:hover,
+.dataTables_wrapper .dataTables_paginate .next:hover,
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+/* Styles for empty result set page ########################################################################### */
+.myplan-course-search-empty {
+    border: solid 1px #a9a9a9;
+    padding: 10px 10px 0 10px;
+}
+.myplan-course-search-empty > div[id$='_group'] {
+    margin: 0 auto;
+    width: 80%;
+    padding: 25px 0;
+}
+.myplan-course-search-empty > div[id$='_group'] div[id$='_group']>div>span>span {
+    display: list-item;
+    margin: 0;
+    list-style-type: disc;
+    list-style-position: inside;
+}
+/* Course Details Styles ########################################################################### */
+.myplan-course-details table td,
+.myplan-course-details table th {
+    padding-bottom: 1.8em;
+}
+.myplan-course-details table td .uif-boxLayoutHorizontalItem {
+    margin: 0 0.33em 0 0;
+}
+/* MyPlan Section (right side container) ########################################################################### */
+.myplan-section {
+    border: solid 1px #ccc;
+}
+.myplan-section .uif-boxLayoutVerticalItem,
+.myplan-section .uif-boxLayoutHorizontalItem {
+    margin: 0;
+    padding: 0;
+}
+.myplan-section .uif-header {
+    font-weight: normal;
+    display: block;
+    text-align:center;
+    line-height: 1.5em;
+    padding: 5px;
+    background: #e4e4e4;
+    margin: 0;
+}
+.myplan-section .uif-header .uif-headerText {
+    font-weight: normal;
+    text-align: center;
+    text-transform: none;
+}
+.myplan-section .uif-listCollectionGroup ul {
+    min-height: 24px;
+}
+.myplan-section div.blockElement {
+    left: 92px !important;
+    top: 4px !important;
+    border: none;
+    width: 16px;
+}
+.myplan-section .uif-listCollectionGroup ul li {
+    border-bottom:dotted 1px #aaaaaa;
+    padding: 6px 4px;
+    display: block;
+    clear:both;
+    cursor: pointer;
+    font-size: 95%;
+}
+.myplan-section .uif-listCollectionGroup ul li:hover {
+    background: #a9a9a9;
+}
+/* Saved Courses Summary Styles ########################################################################### */
+
+/* Recent Audit List Styles ########################################################################### */
+.myplan-recent-audit ul li:first-child {
+    border: none;
+}
+/* Saved Courses Detail Styles ########################################################################### */
+.myplan-saved-courses-detail {
+    line-height: 1.8em;
+}
+.myplan-saved-courses-detail ul,
+.myplan-saved-courses-detail ul li,
+.myplan-saved-courses-detail ul li dl,
+.myplan-saved-courses-detail ul li dl dd {
+    margin: 0;
+    padding: 0;
+}
+.myplan-saved-courses-detail .uif-sectionHeaderField .uif-header {
+    font-size: 1.25em;
+    font-weight: normal;
+    margin-bottom: 1em;
+    border: none;
+    font-family: Helvetica, Arial, clean, sans-serif;
+}
+.myplan-saved-courses-detail ul li {
+    border-top: dotted 1px #aaaaaa;
+    padding:10px;
+    display:block;
+}
+.myplan-saved-courses-detail .myplan-saved-courses-detail-heading .uif-boxLayout {
+	float: none !important;
+}
+/* Course Details Popup ########################################################################### */
+.myplan-popup-close {
+    cursor: pointer;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+.myplan-popup-item {
+    width: 300px;
+    height: 275px;
+    float: left;
+}
+.jquerybubblepopup-innerHtml div.blockElement {
+    top: 0px !important;
+}
+
+/* beginning of scrollbar ########################################################################### */
+::-webkit-scrollbar {
+        width:8px;
+        height:8px;
+}
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment {
+        display:block;
+        height:0;
+        background-color:transparent;
+}
+::-webkit-scrollbar-track {
+		margin: 2px;
+}
+::-webkit-scrollbar-track-piece{
+        background-color:#eee;
+        -webkit-border-radius:8px;
+}
+::-webkit-scrollbar-thumb:vertical {
+        height:50px;background-color:#999;
+        -webkit-border-radius:8px;
+}
+::-webkit-scrollbar-thumb:horizontal {
+        width:50px;background-color:#999;
+        -webkit-border-radius:8px;
+}
+
+/* Planned Courses ################################################################################### */
+.myplan-view #planned_courses_detail_page_div {
+	padding-top: 10px;
+}
+
+.myplan-audit-widget select {
+    width: 180px;
+    margin: 10px 0px 0px;
+}
+label.scheduled {
+    background: #ccc;
+    color: #333;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+    font-weight: bold;
+    font-size: 80%;
+    padding: 0 4px;
+    clear: none;
+    margin-right: 0.33em;
+    line-height: 1.8em;
+    display: inline-block;
+}
+
+.myplan-full-plan-detail {
+    border: solid 1px #a9a9a9;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+}
+.myplan-full-plan-detail table td,
+.myplan-full-plan-detail table th,
+.myplan-full-plan-detail ul,
+.myplan-full-plan-detail ul li {
+    padding: 0;
+    margin: 0;
+}
