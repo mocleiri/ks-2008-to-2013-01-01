@@ -3,7 +3,11 @@
 #
 AuthType UWNetID
 PubcookieAppID KualiStudent 
-require valid-user
+#require valid-user
+AuthGroupFile /data/kuali/etc/access_control.txt
+require group myplan_users
+
+
 #
 #  Redirect to https
 #
