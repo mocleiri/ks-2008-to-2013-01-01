@@ -203,7 +203,7 @@
     <!-- Default config file location -->
     <param name="config.location">${user.home}/kuali/main/${environment}/myplan-config.xml</param>
     <!-- App server config file location -->
-    <param name="config.location">/data/myplan/etc/myplan-config.xml</param>
+    <param name="config.location">/data/kuali/etc/myplan-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
 
     <param name="ks.institutional.context">classpath:uw-override-context.xml</param>
