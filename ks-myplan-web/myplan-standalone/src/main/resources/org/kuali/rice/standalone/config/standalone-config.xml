@@ -195,6 +195,8 @@
     <!-- UW SWS Service Impl -->
     <param name="uw.studentservice.impl">edu.uw.kuali.student.lib.client.studentservice.StudentServiceClientImpl</param>
 
+    <!-- Base URL for the course search servlet -->
+    <param name="courseSearchBaseUrl">${application.url}</param>
 
     <!--<param name="css.files" override="true">ks-myplan/css/myplan.css,${css.files}</param>-->
 
