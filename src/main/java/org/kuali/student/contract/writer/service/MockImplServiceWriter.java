@@ -92,6 +92,7 @@ public class MockImplServiceWriter extends JavaClassWriter {
         DELETE,
         REMOVE,
         DELETE_OTHER,
+        GET_CREATE,
         GET_BY_ID,
         GET_BY_IDS,
         GET_IDS_BY_TYPE,
@@ -136,6 +137,10 @@ public class MockImplServiceWriter extends JavaClassWriter {
         }
         if (method.getName().startsWith("remove")) {
             return MethodType.REMOVE;
+        }
+        
+        if (method.getName().startsWith("getCreate")) {
+            return MethodType.GET_CREATE;            
         }
         if (method.getName().startsWith("get")) {
             if (method.getName().endsWith("ByIds")) {
@@ -489,7 +494,8 @@ public class MockImplServiceWriter extends JavaClassWriter {
                 }
             }
         }
-        return null;
+        System.out.println ("Could not find the Id paramter for " + method.getService() + "." + method.getName() + " so returning the first one");
+        return method.getParameters().get(0);
     }
 
     private ServiceMethodParameter findContextParameter(ServiceMethod method) {
