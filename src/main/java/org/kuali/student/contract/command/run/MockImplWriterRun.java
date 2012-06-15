@@ -35,7 +35,7 @@ public class MockImplWriterRun {
     private static final String CORE_DIRECTORY =
             "C:/svn/student/ks-core/ks-core-api/src/main/java";
     private static final String ENROLL_DIRECTORY =
-            "C:/svn/ks-1.3-services/ks-enroll/ks-enroll-api/src/main/java";
+            "C:/svn/ks-1.3/ks-enroll/ks-enroll-api/src/main/java";
 //                           "C:/svn/maven-dictionary-generator/trunk/src/main/java/org/kuali/student/core";
     private static final String COMMON_DIRECTORY =
             "C:/svn/student/ks-common/ks-common-api/src/main/java";
@@ -44,9 +44,10 @@ public class MockImplWriterRun {
 
     private static ServiceContractModel getModel() {
         List<String> srcDirs = new ArrayList();
-        srcDirs.add(LUM_DIRECTORY);
-        srcDirs.add(CORE_DIRECTORY);
-        srcDirs.add(COMMON_DIRECTORY);
+        srcDirs.add(ENROLL_DIRECTORY);
+//        srcDirs.add(LUM_DIRECTORY);
+//        srcDirs.add(CORE_DIRECTORY);
+//        srcDirs.add(COMMON_DIRECTORY);
         ServiceContractModel instance = new ServiceContractModelQDoxLoader(srcDirs);
         return new ServiceContractModelCache(instance);
     }
@@ -85,7 +86,7 @@ public class MockImplWriterRun {
 //   ServicesFilter filter = new ServicesFilterByKeys (servicesToProcess);
         String targetDir = "target/gen-src";
 //  targetDir = "src/main/java";
-        boolean isR1 = true;
+        boolean isR1 = false;
         MockImplWriter instance =
                 new MockImplWriter(model,
                 targetDir,
