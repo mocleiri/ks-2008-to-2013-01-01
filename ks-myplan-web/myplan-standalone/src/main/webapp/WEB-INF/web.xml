@@ -14,19 +14,6 @@
         <param-value>classpath:org/kuali/rice/standalone/config/StandaloneSpringBeans.xml</param-value>
     </context-param>
 
-    <context-param>
-        <param-name>org.restlet.component</param-name>
-        <param-value>courseSearchComponent</param-value>
-    </context-param>
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:MyPlanRestletContext.xml</param-value>
-    </context-param>
-
-    <listener>
-    	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-  	</listener>
-
     <filter>
         <filter-name>UserLoginFilter</filter-name>
         <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
@@ -232,13 +219,6 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <!-- Restlet servlet -->
-    <servlet>
-        <servlet-name>coursesearch</servlet-name>
-        <servlet-class>org.restlet.ext.spring.SpringServerServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
     <servlet>
         <servlet-name>export</servlet-name>
         <servlet-class>org.kuali.rice.core.web.impex.ExportServlet</servlet-class>
@@ -259,17 +239,11 @@
         <servlet-class>org.kuali.rice.edl.impl.EDLServlet</servlet-class>
     </servlet>
 
-    <!-- added by bonnie -->
     <servlet>
         <servlet-name>myplan</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
-
-    <servlet-mapping>
-        <servlet-name>coursesearch</servlet-name>
-        <url-pattern>/search/*</url-pattern>
-    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>remoting</servlet-name>
