@@ -16,12 +16,14 @@
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
 <channel:portalChannelTop channelTitle="MyPlan Applications" />
-<div class="body">  
+<div class="body">
   <strong>MyPlan -- Find Courses</strong>
   <ul class="chan">
   	<li><a href="${ConfigProperties.application.url}/myplan/course?methodToCall=start&viewId=CourseSearch-FormView" target="_new">Course Search</a></li>
 	<li><a href="${ConfigProperties.application.url}/myplan/audit?methodToCall=audit&viewId=DegreeAudit-FormView" target="_new">Degree Audit</a></li>
 	<li><a href="${ConfigProperties.application.url}/myplan/lookup?methodToCall=search&viewId=PlannedCourses-LookupView" target="_new">Your Plan</a></li>
-  </ul>      
+    <li><a href="${ConfigProperties.application.url}/myplan/advise/${UserSession.principalId}" target="_new">Adviser Access</a></li>
+
+  </ul>
 </div>
 <channel:portalChannelBottom />
