@@ -658,8 +658,15 @@ public class MockImplServiceWriter extends JavaClassWriter {
         String mapName = calcMapName(method);
         indentPrintln("if (!this." + mapName + ".containsKey(" + idParam.getName() + ")) {");
         indentPrintln("   throw new DoesNotExistException(" + idParam.getName() + ");");
-        indentPrintln("}");
-        indentPrintln("return this." + mapName + ".get (" + idParam.getName() + ");");
+        indentPrintln("}");        
+        String objectName = calcObjectName(method);
+        String infoName = objectName + "Info";
+        if (isR1) {
+             indentPrintln("return this." + mapName + ".get (" + idParam.getName() + ");");
+        } else {
+            indentPrintln("return new " + infoName + "(this." + mapName + ".get (" + idParam.getName() + "));");
+        }
+        
     }
 
     private void writeGetByIds(ServiceMethod method) {
