@@ -85,7 +85,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         super(instruction);
         this.setId(instruction.getId());
         this.processId = instruction.getProcessKey();
-        this.checkId = instruction.getCheckKey();
+        this.checkId = instruction.getCheckId();
         this.instructionType = instruction.getTypeKey();
         this.fromDTO (instruction);
     }
@@ -94,7 +94,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         this.instructionState = instruction.getStateKey();
         this.effectiveDate = instruction.getEffectiveDate();
         this.expirationDate = instruction.getExpirationDate();
-        this.appliedPopulationId = instruction.getAppliedPopulationKey();
+        this.appliedPopulationId = instruction.getAppliedPopulationId();
         if (instruction.getMessage() != null) {
             this.messageFormatted = instruction.getMessage().getFormatted();
             this.messagePlain = instruction.getMessage().getPlain();
@@ -124,12 +124,12 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         instructionInfo.setMeta(super.toDTO());
         instructionInfo.setId(getId());
         instructionInfo.setProcessKey(processId);
-        instructionInfo.setCheckKey(checkId);
+        instructionInfo.setCheckId(checkId);
         instructionInfo.setTypeKey(instructionType);
         instructionInfo.setStateKey(instructionState);
         instructionInfo.setEffectiveDate(effectiveDate);
         instructionInfo.setExpirationDate(expirationDate);
-        instructionInfo.setAppliedPopulationKey(appliedPopulationId);
+        instructionInfo.setAppliedPopulationId(appliedPopulationId);
         instructionInfo.setMessage(new RichTextHelper().toRichTextInfo(messagePlain, messageFormatted));
         instructionInfo.setPosition(position);
         instructionInfo.setIsWarning(warning);

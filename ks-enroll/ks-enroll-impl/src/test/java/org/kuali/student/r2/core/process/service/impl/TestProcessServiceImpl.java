@@ -155,13 +155,13 @@ public class TestProcessServiceImpl {
 
         assertNotNull(existingInstruction.getAppliedAtpTypeKeys());
         assertTrue(existingInstruction.getAppliedAtpTypeKeys().isEmpty()); // TODO
-        assertNotNull(existingInstruction.getAppliedPopulationKey());
-        assertFalse(existingInstruction.getAppliedPopulationKey().isEmpty());
+        assertNotNull(existingInstruction.getAppliedPopulationId());
+        assertFalse(existingInstruction.getAppliedPopulationId().isEmpty());
         // assertEquals(1, existingInstruction.getAppliedPopulationKeys().size());
         // assertTrue(existingInstruction.getAppliedPopulationKeys().contains("kuali.population.everyone"));
-        assertEquals(existingInstruction.getAppliedPopulationKey(), "kuali.population.everyone");
+        assertEquals(existingInstruction.getAppliedPopulationId(), "kuali.population.everyone");
         assertNotNull(existingInstruction.getAttributes());
-        assertNotNull(existingInstruction.getCheckKey());
+        assertNotNull(existingInstruction.getCheckId());
         assertNotNull(existingInstruction.getContinueOnFail());
         assertNotNull(existingInstruction.getEffectiveDate());
         assertNull(existingInstruction.getExpirationDate());
@@ -178,10 +178,10 @@ public class TestProcessServiceImpl {
         // Create
         InstructionInfo instruction = new InstructionInfo();
         instruction.setAppliedAtpTypeKeys(new ArrayList<String>(){{add("kuali.atp.type.Fall");}});
-        instruction.setAppliedPopulationKey("Population-1");
+        instruction.setAppliedPopulationId("Population-1");
         // instruction.setAppliedPopulationKeys(new ArrayList<String>(){{add("Population-1");}});
 //        instruction.setAttributes();
-        instruction.setCheckKey("kuali.check.has.not.paid.bill.from.prior.term");
+        instruction.setCheckId("kuali.check.has.not.paid.bill.from.prior.term");
         instruction.setContinueOnFail(Boolean.TRUE);
 //        instruction.setEffectiveDate();
 //        instruction.setExpirationDate();
@@ -192,16 +192,16 @@ public class TestProcessServiceImpl {
         instruction.setPosition(5);
         instruction.setProcessKey("kuali.process.registration.eligibility.for.term");
         instruction.setStateKey(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY);
-        instruction = processService.createInstruction(instruction.getProcessKey(), instruction.getCheckKey(), ProcessServiceConstants.INSTRUCTION_TYPE_KEY, instruction, context);
+        instruction = processService.createInstruction(instruction.getProcessKey(), instruction.getCheckId(), ProcessServiceConstants.INSTRUCTION_TYPE_KEY, instruction, context);
         String instructionId = instruction.getId();
         instruction = processService.getInstruction(instructionId, context);
         assertNotNull(instruction.getAppliedAtpTypeKeys());
         assertEquals(1, instruction.getAppliedAtpTypeKeys().size());
         assertTrue(instruction.getAppliedAtpTypeKeys().contains("kuali.atp.type.Fall"));
-        assertNotNull(instruction.getAppliedPopulationKey());
+        assertNotNull(instruction.getAppliedPopulationId());
 //        assertEquals(1, instruction.getAppliedPopulationKeys().size());
 //        assertTrue(instruction.getAppliedPopulationKeys().contains("Population-1"));
-        assertEquals("kuali.check.has.not.paid.bill.from.prior.term", instruction.getCheckKey());
+        assertEquals("kuali.check.has.not.paid.bill.from.prior.term", instruction.getCheckId());
         assertTrue(instruction.getContinueOnFail());
         assertNotNull(instruction.getId());
         assertTrue(instruction.getIsExemptible());
@@ -214,10 +214,10 @@ public class TestProcessServiceImpl {
 
         // Update
         instruction.setAppliedAtpTypeKeys(new ArrayList<String>(){{add("kuali.atp.type.Spring");}});
-        instruction.setAppliedPopulationKey("Population-2");
+        instruction.setAppliedPopulationId("Population-2");
         // instruction.setAppliedPopulationKeys(new ArrayList<String>(){{add("Population-2");}});
 //        instruction.setAttributes();
-        instruction.setCheckKey("kuali.check.has.overdue.library.book");
+        instruction.setCheckId("kuali.check.has.overdue.library.book");
         instruction.setContinueOnFail(Boolean.FALSE);
 //        instruction.setEffectiveDate();
 //        instruction.setExpirationDate();
@@ -234,10 +234,10 @@ public class TestProcessServiceImpl {
         assertNotNull(instruction.getAppliedAtpTypeKeys());
         assertEquals(1, instruction.getAppliedAtpTypeKeys().size());
 //        assertTrue(instruction.getAppliedAtpTypeKeys().contains("kuali.atp.type.Spring"));
-        assertNotNull(instruction.getAppliedPopulationKey());
+        assertNotNull(instruction.getAppliedPopulationId());
 //        assertEquals(1, instruction.getAppliedPopulationKeys().size());
 //        assertTrue(instruction.getAppliedPopulationKeys().contains("Population-1"));
-        assertEquals("kuali.check.has.overdue.library.book", instruction.getCheckKey());
+        assertEquals("kuali.check.has.overdue.library.book", instruction.getCheckId());
         assertFalse(instruction.getContinueOnFail());
         assertNotNull(instruction.getId());
         assertFalse(instruction.getIsExemptible());

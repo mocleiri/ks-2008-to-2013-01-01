@@ -288,17 +288,6 @@ public class CourseOfferingInfo
         this.isHonorsOffering = isHonorsOffering;
     }
 
-    @Deprecated
-    @Override
-    public Boolean getHonorsOffering() {
-        return isHonorsOffering;
-    }
-
-    @Deprecated
-    public void setHonorsOffering(Boolean honorsOffering) {
-        isHonorsOffering = honorsOffering;
-    }
-
     @Override
     public List<String> getCampusLocations() {
         return campusLocations;
@@ -482,15 +471,6 @@ public class CourseOfferingInfo
     }
 
     @Override
-    public Boolean getFinancialAidEligible() {
-        return isFinancialAidEligible;
-    }
-
-    public void setFinancialAidEligible(Boolean financialAidEligible) {
-        isFinancialAidEligible = financialAidEligible;
-    }
-
-    @Override
     public Boolean getIsEvaluated() {
         return isEvaluated;
     }
@@ -528,6 +508,20 @@ public class CourseOfferingInfo
 	public String getFinalExamType() {
 		return this.finalExamType;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("CourseOfferingInfo [courseId=");
+		builder.append(courseId);
+		builder.append(", termId=");
+		builder.append(termId);
+		builder.append(", courseOfferingCode=");
+		builder.append(courseOfferingCode);
+		builder.append("]");
+		return builder.toString();
+	}
+	
 	
 	
     

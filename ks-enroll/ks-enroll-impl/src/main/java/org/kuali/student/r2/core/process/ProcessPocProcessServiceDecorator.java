@@ -95,15 +95,15 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         info.setStateKey(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY);
         info.setProcessKey(processKey);
         // info.setAppliedPopulationKeys(Arrays.asList(populationKey));
-        info.setAppliedPopulationKey(populationKey);
-        info.setCheckKey(checkKey);
+        info.setAppliedPopulationId(populationKey);
+        info.setCheckId(checkKey);
         info.setMessage(new RichTextHelper().fromPlain(message));
         info.setPosition(position);
         info.setContinueOnFail(continueOnFail);
         info.setIsWarning(isWarning);
         info.setIsExemptible(canBeExempted);
         try {
-            info = this.createInstruction(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, info.getProcessKey(), info.getCheckKey(), info, context);
+            info = this.createInstruction(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, info.getProcessKey(), info.getCheckId(), info, context);
         } catch (Exception ex) {
             throw new RuntimeException("error creating exemption request", ex);
         }

@@ -57,7 +57,7 @@ public interface Instruction
      * @required
      * @readOnly
      */
-    public String getCheckKey();
+    public String getCheckId();
 
     /**
      * The Population Id to which the Check applies.
@@ -65,7 +65,7 @@ public interface Instruction
      *
      * @name Applied Population Id
      */
-    public String getAppliedPopulationKey();
+    public String getAppliedPopulationId();
 
     /**
      * The ATP Type keys to which the Check applies.
