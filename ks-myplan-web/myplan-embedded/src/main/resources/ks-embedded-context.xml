@@ -40,7 +40,7 @@
 		<constructor-arg index="0" type="java.net.URL" value="${ks.cache.config.file}" />
 	</bean>
 
-	<bean id="enumMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice">
+	<bean id="enumMethodCacheAdvisor" class="org.kuali.student.myplan.util.QueryMethodArgsCacheAdvice">
 		<property name="cacheName" value="enumCache" />
 		<property name="cacheManager" ref="ksCacheManager"/>
 		<property name="enabled" value="${ks.enum.enable.caching}"/>
@@ -128,6 +128,7 @@
             <aop:around pointcut="execution(*  org.kuali.student.core.enumerationmanagement.service.impl.*.search*(..))" method="getFromCache" />
             <aop:around pointcut="execution(*  org.kuali.student.core.enumerationmanagement.service.impl.*.addEnumeratedValue*(..))" method="invalidateCache" />
             <aop:around pointcut="execution(*  org.kuali.student.core.enumerationmanagement.service.impl.*.updateEnumeratedValue*(..))" method="invalidateCache" />
+            <aop:around pointcut="execution(*  org.kuali.student.core.enumerationmanagement.service.impl.*.getEnumeratedValues*(..))" method="getFromCache" />
         </aop:aspect>
         <aop:aspect id="atpCacheAroundSearch" ref="atpMethodCacheAdvisor">
             <aop:around pointcut="execution(*  org.kuali.student.core.atp.service.impl.*.getAtpType(..))" method="getFromCache" />
