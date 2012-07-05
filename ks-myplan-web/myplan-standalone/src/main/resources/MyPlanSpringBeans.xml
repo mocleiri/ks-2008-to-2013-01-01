@@ -49,6 +49,7 @@
                 <value>classpath:PlanItemsUI.xml</value>
                 <value>classpath:DegreeAuditUI.xml</value>
                 <value>classpath:DegreeAuditDetailsUI.xml</value>
+                <value>classpath:CommentUI.xml</value>
                 <!--
                 <value>classpath:org/kuali/student/myplan/mobile/MyPlanMobileUI.xml</value>
                 <value>classpath:org/kuali/student/myplan/mobile/UifMobileDefinitions.xml</value>
