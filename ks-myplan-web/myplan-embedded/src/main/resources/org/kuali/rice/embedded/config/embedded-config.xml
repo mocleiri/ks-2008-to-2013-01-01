@@ -228,6 +228,9 @@
     <param name="courseSearchBaseUrl">${application.url}</param>
 
 
+    <param name="myplan.advise.namespacecode">UW-MYPLAN</param>
+    <param name="myplan.advise.permissionname">Advise Student</param>
+
     <!-- default config files -->
     <param name="config.location">${user.home}/kuali/main/${environment}/myplan-config.xml</param>
     <param name="config.location">/data/kuali/etc/myplan-config.xml</param>
@@ -240,4 +243,5 @@
 
 
     <param name="ks.institutional.context">classpath:uw-override-context.xml</param>
+
 </config>
