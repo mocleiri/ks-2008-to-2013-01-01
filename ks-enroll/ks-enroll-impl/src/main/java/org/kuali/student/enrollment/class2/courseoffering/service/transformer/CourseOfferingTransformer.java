@@ -1,5 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -10,8 +13,8 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
+import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
@@ -23,8 +26,10 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.*;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -62,9 +67,9 @@ public class CourseOfferingTransformer {
             } else if (CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR.equals(attr.getKey())){
                 co.setFinalExamType(attr.getValue());
             } else if(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR.equals(attr.getKey())){
-                co.setEvaluated(Boolean.valueOf(attr.getValue()));
+                co.setIsEvaluated(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.WHERE_FEES_ATTACHED_FLAG_ATTR.equals(attr.getKey())){
-                co.setFeeAtActivityOffering(Boolean.valueOf(attr.getValue()));
+                co.setIsFeeAtActivityOffering(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR.equals(attr.getKey())){
                 co.setFundingSource(attr.getValue());
             } else {
@@ -357,7 +362,7 @@ public class CourseOfferingTransformer {
     }
 
     // this is not currently in use and needs to be revisited and plugged into the impl
-    public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LuiPersonRelationService lprService)
+    public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LprService lprService)
             throws OperationFailedException {
         List<LuiPersonRelationInfo> lprs = null;
         try {
@@ -375,7 +380,11 @@ public class CourseOfferingTransformer {
             //if (lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
                 OfferingInstructorInfo instructor = new OfferingInstructorInfo();
                 instructor.setPersonId(lpr.getPersonId());
-                instructor.setPercentageEffort(lpr.getCommitmentPercent());
+                if (lpr.getCommitmentPercent() != null) {
+                    instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+                } else {
+                    instructor.setPercentageEffort(null);
+                }
                 instructor.setId(lpr.getId());
                 instructor.setTypeKey(lpr.getTypeKey());
                 instructor.setStateKey(lpr.getStateKey());

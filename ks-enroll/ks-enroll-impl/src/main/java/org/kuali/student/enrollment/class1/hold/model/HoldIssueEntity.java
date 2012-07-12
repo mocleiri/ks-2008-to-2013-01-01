@@ -21,8 +21,8 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.hold.dto.IssueInfo;
-import org.kuali.student.r2.core.hold.infc.Issue;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
+import org.kuali.student.r2.core.hold.infc.HoldIssue;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,6 +32,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  * This is a description of what this class does - andy don't forget to fill this in.
@@ -40,25 +42,29 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "KSEN_HOLD_ISSUE")
-public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIssueAttributeEntity> {
+@NamedQueries({
+    @NamedQuery(name = "HoldIssueEntity.getIdsByType",
+    query = "select id from HoldIssueEntity where holdIssueType = :type"),
+    @NamedQuery(name = "HoldIssueEntity.getByOrganization",
+    query = "select ISSUE from HoldIssueEntity ISSUE where ISSUE.organizationId = :organizationId")
+})
+public class HoldIssueEntity
+        extends MetaEntity
+        implements AttributeOwner<HoldIssueAttributeEntity> {
 
     @Column(name = "NAME")
     private String name;
-
     @Column(name = "ORG_ID")
     private String organizationId;
-
     @Column(name = "HOLD_ISSUE_TYPE", nullable = false)
     private String holdIssueType;
-
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
     private String descrPlain;
-
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private Set<HoldIssueAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
+    private final Set<HoldIssueAttributeEntity> attributes = new HashSet<HoldIssueAttributeEntity>();
+    ;
 
     @Column(name = "HOLD_ISSUE_STATE", nullable = false)
     private String holdIssueState;
@@ -66,32 +72,39 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
     public HoldIssueEntity() {
     }
 
-    public HoldIssueEntity(Issue issue) {
-        super(issue);
-        this.setId(issue.getId());
-        this.setHoldIssueType(issue.getTypeKey());
-        this.fromDto(issue);
+    public HoldIssueEntity(HoldIssue dto) {
+        super(dto);
+        this.setId(dto.getId());
+        this.setHoldIssueType(dto.getTypeKey());
+        this.fromDto(dto);
     }
 
-    public void fromDto(Issue issue) {
-        setName(issue.getName());
-        setOrganizationId(issue.getOrganizationId());
-        setHoldIssueState(issue.getStateKey());
-        setHoldIssueType(issue.getTypeKey());
-        if (issue.getDescr() != null) {
-            setDescrFormatted(issue.getDescr().getFormatted());
-            setDescrPlain(issue.getDescr().getPlain());
+    public void fromDto(HoldIssue dto) {
+        setName(dto.getName());
+        setHoldIssueState(dto.getStateKey());
+        setOrganizationId(dto.getOrganizationId());
+        if (dto.getDescr() != null) {
+            this.setDescrFormatted(dto.getDescr().getFormatted());
+            this.setDescrPlain(dto.getDescr().getPlain());
+        } else {
+            this.setDescrFormatted(null);
+            this.setDescrPlain(null);
         }
-        this.setAttributes(new HashSet<HoldIssueAttributeEntity>());
-        for (Attribute att : issue.getAttributes()) {
-            HoldIssueAttributeEntity attEntity = new HoldIssueAttributeEntity(att);
+
+        // dynamic attributes
+        this.getAttributes().clear();
+        for (Attribute att : dto.getAttributes()) {
+            HoldIssueAttributeEntity attEntity = new HoldIssueAttributeEntity(att, this);
             this.getAttributes().add(attEntity);
         }
     }
 
     @Override
     public void setAttributes(Set<HoldIssueAttributeEntity> attributes) {
-        this.attributes = attributes;
+        this.attributes.clear();
+        if (attributes != null) {
+            this.attributes.addAll(attributes);
+        }
     }
 
     @Override
@@ -147,8 +160,8 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
         this.descrFormatted = formatted;
     }
 
-    public IssueInfo toDto() {
-        IssueInfo info = new IssueInfo();
+    public HoldIssueInfo toDto() {
+        HoldIssueInfo info = new HoldIssueInfo();
         info.setId(getId());
         info.setName(getName());
         info.setTypeKey(getHoldIssueType());

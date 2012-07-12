@@ -1,10 +1,19 @@
 /*
- * Copyright 2007 The Kuali Foundation Licensed under the Educational Community License, Version 1.0 (the "License"); you may
- * not use this file except in compliance with the License. You may obtain a copy of the License at
- * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and limitations under the License.
+ * Copyright 2011 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License.  You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.enrollment.courseoffering.dto;
 
 import java.util.ArrayList;
@@ -16,122 +25,90 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.w3c.dom.Element;
 
 /**
  * @author Kuali Student Team (Kamal)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegistrationGroupInfo", propOrder = {"activityOfferingIds", 
-    "courseOfferingId", "registrationCode", "termId", "formatOfferingId",
-    "isHonorsOffering", "maximumEnrollment", 
-    "minimumEnrollment", "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", 
-    "isWaitlistCheckinRequired", "waitlistCheckinFrequency", "id", 
-    "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
-public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationGroup {
+@XmlType(name = "RegistrationGroupInfo", propOrder = {
+                "id", "typeKey", "stateKey", "name", "descr", 
+                "formatOfferingId",  "courseOfferingId", "termId", 
+                "registrationCode", "activityOfferingIds", 
+                "isHonorsOffering", "maximumEnrollment", "isGenerated",
+                "meta", "attributes", "_futureElements"})
+
+public class RegistrationGroupInfo 
+    extends IdEntityInfo 
+    implements RegistrationGroup {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private List<String> activityOfferingIds;
-
-    @XmlElement
-    private String courseOfferingId;
-
-    @XmlElement
-    private Integer maximumEnrollment;
-
-    @XmlElement
-    private Integer minimumEnrollment;
 
     @XmlElement
     private String formatOfferingId;
 
     @XmlElement
-    private String registrationCode;
+    private String courseOfferingId;
 
     @XmlElement
     private String termId;
     
     @XmlElement
+    private String registrationCode;
+
+    @XmlElement
+    private List<String> activityOfferingIds;
+
+    @XmlElement
+    private Integer maximumEnrollment;
+
+    @XmlElement
     private Boolean isHonorsOffering;
 
     @XmlElement
-    private Boolean hasWaitlist;
-
-    @XmlElement
-    private String waitlistTypeKey;
-
-    @XmlElement
-    private Integer waitlistMaximum;
-
-    @XmlElement
-    private Boolean isWaitlistCheckinRequired;
-
-    @XmlElement
-    private TimeAmountInfo waitlistCheckinFrequency;
+    private Boolean isGenerated;
 
     @XmlAnyElement
     private List<Element> _futureElements;
 
+    
+    /**
+     * Constructs a new RegistrationGroupInfo.
+     */
     public RegistrationGroupInfo() {
-        this.activityOfferingIds = new ArrayList<String>();
-        this.courseOfferingId = null;
-        this.formatOfferingId = null;
-        this.hasWaitlist = new Boolean(false);
-        this.isHonorsOffering = new Boolean(false);
-        this.isWaitlistCheckinRequired = new Boolean(false);
-        this.maximumEnrollment = null;
-        this.minimumEnrollment = null;
-        this.registrationCode = null;
-        this.termId = null;
-        this.waitlistCheckinFrequency = null;
-        this.waitlistMaximum = null;
-        this.waitlistTypeKey = null;
-        this._futureElements = null;
     }
 
+    /**
+     * Constructs a new RegistrationGroupInfo from another
+     * RegistrationGroup.
+     *
+     * @param registrationGroup the registration group to copy
+     */
     public RegistrationGroupInfo(RegistrationGroup registrationGroup) {
         super(registrationGroup); 
         
-        if(null == registrationGroup) return;      
-        
-        this.activityOfferingIds = (null != registrationGroup.getActivityOfferingIds()) ? new ArrayList<String>(registrationGroup.getActivityOfferingIds()) : null;
-        this.courseOfferingId = registrationGroup.getCourseOfferingId();
+        if (registrationGroup == null) {
+            return;      
+        }
+
         this.formatOfferingId = registrationGroup.getFormatOfferingId();
-        this.hasWaitlist = registrationGroup.getHasWaitlist();
-        this.isHonorsOffering = (null != registrationGroup.getIsHonorsOffering()) ? new Boolean(registrationGroup.getIsHonorsOffering()) : null;
-        this.isWaitlistCheckinRequired = (null != registrationGroup.getIsWaitlistCheckinRequired()) ? new Boolean(registrationGroup.getIsWaitlistCheckinRequired()) : null;
-        this.maximumEnrollment = registrationGroup.getMaximumEnrollment();
-        this.minimumEnrollment = registrationGroup.getMinimumEnrollment();
+        this.courseOfferingId = registrationGroup.getCourseOfferingId();
+        this.termId = registrationGroup.getTermId();
+        
         this.registrationCode = registrationGroup.getRegistrationCode();
-                this.termId = registrationGroup.getTermId();
-        this.waitlistCheckinFrequency = new TimeAmountInfo(registrationGroup.getWaitlistCheckinFrequency());
-        this.waitlistMaximum = registrationGroup.getWaitlistMaximum();
-        this.waitlistTypeKey = registrationGroup.getWaitlistTypeKey();
-    }
+        
+        if (registrationGroup.getActivityOfferingIds() != null) {
+            this.activityOfferingIds = new ArrayList<String>(registrationGroup.getActivityOfferingIds());
+        }
 
-    @Override
-    public List<String> getActivityOfferingIds() {
-        return activityOfferingIds;
-    }
-
-    @Override
-    public String getCourseOfferingId() {
-        return courseOfferingId;
-    }
-
-    @Override
-    public Integer getMaximumEnrollment() {
-        return maximumEnrollment;
-    }
-
-    @Override
-    public Integer getMinimumEnrollment() {
-        return minimumEnrollment;
+        this.isHonorsOffering = registrationGroup.getIsHonorsOffering();
+        this.maximumEnrollment = registrationGroup.getMaximumEnrollment();
+        
+        this.isGenerated = registrationGroup.getIsGenerated();
+        
     }
 
     @Override
@@ -139,95 +116,99 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         return formatOfferingId;
     }
 
-    @Override
-    public String getRegistrationCode() {
-        return registrationCode;
-    }
-
-   @Override
-    public String getTermId() {
-        return termId;
-    }
-    
-    @Override
-    public Boolean getIsHonorsOffering() {
-        return isHonorsOffering;
+    public void setFormatOfferingId(String formatOfferingId) {
+        this.formatOfferingId = formatOfferingId;
     }
 
     @Override
-    public Boolean getHasWaitlist() {
-        return hasWaitlist;
-    }
-
-    @Override
-    public String getWaitlistTypeKey() {
-        return waitlistTypeKey;
-    }
-
-    @Override
-    public Integer getWaitlistMaximum() {
-        return waitlistMaximum;
-    }
-
-    @Override
-    public Boolean getIsWaitlistCheckinRequired() {
-        return isWaitlistCheckinRequired;
-    }
-
-    @Override
-    public TimeAmountInfo getWaitlistCheckinFrequency() {
-        return waitlistCheckinFrequency;
-    }
-
-    public void setActivityOfferingIds(List<String> activityOfferingIds) {
-        this.activityOfferingIds = activityOfferingIds;
+    public String getCourseOfferingId() {
+        return courseOfferingId;
     }
 
     public void setCourseOfferingId(String courseOfferingId) {
         this.courseOfferingId = courseOfferingId;
     }
 
-    public void setMaximumEnrollment(Integer maximumEnrollment) {
-        this.maximumEnrollment = maximumEnrollment;
-    }
-
-    public void setMinimumEnrollment(Integer minimumEnrollment) {
-        this.minimumEnrollment = minimumEnrollment;
-    }
-
-    public void setFormatOfferingId(String formatOfferingId) {
-        this.formatOfferingId = formatOfferingId;
-    }
-
-    public void setRegistrationCode(String registrationCode) {
-        this.registrationCode = registrationCode;
+    @Override
+    public String getTermId() {
+        return termId;
     }
 
     public void setTermId(String termId) {
         this.termId = termId;
     }
 
+    @Override
+    public String getRegistrationCode() {
+        return registrationCode;
+    }
+
+    public void setRegistrationCode(String registrationCode) {
+        this.registrationCode = registrationCode;
+    }
+
+    @Override
+    public List<String> getActivityOfferingIds() {
+        if (activityOfferingIds == null) {
+            activityOfferingIds = new ArrayList<String>();
+        }
+
+        return activityOfferingIds;
+    }
+
+    public void setActivityOfferingIds(List<String> activityOfferingIds) {
+        this.activityOfferingIds = activityOfferingIds;
+    }
+
+    @Override
+    public Boolean getIsHonorsOffering() {
+        return isHonorsOffering;
+    }
+
     public void setIsHonorsOffering(Boolean isHonorsOffering) {
         this.isHonorsOffering = isHonorsOffering;
     }
 
-    public void setHasWaitlist(Boolean hasWaitlist) {
-        this.hasWaitlist = hasWaitlist;
+    @Override
+    public Integer getMaximumEnrollment() {
+        return maximumEnrollment;
     }
 
-    public void setWaitlistTypeKey(String waitlistTypeKey) {
-        this.waitlistTypeKey = waitlistTypeKey;
+    public void setMaximumEnrollment(Integer maximumEnrollment) {
+        this.maximumEnrollment = maximumEnrollment;
     }
 
-    public void setWaitlistMaximum(Integer waitlistMaximum) {
-        this.waitlistMaximum = waitlistMaximum;
+    @Override
+    public Boolean getIsGenerated() {
+        return isGenerated;
     }
 
-    public void setIsWaitlistCheckinRequired(Boolean isWaitlistCheckinRequired) {
-        this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
+    public void setIsGenerated(Boolean isGenerated) {
+        this.isGenerated = isGenerated;
     }
-
-    public void setWaitlistCheckinFrequency(TimeAmountInfo waitlistCheckinFrequency) {
-        this.waitlistCheckinFrequency = waitlistCheckinFrequency;
+    
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("RegistrationGroupInfo [id=");
+        builder.append(getId());
+        builder.append("formatOfferingId=");
+        builder.append(formatOfferingId);
+        builder.append(", courseOfferingId=");
+        builder.append(courseOfferingId);
+        builder.append(", termId=");
+        builder.append(termId);
+        builder.append(", activityOfferingIds=");
+        builder.append(StringUtils.join(activityOfferingIds, ", "));
+        builder.append(", registrationCode=");
+        builder.append(registrationCode);
+        builder.append(", maximumEnrollment=");
+        builder.append(maximumEnrollment);
+        builder.append(", isHonorsOffering=");
+        builder.append(isHonorsOffering);
+        builder.append(", isGenerated=");
+        builder.append(isGenerated);
+        builder.append("]");
+        return builder.toString();
     }
 }

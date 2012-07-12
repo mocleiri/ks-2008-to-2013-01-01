@@ -30,20 +30,31 @@ import org.kuali.student.r2.core.exemption.infc.ExemptionRequest;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ExemptionRequestInfo", propOrder = {"id", "typeKey",
-    "stateKey", "name", "descr", "processKey", "checkKey",
+@XmlType(name = "ExemptionRequestInfo", propOrder = {"id",
+    "typeKey",
+    "stateKey",
+    "name", 
+    "descr", 
+    "processKey", 
+    "checkId",
     "personId",
-    "requesterId", "requestDate",
-    "approvedByPersonId", "approvedDate",
-    "dateOverride", "milestoneOverride",
-    "learningResultOverride", "meta", "attributes", "_futureElements"})
+    "requesterId", 
+    "requestDate",
+    "approvedByPersonId", 
+    "approvedDate",
+    "dateOverride", 
+    "milestoneOverride",
+    "learningResultOverride",
+    "meta", 
+    "attributes", 
+    "_futureElements"})
 public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionRequest, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
     private String processKey;
     @XmlElement
-    private String checkKey;
+    private String checkId;
     @XmlElement
     private String personId;
     @XmlElement
@@ -77,7 +88,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
         super(request);
         if (null != request) {
             this.processKey = request.getProcessKey();
-            this.checkKey = request.getCheckKey();
+            this.checkId = request.getCheckId();
             this.personId = request.getPersonId();
             this.requesterId = request.getRequesterId();
             this.requestDate = request.getRequestDate();
@@ -110,12 +121,12 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
     }
 
     @Override
-    public String getCheckKey() {
-        return checkKey;
+    public String getCheckId() {
+        return checkId;
     }
 
-    public void setCheckKey(String checkKey) {
-        this.checkKey = checkKey;
+    public void setCheckId(String checkId) {
+        this.checkId = checkId;
     }
 
     @Override
@@ -189,4 +200,5 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
     public void setLearningResultOverride(LearningResultOverrideInfo learningResultOverrideInfo) {
         this.learningResultOverride = learningResultOverrideInfo;
     }
+    
 }

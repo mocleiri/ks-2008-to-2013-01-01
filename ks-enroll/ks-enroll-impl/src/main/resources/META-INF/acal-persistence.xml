@@ -8,8 +8,8 @@
   <!-- JPA test "unit" -->
     <persistence-unit name="Acal" transaction-type="JTA">
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>
 
         <class>org.kuali.student.r2.core.class1.atp.model.AtpEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>
@@ -55,12 +55,10 @@
         <class>org.kuali.student.core.statement.entity.ReqComponentTypeAttribute</class>
         <class>org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate</class>
 
-
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldAttributeEntity</class>
 
         <class>org.kuali.student.enrollment.class1.lui.model.LuiEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiAttributeEntity</class>
@@ -87,16 +85,23 @@
     <class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgAttributeEntity</class>-->
     
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRichTextEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransItemAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntryEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntryAttributeEntity</class>
-
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionAttributeEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemAttributeEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemRequestOptionEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemResultValueGroupEntity</class>
+		
+		<!-- commented out until roster service is implemented.
+		<class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRichTextEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryAttributeEntity</class>
+		-->
+		
         <class>org.kuali.student.r2.core.fee.model.EnrollmentFeeEntity</class>
         <class>org.kuali.student.r2.core.fee.model.EnrollmentFeeAttributeEntity</class>
 
@@ -160,7 +165,7 @@
     <class>org.kuali.student.r2.core.class1.process.model.ProcessEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.ProcessRichTextEntity</class>
 
-    <class>org.kuali.student.r2.core.class1.population.model.PopulationEntity</class-->
+    <class>org.kuali.student.r2.core.population.model.PopulationEntity</class-->
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

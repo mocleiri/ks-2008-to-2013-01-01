@@ -71,18 +71,27 @@ public class LuiTestDataLoader {
         luiEntity.setReferenceURL(refUrl);
         luiEntity.setPlain(descrPlain);
         luiEntity.setCreateId(principalId);
-        luiEntity.setCreateTime(new Date());
-        luiEntity.setEffectiveDate(new Date());
+        Date time;
+		luiEntity.setCreateTime(time = new Date());
+        
+        luiEntity.setUpdateId(principalId);
+        luiEntity.setUpdateTime(time);
+        
+        luiEntity.setEffectiveDate(time);
 
         LuiIdentifierEntity luiIdent = new LuiIdentifierEntity();
         luiIdent.setLui(luiEntity);
         luiIdent.setId(additionIden);
+        luiIdent.setCreateId("TESTDATALOADER");
+        luiIdent.setCreateTime(new Date ());
 
         LuiIdentifierEntity luiOfficialIdent = new LuiIdentifierEntity();
         luiOfficialIdent.setLui(luiEntity);
         luiOfficialIdent.setId(officialIdentifier);
         luiOfficialIdent.setShortName(officialIdentName);
-        luiOfficialIdent.setType(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+        luiOfficialIdent.setType(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);        
+        luiOfficialIdent.setCreateId("TESTDATALOADER");
+        luiOfficialIdent.setCreateTime(new Date ());
         List<LuiIdentifierEntity> luiIdents = new ArrayList<LuiIdentifierEntity>();
 
         luiIdents.add(luiIdent);
@@ -204,8 +213,11 @@ public class LuiTestDataLoader {
         entity.setDescrPlain(descrFormatted);
 
         entity.setCreateId(principalId);
-        entity.setCreateTime(new Date());
+        Date time;
+		entity.setCreateTime(time = new Date());
 
+		entity.setUpdateId(principalId);
+		entity.setUpdateTime(time);
 
         luiLuiRelationDao.persist(entity);
 

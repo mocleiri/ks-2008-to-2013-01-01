@@ -7,7 +7,9 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import java.util.*;
 
 import org.kuali.rice.core.api.criteria.EqualPredicate;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
@@ -34,14 +36,26 @@ import org.kuali.student.r2.core.type.dto.TypeInfo;
  *
  * @author nwright
  */
-public class AcademicCalendarServiceMockImpl implements AcademicCalendarService {
+public class AcademicCalendarServiceMockImpl implements AcademicCalendarService, MockService {
 
     private Map<String, AcademicCalendarInfo> acals = new LinkedHashMap<String, AcademicCalendarInfo>();
     private Map<String, TermInfo> terms = new LinkedHashMap<String, TermInfo>();
     private Map<String, String> term2cal = new LinkedHashMap<String, String>();
     private Map<String, String> subterm2term = new LinkedHashMap<String, String>();
 
+    
     @Override
+	public void clear() {
+    	
+    	this.acals.clear();
+    	this.terms.clear();
+    	this.term2cal.clear();
+    	this.subterm2term.clear();
+    	
+		
+	}
+
+	@Override
     public StatusInfo addTermToAcademicCalendar(String academicCalendarId, String termId, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // note only allows term to be in one acal 
         this.term2cal.put(termId, academicCalendarId);

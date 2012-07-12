@@ -14,13 +14,13 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
-import org.kuali.student.r2.core.class1.process.ProcessPocConstants;
-import org.kuali.student.r2.core.class1.process.ProcessPocExemptionServiceDecorator;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
 import org.kuali.student.r2.core.exemption.service.ExemptionServiceMockImpl;
+import org.kuali.student.r2.core.process.service.impl.ProcessServiceDataLoader;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -55,6 +55,7 @@ public class ProcessPocExemptionServiceDecoratorTest {
     public void testSomeMethod() throws Exception {
         ContextInfo context = new ContextInfo();
         context.setPrincipalId("POC-tester");
+        context.setCurrentDate(new Date ());
 
         ExemptionService exemptionService = new ExemptionServiceMockImpl();
         exemptionService = new ProcessPocExemptionServiceDecorator(exemptionService);
@@ -71,15 +72,18 @@ public class ProcessPocExemptionServiceDecoratorTest {
         exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(
                 ExemptionServiceConstants.CHECK_EXEMPTION_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM,
-                ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_OPEN,
-                ProcessPocConstants.PERSON_ID_JOHNNY_MANNING_2374, context);
+                ProcessServiceDataLoader.CHECK_ID_REGISTRATION_PERIOD_IS_OPEN,
+                ProcessPocConstants.PERSON_ID_JOHNNY_MANNING_2374, 
+                context.getCurrentDate(), context);
         assertEquals(1, exemptions.size()); 
         
         exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(
                 ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM,
-                ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_NOT_CLOSED,
-                ProcessPocConstants.PERSON_ID_EDDIE_PITTMAN_2406, context);
+                ProcessServiceDataLoader.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED,
+                ProcessPocConstants.PERSON_ID_EDDIE_PITTMAN_2406, 
+                context.getCurrentDate(), 
+                context);
         assertEquals(1, exemptions.size()); 
         assertEquals (exemptions.get(0).getDateOverride().getEffectiveEndDate(), new SimpleDateFormat ("yyyy-MM-dd").parse("2011-12-31"));
         assertEquals (exemptions.get(0).getDateOverride().getMilestoneId(), AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
@@ -87,8 +91,10 @@ public class ProcessPocExemptionServiceDecoratorTest {
         exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(
                 ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY,
                 ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM,
-                ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_NOT_CLOSED,
-                ProcessPocConstants.PERSON_ID_TRACY_BURTON_2132, context);
+                ProcessServiceDataLoader.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED,
+                ProcessPocConstants.PERSON_ID_TRACY_BURTON_2132,
+                context.getCurrentDate(), 
+                context);
         assertEquals(1, exemptions.size()); 
         assertEquals (exemptions.get(0).getDateOverride().getEffectiveEndDate(), new SimpleDateFormat ("yyyy-MM-dd").parse("2011-11-30"));
         assertEquals (exemptions.get(0).getDateOverride().getMilestoneId(), AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);        

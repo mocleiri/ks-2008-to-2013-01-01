@@ -418,15 +418,13 @@
     <property name="statementDao" ref="statementDao" />
   </bean>
 
-  <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
+  <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
     <property name="lprDao" ref="lprDao" />
-    <property name="lprRosterDao" ref="lprRosterDao" />
-    <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
-    <property name="lprTransDao" ref="lprTrasactionDao" />
-    <property name="lprTransItemDao" ref="lprTrasactionItemDao" />
+    <property name="lprTransactionDao" ref="lprTrasactionDao" />
+    <property name="lprTransactionItemDao" ref="lprTrasactionItemDao" />
   </bean>
 
-  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
+  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceValidationDecorator">
     <property name="nextDecorator" ref="lprPersistenceService" />
     <property name="validator" ref="validator" />
   </bean>
@@ -463,22 +461,12 @@
   <bean id="courseRegistrationService"
     class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
     <property name="validator" ref="validator" />
-    <property name="lprService" ref="lprPersistenceService" />
-    <property name="dataDictionaryService" ref="dataDictionaryServiceForLpr" />
     <property name="nextDecorator" ref="courseRegistrationImpl" />
   </bean>
 
   <bean id="courseRegistrationImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
     <property name="lprService" ref="lprServiceValidation" />
     <property name="courseOfferingService" ref="coServiceValidation" />
-    <property name="regRequestAssembler" ref="regRequestAssembler" />
-    <property name="regResponseAssembler" ref="regResponseAssembler" />
-    <property name="courseRegistrationAssembler" ref="courseRegistrationAssembler" />
-    <property name="lrcService" ref="lrcPersistenceService" />
-    <property name="courseService" ref="courseServiceImpl" />
-    <property name="statementService" ref="statementServiceImpl" />
-    <property name="rulesEvaluationUtil" ref="rulesEvaluationUtil" />
-    <property name="propositionBuilder" ref="propositionBuilder" />
   </bean>
 
   <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
@@ -495,9 +483,6 @@
     </property>
   </bean>
 
-  <bean id="courseRegistrationAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler" />
-  <bean id="regRequestAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler" />
-  <bean id="regResponseAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler" />
   <bean id="propositionBuilder" class="org.kuali.student.core.statement.util.PropositionBuilder" />
 
   <bean id="ks.exp.courseRegistrationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -538,7 +523,7 @@
 
   <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
 
-  <bean id="processService" class="org.kuali.student.r2.core.class1.process.service.impl.ProcessServiceImpl">
+  <bean id="processService" class="org.kuali.student.r2.core.process.service.impl.ProcessServiceImpl">
       <property name="processDao" ref="processDao" />
       <property name="checkDao" ref="checkDao" />
       <property name="instructionDao" ref="instructionDao" />
@@ -567,7 +552,7 @@
     </bean>
 
     <!-- Population service -->
-    <bean id="populationService" class="org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl">
+    <bean id="populationService" class="org.kuali.student.r2.core.process.ProcessPocPopulationServiceMockImpl">
     </bean>
 
     <bean id="ks.exp.populationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -607,6 +592,24 @@
         </property>
     </bean>
 
+    <!-- Hold Service -->
+    <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
+        <property name="holdIssueDao" ref="holdIssueDao"/>
+        <property name="appliedHoldDao" ref="appliedHoldDao"/>
+    </bean>
+
+    <bean id="ks.exp.holdService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="holdService" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.hold.service.HoldService" />
+                <property name="localServiceName" value="HoldService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/hold" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
     <bean id="orgServiceImplNew" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao" />
         <property name="extendedOrgDao" ref="extendedOrgDao" />
