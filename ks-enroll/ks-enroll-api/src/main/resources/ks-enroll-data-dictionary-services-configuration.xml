@@ -4,7 +4,7 @@
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <import resource="classpath:ks-dictionary-file-locations.xml"/>
+    <import resource="classpath:ks-enroll-dictionary-file-locations.xml"/>
 
     <!--LPR Service-->
     <bean id="dataDictionaryServiceForLpr" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
