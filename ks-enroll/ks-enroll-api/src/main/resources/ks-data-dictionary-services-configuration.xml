@@ -7,7 +7,7 @@
     <import resource="classpath:ks-dictionary-file-locations.xml"/>
 
     <!--LPR Service-->
-    <bean id="dataDictionaryServiceForLpr" class="org.kuali.student.r2.common.datadictionary.123DataDictionaryServiceImpl">
+    <bean id="dataDictionaryServiceForLpr" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
         <property name="serviceNamespaceSuffix" value="luiPersonRelation" />
         <property name="dictionaryLocations" ref="luiPersonRelationServiceDictionaryLocations" />
     </bean>
