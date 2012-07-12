@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.kuali.student.lum.statement.config.context.util.NLCluSet;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
@@ -214,6 +215,85 @@ public class LuContextImplTest {
 		private Map<String, CluInfo> cluMap = new HashMap<String, CluInfo>();
 		private Map<String, CluSetInfo> cluSetMap = new HashMap<String, CluSetInfo>();
 		private Map<String, CluSetTreeViewInfo> cluSetTreeViewMap = new HashMap<String, CluSetTreeViewInfo>();
+        private SearchManager searchManager;
+
+
+        private void checkForMissingParameter(Object param, String paramName)
+                throws MissingParameterException {
+            if (param == null) {
+                throw new MissingParameterException(paramName + " can not be null");
+            }
+        }
+
+        @Override
+        public SearchCriteriaTypeInfo getSearchCriteriaType(
+                String searchCriteriaTypeKey) throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException {
+
+            return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+
+        }
+
+        @Override
+        public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+                throws OperationFailedException {
+            return searchManager.getSearchCriteriaTypes();
+        }
+
+        @Override
+        public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+                throws DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException {
+            checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+            return searchManager.getSearchResultType(searchResultTypeKey);
+        }
+
+        @Override
+        public List<SearchResultTypeInfo> getSearchResultTypes()
+                throws OperationFailedException {
+            return searchManager.getSearchResultTypes();
+        }
+
+        @Override
+        public SearchTypeInfo getSearchType(String searchTypeKey)
+                throws DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException {
+            checkForMissingParameter(searchTypeKey, "searchTypeKey");
+            return searchManager.getSearchType(searchTypeKey);
+        }
+
+        @Override
+        public List<SearchTypeInfo> getSearchTypes()
+                throws OperationFailedException {
+            return searchManager.getSearchTypes();
+        }
+
+        @Override
+        public List<SearchTypeInfo> getSearchTypesByCriteria(
+                String searchCriteriaTypeKey) throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException {
+            checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+            return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+        }
+
+        @Override
+        public List<SearchTypeInfo> getSearchTypesByResult(
+                String searchResultTypeKey) throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException {
+            checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+            return searchManager.getSearchTypesByResult(searchResultTypeKey);
+        }
+
+        public SearchManager getSearchManager() {
+            return searchManager;
+        }
+
+        public void setSearchManager(SearchManager searchManager) {
+            this.searchManager = searchManager;
+        }
 
 		public LuServiceMock() {
 			CluInfo clu1 = new CluInfo();

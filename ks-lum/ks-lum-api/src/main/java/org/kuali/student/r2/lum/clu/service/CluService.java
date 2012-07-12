@@ -16,6 +16,7 @@ package org.kuali.student.r2.lum.clu.service;
 
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -60,7 +61,7 @@ import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
  */
 @WebService(name = "CluService", targetNamespace = CluServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CluService extends VersionManagementService {
+public interface CluService extends VersionManagementService, SearchService {
 
     /**
      * Retrieves the list of delivery method types

@@ -128,14 +128,14 @@
 <!--     </bean> -->
 <!--     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" /> -->
 
-<!--     <bean id="checkDao" class="org.kuali.student.r2.core.class1.process.dao.CheckDao"> -->
+<!--     <bean id="checkDao" class="org.kuali.student.r2.core.process.dao.CheckDao"> -->
 <!--         <property name="em" ref="entityManager"/> -->
 <!--     </bean> -->
   
-<!--     <bean id="instructionDao" class="org.kuali.student.r2.core.class1.process.dao.InstructionDao"> -->
+<!--     <bean id="instructionDao" class="org.kuali.student.r2.core.process.dao.InstructionDao"> -->
 <!--         <property name="em" ref="entityManager"/> -->
 <!--     </bean> -->
-<!--     <bean id="processDao" class="org.kuali.student.r2.core.class1.process.dao.ProcessDao"> -->
+<!--     <bean id="processDao" class="org.kuali.student.r2.core.process.dao.ProcessDao"> -->
 <!--         <property name="em" ref="entityManager"/> -->
 <!--     </bean> -->
     <bean id="stateService" class=" org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
@@ -284,7 +284,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="luSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+    <bean id="luSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
@@ -323,7 +323,7 @@
 	</bean>
     
    	<bean id="loSearchManager"
-		class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+		class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lo-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
@@ -349,12 +349,12 @@
         <property name="em" ref="entityManager" />
 	</bean>
 	<bean id="lrcSearchManager"
-		class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+		class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lrc-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
     
-    <bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
+    <bean id="dictionaryService" class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
     </bean>
     
     <bean id="courseServiceImpl" class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
@@ -382,7 +382,7 @@
         <property name="em" ref="entityManager" />
     </bean>
     <bean id="atpSearchManager"
-        class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+        class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:atp-search-config.xml" />
     </bean>
     <bean id="atpServiceImpl"
@@ -542,29 +542,29 @@
         <property name="em" ref="entityManager" />
 	</bean>
 
-	<bean id="emSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+	<bean id="emSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:em-search-config.xml" />
 	</bean>
 	
     <bean id="orgSearchManager"
-        class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+        class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:organization-search-config.xml" />
     </bean>
 
 	<!-- Statement Service Config -->
 <import resource="classpath:statement-context.xml"/>
 	<bean id="statementDao"
-		class="org.kuali.student.core.statement.dao.impl.StatementDaoImpl">
+		class="org.kuali.student.r1.core.statement.dao.impl.StatementDaoImpl">
         <property name="em" ref="entityManager" />
 	</bean>
 
 	<bean id="statementSearchManager"
-		class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+		class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:statement-search-config.xml" />
 	</bean>
 
     <bean id="statementAssembler"
-        class="org.kuali.student.core.statement.service.impl.StatementAssembler">
+        class="org.kuali.student.r1.core.statement.service.impl.StatementAssembler">
         <property name="statementDao" ref="statementDao"/>
     </bean>
 
@@ -572,7 +572,7 @@
         <property name="statementService" ref="statementServiceImpl"/>
    </bean>
 	<bean id="statementServiceImpl"
-		class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
+		class="org.kuali.student.r1.core.statement.service.impl.StatementServiceImpl">
 		<property name="statementDao" ref="statementDao" />
         <property name="searchManager" ref="statementSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService" />

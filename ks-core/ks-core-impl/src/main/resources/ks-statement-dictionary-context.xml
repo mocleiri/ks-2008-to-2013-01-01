@@ -155,12 +155,9 @@
 		<property name="hasMetaData" value="true" />
 	</bean>
 
-	<bean id="org.kuali.student.r1.core.statement.dto.ReqComponentInfo"
-		parent="R1org.kuali.student.r1.core.statement.dto.ReqComponentInfo-parent" />
-
 	<bean id="metaInfo-parent" abstract="true" parent="baseComplex">
 		<property name="name" value="metaInfo" />
-		<property name="dataObjectStructure" ref="org.kuali.student.r1.common.dto.MetaInfo" />
+		<property name="dataObjectStructure" ref="org.kuali.student.r2s.common.dto.MetaInfo" />
 	</bean>
 
 	<bean id="reqComponentInfo.descr-parent" abstract="true" parent="baseComplex"
@@ -344,23 +341,6 @@
 	<bean id="reqComponentInfo.typeKey" parent="reqComponentInfo.typeKey-parent" />
 
 	<!-- ReqCompFieldInfo -->
-	<bean id="org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo-parent"
-		abstract="true" parent="objectStructureDefinition">
-		<property name="name"
-			value="org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo" />
-		<property name="attributes">
-			<list>
-				<ref bean="reqCompFieldInfo.id" />
-				<ref bean="reqCompFieldInfo.typeKey" />
-				<ref bean="reqCompFieldInfo.value" />
-				<ref bean="reqCompFieldInfo.stateKey" />
-			</list>
-		</property>
-		<property name="hasMetaData" value="true" />
-	</bean>
-	<bean id="org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo"
-		parent="org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo-parent" />
-
 	<bean id="org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo-parent"
 		abstract="true" parent="objectStructureDefinition">
 		<property name="name"
@@ -792,29 +772,6 @@
 		</property>
 		<property name="hasMetaData" value="true" />
 	</bean>
-
-	<bean
-		id="org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo-parent"
-		abstract="true" parent="objectStructureDefinition">
-		<property name="name"
-			value="org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo" />
-		<property name="attributes">
-			<list>
-				<ref bean="statementTreeViewInfo.descr" />
-				<ref bean="R1statementTreeViewInfo.id" />
-				<ref bean="R1statementTreeViewInfo.name" />
-				<ref bean="R1statementTreeViewInfo.operator" />
-				<ref bean="R1statementTreeViewInfo.reqComponents" />
-				<ref bean="statementTreeViewInfo.stateKey" />
-				<ref bean="R1statementTreeViewInfo.statements" />
-				<ref bean="statementTreeViewInfo.typeKey" />
-			</list>
-		</property>
-		<property name="hasMetaData" value="true" />
-	</bean>
-
-	<bean id="org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo"
-		parent="org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo-parent" />
 
 	<bean id="org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo"
 		parent="org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo-parent" />
