@@ -131,7 +131,7 @@
         KIM_ATTR_DEFN_ID="16" KIM_TYP_ID="8"
         OBJ_ID="5B6013B3AD121A9CE0404F8189D87094" PERM_ID="167" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="3000"
-        ATTR_VAL="org.kuali.student.lum.course.dto.CourseInfo"
+        ATTR_VAL="org.kuali.student.r2.lum.course.dto.CourseInfo"
         KIM_ATTR_DEFN_ID="110" KIM_TYP_ID="120"
         OBJ_ID="5C7BB976406BAA02E0404F81A9D86F1B" PERM_ID="3105" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="3001"
@@ -142,7 +142,7 @@
         KIM_ATTR_DEFN_ID="112" KIM_TYP_ID="120"
         OBJ_ID="5C7D9976426BAA02E0404F8189D86F1D" PERM_ID="3105" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="3003"
-        ATTR_VAL="org.kuali.student.lum.course.dto.CourseInfo"
+        ATTR_VAL="org.kuali.student.r2.lum.course.dto.CourseInfo"
         KIM_ATTR_DEFN_ID="110" KIM_TYP_ID="120"
         OBJ_ID="5C7D9976436BAA02E0404F8189D86F1E" PERM_ID="3106" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="3004"
@@ -153,7 +153,7 @@
         KIM_ATTR_DEFN_ID="112" KIM_TYP_ID="120"
         OBJ_ID="5C7D9976456BAA02E0404F8189D86F1G" PERM_ID="3106" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="3006"
-        ATTR_VAL="org.kuali.student.lum.course.dto.CourseInfo"
+        ATTR_VAL="org.kuali.student.r2.lum.course.dto.CourseInfo"
         KIM_ATTR_DEFN_ID="110" KIM_TYP_ID="120"
         OBJ_ID="5C7D9AA6406BAA02E0404F8189D86F1H" PERM_ID="3107" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="3007" ATTR_VAL="descr"
@@ -163,7 +163,7 @@
         KIM_ATTR_DEFN_ID="112" KIM_TYP_ID="120"
         OBJ_ID="5C7D9976406BAA02B04AAF8189D86F1J" PERM_ID="3107" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="3009"
-        ATTR_VAL="org.kuali.student.lum.course.dto.CourseInfo"
+        ATTR_VAL="org.kuali.student.r2.lum.course.dto.CourseInfo"
         KIM_ATTR_DEFN_ID="110" KIM_TYP_ID="120"
         OBJ_ID="5C7D9976406BAA02E0404F8189D86F1K" PERM_ID="3108" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="3010" ATTR_VAL="duration"
@@ -282,7 +282,7 @@
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="3043"
         ATTR_VAL="org.kuali.rice.core.web.cache.CacheAdminController"
         KIM_ATTR_DEFN_ID="2" KIM_TYP_ID="12"
-        OBJ_ID="EE1FF7937237414D8CD9B092CE4479BE" PERM_ID="3114" VER_NBR="1"/>
+        OBJ_ID="1A2F264847424D51B9EE47C68D5C39A3" PERM_ID="3114" VER_NBR="1"/>
     <KRIM_PERM_ATTR_DATA_T ATTR_DATA_ID="3044"
         ATTR_VAL="TermMaintenanceDocument" KIM_ATTR_DEFN_ID="13"
         KIM_TYP_ID="56" OBJ_ID="aa1d1400-6155-4819-8bad-e5dd81f9871b"

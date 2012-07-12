@@ -1,0 +1,61 @@
+alter table
+   KSEM_CTX_T
+add
+   (
+  
+        CREATEID VARCHAR2(255),
+        CREATETIME TIMESTAMP(6),
+        UPDATEID VARCHAR2(255),
+        UPDATETIME TIMESTAMP(6)
+)
+/
+
+CREATE
+    TABLE KSEM_ENUM_ATTR
+    (
+        ID VARCHAR2(255) NOT NULL,
+        OBJ_ID VARCHAR2(36),
+        ATTR_KEY VARCHAR2(255),
+        ATTR_VALUE VARCHAR2(2000),
+        OWNER VARCHAR2(255),
+        CONSTRAINT KSEM_ENUM_ATTRP1 PRIMARY KEY (ID)
+    )
+/
+
+alter table
+   KSEM_ENUM_T
+add
+   (
+  
+        CREATEID VARCHAR2(255),
+        CREATETIME TIMESTAMP(6),
+        UPDATEID VARCHAR2(255),
+        UPDATETIME TIMESTAMP(6),
+        ENUM_STATE VARCHAR2(255),
+        ENUM_TYPE VARCHAR2(255),
+        DESCR_PLAIN VARCHAR2(4000),
+        DESCR_FORMATTED VARCHAR2(4000)
+)
+/
+
+
+alter table
+   KSEM_ENUM_VAL_T
+add
+   (
+        SORT_KEY_NEW VARCHAR2(255),
+        CREATEID VARCHAR2(255),
+        CREATETIME TIMESTAMP(6),
+        UPDATEID VARCHAR2(255),
+        UPDATETIME TIMESTAMP(6)
+)
+/
+
+update KSEM_ENUM_VAL_T set SORT_KEY_NEW = SORT_KEY, SORT_KEY = NULL
+/
+
+alter table KSEM_ENUM_VAL_T drop column SORT_KEY
+/
+
+alter table KSEM_ENUM_VAL_T rename column SORT_KEY_NEW to SORT_KEY
+/
