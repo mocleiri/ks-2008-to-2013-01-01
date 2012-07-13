@@ -27,8 +27,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r1.core.proposal.service.ProposalService;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -89,7 +89,7 @@ public class CopyCourseServiceImpl {
     private ProposalInfo copyProposal(String originalProposalId, ContextInfo contextInfo) throws Exception {
         try {
             //Get the original Proposal
-            ProposalInfo originalProposal = proposalService.getProposal(originalProposalId);
+            ProposalInfo originalProposal = proposalService.getProposal(originalProposalId, contextInfo);
 
             //Copy the course from the original Proposal
             String originalCluId = originalProposal.getProposalReference().get(0);
@@ -98,15 +98,15 @@ public class CopyCourseServiceImpl {
             //Clear ids and set the reference to the copied course
             originalProposal.setId(null);
             originalProposal.setWorkflowId(null);
-            originalProposal.setState(defaultState);
-            originalProposal.setType(defaultDocumentType);
+            originalProposal.setStateKey(defaultState);
+            originalProposal.setTypeKey(defaultDocumentType);
             originalProposal.getProposalReference().set(0, copiedCourse.getId());
             originalProposal.getProposerOrg().clear();
             originalProposal.getProposerPerson().clear();
             originalProposal.setName(null);
 
             //Create the proposal
-            ProposalInfo copiedProposal = proposalService.createProposal(defaultDocumentType, originalProposal);
+            ProposalInfo copiedProposal = proposalService.createProposal(defaultDocumentType, originalProposal, contextInfo);
 
             return copiedProposal;
 
@@ -182,7 +182,7 @@ public class CopyCourseServiceImpl {
     /**
      * Clears out ids recursively and also copies adhock clusets
      * @param statementTreeView
-     * @param luService
+     * @param cluService
      * @throws OperationFailedException
      */
     private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView, String newState,
