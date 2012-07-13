@@ -86,6 +86,11 @@
 
     <bean id="coCodeTransform" class=" org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingTransform"/>
 
+    <bean id="atpSearchManager"
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:atp-search-config.xml"/>
+    </bean>
+
   <bean id="atpEnrService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
     <property name="atpDao" ref="atpEnrDao" />
     <property name="atpRelDao" ref="atpAtpRelationDao" />
@@ -95,6 +100,7 @@
     <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
     <!-- <property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/> -->
     <property name="criteriaLookupService" ref="criteriaLookupService"/>
+    <property name="searchManager" ref="atpSearchManager" />
   </bean>
 
    <bean id="ks.exp.atpEnrService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

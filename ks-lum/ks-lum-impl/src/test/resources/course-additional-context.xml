@@ -42,9 +42,16 @@
 		class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
 	</bean>
 
-	<bean id="atpService"
+    <bean id="atpSearchManager"
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:atp-search-config.xml" />
+    </bean>
+
+    <bean id="atpService"
 		class="org.kuali.student.r1.core.atp.service.impl.AtpServiceImpl">
+        <property name="searchManager" ref="atpSearchManager" />
 	</bean>
+
 
 	<bean id="loService"
 		class="org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl">

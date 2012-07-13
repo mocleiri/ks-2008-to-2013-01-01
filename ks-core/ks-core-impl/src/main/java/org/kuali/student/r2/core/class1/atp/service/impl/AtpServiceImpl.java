@@ -15,6 +15,7 @@ import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r1.common.search.service.SearchDispatcher;
 import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r1.common.search.service.impl.SearchManagerImpl;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -157,7 +158,7 @@ public class AtpServiceImpl implements AtpService {
     @Override
     public List<SearchTypeInfo> getSearchTypes()
             throws OperationFailedException {
-        return searchManager.getSearchTypes();
+        return getSearchManager().getSearchTypes();
     }
 
     @Override
