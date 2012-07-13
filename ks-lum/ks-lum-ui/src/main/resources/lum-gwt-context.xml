@@ -904,7 +904,7 @@
     </bean>
 
     <bean id="commentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.comment.service.CommentService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.comment.service.CommentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/comment}CommentService"/>
     </bean>
 
@@ -920,7 +920,7 @@
     </bean>
 
     <bean id="atpClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.atp.service.AtpService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.atp.service.AtpService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/atp}AtpService"/>
     </bean>
 
@@ -940,7 +940,7 @@
     </bean>
 
     <bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.proposal.service.ProposalService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.proposal.service.ProposalService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService"/>
     </bean>
 
@@ -967,7 +967,7 @@
     </bean>
 
     <bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.document.service.DocumentService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.document.service.DocumentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
     </bean>
 

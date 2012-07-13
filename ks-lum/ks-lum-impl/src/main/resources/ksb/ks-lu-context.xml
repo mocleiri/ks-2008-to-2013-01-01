@@ -123,6 +123,14 @@
         <property name="em" ref="luEntityManager"/>
     </bean>
 
+    <bean id="typeDao" class="org.kuali.student.r2.core.class1.type.dao.TypeDao">
+        <property name="em" ref="luEntityManager"/>
+    </bean>
+
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
+        <property name="em" ref="luEntityManager"/>
+    </bean>
+
     <bean id="luSearchManager"
           class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0"
@@ -157,6 +165,11 @@
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
 		<property name="validatorFactory" ref="lumValidatorFactory"/>
 		<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+    </bean>
+
+    <bean id="typeServiceImpl" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+        <property name="typeDao" ref="typeDao"/>
+        <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     </bean>
 
     <bean id="ks.exp.luService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -524,13 +537,13 @@
     <bean id="atpClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r1.core.atp.service.AtpService"/>
+                  value="org.kuali.student.r2.core.atp.service.AtpService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/atp}AtpService"/>
     </bean>
     
     <bean id="documentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.document.service.DocumentService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.document.service.DocumentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
     </bean>
 

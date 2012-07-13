@@ -17,12 +17,15 @@ package org.kuali.student.lum.statement.config.context;
 
 import java.util.Map;
 
-import org.kuali.student.r1.core.atp.dto.AtpDurationTypeInfo;
-import org.kuali.student.r1.core.atp.service.AtpService;
+//import org.kuali.student.r2.core.atp.dto.AtpDurationTypeInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.type.service.TypeService;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 
 /**
@@ -30,27 +33,20 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
  */
 public class AtpContextImpl extends BasicContextImpl {
  
-	private AtpService atpService;
+    private TypeService typeService;
 	
 	public final static String DURATION_TYPE_TOKEN = "durationType";
 	public final static String DURATION_TOKEN = "duration";
 
-	public void setAtpService(AtpService atpService) {
-		this.atpService = atpService;
-	}
 
-	private AtpDurationTypeInfo getAtpDurationType(String atpDurationTypeKey) throws OperationFailedException {
-		if (atpDurationTypeKey == null) {
-			return null;
-		}
-		try {
-			AtpDurationTypeInfo atpDurationType = this.atpService.getAtpDurationType(atpDurationTypeKey);
-			return atpDurationType;
-		} catch (Exception e) {
-			throw new OperationFailedException(e.getMessage(), e);
-		}
-	}
-	
+    public TypeService getTypeService() {
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
+
     /**
      * Creates the context map (template data) for the requirement component.
      * 
@@ -63,10 +59,22 @@ public class AtpContextImpl extends BasicContextImpl {
     public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
         String durationTypeKey = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.DURATION_TYPE_KEY.getId());
         String duration = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.DURATION_KEY.getId());
-        AtpDurationTypeInfo atpDurationType = getAtpDurationType(durationTypeKey);
+        TypeInfo atpType;
+
+        try {
+            atpType = getTypeService().getType(durationTypeKey, ContextUtils.getContextInfo());
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("Error getting ATP Type from Type Service", e);
+        } catch (InvalidParameterException e) {
+            throw new OperationFailedException("Error getting ATP Type from Type Service", e);
+        } catch (MissingParameterException e) {
+            throw new OperationFailedException("Error getting ATP Type from Type Service", e);
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException("Error getting ATP Type from Type Service", e);
+        }
 
         Map<String, Object> contextMap = super.createContextMap(reqComponent, contextInfo);
-        contextMap.put(DURATION_TYPE_TOKEN, atpDurationType);
+        contextMap.put(DURATION_TYPE_TOKEN, atpType);
         contextMap.put(DURATION_TOKEN, duration);
         return contextMap;
     }
