@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -52,7 +53,7 @@ import javax.jws.soap.SOAPBinding;
 
 @WebService(name = "AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface AtpService {
+public interface AtpService extends SearchService {
 
     //
     // Lookup Methods for ATP Id Entity Pattern.

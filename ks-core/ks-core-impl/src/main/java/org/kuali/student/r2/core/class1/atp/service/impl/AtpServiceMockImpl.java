@@ -19,6 +19,9 @@ import java.util.Map;
 import java.util.Set;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.common.search.service.SearchDispatcher;
+import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -37,6 +40,8 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 
+import javax.jws.WebParam;
+
 /**
  * This is a mock memory based implementation for ATP service
  * 
@@ -48,6 +53,8 @@ public class AtpServiceMockImpl implements AtpService {
     private Map<String, MilestoneInfo> milestoneCache = new HashMap<String, MilestoneInfo>();
     private Map<String, AtpAtpRelationInfo> atpAtpRltnCache = new HashMap<String, AtpAtpRelationInfo>();
     private Map<String, Set<String>> milestonesForAtp = new HashMap<String, Set<String>>();
+    private SearchManager searchManager;
+    private SearchDispatcher searchDispatcher;
 
     @Override
     public AtpInfo getAtp(String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -622,6 +629,95 @@ public class AtpServiceMockImpl implements AtpService {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
+    }
+
+    /**
+     * Check for missing parameter and throw localized exception if missing
+     *
+     * @param param
+     * @param paramName
+     * @throws MissingParameterException
+     */
+    private void checkForMissingParameter(Object param, String paramName)
+            throws MissingParameterException {
+        if (param == null) {
+            throw new MissingParameterException(paramName + " can not be null");
+        }
+    }
+
+    @Override
+    public SearchCriteriaTypeInfo getSearchCriteriaType(
+            String searchCriteriaTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+
+        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+
+    }
+
+    @Override
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchCriteriaTypes();
+    }
+
+    @Override
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchResultType(searchResultTypeKey);
+    }
+
+    @Override
+    public List<SearchResultTypeInfo> getSearchResultTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchResultTypes();
+    }
+
+    @Override
+    public SearchTypeInfo getSearchType(String searchTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchTypeKey, "searchTypeKey");
+        return searchManager.getSearchType(searchTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchTypes();
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByCriteria(
+            String searchCriteriaTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByResult(
+            String searchResultTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+    }
+
+    public SearchManager getSearchManager() {
+        return searchManager;
+    }
+
+    public void setSearchManager(SearchManager searchManager) {
+        this.searchManager = searchManager;
+    }
+
+    @Override
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        return this.searchDispatcher.dispatchSearch(searchRequest);
     }
 }
 

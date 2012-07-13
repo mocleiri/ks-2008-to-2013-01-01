@@ -34,8 +34,9 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.r1.core.atp.dto.AtpInfo;
-import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
@@ -403,7 +404,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         //Default course effective dates to the atps if entered
         if(course.getStartTerm() != null){
             try {
-                AtpInfo startAtp = atpService.getAtp(course.getStartTerm());
+                AtpInfo startAtp = atpService.getAtp(course.getStartTerm(), contextInfo);
                 course.setEffectiveDate(startAtp.getStartDate());
             } catch (Exception e) {
                 throw new AssemblyException("Error getting start term Atp.",e);
@@ -411,7 +412,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         }
         if(course.getEndTerm() != null){
             try {
-                AtpInfo endAtp = atpService.getAtp(course.getEndTerm());
+                AtpInfo endAtp = atpService.getAtp(course.getEndTerm(), contextInfo);
                 course.setExpirationDate(endAtp.getEndDate());
             } catch (Exception e) {
                 throw new AssemblyException("Error getting end term Atp.",e);

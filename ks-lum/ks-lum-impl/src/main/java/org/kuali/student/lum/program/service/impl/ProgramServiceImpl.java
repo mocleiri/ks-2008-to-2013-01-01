@@ -28,10 +28,10 @@ import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r1.common.validator.ValidatorUtils;
-import org.kuali.student.r1.core.atp.dto.AtpInfo;
-import org.kuali.student.r1.core.atp.service.AtpService;
-import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
-import org.kuali.student.r1.core.document.service.DocumentService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r2.core.document.service.DocumentService;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -412,12 +412,12 @@ public class ProgramServiceImpl implements ProgramService{
 		copyProgramRequirements(majorDiscipline.getProgramRequirements(),majorDiscipline.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
-		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId);
+		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId, contextInfo);
 		if(docRelations!=null){
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(majorDiscipline.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", majorDiscipline.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation);
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", majorDiscipline.getId(), docRelation.getDocumentId(), docRelation.getTypeKey(), docRelation, contextInfo);
 			}
 		}
 	}
@@ -440,12 +440,12 @@ public class ProgramServiceImpl implements ProgramService{
 		copyProgramRequirements(originaCredentialProgram.getProgramRequirements(),originaCredentialProgram.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
-		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId);
+		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId, contextInfo);
 		if(docRelations!=null){
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(originaCredentialProgram.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originaCredentialProgram.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation);
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originaCredentialProgram.getId(), docRelation.getDocumentId(), docRelation.getTypeKey(), docRelation, contextInfo);
 			}
 		}
 	}
@@ -464,12 +464,12 @@ public class ProgramServiceImpl implements ProgramService{
 		copyProgramRequirements(originalCoreProgram.getProgramRequirements(),originalCoreProgram.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
-		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId);
+		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId, contextInfo);
 		if(docRelations!=null){
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(originalCoreProgram.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originalCoreProgram.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation);
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originalCoreProgram.getId(), docRelation.getDocumentId(), docRelation.getTypeKey(), docRelation, contextInfo);
 			}
 		}
 	}
@@ -1539,7 +1539,7 @@ public class ProgramServiceImpl implements ProgramService{
 		if(atpKey==null){
 			return null;
 		}
-		return atpService.getAtp(atpKey);
+		return atpService.getAtp(atpKey, contextInfo);
 	}
 	//FIXME error should return using message service and not static text
 	private void compareAtps(String aptKey1, String aptKey2, List<ValidationResultInfo> validationResults, String field, String path,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
