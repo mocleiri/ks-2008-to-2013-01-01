@@ -12,8 +12,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 
-import org.kuali.student.r1.core.atp.dto.AtpInfo;
-import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
@@ -49,7 +49,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * This method is called by workflow when the state changes.
      * 
      * @param majorDisciplineId
-     * @param state
+     * @param newState
      * @return
      * @throws Exception
      */
@@ -64,7 +64,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * 
      * @param endEntryTerm
      * @param endEnrollTerm
-     * @param programType
+     * @param endInstAdmitTerm
      * @param majorDisciplineId
      * @param newState
      * @return
@@ -150,7 +150,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * This method finds all previous versions of program and sets all previous ACTIVE,APPROVED,DRAFT versions to SUPERSEDED and
      * sets new end terms for previous current version.
  
-     * @param majorDisciplineInfo The version of major discipline program being activated
+     * @param selectedVersion The version of major discipline program being activated
      * @param endEntryTerm The new end entry term to set on previous active version
      * @param endEnrollTerm The new end enroll term to set on previous active version
      * @throws Exception
@@ -209,7 +209,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	/**
 	 * Get the current version of program given the selected version of program
 	 * 
-	 * @param verIndId
+	 * @param majorDisciplineInfo
 	 */
 	protected MajorDisciplineInfo getCurrentVersion(MajorDisciplineInfo majorDisciplineInfo)
 			throws Exception {
@@ -255,18 +255,18 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
         if(!majorDisciplineInfo.getVariations().isEmpty()){
         	
         	//Find the major's end term atps and obtain their date information
-   			AtpInfo majorEndEntryTermAtp = atpService.getAtp(endEntryTerm);
+   			AtpInfo majorEndEntryTermAtp = atpService.getAtp(endEntryTerm, ContextUtils.getContextInfo());
    			Date majorEndEntryTermEndDate = majorEndEntryTermAtp.getEndDate();
-   			AtpInfo majorEndEnrollTermAtp = atpService.getAtp(endEnrollTerm);
+   			AtpInfo majorEndEnrollTermAtp = atpService.getAtp(endEnrollTerm, ContextUtils.getContextInfo());
    			Date majorEndEnrollTermEndDate = majorEndEnrollTermAtp.getEndDate();
-       		AtpInfo majorEndInstAdmitTermAtp = atpService.getAtp(endInstAdmitTerm);
+       		AtpInfo majorEndInstAdmitTermAtp = atpService.getAtp(endInstAdmitTerm, ContextUtils.getContextInfo());
        		Date majorEndInstAdmitTermEndDate = majorEndInstAdmitTermAtp.getEndDate();
     
        		//Loop through the variations
 	        for(ProgramVariationInfo variation:majorDisciplineInfo.getVariations()){
 	        	//compare dates to get the older of the two end terms
 	    		if(variation.getEndProgramEntryTerm() != null){
-	    			AtpInfo variationEndEntryTermAtp = atpService.getAtp(variation.getEndProgramEntryTerm());
+	    			AtpInfo variationEndEntryTermAtp = atpService.getAtp(variation.getEndProgramEntryTerm(), ContextUtils.getContextInfo());
 	    			Date variationEndEntryTermEndDate = variationEndEntryTermAtp.getEndDate();
 	    			if(majorEndEnrollTermEndDate.compareTo(variationEndEntryTermEndDate)<=0){
 		    			variation.setEndProgramEntryTerm(endEntryTerm);
@@ -276,7 +276,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	    		}
 	    		//compare dates to get the older of the two end terms
 	    		if(variation.getEndTerm() != null){
-	    			AtpInfo variationEndTermAtp = atpService.getAtp(variation.getEndTerm());
+	    			AtpInfo variationEndTermAtp = atpService.getAtp(variation.getEndTerm(), ContextUtils.getContextInfo());
 	    			Date variationEndTermEndDate = variationEndTermAtp.getEndDate();
 	    			if(majorEndEntryTermEndDate.compareTo(variationEndTermEndDate)<=0){
 		    			variation.setEndTerm(endEnrollTerm);
@@ -305,7 +305,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * <p>
      * Note that it uses StatementUtil to update the statement tree.
      * 
-     * @param majorDisciplineInfo
+     * @param programRequirementIds
      * @param newState
      * @throws Exception
      */
@@ -343,7 +343,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * this method isn't necessary.
      * <p>
      * 
-     * @param majorDisciplineInfo
+     * @param variationList
      * @param newState
      * @throws Exception
      */
