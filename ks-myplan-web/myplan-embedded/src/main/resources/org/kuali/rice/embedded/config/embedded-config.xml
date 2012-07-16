@@ -242,14 +242,6 @@
 
     <param name="myplan.comment.fromAddress">myplan_team@uw.edu</param>
 
-    <!-- SMTP settings -->
-    <param name="mail.smtp.host">localhost</param>
-    <param name="mail.smtp.port">25</param>
-    <param name="mail.smtp.ssl.enable">false</param>
-    <param name="mail.smtp.auth">false</param>
-    <param name="mail.smtp.username">unset</param>
-    <param name="mail.smtp.password">unset</param>
-
     <!-- default config files -->
     <param name="config.location">${user.home}/kuali/main/${environment}/myplan-config.xml</param>
     <param name="config.location">/data/kuali/etc/myplan-config.xml</param>
