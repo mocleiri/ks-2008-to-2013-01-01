@@ -198,8 +198,15 @@
     <!-- Base URL for the course search servlet -->
     <param name="courseSearchBaseUrl">${application.url}</param>
 
-    <!--<param name="css.files" override="true">ks-myplan/css/myplan.css,${css.files}</param>-->
+    <!-- SMTP settings -->
+    <param name="mail.smtp.host">localhost</param>
+    <param name="mail.smtp.port">25</param>
+    <param name="mail.smtp.ssl.enable">false</param>
+    <param name="mail.smtp.auth">false</param>
+    <param name="mail.smtp.username">unset</param>
+    <param name="mail.smtp.password">unset</param>
 
+    <!--<param name="css.files" override="true">ks-myplan/css/myplan.css,${css.files}</param>-->
     <!-- Default config file location -->
     <param name="config.location">${user.home}/kuali/main/${environment}/myplan-config.xml</param>
     <!-- App server config file location -->
@@ -207,14 +214,6 @@
     <param name="config.location">${additional.config.locations}</param>
 
     <param name="ks.institutional.context">classpath:uw-override-context.xml</param>
-
-    <!-- SMTP settings -->
-    <param name="mail.smtp.host">appsubmit.cac.washington.edu</param>
-    <param name="mail.smtp.port">465</param>
-    <param name="mail.smtp.ssl.enable">false</param>
-    <param name="mail.smtp.auth">false</param>
-    <param name="mail.smtp.username">unset</param>
-    <param name="mail.smtp.password">unset</param>
 
     <param name="myplan.comment.fromAddress">myplan_team@uw.edu</param>
 
