@@ -207,4 +207,15 @@
     <param name="config.location">${additional.config.locations}</param>
 
     <param name="ks.institutional.context">classpath:uw-override-context.xml</param>
+
+    <!-- Default SMTP Settings -->
+    <param name="mail.smtp.host">localhost</param>
+    <param name="mail.smtp.port">25</param>
+    <param name="mail.smtp.ssl.enable">false</param>
+    <param name="mail.smtp.auth">false</param>
+    <param name="mail.smtp.username">unset</param>
+    <param name="mail.smtp.password">unset</param>
+
+    <param name="myplan.comment.fromAddress">myplan_team@uw.edu</param>
+
 </config>

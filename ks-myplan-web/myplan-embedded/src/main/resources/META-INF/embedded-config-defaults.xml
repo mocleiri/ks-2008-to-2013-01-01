@@ -17,7 +17,7 @@
 
 
     <!--
-        This is the standalone default settings config file. It is always loaded to read default
+        This is the embedded default settings config file. It is always loaded to read default
         settings. Parameter replacement is performed in both config files and their parents (at
         runtime), and the Spring config file (through a PropertyPlaceholderConfigurer). Variable
         syntax: ${varname} ${institution}
@@ -30,7 +30,7 @@
     <param name="filter.login.class">org.kuali.rice.kew.web.UserLoginFilter</param>
     <param name="filtermapping.login.1">/*</param>
 
-    <!-- Change Configurer Modes to LOCAL -->
+    <!-- Change Configure Modes to LOCAL -->
     <param name="location.mode">LOCAL</param>
     <param name="coreservice.mode">LOCAL</param>
     <param name="ken.mode">LOCAL</param>
