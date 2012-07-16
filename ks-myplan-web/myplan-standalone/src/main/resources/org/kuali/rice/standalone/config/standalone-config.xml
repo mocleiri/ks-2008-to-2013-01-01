@@ -208,9 +208,9 @@
 
     <param name="ks.institutional.context">classpath:uw-override-context.xml</param>
 
-    <!-- Default SMTP Settings -->
-    <param name="mail.smtp.host">localhost</param>
-    <param name="mail.smtp.port">25</param>
+    <!-- SMTP settings -->
+    <param name="mail.smtp.host">appsubmit.cac.washington.edu</param>
+    <param name="mail.smtp.port">465</param>
     <param name="mail.smtp.ssl.enable">false</param>
     <param name="mail.smtp.auth">false</param>
     <param name="mail.smtp.username">unset</param>
