@@ -16,31 +16,33 @@
 package org.kuali.student.enrollment.class1.hold.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.class1.hold.dao.HoldDao;
+import org.kuali.student.enrollment.class1.hold.dao.AppliedHoldDao;
 import org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao;
-import org.kuali.student.enrollment.class1.hold.model.HoldEntity;
+import org.kuali.student.enrollment.class1.hold.model.AppliedHoldEntity;
 import org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
-import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebService;
-import javax.persistence.PersistenceException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-@WebService(name = "HoldService", serviceName = "HoldService", portName = "HoldService", targetNamespace = "http://student.kuali.org/wsdl/hold")
+@WebService(name = "HoldService", serviceName = "HoldService", portName = "HoldService",
+targetNamespace = "http://student.kuali.org/wsdl/hold")
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-public class HoldServiceImpl implements HoldService {
+public class HoldServiceImpl
+        implements HoldService {
 
     private HoldIssueDao holdIssueDao;
-    private HoldDao holdDao;
+    private AppliedHoldDao appliedHoldDao;
 
     public HoldIssueDao getHoldIssueDao() {
         return holdIssueDao;
@@ -50,107 +52,131 @@ public class HoldServiceImpl implements HoldService {
         this.holdIssueDao = holdIssueDao;
     }
 
-    public HoldDao getHoldDao() {
-        return holdDao;
+    public AppliedHoldDao getAppliedHoldDao() {
+        return appliedHoldDao;
     }
 
-    public void setHoldDao(HoldDao holdDao) {
-        this.holdDao = holdDao;
+    public void setAppliedHoldDao(AppliedHoldDao appliedHoldDao) {
+        this.appliedHoldDao = appliedHoldDao;
     }
 
     @Override
-    public HoldInfo getHold(String holdId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        HoldEntity entity = holdDao.find(holdId);
-
+    @Transactional(readOnly = true)
+    public AppliedHoldInfo getAppliedHold(String holdId,
+            ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        AppliedHoldEntity entity = appliedHoldDao.find(holdId);
         if (entity == null) {
             throw new DoesNotExistException(holdId);
         }
-
         return entity.toDto();
     }
 
     @Override
-    public List<String> searchForHoldIds(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    @Transactional(readOnly = true)
+    public List<String> searchForAppliedHoldIds(QueryByCriteria criteria,
+            ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<String>();
+        throw new OperationFailedException("not implemented");
     }
 
     @Override
-    public List<HoldInfo> searchForHolds(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    @Transactional(readOnly = true)
+    public List<AppliedHoldInfo> searchForAppliedHolds(QueryByCriteria criteria,
+            ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
             PermissionDeniedException {
-
-        return new ArrayList<HoldInfo>();
+        throw new OperationFailedException("not implemented");
     }
 
     @Override
-    public List<ValidationResultInfo> validateHold(String validationTypeKey, HoldInfo holdInfo, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<ValidationResultInfo> validateAppliedHold(String validationTypeKey,
+            AppliedHoldInfo holdInfo,
+            ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
             OperationFailedException {
         return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
     @Transactional
-    public HoldInfo createHold(String personId,
+    public AppliedHoldInfo createAppliedHold(String personId,
             String issueId,
             String holdTypeKey,
-            HoldInfo holdInfo,
-            ContextInfo context) throws AlreadyExistsException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        if (!personId.equals(holdInfo.getPersonId())) {
-            throw new InvalidParameterException(personId + " does not match the person Id in the object " + holdInfo.getPersonId());
-        }
-        if (!issueId.equals(holdInfo.getIssueId())) {
-            throw new InvalidParameterException(issueId + " does not match the issueId in the object " + holdInfo.getIssueId());
-        }
-        if (!holdTypeKey.equals(holdInfo.getTypeKey())) {
-            throw new InvalidParameterException(holdTypeKey + " does not match the hold type key in the object " + holdInfo.getTypeKey());
-        }
-        HoldEntity entity = new HoldEntity(holdInfo);
-        entity.setHoldIssue(holdIssueDao.find(issueId));
-        if (entity.getHoldIssue() == null) {
+            AppliedHoldInfo holdInfo,
+            ContextInfo context)
+            throws
+            DataValidationErrorException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        holdInfo.setPersonId(personId);
+        holdInfo.setHoldIssueId(issueId);
+        holdInfo.setTypeKey(holdTypeKey);
+
+        HoldIssueEntity holdIssueEntity = holdIssueDao.find(issueId);
+        if (holdIssueEntity == null) {
             throw new InvalidParameterException(issueId);
         }
-        entity.setCreateId(context.getPrincipalId());
-        entity.setCreateTime(context.getCurrentDate());
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
-        holdDao.persist(entity);
+        AppliedHoldEntity entity = new AppliedHoldEntity(holdInfo);
+        entity.setHoldIssue(holdIssueEntity);
+        entity.setEntityCreated(context);
+        appliedHoldDao.persist(entity);
         return entity.toDto();
     }
 
     @Override
     @Transactional
-    public HoldInfo updateHold(String holdId, HoldInfo holdInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public AppliedHoldInfo updateAppliedHold(String holdId,
+            AppliedHoldInfo holdInfo,
+            ContextInfo context)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            VersionMismatchException {
         if (!holdId.equals(holdInfo.getId())) {
             throw new InvalidParameterException(holdId + " does not match the id in the object " + holdInfo.getId());
         }
-        HoldEntity entity = holdDao.find(holdId);
+        AppliedHoldEntity entity = appliedHoldDao.find(holdId);
         if (null == entity) {
             throw new DoesNotExistException(holdId);
         }
         entity.fromDto(holdInfo);
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
-        holdDao.merge(entity);
+        entity.setEntityUpdated(context);
+        entity = appliedHoldDao.merge(entity);
+        appliedHoldDao.getEm().flush(); // need to flush to get the version indicator updated
         return entity.toDto();
     }
 
     @Override
     @Transactional
-    public HoldInfo releaseHold(String holdId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        HoldInfo info = this.getHold(holdId, context);
+    public AppliedHoldInfo releaseAppliedHold(String holdId,
+            ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        AppliedHoldInfo info = this.getAppliedHold(holdId, context);
         info.setStateKey(HoldServiceConstants.HOLD_RELEASED_STATE_KEY);
+        info.setReleasedDate(new Date());
         try {
-            return updateHold(holdId, info, context);
+            return updateAppliedHold(holdId, info, context);
         } catch (DataValidationErrorException ex) {
             throw new OperationFailedException("unexpected", ex);
         } catch (VersionMismatchException ex) {
@@ -160,21 +186,32 @@ public class HoldServiceImpl implements HoldService {
 
     @Override
     @Transactional
-    public StatusInfo deleteHold(String holdId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        HoldEntity entity = holdDao.find(holdId);
+    public StatusInfo deleteAppliedHold(String holdId,
+            ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        AppliedHoldEntity entity = appliedHoldDao.find(holdId);
         if (null == entity) {
             throw new DoesNotExistException(holdId);
         }
-        holdDao.remove(entity);
+        appliedHoldDao.remove(entity);
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
     }
 
     @Override
-    public IssueInfo getIssue(String issueId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly = true)
+    public HoldIssueInfo getHoldIssue(String issueId,
+            ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
         HoldIssueEntity entity = holdIssueDao.find(issueId);
         if (entity == null) {
             throw new DoesNotExistException(issueId);
@@ -183,71 +220,94 @@ public class HoldServiceImpl implements HoldService {
     }
 
     @Override
-    public List<String> getIssueIdsByType(String issueTypeKey, ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<String>();
+    @Transactional(readOnly = true)
+    public List<String> getHoldIssueIdsByType(String issueTypeKey,
+            ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return holdIssueDao.getIdsByType(issueTypeKey);
     }
 
     @Override
-    public List<IssueInfo> getIssuesByOrg(String organizationId, ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly = true)
+    public List<HoldIssueInfo> getHoldIssuesByOrg(String organizationId,
+            ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
         List<HoldIssueEntity> holdIssues = holdIssueDao.getByOrganizationId(organizationId);
-
-        List<IssueInfo> results = new ArrayList<IssueInfo>(holdIssues.size());
-
+        List<HoldIssueInfo> results = new ArrayList<HoldIssueInfo>(holdIssues.size());
         for (HoldIssueEntity holdIssue : holdIssues) {
             results.add(holdIssue.toDto());
         }
-
         return results;
     }
 
     @Override
-    public List<String> searchForIssueIds(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    @Transactional(readOnly = true)
+    public List<String> searchForHoldIssueIds(QueryByCriteria criteria,
+            ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<String>();
+        throw new OperationFailedException("not implemented");
     }
 
     @Override
-    public List<IssueInfo> searchForIssues(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    @Transactional(readOnly = true)
+    public List<HoldIssueInfo> searchForHoldIssues(QueryByCriteria criteria,
+            ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
             PermissionDeniedException {
-
-        return new ArrayList<IssueInfo>();
+        throw new OperationFailedException("not implemented");
     }
 
     @Override
-    public List<ValidationResultInfo> validateIssue(String validationTypeKey, IssueInfo issueInfo, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<ValidationResultInfo> validateHoldIssue(String validationTypeKey,
+            HoldIssueInfo issueInfo,
+            ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
             OperationFailedException {
         return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
     @Transactional
-    public IssueInfo createIssue(String issueTypeKey, IssueInfo issueInfo, ContextInfo context)
-            throws AlreadyExistsException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        if (!issueTypeKey.equals(issueInfo.getTypeKey())) {
-            throw new InvalidParameterException(issueTypeKey + " does not match type in object " + issueInfo.getTypeKey());
-        }
+    public HoldIssueInfo createHoldIssue(String issueTypeKey,
+            HoldIssueInfo issueInfo,
+            ContextInfo context)
+            throws DataValidationErrorException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        issueInfo.setTypeKey(issueTypeKey);
         HoldIssueEntity entity = new HoldIssueEntity(issueInfo);
-        entity.setCreateId(context.getPrincipalId());
-        entity.setCreateTime(context.getCurrentDate());
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+        entity.setEntityCreated(context);
         holdIssueDao.persist(entity);
         return entity.toDto();
     }
 
     @Override
     @Transactional
-    public IssueInfo updateIssue(String issueId, IssueInfo issueInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public HoldIssueInfo updateHoldIssue(String issueId,
+            HoldIssueInfo issueInfo,
+            ContextInfo context)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            VersionMismatchException {
         if (!issueId.equals(issueInfo.getId())) {
             throw new InvalidParameterException(issueId + " does not match the id in the object " + issueInfo.getId());
         }
@@ -256,19 +316,29 @@ public class HoldServiceImpl implements HoldService {
             throw new DoesNotExistException(issueId);
         }
         entity.fromDto(issueInfo);
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
-        holdIssueDao.merge(entity);
+        entity.setEntityUpdated(context);
+        entity = holdIssueDao.merge(entity);
+        holdIssueDao.getEm().flush(); // need to flush to get the version indicator updated
         return entity.toDto();
     }
 
     @Override
     @Transactional
-    public StatusInfo deleteIssue(String issueId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteHoldIssue(String issueId,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            DependentObjectsExistException  {
         HoldIssueEntity entity = holdIssueDao.find(issueId);
         if (null == entity) {
             throw new DoesNotExistException(issueId);
+        }
+        List<String> list = this.getAppliedHoldIdsByIssue(issueId, contextInfo);
+        if (!list.isEmpty()) {
+            throw new DependentObjectsExistException(list.size() + " hold(s) with this issue");
         }
         holdIssueDao.remove(entity);
         StatusInfo status = new StatusInfo();
@@ -277,69 +347,138 @@ public class HoldServiceImpl implements HoldService {
     }
 
     @Override
-    public List<HoldInfo> getHoldsByIds(List<String> holdIds, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException,
+    @Transactional(readOnly = true)
+    public List<AppliedHoldInfo> getAppliedHoldsByIds(List<String> holdIds,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<AppliedHoldEntity> entities = appliedHoldDao.findByIds(holdIds);
+        List<AppliedHoldInfo> result = new ArrayList<AppliedHoldInfo>(entities.size());
+        for (AppliedHoldEntity entity : entities) {
+            if (entity == null) {
+                // if one of the entities from "findByIds" is returned as null, then one of the keys in the list was not found
+                throw new DoesNotExistException();
+            }
+            result.add(entity.toDto());
+        }
+        return result;
     }
 
     @Override
-    public List<String> getHoldIdsByType(String holdTypeKey, ContextInfo contextInfo) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<HoldInfo> getHoldsByIssue(String issueId, ContextInfo contextInfo) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<HoldInfo> getHoldsByPerson(String personId, ContextInfo contextInfo) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<HoldInfo> getActiveHoldsByPerson(String personId, ContextInfo contextInfo)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    @Transactional(readOnly = true)
+    public List<String> getAppliedHoldIdsByType(String holdTypeKey,
+            ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return appliedHoldDao.getIdsByType(holdTypeKey);
     }
 
     @Override
-    public List<HoldInfo> getHoldsByIssueAndPerson(String issueId, String personId, ContextInfo contextInfo)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    @Transactional(readOnly = true)
+    public List<String> getAppliedHoldIdsByIssue(String issueId,
+            ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return appliedHoldDao.getIdsByIssue(issueId);
     }
 
     @Override
-    public List<HoldInfo> getActiveHoldsByIssueAndPerson(String issueId, String personId, ContextInfo contextInfo)
-            throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    @Transactional(readOnly = true)
+    public List<AppliedHoldInfo> getAppliedHoldsByPerson(String personId,
+            ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        List<AppliedHoldEntity> entities = this.appliedHoldDao.getByPerson(personId);
+        List<AppliedHoldInfo> result = new ArrayList<AppliedHoldInfo>(entities.size());
+        for (AppliedHoldEntity entity : entities) {
+            result.add(entity.toDto());
+        }
+        return result;
     }
 
     @Override
-    public List<IssueInfo> getIssuesByIds(List<String> issueIds, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException,
+    @Transactional(readOnly = true)
+    public List<AppliedHoldInfo> getActiveAppliedHoldsByPerson(String personId,
+            ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        Date now = new Date();
+        List<AppliedHoldEntity> entities = this.appliedHoldDao.getByPersonAndState(personId, HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
+        List<AppliedHoldInfo> result = new ArrayList<AppliedHoldInfo>(entities.size());
+        for (AppliedHoldEntity entity : entities) {
+            AppliedHoldInfo info = entity.toDto();
+            if (info.getEffectiveDate().before(now)) {
+                if (info.getReleasedDate() == null || info.getReleasedDate().after(now)) {
+                    result.add(info);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AppliedHoldInfo> getAppliedHoldsByIssueAndPerson(String issueId,
+            String personId,
+            ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        List<AppliedHoldEntity> entities = this.appliedHoldDao.getByIssueAndPerson(issueId, personId);
+        List<AppliedHoldInfo> result = new ArrayList<AppliedHoldInfo>(entities.size());
+        for (AppliedHoldEntity entity : entities) {
+            result.add(entity.toDto());
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AppliedHoldInfo> getActiveAppliedHoldsByIssueAndPerson(String issueId,
+            String personId,
+            ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        Date now = new Date();
+        List<AppliedHoldEntity> entities = this.appliedHoldDao.getByIssuePersonAndState(issueId, personId,
+                HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
+        List<AppliedHoldInfo> result = new ArrayList<AppliedHoldInfo>(entities.size());
+        for (AppliedHoldEntity entity : entities) {
+            AppliedHoldInfo info = entity.toDto();
+            if (info.getEffectiveDate().before(now)) {
+                if (info.getReleasedDate() == null || info.getReleasedDate().after(now)) {
+                    result.add(info);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<HoldIssueInfo> getHoldIssuesByIds(List<String> issueIds,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
             PermissionDeniedException {
         List<HoldIssueEntity> holdIssues = holdIssueDao.findByIds(issueIds);
-
-        if (holdIssues == null) {
-            throw new DoesNotExistException();
-        }
-
-        List<IssueInfo> result = new ArrayList<IssueInfo>(holdIssues.size());
+        List<HoldIssueInfo> result = new ArrayList<HoldIssueInfo>(holdIssues.size());
         for (HoldIssueEntity entity : holdIssues) {
             if (entity == null) {
                 // if one of the entities from "findByIds" is returned as null, then one of the keys in the list was not found
@@ -347,7 +486,6 @@ public class HoldServiceImpl implements HoldService {
             }
             result.add(entity.toDto());
         }
-
         return result;
     }
 }

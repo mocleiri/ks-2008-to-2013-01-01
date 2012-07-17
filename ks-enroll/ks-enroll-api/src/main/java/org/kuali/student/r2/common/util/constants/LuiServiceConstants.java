@@ -287,6 +287,13 @@ public class LuiServiceConstants {
 //    public static final String SEQUENCED_REGISTRATION_ORDERING_TYPE_KEY = "kuali.registration.ordering.type.sequenced";   
     
     /**
+     * Registration Group States
+     */
+    public static final String REGISTRATION_GROUP_OPEN_STATE_KEY = " kuali.lui.registration.group.state.open";
+    public static final String REGISTRATION_GROUP_CLOSED_STATE_KEY = " kuali.lui.registration.group.state.closed";
+    public static final String REGISTRATION_GROUP_SUSPENDED_STATE_KEY = " kuali.lui.registration.group.state.suspended";
+    
+    /**
      * known lu codes
      */
     public static final String HONORS_LU_CODE = "kuali.lu.code.honorsOffering";

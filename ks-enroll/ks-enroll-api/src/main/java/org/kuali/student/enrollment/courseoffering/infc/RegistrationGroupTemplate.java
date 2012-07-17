@@ -16,6 +16,8 @@
 
 package org.kuali.student.enrollment.courseoffering.infc;
 
+import org.kuali.student.r2.common.infc.IdEntity;
+
 import java.util.List;
 
 /**
@@ -25,14 +27,16 @@ import java.util.List;
  * @author tom
  */
 
-public interface RegistrationGroupTemplate {
+public interface RegistrationGroupTemplate
+    extends IdEntity {
 
     /**
-     * Gets the course offering Id to which this template applies.
+     * Gets the format offering Id to which this template applies.
      *
-     * @name Course Offering Id
+     * @name Format Offering Id
+     * @required
      */
-    public String getCourseOfferingId();
+    public String getFormatOfferingId();
 
     /**
      * Gets the activity offering Id combinations. Each list within
@@ -40,9 +44,11 @@ public interface RegistrationGroupTemplate {
      *
      * This rule says that a RegistrationGroup comprising of a single
      * activity offering Id from each and every list within the
-     * activity offering cominations should be created.
+     * activity offering combinations should be created.
      *
-     * @name Activity Offering combinations
+     * (needs an example)
+     *
+     * @name Activity Offering Templates
      */
-    public List<List<? extends String>> getActivityOfferingCombinations();
+    public List<? extends ActivityOfferingTemplate> getActivityOfferingTemplates();
 }

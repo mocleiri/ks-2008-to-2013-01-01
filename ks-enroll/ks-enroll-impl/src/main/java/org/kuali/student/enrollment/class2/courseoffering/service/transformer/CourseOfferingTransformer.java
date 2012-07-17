@@ -1,5 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -10,8 +13,8 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
+import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
@@ -23,20 +26,21 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.*;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CourseOfferingTransformer {
-    private LuiPersonRelationService lprService;
+    private LprService lprService;
     private PersonService personService;
     private LRCService lrcService;
 
@@ -62,9 +66,9 @@ public class CourseOfferingTransformer {
             } else if (CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR.equals(attr.getKey())){
                 co.setFinalExamType(attr.getValue());
             } else if(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR.equals(attr.getKey())){
-                co.setEvaluated(Boolean.valueOf(attr.getValue()));
+                co.setIsEvaluated(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.WHERE_FEES_ATTACHED_FLAG_ATTR.equals(attr.getKey())){
-                co.setFeeAtActivityOffering(Boolean.valueOf(attr.getValue()));
+                co.setIsFeeAtActivityOffering(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR.equals(attr.getKey())){
                 co.setFundingSource(attr.getValue());
             } else {
@@ -83,11 +87,11 @@ public class CourseOfferingTransformer {
         co.setUnitsContentOwner(lui.getUnitsContentOwner());
 
         //Split up the result keys for student registration options into a separate field.
-        co.getStudentRegistrationOptionIds().clear();
+        co.getStudentRegistrationGradingOptions().clear();
         co.setGradingOptionId(null);
         for(String resultValueGroupKey : lui.getResultValuesGroupKeys()){
             if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
-                co.getStudentRegistrationOptionIds().add(resultValueGroupKey);
+                co.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
             }else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 if(co.getGradingOptionId()!=null){
                     throw new RuntimeException("This course offering has multiple grading options in the data. It should only have at most one.");
@@ -96,10 +100,6 @@ public class CourseOfferingTransformer {
             }else if(resultValueGroupKey!=null && resultValueGroupKey.startsWith("kuali.creditType.credit")){//There should be a better way of distinguishing credits from other results
                 co.setCreditOptionId(resultValueGroupKey);
             }
-        }
-
-        if ( co.getGradingOptionId() != null ) {//TODO why are we doing substrings of keys?
-            co.setGradingOption(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
         }
 
         LuiIdentifierInfo identifier = lui.getOfficialIdentifier();
@@ -133,11 +133,11 @@ public class CourseOfferingTransformer {
     }
 
 
-    public LuiPersonRelationService getLprService() {
+    public LprService getLprService() {
         return lprService;
     }
 
-    public void setLprService(LuiPersonRelationService lprService) {
+    public void setLprService(LprService lprService) {
         this.lprService = lprService;
     }
 
@@ -265,7 +265,7 @@ public class CourseOfferingTransformer {
         // TODO: Shouldn't this be handled at the JPA level with some sort of merge?
         List<String> newOptions = new ArrayList<String>();
         newOptions.add(co.getGradingOptionId());
-        newOptions.addAll(co.getStudentRegistrationOptionIds());
+        newOptions.addAll(co.getStudentRegistrationGradingOptions());
         lui.setResultValuesGroupKeys(newOptions);
         lui.getResultValuesGroupKeys().add(co.getCreditOptionId());
 
@@ -299,6 +299,9 @@ public class CourseOfferingTransformer {
         }
         courseOfferingInfo.setSubjectArea(courseInfo.getSubjectArea());
 
+        // KS-1.3-SERVICES-MERGE: copy courseNumberSuffix
+        courseOfferingInfo.setCourseNumberSuffix(courseInfo.getCourseNumberSuffix());
+
         if(optionKeys.contains(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY)) {
             String codeSuffix = courseOfferingInfo.getCourseOfferingCode();
             courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode() + codeSuffix);
@@ -310,11 +313,11 @@ public class CourseOfferingTransformer {
         courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
 
         //Split up the result keys for student registration options into a separate field.
-        courseOfferingInfo.getStudentRegistrationOptionIds().clear();
+        courseOfferingInfo.getStudentRegistrationGradingOptions().clear();
         courseOfferingInfo.setGradingOptionId(null);
         for(String resultValueGroupKey : courseInfo.getGradingOptions()){
             if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
-                courseOfferingInfo.getStudentRegistrationOptionIds().add(resultValueGroupKey);
+                courseOfferingInfo.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
             }else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 if(courseOfferingInfo.getGradingOptionId()!=null){
                     //Log warning
@@ -356,8 +359,10 @@ public class CourseOfferingTransformer {
         courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
     }
 
-    public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LuiPersonRelationService lprService) {
-        List<LuiPersonRelationInfo> lprs = null;
+    // this is not currently in use and needs to be revisited and plugged into the impl
+    public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LprService lprService)
+            throws OperationFailedException {
+        List<LprInfo> lprs = null;
         try {
             lprs = lprService.getLprsByLui(luiId, context);
         } catch (DoesNotExistException e) {
@@ -376,11 +381,15 @@ public class CourseOfferingTransformer {
             throw new RuntimeException("Error getting instructors for LuiId: " + luiId + " Permission Denied ", e);
         }
 
-        for (LuiPersonRelationInfo lpr : lprs) {
-            if (lpr.getStateKey()==null || !lpr.getStateKey().equals(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY)) {
+        for (LprInfo lpr : lprs) {
+            if (lpr.getStateKey()==null || !lpr.getStateKey().equals(LprServiceConstants.DROPPED_STATE_KEY)) {
                 OfferingInstructorInfo instructor = new OfferingInstructorInfo();
                 instructor.setPersonId(lpr.getPersonId());
-                instructor.setPercentageEffort(lpr.getCommitmentPercent());
+                if (lpr.getCommitmentPercent() != null) {
+                    instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+                } else {
+                    instructor.setPercentageEffort(null);
+                }
                 instructor.setId(lpr.getId());
                 instructor.setTypeKey(lpr.getTypeKey());
                 instructor.setStateKey(lpr.getStateKey());
@@ -399,7 +408,7 @@ public class CourseOfferingTransformer {
 
     public LRCService getLrcService() {
         if(lrcService == null){
-            lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+            lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lrcService;
     }

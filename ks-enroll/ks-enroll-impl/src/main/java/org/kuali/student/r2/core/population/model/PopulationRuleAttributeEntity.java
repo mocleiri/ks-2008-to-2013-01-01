@@ -46,7 +46,7 @@ public class PopulationRuleAttributeEntity extends BaseAttributeEntity<Populatio
     }
 
     public PopulationRuleAttributeEntity(Attribute att, PopulationRuleEntity owner) {
-        super (att.getKey(), att.getValue());
+        super (att, owner);
     }
 
     @Override

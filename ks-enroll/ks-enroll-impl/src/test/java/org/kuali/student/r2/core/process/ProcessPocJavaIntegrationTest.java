@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package org.kuali.student.r2.core.process;
 
 import org.junit.After;
@@ -10,21 +11,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.student.r2.core.class1.hold.mock.HoldServiceMockImpl;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceMockImpl;
+import org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMockImpl;
 import org.kuali.student.kim.permission.mock.IdentityServiceMockImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.process.CourseRegistrationServiceProcessCheckDecorator;
-import org.kuali.student.r2.core.class1.process.ProcessPocAtpServiceDecorator;
-import org.kuali.student.r2.core.class1.process.ProcessPocConstants;
-import org.kuali.student.r2.core.class1.process.ProcessPocExemptionServiceDecorator;
-import org.kuali.student.r2.core.class1.process.ProcessPocHoldServiceDecorator;
-import org.kuali.student.r2.core.class1.process.ProcessPocIdentityServiceDecorator;
-import org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl;
 import org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
 import org.kuali.student.r2.core.exemption.service.ExemptionServiceMockImpl;
@@ -42,8 +37,11 @@ import static org.junit.Assert.assertTrue;
  *
  * @author nwright
  */
+
 @Ignore // TODO: re-enable after refactoring
 public class ProcessPocJavaIntegrationTest {
+
+    private CourseRegistrationService service = null;
 
     public ProcessPocJavaIntegrationTest() {
     }
@@ -55,12 +53,10 @@ public class ProcessPocJavaIntegrationTest {
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
-    private CourseRegistrationService service = null;
 
     @Before
     public void setUp() {
-        CourseRegistrationServiceProcessCheckDecorator decorator = new CourseRegistrationServiceProcessCheckDecorator();
-        decorator.setNextDecorator(new CourseRegistrationServiceMockImpl());
+        CourseRegistrationService decorator = new CourseRegistrationServiceProcessCheckDecorator(new CourseRegistrationServiceMockImpl());
 
         IdentityService identityService = new IdentityServiceMockImpl();
         identityService = new ProcessPocIdentityServiceDecorator(identityService);

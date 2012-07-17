@@ -32,15 +32,15 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
-import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -61,10 +61,10 @@ public class TestServiceDictionaries {
         inputFiles.add(calculateXmlFileName(AcalEventInfo.class));
         inputFiles.add(calculateXmlFileName(KeyDateInfo.class));
 //       Lui Person Relation (LPR) Service
-        inputFiles.add(calculateXmlFileName(LuiPersonRelationInfo.class));
+        inputFiles.add(calculateXmlFileName(LprInfo.class));
 //      Hold Service
-        inputFiles.add(calculateXmlFileName(HoldInfo.class));
-        inputFiles.add(calculateXmlFileName(IssueInfo.class));
+        inputFiles.add(calculateXmlFileName(AppliedHoldInfo.class));
+        inputFiles.add(calculateXmlFileName(HoldIssueInfo.class));
 //      Academic Time Period (ATP) Service
         inputFiles.add(calculateXmlFileName(AtpInfo.class));
         inputFiles.add(calculateXmlFileName(MilestoneInfo.class));

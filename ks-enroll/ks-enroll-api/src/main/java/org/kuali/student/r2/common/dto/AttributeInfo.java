@@ -75,7 +75,12 @@ public final class AttributeInfo
         }
     }
 
-    @Override
+    public AttributeInfo(String key, String value) {
+		this.key = key;
+		this.value = value;
+	}
+
+	@Override
     public String getId() {
         return id;
     }
@@ -101,4 +106,19 @@ public final class AttributeInfo
     public void setValue(String value) {
         this.value = value;
     }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("AttributeInfo [id=");
+		builder.append(id);
+		builder.append(", key=");
+		builder.append(key);
+		builder.append(", value=");
+		builder.append(value);
+		builder.append("]");
+		return builder.toString();
+	}
+    
+    
 }
