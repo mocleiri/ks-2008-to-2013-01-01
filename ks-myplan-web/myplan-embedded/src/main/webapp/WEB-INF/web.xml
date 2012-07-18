@@ -338,8 +338,31 @@
 		<welcome-file>index.html</welcome-file>
         <welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-	
-	<!-- only need to include this for the kuali tlds
+
+        <servlet>
+            <servlet-name>UnAuthorized</servlet-name>
+            <jsp-file>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage403.jsp</jsp-file>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>UnAuthorized</servlet-name>
+            <url-pattern>myplan/unauthorized</url-pattern>
+        </servlet-mapping>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage500.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage404.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage403.jsp</location>
+    </error-page>
+  	<!-- only need to include this for the kuali tlds
 	     since tld file will only be searched from within other jars -->
 	<jsp-config>
 		<taglib>
