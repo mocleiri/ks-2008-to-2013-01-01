@@ -138,4 +138,36 @@
         <property name="validChars" ref="alpha"/>
     </bean>
 
+
+    <bean id="courseInfo.campusLocations" abstract="true" parent="cluInfo.campusLocations-parent">
+        <property name="name" value="campusLocations"/>
+        <property name="caseConstraint">
+            <bean parent="caseConstraint">
+                <property name="operator" value="EQUALS"/>
+                <property name="fieldPath" value="state"/>
+                <property name="caseSensitive" value="false"/>
+                <property name="whenConstraint">
+                    <list>
+                        <bean parent="whenConstraint">
+                            <property name="values">
+                                <list>
+                                    <value>SUBMITTED</value>
+                                    <value>APPROVED</value>
+                                    <value>ACTIVE</value>
+                                    <value>RETIRED</value>
+                                </list>
+                            </property>
+                            <property name="constraint">
+                                <!--At UW campus is stored as a dynamic attribute and campus locations will be used for specificying
+                                    the physical location of the campus where courses are offered -->
+                                <bean parent="cluInfo.campusLocations-parent">
+                                    <property name="minOccurs" value="0"/>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 </beans>
