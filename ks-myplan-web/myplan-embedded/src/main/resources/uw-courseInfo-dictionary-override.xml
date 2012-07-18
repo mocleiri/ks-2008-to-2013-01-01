@@ -141,7 +141,7 @@
     </bean>
 
 
-    <bean id="courseInfo.campusLocations" abstract="true" parent="cluInfo.campusLocations-parent">
+    <bean id="courseInfo.campusLocations" parent="cluInfo.campusLocations-parent">
         <property name="name" value="campusLocations"/>
         <property name="caseConstraint">
             <bean parent="caseConstraint">
