@@ -240,13 +240,15 @@
     <param name="mail.smtp.username">unset</param>
     <param name="mail.smtp.password">unset</param>
 
+    <!-- The "from" address to use in e-mail notifications -->
     <param name="myplan.comment.fromAddress">myplan_team@uw.edu</param>
+    <!-- If 'true' the "to" address will be changed to the address of the logged in user before sending any e-mail notifications -->
+    <param name="myplan.mailService.testMode">true</param>
 
     <!-- default config files -->
     <param name="config.location">${user.home}/kuali/main/${environment}/myplan-config.xml</param>
     <param name="config.location">/data/kuali/etc/myplan-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
-
 
     <!-- TODO: fix me for rice-2.0.0-rc1 Cannot nest same property inside (circular reference exception thrown)-->
     <!--<param name="css.files" override="true">${css.files}</param>-->

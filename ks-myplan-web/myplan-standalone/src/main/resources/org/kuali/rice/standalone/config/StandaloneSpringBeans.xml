@@ -95,5 +95,4 @@
     <import resource="classpath:ks-myplan-ApplicationContext.xml" />
     <import resource="classpath:MyPlanSpringBeans.xml"/>
     <import resource="classpath:uw-override-context.xml"/>
-
 </beans>

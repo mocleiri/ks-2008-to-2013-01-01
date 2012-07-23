@@ -115,6 +115,30 @@
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
     </bean>
 
+    <!-- Setup mail service -->
+    <bean id="mailer" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="mailer"/>
+    </bean>
+
+    <bean id="myPlanMailService" class="org.kuali.student.myplan.service.MyPlanMailServiceImpl">
+        <property name="mailer" ref="mailer"/>
+    </bean>
+
+    <!-- Publish the MyPlan mailer service-->
+    <bean id="ks.exp.myPlanMailService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
+                <property name="service" ref="myPlanMailService"/>
+                <property name="serviceName" value="{MyPlan}MailService"/>
+                <property name="endpointUrl" value="http://uwstudent.washington.edu"/>
+                <property name="applicationId" value="MyPlan"/>
+                <property name="serviceInterface" value="org.kuali.student.myplan.MyPlanMailService"/>
+                <property name="localServiceName" value="MyPlanMailService"/>
+                <property name="busSecurity" value="false"/>
+            </bean>
+        </property>
+    </bean>
+
     <!-- Define the client for the UW student web service and publish it on the bus. -->
     <bean id="studentServiceClient" class="${uw.studentservice.impl}">
         <constructor-arg>
@@ -148,5 +172,4 @@
             </bean>
         </property>
     </bean>
-
 </beans>

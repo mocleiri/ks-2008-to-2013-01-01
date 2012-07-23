@@ -206,6 +206,11 @@
     <param name="mail.smtp.username">unset</param>
     <param name="mail.smtp.password">unset</param>
 
+    <!-- The "from" address to use in e-mail notifications -->
+    <param name="myplan.comment.fromAddress">myplan_team@uw.edu</param>
+    <!-- If 'true' the "to" address will be changed to the address of the logged in user before sending any e-mail notifications -->
+    <param name="myplan.mailService.testMode">true</param>
+
     <!--<param name="css.files" override="true">ks-myplan/css/myplan.css,${css.files}</param>-->
     <!-- Default config file location -->
     <param name="config.location">${user.home}/kuali/main/${environment}/myplan-config.xml</param>
@@ -214,7 +219,4 @@
     <param name="config.location">${additional.config.locations}</param>
 
     <param name="ks.institutional.context">classpath:uw-override-context.xml</param>
-
-    <param name="myplan.comment.fromAddress">myplan_team@uw.edu</param>
-
 </config>
