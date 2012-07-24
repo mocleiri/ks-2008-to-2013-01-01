@@ -16,17 +16,12 @@
  */
 package org.kuali.student.enrollment.test.util;
 
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.EntityInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.*;
 
 import static org.junit.Assert.*;
 
 /**
- * This class //TODO ...
+ * This class is a helper class for simplifying how CRUD tests can be written.
  *
  * @author Kuali Student Team
  */
@@ -67,9 +62,19 @@ public class CrudInfoTester {
     private ListOfStringTester listOfStringTester;
 
     /**
-     * The IdEntityTester tester.
+     * The EntityInfoTester tester.
      */
     private EntityInfoTester entityInfoTester;
+
+    /**
+     * The IdEntityTester tester.
+     */
+    private IdEntityTester idEntityTester;
+
+    /**
+     * The RichTextTester tester.
+     */
+    private RichTextTester richTextTester;
 
     ///////////////////////
     // CONSTRUCTORS
@@ -84,6 +89,8 @@ public class CrudInfoTester {
         metaTester = new MetaTester();
         listOfStringTester = new ListOfStringTester();
         entityInfoTester = new EntityInfoTester();
+        idEntityTester = new IdEntityTester();
+        richTextTester = new RichTextTester();
     }
 
     public CrudInfoTester () {
@@ -150,6 +157,22 @@ public class CrudInfoTester {
         this.entityInfoTester = entityInfoTester;
     }
 
+    public IdEntityTester getIdEntityTester() {
+        return idEntityTester;
+    }
+
+    public void setIdEntityTester(IdEntityTester idEntityTester) {
+        this.idEntityTester = idEntityTester;
+    }
+
+    public RichTextTester getRichTextTester() {
+        return richTextTester;
+    }
+
+    public void setRichTextTester(RichTextTester richTextTester) {
+        this.richTextTester = richTextTester;
+    }
+
     ///////////////////////
     // FUNCTIONALS
     ///////////////////////
@@ -157,7 +180,8 @@ public class CrudInfoTester {
     public void initializeInfoForTestCreate (EntityInfo expected, String typeKey, String stateKey) throws Exception {
         expected.setTypeKey(typeKey);
         expected.setStateKey(stateKey);
-        expected.setName("Name 1");
+        expected.setName("Name1");
+        expected.setDescr(new RichTextInfo("plain1", "formatted1"));
         getAttributeTester().add2ForCreate(expected.getAttributes());
     }
 
@@ -175,13 +199,18 @@ public class CrudInfoTester {
         getMetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
     }
 
-    public void initializeInfoForTestUpdate (EntityInfo expected) throws Exception {
+    public void initializeInfoForTestUpdate (EntityInfo expected, String newStateKey) throws Exception {
         clearAttributeIds(expected);
+        expected.setStateKey(newStateKey);
+        expected.setName("Name2");
+        expected.setDescr(new RichTextInfo("plain2", "formatted2"));
         getAttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
     }
 
     public void testUpdate (EntityInfo expected, EntityInfo actual) throws Exception {
         doCommonTests(expected, actual);
+        assertEquals(expected.getName(), "Name2");
+        getRichTextTester().check(expected.getDescr(), new RichTextInfo("plain2", "formatted2"));
         getMetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
     }
 
@@ -196,15 +225,24 @@ public class CrudInfoTester {
 
     private void doCommonTests (EntityInfo expected, EntityInfo actual) throws Exception {
         if (actual instanceof IdEntityInfo) {
-            assertNotNull(((IdEntityInfo) actual).getId());
-            assertEquals(((IdEntityInfo) expected).getId(), ((IdEntityInfo) actual).getId());
+            IdEntityInfo expected_IEO = (IdEntityInfo) expected;
+            IdEntityInfo actual_IEO = (IdEntityInfo) actual;
+            assertNotNull(actual_IEO.getId());
+            if (expected_IEO.getId()!=null) {
+                assertEquals(expected_IEO.getId(), actual_IEO.getId());
+            }
         }
         else if (actual instanceof KeyEntityInfo) {
-            assertNotNull(((KeyEntityInfo) actual).getKey());
-            assertEquals(((KeyEntityInfo) expected).getKey(), ((KeyEntityInfo) actual).getKey());
+            KeyEntityInfo expected_KEO = (KeyEntityInfo) expected;
+            KeyEntityInfo actual_KEO = (KeyEntityInfo) actual;
+            assertNotNull(actual_KEO.getKey());
+            if (expected_KEO.getKey()!=null) {
+                assertEquals(expected_KEO.getKey(), actual_KEO.getKey());
+            }
         }
         getEntityInfoTester().check(expected, actual);
         getAttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        getRichTextTester().check(expected.getDescr(), actual.getDescr());
     }
 
     private void clearAttributeIds(EntityInfo expected) throws Exception {
