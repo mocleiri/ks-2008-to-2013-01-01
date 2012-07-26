@@ -16,7 +16,6 @@
   <properties>
     <!-- These properties modify the release process -->
     <kuali.release.prepare.goals>clean</kuali.release.prepare.goals>
-    <kuali.release.goals>deploy</kuali.release.goals>
     <kuali.release.arguments>-DskipTests</kuali.release.arguments>
 
     <!-- <cxf.version>2.2.10</cxf.version> -->
