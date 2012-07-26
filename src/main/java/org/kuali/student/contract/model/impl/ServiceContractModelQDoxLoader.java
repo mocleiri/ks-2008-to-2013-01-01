@@ -31,11 +31,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javassist.compiler.Javac;
 
 import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.Service;
@@ -189,7 +192,9 @@ public class ServiceContractModelQDoxLoader implements
 //                        + javaClass.getName () + " has tag=" + dump (
 //      tag));
 //   }
-            for (JavaMethod javaMethod : javaClass.getMethods()) {
+            
+            JavaMethod[]  methods = getServiceMethods (javaClass);  
+            for (JavaMethod javaMethod : methods) {
 
                 ServiceMethod serviceMethod = new ServiceMethod();
                 serviceMethods.add(serviceMethod);
@@ -251,8 +256,43 @@ public class ServiceContractModelQDoxLoader implements
         }
     }
 
-    private boolean isServiceToProcess(JavaClass javaClass) {
+    private JavaMethod[] getServiceMethods(JavaClass javaClass) {
+		
+    	Set<JavaMethod>methods = new LinkedHashSet<JavaMethod>();
+		
+		/*
+		 * As inheritence is useful from a technical level but not as much from a business level
+		 * This lets the union of the methods from all of the interfaces be listed in the contract.
+		 */
+		JavaClass[] interfaces = javaClass.getImplementedInterfaces();
+		
+		for (JavaClass intfc : interfaces) {
+			
+			if (!isAService(intfc)) {
+				// only add the methods if this is not a service
+				// e.g. extends ServiceBusinessLogic
+				for (JavaMethod javaMethod : intfc.getMethods()) {
+				
+					methods.add(javaMethod);
+				}
+			}
+			
+		}
+		
+		// add the main service methods last incase we override any from the parent interfaces.
+		// note the heirarchy is only guaranteed relative to the target service class (if there are two levels or more of 
+		// heirarchy there is no guarantee the method ordering will be correct).
+		for (JavaMethod javaMethod : javaClass.getMethods()) {
+			
+			methods.add(javaMethod);
+		}
+		
+		return methods.toArray(new JavaMethod[] {});
+	}
+
+	private boolean isServiceToProcess(JavaClass javaClass) {
 //  System.out.println ("looking if javaClass is a service to process=" + javaClass.getName () + "=" + javaClass.getPackageName ());
+    	
         if (!javaClass.getName().endsWith("Service")) {
             return false;
         }
