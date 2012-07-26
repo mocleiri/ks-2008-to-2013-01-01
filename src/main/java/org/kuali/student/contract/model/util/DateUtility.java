@@ -28,7 +28,7 @@ import org.kuali.student.contract.exception.DictionaryExecutionException;
  */
 public class DateUtility {
 
-    public String asYMD(String date)
+    public static String asYMD(String date)
             throws ParseException {
         if (date == null) {
             return null;
@@ -36,7 +36,7 @@ public class DateUtility {
         return asYMD(asDate(date));
     }
 
-    public Date asDate(String date)
+    public static Date asDate(String date)
             throws ParseException {
         if (date == null) {
             return null;
@@ -57,7 +57,7 @@ public class DateUtility {
         throw pe;
     }
 
-    public String asYMD(Date date) {
+    public static String asYMD(Date date) {
         if (date == null) {
             return null;
         }

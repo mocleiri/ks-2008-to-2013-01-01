@@ -18,6 +18,7 @@ package org.kuali.student.contract.model.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Stack;
@@ -48,13 +49,13 @@ public class HtmlContractWriter {
         this.finder = new ModelFinder(this.model);
     }
 
-    public void write() {
-        this.writeIndexPage();
+    public void write(String projectVersion, String formattedDate) {
+        this.writeIndexPage(projectVersion, formattedDate);
         for (Service service : model.getServices()) {
             HtmlContractServiceWriter swriter = new HtmlContractServiceWriter(service,
                     directory,
                     model);
-            swriter.write();
+            swriter.write(projectVersion, formattedDate);
         }
         for (XmlType xmlType : model.getXmlTypes()) {
             HtmlContractMessageStructureWriter msWriter =
@@ -62,7 +63,7 @@ public class HtmlContractWriter {
                     xmlType,
                     directory,
                     model);
-            msWriter.write();
+            msWriter.write(projectVersion, formattedDate);
         }
     }
     private static final Comparator<XmlType> XML_TYPE_NAME_COMPARATOR =
@@ -92,9 +93,12 @@ public class HtmlContractWriter {
                 }
             };
 
-    private void writeIndexPage() {
+    private void writeIndexPage(String projectVersion, String formattedDate) {
         writer.print("<a href=\"index.html\">home</a>");
         writer.writeTag("h1", "Service Contracts");
+        
+        VersionLinesUtility.writeVersionTag(writer, projectVersion, formattedDate);
+
         writer.indentPrintln(
                 "<div class=\"panel\" style=\"background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);\">");
         writer.indentPrintln(

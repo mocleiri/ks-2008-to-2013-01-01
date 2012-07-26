@@ -2,14 +2,16 @@ package org.kuali.student.contract.mojo;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-
+import org.apache.maven.project.MavenProject;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
+import org.kuali.student.contract.model.util.DateUtility;
 import org.kuali.student.contract.model.util.HtmlContractWriter;
 import org.kuali.student.contract.model.validation.ServiceContractModelValidator;
 
@@ -21,6 +23,13 @@ import org.kuali.student.contract.model.validation.ServiceContractModelValidator
  */
 public class KSContractDocMojo extends AbstractMojo {
 
+	/**
+	 * @parameter expression="${project}"
+	 * @required
+	 * @readonly
+	 */
+	private MavenProject project;
+	
     /**
      * @parameter
      **/
@@ -46,7 +55,17 @@ public class KSContractDocMojo extends AbstractMojo {
         this.sourceDirs = sourceDirs;
     }
 
-    private ServiceContractModel getModel() {
+    
+    public void setProject(MavenProject project) {
+		this.project = project;
+	}
+    
+
+	public MavenProject getProject() {
+		return project;
+	}
+
+	private ServiceContractModel getModel() {
         ServiceContractModel instance = new ServiceContractModelQDoxLoader(
                 sourceDirs);
         return new ServiceContractModelCache(instance);
@@ -67,6 +86,11 @@ public class KSContractDocMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+    	
+    	this.project = (MavenProject) getPluginContext().get("project");
+    	
+    	String formattedDate = DateUtility.asYMD(new Date());
+    	
         ServiceContractModel model = null;
         HtmlContractWriter writer = null;
         getLog().info("publishing wiki contracts");
@@ -74,7 +98,7 @@ public class KSContractDocMojo extends AbstractMojo {
         this.validate(model);
         getLog().info("publishing to = " + this.htmlDirectory.toString());
         writer = new HtmlContractWriter(htmlDirectory.toString(), model);
-        writer.write();
+        writer.write(project.getVersion(), formattedDate);
 
 
     }

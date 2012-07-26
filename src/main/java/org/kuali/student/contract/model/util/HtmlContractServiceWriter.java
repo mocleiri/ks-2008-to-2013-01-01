@@ -15,6 +15,7 @@
  */
 package org.kuali.student.contract.model.util;
 
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,11 +48,14 @@ public class HtmlContractServiceWriter {
         this.finder = new ModelFinder(this.model);
     }
 
-    public void write() {
+    public void write(String projectVersion, String formattedDate) {
         writer.print("<a href=\"index.html\">home</a>");
         this.writeStyleSheet();
         writer.writeTag("h1", service.getName());
 
+        VersionLinesUtility.writeVersionTag(writer, projectVersion, formattedDate);
+
+        
         writer.indentPrintln("<table id=\"serviceMetaTable\">");
         writer.indentPrintln("<tr>");
         writer.writeTag("th", "class=h", "Name");

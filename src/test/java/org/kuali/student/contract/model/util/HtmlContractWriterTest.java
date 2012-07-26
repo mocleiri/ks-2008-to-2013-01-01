@@ -15,11 +15,15 @@
  */
 package org.kuali.student.contract.model.util;
 
-import org.kuali.student.contract.model.impl.ServiceContractModelPescXsdLoader;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -27,11 +31,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
+import org.kuali.student.contract.model.impl.ServiceContractModelPescXsdLoader;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
 import org.kuali.student.contract.model.validation.ServiceContractModelValidator;
-
-
-import static org.junit.Assert.*;
 
 /**
  * 
@@ -179,7 +181,7 @@ public class HtmlContractWriterTest {
         model = this.getPescModel();
         this.validate(model);
         writer = new HtmlContractWriter(HTML_CONTRACT_DIRECTORY_PESC, model);
-        writer.write();
+        writer.write("testVersion", DateUtility.asYMD(new Date()));
 
         assertTrue(new File(HTML_CONTRACT_DIRECTORY_PESC + "/" + "index.html").exists());
     }
@@ -195,7 +197,7 @@ public class HtmlContractWriterTest {
         model = this.getTestModel();
         this.validate(model);
         writer = new HtmlContractWriter(HTML_CONTRACT_DIRECTORY_TEST, model);
-        writer.write();
+        writer.write("testVersion", DateUtility.asYMD(new Date()));
 
         assertTrue(new File(HTML_CONTRACT_DIRECTORY_TEST + "/" + "index.html").exists());
         assertTrue(
@@ -225,7 +227,7 @@ public class HtmlContractWriterTest {
         model = this.getEnrollModel();
         this.validate(model);
         writer = new HtmlContractWriter(HTML_CONTRACT_DIRECTORY_ENROLL, model);
-        writer.write();
+        writer.write("testVersion", DateUtility.asYMD(new Date()));
 
 //        assertTrue(new File(HTML_CONTRACT_DIRECTORY_ENROLL + "/" + "index.html").exists());
     }
@@ -241,7 +243,7 @@ public class HtmlContractWriterTest {
         model = this.getRiceModel();
         this.validate(model);
         writer = new HtmlContractWriter(HTML_CONTRACT_DIRECTORY_RICE, model);
-        writer.write();
+        writer.write("testVersion", DateUtility.asYMD(new Date()));
 
 //        assertTrue(new File(HTML_CONTRACT_DIRECTORY_ENROLL + "/" + "index.html").exists());
     }
