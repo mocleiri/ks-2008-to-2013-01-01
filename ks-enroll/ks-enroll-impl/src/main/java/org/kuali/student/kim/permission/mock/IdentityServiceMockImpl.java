@@ -27,6 +27,7 @@ import org.kuali.rice.kim.api.identity.personal.EntityEthnicity;
 import org.kuali.rice.kim.api.identity.phone.EntityPhone;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.identity.principal.PrincipalQueryResults;
 import org.kuali.rice.kim.api.identity.privacy.EntityPrivacyPreferences;
 import org.kuali.rice.kim.api.identity.residency.EntityResidency;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
@@ -34,6 +35,7 @@ import org.kuali.rice.kim.api.identity.visa.EntityVisa;
 
 import javax.jws.WebParam;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -146,8 +148,18 @@ public class IdentityServiceMockImpl implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllAddressTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public EntityAffiliationType getAffiliationType(String string) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<EntityAffiliationType> findAllAffiliationTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -156,8 +168,23 @@ public class IdentityServiceMockImpl implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllCitizenshipStatuses() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public CodedAttribute getEmailType(String string) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<CodedAttribute> findAllEmailTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public PrincipalQueryResults findPrincipals(@WebParam(name = "query") QueryByCriteria query) throws RiceIllegalArgumentException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -166,8 +193,18 @@ public class IdentityServiceMockImpl implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllEmploymentStatuses() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public CodedAttribute getEmploymentType(String string) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<CodedAttribute> findAllEmploymentTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -246,8 +283,18 @@ public class IdentityServiceMockImpl implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllEntityTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public EntityExternalIdentifierType getExternalIdentifierType(String string) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<EntityExternalIdentifierType> findAllExternalIdendtifierTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -256,13 +303,28 @@ public class IdentityServiceMockImpl implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllNameTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public CodedAttribute getPhoneType(String string) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
+    public List<CodedAttribute> findAllPhoneTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public Principal getPrincipal(String string) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<Principal> getPrincipals(@WebParam(name = "principalIds") List<String> principalIds) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

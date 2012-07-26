@@ -27,12 +27,14 @@ import org.kuali.rice.kim.api.identity.personal.EntityEthnicity;
 import org.kuali.rice.kim.api.identity.phone.EntityPhone;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.identity.principal.PrincipalQueryResults;
 import org.kuali.rice.kim.api.identity.privacy.EntityPrivacyPreferences;
 import org.kuali.rice.kim.api.identity.residency.EntityResidency;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.identity.visa.EntityVisa;
 
 import javax.jws.WebParam;
+import java.util.List;
 
 /**
  *
@@ -213,8 +215,18 @@ public class IdentityServiceDecorator implements IdentityService {
     }
 
     @Override
+    public List<Principal> getPrincipals(@WebParam(name = "principalIds") List<String> principalIds) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public CodedAttribute getPhoneType(String string) throws RiceIllegalArgumentException {
         return nextDecorator.getPhoneType(string);
+    }
+
+    @Override
+    public List<CodedAttribute> findAllPhoneTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -223,13 +235,28 @@ public class IdentityServiceDecorator implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllNameTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public EntityExternalIdentifierType getExternalIdentifierType(String string) throws RiceIllegalArgumentException {
         return nextDecorator.getExternalIdentifierType(string);
     }
 
     @Override
+    public List<EntityExternalIdentifierType> findAllExternalIdendtifierTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public CodedAttribute getEntityType(String string) throws RiceIllegalArgumentException {
         return nextDecorator.getEntityType(string);
+    }
+
+    @Override
+    public List<CodedAttribute> findAllEntityTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -307,8 +334,18 @@ public class IdentityServiceDecorator implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllEmploymentTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public CodedAttribute getEmploymentStatus(String string) throws RiceIllegalArgumentException {
         return nextDecorator.getEmploymentStatus(string);
+    }
+
+    @Override
+    public List<CodedAttribute> findAllEmploymentStatuses() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -317,8 +354,23 @@ public class IdentityServiceDecorator implements IdentityService {
     }
 
     @Override
+    public List<CodedAttribute> findAllEmailTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public PrincipalQueryResults findPrincipals(@WebParam(name = "query") QueryByCriteria query) throws RiceIllegalArgumentException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public CodedAttribute getCitizenshipStatus(String string) throws RiceIllegalArgumentException {
         return nextDecorator.getCitizenshipStatus(string);
+    }
+
+    @Override
+    public List<CodedAttribute> findAllCitizenshipStatuses() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -327,8 +379,18 @@ public class IdentityServiceDecorator implements IdentityService {
     }
 
     @Override
+    public List<EntityAffiliationType> findAllAffiliationTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public CodedAttribute getAddressType(String string) throws RiceIllegalArgumentException {
         return nextDecorator.getAddressType(string);
+    }
+
+    @Override
+    public List<CodedAttribute> findAllAddressTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
