@@ -15,14 +15,17 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,7 +34,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
 
 @Controller
 @RequestMapping(value = "/courseOfferingManagement")
@@ -58,9 +64,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=show")
     public ModelAndView show(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+
         //First, find TermInfo based on termCode
         String termCode = theForm.getTermCode();
         List<TermInfo> termList = getViewHelperService(theForm).findTermByTermCode(termCode);
+
         if (termList != null && termList.size() == 1) {
             // Get THE term
             theForm.setTermInfo(termList.get(0));
@@ -69,8 +77,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
             theForm.getCourseOfferingEditWrapperList().clear();
             return getUIFModelAndView(theForm);
-         }
-        else{
+         } else{
             LOG.error("Error: Can't find any Term for term code: "+termCode);
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
             theForm.getCourseOfferingEditWrapperList().clear();
@@ -78,44 +85,88 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
         
         //Second, handle subjectCode vs courseOFferingCode
-        String termId=theForm.getTermInfo().getId();
-        String radioSelection = theForm.getRadioSelection();
-        if (radioSelection.equals("subjectCode")){
+        if (theForm.getRadioSelection().equals("subjectCode")){
+
             //load all courseofferings based on subject Code
-            String subjectCode = theForm.getInputCode();
-            theForm.setSubjectCode(subjectCode);
-            getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode,theForm);
+            theForm.setSubjectCode(theForm.getInputCode());
+            getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
+
             return getUIFModelAndView(theForm, "manageCourseOfferingsPage");
-        }
-        else {
+
+        } else {
             //load courseOffering based on courseOfferingCode and load all associated activity offerings 
             String courseOfferingCode = theForm.getInputCode();
             theForm.setCourseOfferingCode(courseOfferingCode);
-            List<CourseOfferingInfo> courseOfferingList = getViewHelperService(theForm).
-                                       findCourseOfferingsByTermAndCourseOfferingCode(termCode, courseOfferingCode, theForm);
+
+            List<CourseOfferingInfo> courseOfferingList = getViewHelperService(theForm).findCourseOfferingsByTermAndCourseOfferingCode(termCode, courseOfferingCode, theForm);
+
             if (!courseOfferingList.isEmpty() && courseOfferingList.size() == 1 )  {
+
                 CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(courseOfferingList.get(0));
-                List<CourseOfferingEditWrapper> list = new ArrayList<CourseOfferingEditWrapper> ();
-                list.add(wrapper);
-                theForm.setCourseOfferingEditWrapperList(list);
-                CourseOfferingInfo theCourseOffering = courseOfferingList.get(0);
-                theForm.setTheCourseOffering(theCourseOffering);
-                getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
+
+                theForm.getCourseOfferingEditWrapperList().clear();
+                theForm.getCourseOfferingEditWrapperList().add(wrapper);
+                theForm.setTheCourseOffering(courseOfferingList.get(0));
+                getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(courseOfferingList.get(0), theForm);
+                getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,courseOfferingList.get(0));
+
                 return getUIFModelAndView(theForm, "manageActivityOfferingsPage");
+
             } else if (courseOfferingList.size()>1) {
+
                 LOG.error("Error: Found more than one Course Offering for a Course Offering Code: "+courseOfferingCode+" in term: "+termCode);
+
                 GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_COURSE_OFFERING, courseOfferingCode, termCode);
                 theForm.getCourseOfferingEditWrapperList().clear();
                 theForm.setActivityWrapperList(null);
+
                 return getUIFModelAndView(theForm);
+
             } else {
+
                 LOG.error("Error: Can't find any Course Offering for a Course Offering Code: "+courseOfferingCode+" in term: "+termCode);
+
                 GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", courseOfferingCode, termCode);
                 theForm.getCourseOfferingEditWrapperList().clear();
                 theForm.setActivityWrapperList(null);
+
                 return getUIFModelAndView(theForm);
             }
         }
+    }
+
+    @RequestMapping(params = "methodToCall=loadPreviousCO")
+    public ModelAndView loadPreviousCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(theForm.getPreviousCourseOffering());
+
+        theForm.getCourseOfferingEditWrapperList().clear();
+        theForm.getCourseOfferingEditWrapperList().add(wrapper);
+        theForm.setTheCourseOffering(theForm.getPreviousCourseOffering());
+        theForm.setInputCode(wrapper.getCoInfo().getCourseOfferingCode());
+
+        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getPreviousCourseOffering(), theForm);
+        getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,theForm.getPreviousCourseOffering());
+
+        return getUIFModelAndView(theForm);
+    }
+
+    @RequestMapping(params = "methodToCall=loadNextCO")
+    public ModelAndView loadNextCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(theForm.getNextCourseOffering());
+
+        theForm.getCourseOfferingEditWrapperList().clear();
+        theForm.getCourseOfferingEditWrapperList().add(wrapper);
+        theForm.setTheCourseOffering(theForm.getNextCourseOffering());
+        theForm.setInputCode(wrapper.getCoInfo().getCourseOfferingCode());
+
+        getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theForm.getNextCourseOffering(), theForm);
+        getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm,theForm.getNextCourseOffering());
+
+        return getUIFModelAndView(theForm);
     }
 
     @RequestMapping(params = "methodToCall=loadAOs")
@@ -464,6 +515,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 LOG.error("Error: No selected Draft Activity Offering");
                 GlobalVariables.getMessageMap().putErrorForSectionId("confirmationResultSection",
                         CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_NO_DRAFT_AO_SELECTED);
+                return getUIFModelAndView(theForm);
             }
         }
 
@@ -540,15 +592,27 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=markSubjectCodeReadyForScheduling")
     public ModelAndView markSubjectCodeReadyForScheduling(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseOfferingManagementViewHelperServiceImpl helperService = (CourseOfferingManagementViewHelperServiceImpl)theForm.getView().getViewHelperService();
         List<ActivityOfferingWrapper> list = theForm.getActivityWrapperList();
         for (ActivityOfferingWrapper activityOfferingWrapper : list) {
             if (DtoConstants.STATE_DRAFT.equalsIgnoreCase(activityOfferingWrapper.getStateName())) {
-                activityOfferingWrapper.setStateName(DtoConstants.STATE_SUBMITTED);
+
+                // Update the activityOfferingWrapper with the new state.
+                activityOfferingWrapper.setStateName(DtoConstants.STATE_APPROVED);
+
+                // Update the activityOfferingInfo with the new state.
+                ActivityOfferingInfo activityOfferingInfo = activityOfferingWrapper.getAoInfo();
+                activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
+
+                // Persist changes to the database.
+                CourseOfferingService courseOfferingService = helperService.getCourseOfferingService();
+                ContextInfo contextInfo = helperService.getContextInfo();
+                String activityOfferingId = activityOfferingWrapper.getId();
+                courseOfferingService.updateActivityOffering(activityOfferingId, activityOfferingInfo, contextInfo);
             }
         }
         return getUIFModelAndView(theForm);
     }
-
 
     /**
      * Method used to invoke the CO inquiry view from Manage Course Offering screen while search input is Course Offering
@@ -618,6 +682,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
         }
         return viewHelperService;
+    }
+
+    public CourseOfferingService getCourseOfferingService() {
+        return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 
     public ContextInfo getContextInfo() {

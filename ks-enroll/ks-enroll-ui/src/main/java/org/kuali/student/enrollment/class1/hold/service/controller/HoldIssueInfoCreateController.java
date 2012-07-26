@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.hold.service.controller;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
@@ -108,11 +109,39 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
         return close(createForm, result, request, response);
     }
 
+  @RequestMapping(params = "methodToCall=modify")
+ public ModelAndView modity(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+     HoldIssueInfoCreateForm modifyForm = (HoldIssueInfoCreateForm) form;
+     holdIssueInfo = new HoldIssueInfo();
+     holdIssueInfo.setId(modifyForm.getId());
+     holdIssueInfo.setName(modifyForm.getName());
+     holdIssueInfo.setTypeKey(modifyForm.getTypeKey());
+     holdIssueInfo.setStateKey(modifyForm.getStateKey());
+     holdIssueInfo.setOrganizationId(modifyForm.getOrganizationId());
+     RichTextInfo richTextInfo = new RichTextInfo();
+     richTextInfo.setPlain(modifyForm.getDescr());
+     holdIssueInfo.setDescr(richTextInfo);
+
+
+     try {
+         holdService = getHoldService();
+         HoldIssueInfo modifyHoldIssueInfo = holdService.updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, getContextInfo() );
+     } catch (Exception e) {
+         e.printStackTrace();
+         throw new RuntimeException("Modify Hold failed. ", e);
+     }
+
+
+     return close(modifyForm, result, request, response);
+ }
+
     @RequestMapping(params = "methodToCall=view")
     public ModelAndView view(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         HoldIssueInfoCreateForm holdIssueForm = (HoldIssueInfoCreateForm) form;
         String holdIssueId = request.getParameter("id");
+        String viewType = request.getParameter(UifParameters.VIEW_ID);
 
         if ((holdIssueId != null) && !holdIssueId.trim().isEmpty()) {
             try {
@@ -126,7 +155,11 @@ public class HoldIssueInfoCreateController extends UifControllerBase {
                 throw new RuntimeException("unable to get hold issue");
             }
         }
-        holdIssueForm.getView().setReadOnly(true);
+
+/*        if(viewType.equals("holdView")) {
+            holdIssueForm.getView().setReadOnly(true);
+        }*/
+
         return super.start(holdIssueForm, result, request, response);
     }
 

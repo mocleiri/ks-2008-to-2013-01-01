@@ -9,11 +9,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.common.search.dto.*;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -30,6 +26,8 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
@@ -55,6 +54,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     private CourseOfferingSetService socService;
     private ContextInfo contextInfo;
     private TypeService typeService;
+    private transient LRCService lrcService;
 
     @RequestMapping(params = "methodToCall=loadCourseCatalog")
     public ModelAndView loadCourseCatalog(@ModelAttribute("KualiForm") MaintenanceForm form, BindingResult result,
@@ -92,9 +92,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 co.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
                 co.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
                 co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
-                if ( courseOfferingInfo.getGradingOptionId() != null ) {
-                    co.setGrading(courseOfferingInfo.getGradingOptionId().substring(courseOfferingInfo.getGradingOptionId().lastIndexOf('.') + 1));
-                }
+                co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
                 coWrapper.getExistingCourseOfferings().add(co);
             }
 
@@ -111,7 +109,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 co.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
                 co.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
                 co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
-                co.setGrading(courseOfferingInfo.getGradingOptionId());
+                co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
                 coWrapper.getExistingTermOfferings().add(co);
             }
 
@@ -133,6 +131,18 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         }
 
         return getUIFModelAndView(form);
+    }
+
+    private String getGradingOption(String gradingOptionId)throws Exception{
+        String gradingOption = "";
+        if(StringUtils.isNotBlank(gradingOptionId)){
+            ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(gradingOptionId, getContextInfo());
+            if(rvg!= null && StringUtils.isNotBlank(rvg.getName())){
+               gradingOption = rvg.getName();
+            }
+        }
+
+        return gradingOption;
     }
 
     @RequestMapping(params = "methodToCall=createFromCatalog")
@@ -285,4 +295,10 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return socService;
     }
 
+   protected LRCService getLrcService() {
+        if(lrcService == null) {
+            lrcService = CourseOfferingResourceLoader.loadLrcService();
+        }
+        return this.lrcService;
+    }
 }

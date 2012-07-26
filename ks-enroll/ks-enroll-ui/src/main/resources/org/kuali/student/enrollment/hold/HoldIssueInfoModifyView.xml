@@ -60,12 +60,12 @@
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="name">
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="name" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="20"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Category Name" p:propertyName="typeKey">
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Category Name" p:propertyName="typeKey" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl" />
                                             </property>
@@ -78,13 +78,13 @@
                                                 <bean parent="Uif-SmallTextAreaControl" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="organizationId">
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="organizationId" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="20" />
                                             </property>
                                             <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey" >
+                                        <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey"  p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-HorizontalRadioControl" >
                                                     <property name="options">
@@ -103,7 +103,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-SecondaryActionButton" p:actionLabel="Save" p:methodToCall="modify"/>
-                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
+                                        <bean parent="Uif-ActionLink" p:clientSideJs="stepBrowserBack()" p:actionLabel="Cancel"/>
                                     </list>
                                 </property>
                             </bean>
