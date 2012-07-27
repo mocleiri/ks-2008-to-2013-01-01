@@ -52,6 +52,9 @@ import org.kuali.student.core.proposal.ProposalConstants;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 
+import org.kuali.rice.kew.api.action.ActionType;
+
+
 public class KualiStudentPostProcessorBase implements PostProcessor{
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiStudentPostProcessorBase.class);
 
@@ -299,5 +302,11 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     protected WorkflowDocumentService getWorkflowDocumentService() {
 		return KewApiServiceLocator.getWorkflowDocumentService();
 	}
+    
+    
+    public ProcessDocReport afterActionTaken(ActionType actionPerformed, ActionTakenEvent event) throws Exception {
+        throw new RuntimeException("Not implemented.");
+    }
+
 
 }
