@@ -23,13 +23,6 @@ import org.kuali.student.contract.model.validation.ServiceContractModelValidator
  */
 public class KSContractDocMojo extends AbstractMojo {
 
-	/**
-	 * @parameter expression="${project}"
-	 * @required
-	 * @readonly
-	 */
-	private MavenProject project;
-	
     /**
      * @parameter
      **/
@@ -55,16 +48,6 @@ public class KSContractDocMojo extends AbstractMojo {
         this.sourceDirs = sourceDirs;
     }
 
-    
-    public void setProject(MavenProject project) {
-		this.project = project;
-	}
-    
-
-	public MavenProject getProject() {
-		return project;
-	}
-
 	private ServiceContractModel getModel() {
         ServiceContractModel instance = new ServiceContractModelQDoxLoader(
                 sourceDirs);
@@ -87,7 +70,7 @@ public class KSContractDocMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
     	
-    	this.project = (MavenProject) getPluginContext().get("project");
+    	MavenProject project = (MavenProject) getPluginContext().get("project");
     	
     	String formattedDate = DateUtility.asYMD(new Date());
     	
