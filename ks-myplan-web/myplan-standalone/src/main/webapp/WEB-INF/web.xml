@@ -315,7 +315,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>UnAuthorized</servlet-name>
-        <url-pattern>myplan/unauthorized</url-pattern>
+        <url-pattern>/myplan/unauthorized</url-pattern>
     </servlet-mapping>
 
     <error-page>
