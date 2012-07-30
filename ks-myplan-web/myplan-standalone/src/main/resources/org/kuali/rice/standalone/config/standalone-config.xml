@@ -206,6 +206,11 @@
     <param name="mail.smtp.username">unset</param>
     <param name="mail.smtp.password">unset</param>
 
+
+    <!-- MyPlan KIM permission -->
+    <param name="myplan.advise.namespacecode">UW-MYPLAN</param>
+    <param name="myplan.advise.permissionname">Advise Student</param>
+
     <!-- The "from" address to use in e-mail notifications -->
     <param name="myplan.comment.fromAddress">myplan_team@uw.edu</param>
     <!-- If 'true' the "to" address will be changed to the address of the logged in user before sending any e-mail notifications -->
