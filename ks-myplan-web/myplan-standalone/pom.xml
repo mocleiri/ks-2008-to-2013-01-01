@@ -304,6 +304,13 @@
             <version>${spring.security.version}</version>
         </dependency>
 
+        <!-- Mutual certificate authentication between UW KS and UW Rice -->
+        <dependency>
+            <groupId>edu.uw.kuali.rice</groupId>
+            <artifactId>uw-kuali-rice-security</artifactId>
+            <version>2.2.0-sr1</version>
+        </dependency>
+
     </dependencies>
 </project>
 

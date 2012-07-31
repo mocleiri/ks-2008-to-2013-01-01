@@ -26,6 +26,10 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
+    <!-- Used to perform mutual certificate authentication between UW KS and UW Rice. Should use the Rice config keystore.file and keystore.password
+    to authetnicate all outbound web service requests via SSL -->
+    <import resource="classpath:META-INF/uw/uw-kuali-rice-security-configuration.xml"/>
+
     <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
     <bean id="lumDictionaryService"
