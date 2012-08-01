@@ -7,28 +7,4 @@
         <property name="dataObjectStructure" ref="uw.richTextInfo"/>
     </bean>
 
-    <bean id="uw.multiLineText" parent="ValidCharDefinition">
-        <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$\^~\*#@!\t\n\r ]*"/>
-    </bean>
-
-    <bean id="uw.richTextInfo" parent="org.kuali.student.common.dto.RichTextInfo-parent">
-        <property name="attributes">
-            <list>
-                <ref bean="uw.richTextInfo.formatted" />
-                <ref bean="uw.richTextInfo.plain" />
-            </list>
-        </property>
-    </bean>
-
-
-    <bean id="uw.richTextInfo.formatted" parent="richTextInfo.formatted-parent" >
-        <property name="validChars" ref="uw.multiLineText"/>
-    </bean>
-
-    <bean id="uw.richTextInfo.plain" parent="richTextInfo.plain-parent" >
-        <property name="validChars" ref="uw.multiLineText"/>
-    </bean>
-
-
-
 </beans>
