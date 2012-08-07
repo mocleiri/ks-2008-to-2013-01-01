@@ -3,29 +3,18 @@ package org.kuali.student.enrollment.class1.hold.service.keyvalues;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
-import org.kuali.student.r2.core.hold.service.HoldService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -61,6 +50,26 @@ public class HoldIssueInfoTypeKeyValues extends UifKeyValuesFinderBase implement
             throw new RuntimeException(e);
         }
         return keyValues;
+    }
+
+    public KeyValue getTypeKeyValue(String typeKey) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        ConcreteKeyValue keyValue = new ConcreteKeyValue();
+
+        ContextInfo context = TestHelper.getContext1();
+
+        try {
+            List<TypeInfo> types = getTypeService().getTypesByRefObjectUri(HoldServiceConstants.REF_OBJECT_TYPE_URI_ISSUE, context);
+            for (TypeInfo type : types) {
+                if(type.getKey().equals(typeKey)) { //TODO remove check after data is fixed
+                    keyValue.setKey(type.getKey());
+                    keyValue.setValue(type.getName());
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return keyValue;
     }
 
     protected TypeService getTypeService() {

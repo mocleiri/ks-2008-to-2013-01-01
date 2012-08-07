@@ -12,34 +12,18 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
+ * Created by Charles on 4/25/12
  */
-package org.kuali.student.enrollment.class1.hold.service.form;
 
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
+package org.kuali.student.enrollment.class2.courseoffering.dao;
 
-import java.util.List;
+import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity;
 
 /**
  * This class //TODO ...
  *
  * @author Kuali Student Team
  */
-public class ProcessInfoSearchForm extends UifFormBase {
-
-    public String getTypeKey() {
-        return typeKey;
-    }
-
-    public void setTypeKey(String typeKey) {
-        this.typeKey = typeKey;
-    }
-
-    private String typeKey;
-
-    public ProcessInfoSearchForm(){
-        super();
-    }
-
-
+public class SeatPoolDefinitionDao extends GenericEntityDao<SeatPoolDefinitionEntity> {
 }

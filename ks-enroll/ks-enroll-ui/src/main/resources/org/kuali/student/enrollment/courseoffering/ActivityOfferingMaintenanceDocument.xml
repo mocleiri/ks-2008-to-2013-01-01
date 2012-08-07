@@ -91,7 +91,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-VerticalBoxSection">
+                <bean parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="calculatePercent()">
                     <property name="headerText" value="Activity Offering Information"/>
                     <property name="items">
                         <list>
@@ -100,7 +100,8 @@
                                     <bean parent="Uif-TextControl" p:size="1"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment">
+                            <bean parent="Uif-InputField" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
+                                  p:id="maximumEnrollment" p:onKeyUpScript="calculatePercent(jQuery(this))">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3"/>
                                 </property>
@@ -109,8 +110,9 @@
                     </property>
                 </bean>
 
+                <!-- until KSENROLL-1191 is worked on again:
                 <bean parent="Uif-VerticalBoxSection">
-                    <!-- until KSENROLL-1191 is worked on again: -->
+
                     <property name="render" value="false"/>
                     <property name="headerText" value="Requested Delivery Logistics"/>
                     <property name="items">
@@ -128,7 +130,7 @@
                                 <property name="layoutManager.richTable.render" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="false" />
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-                                <!--<property name="addLineLabel.render" value="false" />-->
+                                <property name="addLineLabel.render" value="false" />
                                 <property name="addLineLabel">
                                     <bean parent="Uif-Label" p:render="false"/>
                                 </property>
@@ -203,7 +205,7 @@
                                                                                     </bean>
                                                                                 </property>
                                                                             </bean>
-                                                                            <bean parent="Uif-MessageField"
+                                                                            <bean parent="Uif-Message"
                                                                                   p:messageText="Days set as &amp;quot;To Be Announced&amp;quot;"
                                                                                   p:progressiveRender="@{#lp.addDaysSpecifiedBoolean eq '0'}" />
                                                                         </list>
@@ -242,7 +244,7 @@
                                                                                     </list>
                                                                                 </property>
                                                                             </bean>
-                                                                            <bean parent="Uif-MessageField"
+                                                                            <bean parent="Uif-Message"
                                                                                   p:messageText="hh:mm or &amp;quot;TBA&amp;quot;"/>
                                                                         </list>
                                                                     </property>
@@ -285,7 +287,7 @@
                                                                                     </list>
                                                                                 </property>
                                                                             </bean>
-                                                                            <bean parent="Uif-MessageField"
+                                                                            <bean parent="Uif-Message"
                                                                                   p:messageText="hh:mm or &amp;quot;TBA&amp;quot;"/>
                                                                         </list>
                                                                     </property>
@@ -305,7 +307,6 @@
                                                                 <bean parent="Uif-InputField-LabelTop"
                                                                       p:propertyName="building"
                                                                       p:label="Building">
-                                                                    <!--
                                                                     <property name="suggest.render" value="true" />
                                                                     <property name="suggest.sourcePropertyName" value="building" />
                                                                     <property name="attributeQuery">
@@ -316,7 +317,6 @@
                                                                                       value="building"/>
                                                                         </bean>
                                                                     </property>
-                                                                    -->
                                                                     <property name="control">
                                                                         <bean parent="Uif-TextControl" p:size="15">
                                                                         </bean>
@@ -325,7 +325,6 @@
                                                                 <bean parent="Uif-InputField-LabelTop"
                                                                       p:propertyName="room"
                                                                       p:label="Room">
-                                                                    <!--
                                                                     <property name="suggest.render" value="true" />
                                                                     <property name="suggest.sourcePropertyName" value="room" />
                                                                     <property name="suggest.suggestQuery.dataObjectClassName"
@@ -339,7 +338,6 @@
                                                                                       value="building"/>
                                                                         </bean>
                                                                     </property>
-                                                                    -->
                                                                     <property name="refreshWhenChangedPropertyNames"
                                                                               value="#lp.building"/>
                                                                     <property name="control">
@@ -357,7 +355,7 @@
                                                                                   p:propertyName="addRoomResources"
                                                                                   p:label="Room Resources"
                                                                                   p:style="margin-bottom:2px">
-                                                                                <!--  p:finalizeMethodToCall="populateGradeOptions" -->
+                                                                                //  p:finalizeMethodToCall="populateGradeOptions"
                                                                                 <property name="control">
                                                                                     <bean parent="Uif-DropdownControl"
                                                                                           p:multiple="true" p:size="5"
@@ -367,7 +365,6 @@
                                                                                     <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.ActivityOfferingRoomResourcesListFinder"
                                                                                           p:addBlankOption="false"/>
                                                                                 </property>
-                                                                                <!--
                                                                                 <property name="propertyReplacers">
                                                                                     <list>
                                                                                         <bean parent="Uif-ConditionalBeanPropertyReplacer"
@@ -379,11 +376,10 @@
                                                                                         </bean>
                                                                                     </list>
                                                                                 </property>
-                                                                                -->
                                                                             </bean>
                                                                             <bean parent="Uif-ActionLink"
                                                                                   p:actionLabel="Clear resource selections"
-                                                                                  p:clientSideJs="clearRoomResourcesSelections(jq(this))"/>
+                                                                                  p:actionScript="clearRoomResourcesSelections(jq(this))"/>
                                                                         </list>
                                                                     </property>
                                                                 </bean>
@@ -405,6 +401,7 @@
                         </list>
                     </property>
                 </bean>
+                -->
 
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="headerText" value="Personnel"/>
@@ -415,9 +412,9 @@
                                   p:id="ao-personnelgroup"
                                   p:layoutManager.style="width: 100%; display:block;">
                                 <property name="headerText" value="Affiliated Personnel" />
-                                <property name="header">
+                                <!-- <property name="header">
                                     <bean parent="Uif-HeaderFour"/>
-                                </property>
+                                </property> -->
                                 <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
                                 <property name="propertyName" value="instructors" />
                                 <property name="layoutManager.renderSequenceField" value="false" />
@@ -472,10 +469,127 @@
                 </bean>
 
                 <bean parent="Uif-VerticalBoxSection">
-                    <property name="headerText" value="Waitlists and Seatpools"/>
-                    <property name="items">
+                    <property name="headerText" value="Seat Pools"/>
+                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="waitListText" p:label="Waitlists" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                            <bean id="KS-ActivityOffering-SeatpoolsSection" parent="Uif-TableCollectionSection"
+                                  p:layoutManager.numberOfColumns="6"
+                                  p:id="ao-seatpoolgroup"
+                                  p:layoutManager.style="width: 100%; display:block;">
+                                <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
+                                <property name="propertyName" value="seatpools" />
+                                <property name="layoutManager.renderSequenceField" value="false" />
+                                <property name="layoutManager.separateAddLine" value="false" />
+                                <property name="layoutManager.richTable.render" value="false" />
+                                <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                                <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="addLineActions">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
+                                              p:actionEvent="addLine" p:onDocumentReadyScript="calculatePercent()" />
+                                    </list>
+                                </property>
+                                <property name="lineActions">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="remove"
+                                              p:actionEvent="deleteLine" p:onDocumentReadyScript="calculatePercent()" />
+                                    </list>
+                                </property>
+
+                                <property name="addLineItems">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.processingPriority" p:label="PRIORITY" p:maxLength="2">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="2" />
+                                            </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="IntegerPatternConstraint" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit">
+                                            <property name="control">
+                                                <!--bean parent="Uif-TextControl" p:size="3" p:onKeyDownScript="calculatePercent(jq(this))"/-->
+                                                <bean parent="Uif-TextControl" p:size="3" />
+                                            </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="IntegerPatternConstraint" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-MessageField" p:messageText="" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
+                                        <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="true" />
+                                            </property>
+                                            <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                                            <property name="quickfinder.fieldConversions">
+                                                <map>
+                                                    <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
+                                                    <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
+                                                </map>
+                                            </property>
+                                            <!--<property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />-->
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.expirationMilestoneTypeKey" p:defaultValue="kuali.atp.milestone.firstdayofclasses" p:label="EXPIRATION MILESTONE">
+                                            <!-- property name="control">
+                                                <bean parent="Uif-DropdownControl"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ExpirationMilestoneKeyValues" p:addBlankOption="false" />
+                                            </property -->
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" />
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SeatPoolExpirationMilestoneTypeKeyValues" p:addBlankOption="false"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.processingPriority" p:label="PRIORITY" p:maxLength="2">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="2" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="3" p:onKeyUpScript="calculatePercent(jQuery(this))" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-MessageField" p:messageText="%" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
+                                        <bean parent="Uif-DataField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name">
+                                            <!--<property name="control">
+                                                <bean parent="Uif-TextControl" p:size="40" p:disabled="true" />
+                                            </property>
+                                            <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                                            <property name="quickfinder.fieldConversions">
+                                                <map>
+                                                    <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
+                                                    <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
+                                                </map>
+                                            </property>-->
+                                            <!--<property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />-->
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.expirationMilestoneTypeKey" p:label="EXPIRATION MILESTONE">
+                                            <!-- property name="control">
+                                                <bean parent="Uif-DropdownControl"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ExpirationMilestoneKeyValues" p:addBlankOption="false" />
+                                            </property -->
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" />
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SeatPoolExpirationMilestoneTypeKeyValues" p:addBlankOption="false"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField" p:label="Seat Pools" p:messageText="0" p:id="seatpoolCount" />
+                            <bean parent="Uif-MessageField" p:label="Seats Remaining" p:messageText="N/A" p:id="seatsRemaining" />
                         </list>
                     </property>
                 </bean>
@@ -571,6 +685,12 @@
     <util:list id="ampm-options">
         <bean parent="Uif-KeyLabelPair" p:key="am" />
         <bean parent="Uif-KeyLabelPair" p:key="pm" />
+    </util:list>
+
+    <util:list id="expMilestones-options">
+        <bean parent="Uif-KeyLabelPair" p:key="Test1" p:value="Test1"/>
+        <bean parent="Uif-KeyLabelPair" p:key="Test2" p:value="Test2"/>
+        <bean parent="Uif-KeyLabelPair" p:key="Test3" p:value="Test3"/>
     </util:list>
 
 </beans>

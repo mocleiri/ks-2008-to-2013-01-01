@@ -1067,7 +1067,7 @@
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="ACTIVITY_OFFERING_ID" size="255" type="VARCHAR"/>
         <column name="EXPIR_MSTONE_TYPE" size="255" type="VARCHAR"/>
-        <column name="PERCENTAGE_IND" size="1" type="VARCHAR"/>
+        <column name="PERCENTAGE_IND" size="1" type="DECIMAL"/>
         <column name="SEAT_LIMIT" size="22" type="DECIMAL"/>
         <column name="PROCESSING_PRIORITY" size="22" type="DECIMAL"/>
         <column name="POPULATION_ID" size="255" type="VARCHAR"/>
@@ -5659,6 +5659,7 @@
     <sequence name="KRNS_DOC_TYP_ATTR_S" nextval="1000"/>
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_LOOKUP_RSLT_S" nextval="2000"/>
+    <sequence name="KRNS_MAINT_DOC_ATT_S" nextval="10000"/>
     <sequence name="KRNS_MAINT_LOCK_S" nextval="2020"/>
     <sequence name="KRNS_NTE_S" nextval="2020"/>
     <sequence name="KRSB_BAM_PARM_S" nextval="2000"/>

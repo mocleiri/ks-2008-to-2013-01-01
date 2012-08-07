@@ -68,35 +68,66 @@ public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
 
     protected boolean checkReferneceAndChildpopulations (PopulationWrapper wrapper){
         boolean isValid  = true;
-        List<String> ids = wrapper.getPopulationRuleInfo().getChildPopulationIds();
+        List<PopulationInfo> populationInfoList = wrapper.getChildPopulations();
         String referenceId = wrapper.getPopulationRuleInfo().getReferencePopulationId();
-        if(ids.size()<1){
-//              GlobalVariables.getMessageMap().putError("newCollectionLines[document.newMaintainableObject.dataObject.childPopulations].name",
+        if(populationInfoList == null || populationInfoList.isEmpty()){
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
                     PopulationConstants.POPULATION_MSG_ERROR_NEED_ONE_POPULATIONS, "Exclusion");
             isValid = false;
         }
-//        else {
-//            for (String childId : ids){
-//                if (childId.equals(referenceId)){
-//                    putFieldError(PopulationConstants.PopulationWrapper.POPULATION_NAME, PopulationConstants.POPULATION_MSG_ERROR_NAME_IS_NOT_UNIQUE, popName);
-//                    isValid = false;
-//                }
-//
-//            }
-//        }
+        if(populationInfoList!= null && populationInfoList.size() > 1 ){     //Two or more
+            boolean hasDuplicates = false;
+            //Compare and make sure there is no duplication
+            List<PopulationInfo> populationInfoList1 = populationInfoList;
+            for (PopulationInfo populationInfo: populationInfoList) {
+                for (PopulationInfo populationInfo1: populationInfoList1) {
+                    if (populationInfo.getId().equals(populationInfo1.getId())){
+                        hasDuplicates = true;
+                        isValid = false;
+                        GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
+                                PopulationConstants.POPULATION_MSG_ERROR_NEED_TWO_DIFFERENT_POPULATIONS, "Exclusion");
+                        break;
+                    }
+                }
+                if ( hasDuplicates ){
+                    break;
+                }
+            }
+        }
+
         return isValid;
     }
 
     protected boolean needTwoChildPopulations (PopulationWrapper wrapper, String operation){
         boolean isValid  = true;
-        if ( wrapper.getChildPopulations().size() < 1 ) {
-//              GlobalVariables.getMessageMap().putError("newCollectionLines[document.newMaintainableObject.dataObject.childPopulations].name",
-              GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
-                    PopulationConstants.POPULATION_MSG_ERROR_NEED_TWO_DIFFERENT_POPULATIONS, operation);
-//            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Must select at least 2 different populations.");
+        List<PopulationInfo> populationInfoList = wrapper.getChildPopulations();
+        List<PopulationInfo> populationInfoList1 = populationInfoList;
+        if(populationInfoList.size() > 1 ){     //Two or more
+            for (PopulationInfo populationInfo: populationInfoList) {
+                int duplicateCntr = 0;
+                for (PopulationInfo populationInfo1: populationInfoList1) {
+                    if (populationInfo.getId().equals(populationInfo1.getId())){
+                        duplicateCntr++;
+                    }
+                    if ( duplicateCntr > 1 ) {   //No duplicates
+                        isValid = false;
+                        break;
+                    }
+                }
+                if ( !isValid ){
+                    break;
+                }
+            }
+        } else {
             isValid = false;
         }
+        if ( !isValid ){
+//              GlobalVariables.getMessageMap().putError("newCollectionLines[document.newMaintainableObject.dataObject.childPopulations].name",
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.operationType",
+                    PopulationConstants.POPULATION_MSG_ERROR_NEED_TWO_DIFFERENT_POPULATIONS, operation);
+//            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Must select at least 2 different populations.");
+        }
+
         return isValid;
     }
 

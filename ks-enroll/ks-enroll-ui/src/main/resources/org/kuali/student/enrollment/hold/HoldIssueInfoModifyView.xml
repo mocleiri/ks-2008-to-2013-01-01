@@ -89,8 +89,8 @@
                                                 <bean parent="Uif-HorizontalRadioControl" >
                                                     <property name="options">
                                                         <list>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="active" p:value="Active"/>
-                                                            <bean parent="Uif-KeyLabelPair" p:key="inactive" p:value="Inactive"/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="kuali.hold.issue.state.active" p:value="Active"/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="kuali.hold.issue.state.inactive" p:value="Inactive"/>
                                                         </list>
                                                     </property>
                                                 </bean>
@@ -103,7 +103,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-SecondaryActionButton" p:actionLabel="Save" p:methodToCall="modify"/>
-                                        <bean parent="Uif-ActionLink" p:clientSideJs="stepBrowserBack()" p:actionLabel="Cancel"/>
+                                        <bean parent="Uif-ActionLink" p:actionScript="stepBrowserBack()" p:actionLabel="Cancel"/>
                                     </list>
                                 </property>
                             </bean>

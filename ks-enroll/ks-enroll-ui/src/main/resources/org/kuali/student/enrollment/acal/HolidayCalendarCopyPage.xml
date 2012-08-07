@@ -20,21 +20,19 @@
                 </property>
             </bean>
         </property>
-        <property name="header.items">
-            <list>
-                <bean parent="Uif-VerticalBoxGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Message"
-                                  p:messageText="When copying a Holiday Calendar, all holiday names as well as dates and times from the source calendar are copied."
-                                  p:style="margin-bottom:0;"/>
-                            <bean parent="Uif-ActionLink"
-                                  p:methodToCall="toCreate"
-                                  p:actionLabel="Start a blank calendar instead?"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-Message"
+                              p:messageText="When copying a Holiday Calendar, all holiday names as well as dates and times from the source calendar are copied."
+                              p:style="margin-bottom:0;"/>
+                        <bean parent="Uif-ActionLink"
+                              p:methodToCall="toCreate"
+                              p:actionLabel="Start a blank calendar instead?"/>
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>
@@ -57,7 +55,7 @@
                               p:methodToCall="copy"
                               p:actionLabel="Copy Holiday Calendar"
                               p:render="@{holidayCalendarInfo != null}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:clientSideJs="stepBrowserBack()"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
                     </list>
                 </property>
             </bean>

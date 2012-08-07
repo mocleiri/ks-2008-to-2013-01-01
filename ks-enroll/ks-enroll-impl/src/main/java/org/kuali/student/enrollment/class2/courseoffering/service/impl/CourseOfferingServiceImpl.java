@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.UUIDHelper;
@@ -9,6 +10,8 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
+import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao;
+import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
@@ -25,6 +28,7 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupTemplateInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -52,10 +56,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.common.util.constants.*;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.state.service.StateService;
@@ -90,6 +91,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private TermAssembler termAssembler = null;
     private CourseOfferingCodeGenerator offeringCodeGenerator;
     private CourseOfferingTransformer courseOfferingTransformer;
+    private SeatPoolDefinitionDao seatPoolDefinitionDao;
 
     public CourseOfferingServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
@@ -226,6 +228,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         this.lprService = lprService;
     }
 
+    public SeatPoolDefinitionDao getSeatPoolDefinitionDao() {
+        return seatPoolDefinitionDao;
+    }
+
+    public void setSeatPoolDefinitionDao(SeatPoolDefinitionDao seatPoolDefinitionDao) {
+        this.seatPoolDefinitionDao = seatPoolDefinitionDao;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -432,8 +441,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return this.businessLogic.rolloverCourseOffering(sourceCourseOfferingId, targetTermId, optionKeys, context);
     }
 
-
-
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public CourseOfferingInfo createCourseOffering(String courseId, String termId, String courseOfferingTypeKey,
@@ -459,6 +466,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // copy from canonical
         CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
         coTransformer.copyFromCanonical(courseInfo, coInfo, optionKeys, context);
+        //generate internal suffix code
+        List<CourseOfferingInfo> existingCourseOfferings = findCourseOfferingsByTermAndCourseCode(term.getId(), courseInfo.getCode());
+        String internalSufx = offeringCodeGenerator.generateCourseOfferingInternalCode(existingCourseOfferings);
+        coInfo.setCourseNumberInternalSuffix(internalSufx);
+        if (optionKeys.contains(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY)) {
+            coInfo.setCourseNumberSuffix(internalSufx);
+            coInfo.setCourseOfferingCode(courseInfo.getCode() + internalSufx);
+        }
         // copy to lui
         LuiInfo lui = new LuiInfo();
         coTransformer.courseOffering2Lui(coInfo, lui, context);
@@ -468,6 +483,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         CourseOfferingInfo createdCo = new CourseOfferingInfo();
         new CourseOfferingTransformer().lui2CourseOffering(lui, createdCo, context);
         return createdCo;
+    }
+
+    private List<CourseOfferingInfo> findCourseOfferingsByTermAndCourseCode (String termId, String courseCode)
+            throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>();
+        if (StringUtils.isNotBlank(courseCode) && StringUtils.isNotBlank(termId)) {
+                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.and(
+                        PredicateFactory.like("courseOfferingCode", courseCode + "%"),
+                        PredicateFactory.equalIgnoreCase("atpId", termId)));
+                QueryByCriteria criteria = qbcBuilder.build();
+
+                //Do search. In ideal case, returns one element, which is the desired CO.
+                courseOfferings = searchForCourseOfferings(criteria, new ContextInfo());
+        }
+        return  courseOfferings;
     }
 
     private CourseInfo getCourse(String courseId) throws DoesNotExistException, OperationFailedException {
@@ -1454,21 +1485,46 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public SeatPoolDefinitionInfo getSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        SeatPoolDefinitionEntity poolEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId); // throws DoesNotExistException
+        if (null == poolEntity) {
+            throw new DoesNotExistException(seatPoolDefinitionId);
+        }
+        return poolEntity.toDto();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForActivityOffering(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+
+        List<SeatPoolDefinitionInfo> seatPoolDefinitionInfos = new ArrayList<SeatPoolDefinitionInfo>();
+        if (StringUtils.isNotBlank(activityOfferingId) ) {
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(
+                    PredicateFactory.equalIgnoreCase("activityOfferingId", activityOfferingId));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            //Do search. In ideal case, returns one element, which is the desired SeatPool.
+            seatPoolDefinitionInfos = searchForSeatpoolDefinitions(criteria, new ContextInfo());
+        }
+        return  seatPoolDefinitionInfos;
+
     }
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SeatPoolDefinitionInfo createSeatPoolDefinition(SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new UnsupportedOperationException();
+        SeatPoolDefinitionEntity poolEntity = new SeatPoolDefinitionEntity(seatPoolDefinitionInfo);
+        try {
+
+            poolEntity.setEntityCreated(context);
+            poolEntity.setEntityUpdated(context);
+            seatPoolDefinitionDao.persist(poolEntity);
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
+        return poolEntity.toDto();
     }
 
     @Override
@@ -1480,8 +1536,27 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException,
             ReadOnlyException, ReadOnlyException, VersionMismatchException {
-        throw new UnsupportedOperationException();
+        SeatPoolDefinitionEntity seatPoolDefinitionEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
+        if (null != seatPoolDefinitionEntity) {
+            seatPoolDefinitionEntity.fromDto(seatPoolDefinitionInfo);
+            seatPoolDefinitionEntity.setEntityUpdated(context);
+            return seatPoolDefinitionDao.merge(seatPoolDefinitionEntity).toDto();
+        } else {
+            throw new DoesNotExistException("No SeatPool found for seatPoolDefinitionId=" + seatPoolDefinitionId);
+        }
     }
+
+
+    /*
+     SeatPoolDefinitionEntity spEntity = this.getSeatPoolDefinitionDao().find(seatPoolDefinitionId);
+
+            if(spEntity == null){
+                throw new DoesNotExistException("No Seatpool with id=" + seatPoolDefinitionId);
+            }
+
+            spEntity.fromDto(seatPoolDefinitionInfo);
+            return seatPoolDefinitionDao.merge(spEntity).toDto();
+     */
 
     @Override
     public List<ValidationResultInfo> validateSeatPoolDefinition(String validationTypeKey,
@@ -1493,8 +1568,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+            InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        SeatPoolDefinitionEntity popEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
+        if (null != popEntity) {
+            seatPoolDefinitionDao.remove(popEntity);
+        } else {
+            throw new DoesNotExistException(seatPoolDefinitionId);
+        }
+        return status;
     }
 
     @Override
@@ -1586,7 +1671,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<SeatPoolDefinitionInfo> searchForSeatpoolDefinitions(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        GenericQueryResults<SeatPoolDefinitionEntity> results = criteriaLookupService.lookup(SeatPoolDefinitionEntity.class, criteria);
+        List<SeatPoolDefinitionInfo> seatPoolDefinitions = new ArrayList<SeatPoolDefinitionInfo>(results.getResults().size());
+        for (SeatPoolDefinitionEntity seatPoolEntity : results.getResults()) {
+
+
+            SeatPoolDefinitionInfo sp = seatPoolEntity.toDto();
+            seatPoolDefinitions.add(sp);
+
+        }
+        return seatPoolDefinitions;
     }
 
     @Override
@@ -1693,14 +1787,25 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 	}
 
 	@Override
-	public StatusInfo addSeatPoolDefinitionToActivityOffering(
-			String seatPoolDefinitionId, String activityOfferingId,
-			ContextInfo contextInfo) throws AlreadyExistsException,
+	public StatusInfo addSeatPoolDefinitionToActivityOffering(String seatPoolDefinitionId, String activityOfferingId,
+			ContextInfo contextInfo)
+            throws AlreadyExistsException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		// should be supported by M4
-		 throw new UnsupportedOperationException();
+        LuiInfo lui = luiService.getLui(activityOfferingId, contextInfo);
+        if (lui == null) {
+            throw new DoesNotExistException("Activity offering ID does not exist: " + activityOfferingId);
+        }
+        // The seat pool definition is connected only via the entity.  The DTO does not store the
+        // activity offering ID.
+        SeatPoolDefinitionEntity seatPoolEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
+        seatPoolEntity.setActivityOfferingId(activityOfferingId);
+        seatPoolDefinitionDao.merge(seatPoolEntity);
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(Boolean.TRUE);
+        return statusInfo;
 	}
 
 	@Override
@@ -1710,7 +1815,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// should be supported in M4
-		 throw new UnsupportedOperationException();
+        LuiInfo lui = luiService.getLui(activityOfferingId, contextInfo);
+        if (lui == null) {
+            throw new DoesNotExistException("Activity offering ID does not exist: " + activityOfferingId);
+        }
+        // The seat pool definition is connected only via the entity.  The DTO does not store the
+        // activity offering ID.
+        SeatPoolDefinitionEntity seatPoolEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
+        String fetchedId = seatPoolEntity.getActivityOfferingId();
+        if (!fetchedId.equals(activityOfferingId)) {
+            throw new InvalidParameterException("activityOfferingId does not match the one in seatpool: " + activityOfferingId);
+        }
+        seatPoolEntity.setActivityOfferingId(null); // Remove the activity offering ID.
+        seatPoolDefinitionDao.merge(seatPoolEntity);
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(Boolean.TRUE);
+        return statusInfo;
 	}
 
 

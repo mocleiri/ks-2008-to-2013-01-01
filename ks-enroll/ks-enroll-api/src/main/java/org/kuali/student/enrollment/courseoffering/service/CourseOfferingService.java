@@ -473,7 +473,6 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
             InvalidParameterException, MissingParameterException, 
             OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
-    
     /**
      * Updates an existing CourseOffering.
      *
