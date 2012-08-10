@@ -29,9 +29,13 @@ import org.kuali.rice.krad.datadictionary.CollectionDefinition;
 import org.kuali.rice.krad.datadictionary.ComplexAttributeDefinition;
 import org.kuali.rice.krad.datadictionary.DataDictionaryDefinitionBase;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Bean2DictionaryConverter {
 
+	private static final Logger log = LoggerFactory.getLogger(Bean2DictionaryConverter.class);
+	
     private Class<?> clazz;
     private Stack<DataDictionaryDefinitionBase> parentFields;
     private Stack<Class<?>> parentClasses;
@@ -110,7 +114,7 @@ public class Bean2DictionaryConverter {
         Class<?> pt = pd.getPropertyType();
         if (List.class.equals(pt)) {
             if (dataType != null) {
-                System.out.println("WARNING: Can't handle lists of primitives just yet: " + calcName(pd.getName()));
+                log.warn("WARNING: Can't handle lists of primitives just yet: " + calcName(pd.getName()));
             }
             CollectionDefinition cd = new CollectionDefinition();
             cd.setName(calcName(pd.getName()));
@@ -238,7 +242,7 @@ public class Bean2DictionaryConverter {
             return DataType.STRING;
         } else if (Object.class.equals(pt)) {
             return DataType.STRING;
-        } else if (pt.getName().startsWith("org.kuali.student.")) {
+        } else if (pt.getName().startsWith("org.kuali.student.") || pt.getName().startsWith("org.kuali.rice.")) {
             return null;
         } else {
             throw new RuntimeException("Found unknown/unhandled type of object in bean " + pt.getName() + " in " + context);

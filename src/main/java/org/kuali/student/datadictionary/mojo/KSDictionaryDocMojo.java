@@ -35,15 +35,50 @@ import org.apache.maven.project.MavenProject;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.student.datadictionary.util.DictionaryFormatter;
 import org.kuali.student.datadictionary.util.DictionaryTesterHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Mojo for generating a formatted view of the data dictionary
+ * Mojo for generating a formatted view of the data dictionary.
+ * 
+ * <pre>
+ * {@code
+ * <plugin>
+ * 		<groupId>org.kuali.maven.plugins</groupId>
+ *      <artifactId>maven-kscontractdoc-plugin</artifactId>
+ *      <execution>
+ *      	<id>generate-dictionary-documentation</id>
+ *          <phase>site</phase>
+ *          <goals>
+ *          	<goal>ksdictionarydoc</goal>                            
+ *          </goals>
+ *          <configuration>
+ *          	<inputFiles>
+ *              	<inputFile>ks-AtpInfo-dictionary.xml</inputFile>
+ *              	<inputFile>ks-MilestoneInfo-dictionary.xml</inputFile>
+ *              	<inputFile>ks-AtpAtpRelationInfo-dictionary.xml</inputFile>
+ *           	</inputFiles>
+ *           <supportFiles>
+ *           	<supportFile>commonApplicationContext.xml</supportFile>
+ *           </supportFiles>
+ *          </configuration>
+ *     </execution>
+ * </plugin>
+ *  }
+ * </pre>
+ * 
+ * An application context is constructed for each <b>inputFile</b> and all of the <b>supportFiles</b>
+ * 
+ *  Errors with an application context are detected and logged but will not break the plugin's ability to generate the other files.
+ * 
  * @goal ksdictionarydoc
  * @phase site
  * @requiresDependencyResolution test
  */
 public class KSDictionaryDocMojo extends AbstractMojo {
 
+	private static final Logger log = LoggerFactory.getLogger(KSDictionaryDocMojo.class);
+	
     /**
      * @parameter expression="${project}"
      * @required
@@ -51,13 +86,15 @@ public class KSDictionaryDocMojo extends AbstractMojo {
      */
     private MavenProject project;
     /**
+     * The dictionary applicationContext files.
      * @parameter
      **/
-    private List<String> inputFiles;
+    private List<String> inputFiles = new ArrayList<String>();
     /**
+     * The base applicationContext files.  
      * @parameter
      **/
-    private List<String> supportFiles = new ArrayList();
+    private List<String> supportFiles = new ArrayList<String>();
     /**
      * @parameter expression="${htmlDirectory}" default-value="${project.build.directory}/site/services/dictionarydocs"
      */
@@ -80,7 +117,11 @@ public class KSDictionaryDocMojo extends AbstractMojo {
     }
 
     public void setInputFiles(List<String> inputFiles) {
-        this.inputFiles = inputFiles;
+    	
+    	this.inputFiles.clear();
+    	
+    	if (inputFiles != null)
+    		this.inputFiles.addAll(inputFiles);
     }
 
     public List<String> getSupportFiles() {
@@ -88,7 +129,10 @@ public class KSDictionaryDocMojo extends AbstractMojo {
     }
 
     public void setSupportFiles(List<String> supportFiles) {
-        this.supportFiles = supportFiles;
+    	this.supportFiles.clear();
+    	
+    	if (supportFiles != null)
+    		this.supportFiles.addAll(supportFiles);
     }
 
     @Override
@@ -100,11 +144,11 @@ public class KSDictionaryDocMojo extends AbstractMojo {
         // against the current project's files
         if (project != null) {
             this.getLog().info("adding current project's classpath to plugin class loader");
-            List runtimeClasspathElements;
+            List<String> runtimeClasspathElements;
             try {
                 runtimeClasspathElements = project.getRuntimeClasspathElements();
             } catch (DependencyResolutionRequiredException ex) {
-                throw new MojoExecutionException("got error", ex);
+                throw new MojoExecutionException("Failed to get runtime classpath elements.", ex);
             }
             URL[] runtimeUrls = new URL[runtimeClasspathElements.size()];
             for (int i = 0; i < runtimeClasspathElements.size(); i++) {
@@ -121,28 +165,26 @@ public class KSDictionaryDocMojo extends AbstractMojo {
         }
 
 
-        //System.out.println ("Writing java class: " + fileName + " to " + dir.getAbsolutePath ());
         if (!htmlDirectory.exists()) {
             if (!htmlDirectory.mkdirs()) {
-//                throw new MojoExecutionException("Could not create directory "
                 throw new IllegalArgumentException("Could not create directory "
                         + this.htmlDirectory.getPath());
             }
         }
 
-        Set<String> inpFiles = new LinkedHashSet(this.inputFiles.size());
+        Set<String> inpFiles = new LinkedHashSet<String>(this.inputFiles.size());
         for (String dictFileName : this.inputFiles) {
             if (dictFileName.endsWith(".xml")) {
                 inpFiles.add(dictFileName);
             }
+            else {
+            	log.warn("INVALID Input File: " + dictFileName);
+            }
         }
 
-        Set<String> configFiles = new LinkedHashSet(this.inputFiles.size() + supportFiles.size());
-        configFiles.addAll(inpFiles);
-        configFiles.addAll(this.supportFiles);
 
         String outputDir = this.htmlDirectory.getAbsolutePath();
-        DictionaryTesterHelper tester = new DictionaryTesterHelper(outputDir, configFiles);
+        DictionaryTesterHelper tester = new DictionaryTesterHelper(outputDir, this.inputFiles, this.supportFiles);
         List<String> outputFileNames = tester.doTest();
 
         // write out the index file
@@ -158,14 +200,26 @@ public class KSDictionaryDocMojo extends AbstractMojo {
         PrintStream out = new PrintStream(outputStream);
         DictionaryFormatter.writeHeader(out, "Data Dictionary Index");
         out.println("<h1>Data Dictionary Index</h1>");
-        String endUL = "";
-        Map<String, DataObjectEntry> beansOfType = tester.getDataObjectEntryBeans();
-        for (String beanId : beansOfType.keySet()) {
-            String outputFileName = beanId + ".html";
-            out.println("<li><a href=\"" + outputFileName + "\">" + beanId + "</a>");
-        }
+
+        out.println("<ul>");
+        
+        Map<String, List<String>> fileToBeanNameMap = tester.getInputFileToBeanNameMap();
+        
+		for (String inputFile : fileToBeanNameMap.keySet()) {
+
+			List<String> beanIds = fileToBeanNameMap.get(inputFile);
+
+			for (String beanId : beanIds) {
+
+				String outputFileName = beanId + ".html";
+				out.println("<li><a href=\"" + outputFileName + "\">" + beanId
+						+ "</a>");
+			}
+		}
         out.println("</ul>");
         DictionaryFormatter.writeFooter(out);
-        this.getLog().info("finished generating dictionary documentation");
+        out.close();
+        
+        log.info("finished generating dictionary documentation");
     }
 }

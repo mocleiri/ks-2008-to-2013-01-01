@@ -4,13 +4,15 @@
  */
 package org.kuali.student.datadictionary.util;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Stack;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.kuali.rice.krad.datadictionary.DataDictionaryDefinitionBase;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.student.contract.model.test.source.AtpInfo;
