@@ -15,11 +15,15 @@
  */
 package org.kuali.student.datadictionary.util;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.slf4j.Logger;
@@ -31,14 +35,18 @@ public class DictionaryTesterHelper {
 	private static final Logger log = LoggerFactory.getLogger(DictionaryTesterHelper.class);
 	
 	private String outputDir;
-	private List<String> inputFiles;
+	private Collection<String> inputFiles;
 	private List<String> supportFiles;
 	
 	private Map<String, List<String>>inputFileToBeanNameMap = new LinkedHashMap<String, List<String>>();
+
+	private Set<String> missingDictionaryFiles;
+
+	private Set<String> invalidDictionaryFiles;
 	
 	
 
-	public DictionaryTesterHelper(String outputDir, List<String> inputFiles,
+	public DictionaryTesterHelper(String outputDir, Collection<String> inputFiles,
 			List<String> supportFiles) {
 		this.outputDir = outputDir;
 		this.inputFiles = inputFiles;
@@ -65,10 +73,12 @@ public class DictionaryTesterHelper {
 	// ac.getBeansOfType(DataObjectEntry.class);
 	// }
 
-	public List<String> doTest() {
+	public void doTest() {
 
-		List<String> outputFileNames = new ArrayList<String>();
-
+		missingDictionaryFiles = new LinkedHashSet<String>();
+		
+		invalidDictionaryFiles = new LinkedHashSet<String>();
+		
 		for (String inputFile : inputFiles) {
 
 			List<String> contextFiles = new ArrayList<String>();
@@ -76,8 +86,6 @@ public class DictionaryTesterHelper {
 			contextFiles.add(inputFile);
 			contextFiles.addAll(supportFiles);
 
-			
-			
 			ClassPathXmlApplicationContext ac;
 			try {
 				log.info("Starting on inputFile: " + inputFile);
@@ -86,6 +94,14 @@ public class DictionaryTesterHelper {
 						contextFiles.toArray(new String[0]));
 			} catch (Exception e) {
 				log.warn ("FAILED to valildate file: " + inputFile, e);
+				
+				Throwable cause = e.getCause();
+				if (cause != null && cause instanceof FileNotFoundException) {
+					missingDictionaryFiles.add(inputFile);
+				}
+				else
+					invalidDictionaryFiles.add(inputFile);
+				
 				continue; // skip over this file.
 			}
 
@@ -118,7 +134,6 @@ public class DictionaryTesterHelper {
 					}
 				}
 				String outputFileName = beanId + ".html";
-				outputFileNames.add(outputFileName);
 				String fullOutputFileName = this.outputDir + "/"
 						+ outputFileName;
 				DictionaryFormatter formatter = new DictionaryFormatter(doe,
@@ -130,6 +145,7 @@ public class DictionaryTesterHelper {
 				} catch (Exception e) {
 					
 					log.warn("FAILED to format dictionary page for: " + beanId, e);
+					invalidDictionaryFiles.add(inputFile);
 					continue;
 				}
 				
@@ -141,7 +157,6 @@ public class DictionaryTesterHelper {
 			
 			log.info("Finished processing inputFile: " + inputFile);
 		}
-		return outputFileNames;
 	}
 
 	private String formatAsString(List<String> errors) {
@@ -159,6 +174,20 @@ public class DictionaryTesterHelper {
 	 */
 	public Map<String, List<String>> getInputFileToBeanNameMap() {
 		return inputFileToBeanNameMap;
+	}
+
+	/**
+	 * @return the missingDictionaryFiles
+	 */
+	public Set<String> getMissingDictionaryFiles() {
+		return missingDictionaryFiles;
+	}
+
+	/**
+	 * @return the invalidDictionaryFiles
+	 */
+	public Set<String> getInvalidDictionaryFiles() {
+		return invalidDictionaryFiles;
 	}
 	
 	

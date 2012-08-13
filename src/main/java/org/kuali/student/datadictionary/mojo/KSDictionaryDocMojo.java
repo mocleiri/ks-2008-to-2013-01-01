@@ -24,15 +24,22 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
-import org.kuali.rice.krad.datadictionary.DataObjectEntry;
+import org.kuali.student.contract.model.MessageStructure;
+import org.kuali.student.contract.model.ServiceContractModel;
+import org.kuali.student.contract.model.impl.ServiceContractModelCache;
+import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
+import org.kuali.student.contract.model.validation.ServiceContractModelValidator;
 import org.kuali.student.datadictionary.util.DictionaryFormatter;
 import org.kuali.student.datadictionary.util.DictionaryTesterHelper;
 import org.slf4j.Logger;
@@ -85,11 +92,7 @@ public class KSDictionaryDocMojo extends AbstractMojo {
      * @readonly
      */
     private MavenProject project;
-    /**
-     * The dictionary applicationContext files.
-     * @parameter
-     **/
-    private List<String> inputFiles = new ArrayList<String>();
+    
     /**
      * The base applicationContext files.  
      * @parameter
@@ -100,6 +103,8 @@ public class KSDictionaryDocMojo extends AbstractMojo {
      */
     private File htmlDirectory;
 
+	private String testDictionaryFile;
+
     public void setHtmlDirectory(File htmlDirectory) {
         this.htmlDirectory = htmlDirectory;
     }
@@ -108,20 +113,8 @@ public class KSDictionaryDocMojo extends AbstractMojo {
         return htmlDirectory;
     }
 
-    public List<String> getInputFiles() {
-        return inputFiles;
-    }
-
     public MavenProject getProject() {
         return project;
-    }
-
-    public void setInputFiles(List<String> inputFiles) {
-    	
-    	this.inputFiles.clear();
-    	
-    	if (inputFiles != null)
-    		this.inputFiles.addAll(inputFiles);
     }
 
     public List<String> getSupportFiles() {
@@ -135,10 +128,31 @@ public class KSDictionaryDocMojo extends AbstractMojo {
     		this.supportFiles.addAll(supportFiles);
     }
 
+    private ServiceContractModel getModel() {
+        ServiceContractModel instance = new ServiceContractModelQDoxLoader(
+                project.getCompileSourceRoots());
+        return new ServiceContractModelCache(instance);
+    }
+
+    private boolean validate(ServiceContractModel model) {
+        Collection<String> errors = new ServiceContractModelValidator(model).validate();
+        if (errors.size() > 0) {
+            StringBuilder buf = new StringBuilder();
+            buf.append(errors.size()).append(" errors found while validating the data.");
+            return false;
+        }
+        return true;
+    }
+    
     @Override
     public void execute()
             throws MojoExecutionException {
-        this.getLog().info("generating dictionary documentation");
+    	this.getLog().info("generating dictionary documentation");
+        
+        if (getPluginContext() != null) {
+        	project = (MavenProject) getPluginContext().get("project");
+        }
+        
         // add the current projects classpath to the plugin so the springbean
         // loader can find the xml files and lasses that it needs to can be run
         // against the current project's files
@@ -171,21 +185,25 @@ public class KSDictionaryDocMojo extends AbstractMojo {
                         + this.htmlDirectory.getPath());
             }
         }
+        
+        Set<String> inpFiles = new LinkedHashSet<String>();
+        if (project != null) {
+        ServiceContractModel model = this.getModel();
+        this.validate(model);
+        inpFiles.addAll(extractDictionaryFiles(model));
 
-        Set<String> inpFiles = new LinkedHashSet<String>(this.inputFiles.size());
-        for (String dictFileName : this.inputFiles) {
-            if (dictFileName.endsWith(".xml")) {
-                inpFiles.add(dictFileName);
-            }
-            else {
-            	log.warn("INVALID Input File: " + dictFileName);
-            }
+    }
+        else {
+        		inpFiles.add(this.testDictionaryFile);
         }
-
+    
+       
+        
+        
 
         String outputDir = this.htmlDirectory.getAbsolutePath();
-        DictionaryTesterHelper tester = new DictionaryTesterHelper(outputDir, this.inputFiles, this.supportFiles);
-        List<String> outputFileNames = tester.doTest();
+        DictionaryTesterHelper tester = new DictionaryTesterHelper(outputDir, inpFiles, this.supportFiles);
+        tester.doTest();
 
         // write out the index file
         String indexFileName = this.htmlDirectory.getPath() + "/" + "index.html";
@@ -217,9 +235,62 @@ public class KSDictionaryDocMojo extends AbstractMojo {
 			}
 		}
         out.println("</ul>");
+        
+		if (tester.getInvalidDictionaryFiles().size() > 0) {
+
+			out.println("<h1>Invalid Dictionary Files</h1>");
+			out.println("<blockquote>The Dictionary File exists but a problem is present.</blockquote>");
+			out.println("<ul>");
+
+			for (String invalidFile : tester.getInvalidDictionaryFiles()) {
+				out.println("<li><b>" + invalidFile + "</b></li>");
+			}
+
+			out.println("</ul>");
+
+		}
+        
+		if (tester.getMissingDictionaryFiles().size() > 0) {
+			out.println("<h1>Missing Dictionary Files</h1>");
+			out.println("<blockquote>The Message structure exists but there is not dictionary file present.</blockquote>");
+			out.println("<ul>");
+			for (String missingFile : tester.getMissingDictionaryFiles()) {
+				out.println("<li><b>" + missingFile + "</b></li>");
+			}
+			out.println("</ul>");
+
+		}
+        
         DictionaryFormatter.writeFooter(out);
         out.close();
         
         log.info("finished generating dictionary documentation");
     }
+
+	private Collection<String> extractDictionaryFiles(
+			ServiceContractModel model) {
+		
+		Set<String> dictionaryFiles = new LinkedHashSet<String>();
+		
+		List<MessageStructure> ms = model.getMessageStructures();
+		
+		for (MessageStructure messageStructure : ms) {
+			
+			String inputFileName = "ks-" + messageStructure.getXmlObject() + "-dictionary.xml";
+
+			dictionaryFiles.add(inputFileName);
+		}
+		
+		
+		return dictionaryFiles;
+	}
+
+	/**
+	 * Used for testing to hard code a single dictionary file to use.
+	 * @param string
+	 */
+	public void setTestDictionaryFile(String dictionaryFile) {
+		this.testDictionaryFile = dictionaryFile;
+		
+	}
 }
