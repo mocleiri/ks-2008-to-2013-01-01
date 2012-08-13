@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class2.appointment.keyvalue;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.mock.utilities.TestHelper;

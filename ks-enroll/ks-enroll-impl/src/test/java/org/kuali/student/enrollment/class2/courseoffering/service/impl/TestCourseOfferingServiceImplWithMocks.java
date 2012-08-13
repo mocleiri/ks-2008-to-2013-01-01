@@ -11,7 +11,9 @@ import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -25,8 +27,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
@@ -88,7 +90,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         // get course
         CourseInfo course;
         try {
-            course = courseService.getCourse("COURSE1", null);
+            course = courseService.getCourse("COURSE1", ContextUtils.getContextInfo());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -103,13 +105,14 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setWaitlistLevelTypeKey("waitlist key");
         orig.setHasWaitlist(true);
         orig.setFinalExamType(FinalExam.STANDARD.toString());
-        orig.setEvaluated(true);
-        orig.setFeeAtActivityOffering(false);
+        orig.setIsEvaluated(true);
+        orig.setIsFeeAtActivityOffering(false);
         orig.setFundingSource("funding source");
         orig.setCourseOfferingCode("CODE");
+        orig.setCourseNumberSuffix("ABC");
         orig.setCourseOfferingTitle("Title");
-        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
-        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
+        orig.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+        orig.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
         orig.setGradingOptionId(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
 
 
@@ -127,7 +130,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertEquals(orig.getIsFeeAtActivityOffering(), info.getIsFeeAtActivityOffering());
         assertEquals(orig.getFundingSource(), info.getFundingSource());
         assertEquals(course.getCode(), info.getCourseOfferingCode());
-        assertEquals(course.getCourseNumberSuffix(), info.getCourseNumberSuffix());
+        assertEquals(orig.getCourseNumberSuffix(), info.getCourseNumberSuffix());
         assertEquals(course.getSubjectArea(), info.getSubjectArea());
         if (course.getDescr() != null) {
             assertEquals(course.getDescr().getPlain(), info.getDescr().getPlain());
@@ -170,8 +173,8 @@ public class TestCourseOfferingServiceImplWithMocks {
 //        OfferingInstructorInfo instructor = new OfferingInstructorInfo();
 //        instructor.setPersonId("Pers-1");
 //        instructor.setPercentageEffort(Float.valueOf("60"));
-//        instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
-//        instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
+//        instructor.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+//        instructor.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
         // TODO: add this back in and test for it
 //        instructors.add(instructor);
         orig.setInstructors(instructors);
@@ -301,7 +304,7 @@ public class TestCourseOfferingServiceImplWithMocks {
 
         ActivityOfferingInfo orig = new ActivityOfferingInfo();
         orig.setFormatOfferingId(fo.getId());
-        orig.setActivityId(fo.getId() + "." + CluServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
+        orig.setActivityId(fo.getId() + "." + LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
         orig.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         orig.setMinimumEnrollment(100);

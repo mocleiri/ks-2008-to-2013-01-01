@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.mock.utilities.TestHelper;
@@ -39,29 +40,18 @@ import java.util.List;
  */
 public class SlotRuleForAppWindowKeyValuesFinder extends UifKeyValuesFinderBase implements Serializable {
     private transient EnumerationManagementService enumerationService;
-    private Object object;
+
     private String enumerationKey;
-
-    public String getEnumerationKey() {
-        return enumerationKey;
-    }
-    public void setEnumerationKey(String enumerationKey){
-        this.enumerationKey = enumerationKey;
-    }
-
-    @Override
 
     //this method returns the enumeration values as key value pairs to the UI for appoint rule type which is passed as enumerationKey to the
     // enumeration management service.
+    @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        //TODO:Build real context.
-        ContextInfo context = TestHelper.getContext1();
-
         try {
-            List<EnumeratedValueInfo> slotRuleTypeCodes = getEnumerationService().getEnumeratedValues(getEnumerationKey(),null,null,null, null);
+            List<EnumeratedValueInfo> slotRuleTypeCodes = getEnumerationService().getEnumeratedValues(getEnumerationKey(),null,null,null, ContextUtils.getContextInfo());
             if(slotRuleTypeCodes!=null)  {
                 for (EnumeratedValueInfo slotRuleTypeCode : slotRuleTypeCodes) {
                     ConcreteKeyValue keyValue = new ConcreteKeyValue();
@@ -71,10 +61,18 @@ public class SlotRuleForAppWindowKeyValuesFinder extends UifKeyValuesFinderBase 
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException(e);
         }
 
         return keyValues;
+    }
+
+    public String getEnumerationKey() {
+        return enumerationKey;
+    }
+
+    public void setEnumerationKey(String enumerationKey){
+        this.enumerationKey = enumerationKey;
     }
 
     //returns the enumerationmangement service

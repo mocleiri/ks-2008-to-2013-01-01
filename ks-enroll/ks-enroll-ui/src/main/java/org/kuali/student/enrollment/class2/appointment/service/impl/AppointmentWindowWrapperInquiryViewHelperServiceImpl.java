@@ -11,7 +11,7 @@ import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrap
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
@@ -146,14 +146,14 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
 
     public PopulationService getPopulationService() {
         if(populationService == null) {
-            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, PopulationService.class.getSimpleName()));
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationMockService")); // TODO: Fix with real service
         }
         return populationService;
     }
 
     protected SearchService getSearchService() {
         if(searchService == null) {
-            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX+"search", SearchService.class.getSimpleName()));
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
         }
         return searchService;
     }

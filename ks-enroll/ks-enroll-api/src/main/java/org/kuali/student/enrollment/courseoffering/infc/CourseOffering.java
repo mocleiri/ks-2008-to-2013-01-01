@@ -26,7 +26,7 @@ import java.util.List;
  * @author Kamal
  */
 
-public interface CourseOffering extends IdNamelessEntity{
+public interface CourseOffering extends IdNamelessEntity {
 
     /**
      * A unique identifier assigned to all approved courses that exist
@@ -75,7 +75,7 @@ public interface CourseOffering extends IdNamelessEntity{
      * This field is differentiated from the Couurse Offering Code in
      * that the Course Offering Code can updated while the Course Code
      * always indicates the official canonical code.
-     * 
+     *
      * @name Course Code
      * @readOnly
      * @impl this is a read only copy of the official canonical course code
@@ -94,7 +94,7 @@ public interface CourseOffering extends IdNamelessEntity{
      * it is not not directly updatable but rather is calculated from it's two
      * constituent parts, the subject area and the course number suffix. For
      * example: Subject Area = "ENG" and Suffix = "101" then code = "ENG101"
-     * 
+     *
      * @name Course Offering Code
      * @impl initialially this is copied from the course catalog code but then
      *       is subsequently stored in the lui as lui.officialIdentifier.code
@@ -187,55 +187,52 @@ public interface CourseOffering extends IdNamelessEntity{
     public List<String> getJointOfferingIds();
 
     /******** Assessment Information ***************/
+
     /**
-     * The options/scale that indicates the allowable grades that can be
-     * awarded. Typically the value here are constrained by the values on the
-     * canonical course. If the value is set here then the Clu must have a
-     * grading option set on the canonical activity. For example: an id might
-     * point to Pass/Fail or Letter Graded option.
+     * The options/scales that indicate the allowable grades within a
+     * grading scheme that can be awarded. Typically, the values here
+     * are constrained by the values on the canonical course. If the
+     * value is set here then the Clu must have a grading option set
+     * on the canonical activity. For example: an id might point to
+     * Pass/Fail or Letter Graded option.
      * 
      * @name: Grading Option Id
-     * @impl these are actually Ids to ResultValuesGroup. Lui.resultOptionIds
-     *       returns a list of resultOptions. Filter options with grading type
-     *       and those should give the resultValueGroupIds
+     * @impl Lui.resultOptionIds of type ???
      */
     public String getGradingOptionId();
 
     /**
-     * The options/scales that indicate the allowable grades that can be
-     * awarded. Typically the values here are constrained by the values on the
-     * canonical course. If the value is set here then the Clu must have a
-     * grading option set on the canonical activity. For example: an id might
-     * point to Pass/Fail or Letter Graded option.
-     *
-     * This is the same as gradingOptionIds, but the student registration specific
-     * ids are pulled out and placed in this collection.
-     *
-     * @name: Student Registration Option Ids
-     * @impl these are actually Ids to ResultValuesGroup. Lui.resultOptionIds
-     *       returns a list of resultOptions. Filter options with grading type
-     *       and those should give the resultValueGroupIds
+     * The options/scales that indicate the allowable grades within a
+     * grading scheme in which an eligible student can register. This
+     * list of options includes the Grading Option Id plus any
+     * additional grading schemes, such as P/F or Audit.
+     * 
+     * @name: registration Grading Option Ids
+     * @impl Lui.resultOptionIds of type ???
      */
-    public List<String> getStudentRegistrationOptionIds();
+    public List<String> getStudentRegistrationGradingOptions();
 
     /**
-     * Type of credit of course offering. This field is initially copied and constrained
-     * from the canonical course but then, depending on configuration, it may be
-     * updated. Often it is just a fixed single
+     * A display string for the credit option.
+     * 
+     * @name Credit Option Display
+     * @readOnly
+     */
+    public String getCreditOptionDisplay();
+
+    /**
+     * Type of credit of course offering. This field is initially copied from
+     * the canonical course but then, depending on configuration, it may be
+     * updated. TODO: figure out which of the credit options will be copied down
+     * because the canonical has more than one! Often it is just a fixed single
      * value but a ResultValuesGroup could contain a range (with increments) or
      * even a discrete list of possible credit values.
-     * These are the constraint/mapping rules:
-     * - A fixed option on clu maps to a fixed option on lui.
-     * - A variable option on clu can map to a fixed, variable or multiple option on lui constrained by the min and max
-     * - A multiple option on clu can map to a fixed or multiple option on lui constrained by the clu options
-     * It is possible that the canonical has more than one!
-     * 
-     * @name Credit Option
+     *
+     * @name Credit Option Id
      * @impl Lui.resultOptionIds returns a list of resultOptions. Filter option
-     *       with credit type and that should give the resultValueGroup
+     *       with credit type and that should give the resultValueGroup.
      */
     public String getCreditOptionId();
-
 
 
     /******** Personnel Information *****************/
@@ -318,9 +315,17 @@ public interface CourseOffering extends IdNamelessEntity{
      *  Values are in WaitListLevel enum.
      *
      * @name Waitlist Level Type Key
-    */
-
+     */
     public String  getWaitlistLevelTypeKey();
+
+    /**
+     * Maximum number of students to be allowed on the wait list.
+     *
+     * @name Waitlist Maximum
+     * @impl maps to Lui.waitlistMaximum
+     */
+    public Integer getWaitlistMaximum();    
+
 
   /************* Finances ***************************/
 
@@ -345,15 +350,6 @@ public interface CourseOffering extends IdNamelessEntity{
     public Boolean getIsFinancialAidEligible();
 
     /**
-     * Is this Course Offering Financial aid eligible.  (why is this
-     * here?) use getIsFinancialAidEligible().
-     *
-     * @name Financial Aid Eligible Flag
-     */
-    @Deprecated
-    public Boolean getFinancialAidEligible();
-
-    /**
      * Places where this Course offering is offered.
      *
      * @name Campus Locations
@@ -361,15 +357,9 @@ public interface CourseOffering extends IdNamelessEntity{
     public List<String> getCampusLocations();
 
     /**
-     * Is this a Honors Course offering
-     *
-     * @name Honors Flag
-     */
-    public Boolean getHonorsOffering();
-
-    /**
-     * Indicates the type of final exam ('STANDARD', 'ALTERNATE',
-     * 'NONE') to be given for this format Offering, if any.
+     * Indicates whether a final exam is to be given  for this format Offering
+     * and if its true, the level at which it exists
+     * Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
      *
      * @name Final Exam Type
      */
@@ -397,4 +387,32 @@ public interface CourseOffering extends IdNamelessEntity{
      * @name Course Offering URL
      */
     public String getCourseOfferingURL();
+
+    /**
+     * Gets the Credit Count
+     *
+     * @name Credit Count
+     * @readOnly
+     * @impl this is the number of credits
+     */
+    public String getCreditCnt();
+
+    /**
+     * Gets the Grading Name
+     *
+     * @name Grading
+     * @readOnly
+     * @impl this is the grading name - last word in gradingOptionId
+     */
+    public String getGradingOption();
+
+   /**
+     * A suffix is the system generated code that is hidden from the user
+     * that parallels with courseOfferingNumberSuffix.
+     *
+     * @name Course Number Internal Suffix
+     * @impl initially copied from the canonical course but then stored in the
+     *       Lui as lui.officialIdentifier.suffixCode
+     */
+    public String getCourseNumberInternalSuffix();
 }

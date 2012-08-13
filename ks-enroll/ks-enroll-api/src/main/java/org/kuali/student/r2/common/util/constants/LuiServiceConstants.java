@@ -76,6 +76,9 @@ public class LuiServiceConstants {
     public static final String SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.selfpaced";
     public static final String COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.compbased";
     public static final String VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.videoconf";
+    public static final String SEMINAR_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.seminar";
+    public static final String QUIZ_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.quiz";
+    public static final String CONFERENCE_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.conference";
     public static final String ACTIVITY_OFFERING_TYPE_KEY_PREFIX = "kuali.lui.type.activity.offering.";
     public static final String[] ALL_ACTIVITY_TYPES = {
         LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
@@ -99,7 +102,10 @@ public class LuiServiceConstants {
         RESEARCH_ACTIVITY_OFFERING_TYPE_KEY,
         SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY,
         COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY,
-        VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY};
+        VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY,
+        SEMINAR_ACTIVITY_OFFERING_TYPE_KEY,
+        QUIZ_ACTIVITY_OFFERING_TYPE_KEY,
+        CONFERENCE_ACTIVITY_OFFERING_TYPE_KEY};
 
     // TODO: May want to do this for other groupings
     private static HashSet<String> ACTIVITY_TYPES_HASH_SET = null;
@@ -119,11 +125,13 @@ public class LuiServiceConstants {
      * Implemented: 6/14/2012  by cclin
      */
     public static final String COURSE_OFFERING_PROCESS_KEY = "kuali.course.offering.process";
+    public static final String LUI_CO_STATE_DRAFT_KEY = "kuali.lui.course.offering.state.draft";
     public static final String LUI_CO_STATE_PLANNED_KEY = "kuali.lui.course.offering.state.planned";
     public static final String LUI_CO_STATE_OFFERED_KEY = "kuali.lui.course.offering.state.offered";
     public static final String LUI_CO_STATE_CANCELED_KEY = "kuali.lui.course.offering.state.canceled";
 
     public static final String[] COURSE_OFFERING_PROCESS_STATE_KEYS = {
+        LUI_CO_STATE_DRAFT_KEY,
         LUI_CO_STATE_PLANNED_KEY,
         LUI_CO_STATE_OFFERED_KEY,
         LUI_CO_STATE_CANCELED_KEY
@@ -146,11 +154,14 @@ public class LuiServiceConstants {
      * Implemented: 6/14/2012  by cclin
      * The process is identical to the course offering.
      */
+    public static final String FORMAT_OFFERING_PROCESS_KEY = "kuali.format.offering.process";
+    public static final String LUI_FO_STATE_DRAFT_KEY = "kuali.lui.format.offering.state.draft";
     public static final String LUI_FO_STATE_PLANNED_KEY = "kuali.lui.format.offering.state.planned";
     public static final String LUI_FO_STATE_OFFERED_KEY = "kuali.lui.format.offering.state.offered";
     public static final String LUI_FO_STATE_CANCELED_KEY = "kuali.lui.format.offering.state.canceled";
 
     public static final String[] FORMAT_OFFERING_PROCESS_STATE_KEYS = {
+            LUI_FO_STATE_DRAFT_KEY,
             LUI_FO_STATE_PLANNED_KEY,
             LUI_FO_STATE_OFFERED_KEY,
             LUI_FO_STATE_CANCELED_KEY
@@ -178,7 +189,7 @@ public class LuiServiceConstants {
     public static final String LUI_AO_STATE_APPROVED_KEY = "kuali.lui.activity.offering.state.approved";
     public static final String LUI_AO_STATE_SCHEDULED_KEY = "kuali.lui.activity.offering.state.scheduled";
     public static final String LUI_AO_STATE_OFFERED_KEY = "kuali.lui.activity.offering.state.offered";
-    public static final String LUI_AO_STATE_SUSPENDED_KEY = "kuali.lui.activity.offering.state.suspended ";
+    public static final String LUI_AO_STATE_SUSPENDED_KEY = "kuali.lui.activity.offering.state.suspended";
     public static final String LUI_AO_STATE_CANCELED_KEY = "kuali.lui.activity.offering.state.canceled";
     public static final String LUI_AO_STATE_UNSCHEDULED_KEY = "kuali.lui.activity.offering.state.unscheduled";
 
@@ -278,6 +289,13 @@ public class LuiServiceConstants {
      */
     public static final String ALL_REGISTRATION_ORDERING_TYPE_KEY = "kuali.registration.ordering.type.all";
 //    public static final String SEQUENCED_REGISTRATION_ORDERING_TYPE_KEY = "kuali.registration.ordering.type.sequenced";   
+    
+    /**
+     * Registration Group States
+     */
+    public static final String REGISTRATION_GROUP_OPEN_STATE_KEY = " kuali.lui.registration.group.state.open";
+    public static final String REGISTRATION_GROUP_CLOSED_STATE_KEY = " kuali.lui.registration.group.state.closed";
+    public static final String REGISTRATION_GROUP_SUSPENDED_STATE_KEY = " kuali.lui.registration.group.state.suspended";
     
     /**
      * known lu codes

@@ -18,7 +18,6 @@ import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionInfo;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.clu.infc.Accreditation;
 import org.kuali.student.r2.lum.clu.infc.AdminOrg;
 import org.kuali.student.r2.lum.clu.infc.Clu;

@@ -16,7 +16,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
 
 import org.kuali.student.r1.lum.course.service.CourseServiceConstants;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;

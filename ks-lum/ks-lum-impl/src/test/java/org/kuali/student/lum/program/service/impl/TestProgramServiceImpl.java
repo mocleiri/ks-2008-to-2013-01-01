@@ -23,9 +23,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
-import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r2.lum.program.service.assembler.MajorDisciplineDataGenerator;
+import org.kuali.student.r2.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
@@ -49,10 +49,10 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementOperator;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
@@ -251,8 +251,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(core.getAttributes());
             assertTrue(core.getAttributes().size() ==2);
-            assertEquals("GINGER GEM", core.getAttributeInfoValue(core.getAttributes(),"COOKIES"));
-            assertEquals("JAM TART", core.getAttributeInfoValue(core.getAttributes(),"CAKES"));
+            assertEquals("GINGER GEM", core.getAttributeValue("COOKIES"));
+            assertEquals("JAM TART", core.getAttributeValue("CAKES"));
 
             assertNotNull(core.getMeta());
             assertEquals("1", core.getMeta().getVersionInd());
@@ -402,8 +402,8 @@ public class TestProgramServiceImpl {
             assertEquals(major.getUnitsFinancialControl().get(1), "47");
             assertNotNull(major.getAttributes());
             assertEquals(2, major.getAttributes().size());
-            assertEquals("GINGER GEM", major.getAttributeInfoValue(major.getAttributes(),"COOKIES"));
-            assertEquals("JAM TART", major.getAttributeInfoValue(major.getAttributes(),"CAKES"));
+            assertEquals("GINGER GEM", major.getAttributeValue("COOKIES"));
+            assertEquals("JAM TART", major.getAttributeValue("CAKES"));
 
             assertNotNull(major.getMeta());
             assertEquals("1", major.getMeta().getVersionInd());
@@ -621,8 +621,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(createdMD.getAttributes());
             assertTrue(createdMD.getAttributes().size() ==2);
-            assertEquals("value-8", createdMD.getAttributeInfoValue(createdMD.getAttributes(),"key-7"));
-            assertEquals("value-9", createdMD.getAttributeInfoValue(createdMD.getAttributes(),"key-8"));
+            assertEquals("value-8", createdMD.getAttributeValue("key-7"));
+            assertEquals("value-9", createdMD.getAttributeValue("key-8"));
 
             assertNotNull(createdMD.getMeta());
             assertEquals("0", createdMD.getMeta().getVersionInd());
@@ -735,7 +735,7 @@ public class TestProgramServiceImpl {
 		} else if (statement.getId() != null) {
 			assertEquals(statement.getId(), statement2.getId());
 		}
-		checkRichText(statement.getDesc(), statement2.getDesc());
+		checkRichText(statement.getDescr(), statement2.getDescr());
 		checkStatementTreeViews(statement.getStatements(), statement2.getStatements());
 		checkReqComponents(statement.getReqComponents(), statement2.getReqComponents());
 	}
@@ -760,7 +760,7 @@ public class TestProgramServiceImpl {
 		} else if (reqComponent.getId() != null) {
 			assertEquals(reqComponent.getId(), reqComponent2.getId());
 		}
-		checkRichText(reqComponent.getDesc(), reqComponent2.getDesc());
+		checkRichText(reqComponent.getDescr(), reqComponent2.getDescr());
 		checkReqCompFields(reqComponent.getReqCompFields(), reqComponent.getReqCompFields());
 		// TODO checkReqComponentType(reqComponent.getRequiredComponentType(), reqComponent2.getRequiredComponentType());
 	}
@@ -899,33 +899,33 @@ public class TestProgramServiceImpl {
 
         // req components
         ReqComponentInfo rc1 = new ReqComponentInfo();
-        rc1.setDesc(toRichText("REQCOMP-1"));
-        rc1.setType("kuali.reqComponent.type.course.courseset.completed.all");
+        rc1.setDescr(toRichText("REQCOMP-1"));
+        rc1.setTypeKey("kuali.reqComponent.type.course.courseset.completed.all");
         ReqComponentInfo rc2 = new ReqComponentInfo();
-        rc2.setDesc(toRichText("REQCOMP-2"));
-        rc2.setType("kuali.reqComponent.type.course.courseset.gpa.min");
+        rc2.setDescr(toRichText("REQCOMP-2"));
+        rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
         ReqComponentInfo rc3 = new ReqComponentInfo();
-        rc3.setDesc(toRichText("REQCOMP-3"));
-        rc3.setType("kuali.reqComponent.type.course.courseset.completed.nof");
+        rc3.setDescr(toRichText("REQCOMP-3"));
+        rc3.setTypeKey("kuali.reqComponent.type.course.courseset.completed.nof");
         ReqComponentInfo rc4 = new ReqComponentInfo();
-        rc4.setDesc(toRichText("REQCOMP-4"));
-        rc4.setType("kuali.reqComponent.type.course.permission.instructor.required");
+        rc4.setDescr(toRichText("REQCOMP-4"));
+        rc4.setTypeKey("kuali.reqComponent.type.course.permission.instructor.required");
 
         // statement tree views
         StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
-        statementTree.setDesc(toRichText("STMT-1"));
-        statementTree.setOperator(StatementOperatorTypeKey.OR);
-        statementTree.setType("kuali.statement.type.program.entrance");
+        statementTree.setDescr(toRichText("STMT-1"));
+        statementTree.setOperator(StatementOperator.OR);
+        statementTree.setTypeKey("kuali.statement.type.program.entrance");
 
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
-        subTree1.setDesc(toRichText("STMT-2"));
-        subTree1.setOperator(StatementOperatorTypeKey.AND);
-        subTree1.setType("kuali.statement.type.program.entrance");
+        subTree1.setDescr(toRichText("STMT-2"));
+        subTree1.setOperator(StatementOperator.AND);
+        subTree1.setTypeKey("kuali.statement.type.program.entrance");
 
         StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
-        subTree2.setDesc(toRichText("STMT-3"));
-        subTree2.setOperator(StatementOperatorTypeKey.AND);
-        subTree2.setType("kuali.statement.type.program.entrance");
+        subTree2.setDescr(toRichText("STMT-3"));
+        subTree2.setOperator(StatementOperator.AND);
+        subTree2.setTypeKey("kuali.statement.type.program.entrance");
 
         // construct tree with statements and req components
         reqCompList1.add(rc1);
@@ -958,15 +958,15 @@ public class TestProgramServiceImpl {
 
         List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
         ReqComponentInfo rc1 = new ReqComponentInfo();
-        rc1.setDesc(toRichText("REQCOMP-1"));
-        rc1.setType("kuali.reqComponent.type.course.courseset.completed.all");
+        rc1.setDescr(toRichText("REQCOMP-1"));
+        rc1.setTypeKey("kuali.reqComponent.type.course.courseset.completed.all");
         ReqComponentInfo rc2 = new ReqComponentInfo();
-        rc2.setDesc(toRichText("REQCOMP-2"));
-        rc2.setType("kuali.reqComponent.type.course.courseset.gpa.min");
+        rc2.setDescr(toRichText("REQCOMP-2"));
+        rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
-        subTree1.setDesc(toRichText("STMT-5"));
-        subTree1.setOperator(StatementOperatorTypeKey.AND);
-        subTree1.setType("kuali.statement.type.program.entrance");
+        subTree1.setDescr(toRichText("STMT-5"));
+        subTree1.setOperator(StatementOperator.AND);
+        subTree1.setTypeKey("kuali.statement.type.program.entrance");
         reqCompList1.add(rc1);
         reqCompList1.add(rc2);
         subTree1.setReqComponents(reqCompList1);

@@ -48,10 +48,11 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     private CluService cluService;
 
     /**
-     *
+     * 
      * This method will update the state of a major discipline.
-     *
-     * @see org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService#updateState(org.kuali.student.r1.common.assembly.data.Data, String)
+     * 
+     * @see org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService#updateStatus(org.kuali.student.common.assembly.data.Data,
+     * java.lang.String)
      */
     public DataSaveResult updateState(Data data, String state) throws Exception {
         try {
@@ -71,7 +72,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
                 stateChangeService.changeState(endEntryTerm, endEnrollTerm, endInstAdmitTerm, programId, state);
             }
             else {
-                // previousVersionInfo is null if this is the first version
+                // previousVersionInfo is null if this is the first version 
                 stateChangeService.changeState(programId, state);
             }
 
@@ -105,7 +106,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
 
             return programReqInfos;
         } catch (Exception ex) {
-            // Log exception
+            // Log exception 
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
@@ -140,7 +141,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
             }
             return storedRules;
         } catch (Exception ex) {
-            // Log exception
+            // Log exception 
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
@@ -172,7 +173,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
 
             return rule;
         } catch (Exception ex) {
-            // Log exception
+            // Log exception 
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
@@ -183,7 +184,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         {
             return programService.deleteProgramRequirement(programRequirementId, ContextUtils.getContextInfo());
         } catch (Exception ex) {
-            // Log exception
+            // Log exception 
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
@@ -211,7 +212,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
             setProgReqNL(rule);
             return rule;
         } catch (Exception ex) {
-            // Log exception
+            // Log exception 
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
@@ -263,7 +264,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
             String resultString = result.getRows().get(0).getCells().get(0).getValue();
             return "0".equals(resultString);
         } catch (Exception ex) {
-            // Log exception
+            // Log exception 
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
@@ -282,13 +283,13 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     }
 
     /**
-     *
+     * 
      * This method will check to see if an object with the given reference ID is a
      * proposal.
      * <p>
      * At the moment, it is used by the UI to decide if we should hide the action box when
      * opening a draft proposal.
-     *
+     * 
      * @see org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService#isProposal(java.lang.String,
      * java.lang.String)
      */
@@ -296,10 +297,10 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     public Boolean isProposal(String referenceTypeKey, String referenceId) {
         try {
             // Wire in proposal service from spring
-            // Call method getProposalByReference().
+            // Call method getProposalByReference().  
             // ProposalWorkflowFilter.applyOutboundDataFilter().  Set on line 130-131.  Use these for reference ID.
 
-            // Ask the proposal service to return a list of proposals with this reference id
+            // Ask the proposal service to return a list of proposals with this reference id    
             List<ProposalInfo> proposals = null;
             proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId);
 
@@ -311,7 +312,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
             // This was not a proposal, so return false
             return new Boolean(false);
         } catch (Exception ex) {
-            // Log exception
+            // Log exception 
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
@@ -319,9 +320,9 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     }
 
     /**
-     *
+     * 
      * Proposal service is injected by spring in the lum-gwt-context.xml file
-     *
+     * 
      * @return
      */
     public ProposalService getProposalService() {

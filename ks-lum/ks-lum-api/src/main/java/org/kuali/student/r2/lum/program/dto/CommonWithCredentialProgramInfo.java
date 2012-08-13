@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionInfo;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.program.infc.CommonWithCredentialProgram;

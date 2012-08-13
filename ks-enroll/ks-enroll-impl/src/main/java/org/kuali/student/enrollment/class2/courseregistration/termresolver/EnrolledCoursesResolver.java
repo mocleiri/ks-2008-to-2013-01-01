@@ -62,20 +62,15 @@ public class EnrolledCoursesResolver implements TermResolver<Collection<String>>
         Collection<String> results = null;
 
         try {
-            List<CourseRegistrationInfo> registrations = courseRegService.getCourseRegistrationsForStudent(studentId, context);
+            List<CourseRegistrationInfo> registrations = courseRegService.getCourseRegistrationsByStudent(studentId, context);
 
             results = new ArrayList<String>(registrations.size());
 
             for (CourseRegistrationInfo courseRegInfo : registrations) {
-                CourseOfferingInfo co = courseRegInfo.getCourseOffering();
-                if(co != null && co.getCourseId() != null) {
-                    results.add(courseRegInfo.getCourseOffering().getCourseId());
+                if (courseRegInfo.getCourseOfferingId() != null) {
+                    results.add(courseRegInfo.getCourseOfferingId());
                 }
             }
-        } catch (DoesNotExistException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters, e);
-        } catch (DisabledIdentifierException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters, e);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters, e);
         } catch (MissingParameterException e) {

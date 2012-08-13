@@ -65,7 +65,7 @@ public class CourseOfferingIdFormatKeyValues extends UifKeyValuesFinderBase impl
         if (courseOfferingId != null) {
             try {
                 CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) getCourseOfferingService().getCourseOffering(courseOfferingId, context);
-                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseOfferingInfo.getCourseId(), null);
+                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseOfferingInfo.getCourseId(), context);
                 formats = courseInfo.getFormats();
             } catch (DoesNotExistException e) {
                 throw new RuntimeException("No subject areas found! There should be some in the database", e);
@@ -80,7 +80,7 @@ public class CourseOfferingIdFormatKeyValues extends UifKeyValuesFinderBase impl
             }
 
             for(FormatInfo format : formats) {
-                keyValues.add(new ConcreteKeyValue(format.getId(), format.getTypeKey()));
+                keyValues.add(new ConcreteKeyValue(format.getId(), format.getType()));
             }
         }
 

@@ -20,9 +20,9 @@
     <context:annotation-config/>
 
     <!-- <import resource="classpath:META-INF/default-property-config-context-test.xml"/> -->
-    <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
-	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
-	<import resource="classpath:KRMSTestHarnessSpringBeans.xml"/>
+    <import resource="classpath:ks-krms-data-dictionary-services-configuration.xml"/>
+    <!--<import resource="classpath:KRMSTestHarnessSpringBeans.xml"/>-->
+<!-- 	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/> -->
 	
 	    <!--  Preloaded data -->
 <!--     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener"> -->
@@ -109,7 +109,7 @@
     </bean>
     
     <!-- Hier begin dit... -->
-<!--     <bean id="processServiceImpl" class="org.kuali.student.r2.core.class1.process.service.impl.ProcessServiceImpl"> -->
+<!--     <bean id="processServiceImpl" class="org.kuali.student.r2.core.process.service.impl.ProcessServiceImpl"> -->
 <!--         <property name="checkDao" ref="checkDao"/> -->
 <!--         <property name="instructionDao" ref="instructionDao"/> -->
 <!--         <property name="processDao" ref="processDao"/> -->
@@ -117,25 +117,25 @@
 <!--     </bean> -->
 
 <!--     <bean id="processServiceValidationDecorator" -->
-<!--     class="org.kuali.student.r2.core.class1.process.service.decorators.ProcessServiceValidationDecorator"> -->
+<!--     class="org.kuali.student.r2.core.process.service.decorators.ProcessServiceValidationDecorator"> -->
 <!--         <property name="nextDecorator" ref="processServiceImpl"/> -->
 <!--         <property name="validator" ref="validator"/> -->
 <!--     </bean> -->
 
-<!--     <bean id="processServiceAuthDecorator" class="org.kuali.student.r2.core.class1.process.service.decorators.ProcessServiceAuthorizationDecorator"> -->
+<!--     <bean id="processServiceAuthDecorator" class="org.kuali.student.r2.core.process.service.decorators.ProcessServiceAuthorizationDecorator"> -->
 <!--         <property name="nextDecorator" ref="processServiceValidationDecorator"/> -->
 <!--         <property name="permissionService" ref="permissionService"/> -->
 <!--     </bean> -->
 <!--     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" /> -->
 
-<!--     <bean id="checkDao" class="org.kuali.student.r2.core.class1.process.dao.CheckDao"> -->
+<!--     <bean id="checkDao" class="org.kuali.student.r2.core.process.dao.CheckDao"> -->
 <!--         <property name="em" ref="entityManager"/> -->
 <!--     </bean> -->
   
-<!--     <bean id="instructionDao" class="org.kuali.student.r2.core.class1.process.dao.InstructionDao"> -->
+<!--     <bean id="instructionDao" class="org.kuali.student.r2.core.process.dao.InstructionDao"> -->
 <!--         <property name="em" ref="entityManager"/> -->
 <!--     </bean> -->
-<!--     <bean id="processDao" class="org.kuali.student.r2.core.class1.process.dao.ProcessDao"> -->
+<!--     <bean id="processDao" class="org.kuali.student.r2.core.process.dao.ProcessDao"> -->
 <!--         <property name="em" ref="entityManager"/> -->
 <!--     </bean> -->
     <bean id="stateService" class=" org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
@@ -148,7 +148,7 @@
     <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
         <property name="em" ref="entityManager"/>
     </bean>
-    <bean id="holdService" class="org.kuali.student.r2.core.class1.process.ProcessPocHoldServiceDecorator">
+    <bean id="holdService" class="org.kuali.student.r2.core.process.ProcessPocHoldServiceDecorator">
         <constructor-arg ref="holdServiceMock"/>
     </bean>
 
@@ -156,19 +156,23 @@
 
 	<tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
-    <bean id="courseRegService" class="org.kuali.student.r2.core.class1.process.CourseRegistrationServiceProcessCheckDecorator">
-        <property name="nextDecorator" ref="courseRegServiceMock"/>
+    <bean id="courseRegService" class="org.kuali.student.r2.core.process.CourseRegistrationServiceProcessCheckDecorator">
+        <property name="nextDecorator" ref="courseRegistrationService"/>
     </bean>
 
-    <bean id="courseRegServiceMock" class="org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceMockImpl"/>
+    <bean id="courseRegServiceMock" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMockImpl"/>
 
-<!--     <bean id="exemptionService" class="org.kuali.student.r2.core.class1.process.ProcessPocExemptionServiceDecorator"> -->
+    <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
+        <property name="lprService" ref="lprService"/>
+    </bean>
+
+<!--     <bean id="exemptionService" class="org.kuali.student.r2.core.process.ProcessPocExemptionServiceDecorator"> -->
 <!--         <constructor-arg ref="exemptionServiceMock" /> -->
 <!--     </bean> -->
 
 <!--     <bean id="exemptionServiceMock" class="org.kuali.student.r2.core.exemption.service.ExemptionServiceMockImpl"/> -->
 
-<!--     <bean id="krmsProcessEvaluator" class="org.kuali.student.r2.core.class1.process.krms.KRMSProcessEvaluator"> -->
+<!--     <bean id="krmsProcessEvaluator" class="org.kuali.student.r2.core.process.krms.KRMSProcessEvaluator"> -->
 <!--         <property name="exemptionService" ref="exemptionService"/> -->
 <!--         <property name="holdService" ref="holdService"/> -->
 <!--         <property name="populationService" ref="populationService"/> -->
@@ -185,9 +189,9 @@
 <!--         </property> -->
 <!--     </bean> -->
 
-    <bean id="populationService" class="org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl"/>
+    <bean id="populationService" class="org.kuali.student.r2.core.process.ProcessPocPopulationServiceMockImpl"/>
 
-<!--     <bean id="registrationHoldsTermResolver" class="org.kuali.student.r2.core.class1.process.krms.termresolver.RegistrationHoldsTermResolver"> -->
+<!--     <bean id="registrationHoldsTermResolver" class="org.kuali.student.r2.core.process.krms.termresolver.RegistrationHoldsTermResolver"> -->
 <!--         <property name="holdService" ref="holdService"/> -->
 <!--     </bean> -->
 
@@ -197,7 +201,7 @@
         <property name="termAssembler" ref="termAssembler"/>
     </bean>
 
-    <bean id="atpService" class="org.kuali.student.r2.core.class1.process.ProcessPocAtpServiceDecorator">
+    <bean id="atpService" class="org.kuali.student.r2.core.process.ProcessPocAtpServiceDecorator">
         <constructor-arg ref="atpServiceMock"/>
     </bean>
 
@@ -207,28 +211,29 @@
 
     <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"/>
 
-<!--     <bean id="milestoneByTypeResolver" class="org.kuali.student.r2.core.class1.process.krms.termresolver.MilestoneByTypeResolver"> -->
+<!--     <bean id="milestoneByTypeResolver" class="org.kuali.student.r2.core.process.krms.termresolver.MilestoneByTypeResolver"> -->
 <!--         <property name="atpService" ref="atpService"/> -->
 <!--     </bean> -->
 
-    <bean id="studentDeceasedTermResolver" class="org.kuali.student.r2.core.class1.process.krms.termresolver.StudentDeceasedTermResolver">
+    <bean id="studentDeceasedTermResolver" class="org.kuali.student.r2.core.process.krms.termresolver.StudentDeceasedTermResolver">
         <property name="identityService" ref="identityService"/>
     </bean>
 
-    <bean id="identityService" class="org.kuali.student.r2.core.class1.process.ProcessPocIdentityServiceDecorator">
+    <bean id="identityService" class="org.kuali.student.r2.core.process.ProcessPocIdentityServiceDecorator">
         <constructor-arg ref="identityServiceMock"/>
     </bean>
 
     <bean id="identityServiceMock" class="org.kuali.student.kim.permission.mock.IdentityServiceMockImpl"/>
 
-<!--     <bean id="summerOnlyStudentTermResolver" class="org.kuali.student.r2.core.class1.process.krms.termresolver.SummerOnlyStudentTermResolver"> -->
+<!--     <bean id="summerOnlyStudentTermResolver" class="org.kuali.student.r2.core.process.krms.termresolver.SummerOnlyStudentTermResolver"> -->
 <!--         <constructor-arg value="kuali.population.summer.only.student"/> -->
 <!--         <property name="populationService" ref="populationService"/> -->
 <!--     </bean> -->
 
-    <bean id="currentDateResolver" class="org.kuali.student.r2.core.class1.process.krms.termresolver.CurrentDateResolver"/>
+    <bean id="currentDateResolver" class="org.kuali.student.r2.core.process.krms.termresolver.CurrentDateResolver"/>
     
     <bean id="ksKRMSTermResolverTypeService" class="org.kuali.student.krms.termresolver.KSTermResolverTypeService">
+    	<property name="academicRecordService" ref="acadRecordService"/>
     </bean>
     
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
@@ -251,7 +256,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
+    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
         <property name="lprDao" ref="lprDao"/>
    		<property name="lprRosterDao" ref="lprRosterDao"/>
     	<property name="lprTransDao" ref="lprTransDao"/>
@@ -280,7 +285,7 @@
     	<property name="gradeValuesGroupAssembler" ref="gradeValuesGroupAssembler"/>
     </bean>
     
-    <bean id="luDao" class="org.kuali.student.lum.lu.dao.impl.LuDaoImpl">
+    <bean id="luDao" class="org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl">
         <property name="em" ref="entityManager"/>
     </bean>
     
@@ -306,7 +311,7 @@
 	</bean>
     
     <bean id="loServiceImpl"
-		class="org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl">
+		class="org.kuali.student.r2.lum.lo.service.impl.LearningObjectiveServiceImpl">
 		<property name="loDao" ref="loDao" />
         <property name="searchManager" ref="loSearchManager" />
 		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
@@ -318,7 +323,7 @@
   	</bean>
 	
 	<bean id="loDao"
-		class="org.kuali.student.lum.lo.dao.impl.LoDaoImpl">
+		class="org.kuali.student.r2.lum.lo.dao.impl.LoDaoImpl">
         <property name="em" ref="entityManager" />
 	</bean>
     
@@ -330,7 +335,7 @@
 	
     
     <bean id="luServiceImpl"
-		class="org.kuali.student.lum.lu.service.impl.CluServiceImpl">
+		class="org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl">
 		<property name="luDao" ref="luDao" />
         <property name="searchManager" ref="luSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
@@ -338,14 +343,14 @@
 	</bean>
 	
 	<bean id="lrcServiceImpl"
-		class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
+		class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
 		<property name="lrcDao" ref="lrcDao" />
         <property name="searchManager" ref="lrcSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>        
         <property name="validatorFactory" ref="validatorFactory"/>
 	</bean>
 	<bean id="lrcDao"
-		class="org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl">
+		class="org.kuali.student.r2.lum.lrc.dao.impl.LrcDaoImpl">
         <property name="em" ref="entityManager" />
 	</bean>
 	<bean id="lrcSearchManager"
@@ -357,7 +362,7 @@
     <bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
     </bean>
     
-    <bean id="courseServiceImpl" class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
+    <bean id="courseServiceImpl" class="org.kuali.student.r2.lum.course.service.impl.CourseServiceImpl">
 		<property name="luService" ref="luServiceImpl"/>
 		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
 		<property name="courseAssembler" ref="courseAssembler"/>
@@ -366,7 +371,7 @@
 		<property name="statementService" ref="statementServiceImpl"/>
 	</bean>
 
-	<bean id="courseServiceMethodInvoker" class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
+	<bean id="courseServiceMethodInvoker" class="org.kuali.student.r2.lum.course.service.impl.CourseServiceMethodInvoker">
 		<property name="luService" ref="luServiceImpl"/>
 		<property name="loService" ref="loServiceImpl"/>
 		<property name="statementService" ref="statementServiceImpl"/>
@@ -392,7 +397,7 @@
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
    		<property name="validatorFactory" ref="validatorFactory"/>
     </bean>
-	<bean id="courseAssembler" class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
+	<bean id="courseAssembler" class="org.kuali.student.r2.lum.course.service.assembler.CourseAssembler">
 		<property name="formatAssembler" ref="formatAssembler"/>
 		<property name="courseJointAssembler" ref="courseJointAssembler"/>
 		<property name="luService" ref="luServiceImpl"/>
@@ -402,25 +407,25 @@
         <property name="loAssembler" ref="loAssembler"/>
 	</bean>
 
-	<bean id="loAssembler" class="org.kuali.student.lum.course.service.assembler.LoAssembler">
+	<bean id="loAssembler" class="org.kuali.student.r2.lum.course.service.assembler.LoAssembler">
 		<property name="loService" ref="loServiceImpl"/>
 	</bean>
 
-	<bean id="formatAssembler" class="org.kuali.student.lum.course.service.assembler.FormatAssembler">
+	<bean id="formatAssembler" class="org.kuali.student.r2.lum.course.service.assembler.FormatAssembler">
 		<property name="activityAssembler" ref="activityAssembler"/>
 		<property name="luService" ref="luServiceImpl"/>
 	</bean>
 
-	<bean id="activityAssembler" class="org.kuali.student.lum.course.service.assembler.ActivityAssembler">
+	<bean id="activityAssembler" class="org.kuali.student.r2.lum.course.service.assembler.ActivityAssembler">
 		<property name="luService" ref="luServiceImpl"/>
 	</bean>
 
-	<bean id="courseJointAssembler" class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
+	<bean id="courseJointAssembler" class="org.kuali.student.r2.lum.course.service.assembler.CourseJointAssembler">
 		<property name="luService" ref="luServiceImpl"/>
 	</bean>
 
     <bean id="cluAssemblerUtils"
-          class="org.kuali.student.lum.service.assembler.CluAssemblerUtils">
+          class="org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils">
         <property name="luService" ref="luServiceImpl"/>
         <property name="loService" ref="loServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
@@ -444,7 +449,10 @@
     <property name="coService" ref="courseOfferingService" />
   </bean>
   
-  <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
+        <property name="lprService" ref="lprService" />
+    </bean>
     
     <bean id="courseOfferingService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
         <property name="luiService" ref="luiService"/>
@@ -457,6 +465,7 @@
     <property name="lprService" ref="lprService"/>
     <property name="businessLogic" ref="businessLogic"/>
     <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
+    <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
     </bean>
 
 	<bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
@@ -485,15 +494,15 @@
     	<property name="resultSourceDao" ref="resultSourceDao"/>
     </bean>
     
-    <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao">
+    <bean id="resultValuesGroupDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="resultValueDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao">
+    <bean id="resultValueDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValueDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="resultScaleDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao">
+    <bean id="resultScaleDao" class="org.kuali.student.r2.lum.lrc.dao.ResultScaleDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
@@ -501,7 +510,7 @@
         <property name="resultValuesGroupDao" ref="resultValuesGroupDao"/>
      	<property name="resultValueDao" ref="resultValueDao"/>
      	<property name="resultScaleDao" ref="resultScaleDao"/>
-     	<property name="stateService" ref="stateService"/>
+
     </bean>
     
     <bean id="acadRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
@@ -580,5 +589,7 @@
         <property name="statementAssembler" ref="statementAssembler"/>
 		<property name="validatorFactory" ref="validatorFactory"/>
 	</bean>
+
+
 	
 </beans>

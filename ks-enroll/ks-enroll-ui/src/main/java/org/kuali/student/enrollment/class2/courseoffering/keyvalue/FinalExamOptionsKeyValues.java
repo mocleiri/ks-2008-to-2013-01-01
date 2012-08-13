@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
@@ -47,8 +48,7 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
 
     private static final long serialVersionUID = 1L;
 
-    private EnumerationManagementService enumerationManagementService;
-    private FinalExamComparator finalExamComparator = new FinalExamComparator();
+    private transient EnumerationManagementService enumerationManagementService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -62,8 +62,8 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
         String finalExamType = form.getCoInfo().getFinalExamType();
 
         try {
-            List<EnumeratedValueInfo> enumerationInfos = (List<EnumeratedValueInfo> ) getEnumerationManagementService().getEnumeratedValues("kuali.lu.finalExam.status", null, null, null, null);
-            Collections.sort(enumerationInfos, finalExamComparator);
+            List<EnumeratedValueInfo> enumerationInfos = (List<EnumeratedValueInfo> ) getEnumerationManagementService().getEnumeratedValues("kuali.lu.finalExam.status", null, null, null, ContextUtils.getContextInfo());
+            Collections.sort(enumerationInfos, new FinalExamComparator());
 
             for(EnumeratedValueInfo enumerationInfo : enumerationInfos) {
                 if (enumerationInfo.getCode().equals("STD")) {
@@ -78,15 +78,15 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
             throw new RuntimeException("No subject areas found! There should be some in the database", e);
         } catch (InvalidParameterException e) {
             throw new RuntimeException(e);
-        } catch (PermissionDeniedException e) {
-            throw new RuntimeException(e);
         } catch (MissingParameterException e) {
             throw new RuntimeException(e);
         } catch (OperationFailedException e) {
             throw new RuntimeException(e);
+        } catch (PermissionDeniedException e) {
+            throw new RuntimeException(e);
         }
 
-        return keyValues;
+    return keyValues;
     }
 
     protected EnumerationManagementService getEnumerationManagementService() {
@@ -96,7 +96,7 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
         return this.enumerationManagementService;
     }
 
-    private class FinalExamComparator implements Comparator {
+    private static class FinalExamComparator implements Comparator {
 
         @Override
         public int compare(Object o1, Object o2) {

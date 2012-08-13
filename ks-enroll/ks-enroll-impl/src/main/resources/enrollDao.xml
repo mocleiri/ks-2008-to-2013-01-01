@@ -51,16 +51,12 @@
     <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
-    
-    <bean id="holdRichTextDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldRichTextDao">
-    	<property name="em" ref="enrollEntityManager"/>
-    </bean>   
-    
-    <bean id="holdDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldDao">
+     
+    <bean id="appliedHoldDao" class="org.kuali.student.enrollment.class1.hold.dao.AppliedHoldDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
     
-    <bean id="issueDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao">
+    <bean id="holdIssueDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
     
@@ -80,15 +76,15 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-   <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao">
+   <bean id="resultValuesGroupDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="resultValueDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao">
+    <bean id="resultValueDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValueDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="resultScaleDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao">
+    <bean id="resultScaleDao" class="org.kuali.student.r2.lum.lrc.dao.ResultScaleDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
@@ -109,15 +105,15 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="processDao" class="org.kuali.student.r2.core.class1.process.dao.ProcessDao">
+    <bean id="processDao" class="org.kuali.student.r2.core.process.dao.ProcessDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="instructionDao" class="org.kuali.student.r2.core.class1.process.dao.InstructionDao">
+    <bean id="instructionDao" class="org.kuali.student.r2.core.process.dao.InstructionDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="checkDao" class="org.kuali.student.r2.core.class1.process.dao.CheckDao">
+    <bean id="checkDao" class="org.kuali.student.r2.core.process.dao.CheckDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
@@ -151,6 +147,15 @@
         <property name="em" ref="enrollEntityManager" />
     </bean>
 
+    <!-- Population Dao -->
+    <bean id="populationDao" class="org.kuali.student.r2.core.population.dao.PopulationDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="populationRuleDao" class="org.kuali.student.r2.core.population.dao.PopulationRuleDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
     <!-- Search Dao needs an implementation at some point -->
     <bean id="searchDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao">
         <property name="em" ref="enrollEntityManager"/>
@@ -160,5 +165,17 @@
     <bean id="enumValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
+    <!-- Organization Service -->
+    <bean id="orgDao" class="org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="extendedOrgDao" class="org.kuali.student.r2.core.class1.organization.dao.ExtendedOrgDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao">
+    <property name="em" ref="enrollEntityManager" />
+</bean>
 
 </beans>

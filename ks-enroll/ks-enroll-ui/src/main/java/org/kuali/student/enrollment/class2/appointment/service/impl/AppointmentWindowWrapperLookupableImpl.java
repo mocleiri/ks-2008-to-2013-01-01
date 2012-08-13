@@ -12,7 +12,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
@@ -139,11 +139,11 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
                     windowWrapper.setAssignedPopulationName(population.getName());
                     windowWrapper.setWindowTypeKey(window.getTypeKey());
 
-                    windowWrapper.setStartDate(_parseDate(window.getStartDate()));
+                    windowWrapper.setStartDate(window.getStartDate());
                     windowWrapper.setStartTime(_parseTime(window.getStartDate()));
                     windowWrapper.setStartTimeAmPm(_parseAmPm(window.getStartDate()));
 
-                    windowWrapper.setEndDate(_parseDate(window.getEndDate()));
+                    windowWrapper.setEndDate(window.getEndDate());
                     windowWrapper.setEndTime(_parseTime(window.getEndDate()));
                     windowWrapper.setEndTimeAmPm(_parseAmPm(window.getEndDate()));
 
@@ -171,10 +171,6 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
         return df.format(date);
     }
 
-    private Date _parseDate(Date date) {
-        return date;
-    }
-
     public AcademicCalendarService getAcalService() {
         if(academicCalendarService == null) {
             academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
@@ -200,7 +196,7 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
 
     public PopulationService getPopulationService() {
         if(populationService == null) {
-            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, PopulationService.class.getSimpleName()));
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationMockService")); // TODO: Fix with real service
         }
         return populationService;
     }

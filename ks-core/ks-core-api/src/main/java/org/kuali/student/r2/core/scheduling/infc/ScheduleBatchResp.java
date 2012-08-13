@@ -28,7 +28,7 @@ public interface ScheduleBatchResp extends IdNamelessEntity{
 
     /**
      * Date when the batch was submitted
-     *
+     * 
      * @name Submitted Date
      * @required
      */
@@ -43,7 +43,7 @@ public interface ScheduleBatchResp extends IdNamelessEntity{
 
     /**
      * Overall status of the scheduling transaction
-     *
+     * 
      * @name Status
      */
     public Status getFinalStatus();

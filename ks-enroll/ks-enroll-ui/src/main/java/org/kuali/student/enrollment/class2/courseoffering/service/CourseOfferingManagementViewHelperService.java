@@ -1,8 +1,9 @@
 package org.kuali.student.enrollment.class2.courseoffering.service;
 
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.List;
@@ -20,5 +21,11 @@ public interface CourseOfferingManagementViewHelperService {
     public void loadCourseOfferingsByTermAndSubjectCode (String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception;
     public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception;
 
-    public ActivityOfferingInfo createActivityOfferings(String formatOfferingId,String activityId,int noOfActivityOfferings, CourseOfferingInfo courseOfferingInfo);
+    public void createActivityOfferings(String formatOfferingId,String activityId,int noOfActivityOfferings, CourseOfferingManagementForm form);
+
+    public void changeActivityOfferingsState(List<ActivityOfferingWrapper> aoList,String selectedAction) throws Exception;
+
+    public void markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers) throws Exception;
+
+    public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form, CourseOfferingInfo courseOfferingInfo);
 }

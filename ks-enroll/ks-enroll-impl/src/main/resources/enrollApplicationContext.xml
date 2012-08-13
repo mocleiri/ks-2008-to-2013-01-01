@@ -24,15 +24,14 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="atpServiceOnBus" parent="atpServiceValidation" />
   <bean id="acalServiceOnBus" parent="acalServiceValidation" />
   <bean id="courseOfferingServiceOnBus" parent="courseOfferingValidation" />
+  <bean id="holdServiceOnBus" parent="holdValidation" />
 
   <!-- declare beans here -->
   <!-- declare impls here -->
-  <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
+  <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
     <property name="lprDao" ref="lprDao" />
-    <property name="lprRosterDao" ref="lprRosterDao" />
-    <property name="lprTransDao" ref="lprTrasactionDao" />
-    <property name="lprTransItemDao" ref="lprTrasactionItemDao" />
-      <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
+    <property name="lprTransactionDao" ref="lprTrasactionDao" />
+    <property name="lprTransactionItemDao" ref="lprTrasactionItemDao" />
   </bean>
 
 
@@ -99,21 +98,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
  <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
 
-  <bean id="regRequestAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler">
-  </bean>
-
-
-  <bean id="regResponseAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler">
-  </bean>
-  <bean id="courseRegistrationAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler">
-  </bean>
-
   <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
     <property name="lprService" ref="lprServiceOnBus" />
     <property name="courseOfferingService" ref="courseOfferingServiceOnBus" />
-    <property name="regRequestAssembler" ref="regRequestAssembler" />
-    <property name="regResponseAssembler" ref="regResponseAssembler" />
-    <property name="courseRegistrationAssembler" ref="courseRegistrationAssembler" />
   </bean>
 
 
@@ -127,12 +114,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="permissionService" class="org.kuali.rice.kim.impl.permission.PermissionServiceImpl" />
 
   <!-- decorators -->
-  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
+  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceValidationDecorator">
     <property name="nextDecorator" ref="lprService" />
   </bean>
 
   <bean id="lprServiceAuthorization"
-    class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceAuthorizationDecorator">
+    class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceAuthorizationDecorator">
     <property name="nextDecorator" ref="lprServiceValidation" />
     <property name="permissionService" ref="permissionService" />
   </bean>
@@ -158,6 +145,14 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean id="enrollmentFeeDao" class="org.kuali.student.r2.core.fee.dao.EnrollmentFeeDao"/>
     <bean id="feeService" class="org.kuali.student.r2.core.fee.service.impl.FeeServiceImpl">
         <property name="enrollmentFeeDao" ref="enrollmentFeeDao"/>
+    </bean>
+
+    <bean id="populationDao" class="org.kuali.student.r2.core.population.dao.PopulationDao"/>
+    <bean id="populationRuleDao" class="org.kuali.student.r2.core.population.dao.PopulationRuleDao"/>
+    <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.PopulationServiceImpl">
+        <property name="populationDao" ref="populationDao"/>
+        <property name="populationRuleDao" ref="populationRuleDao"/>
+        <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
 
     <!-- TODO: this is a duplicate definition -->

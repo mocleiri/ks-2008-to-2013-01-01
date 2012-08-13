@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.appointment.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -86,7 +85,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
         //Check for exceptions
         if(terms == null || terms.isEmpty()){
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_TERMS_FOUND);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_TERMS_FOUND);
             return; //Nothing found
         }
 
@@ -123,7 +122,9 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
         //Check if there are no periods (might want to handle this somewhere else and surface to the user)
         if(form.getPeriodMilestones()==null||form.getPeriodMilestones().isEmpty()){
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
+            //GlobalVariables.getMessageMap().putErrorForSectionId("KS-RegistrationWindowsManagement-SelectTermPage", AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
+            //GlobalVariables.getMessageMap().putError("termType", AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
         }
 
     }

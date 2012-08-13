@@ -24,16 +24,23 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.infc.Enumeration;
 
-import javax.persistence.*;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "KSEM_ENUM_T")
+@Table(name = "KSEN_ENUM_T")
 @AttributeOverrides({
-        @AttributeOverride(name = "id", column = @Column(name = "ENUM_KEY"))})
+    @AttributeOverride(name="id", column=@Column(name="ENUM_KEY"))})
 public class EnumerationEntity extends MetaEntity implements AttributeOwner<EnumerationAttributeEntity> {
 
     @Column(name = "NAME")
@@ -51,11 +58,10 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
     @Column(name = "ENUM_STATE", nullable = false)
     private String enumerationState;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private Set<EnumerationAttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<EnumerationAttributeEntity> attributes = new HashSet<EnumerationAttributeEntity>();
 
-    public EnumerationEntity() {
-    }
+    public EnumerationEntity() {}
 
     public EnumerationEntity(Enumeration enumeration) {
         super(enumeration);
@@ -65,7 +71,9 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
             this.setDescrFormatted(enumeration.getDescr().getFormatted());
             this.setDescrPlain(enumeration.getDescr().getPlain());
         }
-
+        if (enumeration.getStateKey() != null) {
+            this.setEnumerationState(enumeration.getStateKey());
+        }
         this.setAttributes(new HashSet<EnumerationAttributeEntity>());
         if (null != enumeration.getAttributes()) {
             for (Attribute att : enumeration.getAttributes()) {
@@ -84,7 +92,6 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
 
     public String getDescrFormatted() {
         return formatted;
-
     }
 
     public void setDescrFormatted(String formatted) {
@@ -93,7 +100,6 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
 
     public String getDescrPlain() {
         return plain;
-
     }
 
     public void setDescrPlain(String plain) {
@@ -102,7 +108,6 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
 
     public String getEnumerationType() {
         return enumerationType;
-
     }
 
     public void setEnumerationType(String enumerationType) {
@@ -111,7 +116,6 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
 
     public String getEnumerationState() {
         return enumerationState;
-
     }
 
     public void setEnumerationState(String enumerationState) {
@@ -126,7 +130,6 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
     @Override
     public Set<EnumerationAttributeEntity> getAttributes() {
         return attributes;
-
     }
 
     public EnumerationInfo toDto() {

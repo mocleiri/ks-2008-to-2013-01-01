@@ -21,7 +21,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.hold.dto.IssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -40,7 +39,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:ks-krms-test-context.xml"})
-// @Ignore
+@Ignore
 public class TestKSKRMSTermResolvers {
 	private KrmsTypeResolver typeResolver;
 	

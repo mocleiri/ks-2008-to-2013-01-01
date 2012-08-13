@@ -21,8 +21,10 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.web.form.InquiryForm;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
@@ -31,8 +33,11 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 //import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
@@ -49,7 +54,8 @@ public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase 
     private static final long serialVersionUID = 1L;
 
     private CourseService courseService;
-//    private LRCService lrcService;
+    private LRCService lrcService;
+    private ContextInfo contextInfo = null;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -57,41 +63,31 @@ public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase 
         List<String> gradingOptions;
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        MaintenanceForm form1 = (MaintenanceForm)model;
-        CourseOfferingEditWrapper form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
+        Object dataObject = null;
+        CourseOfferingEditWrapper form = null;
+        if (model instanceof MaintenanceForm) {
+            MaintenanceForm form1 = (MaintenanceForm)model;
+            form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
+        } else if (model instanceof InquiryForm) {
+            InquiryForm form1 = (InquiryForm)model;
+            form = (CourseOfferingEditWrapper)form1.getDataObject();
+        }
 
-        String courseId = form.getCoInfo().getCourseId();
-
-        if (courseId != null) {
+        if (form.getStudentRegOptions() != null) {
+            ResultValuesGroupInfo rvg;
             try {
-                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId, null);
-                gradingOptions = courseInfo.getGradingOptions();
-            } catch (DoesNotExistException e) {
-                throw new RuntimeException("No subject areas found! There should be some in the database", e);
-            } catch (InvalidParameterException e) {
-                throw new RuntimeException(e);
-            } catch (MissingParameterException e) {
-                throw new RuntimeException(e);
-            } catch (OperationFailedException e) {
-                throw new RuntimeException(e);
-            } catch (PermissionDeniedException e) {
-                throw new RuntimeException(e);
-            }
-
-            Set<String> studentRegOpts  = new HashSet<String>(Arrays.asList(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS));
-            for(String gradingOption: gradingOptions) {
-                if (studentRegOpts.contains(gradingOption)) {
-                    // TODO: need to retrieve the value based on key gradingOption, however there is no table yet
-                    // (need enroll alternative of KSLR_RESCOMP that we can call with LRCService)
-                    // So for time-being putting "manual" logic
-                    if (gradingOption.equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
-                        keyValues.add(new ConcreteKeyValue(gradingOption, "Audit"));
-                    } else if (gradingOption.equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
-                        keyValues.add(new ConcreteKeyValue(gradingOption, "Pass / Fail"));
-                    } else {
-                        keyValues.add(new ConcreteKeyValue(gradingOption, gradingOption));
+                for(String studentGradingOption : form.getStudentRegOptions()) {
+                    rvg = getLrcService().getResultValuesGroup(studentGradingOption, getContextInfo());
+                    if (null != rvg) {
+                        keyValues.add(new ConcreteKeyValue(studentGradingOption, rvg.getName()));
+                    }
+                    else {
+                        keyValues.add(new ConcreteKeyValue(studentGradingOption, studentGradingOption));
                     }
                 }
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
 
@@ -105,10 +101,18 @@ public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase 
         return this.courseService;
     }
 
-/*    protected LRCService getLrcService() {
+    protected LRCService getLrcService() {
         if(lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lrc", "LrcService"));
+            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.lrcService;
-    } */
+    }
+
+    protected ContextInfo getContextInfo() {
+        if (contextInfo == null){
+            contextInfo =  ContextBuilder.loadContextInfo();
+        }
+        return contextInfo;
+    }
+
 }

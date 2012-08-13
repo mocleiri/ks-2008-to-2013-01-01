@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.junit.Test;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public class TestCourseOfferingCodeGeneratorImpl {
         for(char c='A';c<='Z';c++){
             ActivityOfferingInfo a = new ActivityOfferingInfo();
             a.setActivityCode(String.valueOf(c));
+
             aos.add(a);
         }
         code = impl.generateActivityOfferingCode(aos);
@@ -52,5 +54,51 @@ public class TestCourseOfferingCodeGeneratorImpl {
         code = impl.generateActivityOfferingCode(aos);
         assertEquals("D",code);
 
+    }
+
+    @Test
+    public void testGetNextCode(){
+        CourseOfferingCodeGeneratorImpl impl = new CourseOfferingCodeGeneratorImpl();
+        assertEquals("A",impl.getNextCode(""));
+        assertEquals("E",impl.getNextCode("D"));
+        assertEquals("AA",impl.getNextCode("Z"));
+        assertEquals("AF",impl.getNextCode("AE"));
+        assertEquals("BA",impl.getNextCode("AZ"));
+        assertEquals("BF",impl.getNextCode("BE"));
+        assertEquals("ZB",impl.getNextCode("ZA"));
+        assertEquals("AAA",impl.getNextCode("ZZ"));
+        assertEquals("AAF",impl.getNextCode("AAE"));
+        assertEquals("ABA",impl.getNextCode("AAZ"));
+        assertEquals("ABG",impl.getNextCode("ABF"));
+        assertEquals("AAAA",impl.getNextCode("ZZZ"));
+        assertEquals("AAEB",impl.getNextCode("AAEA"));
+        assertEquals("AAZB",impl.getNextCode("AAZA"));
+        assertEquals("ABAA",impl.getNextCode("AAZZ"));
+        assertEquals("AZAC",impl.getNextCode("AZAB"));
+        assertEquals("ZZZD",impl.getNextCode("ZZZC"));
+        assertEquals("AAAAA",impl.getNextCode("ZZZZ"));
+    }
+
+    @Test
+    public void testGenerateCourseOfferingInternalCode(){
+        CourseOfferingCodeGeneratorImpl impl = new CourseOfferingCodeGeneratorImpl();
+        String code;
+        code = impl.generateCourseOfferingInternalCode(new ArrayList<CourseOfferingInfo>());
+        assertEquals("A",code);
+
+        List<CourseOfferingInfo> cos = new ArrayList<CourseOfferingInfo>();
+        for(char c='A';c<='Z';c++){
+            CourseOfferingInfo a = new CourseOfferingInfo();
+            a.setCourseNumberInternalSuffix(String.valueOf(c));
+
+            cos.add(a);
+        }
+        code = impl.generateCourseOfferingInternalCode(cos);
+        assertEquals("AA",code);
+
+        cos.remove(3);
+
+        code = impl.generateCourseOfferingInternalCode(cos);
+        assertEquals("D",code);
     }
 }

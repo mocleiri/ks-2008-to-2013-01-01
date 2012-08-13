@@ -19,8 +19,10 @@ package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.web.form.InquiryForm;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -31,8 +33,14 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.mock.utilities.TestHelper;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-//import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -48,50 +56,33 @@ public class GradingOptionsKeyValues extends UifKeyValuesFinderBase implements S
     private static final long serialVersionUID = 1L;
 
     private CourseService courseService;
-//    private LRCService lrcService;
+    private LRCService lrcService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 
-        List<String> gradingOptions;
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        ContextInfo context = TestHelper.getContext1();
 
-        MaintenanceForm form1 = (MaintenanceForm)model;
-        CourseOfferingEditWrapper form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
+        CourseOfferingEditWrapper form = null;
+        if (model instanceof MaintenanceForm) {
+            MaintenanceForm form1 = (MaintenanceForm)model;
+            form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
+        } else if (model instanceof InquiryForm) {
+            InquiryForm form1 = (InquiryForm)model;
+            form = (CourseOfferingEditWrapper)form1.getDataObject();
+        }
 
-        String courseId = form.getCoInfo().getCourseId();
+        if (form.getCrsGradingOptions() != null) {
+           for(String crsGradingOption : form.getCrsGradingOptions()) {
+               try {
+                   ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(crsGradingOption, context);  // gradingOption = LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER || LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL
+                   keyValues.add(new ConcreteKeyValue(rvg.getKey(), rvg.getName()));
+               } catch (Exception e) {
+                   throw new RuntimeException("Error looking up grading option",e);
+               }
 
-        if (courseId != null) {
-            try {
-                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId, null);
-                gradingOptions = courseInfo.getGradingOptions();
-            } catch (DoesNotExistException e) {
-                throw new RuntimeException("No subject areas found! There should be some in the database", e);
-            } catch (InvalidParameterException e) {
-                throw new RuntimeException(e);
-            } catch (MissingParameterException e) {
-                throw new RuntimeException(e);
-            } catch (OperationFailedException e) {
-                throw new RuntimeException(e);
-            } catch (PermissionDeniedException e) {
-                throw new RuntimeException(e);
-            }
-
-            Set<String> studentRegOpts  = new HashSet<String>(Arrays.asList(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS));
-            for(String gradingOption: gradingOptions) {
-                if (!studentRegOpts.contains(gradingOption)) {
-                    // TODO: need to retrieve the value based on key gradingOption, however there is no table yet
-                    // (need enroll alternative of KSLR_RESCOMP that we can call with LRCService - based on type)
-                    // So for time-being putting "manual" logic
-                    if (gradingOption.equals("kuali.resultComponent.grade.letter")) {
-                        keyValues.add(new ConcreteKeyValue(gradingOption, "Letter"));
-                    } else if (gradingOption.equals("kuali.resultComponent.grade.satisfactory")) {
-                        keyValues.add(new ConcreteKeyValue(gradingOption, "Satisfactory/Unsatisfactory"));
-                    } else {
-                        keyValues.add(new ConcreteKeyValue(gradingOption, gradingOption));
-                    }
-                }
-            }
+           }
         }
 
         return keyValues;
@@ -104,10 +95,10 @@ public class GradingOptionsKeyValues extends UifKeyValuesFinderBase implements S
         return this.courseService;
     }
 
-/*    protected LRCService getLrcService() {
+    protected LRCService getLrcService() {
         if(lrcService == null) {
             lrcService = (LRCService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lrc", "LrcService"));
         }
         return this.lrcService;
-    } */
+    }
 }

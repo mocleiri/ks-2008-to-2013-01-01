@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.courseofferingset.infc;
 
+import java.util.Date;
 import java.util.List;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
@@ -98,36 +99,36 @@ public interface SocRolloverResult
 
     /**
      * Number of course offerings created 
-     *
+     *     
      * @name Course Offerings Created
-     * @readOnly
+     * @readOnly 
      * @impl set during the #rolloverSoc operation
      */
     public Integer getCourseOfferingsCreated();
 
     /**
      * Number of course offerings skipped (not rolled over)
-     *
+     *     
      * @name Course Offerings Skipped
-     * @readOnly
+     * @readOnly 
      * @impl set during the #rolloverSoc operation
      */
     public Integer getCourseOfferingsSkipped();
 
     /**
      * Number of activity offerings created 
-     *
+     *     
      * @name Activity Offerings Created
-     * @readOnly
+     * @readOnly 
      * @impl set during the #rolloverSoc operation
      */
     public Integer getActivityOfferingsCreated();
 
     /**
      * Number of activity offerings skipped (not rolled over)
-     *
+     *     
      * @name Activity Offerings Skipped
-     * @readOnly
+     * @readOnly 
      * @impl set during the #rolloverSoc operation
      */
     public Integer getActivityOfferingsSkipped();
@@ -136,8 +137,18 @@ public interface SocRolloverResult
      * Get the target term Id
      *
      * @name Source Term Id
-     * @readOnly
+     * @readOnly 
      * @impl set during the #rolloverSoc operation
      */
     public String getSourceTermId();
+
+    /**
+     * Get date that the rollover started on.  Date includes hours/minutes/seconds.
+     */
+    public Date getDateInitiated();
+
+    /**
+     * Get the date that the rollover completed.  Date includes hours/minutes/seconds.
+     */
+    public Date getDateCompleted();
 }

@@ -6,6 +6,8 @@ import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.HasAttributes;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -30,6 +32,7 @@ public class TransformUtility {
 
         // Existing Attributes
         Map<String, A> existingAttributes = new HashMap<String, A>();
+        Map<String, Attribute> dtoAttributes = new HashMap<String, Attribute>();
 
         // Find all the old attributes and add to existing attributes map
         if(owner.getAttributes()!=null){
@@ -38,11 +41,16 @@ public class TransformUtility {
             }
         }
 
+        for (Attribute attribute : dto.getAttributes()) {
+            dtoAttributes.put(attribute.getKey(), attribute);
+        }
+
         //Clear out the attributes
         Set<A> attributes = new HashSet<A>();
 
         //Update anything that exists, or create a new attribute if it doesn't
-        for (Attribute attributeInfo: dto.getAttributes()) {
+        for (Map.Entry<String, Attribute> entry : dtoAttributes.entrySet()) {
+            Attribute attributeInfo = entry.getValue();
             A attribute;
             if (existingAttributes.containsKey(attributeInfo.getKey())) {
                 attribute = existingAttributes.remove(attributeInfo.getKey());
@@ -86,4 +94,106 @@ public class TransformUtility {
 
         return attributes;
     }
+    // ======================================================================================================
+    // Pick a format that is human readable.  Year-month-day is kinda neutral way to represent a date
+    // so that it isn't the US month-day-year, nor other places day-month-year.  The advantage of using this over
+    // a more agnostic UTC representation (i.e., milliseconds since Jan 1, 1970) is that
+    // Used in the two methods below for SimpleDateFormat
+    public static final String DYNAMIC_ATTRIBUTE_DATE_FORMAT = "yyyy MMM d HH:mm:ss zzz";
+
+    /**
+     * dateTime refers to a date where hours/minutes/seconds are important in addition to the month day year
+     * This is used to convert to and from a dynamic attribute which requires a string format.
+     * @param date A date object to convert
+     * @return The string version to save it as a dynamic attribute
+     */
+    public static String dateTimeToDynamicAttributeString(Date date) {
+        if (date == null) {
+            return null;
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat(DYNAMIC_ATTRIBUTE_DATE_FORMAT);
+        String formattedDate = formatter.format(date);
+        return formattedDate;
+    }
+
+    /**
+     * Takes a dynamic attribute representing
+     * @param formattedDateStr
+     * @return
+     * @throws ParseException
+     */
+    public static Date dynamicAttributeStringToDateTime(String formattedDateStr) throws ParseException {
+        if (formattedDateStr == null) {
+            return null;
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat(DYNAMIC_ATTRIBUTE_DATE_FORMAT);
+        Date date = formatter.parse(formattedDateStr);
+        return date;
+    }
+    // ------------------------ For Dynamic Attributes ---------------------------------
+    private static Map<Class, DynAttrConverter<? extends Object>> dynAttrConverterMap =
+            new HashMap<Class, DynAttrConverter<? extends Object>>();
+
+    private static DynAttrConverter<Date> dateDynAttrConverter = null;
+    private static DynAttrConverter<Date> _getDateDynamicAttributeConverter() {
+        if (dateDynAttrConverter == null) {
+            dateDynAttrConverter = new DynAttrConverter<Date>() {
+                @Override
+                public String convertNativeValueToString(Date date) {
+                    return dateTimeToDynamicAttributeString(date);
+                }
+
+                @Override
+                public Date convertStringValueToNative(String formattedDateStr) {
+                    try {
+                        return dynamicAttributeStringToDateTime(formattedDateStr);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+            };
+        }
+        return dateDynAttrConverter;
+    }
+
+    private static DynAttrConverter<Integer> intDynAttrConverter = null;
+    private static DynAttrConverter<Integer> _getIntegerDynamicAttributeConverter() {
+        if (intDynAttrConverter == null) {
+            intDynAttrConverter = new DynAttrConverter<Integer>() {
+                @Override
+                public String convertNativeValueToString(Integer val) {
+                    if (val == null) {
+                        return null;
+                    }
+
+                    return val.toString();
+                }
+
+                @Override
+                public Integer convertStringValueToNative(String intStr) {
+                    if (intStr == null) {
+                        return null;
+                    }
+                    try {
+                        Integer intVal = Integer.parseInt(intStr);
+                        return intVal;
+                    } catch (Exception e) {
+                        return null;
+                    }
+                }
+            };
+        }
+        return intDynAttrConverter;
+    }
+   static {
+       dynAttrConverterMap.put(Date.class, _getDateDynamicAttributeConverter());
+       dynAttrConverterMap.put(Integer.class, _getIntegerDynamicAttributeConverter());
+   }
+
+   public static DynAttrConverter<? extends Object> getConverterByClass(Class clazz) {
+       return dynAttrConverterMap.get(clazz);
+   }
 }
+

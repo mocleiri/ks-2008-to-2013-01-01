@@ -23,7 +23,7 @@ import org.kuali.student.r2.common.infc.IdNamelessEntity;
  *
  * @author tom
  * @since Thu Nov 3 14:22:34 EDT 2011
- */
+ */ 
 
 public interface ScheduleResp extends IdNamelessEntity {
 

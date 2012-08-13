@@ -23,7 +23,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;

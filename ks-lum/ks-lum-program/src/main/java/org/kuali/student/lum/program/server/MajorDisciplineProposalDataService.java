@@ -21,7 +21,6 @@ import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 import org.kuali.student.r1.core.atp.dto.AtpInfo;
 import org.kuali.student.r1.core.atp.service.AtpService;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
@@ -89,7 +88,7 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
 				String startTerm = latestStartAtp.getId();
 		    	String endTerm = mdInfo.getEndTerm();
 		    	String endProgramEntryTerm = mdInfo.getEndProgramEntryTerm();
-				String endInstAdmitTerm = mdInfo.getAttributeInfoValue(mdInfo.getAttributes(), ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
+				String endInstAdmitTerm = mdInfo.getAttributeValue(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
 		    	
 		    	//
 		    	Map<String,String> proposalAttributes = new HashMap<String,String>();

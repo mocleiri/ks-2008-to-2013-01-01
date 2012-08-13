@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import org.w3c.dom.Element;
@@ -37,15 +38,16 @@ import org.w3c.dom.Element;
 @XmlType(name = "ActivityOfferingInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
                 "formatOfferingId", "formatOfferingName",
-                "activityId", "termId", "termCode", "activityCode", 
-                "activityNumberSuffix", "scheduleId",
-                "isHonorsOffering", "instructors",
+                "activityId", "termId", "termCode", "activityCode", "scheduleId",
+                "isHonorsOffering", "gradingOptionKeys", "instructors",
                 "weeklyInclassContactHours", "weeklyOutofclassContactHours", 
                 "weeklyTotalContactHours",  "isEvaluated",
                 "maximumEnrollment", "minimumEnrollment","isMaxEnrollmentEstimate",
                 "finalExamStartTime", "finalExamEndTime", 
-                "finalExamSpaceCode", "activityOfferingURL",
-                "courseOfferingId", "courseOfferingTitle", "courseOfferingCode",
+                "finalExamSpaceCode", "activityOfferingURL", 
+                "courseOfferingId", "courseOfferingTitle", 
+                "courseOfferingCode", "hasWaitlist", "waitlistTypeKey",
+                "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingInfo
@@ -73,13 +75,13 @@ public class ActivityOfferingInfo
     private String activityCode;   
 
     @XmlElement
-    private String activityNumberSuffix;   
-    
-    @XmlElement
     private String scheduleId;
 
     @XmlElement
     private Boolean isHonorsOffering;
+
+    @XmlElement
+    private List<String> gradingOptionKeys;
 
     @XmlElement
     private List<OfferingInstructorInfo> instructors;
@@ -126,6 +128,21 @@ public class ActivityOfferingInfo
     @XmlElement
     private String courseOfferingCode;
 
+    @XmlElement
+    private Boolean hasWaitlist;
+
+    @XmlElement
+    private String waitlistTypeKey;
+
+    @XmlElement
+    private Integer waitlistMaximum;
+
+    @XmlElement
+    private Boolean isWaitlistCheckinRequired;
+
+    @XmlElement
+    private TimeAmountInfo waitlistCheckinFrequency;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -150,14 +167,23 @@ public class ActivityOfferingInfo
         }
 
         this.formatOfferingId = offering.getFormatOfferingId();
+        this.formatOfferingName = offering.getFormatOfferingName();
+        
+        this.courseOfferingId = offering.getCourseOfferingId();
+        this.courseOfferingCode = offering.getCourseOfferingCode();
+        this.courseOfferingTitle = offering.getCourseOfferingTitle();
+        
         this.activityId = offering.getActivityId();
         this.termId = offering.getTermId();
         this.scheduleId = offering.getScheduleId();
         this.activityCode = offering.getActivityCode();
-        this.activityNumberSuffix = offering.getActivityNumberSuffix();
 
         this.isHonorsOffering = offering.getIsHonorsOffering();
         this.instructors = new ArrayList<OfferingInstructorInfo>();
+
+        if (offering.getGradingOptionKeys() != null) {
+            this.gradingOptionKeys = new ArrayList<String>(offering.getGradingOptionKeys());
+        }
 
         for (OfferingInstructor instructor : offering.getInstructors()) {
             this.instructors.add(new OfferingInstructorInfo(instructor));
@@ -183,6 +209,12 @@ public class ActivityOfferingInfo
         this.finalExamSpaceCode = offering.getFinalExamSpaceCode();
         this.isEvaluated = offering.getIsEvaluated();
         this.activityOfferingURL = offering.getActivityOfferingURL();
+
+        this.hasWaitlist = offering.getHasWaitlist();
+        this.isWaitlistCheckinRequired = offering.getIsWaitlistCheckinRequired();
+        this.waitlistCheckinFrequency = new TimeAmountInfo(offering.getWaitlistCheckinFrequency());
+        this.waitlistMaximum = offering.getWaitlistMaximum();
+        this.waitlistTypeKey = offering.getWaitlistTypeKey();
     }
 
     @Override
@@ -230,6 +262,7 @@ public class ActivityOfferingInfo
         this.termCode = termCode;
     }
 
+
     @Override
     public String getActivityCode() {
         return activityCode;
@@ -237,15 +270,6 @@ public class ActivityOfferingInfo
 
     public void setActivityCode(String activityCode) {
         this.activityCode = activityCode;
-    }
-
-    @Override
-    public String getActivityNumberSuffix() {
-        return activityNumberSuffix;
-    }
-
-    public void setActivityNumberSuffix(String activityNumberSuffix) {
-        this.activityNumberSuffix = activityNumberSuffix;
     }
 
     @Override
@@ -264,6 +288,19 @@ public class ActivityOfferingInfo
 
     public void setIsHonorsOffering(Boolean isHonorsOffering) {
         this.isHonorsOffering = isHonorsOffering;
+    }
+
+    @Override
+    public List<String> getGradingOptionKeys() {
+        if (gradingOptionKeys == null) {
+            gradingOptionKeys = new ArrayList<String>();
+        }
+
+        return gradingOptionKeys;
+    }
+
+    public void setGradingOptionKeys(List<String> gradingOptionKeys) {
+        this.gradingOptionKeys = gradingOptionKeys;
     }
 
     @Override
@@ -410,5 +447,69 @@ public class ActivityOfferingInfo
         this.courseOfferingTitle = courseOfferingTitle;
     }
 
+    @Override
+    public Boolean getHasWaitlist() {
+        return hasWaitlist;
+    }
 
+    public void setHasWaitlist(Boolean hasWaitlist) {
+        this.hasWaitlist = hasWaitlist;
+    }
+
+    @Override
+    public String getWaitlistTypeKey() {
+        return waitlistTypeKey;
+    }
+
+    public void setWaitlistTypeKey(String waitlistTypeKey) {
+        this.waitlistTypeKey = waitlistTypeKey;
+    }
+
+    @Override
+    public Integer getWaitlistMaximum() {
+        return waitlistMaximum;
+    }
+
+    public void setWaitlistMaximum(Integer waitlistMaximum) {
+        this.waitlistMaximum = waitlistMaximum;
+    }
+
+    @Override
+    public Boolean getIsWaitlistCheckinRequired() {
+        return isWaitlistCheckinRequired;
+    }
+
+    public void setIsWaitlistCheckinRequired(Boolean isWaitlistCheckinRequired) {
+        this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
+    }
+
+    @Override
+    public TimeAmountInfo getWaitlistCheckinFrequency() {
+        return waitlistCheckinFrequency;
+    }
+
+    public void setWaitlistCheckinFrequency(TimeAmountInfo waitlistCheckinFrequency) {
+        this.waitlistCheckinFrequency = waitlistCheckinFrequency;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("ActivityOfferingInfo [id=");
+        builder.append(getId());
+        builder.append (", formatOfferingId=");
+        builder.append(formatOfferingId);
+        builder.append(", formatOfferingName=");
+        builder.append(formatOfferingName);
+        builder.append(", courseOfferingId=");
+        builder.append(courseOfferingId);
+        builder.append(", activityId=");
+        builder.append(activityId);
+        builder.append(", termId=");
+        builder.append(termId);
+        builder.append(", scheduleId=");
+        builder.append(scheduleId);
+        builder.append("]");
+        return builder.toString();
+    }
 }

@@ -29,7 +29,6 @@ import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;

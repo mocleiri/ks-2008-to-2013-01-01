@@ -166,7 +166,7 @@
                             <bean parent="Uif-InputField"
                                   p:propertyName="meanStudentsPerSlot"
                                   p:label="Students Per Slot"
-                                  p:headerText="This displays the most common allotment size (mode), not the average."
+                                  p:instructionalText="This displays the most common allotment size (mode), not the average."
                                   p:readOnly="true"
                                   p:fieldLabel.renderColon="false">
                                 <property name="control">

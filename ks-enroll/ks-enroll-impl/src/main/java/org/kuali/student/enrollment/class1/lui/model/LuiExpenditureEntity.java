@@ -1,8 +1,10 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
 import org.kuali.student.r2.common.assembler.TransformUtility;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.clu.infc.Expenditure;
 
@@ -13,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity

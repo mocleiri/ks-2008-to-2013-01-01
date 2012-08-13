@@ -40,9 +40,36 @@
         </property>
     </bean>
 
-    <bean id="KSLookupView" abstract="true" parent="Uif-LookupView">
+    <bean id="KSLookupView" abstract="true" parent="Uif-KSLookupView-parentBean"/>
+
+    <bean id="Uif-KSLookupView-parentBean" abstract="true"
+          class="org.kuali.student.enrollment.uif.view.KSLookupView" parent="Uif-LookupView">
         <property name="theme">
             <bean parent="KSTheme"/>
+        </property>
+    </bean>
+
+    <!-- try to override the default Uif-LookupView-ResultActions which contains edit, copy and delete.
+         Here we only need edit -->
+    <bean id="KS-LookupView-ResultActions" parent="Uif-LinkGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-lookupView-resultActions</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Link" p:order="10">
+                    <property name="linkText" value="edit"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceEdit</value>
+                        </list>
+                    </property>
+                    <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
+                </bean>
+            </list>
         </property>
     </bean>
 
@@ -55,6 +82,26 @@
     <bean id="KSMaintenanceView" abstract="true" parent="Uif-MaintenanceView">
         <property name="theme">
             <bean parent="KSTheme"/>
+        </property>
+        <property name="header.rightGroup.items">      <!-- In KS, document overview section not needed(document status, create time, doc number etc)-->
+          <list/>
+        </property>
+        <property name="page.header.lowerGroup.items">   <!-- Also, expandall/collapseall not needed-->
+            <list/>
+        </property>
+    </bean>
+
+    <!--Added by Bonnie-->
+    <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
+    <bean id="KSDocumentPageFooter_SubmitCancel" parent="KSDocumentPageFooter_SubmitCancel-parent"/>
+    <bean id="KSDocumentPageFooter_SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                                                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
+                                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
         </property>
     </bean>
 
@@ -104,50 +151,6 @@
         <property name="cssClasses" value="ui-priority-secondary-sm"/>
     </bean>
 
-    <!--<bean id="KSFooterDocument" parent="Uif-FooterBase">
-      <property name="items">
-        <list>
-          <bean parent="Uif-PrimaryActionButton" p:methodToCall="performRouteReport" p:actionLabel="Route Report"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:methodToCall="sendAdHocRequests" p:actionLabel="Send Adhoc"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('route', replacePage);" p:actionLabel="Submit"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('save', replacePage);" p:actionLabel="Save"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('blanketApprove', replacePage);" p:actionLabel="Blanket Approve"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('approve', replacePage);" p:actionLabel="Approve"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:methodToCall="disapprove" p:actionLabel="Disapprove"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:methodToCall="fyi" p:actionLabel="FYI"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
-          <bean parent="Uif-PrimaryActionButton" p:methodToCall="acknowledge" p:actionLabel="Acknowledge"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
-          <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
-          <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-          <bean parent="Uif-ActionLink" p:clientSideJs="validateAndSubmit('copy', replacePage);" p:actionLabel="Copy"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
-        </list>
-      </property>
-    </bean>-->
-
-    <!--<bean id="KSFooter_SubmitCancel" parent="KSFooterDocument">
-      <property name="items">
-        <list>
-            <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('route', replacePage);" p:actionLabel="Submit"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-            <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-        </list>
-      </property>
-    </bean>-->
-
     <bean id="KSHeader_Empty" parent="Uif-HeaderOne">
       <property name="items">
           <list/>
@@ -160,10 +163,28 @@
           p:instructionalMessage.render="false" />
 
     <!-- If the action button is in collection, this will submits the form (useful for redirect) instead of KRAD's default ajax callback and update the collection component -->
-    <bean id="KS-SubmitActionLink" parent="Uif-ActionLink" p:clientSideJs="jq('#kualiForm').submit();" abstract="true" />
+    <bean id="KS-SubmitActionLink" parent="Uif-ActionLink" p:actionScript="jq('#kualiForm').submit();" abstract="true" />
 
+    <bean id="KS-Link" parent="Uif-Link">
+        <property name="lightBox">
+            <bean parent="Uif-LightBox"/>
+        </property>
+        <property name="target" value="_blank"/>
+    </bean>
+
+    <bean id="KS-Edit-Link" parent="KS-Link" p:order="10">
+        <property name="linkText" value="Edit"/>
+        <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>maintenanceEdit</value>
+            </list>
+        </property>
+        <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
+    </bean>
+
+    <!-- currently not being used
     <bean id="KS-Disclosure-HorizontalCollectionSection" parent="KS-Disclosure-HorizontalCollectionSection-parentBean"/>
-
     <bean id="KS-Disclosure-HorizontalCollectionSection-parentBean" parent="Uif-StackedCollectionSection">
         <property name="layoutManager">
           <bean parent="Uif-StackedCollectionLayout-WithGridItems">
@@ -191,6 +212,60 @@
             </property>
           </bean>
         </property>
+    </bean>
+    -->
+
+    <bean id="KS-HorizontalCollectionSection" parent="KS-HorizontalCollectionSection-parent"/>
+    <bean id="KS-HorizontalCollectionSection-parent" parent="Uif-StackedCollectionSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-HorizontalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <!-- IMPORTANT NOTE:
+                     Rice 2.2.0-M1 has a bug such that StackedCollectionLayout-WithBoxItems does not
+                     assign the correct horizontal class to each item, so the items will incorrectly
+                     stack vertically.  To fix this, put the items in a HorizontalFieldGroup element:
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+                    <property name="items">
+                        <list>
+                            { actual list of items }
+                        </list>
+                    </property>
+                </bean>
+                -->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Disclosure-HorizontalCollectionSection" parent="KS-Disclosure-HorizontalCollectionSection-parent"/>
+    <bean id="KS-Disclosure-HorizontalCollectionSection-parent" parent="KS-HorizontalCollectionSection">
+        <property name="disclosure.render" value="true"/>
+    </bean>
+
+    <bean id="KS-HorizontalCollectionSubSection" parent="KS-HorizontalCollectionSubSection-parent"/>
+    <bean id="KS-HorizontalCollectionSubSection-parent" parent="Uif-StackedCollectionSubSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-HorizontalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <!-- IMPORTANT NOTE: See note in KS-HorizontalCollectionSection -->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Disclosure-HorizontalCollectionSubSection" parent="KS-Disclosure-HorizontalCollectionSubSection-parent"/>
+    <bean id="KS-Disclosure-HorizontalCollectionSubSection-parent" parent="KS-HorizontalCollectionSubSection">
+        <property name="disclosure.render" value="true"/>
     </bean>
 
 </beans>

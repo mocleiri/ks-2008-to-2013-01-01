@@ -27,7 +27,6 @@ import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 import org.kuali.student.r2.core.fee.infc.EnrollmentFee;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 

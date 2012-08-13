@@ -10,6 +10,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
@@ -17,11 +18,11 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -61,16 +62,16 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
 
         CourseInfo course = null;
         try {
-            course = getCourseService().getCourse(courseId, null);
-        } catch (org.kuali.student.r2.common.exceptions.OperationFailedException ofe) {
+            course = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
+        } catch (OperationFailedException ofe) {
             System.out.println("call getCourseService().getCourse(courseId), and get OperationFailedException:  " + ofe.toString());
-        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException dnee) {
+        } catch (DoesNotExistException dnee) {
             System.out.println("call getCourseService().getCourse(courseId), and get DoesNotExistException:  " + dnee.toString());
-        } catch (org.kuali.student.r2.common.exceptions.InvalidParameterException ipe) {
+        } catch (InvalidParameterException ipe) {
             System.out.println("call getCourseService().getCourse(courseId), and get InvalidParameterException:  " + ipe.toString());
-        } catch (org.kuali.student.r2.common.exceptions.PermissionDeniedException pde) {
+        } catch (PermissionDeniedException pde) {
             System.out.println("call getCourseService().getCourse(courseId), and get PermissionDeniedException:  " + pde.toString());
-        } catch (org.kuali.student.r2.common.exceptions.MissingParameterException mpe) {
+        } catch (MissingParameterException mpe) {
             System.out.println("call getCourseService().getCourse(courseId), and get MissingParameterException:  " + mpe.toString());
         }
         // TODO - this entire method needs more complete exception handling; then remove this
@@ -106,11 +107,12 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
           throw new RuntimeException (ex);
         }
 
+        /*
         //If grading options not present in course, set a default one in CO
         if (coi.getGradingOptionId() == null || coi.getGradingOptionId().isEmpty()){
             coi.setGradingOptionId(LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER);
         }
-
+        */
         //create a list of instructors
         List<OfferingInstructorInfo> instructors = courseOfferingInfo.getInstructors();
 
@@ -246,8 +248,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             List<OfferingInstructorInfo> instructors =  newCourseOffering.getInstructors();
             for(OfferingInstructorInfo instructor: instructors){
                 instructor.setId(instructor.getPersonId());
-                instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
-                instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+                instructor.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
+                instructor.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
             }
         }
         super.prepareForSave();

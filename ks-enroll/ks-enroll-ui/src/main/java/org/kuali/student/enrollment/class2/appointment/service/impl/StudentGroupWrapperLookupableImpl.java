@@ -24,6 +24,7 @@ import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
@@ -42,6 +43,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
  */
 public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
     private transient PopulationService populationService;
+
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<StudentGroupWrapper> results = new ArrayList<StudentGroupWrapper>();
@@ -69,33 +71,27 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
         try {
             // method returns list of populationinfos.
             java.util.List<PopulationInfo> populationInfos = getPopulationService().searchForPopulations(qBuilder.build(), context);
-            if(!populationInfos.isEmpty()){
-                for(PopulationInfo populationInfo:populationInfos){
-                    StudentGroupWrapper studentGroupWrapper = new StudentGroupWrapper();
-                    studentGroupWrapper.setId(populationInfo.getId());
-                    studentGroupWrapper.setName(populationInfo.getName());
-                    studentGroupWrapper.setDescription(populationInfo.getDescr().getPlain());
-                    results.add(studentGroupWrapper);
-                }
+            for(PopulationInfo populationInfo:populationInfos){
+                StudentGroupWrapper studentGroupWrapper = new StudentGroupWrapper();
+                studentGroupWrapper.setId(populationInfo.getId());
+                studentGroupWrapper.setName(populationInfo.getName());
+                studentGroupWrapper.setDescription(populationInfo.getDescr().getPlain());
+                results.add(studentGroupWrapper);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Error Performing Search",e); //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException("Error Performing Search", e); //To change body of catch statement use File | Settings | File Templates.
         }
         return results;
     }
 
     protected PopulationService getPopulationService() {
-        //populationService is retrieved using global resource loader which is wired in ks-enroll-context.xml
-        if(populationService == null) {
-            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX+"population", "PopulationService"));
+        // populationService is retrieved using global resource loader which is wired in ks-enroll-context.xml
+        if (populationService == null) {
+            // TODO: Fix with real service later on
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationMockService"));
 
         }
         return populationService;
     }
 
-    public static void main(String[] args){
-        StudentGroupWrapperLookupableImpl studentWrapper = new StudentGroupWrapperLookupableImpl();
-        studentWrapper.getPopulationService();
-
-    }
 }

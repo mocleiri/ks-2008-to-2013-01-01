@@ -10,7 +10,6 @@ import org.kuali.student.r1.core.atp.dto.AtpInfo;
 import org.kuali.student.r1.core.atp.service.AtpService;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
@@ -280,8 +279,9 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	    			variation.setEndTerm(endEnrollTerm);
 	    		}
 	    		//compare dates to get the older of the two end terms
-	    		if(variation.getAttributeInfoValue(variation.getAttributes(),"endInstAdmitTerm") != null){
-	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp(variation.getAttributeInfoValue(variation.getAttributes(),"endInstAdmitTerm"));
+                endInstAdmitTerm = variation.getAttributeValue("endInstAdmitTerm");
+	    		if(endInstAdmitTerm != null){
+	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp(endInstAdmitTerm);
 	    			Date variationEndInstAdmitEndDate = variationEndInstAdmitAtp.getEndDate();
 	    			if(majorEndInstAdmitTermEndDate.compareTo(variationEndInstAdmitEndDate)<=0){
 	    				variation.getAttributes().add(new AttributeInfo("endInstAdmitTerm", endInstAdmitTerm));

@@ -17,18 +17,20 @@
 package org.kuali.student.enrollment.class2.courseoffering.util;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.StateServiceConstants;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.common.util.constants.CluServiceConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.common.util.constants.*;
 import org.kuali.student.r2.common.state.service.StateService;
 import org.kuali.student.r2.common.type.service.TypeService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 
@@ -66,8 +68,17 @@ public class CourseOfferingResourceLoader {
     }
 
     public static CluService loadCluService() {
-        CluService cluService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.NAMESPACE,"CluService"));
-        return cluService;
+        CluService luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,"LuService"));
+        return luService;
     }
 
+    public static AcademicCalendarService loadAcademicCalendarService() {
+        AcademicCalendarService acalService = (AcademicCalendarService)GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        return acalService;
+    }
+
+    public static LRCService loadLrcService() {
+        LRCService lrcService = (LRCService)GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+        return lrcService;
+    }
 }

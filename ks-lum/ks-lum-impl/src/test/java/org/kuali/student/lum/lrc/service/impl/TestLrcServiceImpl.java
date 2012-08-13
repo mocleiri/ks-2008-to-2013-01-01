@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.kuali.student.r1.lum.lrc.service.LrcService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -40,7 +41,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
@@ -57,7 +57,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 public class TestLrcServiceImpl extends AbstractServiceTest {
     
 	@Client(value = "org.kuali.student.lum.lrc.service.impl.LrcServiceImpl", additionalContextFile="classpath:lrc-additional-context.xml")
-	public LRCService client;
+	public LrcService client;
 
     @Test
     public void testResultComponentCrud() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -333,20 +333,19 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         assertEquals(7, rctis.size());
     }
 
-// TODO: CM2.0 MERGE :: no more getResultComponentType method
-//    @Test
-//    public void testGetResultComponentType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-//        ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
-//        ResultComponentTypeInfo rcti = client.getResultComponentType("resultComponentType.credential", contextInfo);
-//        assertNotNull(rcti);
-//
-//        try {
-//            rcti = client.getResultComponentType("resultComponentType.credentialYYY", contextInfo);
-//            assertTrue(false);
-//        } catch (DoesNotExistException e) {
-//            assertTrue(true);
-//        }
-//    }
+    @Test
+    public void testGetResultComponentType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+        ResultComponentTypeInfo rcti = client.getResultComponentType("resultComponentType.credential", contextInfo);
+        assertNotNull(rcti);
+
+        try {
+            rcti = client.getResultComponentType("resultComponentType.credentialYYY", contextInfo);
+            assertTrue(false);
+        } catch (DoesNotExistException e) {
+            assertTrue(true);
+        }
+    }
 
     
     public void testBusinessCaseExample() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

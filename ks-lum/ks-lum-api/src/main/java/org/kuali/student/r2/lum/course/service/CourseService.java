@@ -38,7 +38,6 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
 
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;

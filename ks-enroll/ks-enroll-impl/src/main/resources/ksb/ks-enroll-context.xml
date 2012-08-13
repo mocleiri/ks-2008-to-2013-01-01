@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2010 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you 
-  may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.osedu.org/licenses/ECL-2.0 
-  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS 
-  IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language 
+<!-- Copyright 2010 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you
+  may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.osedu.org/licenses/ECL-2.0
+  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS
+  IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
   governing permissions and limitations under the License. -->
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -18,22 +18,18 @@
   <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
 
-  <!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> <property name="properties" 
-    value="#{bootstrapConfig.getProperties()}" /> </bean> <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean"> 
-    <property name="configLocations"> <list> <value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value> 
-    </list> </property> </bean> <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"> <property name="staticMethod" 
-    value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" /> <property name="arguments"> <list><ref bean="bootstrapConfig"/></list> 
-    </property> </bean> <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer"> <property 
+  <!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> <property name="properties"
+    value="#{bootstrapConfig.getProperties()}" /> </bean> <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
+    <property name="configLocations"> <list> <value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
+    </list> </property> </bean> <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"> <property name="staticMethod"
+    value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" /> <property name="arguments"> <list><ref bean="bootstrapConfig"/></list>
+    </property> </bean> <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer"> <property
     name="localServiceName" value="KSLumContext"/> </bean> -->
   <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
   <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
   <import resource="classpath:enrollDao.xml" />
-  <import resource="classpath:ksb/ks-lu-context.xml" />
+  <import resource="classpath:ksb/ks-lu-no-tx-context.xml" />
   <import resource="classpath:statement-context.xml" />
-
-  <!-- JTA -->
-  <tx:annotation-driven transaction-manager="transactionManager" />
-
 
   <bean id="enrollDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
     <property name="transactionManager" ref="userTransaction" />
@@ -120,8 +116,8 @@
   <!-- change id to "acalServiceImpl" if the above bean is used -->
   <bean id="acalServiceImpl" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     <property name="atpService" ref="atpEnrService" />
-    <property name="stateService" ref="stateService" />
-    <property name="typeService" ref="typeService" />
+    <property name="stateService" ref="stateServiceCacheDecorator" />
+    <property name="typeService" ref="typeServiceCacheDecorator" />
     <property name="acalAssembler" ref="acalAssembler" />
     <property name="termAssembler" ref="termAssembler" />
     <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
@@ -151,11 +147,11 @@
   <bean id="holidayCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler" />
 
   <bean id="holidayAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler" />
-  
+
   <bean id="keyDateAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.KeyDateAssembler" />
 
   <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
-  
+
   <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
   <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
@@ -165,16 +161,25 @@
     <property name="lifecycleDao" ref="lifecycleDao" />
   </bean>
 
-  <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+    <bean id="stateServiceCacheDecorator" class="org.kuali.student.r2.core.class1.state.decorators.StateServiceCacheDecorator">
+        <property name="nextDecorator" ref="stateService" />
+    </bean>
+
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
     <property name="typeDao" ref="typeDao" />
     <property name="typeTypeRelationDao" ref="typeTypeRelationDao" />
   </bean>
 
-  <bean id="ks.exp.typeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+  <bean id="typeServiceCacheDecorator" class="org.kuali.student.r2.core.class1.type.decorators.TypeServiceCacheDecorator">
+     <property name="nextDecorator" ref="typeService" />
+  </bean>
+
+
+    <bean id="ks.exp.typeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">
       <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
         <property name="jaxWsService" value="true" />
-        <property name="service" ref="typeService" />
+        <property name="service" ref="typeServiceCacheDecorator" />
         <property name="serviceInterface" value="org.kuali.student.r2.core.type.service.TypeService" />
         <property name="localServiceName" value="TypeService" />
         <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/type" />
@@ -188,7 +193,7 @@
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="stateService" />
+                <property name="service" ref="stateServiceCacheDecorator" />
                 <property name="serviceInterface" value="org.kuali.student.r2.core.state.service.StateService" />
                 <property name="localServiceName" value="StateService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/state" />
@@ -197,6 +202,7 @@
         </property>
     </bean>
 
+    <!--- Fee Service -->
     <bean id="feeService" class="org.kuali.student.r2.core.fee.service.impl.FeeServiceImpl">
     <property name="enrollmentFeeDao" ref="enrollmentFeeDao" />
   </bean>
@@ -214,9 +220,6 @@
     </property>
   </bean>
 
-  <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
-
-
   <!-- Exception mapping. This is needed because many operations are proxied and do not throw exceptions until a later time -->
   <bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
     <property name="defaultException" value="org.kuali.student.r2.common.exceptions.OperationFailedException" />
@@ -229,11 +232,11 @@
   </bean>
   <aop:config>
     <aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
-      <aop:after-throwing pointcut="execution(* org.kuali.student.lum.lu.service.impl.CluServiceImpl.*(..))"
+      <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />
-      <aop:after-throwing pointcut="execution(* org.kuali.student.lum.lrc.service.impl.LrcServiceImpl.*(..))"
+      <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />
-      <aop:after-throwing pointcut="execution(* org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl.*(..))"
+      <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lo.service.impl.LearningObjectiveServiceImpl.*(..))"
         method="afterThrowing" throwing="ex" />
     </aop:aspect>
   </aop:config>
@@ -298,15 +301,21 @@
         <property name="rgAssembler" ref="rgAssembler" />
         <property name="courseService" ref="courseServiceImpl" />
         <property name="acalService" ref="acalService" />
-        <property name="stateService" ref="stateService" />
+        <property name="stateService" ref="stateServiceCacheDecorator" />
         <property name="lprService" ref="lprPersistenceService" />
         <property name="criteriaLookupService" ref="criteriaLookupService" />
-        <property name="typeService" ref="typeService" />
+        <property name="typeService" ref="typeServiceCacheDecorator" />
         <property name="businessLogic" ref="coBusinessLogic" />
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator" />
+        <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
+        <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao" />
   </bean>
 
    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+   <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
+       <property name="lprService" ref="lprPersistenceService" />
+       <property name="lrcService" ref="lrcPersistenceService" />
+   </bean>
 
    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseServiceImpl" />
@@ -328,6 +337,7 @@
 
   <bean id="coMockService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
     <property name="courseService" ref="courseServiceImpl" />
+    <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
   </bean>
 
   <bean id="ks.exp.courseOfferingMockService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -383,7 +393,7 @@
         </property>
     </bean>
 
-  <bean id="statementServiceImpl" class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
+  <bean id="statementServiceImpl" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
     <property name="statementDao" ref="statementDao" />
     <property name="searchManager" ref="statementSearchManager" />
     <property name="dictionaryServiceDelegate" ref="dictionaryService" />
@@ -392,37 +402,35 @@
     <property name="validatorFactory" ref="validatorFactory" />
   </bean>
 
-  <bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
+  <bean id="dictionaryService" class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
     <constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
   </bean>
 
-  <bean id="validatorFactory" class="org.kuali.student.common.validator.ValidatorFactory">
+  <bean id="validatorFactory" class="org.kuali.student.r2.common.validator.ValidatorFactory">
     <property name="defaultValidator" ref="businessServiceValidator" />
   </bean>
 
   <bean id="businessServiceValidator" class="org.kuali.student.r2.common.service.impl.NoOpDefaultValidatorImpl" />
 
-  <bean id="statementDao" class="org.kuali.student.core.statement.dao.impl.StatementDaoImpl">
+  <bean id="statementDao" class="org.kuali.student.r1.core.statement.dao.impl.StatementDaoImpl">
     <property name="em" ref="enrollEntityManager" />
   </bean>
 
-  <bean id="statementSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+  <bean id="statementSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
     <constructor-arg index="0" value="classpath:statement-search-config.xml" />
   </bean>
 
-  <bean id="statementAssembler" class="org.kuali.student.core.statement.service.impl.StatementAssembler">
+  <bean id="statementAssembler" class="org.kuali.student.r1.core.statement.service.impl.StatementAssembler">
     <property name="statementDao" ref="statementDao" />
   </bean>
 
-  <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
+  <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
     <property name="lprDao" ref="lprDao" />
-    <property name="lprRosterDao" ref="lprRosterDao" />
-    <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
-    <property name="lprTransDao" ref="lprTrasactionDao" />
-    <property name="lprTransItemDao" ref="lprTrasactionItemDao" />
+    <property name="lprTransactionDao" ref="lprTrasactionDao" />
+    <property name="lprTransactionItemDao" ref="lprTrasactionItemDao" />
   </bean>
 
-  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
+  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceValidationDecorator">
     <property name="nextDecorator" ref="lprPersistenceService" />
     <property name="validator" ref="validator" />
   </bean>
@@ -432,11 +440,12 @@
     <property name="resultSourceDao" ref="resultSourceDao" />
   </bean>
 
-  <bean id="lrcPersistenceService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LRCServiceImpl">
+  <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
+  <bean id="lrcPersistenceService" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
     <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
     <property name="resultValueDao" ref="resultValueDao" />
     <property name="resultScaleDao" ref="resultScaleDao" />
-    <property name="stateService" ref="stateService" />
+    <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
   </bean>
 
   <bean id="ks.exp.LRCService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -457,22 +466,12 @@
   <bean id="courseRegistrationService"
     class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
     <property name="validator" ref="validator" />
-    <property name="lprService" ref="lprPersistenceService" />
-    <property name="dataDictionaryService" ref="dataDictionaryServiceForLpr" />
     <property name="nextDecorator" ref="courseRegistrationImpl" />
   </bean>
 
   <bean id="courseRegistrationImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
     <property name="lprService" ref="lprServiceValidation" />
     <property name="courseOfferingService" ref="coServiceValidation" />
-    <property name="regRequestAssembler" ref="regRequestAssembler" />
-    <property name="regResponseAssembler" ref="regResponseAssembler" />
-    <property name="courseRegistrationAssembler" ref="courseRegistrationAssembler" />
-    <property name="lrcService" ref="lrcPersistenceService" />
-    <property name="courseService" ref="courseServiceImpl" />
-    <property name="statementService" ref="statementServiceImpl" />
-    <property name="rulesEvaluationUtil" ref="rulesEvaluationUtil" />
-    <property name="propositionBuilder" ref="propositionBuilder" />
   </bean>
 
   <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
@@ -481,7 +480,7 @@
     <property name="luiService" ref="luiService" />
   </bean>
 
-  <bean id="rulesEvaluationUtil" class="org.kuali.student.core.statement.util.RulesEvaluationUtil">
+  <bean id="rulesEvaluationUtil" class="org.kuali.student.r2.core.statement.util.RulesEvaluationUtil">
     <property name="termResolvers">
       <list>
         <ref bean="completedCoursesResolver" />
@@ -489,10 +488,7 @@
     </property>
   </bean>
 
-  <bean id="courseRegistrationAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler" />
-  <bean id="regRequestAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler" />
-  <bean id="regResponseAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler" />
-  <bean id="propositionBuilder" class="org.kuali.student.core.statement.util.PropositionBuilder" />
+  <bean id="propositionBuilder" class="org.kuali.student.r2.core.statement.util.PropositionBuilder" />
 
   <bean id="ks.exp.courseRegistrationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">
@@ -532,11 +528,11 @@
 
   <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
 
-  <bean id="processService" class="org.kuali.student.r2.core.class1.process.service.impl.ProcessServiceImpl">
+  <bean id="processService" class="org.kuali.student.r2.core.process.service.impl.ProcessServiceImpl">
       <property name="processDao" ref="processDao" />
       <property name="checkDao" ref="checkDao" />
       <property name="instructionDao" ref="instructionDao" />
-      <property name="stateService" ref="stateService" />
+      <property name="stateService" ref="stateServiceCacheDecorator" />
   </bean>
 
     <!-- Appointment Service -->
@@ -544,7 +540,7 @@
         <property name="appointmentWindowDao" ref="appointmentWindowDao"/>
         <property name="appointmentSlotDao" ref="appointmentSlotDao"/>
         <property name="appointmentDao" ref="appointmentDao"/>
-        <property name="populationService" ref="populationService"/>
+        <property name="populationService" ref="populationServiceMock"/>
     </bean>
 
     <bean id="ks.exp.appointmentWindowService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -560,8 +556,29 @@
         </property>
     </bean>
 
-    <!-- Population service -->
-    <bean id="populationService" class="org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl">
+    <!-- Population Mock service (currently used by AppointmentService (see below for PopulationService) -->
+    <bean id="populationServiceMock" class="org.kuali.student.r2.core.population.service.impl.mock.PopulationServiceMockImpl">
+    </bean>
+
+    <bean id="ks.exp.populationServiceMock" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="populationService" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.population.service.PopulationService" />
+                <property name="localServiceName" value="PopulationMockService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/population" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+
+    <!--- Population Service -->
+    <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.mock.PopulationServiceMockImpl">
+        <property name="populationDao" ref="populationDao" />
+        <property name="populationRuleDao" ref="populationRuleDao" />
+        <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
 
     <bean id="ks.exp.populationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -600,5 +617,65 @@
             </bean>
         </property>
     </bean>
+
+    <!-- Hold Service -->
+    <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
+        <property name="holdIssueDao" ref="holdIssueDao"/>
+        <property name="appliedHoldDao" ref="appliedHoldDao"/>
+        <property name="criteriaLookupService" ref="holdCriteriaLookupService"/>
+    </bean>
+
+    <bean id="ks.exp.holdService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="holdService" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.hold.service.HoldService" />
+                <property name="localServiceName" value="HoldService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/hold" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Hold Service - Criteria Lookup Service -->
+    <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
+
+    <bean id="holdCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+        <property name="predicateTransforms">
+            <list>
+                <ref bean="attributeTransform"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Org Service -->
+    <bean id="orgServiceImplNew" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
+        <property name="organizationDao" ref="orgDao" />
+        <property name="extendedOrgDao" ref="extendedOrgDao" />
+        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+        <property name="criteriaLookupService" ref="criteriaLookupService"/>
+    </bean>
+
+    <bean id="ks.exp.organizationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="orgServiceImplNew" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.organization.service.OrganizationService" />
+                <property name="localServiceName" value="OrganizationService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+
+
+
+
+
+
 
 </beans>

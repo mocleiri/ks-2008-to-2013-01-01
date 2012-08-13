@@ -30,7 +30,7 @@
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm"/>
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>ks-enroll/css/hcal.css</value>
+                <value>ks-enroll/css/calendar.css</value>
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -42,11 +42,15 @@
 
     <bean id="KS-CalendarSearch-CriteriaSection" parent="Uif-HorizontalBoxSection">
         <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-bottom:0;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-GridSubSection" p:headerText="Search for Calendar or Term" p:layoutManager.numberOfColumns="2">
-                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
-                     <property name="items">
+                <bean parent="Uif-GridSubSection">
+                    <property name="headerText" value="Search for Calendar or Term"/>
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                    <property name="style" value="margin-bottom:0;"/>
+                    <property name="items">
                         <list>
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
@@ -74,8 +78,8 @@
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
-                                    <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
+                                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
                                     </list>
                                 </property>
                             </bean>
@@ -83,10 +87,6 @@
                     </property>
                 </bean>
             </list>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-            </bean>
         </property>
     </bean>
 
@@ -142,10 +142,10 @@
         </property>
         <property name="lineActions">
               <list>
-                  <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
+                  <bean parent="Uif-NavigationActionLink" p:actionScript="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -190,10 +190,10 @@
         </property>
         <property name="lineActions">
               <list>
-                  <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the academic calendar?')" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
+                  <bean parent="Uif-NavigationActionLink" p:actionScript="confirmDeletion('Are you sure you want to delete the academic calendar?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -238,9 +238,9 @@
         </property>
         <property name="lineActions">
               <list>
-                  <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the term?')" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="Uif-NavigationActionLink" p:actionScript="confirmDeletion('Are you sure you want to delete the term?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>

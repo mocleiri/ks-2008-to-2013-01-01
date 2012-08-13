@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.core.fee.infc.EnrollmentFee;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /*
  * The name "EnrollmentFee" is a temporary name to distinguish this
@@ -39,7 +39,7 @@ import org.w3c.dom.Element;
                 "id", "typeKey", "stateKey", "descr", 
                 "amount", "orgId", "refObjectURI",
                 "refObjectId", 
-		"meta", "attributes", "_futureElements" })
+		"meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 
 public class EnrollmentFeeInfo 
     extends IdNamelessEntityInfo 
@@ -62,8 +62,9 @@ public class EnrollmentFeeInfo
     @XmlElement
     private String refObjectId;
 	
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     /**
@@ -104,7 +105,7 @@ public class EnrollmentFeeInfo
     }
     
     public void setAmount(EnrollmentFeeAmountInfo amount) {
-        this.amount = amount;
+        this.amount = amount;;
     }
 
     @Override

@@ -48,7 +48,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.common.state.dto.StateInfo;
@@ -290,6 +290,7 @@ public class TestAcademicCalendarServiceImpl {
         term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
         populateRequiredFields(term);
+        term.setStartDate(new Date(term.getStartDate().getTime()));
 
         TermInfo created;
 
@@ -303,6 +304,8 @@ public class TestAcademicCalendarServiceImpl {
         assertEquals(expectedCode, created.getCode());
 
         term.setId(null);
+        term.setStartDate(new Date(term.getStartDate().getTime()));
+        term.setTypeKey(AtpServiceConstants.ATP_WINTER_TYPE_KEY);
         created = acalService.createTerm(AtpServiceConstants.ATP_WINTER_TYPE_KEY, term, callContext);
         assertNotNull(created);
         assertNotNull(created.getId());

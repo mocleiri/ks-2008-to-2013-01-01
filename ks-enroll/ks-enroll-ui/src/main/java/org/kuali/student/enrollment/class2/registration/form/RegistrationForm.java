@@ -26,7 +26,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.*;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +47,7 @@ public class RegistrationForm extends UifFormBase {
     private List<CourseRegistrationInfo> courseRegistrations;
     private Map<String,RegistrationGroupWrapper> registrationGroupWrappersById;
 
-    private RegRequestInfo regRequest;
+    private RegistrationRequestInfo regRequest;
 
     public RegistrationForm(){
         super();
@@ -103,23 +103,25 @@ public class RegistrationForm extends UifFormBase {
         this.registrationGroupWrappersById = registrationGroupWrappersById;
     }
 
-    public RegRequestInfo getRegRequest() {
+    public RegistrationRequestInfo getRegRequest() {
         return regRequest;
     }
 
-    public void setRegRequest(RegRequestInfo regRequest) {
+    public void setRegRequest(RegistrationRequestInfo regRequest) {
         this.regRequest = regRequest;
     }
 
+    // need to be redone
     protected List<MeetingScheduleWrapper> getRegisteredCourses() {
         List<MeetingScheduleWrapper> meetingScheduleWrappers = new ArrayList<MeetingScheduleWrapper>();
-        if(getCourseRegistrations() != null){
+        /*
+        if(getCourseRegistrations() != null) {
             // first loop all the items in the course registration list
             for (CourseRegistrationInfo courseRegistrationInfo : getCourseRegistrations()) {
                 // TODO - remove this cast below if CourseRegistrationInfo.getCourseOffering() method is fixed
                 CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) courseRegistrationInfo.getCourseOffering();
                 RegGroupRegistrationInfo regGroupRegistrationInfo = courseRegistrationInfo.getRegGroupRegistration();
-                if(regGroupRegistrationInfo.getStateKey().equals(LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY)){
+                if(regGroupRegistrationInfo.getStateKey().equals(LprServiceConstants.REGISTERED_STATE_KEY)){
                     for (ActivityRegistrationInfo activityRegistrationInfo : regGroupRegistrationInfo.getActivityRegistrations()) {
                         ActivityOfferingInfo activityOfferingInfo = activityRegistrationInfo.getActivityOffering();
                         // TODO: fix this to get the meeting schedule from the schedule Id and the schedule service
@@ -139,7 +141,7 @@ public class RegistrationForm extends UifFormBase {
                     }
                 }
             }
-        }
+            }*/
         return meetingScheduleWrappers;
     }
 
@@ -147,9 +149,9 @@ public class RegistrationForm extends UifFormBase {
         List<MeetingScheduleWrapper> meetingScheduleWrappers = new ArrayList<MeetingScheduleWrapper>();
         if(getRegRequest() != null){
             // first loop all the items in the reg request
-            for (RegRequestItemInfo regRequestItemInfo : getRegRequest().getRegRequestItems()) {
+            for (RegistrationRequestItemInfo regRequestItemInfo : getRegRequest().getRegistrationRequestItems()) {
                 // find the regGroupId of the current item
-                String regGroupId = (StringUtils.isNotBlank(regRequestItemInfo.getNewRegGroupId())) ? regRequestItemInfo.getNewRegGroupId() : regRequestItemInfo.getExistingRegGroupId();
+                String regGroupId = (StringUtils.isNotBlank(regRequestItemInfo.getNewRegistrationGroupId())) ? regRequestItemInfo.getNewRegistrationGroupId() : regRequestItemInfo.getExistingRegistrationGroupId();
                 // find the regGroupWrapper that matches the id from the supplemental list
                 RegistrationGroupWrapper regGroupWrapper = getRegistrationGroupWrappersById().get(regGroupId);
                 // if no valid regGroupWrapper object can be found something is wrong with the RegistrationContoller method that adds courses to the cart

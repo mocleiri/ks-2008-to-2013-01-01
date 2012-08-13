@@ -16,12 +16,11 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
@@ -36,14 +35,26 @@ import java.util.List;
 public class CourseOfferingEditWrapper implements Serializable {
 
     private CourseOfferingInfo coInfo;
-    private List<FormatOfferingInfo> formatOfferings;
+    private List<FormatOfferingInfo> formatOfferingList;
     private List<String> studentRegOptions;
+    private List<String> crsGradingOptions;
     private List<OrganizationInfoWrapper> organizationNames;
-    private String organizationName;
+    private List<OfferingInstructorWrapper> instructors;
+    private CourseInfo course;
+    private String termStartEnd;
+
+    private String selectedGradingOptionName;
+    private String selectedStudentRegOpts;
+
+    private CreditOptionInfo creditOption;
+    private boolean creditOptionFixed;
+    private boolean isChecked;
+
+    private String gradingOption;
 
     public CourseOfferingEditWrapper(){
         coInfo = new CourseOfferingInfo();
-        formatOfferings = new ArrayList<FormatOfferingInfo>();
+        formatOfferingList = new ArrayList<FormatOfferingInfo>();
         studentRegOptions = new ArrayList<String>();
     }
 
@@ -60,15 +71,15 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.coInfo = coInfo;
     }
 
-    public List<FormatOfferingInfo> getFormatOfferings() {
-        return formatOfferings;
+    public List<FormatOfferingInfo> getFormatOfferingList() {
+        return formatOfferingList;
     }
 
-    public void setFormatOfferings(List<FormatOfferingInfo> formatOfferings) {
-        if (formatOfferings == null) {
-            formatOfferings = new ArrayList<FormatOfferingInfo>();
+    public void setFormatOfferingList(List<FormatOfferingInfo> formatOfferingList) {
+        if (formatOfferingList == null) {
+            formatOfferingList = new ArrayList<FormatOfferingInfo>();
         }
-        this.formatOfferings = formatOfferings;
+        this.formatOfferingList = formatOfferingList;
     }
 
     public List<String> getStudentRegOptions() {
@@ -82,6 +93,17 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.studentRegOptions = studentRegOptions;
     }
 
+    public List<String> getCrsGradingOptions() {
+        if (crsGradingOptions == null) {
+            crsGradingOptions = new ArrayList<String>();
+        }
+        return crsGradingOptions;
+    }
+
+    public void setCrsGradingOptions(List<String> crsGradingOptions) {
+        this.crsGradingOptions = crsGradingOptions;
+    }
+
     public List<OrganizationInfoWrapper> getOrganizationNames() {
         return organizationNames;
     }
@@ -90,11 +112,89 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.organizationNames = organizationNames;
     }
 
-    public String getOrganizationName() {
-        return organizationName;
+
+    public String getSelectedGradingOptionName() {
+        return selectedGradingOptionName;
     }
 
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
+    public void setSelectedGradingOptionName(String selectedGradingOptionName) {
+        this.selectedGradingOptionName = selectedGradingOptionName;
     }
+
+    public String getSelectedStudentRegOpts() {
+        return selectedStudentRegOpts;
+    }
+
+    public void setSelectedStudentRegOpts(String selectedStudentRegOpts) {
+        this.selectedStudentRegOpts = selectedStudentRegOpts;
+    }
+
+    public CourseInfo getCourse() {
+        return course;
+    }
+
+    public void setCourse(CourseInfo course) {
+        this.course = course;
+    }
+
+    public CreditOptionInfo getCreditOption() {
+        return creditOption;
+    }
+
+    public void setCreditOption(CreditOptionInfo creditOption) {
+        this.creditOption = creditOption;
+    }
+
+    public boolean getCreditOptionFixed() {
+        return creditOptionFixed;
+    }
+
+    public void setCreditOptionFixed(boolean creditOptionFixed) {
+        this.creditOptionFixed = creditOptionFixed;
+    }
+
+    public String getTermStartEnd() {
+        return termStartEnd;
+    }
+
+    public void setTermStartEnd(String termStartEnd) {
+        this.termStartEnd = termStartEnd;
+    }
+
+    public List<OfferingInstructorWrapper> getInstructors() {
+        return instructors;
+    }
+
+    public void setInstructors(List<OfferingInstructorWrapper> instructors) {
+        this.instructors = instructors;
+    }
+
+    public boolean getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(boolean checked) {
+        this.isChecked = checked;
+    }
+
+    public String getGradingOption() {
+        return gradingOption;
+    }
+
+    public void setGradingOption(String gradingOption) {
+        this.gradingOption = gradingOption;
+    }
+
+    public boolean isLegalToDelete() {
+
+        if(StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_DRAFT_STATE_KEY) ||
+                StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) ||
+                StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
+

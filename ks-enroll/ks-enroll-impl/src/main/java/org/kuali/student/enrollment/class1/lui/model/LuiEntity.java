@@ -1,9 +1,9 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
-import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -11,17 +11,7 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.infc.LuCode;
 
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.*;
 
 @Entity

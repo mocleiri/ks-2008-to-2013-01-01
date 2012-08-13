@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.fee.infc.EnrollmentFeeAmount;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Detailed information about an amount of currency including both the
@@ -38,8 +38,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FeeAmountInfo", propOrder = {
-                "currencyTypeKey", "currencyQuantity",
-                "_futureElements"})
+                "currencyTypeKey", "currencyQuantity"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 
 public class EnrollmentFeeAmountInfo 
     implements EnrollmentFeeAmount, Serializable {
@@ -52,8 +51,9 @@ public class EnrollmentFeeAmountInfo
     @XmlElement
     private Integer currencyQuantity;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM-372: Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     /**
      * Constructs a new FeeAmount.

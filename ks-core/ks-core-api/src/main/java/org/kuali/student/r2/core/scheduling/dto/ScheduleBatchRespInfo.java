@@ -38,8 +38,8 @@ import java.util.List;
         "submittedDate", "statusMessage", "finalStatus",
         "meta", "attributes", "_futureElements"})
 public class ScheduleBatchRespInfo extends IdNamelessEntityInfo implements ScheduleBatchResp, Serializable {
-
-    @XmlElement
+    
+    @XmlElement 
     private Date submittedDate;
     @XmlElement
     private String statusMessage;
@@ -53,14 +53,13 @@ public class ScheduleBatchRespInfo extends IdNamelessEntityInfo implements Sched
     }
 
     public ScheduleBatchRespInfo(ScheduleBatchResp scheduleBatchResp) {
-        super (scheduleBatchResp);
         if (null != scheduleBatchResp) {
             this.submittedDate = scheduleBatchResp.getSubmittedDate();
             this.statusMessage = scheduleBatchResp.getStatusMessage();
             this.finalStatus = new StatusInfo(scheduleBatchResp.getFinalStatus());
         }
     }
-
+    
     @Override
     public Date getSubmittedDate() {
         return this.submittedDate;

@@ -13,7 +13,6 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     private String targetTermCode;
     private String catalogCourseCode;
-    private String courseCodeSuffix;
     private boolean createFromCatalog;
 
     private String creditCount;
@@ -21,24 +20,33 @@ public class CourseOfferingCreateWrapper implements Serializable{
     private boolean showTermOfferingLink;
     private boolean showCatalogLink;
     private boolean showAllSections;
+    private boolean enableCreateButton;
 
-    private String addCourseOfferingSuffix;
+    private String courseOfferingSuffix;
+
+    private int noOfTermOfferings;
 
     private CourseInfo course;
     private CourseOfferingInfo coInfo;
-
     private TermInfo term;
 
     private List<FormatOfferingInfo> formatOfferingList;
-    private List<ExistingCourseOffering> existingCourseOfferings;
+    private List<ExistingCourseOffering> existingOfferingsInCurrentTerm;
     private List<ExistingCourseOffering> existingTermOfferings;
 
+    private String createErrorMessage;
+
+    private String invalidCatalogCourseCodeError;
+    private String invalidTargetTermError;
+
+    private boolean excludeCancelledActivityOfferings;
+    private boolean excludeSchedulingInformation;
+    private boolean excludeInstructorInformation;
+
     public CourseOfferingCreateWrapper(){
-        showCatalogLink = false;
         showTermOfferingLink = true;
-        showAllSections = false;
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
-        existingCourseOfferings = new ArrayList<ExistingCourseOffering>();
+        existingOfferingsInCurrentTerm = new ArrayList<ExistingCourseOffering>();
         existingTermOfferings = new ArrayList<ExistingCourseOffering>();
     }
 
@@ -56,14 +64,6 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     public void setCatalogCourseCode(String catalogCourseCode) {
         this.catalogCourseCode = catalogCourseCode;
-    }
-
-    public String getCourseCodeSuffix() {
-        return courseCodeSuffix;
-    }
-
-    public void setCourseCodeSuffix(String courseCodeSuffix) {
-        this.courseCodeSuffix = courseCodeSuffix;
     }
 
     public boolean isCreateFromCatalog() {
@@ -114,20 +114,12 @@ public class CourseOfferingCreateWrapper implements Serializable{
         this.showCatalogLink = showCatalogLink;
     }
 
-    public String getAddCourseOfferingSuffix() {
-        return addCourseOfferingSuffix;
+    public String getCourseOfferingSuffix() {
+        return courseOfferingSuffix;
     }
 
-    public void setAddCourseOfferingSuffix(String addCourseOfferingSuffix) {
-        this.addCourseOfferingSuffix = addCourseOfferingSuffix;
-    }
-
-    public List<FormatOfferingInfo> getFormatOfferingList() {
-        return formatOfferingList;
-    }
-
-    public void setFormatOfferingList(List<FormatOfferingInfo> formatOfferingList) {
-        this.formatOfferingList = formatOfferingList;
+    public void setCourseOfferingSuffix(String courseOfferingSuffix) {
+        this.courseOfferingSuffix = courseOfferingSuffix;
     }
 
     public boolean isShowAllSections() {
@@ -138,12 +130,12 @@ public class CourseOfferingCreateWrapper implements Serializable{
         this.showAllSections = showAllSections;
     }
 
-    public List<ExistingCourseOffering> getExistingCourseOfferings() {
-        return existingCourseOfferings;
+    public List<ExistingCourseOffering> getExistingOfferingsInCurrentTerm() {
+        return existingOfferingsInCurrentTerm;
     }
 
-    public void setExistingCourseOfferings(List<ExistingCourseOffering> existingCourseOfferings) {
-        this.existingCourseOfferings = existingCourseOfferings;
+    public void setExistingOfferingsInCurrentTerm(List<ExistingCourseOffering> existingOfferingsInCurrentTerm) {
+        this.existingOfferingsInCurrentTerm = existingOfferingsInCurrentTerm;
     }
 
     public TermInfo getTerm() {
@@ -162,4 +154,82 @@ public class CourseOfferingCreateWrapper implements Serializable{
         this.existingTermOfferings = existingTermOfferings;
     }
 
+    public int getNoOfTermOfferings() {
+        return getExistingTermOfferings().size();
+    }
+
+    public boolean isEnableCreateButton() {
+        return enableCreateButton;
+    }
+
+    public void setEnableCreateButton(boolean enableCreateButton) {
+        this.enableCreateButton = enableCreateButton;
+    }
+
+    public List<FormatOfferingInfo> getFormatOfferingList() {
+        return formatOfferingList;
+    }
+
+    public void setFormatOfferingList(List<FormatOfferingInfo> formatOfferingList) {
+        this.formatOfferingList = formatOfferingList;
+    }
+
+    public String getCreateErrorMessage() {
+        return createErrorMessage;
+    }
+
+    public void setCreateErrorMessage(String createErrorMessage) {
+        this.createErrorMessage = createErrorMessage;
+    }
+    public String getInvalidCatalogCourseCodeError() {
+        return invalidCatalogCourseCodeError;
+    }
+
+    public void setInvalidCatalogCourseCodeError(String invalidCatalogCourseCodeError) {
+        this.invalidCatalogCourseCodeError = invalidCatalogCourseCodeError;
+    }
+
+    public String getInvalidTargetTermError() {
+        return invalidTargetTermError;
+    }
+
+    public void setInvalidTargetTermError(String invalidTargetTermError) {
+        this.invalidTargetTermError = invalidTargetTermError;
+    }
+
+    public boolean isExcludeCancelledActivityOfferings() {
+        return excludeCancelledActivityOfferings;
+    }
+
+    public void setExcludeCancelledActivityOfferings(boolean excludeCancelledActivityOfferings) {
+        this.excludeCancelledActivityOfferings = excludeCancelledActivityOfferings;
+    }
+
+    public boolean isExcludeSchedulingInformation() {
+        return excludeSchedulingInformation;
+    }
+
+    public void setExcludeSchedulingInformation(boolean excludeSchedulingInformation) {
+        this.excludeSchedulingInformation = excludeSchedulingInformation;
+    }
+
+    public boolean isExcludeInstructorInformation() {
+        return excludeInstructorInformation;
+    }
+
+    public void setExcludeInstructorInformation(boolean excludeInstructorInformation) {
+        this.excludeInstructorInformation = excludeInstructorInformation;
+    }
+
+    public void clear(){
+        setCourse(null);
+        setShowAllSections(false);
+        setCreditCount("");
+        getExistingTermOfferings().clear();
+        getExistingOfferingsInCurrentTerm().clear();
+        setEnableCreateButton(false);
+        setExcludeCancelledActivityOfferings(false);
+        setExcludeSchedulingInformation(false);
+        setExcludeInstructorInformation(false);
+    }
 }
