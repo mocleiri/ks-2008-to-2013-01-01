@@ -59,8 +59,8 @@
         <class>org.kuali.student.r2.lum.lrc.model.ResultValuesGroupEntity</class>
         <class>org.kuali.student.r2.lum.lrc.model.ResultValuesGroupAttributeEntity</class>
 
-        <class>org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue</class>
-        <class>org.kuali.student.core.enumerationmanagement.entity.ContextEntity</class>
+        <class>org.kuali.student.r1.core.enumerationmanagement.entity.EnumeratedValue</class>
+        <class>org.kuali.student.r1.core.enumerationmanagement.entity.ContextEntity</class>
 
         <class>org.kuali.student.core.enumerationmanagement.entity.Enumeration</class>
 
