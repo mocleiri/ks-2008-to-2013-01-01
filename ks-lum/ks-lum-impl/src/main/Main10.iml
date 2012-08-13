@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="" />
+        <datasource-mapping />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/resources/META-INF/lo-persistence.xml" />
+      </configuration>
+    </facet>
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset1" name="My Fileset" removed="false">
+          <file>file://$MODULE_DIR$/resources/comment-dictionary-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-cluInfo-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-cluset-ui-object-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-cluSetInfo-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-constraints-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-courseInfo-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-loInfo-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-lrc-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-lu-search-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-programInfo-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ksb/ks-lu-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ksb/ks-lu-no-tx-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/lo-dictionary-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lo-loCategoryInfo-dictionary-override-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lo-loCategoryInfo-dictionary-structure-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lo-loInfo-dictionary-override-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lo-loInfo-dictionary-structure-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lo-loLoRelationInfo-dictionary-override-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lo-loLoRelationInfo-dictionary-structure-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lo-search-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lrc-search-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lu-cluCluRelationInfo-dictionary-override-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lu-cluCluRelationInfo-dictionary-structure-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lu-cluInfo-dictionary-override-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lu-cluInfo-dictionary-structure-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lu-cluLoRelationInfo-dictionary-override-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lu-cluLoRelationInfo-dictionary-structure-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lu-cluResultInfo-dictionary-override-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lu-cluResultInfo-dictionary-structure-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lu-cluSetInfo-dictionary-override-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lu-cluSetInfo-dictionary-structure-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lu-dictionary-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/lu-search-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/program-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/statement-context.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/java" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Main11" />
+    <orderEntry type="module" module-name="Test14" />
+    <orderEntry type="module" module-name="Test9" />
+    <orderEntry type="module" module-name="Main18" />
+    <orderEntry type="module" module-name="Main5" />
+    <orderEntry type="module" module-name="Test5" />
+    <orderEntry type="module" module-name="Main15" />
+    <orderEntry type="module" module-name="Main24" />
+    <orderEntry type="module" module-name="Main23" />
+    <orderEntry type="module" module-name="Test6" />
+  </component>
+</module>
+

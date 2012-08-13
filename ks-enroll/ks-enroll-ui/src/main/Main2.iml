@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset1" name="My Fileset" removed="false">
+          <file>file://$MODULE_DIR$/resources/AcademicCalendarInfoUI.xml</file>
+          <file>file://$MODULE_DIR$/resources/AcademicCalendarView.xml</file>
+          <file>file://$MODULE_DIR$/resources/AcademicCalendarWrapperMaintenance.xml</file>
+          <file>file://$MODULE_DIR$/resources/ActivityOfferingInfoUI.xml</file>
+          <file>file://$MODULE_DIR$/resources/ActivityOfferingWrapper.xml</file>
+          <file>file://$MODULE_DIR$/resources/CourseInfoUI.xml</file>
+          <file>file://$MODULE_DIR$/resources/CourseOfferingInfoUI.xml</file>
+          <file>file://$MODULE_DIR$/resources/CourseOfferingWrapper.xml</file>
+          <file>file://$MODULE_DIR$/resources/GradingView.xml</file>
+          <file>file://$MODULE_DIR$/resources/HoldInfo.xml</file>
+          <file>file://$MODULE_DIR$/resources/HoldInfoMaintenanceView.xml</file>
+          <file>file://$MODULE_DIR$/resources/IssueInfo.xml</file>
+          <file>file://$MODULE_DIR$/resources/KeyDateInfoUI.xml</file>
+          <file>file://$MODULE_DIR$/resources/MeetingScheduleWrapper.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/acal/AcademicCalendarCopyPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/acal/AcademicCalendarEditPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/acal/AcademicCalendarFlowView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/acal/AcademicTermLookupView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/acal/AcademicTermPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/acal/CalendarSearchView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/acal/HolidayCalendarCopyPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/acal/HolidayCalendarEditPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/acal/HolidayCalendarFlowView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/acal/HolidayCalendarLookupAndInquiryView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/acal/HolidayCalendarViewPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/acal/HolidayCalendarWrapperLookupAndInquiryView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/appointment/RegistrationWindowsEditPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/appointment/RegistrationWindowsManagementView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/appointment/RegWindowAndAssignmentLookupAndInquiryView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/appointment/SelectTermForRegWindowsPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/appointment/StudentPopulationLookupView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/ActivityOfferingInfoLookupAndInquiryView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/ActivityOfferingMaintenanceDocument.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/ActivityOfferingWrapperLookupAndInquiryView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/CoDeleteConfirmationPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/CourseInfoLookupView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/CourseOfferingCreateMaintenanceView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/CourseOfferingEditMaintenanceView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/CourseOfferingInfoLookupAndInquiryView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-CopyCourseOfferingPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageActivityOfferingsPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageCourseOfferingsPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/CourseOfferingManagementView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagement-ReleaseToDeptsPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagement-SelectTermPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagementView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/DeleteTargetTermView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/EnrollmentFeeInfoLookupAndInquiryView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/EnrollmentFeeInfoMaintenanceDocument.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/FormatOfferingInfoLookupAndInquiryView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/FormatOfferingInfoMaintenanceView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/KSPersonMaintenance.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/OfferingInstructorInfoLookupView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/OrganizationInfoLookupView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/PersonnelLookupView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/RolloverResultsPageView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/SelectedAoDeleteConfirmationPage.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/SocRolloverResultInfoLookpAndInquiryView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/courseoffering/SocRolloverResultItemInfoLookupAndInquiryView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/hold/CheckInfoCreateView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/hold/CheckInfoSearchView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/hold/CheckInfoView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/hold/HoldIssueInfoCreateView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/hold/HoldIssueInfoModifyView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/hold/HoldIssueInfoSearchView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/hold/HoldIssueInfoView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/hold/ProcessInfoCreateView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/hold/ProcessInfoFlowView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/hold/ProcessInfoView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/main/EnrollmentHomeView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/population/PopulationWrapperLookupAndInquiryView.xml</file>
+          <file>file://$MODULE_DIR$/resources/org/kuali/student/enrollment/population/PopulationWrapperMaintenanceDocument.xml</file>
+          <file>file://$MODULE_DIR$/resources/RegistrationGroupInfoUI.xml</file>
+          <file>file://$MODULE_DIR$/resources/RegistrationGroupWrapper.xml</file>
+          <file>file://$MODULE_DIR$/resources/RegistrationUI.xml</file>
+          <file>file://$MODULE_DIR$/resources/StudentGradeView.xml</file>
+          <file>file://$MODULE_DIR$/resources/TermInfoUI.xml</file>
+          <file>file://$MODULE_DIR$/resources/TermWrapperMaintenance.xml</file>
+          <file>file://$MODULE_DIR$/resources/UifKRADOverrideDefinitions.xml</file>
+          <file>file://$MODULE_DIR$/resources/UifKSDefinitions.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/java" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Main5" />
+    <orderEntry type="module" module-name="Main24" />
+    <orderEntry type="module" module-name="Test10" />
+    <orderEntry type="module" module-name="Main21" />
+    <orderEntry type="module" module-name="Main23" />
+    <orderEntry type="module" module-name="Main8" />
+    <orderEntry type="module" module-name="Main10" />
+  </component>
+</module>
+

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="" />
+        <datasource-mapping />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/resources/META-INF/appointment-persistence.xml" />
+      </configuration>
+    </facet>
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset1" name="My Fileset" removed="false">
+          <file>file://$MODULE_DIR$/resources/acal-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/acal-test-with-fewer-mocks-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/acal-test-with-mocks-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/appt-calculation-decorator-with-mocks-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/appt-jpa-persistence-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/appt-mock-persistence-impl-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/appt-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/atp-jpa-persistence-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/atp-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/co-businesslogic-test-with-mocks-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/co-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/co-test-with-class2-mock-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/co-test-with-fewer-mocks-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/co-test-with-mocks-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/em-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/en-course-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/fee-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/gwt-messages.xml</file>
+          <file>file://$MODULE_DIR$/resources/hold-mock-service-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/hold-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/KRMSLocalSpringBeans.xml</file>
+          <file>file://$MODULE_DIR$/resources/KRMSTestHarnessSpringBeans.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-krms-data-dictionary-services-configuration.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-krms-dictionary-file-locations.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-krms-test-context-mock.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-krms-test-context-TEST.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-krms-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/lpr-mock-service-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/lpr-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/lrc-mock-service-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/lrc-service-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/lui-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/org-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/population-impl-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/population-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/process-mock-service-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/process-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/scheduling-impl-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/scheduling-mock-impl-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/search-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/soc-businesslogic-with-fewer-mocks-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/soc-businesslogic-with-mocks-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/soc-jpa-persistence-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/soc-mock-persistence-impl-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/state-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/testContext.xml</file>
+          <file>file://$MODULE_DIR$/resources/type-test-context.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/java" isTestSource="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Test14" />
+    <orderEntry type="module" module-name="Test9" />
+    <orderEntry type="module" module-name="Main2" />
+    <orderEntry type="module" module-name="Main24" />
+    <orderEntry type="module" module-name="Main3" />
+    <orderEntry type="module" module-name="Main21" />
+    <orderEntry type="module" module-name="Main8" />
+    <orderEntry type="module" module-name="Test15" />
+    <orderEntry type="module" module-name="Main4" />
+    <orderEntry type="module" module-name="Main11" />
+    <orderEntry type="module" module-name="Main18" />
+    <orderEntry type="module" module-name="Main5" />
+    <orderEntry type="module" module-name="Test2" />
+    <orderEntry type="module" module-name="Main15" />
+    <orderEntry type="module" module-name="Main7" />
+    <orderEntry type="module" module-name="Main23" />
+    <orderEntry type="module" module-name="Test6" />
+  </component>
+</module>
+

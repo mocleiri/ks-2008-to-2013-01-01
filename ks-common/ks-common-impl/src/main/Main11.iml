@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset1" name="My Fileset" removed="false">
+          <file>file://$MODULE_DIR$/resources/common-lookup-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/constraints-dictionary-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-transaction-context.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+    <facet type="gwt" name="GWT">
+      <configuration>
+        <setting name="compilerMaxHeapSize" value="128" />
+        <setting name="gwtScriptOutputStyle" value="DETAILED" />
+        <setting name="gwtSdkUrl" value="file://" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/java" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Test14" />
+    <orderEntry type="module" module-name="Main18" />
+    <orderEntry type="module" module-name="Main5" />
+  </component>
+</module>
+

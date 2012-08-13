@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset1" name="My Fileset" removed="false">
+          <file>file://$MODULE_DIR$/resources/course-additional-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/course-dev-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/course-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/gwt-messages.xml</file>
+          <file>file://$MODULE_DIR$/resources/lo-additional-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/lrc-additional-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/lu-additional-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/lum-ui-test-lookup-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/program-additional-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/program-test-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/statement-additional-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/statement-test-context-registry.xml</file>
+          <file>file://$MODULE_DIR$/resources/statement-test-context.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/java" isTestSource="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Main11" />
+    <orderEntry type="module" module-name="Main4" />
+    <orderEntry type="module" module-name="Main5" />
+    <orderEntry type="module" module-name="Main15" />
+    <orderEntry type="module" module-name="Main24" />
+    <orderEntry type="module" module-name="Main23" />
+    <orderEntry type="module" module-name="Test6" />
+    <orderEntry type="module" module-name="Main10" />
+  </component>
+</module>
+

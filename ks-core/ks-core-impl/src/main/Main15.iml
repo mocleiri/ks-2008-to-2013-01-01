@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="" />
+        <datasource-mapping />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/resources/META-INF/atp-persistence.xml" />
+      </configuration>
+    </facet>
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset1" name="My Fileset" removed="false">
+          <file>file://$MODULE_DIR$/resources/atp-search-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/comment-commentInfo-dictionary-override-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/comment-commentInfo-dictionary-structure-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/comment-dictionary-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/comment-search-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/document-dictionary-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/em-search-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/enumeration-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-atp-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-base-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-comment-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-document-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-proposalInfo-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-statement-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ks-workflow-dictionary-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ksb/ks-core-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/ksb/ks-core-no-tx-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/messages-context.xml</file>
+          <file>file://$MODULE_DIR$/resources/organization-dictionary-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/organization-search-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/proposal-dictionary-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/proposal-proposalDocRelationInfo-dictionary-override-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/proposal-proposalDocRelationInfo-dictionary-structure-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/proposal-proposalInfo-dictionary-override-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/proposal-proposalInfo-dictionary-structure-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/proposal-search-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/statement-dictionary-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/statement-reqComponentInfo-dictionary-override-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/statement-reqComponentInfo-dictionary-structure-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/statement-search-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/statement-StatementInfo-dictionary-override-config.xml</file>
+          <file>file://$MODULE_DIR$/resources/statement-StatementInfo-dictionary-structure-config.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/java" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Main11" />
+    <orderEntry type="module" module-name="Test14" />
+    <orderEntry type="module" module-name="Main18" />
+    <orderEntry type="module" module-name="Main5" />
+    <orderEntry type="module" module-name="Test5" />
+    <orderEntry type="module" module-name="Main24" />
+    <orderEntry type="module" module-name="Test6" />
+  </component>
+</module>
+
