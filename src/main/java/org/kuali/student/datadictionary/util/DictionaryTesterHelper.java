@@ -15,7 +15,9 @@
  */
 package org.kuali.student.datadictionary.util;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -25,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,9 +103,11 @@ public class DictionaryTesterHelper {
 				if (cause != null && cause instanceof FileNotFoundException) {
 					missingDictionaryFiles.add(inputFile);
 				}
-				else
+				else {
+					// In this case we should create a place holder page 
+					writePlaceholderPage(inputFile, cause);
 					invalidDictionaryFiles.add(inputFile);
-				
+				}
 				continue; // skip over this file.
 			}
 
@@ -156,6 +162,27 @@ public class DictionaryTesterHelper {
 			}
 			
 			log.info("Finished processing inputFile: " + inputFile);
+		}
+	}
+
+	/*
+	 * In some cases like where spring fails to parse the input file we will want to write a place holder with the cause.
+	 * 
+	 */
+	private void writePlaceholderPage(String inputFile, Throwable cause) {
+		
+		String[] parts = inputFile.split ("-");
+		
+		String beanId = parts[1];
+		
+			String outputFileName = beanId + ".html";
+			String fullOutputFileName = this.outputDir + "/"
+					+ outputFileName;
+		
+			try {
+				FileUtils.writeStringToFile(new File (fullOutputFileName), "<html><body><h1>Failed To Generate Page due to Error in Dictionary File: "+inputFile+"</h1>" +ExceptionUtils.getFullStackTrace(cause) + "</body></html>", false);
+			} catch (IOException e) {
+				log.warn("failed to write placeholder page: " + inputFile, e);
 		}
 	}
 

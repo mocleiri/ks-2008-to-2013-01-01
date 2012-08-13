@@ -64,4 +64,13 @@ public class DateUtility {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         return df.format(date);
     }
+    
+    public static String asYMDHMTZ (Date date) {
+    	if (date == null)
+    		return null;
+    	
+    	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm zzz");
+    	
+    	return df.format(date);
+    }
 }

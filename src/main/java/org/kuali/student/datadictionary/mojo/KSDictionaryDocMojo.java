@@ -25,6 +25,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,6 +41,8 @@ import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
+import org.kuali.student.contract.model.util.DateUtility;
+import org.kuali.student.contract.model.util.VersionLinesUtility;
 import org.kuali.student.contract.model.validation.ServiceContractModelValidator;
 import org.kuali.student.datadictionary.util.DictionaryFormatter;
 import org.kuali.student.datadictionary.util.DictionaryTesterHelper;
@@ -60,11 +64,6 @@ import org.slf4j.LoggerFactory;
  *          	<goal>ksdictionarydoc</goal>                            
  *          </goals>
  *          <configuration>
- *          	<inputFiles>
- *              	<inputFile>ks-AtpInfo-dictionary.xml</inputFile>
- *              	<inputFile>ks-MilestoneInfo-dictionary.xml</inputFile>
- *              	<inputFile>ks-AtpAtpRelationInfo-dictionary.xml</inputFile>
- *           	</inputFiles>
  *           <supportFiles>
  *           	<supportFile>commonApplicationContext.xml</supportFile>
  *           </supportFiles>
@@ -74,7 +73,8 @@ import org.slf4j.LoggerFactory;
  *  }
  * </pre>
  * 
- * An application context is constructed for each <b>inputFile</b> and all of the <b>supportFiles</b>
+ * We use the QDox model to read the class files present and to enumerate the list of Message Structure objects.  Then for each identified type we build an application context that includes the union of that 
+ * file plus any files specified using the <supportFile> configuration parameter.
  * 
  *  Errors with an application context are detected and logged but will not break the plugin's ability to generate the other files.
  * 
@@ -104,6 +104,8 @@ public class KSDictionaryDocMojo extends AbstractMojo {
     private File htmlDirectory;
 
 	private String testDictionaryFile;
+
+	private LinkedHashMap<String, String> dictionaryFileToMessageStructureMap  = new LinkedHashMap<String, String>();
 
     public void setHtmlDirectory(File htmlDirectory) {
         this.htmlDirectory = htmlDirectory;
@@ -197,9 +199,6 @@ public class KSDictionaryDocMojo extends AbstractMojo {
         		inpFiles.add(this.testDictionaryFile);
         }
     
-       
-        
-        
 
         String outputDir = this.htmlDirectory.getAbsolutePath();
         DictionaryTesterHelper tester = new DictionaryTesterHelper(outputDir, inpFiles, this.supportFiles);
@@ -215,44 +214,50 @@ public class KSDictionaryDocMojo extends AbstractMojo {
 //            throw new MojoExecutionException(indexFileName, ex);
             throw new IllegalArgumentException(indexFileName, ex);
         }
+        
+        String formattedDate = DateUtility.asYMDHMTZ(new Date());
+        
         PrintStream out = new PrintStream(outputStream);
+        
         DictionaryFormatter.writeHeader(out, "Data Dictionary Index");
+        
+        VersionLinesUtility.writeVersionTag(out, "<a href=\"index.html\">Home</a>", "<a href=\"../contractdocs/index.html\">Contract Docs Home</a>", project.getVersion(), formattedDate);
+        
         out.println("<h1>Data Dictionary Index</h1>");
-
         out.println("<ul>");
         
         Map<String, List<String>> fileToBeanNameMap = tester.getInputFileToBeanNameMap();
         
 		for (String inputFile : fileToBeanNameMap.keySet()) {
 
+			boolean containsError = false;
+			
+			if (tester.getInvalidDictionaryFiles().contains(inputFile)) {
+				containsError = true;
+			}
+			
 			List<String> beanIds = fileToBeanNameMap.get(inputFile);
 
 			for (String beanId : beanIds) {
 
 				String outputFileName = beanId + ".html";
-				out.println("<li><a href=\"" + outputFileName + "\">" + beanId
+				
+				if (containsError)
+					out.println ("<li class=\"invalid\">");
+				else
+					out.println ("<li>");
+				
+				out.println("<a href=\"" + outputFileName + "\">" + beanId
 						+ "</a>");
 			}
 		}
         out.println("</ul>");
         
-		if (tester.getInvalidDictionaryFiles().size() > 0) {
-
-			out.println("<h1>Invalid Dictionary Files</h1>");
-			out.println("<blockquote>The Dictionary File exists but a problem is present.</blockquote>");
-			out.println("<ul>");
-
-			for (String invalidFile : tester.getInvalidDictionaryFiles()) {
-				out.println("<li><b>" + invalidFile + "</b></li>");
-			}
-
-			out.println("</ul>");
-
-		}
+		
         
 		if (tester.getMissingDictionaryFiles().size() > 0) {
 			out.println("<h1>Missing Dictionary Files</h1>");
-			out.println("<blockquote>The Message structure exists but there is not dictionary file present.</blockquote>");
+			out.println("<blockquote>The Message structure exists but there is no dictionary file present.</blockquote>");
 			out.println("<ul>");
 			for (String missingFile : tester.getMissingDictionaryFiles()) {
 				out.println("<li><b>" + missingFile + "</b></li>");
@@ -279,6 +284,10 @@ public class KSDictionaryDocMojo extends AbstractMojo {
 			String inputFileName = "ks-" + messageStructure.getXmlObject() + "-dictionary.xml";
 
 			dictionaryFiles.add(inputFileName);
+			
+			// we also track the file name to message structure so we can link the invalid
+			dictionaryFileToMessageStructureMap.put(inputFileName, messageStructure.getXmlObject());
+			
 		}
 		
 		

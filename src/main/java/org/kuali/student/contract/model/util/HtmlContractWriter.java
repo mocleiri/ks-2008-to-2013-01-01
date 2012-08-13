@@ -94,10 +94,12 @@ public class HtmlContractWriter {
             };
 
     private void writeIndexPage(String projectVersion, String formattedDate) {
-        writer.print("<a href=\"index.html\">home</a>");
+        
+        VersionLinesUtility.writeVersionTag(writer, "<a href=\"index.html\">Home</a>", "<a href=\"../dictionarydocs/index.html\">Dictionary Docs Home</a>", projectVersion, formattedDate);
+        
         writer.writeTag("h1", "Service Contracts");
         
-        VersionLinesUtility.writeVersionTag(writer, projectVersion, formattedDate);
+        
 
         writer.indentPrintln(
                 "<div class=\"panel\" style=\"background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204);\">");

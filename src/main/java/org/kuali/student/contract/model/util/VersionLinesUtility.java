@@ -15,6 +15,8 @@
  */
 package org.kuali.student.contract.model.util;
 
+import java.io.PrintStream;
+
 import org.kuali.student.contract.writer.HtmlWriter;
 
 /**
@@ -30,9 +32,41 @@ public class VersionLinesUtility {
 		// TODO Auto-generated constructor stub
 	}
 
-	public static void writeVersionTag(HtmlWriter writer, String projectVersion, String formattedDate) {
-		writer.writeTag ("h3", "<i>Release: " + projectVersion + "<br/> Generated: " + formattedDate + "</i>");
+	public static void writeVersionTag(HtmlWriter writer, String homeLink, String otherHomeLink, String projectVersion, String formattedDate) {
+		writeVersionTag(writer.getOut(), homeLink, otherHomeLink, projectVersion, formattedDate);
 		
 	}
+	
+	public static void writeVersionTag(PrintStream writer, String homeLink, String otherHomeLink, String projectVersion, String formattedDate) {
+		
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append("<style type=\"text/css\">");
+		
+		builder.append("ul.horizontal-list { display: inline; list-style-type: none; margin: 0; }");
+		builder.append("ul.horizontal-list li { display: inline; list-style-type: none; padding-right: 1em; }");
 
+	
+		builder.append("</style>");
+		
+		builder.append("<ul class=\"horizontal-list\">");
+		
+		builder.append("<li>");
+		builder.append(homeLink);
+		builder.append("</li>");
+		
+		builder.append("<li>");
+		builder.append(otherHomeLink);
+		builder.append("</li>");
+		
+		builder.append("<li><b>Maven Release: </b>");
+		builder.append(projectVersion);
+		
+		builder.append("</li><li><b>Page Generated: </b>");
+		builder.append(formattedDate);
+		
+		builder.append("</li></ul>");
+		
+		writer.println(builder.toString());
+	}
 }

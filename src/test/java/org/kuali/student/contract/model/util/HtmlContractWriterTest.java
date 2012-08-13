@@ -227,7 +227,7 @@ public class HtmlContractWriterTest {
         model = this.getEnrollModel();
         this.validate(model);
         writer = new HtmlContractWriter(HTML_CONTRACT_DIRECTORY_ENROLL, model);
-        writer.write("testVersion", DateUtility.asYMD(new Date()));
+        writer.write("testVersion", DateUtility.asYMDHMTZ(new Date()));
 
 //        assertTrue(new File(HTML_CONTRACT_DIRECTORY_ENROLL + "/" + "index.html").exists());
     }

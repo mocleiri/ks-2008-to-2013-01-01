@@ -49,12 +49,12 @@ public class HtmlContractServiceWriter {
     }
 
     public void write(String projectVersion, String formattedDate) {
-        writer.print("<a href=\"index.html\">home</a>");
         this.writeStyleSheet();
+       
+
+        VersionLinesUtility.writeVersionTag(writer, "<a href=\"index.html\">home</a>", "", projectVersion, formattedDate);
+
         writer.writeTag("h1", service.getName());
-
-        VersionLinesUtility.writeVersionTag(writer, projectVersion, formattedDate);
-
         
         writer.indentPrintln("<table id=\"serviceMetaTable\">");
         writer.indentPrintln("<tr>");

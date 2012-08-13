@@ -61,6 +61,7 @@ public class HtmlWriter extends XmlWriter {
         indentPrintln("<html>");
         indentPrintln("<head>");
         this.writeTag("title", title);
+       
         indentPrintln("</head>");
         indentPrintln("<body bgcolor=\"#ffffff\" topmargin=0 marginheight=0>");
     }

@@ -72,7 +72,7 @@ public class KSContractDocMojo extends AbstractMojo {
     	
     	MavenProject project = (MavenProject) getPluginContext().get("project");
     	
-    	String formattedDate = DateUtility.asYMD(new Date());
+    	String formattedDate = DateUtility.asYMDHMTZ(new Date());
     	
         ServiceContractModel model = null;
         HtmlContractWriter writer = null;

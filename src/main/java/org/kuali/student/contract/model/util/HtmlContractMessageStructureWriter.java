@@ -68,15 +68,19 @@ public class HtmlContractMessageStructureWriter {
     }
 
     public void write(String projectVersion, String formattedDate) {
-        writer.println("<a href=\"index.html\">home</a>");
-        if (this.isMainMessageStructure(xmlType)) {
-            writer.println("<a href=\"../dictionarydocs/" + initUpper(xmlType.getName()) + ".html\">dictionary doc</a>");
-        }
+       
         this.writeStyleSheet();
+       
+        
+        if (this.isMainMessageStructure(xmlType)) {
+        	VersionLinesUtility.writeVersionTag(writer, "<a href=\"index.html\">home</a>", "<a href=\"../dictionarydocs/" + initUpper(xmlType.getName()) + ".html\">dictionary doc</a>", projectVersion, formattedDate);
+        }
+        else 
+        	VersionLinesUtility.writeVersionTag(writer, "<a href=\"index.html\">home</a>", "" ,projectVersion, formattedDate);
+        
+
         writer.writeTag("h1", xmlType.getName());
         
-        VersionLinesUtility.writeVersionTag(writer, projectVersion, formattedDate);
-
         writer.indentPrintln("<table id=\"structureMetaTable\">");
         writer.indentPrintln("<tr>");
         writer.writeTag("th", "class=h", "Name");

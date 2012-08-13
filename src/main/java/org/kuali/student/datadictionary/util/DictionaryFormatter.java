@@ -74,6 +74,7 @@ public class DictionaryFormatter {
         out.println("<html>");
         out.println("<head>");
         writeTag(out, "title", title);
+        out.println ("<style>li.invalid { background: red; }</style>");
         out.println("</head>");
         out.println("<body bgcolor=\"#ffffff\" topmargin=0 marginheight=0>");
     }
