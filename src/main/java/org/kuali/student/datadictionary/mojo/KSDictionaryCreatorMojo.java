@@ -15,6 +15,8 @@ import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
 import org.kuali.student.datadictionary.util.KradDictionaryCreator;
 import org.kuali.student.contract.model.validation.ServiceContractModelValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The plugin entrypoint which is used to generate dictionary files based on the contract
@@ -23,6 +25,8 @@ import org.kuali.student.contract.model.validation.ServiceContractModelValidator
  */
 public class KSDictionaryCreatorMojo extends AbstractMojo {
 
+	private static final Logger log = LoggerFactory.getLogger(KSDictionaryCreatorMojo.class);
+	
     /**
      * @parameter expression=true
      **/
@@ -120,12 +124,19 @@ public class KSDictionaryCreatorMojo extends AbstractMojo {
                 lowerClasses.remove(xmlType.getName().toLowerCase());
                 String xmlObject = xmlType.getName();
                 KradDictionaryCreator writer =
-                        new KradDictionaryCreator(dictionaryDirectory,
-                        model,
-                        xmlObject,
-                        writeManual,
-                        writeGenerated);
-                writer.write();
+				        new KradDictionaryCreator(dictionaryDirectory,
+				        model,
+				        xmlObject,
+				        writeManual,
+				        writeGenerated);
+                try {
+					
+					writer.write();
+				} catch (Exception e) {
+					log.warn("Generate Failed for: " + xmlObject, e);
+					writer.delete();
+					
+				}
             }
         }
         if (!lowerClasses.isEmpty()) {
@@ -143,7 +154,7 @@ public class KSDictionaryCreatorMojo extends AbstractMojo {
             }
             else
             {
-                getLog ().info(buf);
+               log.info(buf.toString());
             }
         }
     }

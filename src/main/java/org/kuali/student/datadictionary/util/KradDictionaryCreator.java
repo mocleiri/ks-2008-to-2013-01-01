@@ -21,26 +21,29 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.text.BreakIterator;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
-import org.apache.commons.lang.StringEscapeUtils;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.XmlType;
 import org.kuali.student.contract.model.util.ModelFinder;
 import org.kuali.student.contract.writer.XmlWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author nwright
  */
 public class KradDictionaryCreator {
+	
+	private static final Logger log = LoggerFactory.getLogger(KradDictionaryCreator.class);
 
     private ServiceContractModel model;
     private ModelFinder finder;
@@ -52,6 +55,8 @@ public class KradDictionaryCreator {
     private List<MessageStructure> messageStructures;
     private boolean writeManual;
     private boolean writeGenerated;
+	private String generatedFilePath;
+	private String manualFilePath;
 
     public KradDictionaryCreator(String directory,
             ServiceContractModel model, String className, boolean writeManual, boolean writeGenerated) {
@@ -104,7 +109,7 @@ public class KradDictionaryCreator {
         }
 
         if (writeGenerated) {
-            String dirStr = this.directory + "/generated";
+            String dirStr = this.directory + File.separator + "generated";
             File dirFile = new File(dirStr);
             if (!dirFile.exists()) {
                 if (!dirFile.mkdirs()) {
@@ -113,14 +118,14 @@ public class KradDictionaryCreator {
                 }
             }
             try {
-                PrintStream out = new PrintStream(new FileOutputStream(dirStr + "/" + generatedFileName, false));
+                PrintStream out = new PrintStream(new FileOutputStream(generatedFilePath = dirStr + File.separator + generatedFileName, false));
                 this.gwriter = new XmlWriter(out, 0);
             } catch (FileNotFoundException ex) {
                 throw new IllegalStateException(ex);
             }
         }
         if (this.writeManual) {
-            String dirStr = this.directory + "/manual";
+            String dirStr = this.directory + File.separator + "manual";
             File dirFile = new File(dirStr);
             if (!dirFile.exists()) {
                 if (!dirFile.mkdirs()) {
@@ -129,7 +134,7 @@ public class KradDictionaryCreator {
                 }
             }
             try {
-                PrintStream out = new PrintStream(new FileOutputStream(dirStr + "/" + manualFileName, false));
+                PrintStream out = new PrintStream(new FileOutputStream(manualFilePath = dirStr + File.separator + manualFileName, false));
                 this.mwriter = new XmlWriter(out, 0);
             } catch (FileNotFoundException ex) {
                 throw new IllegalStateException(ex);
@@ -254,7 +259,7 @@ public class KradDictionaryCreator {
     }
 
     private Set<String> getComplexSubObjectsThatAreLists() {
-        Set<String> list = new LinkedHashSet();
+        Set<String> list = new LinkedHashSet<String>();
         for (MessageStructure ms : this.messageStructures) {
             switch (this.calculateCategory(ms)) {
                 case LIST_OF_COMPLEX:
@@ -263,6 +268,11 @@ public class KradDictionaryCreator {
                     if (!classNameToAdd.equalsIgnoreCase(className)) {
                         list.add(classNameToAdd);
                     }
+                    
+                    break;
+                default:
+                	// fall though - do nothing
+                	break;
             }
         }
         return list;
@@ -467,7 +477,10 @@ public class KradDictionaryCreator {
             Category category = this.calculateCategory(ms);
             switch (category) {
                 case DYNAMIC_ATTRIBUTE:
-                    continue;
+                    continue; // skip
+                    
+                default: 
+                	break;
             }
             String pathName = calcPathName(parentName, ms);
             String beanName = calcBeanName(pathName);
@@ -486,6 +499,12 @@ public class KradDictionaryCreator {
                     List<MessageStructure> childFields = this.finder.findMessageStructures(childXmlTypeName);
                     writeGeneratedAttributeDefinitions(childXmlTypeName, pathName, parents, childFields, out);
                     parents.pop();
+                    
+                    break;
+                    
+               default:
+            	   // all other cases fall through
+            	   break;
             }
         }
     }
@@ -691,7 +710,10 @@ public class KradDictionaryCreator {
             // skip dynamic attributes
             switch (cat) {
                 case DYNAMIC_ATTRIBUTE:
-                    continue;
+                    continue; // skip
+                    
+                default:
+                	break;
             }
 
             String pathName = calcPathName(parentName, ms);
@@ -713,6 +735,11 @@ public class KradDictionaryCreator {
 //                }
                     writeManualAttributeDefinitions(childXmlTypeName, pathName, parents, childFields, out);
                     parents.pop();
+                    
+                    break;
+                    
+                default:
+                	break;
             }
         }
     }
@@ -811,6 +838,9 @@ public class KradDictionaryCreator {
         map.put("Date", "BaseKuali.date");
         map.put("Boolean", "BaseKuali.boolean");
         map.put("Integer", "BaseKuali.integer");
+        // having primitives is a bug but this will fix the issue with CluInfo for now.
+        map.put("int", "BaseKuali.integer");
+        
         map.put("Long", "BaseKuali.long");
         map.put("Float", "BaseKuali.float");
         map.put("Double", "BaseKuali.double");
@@ -970,4 +1000,25 @@ public class KradDictionaryCreator {
         }
         return str.replace("\"", "'");
     }
+
+    /**
+     * Delete the files associated with this dictionary.
+     * 
+     * The use case is where an error is detected and we want to remove the file (would be size 0) from the disk.
+     * 
+     */
+	public void delete() {
+		
+		this.gwriter.getOut().close();
+		this.mwriter.getOut().close();
+		
+		if (!new File (manualFilePath).delete())
+			log.warn ("failed to delete manual path: " + manualFilePath);
+		
+		if (!new File (generatedFilePath).delete())
+			log.warn ("failed to delete generated path: " + generatedFilePath);
+		
+		
+		
+	}
 }
