@@ -25,10 +25,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,6 +35,7 @@ import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+import org.joda.time.DateTime;
 import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
@@ -202,7 +201,7 @@ public class KSDictionaryDocMojo extends AbstractMojo {
 
         String outputDir = this.htmlDirectory.getAbsolutePath();
         DictionaryTesterHelper tester = new DictionaryTesterHelper(outputDir, inpFiles, this.supportFiles);
-        tester.doTest();
+        tester.doTest(project.getVersion(), DateUtility.asYMDHMInEasternTimeZone(new DateTime()));
 
         // write out the index file
         String indexFileName = this.htmlDirectory.getPath() + "/" + "index.html";
@@ -215,7 +214,7 @@ public class KSDictionaryDocMojo extends AbstractMojo {
             throw new IllegalArgumentException(indexFileName, ex);
         }
         
-        String formattedDate = DateUtility.asYMDHMTZ(new Date());
+        String formattedDate = DateUtility.asYMDHMInEasternTimeZone(new DateTime());
         
         PrintStream out = new PrintStream(outputStream);
         
@@ -224,6 +223,7 @@ public class KSDictionaryDocMojo extends AbstractMojo {
         VersionLinesUtility.writeVersionTag(out, "<a href=\"index.html\">Home</a>", "<a href=\"../contractdocs/index.html\">Contract Docs Home</a>", project.getVersion(), formattedDate);
         
         out.println("<h1>Data Dictionary Index</h1>");
+        out.println("<blockquote>A Red background indicates that there is a problem with the data dictionary for that type.</blockquote>");
         out.println("<ul>");
         
         Map<String, List<String>> fileToBeanNameMap = tester.getInputFileToBeanNameMap();

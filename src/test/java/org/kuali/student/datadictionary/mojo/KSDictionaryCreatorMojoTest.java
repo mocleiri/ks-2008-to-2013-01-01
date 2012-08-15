@@ -80,6 +80,7 @@ public class KSDictionaryCreatorMojoTest {
         List<String> srcDirs = new ArrayList<String>();
 //        srcDirs.add(TEST_SOURCE_DIRECTORY);
         srcDirs.add(ENROLL_PROJECT_JAVA_DIRECTORY);
+        
 //		srcDirs.add(CORE_DIRECTORY);
 //		srcDirs.add(COMMON_DIRECTORY);
 //		srcDirs.add(LUM_DIRECTORY);
@@ -167,7 +168,6 @@ public class KSDictionaryCreatorMojoTest {
 //        classNames.add("ResultValueInfo");     
 //        classNames.add("ResultScaleInfo"); 
         
-        instance.setClassNames(classNames);
         instance.execute();
 //        assertTrue(new File(instance.getOutputDirectory() + "/" + "ks-LprInfo-dictionary.xml").exists());
     }

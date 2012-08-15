@@ -43,11 +43,7 @@ public class KSDictionaryCreatorMojo extends AbstractMojo {
      * @parameter expression=true
      */
     private boolean writeGenerated;
-    /**
-     * @parameter
-     */
-    private List<String> classNames;
-
+    
     public boolean isThrowExceptionIfNotAllFilesProcessed() {
         return throwExceptionIfNotAllFilesProcessed;
     }
@@ -70,14 +66,6 @@ public class KSDictionaryCreatorMojo extends AbstractMojo {
 
     public boolean isWriteGenerated() {
         return writeGenerated;
-    }
-
-    public List<String> getClassNames() {
-        return classNames;
-    }
-
-    public void setClassNames(List<String> classNames) {
-        this.classNames = classNames;
     }
 
     public void setWriteManual(boolean writeManual) {
@@ -119,10 +107,12 @@ public class KSDictionaryCreatorMojo extends AbstractMojo {
         ServiceContractModel model = this.getModel();
         this.validate(model);
 
-        Set<String> lowerClasses = new HashSet();
-        for (String className : classNames) {
-            lowerClasses.add(className.toLowerCase());
-        }
+        // build the list of expected files types to generate the dictionary files for.
+        Set<String> lowerClasses = new HashSet<String>();
+        
+        for (XmlType type : model.getXmlTypes()) {
+			lowerClasses.add(type.getName().toLowerCase());
+		}
 
         String dictionaryDirectory = this.outputDirectory.toString();
         for (XmlType xmlType : model.getXmlTypes()) {

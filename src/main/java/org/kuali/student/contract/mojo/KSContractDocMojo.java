@@ -2,12 +2,12 @@ package org.kuali.student.contract.mojo;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+import org.joda.time.DateTime;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
@@ -72,7 +72,7 @@ public class KSContractDocMojo extends AbstractMojo {
     	
     	MavenProject project = (MavenProject) getPluginContext().get("project");
     	
-    	String formattedDate = DateUtility.asYMDHMTZ(new Date());
+    	String formattedDate = DateUtility.asYMDHMInEasternTimeZone(new DateTime());
     	
         ServiceContractModel model = null;
         HtmlContractWriter writer = null;

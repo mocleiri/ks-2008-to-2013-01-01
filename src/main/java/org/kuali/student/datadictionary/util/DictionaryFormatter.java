@@ -40,6 +40,7 @@ import org.kuali.rice.krad.datadictionary.validation.constraint.ValidCharactersC
 import org.kuali.rice.krad.datadictionary.validation.constraint.WhenConstraint;
 import org.kuali.rice.krad.uif.control.Control;
 import org.kuali.rice.krad.uif.control.TextControl;
+import org.kuali.student.contract.model.util.VersionLinesUtility;
 
 public class DictionaryFormatter {
 
@@ -55,7 +56,7 @@ public class DictionaryFormatter {
         this.outputFileName = outputFileName;
     }
 
-    public void formatForHtml() {
+    public void formatForHtml(String projectVersion, String formattedDate) {
         File file = new File(this.outputFileName);
         OutputStream outputStream;
         try {
@@ -65,7 +66,7 @@ public class DictionaryFormatter {
         }
         PrintStream out = new PrintStream(outputStream);
         writeHeader(out, beanId);
-        writeBody(out);
+        writeBody(out, projectVersion, formattedDate);
         writeFooter(out);
         out.close();
     }
@@ -97,11 +98,9 @@ public class DictionaryFormatter {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
-    private void writeBody(PrintStream out) {
-        out.println("<a href=\"index.html\">home</a>");
-        out.println("<a href=\"../contractdocs/" + initUpper(doe.getName()) + ".html\">contract doc</a>");
-        out.println("<br>");
-        out.println("(!) This page was automatically generated on " + new Date());
+    private void writeBody(PrintStream out, String projectVersion, String formattedDate) {
+    	
+    	VersionLinesUtility.writeVersionTag(out, "<a href=\"index.html\">home</a>", "<a href=\"../contractdocs/" + initUpper(doe.getName()) + ".html\">contract doc</a>", projectVersion, formattedDate);
 //  builder.append ("======= start dump of object structure definition ========");
         out.println("<h1>" + this.beanId + "</h1>");
 

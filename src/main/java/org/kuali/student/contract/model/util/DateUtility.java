@@ -19,7 +19,14 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
 import org.kuali.student.contract.exception.DictionaryExecutionException;
 
 /**
@@ -65,12 +72,18 @@ public class DateUtility {
         return df.format(date);
     }
     
-    public static String asYMDHMTZ (Date date) {
+    private static DateTimeFormatter adjustToEasternTimeZoneFormatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm zzz");
+    
+    public static String asYMDHMInEasternTimeZone (DateTime date) {
     	if (date == null)
     		return null;
     	
-    	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm zzz");
+    	DateTime adjustedDate = date.withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("America/Toronto")));
     	
-    	return df.format(date);
+    	String formattedDate = adjustToEasternTimeZoneFormatter.print(adjustedDate);
+    	
+//    	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm zzz", Locale.);
+
+    	return formattedDate;
     }
 }

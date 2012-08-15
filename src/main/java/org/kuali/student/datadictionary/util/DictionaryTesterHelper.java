@@ -77,7 +77,7 @@ public class DictionaryTesterHelper {
 	// ac.getBeansOfType(DataObjectEntry.class);
 	// }
 
-	public void doTest() {
+	public void doTest(String projectVersion, String formattedDate) {
 
 		missingDictionaryFiles = new LinkedHashSet<String>();
 		
@@ -145,7 +145,7 @@ public class DictionaryTesterHelper {
 				DictionaryFormatter formatter = new DictionaryFormatter(doe,
 						beansOfType, beanId, fullOutputFileName);
 				
-					formatter.formatForHtml();
+					formatter.formatForHtml(projectVersion, formattedDate);
 					
 					
 				} catch (Exception e) {

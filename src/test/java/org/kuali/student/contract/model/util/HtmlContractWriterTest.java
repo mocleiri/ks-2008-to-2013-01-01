@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -227,7 +228,7 @@ public class HtmlContractWriterTest {
         model = this.getEnrollModel();
         this.validate(model);
         writer = new HtmlContractWriter(HTML_CONTRACT_DIRECTORY_ENROLL, model);
-        writer.write("testVersion", DateUtility.asYMDHMTZ(new Date()));
+        writer.write("testVersion", DateUtility.asYMDHMInEasternTimeZone(new DateTime()));
 
 //        assertTrue(new File(HTML_CONTRACT_DIRECTORY_ENROLL + "/" + "index.html").exists());
     }
