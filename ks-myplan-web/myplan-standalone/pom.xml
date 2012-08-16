@@ -214,6 +214,12 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-web</artifactId>
+            <version>${kuali.rice.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
             <artifactId>rice-edl-impl</artifactId>
             <version>${kuali.rice.version}</version>
         </dependency>
@@ -306,9 +312,9 @@
 
         <!-- Mutual certificate authentication between UW KS and UW Rice -->
         <dependency>
-            <groupId>edu.uw.kuali.rice</groupId>
-            <artifactId>uw-kuali-rice-security</artifactId>
-            <version>2.2.0-sr1</version>
+            <groupId>edu.uw.kuali</groupId>
+            <artifactId>commons-security</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
     </dependencies>
