@@ -198,12 +198,6 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         return info;
     }
 
-
-
-
-
-
-
     private void testDeletes(CourseOfferingInfo co, FormatOfferingInfo fo, ActivityOfferingInfo ao)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException {
 
@@ -218,7 +212,6 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         } catch (DoesNotExistException ex) {
             // expected
         }
-
 
         // delete fo
         status = this.courseOfferingService.deleteFormatOffering(fo.getId(), callContext);
@@ -354,6 +347,5 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         assertEquals(orig.getMinimumEnrollment(), info.getMinimumEnrollment());
         assertEquals(orig.getMaximumEnrollment(), info.getMaximumEnrollment());
         return info;
-
     }
 }

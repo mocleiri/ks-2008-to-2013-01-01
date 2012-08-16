@@ -165,6 +165,30 @@
         ID="kuali.lui.format.offering.state.planned"
         LIFECYCLE_KEY="kuali.format.offering.process" NAME="Planned"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120814000000"
+        DESCR_FORMATTED="Reg Group is closed"
+        DESCR_PLAIN="Reg Group is closed"
+        ID="kuali.lui.registration.group.state.closed"
+        LIFECYCLE_KEY="kuali.course.registration.group.lifecycle"
+        NAME="Active" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120814000000"
+        DESCR_FORMATTED="Reg Group is invalid"
+        DESCR_PLAIN="Reg Group is invalid"
+        ID="kuali.lui.registration.group.state.invalid"
+        LIFECYCLE_KEY="kuali.course.registration.group.lifecycle"
+        NAME="Active" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120814000000"
+        DESCR_FORMATTED="Reg Group is open"
+        DESCR_PLAIN="Reg Group is open"
+        ID="kuali.lui.registration.group.state.open"
+        LIFECYCLE_KEY="kuali.course.registration.group.lifecycle"
+        NAME="Active" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120814000000"
+        DESCR_FORMATTED="Reg Group is suspended"
+        DESCR_PLAIN="Reg Group is suspended"
+        ID="kuali.lui.registration.group.state.suspended"
+        LIFECYCLE_KEY="kuali.course.registration.group.lifecycle"
+        NAME="Active" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_PLAIN="Indicates that this milestone is just tentative"
         ID="kuali.milestone.state.Draft"
@@ -233,6 +257,13 @@
         DESCR_PLAIN="Indicates that this Process is inactive because it was put out to pasture. Any checks for this process should fail."
         ID="kuali.process.process.state.inactive"
         LIFECYCLE_KEY="kuali.process.process.lifecycle" NAME="Inactive" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120813000000"
+        DESCR_FORMATTED="The request has been created"
+        DESCR_PLAIN="The request has been created"
+        ID="kuali.scheduling.schedule.request.state.created"
+        LIFECYCLE_KEY="kuali.scheduling.schedule.request.lifecycle"
+        NAME="Created" UPDATEID="SYSTEMLOADER"
+        UPDATETIME="20120813000000" VER_NBR="1"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_FORMATTED="An existing course offering was canceled"
         DESCR_PLAIN="An existing course offering was canceled"

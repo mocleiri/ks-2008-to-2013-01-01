@@ -1,10 +1,11 @@
 package org.kuali.student.enrollment.class2.appointment.service.impl;
 
+import java.lang.String;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
@@ -19,9 +20,7 @@ import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.type.service.TypeService;
@@ -29,6 +28,9 @@ import org.kuali.student.r2.common.type.service.TypeService;
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map;
+import org.kuali.student.r2.core.class1.search.ApptWindowCountsSearchImpl;
+import org.kuali.student.r2.core.search.util.SearchResultHelper;
 
 
 public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
@@ -43,7 +45,7 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
     @Override
     public AppointmentWindowWrapper retrieveDataObject(Map<String, String> parameters) {
 
-        AppointmentWindowWrapper appointmentWindowWrapper = new AppointmentWindowWrapper();
+        AppointmentWindowWrapper appointmentWindowWrapper = null;
         AppointmentService appointmentService = getAppointmentService();
         ContextInfo context = getContextInfo();
         try{
@@ -56,6 +58,7 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
             else {
                 System.out.println(">>>windowId ="+windowId);
             }
+            appointmentWindowWrapper = new AppointmentWindowWrapper();
             //populate Window Info section
             AppointmentWindowInfo appointmentWindowInfo = appointmentService.getAppointmentWindow(windowId, context);
             appointmentWindowWrapper.setAppointmentWindowInfo(appointmentWindowInfo);
@@ -68,20 +71,18 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
             appointmentWindowWrapper.setWindowTypeName(type.getName());
 
             //Use a search to get window detail information in one call
-            SearchRequestInfo searchRequest = new SearchRequestInfo("appt.search.appointmentCountForWindowId");
-            searchRequest.addParam("windowId",windowId);
+            SearchRequestInfo searchRequest = new SearchRequestInfo(ApptWindowCountsSearchImpl.SEARCH_TYPE.getKey());
+            searchRequest.addParam(ApptWindowCountsSearchImpl.APPT_WINDOW_ID.getKey(),windowId);
             SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
 
-            //Map the search results back to the appointment window
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-
-            Map<String, String> searchResultMap = convertToMap(searchResult).get(0);
-            Integer numberOfSlots = searchResultMap.get("numSlots")==null?null:Integer.parseInt(searchResultMap.get("numSlots"));
-            Integer numberOfStudents = searchResultMap.get("numAppts")==null?null:Integer.parseInt(searchResultMap.get("numAppts"));
+            SearchResultHelper resultHelper = new SearchResultHelper (searchResult);
+            Integer numberOfSlots = resultHelper.getAsInteger(0, ApptWindowCountsSearchImpl.NUM_SLOTS);
+            Integer numberOfStudents = resultHelper.getAsInteger(0, ApptWindowCountsSearchImpl.NUM_APPTS);
             double meanStudentsPerSlot = Math.ceil(numberOfStudents/(float)numberOfSlots);
-            String firstSlotPopulated = searchResultMap.get("firstSlot");
-            String lastSlotPopulated = searchResultMap.get("lastSlot");
-            Date windowCreate = searchResultMap.get("createTime")==null?null:formatter.parse(searchResultMap.get("createTime"));
+            String firstSlotPopulated = resultHelper.get(0, ApptWindowCountsSearchImpl.FIRST_SLOT);
+            String lastSlotPopulated = resultHelper.get(0, ApptWindowCountsSearchImpl.LAST_SLOT);
+            Date windowCreate = resultHelper.getAsDate(0, ApptWindowCountsSearchImpl.CREATE_TIME);
+            
 
             appointmentWindowWrapper.setNumberOfSlots(numberOfSlots);
             appointmentWindowWrapper.setNumberOfStudents(numberOfStudents);
@@ -90,26 +91,13 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
             appointmentWindowWrapper.setLastSlotPopulated(lastSlotPopulated);
             appointmentWindowWrapper.setAssignmentsCreated(windowCreate);
 
-            return appointmentWindowWrapper;
-
         }catch (Exception e){
-
+             throw new RuntimeException("Unable to retireve Apppointment Window from Inquiry", e);
         }
 
-        return null;
+        return appointmentWindowWrapper;
     }
 
-    private List<Map<String,String>> convertToMap(SearchResultInfo searchResult) {
-        List<Map<String,String>> list = new ArrayList<Map<String,String>>();
-        for(SearchResultRowInfo row:searchResult.getRows()){
-            Map<String,String> map = new HashMap<String,String>();
-            for(SearchResultCellInfo cell:row.getCells()){
-                map.put(cell.getKey(),cell.getValue());
-            }
-            list.add(map);
-        }
-        return list;
-    }
 
     private String getFormattedDate(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");

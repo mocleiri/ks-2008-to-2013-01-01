@@ -28,6 +28,11 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private List<CourseOfferingEditWrapper> courseOfferingEditWrapperList;
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
 
+    //For View Registration Groups
+    private String formatOfferingIdForViewRG;
+    private String formatOfferingName;
+    private List<ActivityOfferingWrapper> filteredAOsForSelectedFO;
+
     //For Adding Activity
     private String formatIdForNewAO;
 
@@ -42,6 +47,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     public CourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
+        filteredAOsForSelectedFO = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
         setCourseOfferingCopyWrapper(null);
     }
@@ -132,6 +138,30 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setSelectedToDeleteList(List<ActivityOfferingWrapper> selectedToDeleteList) {
         this.selectedToDeleteList = selectedToDeleteList;
+    }
+
+    public String getFormatOfferingIdForViewRG() {
+        return formatOfferingIdForViewRG;
+    }
+
+    public void setFormatOfferingIdForViewRG(String formatOfferingIdForViewRG) {
+        this.formatOfferingIdForViewRG = formatOfferingIdForViewRG;
+    }
+
+    public String getFormatOfferingName() {
+        return formatOfferingName;
+    }
+
+    public void setFormatOfferingName(String formatOfferingName) {
+        this.formatOfferingName = formatOfferingName;
+    }
+
+    public List<ActivityOfferingWrapper> getFilteredAOsForSelectedFO() {
+        return filteredAOsForSelectedFO;
+    }
+
+    public void setFilteredAOsForSelectedFO(List<ActivityOfferingWrapper> filteredAOsForSelectedFO) {
+        this.filteredAOsForSelectedFO = filteredAOsForSelectedFO;
     }
 
     public String getFormatIdForNewAO() {

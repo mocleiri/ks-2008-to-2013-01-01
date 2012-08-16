@@ -11,7 +11,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
@@ -25,10 +24,17 @@ import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.class1.search.CourseOfferingHistorySearchImpl;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.common.type.service.TypeService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -59,6 +65,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     private ContextInfo contextInfo;
     private TypeService typeService;
     private transient LRCService lrcService;
+    private transient SearchService searchService;
 
     @RequestMapping(params = "methodToCall=loadCourseCatalog")
     public ModelAndView loadCourseCatalog(@ModelAttribute("KualiForm") MaintenanceForm form, BindingResult result,
@@ -71,14 +78,11 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         TermInfo term = getTerm(termCode);
         coWrapper.setTerm(term);
 
-        CourseInfo course = getCourseInfo(courseCode);
-        coWrapper.setCourse(course);
+        List<CourseInfo> matchingCourses = retrieveMatchingCourses(courseCode);
 
-        // Added for Jira 1598 and 1648 Tanveer 07/10/2012
-        coWrapper.setInvalidCatalogCourseCodeError("");
-        coWrapper.setInvalidTargetTermError("");
 
-        if (course != null && term != null) {
+        if (matchingCourses.size() == 1 && term != null) {
+            CourseInfo course = matchingCourses.get(0);
             coWrapper.setCourse(course);
             coWrapper.setCreditCount(ViewHelperUtil.trimTrailing0( getLrcService().getResultValue(course.getCreditOptions().get(0).getResultValueKeys().get(0), contextInfo).getValue() ));
             coWrapper.setShowAllSections(true);
@@ -98,7 +102,17 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 coWrapper.getExistingOfferingsInCurrentTerm().add(co);
             }
 
-            courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourse(coWrapper.getCourse().getId(),getContextInfo());
+            //Get past 5 years CO
+            SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingHistorySearchImpl.PAST_CO_SEARCH.getKey());
+            searchRequest.addParam(CourseOfferingHistorySearchImpl.COURSE_ID,coWrapper.getCourse().getId());
+            SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
+
+            List<String> courseOfferingIds = new ArrayList(searchResult.getTotalResults());
+            for (SearchResultRowInfo row : searchResult.getRows()) {
+                 courseOfferingIds.add(row.getCells().get(0).getValue());
+            }
+
+            courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds, getContextInfo());
 
             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
                 ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
@@ -114,16 +128,17 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         } else {
 
-            if (course == null && term == null){
+            if (matchingCourses.size() > 1){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Multiple matches found for the course code");
+                return null;
+            }
+            else if (matchingCourses.isEmpty() && term == null){
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Both Catalog Course Code and Target Term are invalid");
-                coWrapper.setInvalidTargetTermError("Target Term, Catalog Course Code invalid"); // Temp error message, will be removed once the above error works
             } else {
                 if (term == null) {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Target Term");
-                    coWrapper.setInvalidTargetTermError("Invalid Target Term"); // Temp error message, will be removed once the above error works
-                } else if (course == null) {
+                } else if (matchingCourses.isEmpty()) {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Catalog Course Code");
-                    coWrapper.setInvalidCatalogCourseCodeError("Invalid Catalog Course Code"); // Temp error message, will be removed once the above error works
                 }
             }
             coWrapper.clear();
@@ -280,7 +295,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return courseOfferingService;
     }
 
-    private CourseInfo getCourseInfo(String courseName) {
+    private List<CourseInfo> retrieveMatchingCourses(String courseName) {
 
         CourseInfo        returnCourseInfo = null;
         String            courseId         = null;
@@ -289,7 +304,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         SearchParam qpv1 = new SearchParam();
         qpv1.setKey("lu.criteria.code");
-        qpv1.setValue(courseName);
+        qpv1.setValue(courseName.toUpperCase());
         searchParams.add(qpv1);
 
         SearchRequest searchRequest = new SearchRequest();
@@ -316,17 +331,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             throw new RuntimeException(e);
         }
 
-        if (courseInfoList.size() > 1){
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Multiple matches found for the course code");
-            return null;
-        }
-
-        if (courseInfoList.isEmpty()){
-           GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "No match found for the course code");
-            return null;
-        }
-
-        return courseInfoList.get(0);
+        return courseInfoList;
 
     }
 
@@ -356,5 +361,12 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             lrcService = CourseOfferingResourceLoader.loadLrcService();
         }
         return this.lrcService;
+    }
+
+    protected SearchService getSearchService() {
+        if(searchService == null) {
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
+        }
+        return searchService;
     }
 }

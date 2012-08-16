@@ -12,6 +12,7 @@ public class CourseOfferingConstants {
     public final static String COURSEOFFERING_ID = "id";
     public final static String COURSEOFFERING_TERM_ID = "termId";
     public final static String COURSEOFFERING_SUBJECT_AREA = "subjectArea";
+    public final static String COURSEOFFERING_SUBJECT_CODE = "subjectCode";
     public final static String COURSEOFFERING_COURSE_OFFERING_CODE = "courseOfferingCode";
     public final static String ATP_CODE = "atpCode";
     public final static String ATP_ID = "atpId";
@@ -36,12 +37,18 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE = "error.courseoffering.selected.AO.delete.confirmation";
     public static final String COURSEOFFERING_MSG_ERROR_CO_CANNOT_DELETE="error.courseoffering.selected.CO.delete.confirmation";
     public static final String COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR = "error.courseoffering.invalid.state";
+    public static final String COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY = "error.courseoffering.aodraftonlyapproved";
 
     public static final String ACTIVITY_OFFERING_SCHEDULING_ACTION = "Scheduling";
     public static final String ACTIVITY_OFFERING_DRAFT_ACTION = "Draft";
     public static final String ACTIVITY_OFFERING_DELETE_ACTION = "Delete";
 
     public static final String MANAGE_AO_PAGE = "manageActivityOfferingsPage";
+    public static final String MANAGE_CO_PAGE = "manageCourseOfferingsPage";
+    public static final String CO_DELETE_CONFIRM_PAGE = "coDeleteConfirmationPage";
+    public static final String AO_DELETE_CONFIRM_PAGE = "selectedAoDeleteConfirmationPage";
+    public static final String REG_GROUP_PAGE = "viewRegistrationGroupsPage";
+    public static final String COPY_CO_PAGE = "copyCourseOfferingPage";
 
     // Display text
     public static final String COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY = "None available";

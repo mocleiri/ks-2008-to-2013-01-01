@@ -35,15 +35,12 @@ public class LuiServiceConstants {
     public static final String LUI_KEY_PREFIX = "kuali.lui";
 
     /**
-     * Types
+     * Course Offering, Format Offering, Registration Group Types
      */
-//    public static final String COURSE_BUNDLE_TYPE_KEY = "kuali.lui.type.course.bundle";
     public static final String COURSE_OFFERING_TYPE_KEY = "kuali.lui.type.course.offering";
     // 6/13/2012 Per conversation with Norm/Melissa to include course with format in the format offering type key
     public static final String FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
     public static final String REGISTRATION_GROUP_TYPE_KEY = "kuali.lui.type.registration.group";
-//    public static final String COURSE_FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
-    public static final String ACTIVITY_OFFERING_GROUP_TYPE_KEY = "kuali.lui.type.grouping.activity";
 
     public static final boolean isFormatOfferingTypeKey(String possibleType) {
         if (possibleType == null) {
@@ -53,7 +50,11 @@ public class LuiServiceConstants {
     }
     /**
      * Activity types
+     * https://wiki.kuali.org/display/STUDENT/Activity+Types
      */
+    // This is a grouping type used for type-type relations
+    public static final String ACTIVITY_OFFERING_GROUP_TYPE_KEY = "kuali.lui.type.grouping.activity";
+    // These are the activity offering types
     public static final String LECTURE_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.lecture";
     public static final String LAB_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.lab";
     public static final String DISCUSSION_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.discussion";
@@ -76,10 +77,13 @@ public class LuiServiceConstants {
     public static final String SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.selfpaced";
     public static final String COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.compbased";
     public static final String VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.videoconf";
-    public static final String SEMINAR_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.seminar";
-    public static final String QUIZ_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.quiz";
+    public static final String CLERKSHIP_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.clerkship";
+    public static final String CLINIC_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.clinic";
     public static final String CONFERENCE_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.conference";
-    public static final String ACTIVITY_OFFERING_TYPE_KEY_PREFIX = "kuali.lui.type.activity.offering.";
+    public static final String PRACTICUM_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.practicum";
+    public static final String QUIZ_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.quiz";
+    public static final String SEMINAR_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.seminar";
+
     public static final String[] ALL_ACTIVITY_TYPES = {
         LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
         LAB_ACTIVITY_OFFERING_TYPE_KEY,
@@ -103,10 +107,15 @@ public class LuiServiceConstants {
         SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY,
         COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY,
         VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY,
-        SEMINAR_ACTIVITY_OFFERING_TYPE_KEY,
+        CLERKSHIP_ACTIVITY_OFFERING_TYPE_KEY,
+        CLINIC_ACTIVITY_OFFERING_TYPE_KEY,
+        CONFERENCE_ACTIVITY_OFFERING_TYPE_KEY,
+        PRACTICUM_ACTIVITY_OFFERING_TYPE_KEY,
         QUIZ_ACTIVITY_OFFERING_TYPE_KEY,
-        CONFERENCE_ACTIVITY_OFFERING_TYPE_KEY};
+        SEMINAR_ACTIVITY_OFFERING_TYPE_KEY
+    };
 
+    public static final String ACTIVITY_OFFERING_TYPE_KEY_PREFIX = "kuali.lui.type.activity.offering."; // Not a type
     // TODO: May want to do this for other groupings
     private static HashSet<String> ACTIVITY_TYPES_HASH_SET = null;
     public static boolean isActivityType(String possibleActivityType) {
@@ -231,9 +240,18 @@ public class LuiServiceConstants {
     /**
      *  LUI LUI Relation types
      */
+    @Deprecated
     public static final String LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY = "kuali.lui.lui.relation.associated";
+    // Actual LUI LUI Relation types KSENROLL-2237
+    public static final String LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY = "kuali.lui.lui.relation.type.deliveredvia.co2fo";
+    public static final String LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY = "kuali.lui.lui.relation.type.deliveredvia.fo2ao";
+    public static final String LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY = "kuali.lui.lui.relation.type.deliveredvia.fo2rg";
+    public static final String LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY = "kuali.lui.lui.relation.type.registeredforvia.rg2ao";
+    // This is a grouping type
     public static final String LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY = "kuali.lui.lui.relation.type.registeredforvia";
+    // This is a grouping type
     public static final String LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY = "kuali.lui.lui.relation.type.deliveredvia";
+
     /**
      * LUI LUI Relation States
      */
@@ -292,11 +310,23 @@ public class LuiServiceConstants {
     
     /**
      * Registration Group States
+     * (See: https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-RegistrationGroupLifecycle)
+     *  See Jira KSENROLL-2238
      */
-    public static final String REGISTRATION_GROUP_OPEN_STATE_KEY = " kuali.lui.registration.group.state.open";
-    public static final String REGISTRATION_GROUP_CLOSED_STATE_KEY = " kuali.lui.registration.group.state.closed";
-    public static final String REGISTRATION_GROUP_SUSPENDED_STATE_KEY = " kuali.lui.registration.group.state.suspended";
-    
+    public static final String REGISTRATION_GROUP_OPEN_STATE_KEY = "kuali.lui.registration.group.state.open";
+    public static final String REGISTRATION_GROUP_CLOSED_STATE_KEY = "kuali.lui.registration.group.state.closed";
+    public static final String REGISTRATION_GROUP_SUSPENDED_STATE_KEY = "kuali.lui.registration.group.state.suspended";
+    public static final String REGISTRATION_GROUP_INVALID_STATE_KEY = "kuali.lui.registration.group.state.invalid";
+    // The process key for Registration Groups
+    public static final String REGISTRATION_GROUP_LIFECYCLE_KEY = "kuali.course.registration.group.lifecycle";
+    // List of all Registration Group state keys in an array
+    public static final String[] REGISTRATION_GROUP_LIFECYCLE_KEY_STATES = {
+            REGISTRATION_GROUP_OPEN_STATE_KEY,
+            REGISTRATION_GROUP_CLOSED_STATE_KEY,
+            REGISTRATION_GROUP_SUSPENDED_STATE_KEY,
+            REGISTRATION_GROUP_INVALID_STATE_KEY
+    };
+
     /**
      * known lu codes
      */

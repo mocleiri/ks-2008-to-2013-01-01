@@ -89,21 +89,26 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <bean id="schedulingServiceImpl"
-          class="org.kuali.student.r2.core.class1.scheduling.service.impl.SchedulingServiceImpl">
+    <bean id="schedulingServiceImpl" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceImpl">
         <property name="timeSlotDao" ref="timeSlotDao"/>
+        <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
     </bean>
 
-    <bean id="timeSlotDao" class="org.kuali.student.r2.core.class1.scheduling.dao.TimeSlotDao">
+    <bean id="timeSlotDao" class="org.kuali.student.r2.core.scheduling.dao.TimeSlotDao">
         <property name="em" ref="entityManager"/>
     </bean>
 
     <!-- Commenting out until data dictionry is generated for Scheduling classes
-    <bean id="schedulingServiceValidationDecorator" class="org.kuali.student.r2.core.class1.scheduling.service.decorators.SchedulingServiceValidationDecorator">
+    <bean id="schedulingServiceValidationDecorator" class="SchedulingServiceValidationDecorator">
         <property name="nextDecorator" ref="schedulingServiceImpl"/>
         <property name="validator" ref="validator"/>
     </bean>
 
     -->
 
+   <bean id="scheduleRequestDao" class="org.kuali.student.r2.core.scheduling.dao.ScheduleRequestDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 </beans>
