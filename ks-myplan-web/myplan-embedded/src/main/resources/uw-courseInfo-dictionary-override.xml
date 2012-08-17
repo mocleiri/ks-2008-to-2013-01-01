@@ -173,7 +173,38 @@
     </bean>
 
     <bean id="courseInfo.descr" parent="courseInfo.descr-parent">
-        <property name="dataObjectStructure" ref="uw.richTextInfo"/>
+        <property name="dataObjectStructure" ref="uw.cluInfo.descr.RichTextInfo"/>
     </bean>
+
+    <bean id="cluInfo.descr" parent="cluInfo.descr-parent">
+        <property name="dataObjectStructure" ref="uw.cluInfo.descr.RichTextInfo"/>
+    </bean>
+
+
+    <bean id="uw.cluInfo.descr.RichTextInfo" parent="org.kuali.student.common.dto.RichTextInfo-parent">
+        <property name="attributes">
+            <list>
+                <ref bean="uw.cluInfo.richTextInfo.formatted" />
+                <ref bean="uw.cluInfo.richTextInfo.plain" />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="uw.cluInfo.richTextInfo.formatted" parent="richTextInfo.formatted-parent" >
+        <property name="validChars" ref="uw.cluInfo.multiLineText"/>
+        <property name="labelKey" value="jasonformatted"/>
+    </bean>
+
+    <bean id="uw.cluInfo.richTextInfo.plain" parent="richTextInfo.plain-parent" >
+        <property name="validChars" ref="uw.cluInfo.multiLineText"/>
+        <property name="labelKey" value="jasonplain"/>
+    </bean>
+
+    <bean id="uw.cluInfo.multiLineText" parent="ValidCharDefinition">
+        <property name="value" value="regex:[a-zA-Z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$\^~\*#@!\t\n\r ]*"/>
+        <property name="labelKey" value="jasonregex"/>
+    </bean>
+
 
 </beans>
