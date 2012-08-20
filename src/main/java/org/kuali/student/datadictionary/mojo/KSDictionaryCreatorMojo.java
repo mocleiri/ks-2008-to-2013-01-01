@@ -9,6 +9,7 @@ import java.util.Set;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
+import org.kuali.student.common.mojo.AbstractKSMojo;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.XmlType;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
@@ -23,7 +24,7 @@ import org.slf4j.LoggerFactory;
  * @phase generate-sources
  * @goal ksdictionarycreator
  */
-public class KSDictionaryCreatorMojo extends AbstractMojo {
+public class KSDictionaryCreatorMojo extends AbstractKSMojo {
 
 	private static final Logger log = LoggerFactory.getLogger(KSDictionaryCreatorMojo.class);
 	
@@ -31,10 +32,7 @@ public class KSDictionaryCreatorMojo extends AbstractMojo {
      * @parameter expression=true
      **/
     private boolean throwExceptionIfNotAllFilesProcessed;
-    /**
-     * @parameter
-     **/
-    private List<String> sourceDirs;
+   
     /**
      * @parameter expression="${outputDirectory}" default-value="${project.build.directory}/generated-sources/datadictionary"
      */
@@ -60,9 +58,6 @@ public class KSDictionaryCreatorMojo extends AbstractMojo {
         return outputDirectory;
     }
 
-    public List<String> getSourceDirs() {
-        return sourceDirs;
-    }
 
     public boolean isWriteManual() {
         return writeManual;
@@ -82,26 +77,6 @@ public class KSDictionaryCreatorMojo extends AbstractMojo {
 
     public void setOutputDirectory(File htmlDirectory) {
         this.outputDirectory = htmlDirectory;
-    }
-
-    public void setSourceDirs(List<String> sourceDirs) {
-        this.sourceDirs = sourceDirs;
-    }
-
-    private ServiceContractModel getModel() {
-        ServiceContractModel instance = new ServiceContractModelQDoxLoader(
-                sourceDirs);
-        return new ServiceContractModelCache(instance);
-    }
-
-    private boolean validate(ServiceContractModel model) {
-        Collection<String> errors = new ServiceContractModelValidator(model).validate();
-        if (errors.size() > 0) {
-            StringBuilder buf = new StringBuilder();
-            buf.append(errors.size()).append(" errors found while validating the data.");
-            return false;
-        }
-        return true;
     }
 
     @Override
@@ -137,6 +112,7 @@ public class KSDictionaryCreatorMojo extends AbstractMojo {
 					writer.delete();
 					
 				}
+                
             }
         }
         if (!lowerClasses.isEmpty()) {

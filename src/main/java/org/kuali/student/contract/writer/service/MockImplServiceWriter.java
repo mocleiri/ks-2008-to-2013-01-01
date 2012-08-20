@@ -766,7 +766,6 @@ public class MockImplServiceWriter extends JavaClassWriter {
     }
 
     private void writeGetTypes(ServiceMethod method) {
-        ServiceMethodParameter idParam = this.findIdParameter(method);
         String mapName = calcMapName(method);
         String objectName = this.calcObjectName(method);
         String infoName = objectName + "Info";

@@ -36,6 +36,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.joda.time.DateTime;
+import org.kuali.student.common.mojo.AbstractKSMojo;
 import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
@@ -81,7 +82,7 @@ import org.slf4j.LoggerFactory;
  * @phase site
  * @requiresDependencyResolution test
  */
-public class KSDictionaryDocMojo extends AbstractMojo {
+public class KSDictionaryDocMojo extends AbstractKSMojo {
 
 	private static final Logger log = LoggerFactory.getLogger(KSDictionaryDocMojo.class);
 	
@@ -92,10 +93,7 @@ public class KSDictionaryDocMojo extends AbstractMojo {
      */
     private MavenProject project;
     
-    /**
-     * @parameter
-     **/
-    private List<String> sourceDirs;
+   
     
     /**
      * The base applicationContext files.  
@@ -110,16 +108,7 @@ public class KSDictionaryDocMojo extends AbstractMojo {
 	private String testDictionaryFile;
 
 	private LinkedHashMap<String, String> dictionaryFileToMessageStructureMap  = new LinkedHashMap<String, String>();
-
-	
-    public List<String> getSourceDirs() {
-		return sourceDirs;
-	}
-
-	public void setSourceDirs(List<String> sourceDirs) {
-		this.sourceDirs = sourceDirs;
-	}
-
+   
 	public void setHtmlDirectory(File htmlDirectory) {
         this.htmlDirectory = htmlDirectory;
     }
@@ -141,22 +130,6 @@ public class KSDictionaryDocMojo extends AbstractMojo {
     	
     	if (supportFiles != null)
     		this.supportFiles.addAll(supportFiles);
-    }
-
-    private ServiceContractModel getModel() {
-        ServiceContractModel instance = new ServiceContractModelQDoxLoader(
-                sourceDirs);
-        return new ServiceContractModelCache(instance);
-    }
-
-    private boolean validate(ServiceContractModel model) {
-        Collection<String> errors = new ServiceContractModelValidator(model).validate();
-        if (errors.size() > 0) {
-            StringBuilder buf = new StringBuilder();
-            buf.append(errors.size()).append(" errors found while validating the data.");
-            return false;
-        }
-        return true;
     }
     
     @Override
@@ -202,15 +175,14 @@ public class KSDictionaryDocMojo extends AbstractMojo {
         }
         
         Set<String> inpFiles = new LinkedHashSet<String>();
-        if (project != null) {
-        ServiceContractModel model = this.getModel();
-        this.validate(model);
-        inpFiles.addAll(extractDictionaryFiles(model));
+		if (project != null) {
+			ServiceContractModel model = this.getModel();
+			this.validate(model);
+			inpFiles.addAll(extractDictionaryFiles(model));
 
-    }
-        else {
-        		inpFiles.add(this.testDictionaryFile);
-        }
+		} else {
+			inpFiles.add(this.testDictionaryFile);
+		}
     
 
         String outputDir = this.htmlDirectory.getAbsolutePath();
@@ -281,6 +253,7 @@ public class KSDictionaryDocMojo extends AbstractMojo {
 		}
         
         DictionaryFormatter.writeFooter(out);
+        out.flush();
         out.close();
         
         log.info("finished generating dictionary documentation");

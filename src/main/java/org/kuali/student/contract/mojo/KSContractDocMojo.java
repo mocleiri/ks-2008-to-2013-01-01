@@ -13,6 +13,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.joda.time.DateTime;
+import org.kuali.student.common.mojo.AbstractKSMojo;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
@@ -26,12 +27,8 @@ import org.kuali.student.contract.model.validation.ServiceContractModelValidator
  * @phase site
  * @requiresProject true
  */
-public class KSContractDocMojo extends AbstractMojo {
+public class KSContractDocMojo extends AbstractKSMojo {
 
-    /**
-     * @parameter
-     **/
-    private List<String> sourceDirs;
     /**
      * @parameter expression="${htmlDirectory}" default-value="${project.build.directory}/site/services/contractdocs"
      */
@@ -40,38 +37,9 @@ public class KSContractDocMojo extends AbstractMojo {
     public File getHtmlDirectory() {
         return htmlDirectory;
     }
-
-    public List<String> getSourceDirs() {
-        return sourceDirs;
-    }
-
+  
     public void setHtmlDirectory(File htmlDirectory) {
         this.htmlDirectory = htmlDirectory;
-    }
-
-    public void setSourceDirs(List<String> sourceDirs) {
-        this.sourceDirs = sourceDirs;
-    }
-
-	private ServiceContractModel getModel() {
-		
-		
-        ServiceContractModel instance = new ServiceContractModelQDoxLoader(
-                sourceDirs);
-        return new ServiceContractModelCache(instance);
-
-    }
-
-    private boolean validate(ServiceContractModel model) {
-        Collection<String> errors = new ServiceContractModelValidator(model).validate();
-        if (errors.size() > 0) {
-            StringBuilder buf = new StringBuilder();
-            buf.append(errors.size()).append(" errors found while validating the data.");
-            return false;
-
-
-        }
-        return true;
     }
 
     @Override

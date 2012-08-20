@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
+import org.kuali.student.common.mojo.AbstractKSMojo;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
@@ -19,12 +20,8 @@ import org.kuali.student.contract.writer.service.EachMethodServiceWriter;
  * @phase generate-sources
  * @goal kseachmethodservicegenerator
  */
-public class EachMethodServiceGeneratorrMojo extends AbstractMojo {
+public class KSEachMethodServiceGeneratorrMojo extends AbstractKSMojo {
 
-    /**
-     * @parameter
-     **/
-    private List<String> sourceDirs;
     /**
      * @parameter expression="${outputDirectory}" default-value="${project.build.directory}/generated-sources"
      */
@@ -34,18 +31,12 @@ public class EachMethodServiceGeneratorrMojo extends AbstractMojo {
         return outputDirectory;
     }
 
-    public List<String> getSourceDirs() {
-        return sourceDirs;
-    }
-
+   
     public void setOutputDirectory(File htmlDirectory) {
         this.outputDirectory = htmlDirectory;
     }
 
-    public void setSourceDirs(List<String> sourceDirs) {
-        this.sourceDirs = sourceDirs;
-    }
-    /**
+       /**
      * @parameter expression="${rootPackage}" default-value="org.kuali.student.enrollment"
      */
     private String rootPackage;
@@ -58,21 +49,8 @@ public class EachMethodServiceGeneratorrMojo extends AbstractMojo {
         this.rootPackage = rootPackage;
     }
 
-    private ServiceContractModel getModel() {
-        ServiceContractModel instance = new ServiceContractModelQDoxLoader(
-                sourceDirs);
-        return new ServiceContractModelCache(instance);
-    }
-
-    private boolean validate(ServiceContractModel model) {
-        Collection<String> errors = new ServiceContractModelValidator(model).validate();
-        if (errors.size() > 0) {
-            StringBuilder buf = new StringBuilder();
-            buf.append(errors.size()).append(" errors found while validating the data.");
-            return false;
-        }
-        return true;
-    }
+    
+    
 
     @Override
     public void execute() throws MojoExecutionException {

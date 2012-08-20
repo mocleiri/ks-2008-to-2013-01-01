@@ -140,6 +140,8 @@ public class HtmlContractServiceWriter {
         }
 
         writer.writeHeaderBodyAndFooterOutToFile();
+        
+        writer.getOut().close();
     }
 
     private String calcIncludedServices(List<String> includedServices) {

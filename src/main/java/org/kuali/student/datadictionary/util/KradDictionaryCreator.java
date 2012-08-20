@@ -1068,6 +1068,11 @@ public class KradDictionaryCreator {
 	 */
 	public void delete() {
 
+		close();
+
+	}
+
+	public void close() {
 		if (initialized) {
 			this.gwriter.getOut().close();
 			this.mwriter.getOut().close();
@@ -1081,6 +1086,6 @@ public class KradDictionaryCreator {
 
 			initialized = false;
 		}
-
+		
 	}
 }

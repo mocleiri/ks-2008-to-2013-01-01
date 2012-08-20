@@ -23,6 +23,8 @@ import java.io.PrintStream;
 import java.util.List;
 
 import org.kuali.student.contract.exception.DictionaryExecutionException;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  *
@@ -30,6 +32,8 @@ import org.kuali.student.contract.exception.DictionaryExecutionException;
  */
 public class HtmlWriter extends XmlWriter {
 
+	private static final Logger log = LoggerFactory.getLogger(HtmlWriter.class);
+	
     private String directory;
     private String fileName;
     private String title;
@@ -78,7 +82,11 @@ public class HtmlWriter extends XmlWriter {
             }
         }
         try {
-            PrintStream out = new PrintStream(new FileOutputStream(this.directory + "/" + fileName, false));
+        	
+        	String outputFileName = this.directory + File.separator + fileName;
+        	log.info("opening file = " + outputFileName);
+        	
+            PrintStream out = new PrintStream(new FileOutputStream(outputFileName, false));
             this.setOut(out);
         } catch (FileNotFoundException ex) {
             throw new DictionaryExecutionException(ex);
@@ -88,6 +96,7 @@ public class HtmlWriter extends XmlWriter {
         indentPrintln("</body>");
         decrementIndent();
         indentPrintln("</html>");
+        
     }
 
     public void writeTable(List<String> headers, List<List<String>> rows) {
