@@ -1549,8 +1549,12 @@ public class ServiceContractModelQDoxLoader implements
 //                       + t.toString ());
 //  }
 
-        Type t = type.getActualTypeArguments()[0];
-        return t.getJavaClass();
+        Type[]collectionTypeArguments = type.getActualTypeArguments();
+        
+        if (collectionTypeArguments == null)
+        	return new JavaClass (Object.class.getName());
+        else
+        	return collectionTypeArguments[0].getJavaClass();
     }
 
     private boolean isComplex(JavaClass javaClass) {

@@ -93,6 +93,11 @@ public class KSDictionaryDocMojo extends AbstractMojo {
     private MavenProject project;
     
     /**
+     * @parameter
+     **/
+    private List<String> sourceDirs;
+    
+    /**
      * The base applicationContext files.  
      * @parameter
      **/
@@ -106,7 +111,16 @@ public class KSDictionaryDocMojo extends AbstractMojo {
 
 	private LinkedHashMap<String, String> dictionaryFileToMessageStructureMap  = new LinkedHashMap<String, String>();
 
-    public void setHtmlDirectory(File htmlDirectory) {
+	
+    public List<String> getSourceDirs() {
+		return sourceDirs;
+	}
+
+	public void setSourceDirs(List<String> sourceDirs) {
+		this.sourceDirs = sourceDirs;
+	}
+
+	public void setHtmlDirectory(File htmlDirectory) {
         this.htmlDirectory = htmlDirectory;
     }
 
@@ -131,7 +145,7 @@ public class KSDictionaryDocMojo extends AbstractMojo {
 
     private ServiceContractModel getModel() {
         ServiceContractModel instance = new ServiceContractModelQDoxLoader(
-                project.getCompileSourceRoots());
+                sourceDirs);
         return new ServiceContractModelCache(instance);
     }
 
