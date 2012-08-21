@@ -156,5 +156,11 @@ public class MessageStructure {
     public void setDeprecated(boolean deprecated) {
         this.deprecated = deprecated;
     }
+
+	@Override
+	public String toString() {
+		return "MessageStructure [xmlObject=" + xmlObject + "]";
+	}
    
+    
 }

@@ -235,5 +235,11 @@ public class XmlType implements Serializable {
     public void setDeprecated(boolean deprecated) {
         this.deprecated = deprecated;
     }
+
+	@Override
+	public String toString() {
+		return "XmlType [javaPackage=" + javaPackage + ", name=" + name + "]";
+	}
+    
     
 }
