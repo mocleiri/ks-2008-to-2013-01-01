@@ -61,6 +61,7 @@ public class HtmlContractServiceWriter {
         writer.writeTag("th", "class=h", "Name");
         writer.writeTag("td", "id=serviceName colspan=2", service.getKey());
         writer.indentPrintln("</tr>");
+        
         writer.indentPrintln("<tr>");
         writer.writeTag("th", "class=h", "Version");
         writer.writeTag("td", "id=serviceVersion colspan=2", service.getVersion());
@@ -71,6 +72,13 @@ public class HtmlContractServiceWriter {
         writer.writeTag("td", "id=serviceVersion colspan=2", calcIncludedServices(
                 service.getIncludedServices()));
         writer.indentPrintln("</tr>");
+        
+        writer.indentPrintln("<tr>");
+        writer.writeTag("th", "class=h", "Java Package");
+
+        writer.writeTag("td", "id=serviceVersion colspan=2", service.getImplProject());
+        writer.indentPrintln("</tr>");
+        
 
         writer.indentPrintln("</table>");
 
