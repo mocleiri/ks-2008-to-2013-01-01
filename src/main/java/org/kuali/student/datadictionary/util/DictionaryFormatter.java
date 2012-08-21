@@ -874,8 +874,8 @@ public class DictionaryFormatter {
             if (textControl.getDatePicker() != null) {
                 return "DateControl";
             }
-            if (textControl.getStyleClasses() != null) {
-                if (textControl.getStyleClasses().contains("amount")) {
+            if (!textControl.getStyleClassesAsString().isEmpty()) {
+                if (textControl.getStyleClassesAsString().contains("amount")) {
                     return "CurrencyControl";
                 }
             }
