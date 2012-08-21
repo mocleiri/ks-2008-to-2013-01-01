@@ -15,30 +15,16 @@
  */
 package org.kuali.student.contract.model.impl;
 
-import com.thoughtworks.qdox.JavaDocBuilder;
-import com.thoughtworks.qdox.model.Annotation;
-import com.thoughtworks.qdox.model.DefaultDocletTagFactory;
-import com.thoughtworks.qdox.model.DocletTag;
-import com.thoughtworks.qdox.model.JavaClass;
-import com.thoughtworks.qdox.model.JavaField;
-import com.thoughtworks.qdox.model.JavaMethod;
-import com.thoughtworks.qdox.model.JavaParameter;
-import com.thoughtworks.qdox.model.Type;
-import com.thoughtworks.qdox.model.annotation.AnnotationValue;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javassist.compiler.Javac;
 
 import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.Service;
@@ -50,6 +36,17 @@ import org.kuali.student.contract.model.ServiceMethodReturnValue;
 import org.kuali.student.contract.model.XmlType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.thoughtworks.qdox.JavaDocBuilder;
+import com.thoughtworks.qdox.model.Annotation;
+import com.thoughtworks.qdox.model.DefaultDocletTagFactory;
+import com.thoughtworks.qdox.model.DocletTag;
+import com.thoughtworks.qdox.model.JavaClass;
+import com.thoughtworks.qdox.model.JavaField;
+import com.thoughtworks.qdox.model.JavaMethod;
+import com.thoughtworks.qdox.model.JavaParameter;
+import com.thoughtworks.qdox.model.Type;
+import com.thoughtworks.qdox.model.annotation.AnnotationValue;
 
 /**
  *
@@ -98,7 +95,7 @@ public class ServiceContractModelQDoxLoader implements
 
     @Override
     public List<String> getSourceNames() {
-        List<String> list = new ArrayList(this.sourceDirectories.size());
+        List<String> list = new ArrayList<String>(this.sourceDirectories.size());
         for (String javaFile : this.sourceDirectories) {
             list.add(javaFile);
         }
@@ -118,7 +115,7 @@ public class ServiceContractModelQDoxLoader implements
         if (xmlTypeMap == null) {
             this.parse();
         }
-        return new ArrayList(xmlTypeMap.values());
+        return new ArrayList<XmlType>(xmlTypeMap.values());
     }
 
     @Override
@@ -129,29 +126,6 @@ public class ServiceContractModelQDoxLoader implements
         return this.messageStructures;
     }
 
-    private String dump(DocletTag tag) {
-        if (tag == null) {
-            return null;
-        }
-        StringBuilder bldr = new StringBuilder();
-        bldr.append(tag.getName());
-        bldr.append("=");
-        if (tag.getNamedParameterMap() == null
-                || tag.getNamedParameterMap().isEmpty()) {
-            bldr.append(tag.getValue());
-        } else {
-            for (Object key : tag.getNamedParameterMap().keySet()) {
-                Object value = tag.getNamedParameterMap().get(key);
-                bldr.append("(");
-                bldr.append(key);
-                bldr.append("=");
-                bldr.append(value);
-                bldr.append(")");
-            }
-        }
-        return bldr.toString();
-    }
-
     private void checkIfExists(String sourceDirectory) {
         File file = new File(sourceDirectory);
         if (!file.isDirectory()) {
@@ -159,20 +133,34 @@ public class ServiceContractModelQDoxLoader implements
         }
     }
 
-    private void parse() {
+    @SuppressWarnings("unchecked")
+	private void parse() {
 //  System.out.println ("ServiceContractModelQDoxLoader: Starting parse");
-        services = new ArrayList();
-        serviceMethods = new ArrayList();
-        xmlTypeMap = new LinkedHashMap();
-        messageStructures = new ArrayList();
+        services = new ArrayList<Service>();
+        serviceMethods = new ArrayList<ServiceMethod>();
+        xmlTypeMap = new LinkedHashMap<String, XmlType>();
+        messageStructures = new ArrayList<MessageStructure>();
         DefaultDocletTagFactory dtf = new DefaultDocletTagFactory();
         JavaDocBuilder builder = new JavaDocBuilder(dtf);
         for (String sourceDirectory : sourceDirectories) {
             checkIfExists(sourceDirectory);
             builder.addSourceTree(new File(sourceDirectory));
         }
-        List<JavaClass> sortedClasses = new ArrayList<JavaClass>();
+        Set<JavaClass> mergedClasses = new LinkedHashSet<JavaClass>();
+        
+        for (JavaClass javaClass : builder.getClasses()) {
+            
+            if (!javaClass.getPackageName().contains("r1"))
+                mergedClasses.add(javaClass);
+            else
+                log.warn("excluding r1 class: " + javaClass.getFullyQualifiedName());
+            
+        }
+        
+        List<JavaClass>sortedClasses = new ArrayList<JavaClass>(mergedClasses);
+        
         Collections.sort(sortedClasses);
+        
         for (JavaClass javaClass : sortedClasses) {
             if (!this.isServiceToProcess(javaClass)) {
                 continue;
@@ -205,7 +193,7 @@ public class ServiceContractModelQDoxLoader implements
                 serviceMethod.setService(service.getKey());
                 serviceMethod.setName(javaMethod.getName());
                 serviceMethod.setDescription(calcMissing(javaMethod.getComment()));
-                serviceMethod.setParameters(new ArrayList());
+                serviceMethod.setParameters(new ArrayList<ServiceMethodParameter>());
                 serviceMethod.setImplNotes(calcImplementationNotes(javaMethod));
                 serviceMethod.setDeprecated(isDeprecated(javaMethod));
 //    for (DocletTag tag : javaMethod.getTags ())
@@ -235,7 +223,7 @@ public class ServiceContractModelQDoxLoader implements
 					}
                 }
                 // errors
-                serviceMethod.setErrors(new ArrayList());
+                serviceMethod.setErrors(new ArrayList<ServiceMethodError>());
                 for (Type exception : javaMethod.getExceptions()) {
                     ServiceMethodError error = new ServiceMethodError();
                     error.setType(this.calcType(exception.getJavaClass()));
@@ -520,7 +508,7 @@ public class ServiceContractModelQDoxLoader implements
         if (fields != null) {
             return fields;
         }
-        fields = new LinkedHashSet();
+        fields = new LinkedHashSet<String>();
         for (JavaMethod method : messageStructureJavaClass.getMethods(true)) {
             if (isSetterMethodToProcess(method, messageStructureJavaClass.getName())) {
                 String shortName = this.calcShortNameFromSetter(method);
@@ -548,8 +536,8 @@ public class ServiceContractModelQDoxLoader implements
                 if (!(propOrderValue instanceof List)) {
                     continue;
                 }
-                Set<String> fields = new LinkedHashSet();
-                for (Object value : (List) propOrderValue) {
+                Set<String> fields = new LinkedHashSet<String>();
+                for (Object value : (List<?>) propOrderValue) {
                     if (value instanceof String) {
                         String shortName = (String) value;
                         shortName = this.stripQuotes(shortName);
@@ -617,7 +605,7 @@ public class ServiceContractModelQDoxLoader implements
 
     private void addMessageStructure(JavaClass messageStructureJavaClass,
             String serviceKey) {
-        Set<JavaClass> subObjectsToAdd = new LinkedHashSet();
+        Set<JavaClass> subObjectsToAdd = new LinkedHashSet<JavaClass>();
         for (String shortName : this.getShortNames(messageStructureJavaClass)) {
             JavaMethod setterMethod = findSetterMethod(messageStructureJavaClass,
                     shortName);
@@ -1473,15 +1461,6 @@ public class ServiceContractModelQDoxLoader implements
         return calcType(type);
     }
 
-    private String calcTypeOfSetterMethodFirstParam(JavaMethod setterMethod) {
-        JavaParameter param = setterMethod.getParameters()[0];
-        return calcType(param);
-    }
-
-    private String calcType(JavaParameter parameter) {
-        return calcType(parameter.getType());
-    }
-
     private String calcType(Type type) {
         if (type == null) {
             return "void";
@@ -1544,16 +1523,6 @@ public class ServiceContractModelQDoxLoader implements
         }
         Type type = getterMethod.getReturnType();
         return this.calcRealJavaClass(type);
-    }
-
-    private JavaClass calcRealJavaClassOfSetterFirstParam(JavaMethod setterMethod) {
-        JavaParameter param = setterMethod.getParameters()[0];
-        return this.calcRealJavaClass(param);
-    }
-
-    private JavaClass calcRealJavaClass(JavaParameter param) {
-        Type type = param.getType();
-        return calcRealJavaClass(type);
     }
 
     private JavaClass calcRealJavaClass(Type type) {

@@ -25,6 +25,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -38,6 +39,7 @@ import org.apache.maven.project.MavenProject;
 import org.joda.time.DateTime;
 import org.kuali.student.common.mojo.AbstractKSMojo;
 import org.kuali.student.contract.model.MessageStructure;
+import org.kuali.student.contract.model.Service;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
@@ -264,9 +266,31 @@ public class KSDictionaryDocMojo extends AbstractKSMojo {
 		
 		Set<String> dictionaryFiles = new LinkedHashSet<String>();
 		
-		List<MessageStructure> ms = model.getMessageStructures();
+		List<MessageStructure> mss = new ArrayList<MessageStructure>(model.getMessageStructures());
 		
-		for (MessageStructure messageStructure : ms) {
+		// this is needed to remove r1 duplicates
+		// we only seem to hold the r2 data but the entry exists multiple times.
+		Set<String>mergedMessageStructureNames = new LinkedHashSet<String>();
+        
+        Iterator<MessageStructure> it = mss.iterator();
+        
+        while (it.hasNext()) {
+        	MessageStructure ms = it.next();
+			
+        	String messageStructureName = ms.getXmlObject();
+        	
+        	if (mergedMessageStructureNames.contains(messageStructureName) || !messageStructureName.endsWith("Info")) {
+        		
+        		// remove duplicates
+        		// remove classes that don't end in Info
+        		it.remove();
+        		
+        	}
+        	else
+        		mergedMessageStructureNames.add(ms.getName());
+		}
+		
+		for (MessageStructure messageStructure : mss) {
 			
 			String inputFileName = "ks-" + messageStructure.getXmlObject() + "-dictionary.xml";
 

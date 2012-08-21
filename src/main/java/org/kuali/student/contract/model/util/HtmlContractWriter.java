@@ -18,9 +18,11 @@ package org.kuali.student.contract.model.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 import org.kuali.student.contract.model.MessageStructure;
@@ -115,6 +117,23 @@ public class HtmlContractWriter {
         writer.indentPrintln("<ul>");
         List<Service> services = new ArrayList<Service>(model.getServices());
         Collections.sort(services, SERVICE_IMPL_NAME_COMPARATOR);
+        
+        Set<String>mergedServiceNames = new LinkedHashSet<String>();
+        
+        Iterator<Service> it = services.iterator();
+        
+        while (it.hasNext()) {
+			Service svc = it.next();
+			
+        	if (mergedServiceNames.contains(svc.getName())) {
+        		
+        		it.remove();
+        		
+        	}
+        	else
+        		mergedServiceNames.add(svc.getName());
+		}
+        
         String oldArea = "";
         for (Service service : services) {
             String newArea = calcArea(service);
