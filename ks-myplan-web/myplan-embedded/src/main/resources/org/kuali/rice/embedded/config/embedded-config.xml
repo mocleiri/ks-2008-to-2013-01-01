@@ -244,7 +244,7 @@
     <param name="mail.smtp.password">unset</param>
 
     <!-- The "from" address to use in e-mail notifications -->
-    <param name="myplan.comment.fromAddress">myplan_team@uw.edu</param>
+    <param name="myplan.comment.fromAddress">myplan_notification@uw.edu</param>
     <!-- If 'true' the "to" address will be changed to the address of the logged in user before sending any e-mail notifications -->
     <param name="myplan.mailService.testMode">true</param>
 
@@ -257,5 +257,36 @@
     <!--<param name="css.files" override="true">${css.files}</param>-->
     <!--<param name="javascript.files" override="true">${javascript.files}</param>-->
     <param name="ks.institutional.context">classpath:uw-override-context.xml</param>
+
+    <param name="myplan.message.env.link">${application.url}/student/myplan/lookup?methodToCall=search&amp;viewId=MessagesDetail-LookupView</param>
+
+    <param name="myplan.message.subject">[MyPlan] %s left a message for you</param>
+
+    <param name="myplan.commment.subject">[MyPlan] %s left a comment</param>
+
+    <param name="myplan.email.body">
+            Hello %s,
+
+            You've received a new message from %s. Here's a preview of your message:
+
+            "%s....\"
+
+            To read the full message, log in to MyPlan at:
+            %s
+
+            Remember, this is a notification only. Please do not reply to this email.
+
+            Questions about MyPlan? View our help page at:
+            https://depts.washington.edu/myplan/help-site
+
+            Sincerely,
+            The MyPlan Team
+            -------------------------------------------------------------------
+            MyPlan
+            Student Information Systems, UW Information Technology
+            4333 Brooklyn Ave NE, Seattle, WA 98105
+            © 2012 University of Washington
+            -------------------------------------------------------------------
+    </param>
 
 </config>
