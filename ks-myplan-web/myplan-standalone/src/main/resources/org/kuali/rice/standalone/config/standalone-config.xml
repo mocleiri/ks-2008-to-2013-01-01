@@ -217,7 +217,7 @@
     <param name="myplan.advise.permissionname">Advise Student</param>
 
     <!-- The "from" address to use in e-mail notifications -->
-    <param name="myplan.comment.fromAddress">myplan_team@uw.edu</param>
+    <param name="myplan.comment.fromAddress">myplan_notification@uw.edu</param>
     <!-- If 'true' the "to" address will be changed to the address of the logged in user before sending any e-mail notifications -->
     <param name="myplan.mailService.testMode">true</param>
 
