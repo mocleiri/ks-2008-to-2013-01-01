@@ -214,51 +214,9 @@
         <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$\*#@!\t ]*"/>
     </bean>
 
-
-    <bean id="org.kuali.student.lum.lu.dto.CluInfo-parent" abstract="true"
-          parent="objectStructureDefinition">
-        <property name="name" value="org.kuali.student.lum.lu.dto.CluInfo"/>
-        <property name="attributes">
-            <list>
-                <ref bean="cluInfo.accountingInfo"/>
-                <ref bean="cluInfo.accreditations"/>
-                <ref bean="cluInfo.adminOrgs"/>
-                <ref bean="cluInfo.alternateIdentifiers"/>
-                <ref bean="cluInfo.campusLocations"/>
-                <ref bean="cluInfo.canCreateLui"/>
-                <ref bean="cluInfo.defaultEnrollmentEstimate"/>
-                <ref bean="cluInfo.defaultMaximumEnrollment"/>
-                <ref bean="cluInfo.descr"/>
-                <ref bean="cluInfo.effectiveDate"/>
-                <ref bean="cluInfo.enrollable"/>
-                <ref bean="cluInfo.expectedFirstAtp"/>
-                <ref bean="cluInfo.expirationDate"/>
-                <ref bean="cluInfo.feeInfo"/>
-                <ref bean="cluInfo.hasEarlyDropDeadline"/>
-                <ref bean="cluInfo.hazardousForDisabledStudents"/>
-                <ref bean="cluInfo.id"/>
-                <ref bean="cluInfo.instructors"/>
-                <ref bean="cluInfo.intensity"/>
-                <ref bean="cluInfo.lastAdmitAtp"/>
-                <ref bean="cluInfo.lastAtp"/>
-                <ref bean="cluInfo.luCodes"/>
-                <ref bean="cluInfo.nextReviewPeriod"/>
-                <ref bean="cluInfo.offeredAtpTypes"/>
-                <ref bean="cluInfo.officialIdentifier"/>
-                <ref bean="cluInfo.primaryInstructor"/>
-                <ref bean="cluInfo.referenceURL"/>
-                <ref bean="cluInfo.state"/>
-                <ref bean="cluInfo.stdDuration"/>
-                <ref bean="cluInfo.studySubjectArea"/>
-                <ref bean="cluInfo.type"/>
-                <ref bean="cluInfo.versionInfo"/>
-            </list>
-        </property>
-        <property name="hasMetaData" value="true"/>
-    </bean>
     <bean id="org.kuali.student.lum.lu.dto.CluInfo" parent="org.kuali.student.lum.lu.dto.CluInfo-parent">
         <property name="attributes">
-            <list>
+            <list merge="true">
                 <ref bean="uw.cluInfo.officialIdentifier"/>
             </list>
         </property>
