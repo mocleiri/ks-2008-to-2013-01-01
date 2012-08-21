@@ -28,12 +28,16 @@ import org.kuali.student.contract.model.Service;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.XmlType;
 import org.kuali.student.contract.writer.HtmlWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author nwright
  */
 public class HtmlContractWriter {
+	
+	private static final Logger log = LoggerFactory.getLogger(HtmlContractWriter.class);
 
     private HtmlWriter writer;
     private ServiceContractModel model;
@@ -109,7 +113,7 @@ public class HtmlContractWriter {
         writer.indentPrintln(
                 "</div><div class=\"panelContent\" style=\"background-color: rgb(255, 255, 255);\">");
         writer.indentPrintln("<ul>");
-        List<Service> services = new ArrayList(model.getServices());
+        List<Service> services = new ArrayList<Service>(model.getServices());
         Collections.sort(services, SERVICE_IMPL_NAME_COMPARATOR);
         String oldArea = "";
         for (Service service : services) {
@@ -198,7 +202,8 @@ public class HtmlContractWriter {
         for (MessageStructure ms : finder.findMessageStructures(type.getName())) {
             XmlType st = finder.findXmlType(this.stripListOffEnd(ms.getType()));
             if (st == null) {
-                throw new NullPointerException(ms.getType() + " does not exist in list of types with parents " + calcParents(stack));
+            	log.error (ms.getType() + " does not exist in the list of types with parents " + calcParents(stack));
+            	continue;
             }
             if (!st.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
                 continue;

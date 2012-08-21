@@ -48,6 +48,8 @@ import org.kuali.student.contract.model.ServiceMethodError;
 import org.kuali.student.contract.model.ServiceMethodParameter;
 import org.kuali.student.contract.model.ServiceMethodReturnValue;
 import org.kuali.student.contract.model.XmlType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -55,6 +57,8 @@ import org.kuali.student.contract.model.XmlType;
  */
 public class ServiceContractModelQDoxLoader implements
         ServiceContractModel {
+	
+	private static final Logger log = LoggerFactory.getLogger(ServiceContractModelQDoxLoader.class);
 
     private static final String LOCALE_KEY_LIST = "LocaleKeyList";
     private static final String MESSAGE_GROUP_KEY_LIST = "MessageGroupKeyList";
@@ -167,7 +171,7 @@ public class ServiceContractModelQDoxLoader implements
             checkIfExists(sourceDirectory);
             builder.addSourceTree(new File(sourceDirectory));
         }
-        List<JavaClass> sortedClasses = Arrays.asList(builder.getClasses());
+        List<JavaClass> sortedClasses = new ArrayList<JavaClass>();
         Collections.sort(sortedClasses);
         for (JavaClass javaClass : sortedClasses) {
             if (!this.isServiceToProcess(javaClass)) {
@@ -220,8 +224,15 @@ public class ServiceContractModelQDoxLoader implements
                     param.setDescription(calcMissing(
                             calcParameterDescription(javaMethod,
                             param.getName())));
-                    addXmlTypeAndMessageStructure(calcRealJavaClass(parameter.getType()),
-                            serviceMethod.getService());
+                    try {
+						addXmlTypeAndMessageStructure(calcRealJavaClass(parameter.getType()),
+						        serviceMethod.getService());
+					} catch (Exception e) {
+						String message= "failed to parameter message structure: " + serviceMethod.getService() + " : " + parameter.getType();
+						
+						log.error (message + " : " + e.getMessage());
+						log.debug(message, e);
+					}
                 }
                 // errors
                 serviceMethod.setErrors(new ArrayList());
@@ -249,8 +260,17 @@ public class ServiceContractModelQDoxLoader implements
                 rv.setType(calcType(returnType));
                 rv.setDescription(calcMissing(this.calcReturnDescription(javaMethod)));
                 if (returnType != null) {
-                    addXmlTypeAndMessageStructure(calcRealJavaClass(returnType),
-                            serviceMethod.getService());
+                    try {
+                    	
+                    	
+						addXmlTypeAndMessageStructure(calcRealJavaClass(returnType),
+						        serviceMethod.getService());
+					} catch (Exception e) {
+						String message = "failed to parse return type message structure: " + serviceMethod.getService() + " : " + returnType;
+						
+						log.error (message + " : " + e.getMessage());
+						log.debug(message, e);
+					}
                 }
             }
         }
@@ -681,7 +701,15 @@ public class ServiceContractModelQDoxLoader implements
         for (JavaClass subObjectToAdd : subObjectsToAdd) {
             XmlType xmlType = xmlTypeMap.get(calcType(subObjectToAdd));
             if (xmlType == null) {
-                addXmlTypeAndMessageStructure(subObjectToAdd, serviceKey);
+                try {
+					addXmlTypeAndMessageStructure(subObjectToAdd, serviceKey);
+				} catch (Exception e) {
+					String message = "failed to parse subobject structure: " + subObjectToAdd + " : " + serviceKey;
+					// log into message
+					log.error (message + " : " + e.getMessage());
+					// log into debug log
+					log.debug(message, e);
+				}
             } else {
                 addServiceToList(xmlType, serviceKey);
             }

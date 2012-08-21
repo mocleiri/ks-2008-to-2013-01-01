@@ -25,6 +25,8 @@ import org.kuali.student.contract.model.ServiceMethod;
 import org.kuali.student.contract.model.ServiceMethodParameter;
 import org.kuali.student.contract.model.XmlType;
 import org.kuali.student.contract.writer.HtmlWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -32,6 +34,8 @@ import org.kuali.student.contract.writer.HtmlWriter;
  */
 public class HtmlContractMessageStructureWriter {
 
+	private static final Logger log = LoggerFactory.getLogger(HtmlContractMessageStructureWriter.class);
+	
     private XmlType xmlType;
     private HtmlWriter writer;
     private ServiceContractModel model;
@@ -250,13 +254,18 @@ public class HtmlContractMessageStructureWriter {
         writer.writeTag("td", "class=\"structLName\"", ms.getName());
         XmlType subType = finder.findXmlType(this.stripListFromType(ms.getType()));
         if (subType == null) {
-            for (XmlType xmlt : model.getXmlTypes()) {
-                System.out.println(this.getClass().getSimpleName() + ": "
-                        + xmlt.getName());
-            }
-            throw new NullPointerException(ms.getXmlObject() + "." + ms.getShortName()
-                    + " has type " + ms.getType()
-                    + " was not found in list of known types");
+//            for (XmlType xmlt : model.getXmlTypes()) {
+//                System.out.println(this.getClass().getSimpleName() + ": "
+//                        + xmlt.getName());
+//            }
+//            throw new NullPointerException(ms.getXmlObject() + "." + ms.getShortName()
+//                    + " has type " + ms.getType()
+//                    + " was not found in list of known types");
+        	
+        	log.error (ms.getXmlObject() + "." + ms.getShortName()
+                  + " has type " + ms.getType()
+                  + " was not found in list of known types");
+        	return;
         }
         if (subType.getPrimitive().equals(XmlType.COMPLEX)) {
             writer.indentPrint("<td class=\"structType\">");
