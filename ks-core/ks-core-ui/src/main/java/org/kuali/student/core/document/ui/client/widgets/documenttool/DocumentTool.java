@@ -18,9 +18,6 @@ package org.kuali.student.core.document.ui.client.widgets.documenttool;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
-import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -37,27 +34,30 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.Multiplicity
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.dto.FileStatus;
-import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
+import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus.UploadTransferStatus;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
+import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
-import org.kuali.student.r1.core.document.dto.DocumentTypeInfo;
-import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcServiceAsync;
 import org.kuali.student.core.document.ui.client.service.UploadStatusRpcService;
 import org.kuali.student.core.document.ui.client.service.UploadStatusRpcServiceAsync;
+import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.core.document.dto.DocumentTypeInfo;
+import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.NumberFormat;
@@ -76,7 +76,7 @@ import com.google.gwt.widgetideas.client.ProgressBar.TextFormatter;
  * Messages hard-coded throughout since this can't access KSMG-MESSAGE
  */
 public class DocumentTool extends DelayedToolView implements HasReferenceId{
-    private String referenceId;
+    protected String referenceId;
     private String referenceTypeKey;
     private String referenceType;
     private String referenceState;
@@ -87,12 +87,12 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
     protected DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
     private VerticalFlowPanel layout = new VerticalFlowPanel();
-    private VerticalFlowPanel documentList = new VerticalFlowPanel();
+    protected VerticalFlowPanel documentList = new VerticalFlowPanel();
     private VerticalFlowPanel uploadList = new VerticalFlowPanel();
 //    private KSButton addMore = new KSButton("Add Another");
-    private KSLabel loadingDocuments = new KSLabel("Loading Documents...");
+    protected KSLabel loadingDocuments = new KSLabel("Loading Documents...");
     private FormPanel form = new FormPanel();
-    private Callback<String> deleteCallback = new Callback<String>(){
+    protected Callback<String> deleteCallback = new Callback<String>() {
 
         @Override
         public void exec(String result) {
@@ -304,7 +304,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
        refreshDocuments();
     }
 
-    private Metadata getMetaData(String fieldKey) {
+    protected Metadata getMetaData(String fieldKey) {
         return modelDefinition.getMetadata(QueryPath.concat(fieldKey));
     }
 
@@ -370,14 +370,15 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         return config;
     }
 
-    private FieldDescriptor buildMuliplicityParentFieldDescriptor(String fieldKey, String messageKey, String parentPath) {
+    protected FieldDescriptor buildMuliplicityParentFieldDescriptor(String fieldKey, String messageKey,
+            String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata meta = modelDefinition.getMetadata(path);
         FieldDescriptor fd = new FieldDescriptor(path.toString(), generateMessageInfo(messageKey), meta);
         return fd;
     }
 
-    private MultiplicityFieldConfiguration buildMultiplicityFD(
+    protected MultiplicityFieldConfiguration buildMultiplicityFD(
             String fieldKey, String labelKey, String parentPath) {
 
         QueryPath fieldPath = QueryPath.concat(parentPath, QueryPath.getWildCard(), fieldKey);
@@ -584,7 +585,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         }
     }
 
-    private void refreshDocuments(){
+    protected void refreshDocuments() {
         documentList.clear();
         if(referenceId != null && !(referenceId.isEmpty())){
             documentList.add(loadingDocuments);
