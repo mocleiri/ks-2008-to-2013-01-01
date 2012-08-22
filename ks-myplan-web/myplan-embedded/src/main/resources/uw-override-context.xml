@@ -99,6 +99,7 @@
             </bean>
         </property>
     </bean>
+
     <!-- Publish the academic Record service on the bus -->
     <bean id="ks.exp.academicRecordService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
@@ -243,6 +244,7 @@
     <bean id="transactionManagerXAPool" class="org.springframework.transaction.jta.JotmFactoryBean">
         <property name="defaultTimeout" value="${transaction.timeout}"/>
     </bean>
+
     <!-- Publish the organization service on the bus -->
     <bean id="ks.exp.orgService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">

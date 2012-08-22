@@ -16,6 +16,7 @@
         </property>
     </bean>
 
+
     <bean id="courseInfo.genEduRequirementVLPA" parent="baseBoolean">
         <property name="dynamic" value="true"/>
         <property name="name" value="genEduRequirementVLPA"/>
@@ -63,6 +64,7 @@
         <property name="maxOccurs" value="1"/>
         <property name="defaultValue" value="false"/>
     </bean>
+
 
     <bean id="courseInfo.code" parent="courseInfo.code-parent">
         <property name="minLength" value="6"/>
@@ -171,7 +173,73 @@
     </bean>
 
     <bean id="courseInfo.descr" parent="courseInfo.descr-parent">
-        <property name="dataObjectStructure" ref="uw.richTextInfo"/>
+        <property name="dataObjectStructure" ref="uw.cluInfo.descr.RichTextInfo"/>
     </bean>
+
+    <bean id="cluInfo.descr" parent="cluInfo.descr-parent">
+        <property name="dataObjectStructure" ref="uw.cluInfo.descr.RichTextInfo"/>
+    </bean>
+
+
+    <bean id="uw.cluInfo.descr.RichTextInfo" parent="org.kuali.student.common.dto.RichTextInfo-parent">
+        <property name="attributes">
+            <list>
+                <ref bean="uw.cluInfo.richTextInfo.formatted" />
+                <ref bean="uw.cluInfo.richTextInfo.plain" />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="uw.cluInfo.richTextInfo.formatted" parent="richTextInfo.formatted-parent" >
+        <property name="validChars" ref="uw.cluInfo.multiLineText"/>
+        <property name="labelKey" value="uw.formatted"/>
+    </bean>
+
+    <bean id="uw.cluInfo.richTextInfo.plain" parent="richTextInfo.plain-parent" >
+        <property name="validChars" ref="uw.cluInfo.multiLineText"/>
+        <property name="labelKey" value="uw.plain"/>
+    </bean>
+
+    <bean id="uw.cluInfo.multiLineText" parent="ValidCharDefinition">
+        <property name="value" value="regex:[a-zA-Z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$\^~\*#@!\t\n\r ]*"/>
+        <property name="labelKey" value="uw.regex"/>
+    </bean>
+
+    <bean id="courseInfo.courseTitle" parent="courseInfo.courseTitle-parent" >
+        <property name="validChars" ref="uw.courseInfo.lineText"/>
+    </bean>
+
+    <bean id="uw.courseInfo.lineText" parent="ValidCharDefinition">
+        <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$\*#@!\t ]*"/>
+    </bean>
+
+    <bean id="cluInfo.officialIdentifier" parent="cluInfo.officialIdentifier-parent">
+        <property name="dataObjectStructure" ref="uw.cluIdentifierInfo"/>
+    </bean>
+
+    <bean id="uw.cluIdentifierInfo"
+          parent="org.kuali.student.lum.lu.dto.CluIdentifierInfo-parent">
+        <property name="attributes">
+            <list>
+                <ref bean="uw.cluIdentifierInfo.longName"/>
+                <ref bean="uw.cluIdentifierInfo.shortName"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="uw.cluIdentifierInfo.longName" parent="cluIdentifierInfo.longName-parent">
+        <property name="validChars" ref="uw.lineText"/>
+    </bean>
+
+    <bean id="uw.cluIdentifierInfo.shortName" parent="cluIdentifierInfo.shortName-parent">
+        <property name="validChars" ref="uw.lineText"/>
+    </bean>
+
+    <bean id="uw.lineText" parent="ValidCharDefinition">
+        <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$\*#@!\t ]*"/>
+    </bean>
+
+
 
 </beans>

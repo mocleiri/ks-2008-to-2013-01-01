@@ -9,7 +9,7 @@
       <param-value>dev</param-value>
     </context-param>
   
-    <!-- Change this if you want to use a different Spring file -->
+    <!-- Change this if you want to use a different Spring configuration file -->
     <context-param>
       <param-name>web.bootstrap.spring.file</param-name>
       <param-value>classpath:org/kuali/rice/embedded/config/EmbeddedSpringBeans.xml</param-value>
@@ -105,8 +105,6 @@
         <filter-name>UserPreferencesFilter</filter-name>
        <servlet-name>notification</servlet-name>
     </filter-mapping>
-    	
-    <!-- added by bonnie   -->
 
     <filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
@@ -160,7 +158,7 @@
 		<listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
 	</listener>
 
-	<!-- added by bonnie,  Krad needs this -->
+    <!-- Krad needs this -->
 	<listener>
         <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
     </listener>	
@@ -197,7 +195,7 @@
           <param-value>ken/WEB-INF/notification-servlet.xml</param-value>
         </init-param>
         <init-param>
-          <description>this init parameter is Ken's module prefix within the containing webapp, it is propagated as a
+          <description>This init parameter is Ken's module prefix within the containing webapp, it is propagated as a
                        property in the XmlApplicationContext
           </description>
           <param-name>prefix</param-name>
@@ -324,7 +322,6 @@
 		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
 
-	<!--  added by bonnie -->	
 	<servlet-mapping>
       <servlet-name>myplan</servlet-name>
       <url-pattern>/myplan/*</url-pattern>
@@ -362,7 +359,8 @@
         <error-code>403</error-code>
         <location>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage403.jsp</location>
     </error-page>
-  	<!-- only need to include this for the kuali tlds
+
+    <!-- Only need to include this for the kuali tlds
 	     since tld file will only be searched from within other jars -->
 	<jsp-config>
 		<taglib>

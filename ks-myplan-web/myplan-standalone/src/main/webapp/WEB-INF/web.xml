@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-    <display-name>Standalone</display-name>
+    <display-name>MyPlan Standalone</display-name>
+
     <!-- On the application servers this param is set in /usr/local/tomcat/conf/context.xml and will not allow overrides. -->
     <context-param>
         <param-name>environment</param-name>
@@ -39,6 +40,7 @@
         <filter-class>org.kuali.rice.kew.web.UserPreferencesFilter</filter-class>
     </filter>
 
+
     <filter-mapping>
         <filter-name>HideWebInfFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -59,10 +61,12 @@
         <servlet-name>action</servlet-name>
     </filter-mapping>
 
+
     <filter-mapping>
         <filter-name>UserPreferencesFilter</filter-name>
         <servlet-name>action</servlet-name>
     </filter-mapping>
+
 
     <filter-mapping>
         <filter-name>BootstrapFilter</filter-name>
@@ -318,20 +322,20 @@
         <url-pattern>/myplan/unauthorized</url-pattern>
     </servlet-mapping>
 
-    <error-page>
-        <error-code>500</error-code>
-        <location>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage500.jsp</location>
-    </error-page>
+    <!--<error-page>-->
+        <!--<error-code>500</error-code>-->
+        <!--<location>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage500.jsp</location>-->
+    <!--</error-page>-->
 
-    <error-page>
-        <error-code>404</error-code>
-        <location>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage404.jsp</location>
-    </error-page>
+    <!--<error-page>-->
+        <!--<error-code>404</error-code>-->
+        <!--<location>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage404.jsp</location>-->
+    <!--</error-page>-->
 
-    <error-page>
-        <error-code>403</error-code>
-        <location>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage403.jsp</location>
-    </error-page>
+    <!--<error-page>-->
+        <!--<error-code>403</error-code>-->
+        <!--<location>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage403.jsp</location>-->
+    <!--</error-page>-->
 
     <!-- Only need to include this for the kuali tlds
           since tld file will only be searched from within other jars -->

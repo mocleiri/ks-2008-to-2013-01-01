@@ -214,19 +214,11 @@
         <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$\*#@!\t ]*"/>
     </bean>
 
-    <bean id="org.kuali.student.lum.lu.dto.CluInfo" parent="org.kuali.student.lum.lu.dto.CluInfo-parent">
-        <property name="attributes">
-            <list merge="true">
-                <ref bean="uw.cluInfo.officialIdentifier"/>
-            </list>
-        </property>
+    <bean id="cluInfo.officialIdentifier" parent="cluInfo.officialIdentifier-parent">
+        <property name="dataObjectStructure" ref="uw.cluIdentifierInfo"/>
     </bean>
 
-    <bean id="uw.cluInfo.officialIdentifier" parent="cluInfo.officialIdentifier-parent">
-        <property name="dataObjectStructure" ref="uw.CluIdentifierInfo"/>
-    </bean>
-
-    <bean id="uw.CluIdentifierInfo"
+    <bean id="uw.cluIdentifierInfo"
           parent="org.kuali.student.lum.lu.dto.CluIdentifierInfo-parent">
         <property name="attributes">
             <list>

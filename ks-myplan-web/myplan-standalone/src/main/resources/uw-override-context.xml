@@ -26,10 +26,6 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-    <!-- Used to perform mutual certificate authentication between UW KS and UW Rice. Should use the Rice config keystore.file and keystore.password
-    to authetnicate all outbound web service requests via SSL -->
-    <!-- <import resource="classpath:META-INF/uw/uw-kuali-rice-security-configuration.xml"/> -->
-
     <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
     <bean id="lumDictionaryService"
@@ -42,6 +38,7 @@
           class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg index="0" value="${uw.ks.core.dictionary.serviceContextLocations}" />
     </bean>
+
 
     <!-- Override acalService bean with UW implementation -->
     <bean id="acalService" class="edu.uw.kuali.student.service.impl.UwAcademicCalendarServiceImpl">
@@ -209,6 +206,7 @@
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
     </bean>
 
+
     <bean id="defaultEntityManagerFactory" abstract="true"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="jpaVendorAdapter">
@@ -261,5 +259,6 @@
             </bean>
         </property>
     </bean>
+
 
 </beans>

@@ -153,6 +153,14 @@
                     <groupId>commons-beanutils</groupId>
                     <artifactId>commons-beanutils</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.servlet.jsp</groupId>
+                    <artifactId>jsp-api</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -313,9 +321,10 @@
         <!-- Mutual certificate authentication between UW KS and UW Rice -->
         <dependency>
             <groupId>edu.uw.kuali</groupId>
-            <artifactId>commons-security</artifactId>
-            <version>1.0.0</version>
+            <artifactId>uw-commons-security</artifactId>
+            <version>1.0.1</version>
         </dependency>
+
 
     </dependencies>
 </project>
