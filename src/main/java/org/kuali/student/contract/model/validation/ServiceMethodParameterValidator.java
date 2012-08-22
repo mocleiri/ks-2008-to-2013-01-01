@@ -35,24 +35,27 @@ public class ServiceMethodParameterValidator implements ModelValidator {
         this.parameter = parameter;
         this.method = method;
     }
-    private Collection errors;
+    private Collection<String> errors;
 
     @Override
     public Collection<String> validate() {
-        errors = new ArrayList();
+        errors = new ArrayList<String>();
         basicValidation();
         return errors;
     }
 
     private void basicValidation() {
+    	String methodName = method.getService() + "." + method.getName();
+    	
+    	
         if (parameter.getName().equals("")) {
-            addError("Name is required");
+            addError(methodName + ": parameter name is required");
         }
         if (parameter.getDescription().equals("")) {
-            addError("Description is required");
+            addError(methodName + ": parameter description is required");
         }
         if (parameter.getType().equals("")) {
-            addError("Type is required");
+            addError(methodName + ": parameter Type is required");
         }
     }
 

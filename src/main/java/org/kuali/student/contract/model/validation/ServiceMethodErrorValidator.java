@@ -35,21 +35,26 @@ public class ServiceMethodErrorValidator implements ModelValidator {
         this.error = error;
         this.method = method;
     }
-    private Collection errors;
+    private Collection<String> errors;
 
     @Override
     public Collection<String> validate() {
-        errors = new ArrayList();
+        errors = new ArrayList<String>();
         basicValidation();
         return errors;
     }
 
     private void basicValidation() {
+    	
+    	String methodName = method.getService() + "." + method.getName();
+    	
+    	String errorClassName = error.getPackageName() + "." + error.getClassName();
+    	
         if (error.getDescription().equals("")) {
-            addError("Description is required");
+            addError(methodName + ": " + errorClassName + ": Description is required");
         }
         if (error.getType().equals("")) {
-            addError("Type is required");
+            addError(methodName + ": " + errorClassName + ": Type is required");
         }
     }
 

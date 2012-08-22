@@ -39,11 +39,11 @@ public class ServiceMethodValidator implements ModelValidator {
         this.method = method;
         this.model = model;
     }
-    private Collection errors;
+    private Collection<String> errors;
 
     @Override
     public Collection<String> validate() {
-        errors = new ArrayList();
+        errors = new ArrayList<String>();
         basicValidation();
         for (ServiceMethodParameter param : method.getParameters()) {
             errors.addAll(new ServiceMethodParameterValidator(param, method).validate());

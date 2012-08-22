@@ -35,21 +35,22 @@ public class ServiceMethodReturnValueValidator implements ModelValidator {
         this.returnValue = returnValue;
         this.serviceMethod = serviceMethod;
     }
-    private Collection errors;
+    private Collection<String> errors;
 
     @Override
     public Collection<String> validate() {
-        errors = new ArrayList();
+        errors = new ArrayList<String>();
         basicValidation();
         return errors;
     }
 
     private void basicValidation() {
+    	String serviceMethodName = serviceMethod.getService() + "." + serviceMethod.getName();
         if (returnValue.getType().equals("")) {
-            addError("return type is required");
+            addError(serviceMethodName + ": return type is required");
         }
         if (returnValue.getDescription().equals("")) {
-            addError("Description is required");
+            addError(serviceMethodName + ": returnValue Description is required");
         }
 
     }

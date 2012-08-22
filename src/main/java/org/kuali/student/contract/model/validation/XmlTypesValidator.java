@@ -37,30 +37,35 @@ public class XmlTypesValidator implements ModelValidator {
         this.finder = new ModelFinder(model);
         this.xmlType = xmlType;
     }
-    private Collection errors;
+    private Collection<String> errors;
 
     @Override
     public Collection<String> validate() {
 
-        errors = new ArrayList();
+        errors = new ArrayList<String>();
         basicValidation();
         return errors;
     }
 
     private void basicValidation() {
+    	
+    	String targetClassName = xmlType.getJavaPackage() + "." + xmlType.getName();
+    	
+    	String locator = "Service: " + xmlType.getService() + " Type: " + targetClassName;
+    	
         if (xmlType.getName().equals("")) {
-            addError("Name is required");
+            addError(locator + ": Name is required");
         }
         if (xmlType.getName().equalsIgnoreCase("Object")) {
-            addError("Object is reserved and cannot be used as the name of an XmlType");
+            addError(locator + ": Object is reserved and cannot be used as the name of an XmlType");
         }
         if (xmlType.getName().equalsIgnoreCase("ObjectList")) {
-            addError("Object is reserved and cannot be used as the name of an XmlType");
+            addError(locator + ": Object is reserved and cannot be used as the name of an XmlType");
         }
         if (!xmlType.getService().equals("")) {
             for (String srv : xmlType.getService().split(",")) {
                 if (finder.findService(srv.trim()) == null) {
-                    addError("Service, [" + srv
+                    addError(locator + ": Service, [" + srv
                             + "] could not be found in the list of services");
                 }
             }

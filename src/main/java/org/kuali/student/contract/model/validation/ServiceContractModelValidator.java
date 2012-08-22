@@ -33,11 +33,11 @@ public class ServiceContractModelValidator implements ModelValidator {
     public ServiceContractModelValidator(ServiceContractModel model) {
         this.model = model;
     }
-    private Collection errors;
+    private Collection<String> errors;
 
     @Override
     public Collection<String> validate() {
-        errors = new ArrayList();
+        errors = new ArrayList<String>();
         basicValidation();
         this.validateServiceMethods();
         validateXmlTypes();
