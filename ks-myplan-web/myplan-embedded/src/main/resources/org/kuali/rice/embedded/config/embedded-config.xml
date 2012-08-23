@@ -232,8 +232,8 @@
 
 
     <!-- Parameter names for adviser roles -->
-    <param name="myplan.advise.namespacecode">UW-MYPLAN</param>
-    <param name="myplan.advise.permissionname">Advise Student</param>
+    <param name="myplan.advise.namespacecode">KUALI</param>
+    <param name="myplan.advise.permissionname">Log In Kuali Portal</param>
 
     <!-- Default SMTP Settings -->
     <param name="mail.smtp.host">localhost</param>

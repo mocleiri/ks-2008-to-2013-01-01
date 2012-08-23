@@ -213,8 +213,8 @@
 
 
     <!-- MyPlan KIM permission -->
-    <param name="myplan.advise.namespacecode">UW-MYPLAN</param>
-    <param name="myplan.advise.permissionname">Advise Student</param>
+    <param name="myplan.advise.namespacecode">KUALI</param>
+    <param name="myplan.advise.permissionname">Log In Kuali Portal</param>
 
     <!-- The "from" address to use in e-mail notifications -->
     <param name="myplan.comment.fromAddress">myplan_notification@uw.edu</param>
