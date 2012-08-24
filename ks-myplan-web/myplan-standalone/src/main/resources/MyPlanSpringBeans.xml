@@ -43,6 +43,7 @@
                 <value>classpath:ks-AuditReportInfo-dictionary.xml</value>
 
                 <value>classpath:UifMyPlanDefinitions.xml</value>
+                <value>classpath:HelpDefinitions.xml</value>
                 <value>classpath:MyPlanDataObjects.xml</value>
                 <value>classpath:HelpDefinitions.xml</value>
                 <value>classpath:CourseSearchUI.xml</value>
