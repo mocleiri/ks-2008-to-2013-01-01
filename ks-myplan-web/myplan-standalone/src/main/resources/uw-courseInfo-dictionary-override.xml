@@ -212,8 +212,8 @@
         <property name="validChars" ref="uw.courseInfo.lineText"/>
     </bean>
 
-    <bean id="uw.courseInfo.lineText" parent="ValidCharDefinition">
-        <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$\*#@!\t ]*"/>
+    <bean id="courseInfo.transcriptTitle" parent="courseInfo.transcriptTitle-parent" >
+        <property name="validChars" ref="uw.courseInfo.lineText"/>
     </bean>
 
     <bean id="cluInfo.officialIdentifier" parent="cluInfo.officialIdentifier-parent">
@@ -228,6 +228,13 @@
                 <ref bean="uw.cluIdentifierInfo.shortName"/>
             </list>
         </property>
+    </bean>
+
+
+    <!-- UW Overrides -->
+
+    <bean id="uw.courseInfo.lineText" parent="ValidCharDefinition">
+        <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$\*#@!\t ]*"/>
     </bean>
 
     <bean id="uw.cluIdentifierInfo.longName" parent="cluIdentifierInfo.longName-parent">
