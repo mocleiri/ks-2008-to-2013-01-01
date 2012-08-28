@@ -67,8 +67,8 @@
 
 
     <bean id="courseInfo.code" parent="courseInfo.code-parent">
-        <property name="minLength" value="6"/>
-        <property name="maxLength" value="9"/>
+        <property name="minLength" value="10"/>
+        <property name="maxLength" value="10"/>
         <property name="caseConstraint">
             <bean parent="caseConstraint">
                 <property name="operator" value="EQUALS"/>
@@ -88,6 +88,8 @@
                             <property name="constraint">
                                 <!--Copy all the properties from above adding minOccurs = 1 -->
                                 <bean parent="cluIdentifierInfo.code-parent">
+                                    <property name="minLength" value="10"/>
+                                    <property name="maxLength" value="10"/>
                                     <property name="minOccurs" value="1"/>
                                 </bean>
                             </property>
