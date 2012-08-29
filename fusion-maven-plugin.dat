@@ -1,10 +1,10 @@
-# module = ks-api branch Path = enrollment/ks-api/trunk revision = 35104
-ks-api::enrollment_ks-api_trunk::fb66e5daf99db8dcfbba726bd77b08d3331efd63
-# module = ks-core branch Path = enrollment/ks-core/trunk revision = 35104
-ks-core::enrollment_ks-core_trunk::35ed99f6a417e47597b55e38a5829352619d285e
-# module = ks-lum branch Path = enrollment/ks-lum/trunk revision = 35104
-ks-lum::enrollment_ks-lum_trunk::ade0a7255e87c69485a7da6a0b474e7149aa2abe
-# module = ks-enroll branch Path = enrollment/ks-enroll/trunk revision = 35104
-ks-enroll::enrollment_ks-enroll_trunk::3f7945dedc7be74d0b6229062e5f11f92e476cae
-# module = ks-deployments branch Path = enrollment/ks-deployments/trunk revision = 35104
-ks-deployments::enrollment_ks-deployments_trunk::405122b476dd99420c4b93f912b0ae35828076b9
+# module = http://svn.kuali.org/repos/student/enrollment/ks-api/branches/services branch Path = ks-api revision = 35399
+http://svn.kuali.org/repos/student/enrollment/ks-api/branches/services::ks-api::UNKNOWN
+# module = http://svn.kuali.org/repos/student/enrollment/ks-core/branches/services branch Path = ks-core revision = 35399
+http://svn.kuali.org/repos/student/enrollment/ks-core/branches/services::ks-core::UNKNOWN
+# module = http://svn.kuali.org/repos/student/enrollment/ks-lum/branches/services branch Path = ks-lum revision = 35399
+http://svn.kuali.org/repos/student/enrollment/ks-lum/branches/services::ks-lum::UNKNOWN
+# module = http://svn.kuali.org/repos/student/enrollment/ks-enroll/branches/services branch Path = ks-enroll revision = 35399
+http://svn.kuali.org/repos/student/enrollment/ks-enroll/branches/services::ks-enroll::UNKNOWN
+# module = http://svn.kuali.org/repos/student/enrollment/ks-deployments/branches/services branch Path = ks-deployments revision = 35399
+http://svn.kuali.org/repos/student/enrollment/ks-deployments/branches/services::ks-deployments::UNKNOWN
