@@ -232,7 +232,7 @@
 
     <param name="ks.institutional.context">classpath:uw-override-context.xml</param>
 
-    <param name="myplan.message.env.link">${application.url}/student/myplan/lookup?methodToCall=search&amp;viewId=MessagesDetail-LookupView</param>
+    <param name="myplan.message.env.link">${application.url}/myplan/lookup?methodToCall=search&amp;viewId=MessagesDetail-LookupView</param>
 
 
 </config>
