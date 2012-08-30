@@ -53,14 +53,23 @@
     <property name="suffix" value=".ftl"/>
   </bean>
 
-  <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-    <property name="interceptors">
-      <list>
-        <ref bean="uifControllerHandlerInterceptor"/>
-        <ref bean="moduleLockingHandlerInterceptor"/>
-      </list>
-    </property>
-  </bean>
+    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="uifControllerHandlerInterceptor"/>
+                <ref bean="moduleLockingHandlerInterceptor"/>
+                <ref bean="myplanInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="myplanInterceptor" class="org.kuali.student.myplan.utils.MyplanInterceptor">
+        <property name="studentServiceClient" ref="StudentService"/>
+    </bean>
+
+    <bean id="StudentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="{MyPlan}StudentServiceClient"/>
+    </bean>
 
   <bean id="uifControllerHandlerInterceptor"
         class="org.kuali.rice.krad.web.controller.UifControllerHandlerInterceptor"/>
