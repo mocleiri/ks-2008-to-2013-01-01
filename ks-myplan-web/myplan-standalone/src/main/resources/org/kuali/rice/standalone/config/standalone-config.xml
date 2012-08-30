@@ -223,6 +223,10 @@
 
     <param name="myplan.comment.toAddress">mattmul@uw.edu</param>
 
+    <!-- MyPlan Max Search results -->
+    <param name="myplan.search.results.max">500</param>
+
+
     <!--<param name="css.files" override="true">ks-myplan/css/myplan.css,${css.files}</param>-->
     <!-- Default config file location -->
     <param name="config.location">${user.home}/kuali/main/${environment}/myplan-config.xml</param>
