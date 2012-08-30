@@ -475,6 +475,7 @@ public class SchedulingServiceImpl implements SchedulingService {
         else {
             throw new InvalidParameterException("No defined valid days of week for type: " + timeSlotTypeKey);
         }
+
     }
 
     @Override
