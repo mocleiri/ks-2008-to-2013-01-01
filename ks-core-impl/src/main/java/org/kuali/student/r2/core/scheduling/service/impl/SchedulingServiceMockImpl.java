@@ -64,7 +64,16 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
     ////////////////////////////////
     // IMPLEMENTING METHODS
     ////////////////////////////////
-    
+
+    @Override
+    public void clear() {
+        this.scheduleBatchMap.clear();
+        this.scheduleMap.clear();
+        this.scheduleRequestMap.clear();
+        this.scheduleTransactionMap.clear();
+        this.timeSlotMap.clear();
+    }
+
     @Override
     public ScheduleInfo getSchedule(String scheduleId, ContextInfo contextInfo)
             throws DoesNotExistException
@@ -78,16 +87,6 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         }
         return new ScheduleInfo(this.scheduleMap.get (scheduleId));
     }
-
-    @Override
-	public void clear() {
-		
-    	this.scheduleBatchMap.clear();
-    	this.scheduleMap.clear();
-    	this.scheduleRequestMap.clear();
-    	this.scheduleTransactionMap.clear();
-    	this.timeSlotMap.clear();
-	}
 
 	@Override
     public List<ScheduleInfo> getSchedulesByIds(List<String> scheduleIds, ContextInfo contextInfo)
