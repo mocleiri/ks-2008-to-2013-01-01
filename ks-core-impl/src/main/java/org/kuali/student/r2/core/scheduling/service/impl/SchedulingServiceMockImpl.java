@@ -733,7 +733,20 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("getValidDaysOfWeekByTimeSlotType has not been implemented");
+        List<String> tsIds = getTimeSlotIdsByType(timeSlotTypeKey, contextInfo);
+        List<TimeSlotInfo> ts = new ArrayList<TimeSlotInfo>();
+        for (String id: tsIds) {
+            try { ts.add (this.getTimeSlot(id, contextInfo)); } catch (DoesNotExistException e) { throw new OperationFailedException(); }
+        }
+        List<Integer> days = new ArrayList<Integer> ();
+        for (TimeSlotInfo tsI: ts) {
+            for (Integer d: tsI.getWeekdays()) {
+                if (!days.contains(d)) {
+                    days.add(d);
+                }
+            }
+        }
+        return days;
     }
 
     @Override
