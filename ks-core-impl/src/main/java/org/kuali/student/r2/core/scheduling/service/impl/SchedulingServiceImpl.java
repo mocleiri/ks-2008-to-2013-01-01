@@ -43,7 +43,8 @@ import java.util.List;
  * @Author Mezba Mahtab
  *
  * Changes as of 23/8/2012 by Mezba - contract changes to SchedulingService (ScheduleTransaction crud operations,
- * returning infos and ids for ScheduleBatch-Transaction/Request) and checking for TimeSlot conflicts.
+ * returning infos and ids for ScheduleBatch-Transaction/Request) and checking for TimeSlot conflicts. The rest are
+ * work from M4 by the PDTs (Venkat, Andy).
  */
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
