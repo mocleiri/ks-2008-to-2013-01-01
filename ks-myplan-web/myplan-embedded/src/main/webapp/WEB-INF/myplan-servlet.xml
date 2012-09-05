@@ -63,7 +63,7 @@
         </property>
     </bean>
 
-    <bean id="myplanInterceptor" class="org.kuali.student.myplan.utils.MyplanInterceptor">
+    <bean id="myplanInterceptor" class="edu.uw.kuali.student.myplan.util.MyplanInterceptor">
         <property name="studentServiceClient" ref="StudentService"/>
     </bean>
 

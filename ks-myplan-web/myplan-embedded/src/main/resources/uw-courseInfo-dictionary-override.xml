@@ -102,6 +102,7 @@
 
     <bean id="courseInfo.subjectArea" parent="courseInfo.subjectArea-parent">
         <property name="minLength" value="2"/>
+        <property name="maxLength" value="6"/>
         <property name="validChars" ref="lineText"/>
         <property name="caseConstraint">
             <bean parent="caseConstraint">
@@ -124,6 +125,7 @@
                                 <bean parent="cluIdentifierInfo.division-parent">
                                     <property name="minOccurs" value="1"/>
                                     <property name="minLength" value="2"/>
+                                    <property name="maxLength" value="6"/>
                                 </bean>
                             </property>
                         </bean>
@@ -176,7 +178,32 @@
 
     <bean id="courseInfo.descr" parent="courseInfo.descr-parent">
         <property name="dataObjectStructure" ref="uw.cluInfo.descr.RichTextInfo"/>
+        <property name="caseConstraint">
+            <bean parent="caseConstraint">
+                <property name="operator" value="EQUALS"/>
+                <property name="fieldPath" value="state"/>
+                <property name="caseSensitive" value="false"/>
+                <property name="whenConstraint">
+                    <list>
+                        <bean parent="whenConstraint">
+                            <property name="values">
+                                <list>
+                                    <value>SUBMITTED</value>
+                                    <value>APPROVED</value>
+                                    <value>ACTIVE</value>
+                                    <value>RETIRED</value>
+                                </list>
+                            </property>
+                            <property name="constraint">
+                                <bean parent="baseComplex"/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
+
 
     <bean id="cluInfo.descr" parent="cluInfo.descr-parent">
         <property name="dataObjectStructure" ref="uw.cluInfo.descr.RichTextInfo"/>

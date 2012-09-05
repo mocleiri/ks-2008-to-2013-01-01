@@ -102,6 +102,7 @@
 
     <bean id="courseInfo.subjectArea" parent="courseInfo.subjectArea-parent">
         <property name="minLength" value="2"/>
+        <property name="maxLength" value="6"/>
         <property name="validChars" ref="lineText"/>
         <property name="caseConstraint">
             <bean parent="caseConstraint">
@@ -124,6 +125,7 @@
                                 <bean parent="cluIdentifierInfo.division-parent">
                                     <property name="minOccurs" value="1"/>
                                     <property name="minLength" value="2"/>
+                                    <property name="maxLength" value="6"/>
                                 </bean>
                             </property>
                         </bean>
@@ -176,6 +178,30 @@
 
     <bean id="courseInfo.descr" parent="courseInfo.descr-parent">
         <property name="dataObjectStructure" ref="uw.cluInfo.descr.RichTextInfo"/>
+        <property name="caseConstraint">
+            <bean parent="caseConstraint">
+                <property name="operator" value="EQUALS"/>
+                <property name="fieldPath" value="state"/>
+                <property name="caseSensitive" value="false"/>
+                <property name="whenConstraint">
+                    <list>
+                        <bean parent="whenConstraint">
+                            <property name="values">
+                                <list>
+                                    <value>SUBMITTED</value>
+                                    <value>APPROVED</value>
+                                    <value>ACTIVE</value>
+                                    <value>RETIRED</value>
+                                </list>
+                            </property>
+                            <property name="constraint">
+                                <bean parent="baseComplex"/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
     <bean id="cluInfo.descr" parent="cluInfo.descr-parent">
@@ -186,19 +212,19 @@
     <bean id="uw.cluInfo.descr.RichTextInfo" parent="org.kuali.student.common.dto.RichTextInfo-parent">
         <property name="attributes">
             <list>
-                <ref bean="uw.cluInfo.richTextInfo.formatted" />
-                <ref bean="uw.cluInfo.richTextInfo.plain" />
+                <ref bean="uw.cluInfo.richTextInfo.formatted"/>
+                <ref bean="uw.cluInfo.richTextInfo.plain"/>
             </list>
         </property>
     </bean>
 
 
-    <bean id="uw.cluInfo.richTextInfo.formatted" parent="richTextInfo.formatted-parent" >
+    <bean id="uw.cluInfo.richTextInfo.formatted" parent="richTextInfo.formatted-parent">
         <property name="validChars" ref="uw.cluInfo.multiLineText"/>
         <property name="labelKey" value="uw.formatted"/>
     </bean>
 
-    <bean id="uw.cluInfo.richTextInfo.plain" parent="richTextInfo.plain-parent" >
+    <bean id="uw.cluInfo.richTextInfo.plain" parent="richTextInfo.plain-parent">
         <property name="validChars" ref="uw.cluInfo.multiLineText"/>
         <property name="labelKey" value="uw.plain"/>
     </bean>
@@ -208,7 +234,7 @@
         <property name="labelKey" value="uw.regex"/>
     </bean>
 
-    <bean id="courseInfo.courseTitle" parent="courseInfo.courseTitle-parent" >
+    <bean id="courseInfo.courseTitle" parent="courseInfo.courseTitle-parent">
         <property name="validChars" ref="uw.courseInfo.lineText"/>
     </bean>
 
@@ -278,7 +304,6 @@
     <bean id="uw.lineText" parent="ValidCharDefinition">
         <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$\*#@!\t ]*"/>
     </bean>
-
 
 
 </beans>
