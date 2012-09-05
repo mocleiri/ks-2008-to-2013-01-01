@@ -5,6 +5,6 @@ ks-core::enrollment_ks-core_trunk::a83f2328805591c72f8c17c6dadaaa4290c1f6a6
 # module = ks-lum branch Path = enrollment/ks-lum/trunk revision = 35728
 ks-lum::enrollment_ks-lum_trunk::85d55d2b2b819e21fe563fc1a8305c16617d5638
 # module = ks-enroll branch Path = enrollment/ks-enroll/trunk revision = 35728
-ks-enroll::enrollment_ks-enroll_trunk::22877dc668ea9a00b3ae773472899d8d15763cba
+ks-enroll::enrollment_ks-enroll_trunk::dc722919ef83cd0e45d1d9eb0299a7ebde2c9932
 # module = ks-deployments branch Path = enrollment/ks-deployments/trunk revision = 35728
 ks-deployments::enrollment_ks-deployments_trunk::b2cfe0c6f3bc33ff5375a424c6921a76e81b5582
