@@ -949,11 +949,11 @@ public class KradDictionaryCreator {
 		if (ms != null) {
 			return initLower(ms.getShortName());
 		}
-		ms = this.findMessageStructureEndsWith("name");
+		ms = this.findMessageStructureEndsWith("title");
 		if (ms != null) {
 			return initLower(ms.getShortName());
 		}
-		ms = this.findMessageStructureEndsWith("title");
+		ms = this.findMessageStructureEndsWith("name");
 		if (ms != null) {
 			return initLower(ms.getShortName());
 		}
@@ -961,7 +961,10 @@ public class KradDictionaryCreator {
 		if (ms != null) {
 			return initLower(ms.getShortName());
 		}
-		// TODO: consider checking for ID and just returning null
+		ms = this.findMessageStructure("id");
+		if (ms != null) {
+			return initLower(ms.getShortName());
+		}
 		System.out
 				.println("XmlKradBaseDictionaryCreator: could not find a title attribute for "
 						+ this.className);

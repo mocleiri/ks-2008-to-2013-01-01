@@ -17,13 +17,15 @@ package org.kuali.student.datadictionary.mojo;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.apache.maven.project.MavenProject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -78,16 +80,20 @@ public class KSDictionaryCreatorMojoTest {
     public void testExecute() throws Exception {
         System.out.println("execute");
         List<String> srcDirs = new ArrayList<String>();
-//        srcDirs.add(TEST_SOURCE_DIRECTORY);
-        srcDirs.add(ENROLL_PROJECT_JAVA_DIRECTORY);
+        srcDirs.add(TEST_SOURCE_DIRECTORY);
+//        srcDirs.add(ENROLL_PROJECT_JAVA_DIRECTORY);
         
 //		srcDirs.add(CORE_DIRECTORY);
 //		srcDirs.add(COMMON_DIRECTORY);
 //		srcDirs.add(LUM_DIRECTORY);
         KSDictionaryCreatorMojo instance = new KSDictionaryCreatorMojo();
+        Map pluginContext = new HashMap ();
+        MavenProject project = new MavenProject ();
+        pluginContext.put("project", project);
+        instance.setPluginContext(pluginContext);
         instance.setSourceDirs(srcDirs);
-//        instance.setOutputDirectory(new File(TARGET_GENERATED_SOURCES)); 
-        instance.setOutputDirectory(new File(ENROLL_PROJECT_RESOURCES_DIRECTORY));
+        instance.setOutputDirectory(new File(TARGET_GENERATED_SOURCES)); 
+//        instance.setOutputDirectory(new File(ENROLL_PROJECT_RESOURCES_DIRECTORY));
         // Be careful when you uncomment this one it will overwrite stuff in another project
 //        instance.setOutputDirectory(new File(ENROLL_PROJECT_RESOURCES_DIRECTORY));
         instance.setWriteManual(true);
