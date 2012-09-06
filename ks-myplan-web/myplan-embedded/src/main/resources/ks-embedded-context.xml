@@ -197,7 +197,7 @@
         </aop:aspect>
 
         <aop:aspect id="degreeAuditAroundSearch" ref="degreeAuditMethodCacheAdvisor">
-            <aop:around pointcut="execution(*  org.kuali.student.myplan.audit.service.DegreeAuditServiceImpl.getAuditPrograms(..))" method="getFromCache" />
+            <aop:around pointcut="execution(*  edu.uw.kuali.student.service.impl.DegreeAuditServiceImpl.getAuditPrograms(..))" method="getFromCache" />
 
         </aop:aspect>
 
