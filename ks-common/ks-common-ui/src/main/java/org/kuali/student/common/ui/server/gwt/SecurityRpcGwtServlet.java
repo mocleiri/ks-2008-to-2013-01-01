@@ -135,9 +135,12 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		List<KimPermissionInfo> permissions = (List<KimPermissionInfo>)getPermissionService().getAuthorizedPermissionsByTemplateName(
 				principalId, permissionType.getPermissionNamespace(), permissionType.getPermissionTemplateName(), null, null);
 		
-		
-		for (KimPermissionInfo permissionInfo:permissions){
-			matchingPermissions.add(permissionInfo.getName());
+		// Null check required in case web service method returns empty list, 
+		// SOAP messages return empty list as null  by default
+		if (permissions !=null){
+			for (KimPermissionInfo permissionInfo:permissions){
+				matchingPermissions.add(permissionInfo.getName());
+			}
 		}
 		
 		return matchingPermissions;
@@ -159,12 +162,14 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
  
 		List<KimPermissionInfo> permissions = (List<KimPermissionInfo>)getPermissionService().getAuthorizedPermissionsByTemplateName(
 				principalId, permissionType.getPermissionNamespace(), permissionType.getPermissionTemplateName(), attributeSet, attributeSet);
-		
-		
-		for (KimPermissionInfo permissionInfo:permissions){
-			matchingPermissions.add(permissionInfo.getName());
+
+		// Null check required in case web service method returns empty list, 
+		// SOAP messages return empty list as null  by default
+		if (permissions !=null){
+			for (KimPermissionInfo permissionInfo:permissions){
+				matchingPermissions.add(permissionInfo.getName());
+			}
 		}
-		
 		return matchingPermissions;
 	}
 	
