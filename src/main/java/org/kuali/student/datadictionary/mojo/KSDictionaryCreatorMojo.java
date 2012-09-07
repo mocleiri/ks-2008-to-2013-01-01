@@ -90,10 +90,19 @@ public class KSDictionaryCreatorMojo extends AbstractKSMojo {
         Set<String> lowerClasses = new HashSet<String>();
         
         for (XmlType type : model.getXmlTypes()) {
-			lowerClasses.add(type.getName().toLowerCase());
+        	
+        	String className = type.getName().toLowerCase();
+        	
+        	// skip non Info classes and r1 services
+        	if (!className.endsWith("info") || className.matches("\\.r1\\."))
+        		continue;
+        	
+			lowerClasses.add(className);
 		}
 
         String dictionaryDirectory = this.outputDirectory.toString();
+        
+        
         for (XmlType xmlType : model.getXmlTypes()) {
             if (lowerClasses.contains(xmlType.getName().toLowerCase())) {
                 lowerClasses.remove(xmlType.getName().toLowerCase());
