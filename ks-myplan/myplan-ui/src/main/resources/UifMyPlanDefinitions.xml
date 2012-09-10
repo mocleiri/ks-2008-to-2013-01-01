@@ -508,7 +508,7 @@
                             <bean parent="Uif-Link" p:target="">
                                 <property name="linkText" value="Learn more about Adviser View."/>
                                 <property name="href"
-                                          value="javascript:openHelpWindow('https://depts.washington.edu/myplan/mcm_faq/adviser-view/');"/>
+                                          value="javascript:openHelpWindow('https://depts.washington.edu/myplan/?page_id=985#view');"/>
                             </bean>
                         </list>
                     </property>
