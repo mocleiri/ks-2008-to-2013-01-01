@@ -19,7 +19,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.2.2-M5-SNAPSHOT</version>
+  <version>1.2.2-M5-build-141</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <url>http://${kuali.site.hostname}/student/${project.version}/</url>
@@ -97,9 +97,9 @@
     </profile>
   </profiles>
   <scm>
-    <connection>scm:svn:https://svn.kuali.org/repos/student/trunk</connection>
-    <developerConnection>scm:svn:https://svn.kuali.org/repos/student/trunk</developerConnection>
-    <url>https://svn.kuali.org/repos/student/trunk</url>
+    <connection>scm:svn:https://svn.kuali.org/repos/student/tags/builds/student-1.2/1.2.2-M5/20120910-build-141</connection>
+    <developerConnection>scm:svn:https://svn.kuali.org/repos/student/tags/builds/student-1.2/1.2.2-M5/20120910-build-141</developerConnection>
+    <url>https://svn.kuali.org/repos/student/tags/builds/student-1.2/1.2.2-M5/20120910-build-141</url>
   </scm>
   <properties>
     <!-- Remove this property as soon as the devs are comfortable with Maven 3
