@@ -16,6 +16,7 @@
 package org.kuali.student.r2.core.scheduling.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
@@ -28,6 +29,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.RoomServiceConstants;
+import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dao.ScheduleDao;
 import org.kuali.student.r2.core.scheduling.dao.ScheduleRequestDao;
@@ -45,6 +50,7 @@ import org.kuali.student.r2.core.scheduling.model.ScheduleRequestComponentEntity
 import org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity;
 import org.kuali.student.r2.core.scheduling.model.TimeSlotEntity;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.scheduling.service.transformer.ScheduleDisplayTransformer;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,6 +58,7 @@ import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.xml.namespace.QName;
 
 /**
  * @Version 1.0
@@ -63,9 +70,36 @@ import java.util.List;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class SchedulingServiceImpl implements SchedulingService {
+    private AtpService atpService;
+    private RoomService roomService;
+
     private ScheduleRequestDao scheduleRequestDao;
     private ScheduleDao scheduleDao;
     private TimeSlotDao timeSlotDao;
+
+    public AtpService getAtpService() {
+        if(atpService == null){
+            atpService = GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE,
+                    AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
+
+    public RoomService getRoomService() {
+        if (roomService == null){
+            roomService = GlobalResourceLoader.getService(new QName(RoomServiceConstants.NAMESPACE,
+                    RoomServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return roomService;
+    }
+
+    public void setRoomService(RoomService roomService) {
+        this.roomService = roomService;
+    }
 
     public void setScheduleRequestDao(ScheduleRequestDao scheduleRequestDao) {
         this.scheduleRequestDao = scheduleRequestDao;
@@ -90,8 +124,15 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    public List<ScheduleInfo> getSchedulesByIds(@WebParam(name = "scheduleIds") List<String> scheduleIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+    @Transactional(readOnly = true)
+    public List<ScheduleInfo> getSchedulesByIds(List<String> scheduleIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ScheduleEntity> scheduleEntityList = scheduleDao.findByIds(scheduleIds);
+        List<ScheduleInfo> scheduleInfoList = new ArrayList<ScheduleInfo>();
+        for (ScheduleEntity entity: scheduleEntityList) {
+            ScheduleInfo scheduleInfo = entity.toDto();
+            scheduleInfoList.add(scheduleInfo);
+        }
+        return scheduleInfoList;
     }
 
     @Override
@@ -580,13 +621,29 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    public ScheduleDisplayInfo getScheduleDisplay(@WebParam(name = "scheduleId") String scheduleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+    @Transactional(readOnly = true)
+    public ScheduleDisplayInfo getScheduleDisplay(String scheduleId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        ScheduleInfo scheduleInfo = getSchedule(scheduleId, contextInfo);
+        ScheduleDisplayInfo scheduleDisplayInfo =
+                ScheduleDisplayTransformer.schedule2scheduleDisplay(scheduleInfo, atpService, roomService, this, contextInfo);
+        return scheduleDisplayInfo;
     }
 
     @Override
-    public List<ScheduleDisplayInfo> getScheduleDisplaysByIds(@WebParam(name = "scheduleIds") List<String> scheduleIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+    @Transactional(readOnly = true)
+    public List<ScheduleDisplayInfo> getScheduleDisplaysByIds(List<String> scheduleIds, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
+        List<ScheduleInfo> scheduleInfoList = getSchedulesByIds(scheduleIds, contextInfo);
+        List<ScheduleDisplayInfo> displayInfoList = new ArrayList<ScheduleDisplayInfo>();
+        if (scheduleInfoList != null) {
+            for (ScheduleInfo info: scheduleInfoList) {
+                ScheduleDisplayInfo scheduleDisplayInfo =
+                        ScheduleDisplayTransformer.schedule2scheduleDisplay(info, atpService, roomService, this, contextInfo);
+                displayInfoList.add(scheduleDisplayInfo);
+            }
+        }
+        return displayInfoList;
     }
 
     @Override
