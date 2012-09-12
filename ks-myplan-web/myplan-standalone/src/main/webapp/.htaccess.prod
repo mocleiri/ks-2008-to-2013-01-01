@@ -13,6 +13,9 @@ RewriteEngine on
 RewriteCond %{HTTPS} off
 RewriteCond %{REMOTE_USER} !^$
 RewriteRule ^(.*)$ https://%{HTTP_HOST}/student/$1 [R,L]
+RewriteRule ^portal.do$   /student/myplan/plan?methodToCall=start&viewId=PlannedCourses-FormView    [R,L]
+RewriteRule ^myplan/$   /student/myplan/plan?methodToCall=start&viewId=PlannedCourses-FormView    [R,L]
+RewriteRule ^myplan/portal.do$   /student/myplan/plan?methodToCall=start&viewId=PlannedCourses-FormView    [R,L]
 # Lop off jsessionids
 ReWriteRule ^(.*);jsessionid=.*$ /student/$1 [PT]
 # To Tomcat
