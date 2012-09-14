@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.academicrecord.service.impl;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -8,12 +9,9 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler;
-import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.grading.service.GradingService;
-import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -21,13 +19,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,7 +122,7 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
 
         //StudentCourseRecordInfo
         StudentCourseRecordInfo courseRecord = new StudentCourseRecordInfo();
-        courseRecord.setCourseRegistrationId(Integer.toString(courseRecordInfoList.size()+1));
+        courseRecord.setCourseRegistrationId(UUIDHelper.genStringUUID());
         courseRecord.setPersonId("12020303");
         courseRecord.setCourseTitle("Dummy Test Course 101");
         courseRecord.setCourseCode("DTC101");
@@ -146,7 +141,7 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
         courseRecord.setCalculatedGradeScaleKey("1");
         courseRecordInfoList.add(courseRecord);
         courseRecord = new StudentCourseRecordInfo();
-        courseRecord.setCourseRegistrationId(Integer.toString(courseRecordInfoList.size()+1));
+        courseRecord.setCourseRegistrationId(UUIDHelper.genStringUUID());
         courseRecord.setPersonId("12020303");
         courseRecord.setCourseTitle("Dummy Test Course 102");
         courseRecord.setCourseCode("DTC102");
