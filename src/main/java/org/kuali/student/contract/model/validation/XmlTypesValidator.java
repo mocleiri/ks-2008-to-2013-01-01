@@ -56,12 +56,12 @@ public class XmlTypesValidator implements ModelValidator {
         if (xmlType.getName().equals("")) {
             addError(locator + ": Name is required");
         }
-        if (xmlType.getName().equalsIgnoreCase("Object")) {
-            addError(locator + ": Object is reserved and cannot be used as the name of an XmlType");
-        }
-        if (xmlType.getName().equalsIgnoreCase("ObjectList")) {
-            addError(locator + ": Object is reserved and cannot be used as the name of an XmlType");
-        }
+//        if (xmlType.getName().equalsIgnoreCase("Object")) {
+//            addError(locator + ": Object is reserved and cannot be used as the name of an XmlType");
+//        }
+//        if (xmlType.getName().equalsIgnoreCase("ObjectList")) {
+//            addError(locator + ": Object is reserved and cannot be used as the name of an XmlType");
+//        }
         if (!xmlType.getService().equals("")) {
             for (String srv : xmlType.getService().split(",")) {
                 if (finder.findService(srv.trim()) == null) {
