@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.academicrecord.service.impl;
 
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
@@ -27,7 +28,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AcademicRecordServiceMockImpl implements AcademicRecordService{
+public class AcademicRecordServiceMockImpl implements AcademicRecordService, MockService {
 
     private CourseRegistrationService courseRegService;
     private GradingService gradingService;
@@ -43,6 +44,17 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
     private Map<String, StudentProgramRecordInfo> studentProgramRecordsMap = new LinkedHashMap<String, StudentProgramRecordInfo>();
     private Map<String, StudentCredentialRecordInfo> studentCredentialRecordsMap = new LinkedHashMap<String, StudentCredentialRecordInfo>();
     private Map<String, StudentTestScoreRecordInfo> studentTestScoreRecordsMap = new LinkedHashMap<String, StudentTestScoreRecordInfo>();
+
+    @Override
+    public void clear() {
+        this.gpasMap.clear();
+        this.creditsMap.clear();
+        this.courseRecordInfoList.clear();
+        this.loadsMap.clear();
+        this.studentProgramRecordsMap.clear();
+        this.studentCredentialRecordsMap.clear();
+        this.studentTestScoreRecordsMap.clear();
+    }
 
     public AcademicRecordServiceMockImpl() {
         //StudentProgramRecordInfo
