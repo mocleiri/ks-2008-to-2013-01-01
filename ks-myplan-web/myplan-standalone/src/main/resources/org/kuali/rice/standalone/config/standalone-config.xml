@@ -240,5 +240,8 @@
 
     <param name="myplan.adviser.message.env.link">${application.url}/myplan/advise/</param>
 
+    <param name="myplan.version">${project.version}</param>
+
+
 
 </config>

@@ -331,6 +331,15 @@
         <url-pattern>/myplan/browserIncompatible</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SessionExpired</servlet-name>
+        <jsp-file>/ks-myplan/WEB-INF/jsp/templates/MyPlanSessionExpiredPage.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SessionExpired</servlet-name>
+        <url-pattern>/myplan/sessionExpired</url-pattern>
+    </servlet-mapping>
+
     <error-page>
         <error-code>500</error-code>
         <location>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage500.jsp</location>
@@ -344,6 +353,11 @@
     <error-page>
         <error-code>403</error-code>
         <location>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage403.jsp</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>org.kuali.rice.krad.exception.AuthenticationException</exception-type>
+        <location>/ks-myplan/WEB-INF/jsp/templates/MyPlanSessionExpiredPage.jsp</location>
     </error-page>
 
     <!-- Only need to include this for the kuali tlds
