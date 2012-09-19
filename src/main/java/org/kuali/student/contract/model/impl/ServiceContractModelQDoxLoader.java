@@ -170,6 +170,13 @@ public class ServiceContractModelQDoxLoader implements
             services.add(service);
             service.setKey(javaClass.getName().substring(0, javaClass.getName().length()
                     - "Service".length()));
+            if (service.getKey().equalsIgnoreCase("state")) {
+                if (!javaClass.getPackageName().startsWith ("org.kuali.student.")) {
+                    System.out.println("WARNING " + " changing servkey for the RICE StateService to RiceState"
+                        + " to disambiguate with Kuali Student StateService See Jira KSENROLL-2892");
+                    service.setKey ("RiceState");
+                }
+            }
             service.setName(javaClass.getName());
             service.setComments(this.calcComment(javaClass));
             service.setUrl(this.calcServiceUrl(javaClass));

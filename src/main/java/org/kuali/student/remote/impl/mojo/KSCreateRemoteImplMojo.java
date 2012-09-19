@@ -20,7 +20,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.kuali.student.common.mojo.AbstractKSMojo;
 import org.kuali.student.contract.model.ServiceContractModel;
-import org.kuali.student.contract.writer.service.ValidationDecoratorWriter;
+import org.kuali.student.contract.model.util.ServicesFilterKualiStudentOnly;
 
 /**
  *
@@ -47,7 +47,7 @@ public class KSCreateRemoteImplMojo extends AbstractKSMojo {
                 new RemoteImplWriter(model,
                 targetDir,
                 RemoteImplWriter.DEFAULT_ROOT_PACKAGE,
-                null);
+                new ServicesFilterKualiStudentOnly ());
         instance.write();
 
     }
