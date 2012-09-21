@@ -18,6 +18,7 @@ package org.kuali.student.contract.model.util;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import org.kuali.student.contract.model.Lookup;
 
 import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.ServiceContractModel;
@@ -154,9 +155,7 @@ public class HtmlContractMessageStructureWriter {
         writer.indentPrintln("<th class=\"h\">Description</th>");
         writer.indentPrintln("<th class=\"h\">Required?</th>");
         writer.indentPrintln("<th class=\"h\">Read only?</th>");
-        writer.indentPrintln("<th class=\"h\">Cardinality</th>");
-        writer.indentPrintln("<th class=\"h\">XML Attribute?</th>");
-//        writer.indentPrintln ("<th class=\"h\">Status</th>"); 
+        writer.indentPrintln("<th class=\"h\">Lookup (WIP)</th>");
         writer.indentPrintln("<th class=\"h\">Implementation Notes</th>");
         writer.indentPrintln("</tr>");
 
@@ -280,8 +279,7 @@ public class HtmlContractMessageStructureWriter {
         writer.writeTag("td", "class=\"structOpt\"", checkForNbsp(ms.getRequired()));
         writer.writeTag("td", "class=\"structOpt\"", checkForNbsp(ms.getReadOnly()));
 
-        writer.writeTag("td", "class=\"structCard\"", ms.getCardinality());
-        writer.writeTag("td", "class=\"structAttr\"", ms.getXmlAttribute());
+        writer.writeTag("td", "class=\"structCard\"", addHTMLBreaks (checkForNbsp (calcLookup (ms.getLookup ()))));
 //      writer.writeTag ("td", "class=\"structStatus\"", ms.getStatus ());
         writer.writeTag("td", "class=\"commentsDesc\"", addHTMLBreaks(this.checkForNbsp(ms.getImplNotes())));
         writer.indentPrintln("</tr>");
@@ -292,6 +290,30 @@ public class HtmlContractMessageStructureWriter {
 //  writer.indentPrintln ("<p>");
     }
 
+    private String calcLookup(Lookup lookup) {
+        if (lookup == null) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        String newLine = "\n";
+        sb.append(lookup.getServiceKey());
+        sb.append(":");
+        sb.append(lookup.getXmlTypeName());
+        if (lookup.getGetMethod() != null) {
+            sb.append(newLine);
+            sb.append(lookup.getGetMethod());
+        }
+        if (lookup.getSearchMethod() != null) {
+            sb.append(newLine);
+            sb.append(lookup.getSearchMethod());
+            if (lookup.getAdditionalCriteria() != null) {
+                sb.append(newLine);
+                sb.append(lookup.getAdditionalCriteria().toString());
+            }
+        }
+        return sb.toString();
+    }
+    
     private String calcDescription(MessageStructure ms) {
         StringBuilder sb = new StringBuilder();
         String newLine = "";

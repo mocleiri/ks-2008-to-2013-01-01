@@ -15,6 +15,8 @@
  */
 package org.kuali.student.contract.model;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+
 /**
  *
  * @author nwright
@@ -36,6 +38,7 @@ public class MessageStructure {
     private String implNotes;
     private boolean overriden;
     private boolean deprecated;
+    private Lookup lookup;
 
     public String getId() {
         return id;
@@ -157,6 +160,17 @@ public class MessageStructure {
         this.deprecated = deprecated;
     }
 
+    public Lookup getLookup() {
+        return lookup;
+    }
+
+    public void setLookup(Lookup lookup) {
+        this.lookup = lookup;
+    }
+
+    
+    
+    
 	@Override
 	public String toString() {
 		return "MessageStructure [xmlObject=" + xmlObject + "]";

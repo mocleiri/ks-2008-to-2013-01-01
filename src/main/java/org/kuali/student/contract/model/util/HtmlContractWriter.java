@@ -117,23 +117,6 @@ public class HtmlContractWriter {
         writer.indentPrintln("<ul>");
         List<Service> services = new ArrayList<Service>(model.getServices());
         Collections.sort(services, SERVICE_IMPL_NAME_COMPARATOR);
-        
-        Set<String>mergedServiceNames = new LinkedHashSet<String>();
-        
-        Iterator<Service> it = services.iterator();
-        
-        while (it.hasNext()) {
-			Service svc = it.next();
-			
-        	if (mergedServiceNames.contains(svc.getName())) {
-        		
-        		it.remove();
-        		
-        	}
-        	else
-        		mergedServiceNames.add(svc.getName());
-		}
-        
         String oldArea = "";
         for (Service service : services) {
             String newArea = calcArea(service);
@@ -148,7 +131,7 @@ public class HtmlContractWriter {
                 oldArea = newArea;
             }
             writer.indentPrint("<li>");
-            writer.print("<a href=\"" + service.getName() + ".html"
+            writer.print("<a href=\"" + service.getKey() + "Service" + ".html"
                     + "\">" + service.getName() + "</a>");
             writer.print("</li>");
         }

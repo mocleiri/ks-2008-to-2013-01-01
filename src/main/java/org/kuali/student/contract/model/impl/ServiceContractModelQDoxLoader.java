@@ -47,6 +47,7 @@ import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaParameter;
 import com.thoughtworks.qdox.model.Type;
 import com.thoughtworks.qdox.model.annotation.AnnotationValue;
+import org.kuali.student.contract.model.Lookup;
 
 /**
  *
@@ -168,15 +169,7 @@ public class ServiceContractModelQDoxLoader implements
 //   System.out.println ("processing service=" + javaClass.getName ());
             Service service = new Service();
             services.add(service);
-            service.setKey(javaClass.getName().substring(0, javaClass.getName().length()
-                    - "Service".length()));
-            if (service.getKey().equalsIgnoreCase("state")) {
-                if (!javaClass.getPackageName().startsWith ("org.kuali.student.")) {
-                    System.out.println("WARNING " + " changing servkey for the RICE StateService to RiceState"
-                        + " to disambiguate with Kuali Student StateService See Jira KSENROLL-2892");
-                    service.setKey ("RiceState");
-                }
-            }
+            service.setKey(calcServiceKey (javaClass));
             service.setName(javaClass.getName());
             service.setComments(this.calcComment(javaClass));
             service.setUrl(this.calcServiceUrl(javaClass));
@@ -271,6 +264,20 @@ public class ServiceContractModelQDoxLoader implements
         }
     }
 
+    
+    private String calcServiceKey(JavaClass javaClass) {
+        String key = javaClass.getName();
+        if (key.endsWith ("Service")) {
+         key = key.substring(0, key.length() - "Service".length());
+        }
+        if (javaClass.getPackageName().startsWith("org.kuali.rice.")) {
+            log.warn("WARNING " + " changing servkey for the RICE services to include prefix "
+                    + " to disambiguate with Kuali Student StateService See Jira KSENROLL-2892");
+            key = "RICE." + key;
+        }
+        return key;
+    }
+    
     private JavaMethod[] getServiceMethods(JavaClass javaClass) {
 		
     	Set<JavaMethod>methods = new LinkedHashSet<JavaMethod>();
@@ -675,6 +682,8 @@ public class ServiceContractModelQDoxLoader implements
             ms.setImplNotes(calcImplementationNotes(getterMethod, setterMethod, beanField));
             ms.setDeprecated(isDeprecated(getterMethod));
             ms.setStatus("???");
+            ms.setLookup(calcLookup (messageStructureJavaClass, getterMethod, setterMethod,
+                    beanField, serviceKey, ms.getXmlObject(), shortName, ms.getType()));
 //            if (ms.getId().equals("AcademicCalendarInfo.typeKey")) {
 //                System.out.println("debug from here");
 //            }
@@ -712,6 +721,208 @@ public class ServiceContractModelQDoxLoader implements
         return;
     }
 
+    private String stripList (String type) {
+        if (type == null) {
+            return null;
+        }
+        if (type.endsWith("List")) {
+            return type.substring(0, type.length() - "List".length());
+        }
+        return type;
+    }
+
+    private Lookup calcLookup (JavaClass mainClass, JavaMethod getterMethod,
+            JavaMethod setterMethod, JavaField beanField, String serviceKey, String xmlObject, String shortName, String type) {
+        type = this.stripList(type);
+        // all keys and Ids are represented as strings
+        if (!type.equalsIgnoreCase ("String")) {
+            return null;
+        }
+        Lookup lookup = LOOKUP_MAPPINGS.get(shortName);
+        if (lookup == null) {
+            if (this.endsWithIdOrKey(shortName)) {
+                log.warn (serviceKey + ":" + xmlObject + "." + shortName + " ends with id or key but has no lookup defined");
+            } 
+        }
+        return lookup;
+    }
+    
+    private boolean endsWithIdOrKey (String shortName) {
+        if (shortName.endsWith ("Id")) {
+            return true;
+        }
+        if (shortName.endsWith ("Ids")) {
+            return true;
+        }
+        if (shortName.endsWith ("Key")) {
+            return true;
+        }
+        if (shortName.endsWith ("Keys")) {
+            return true;
+        }
+        return false;
+    }
+    
+    private static Map<String, Lookup> LOOKUP_MAPPINGS;
+    {
+        // global ones where the name matches the object 
+        LOOKUP_MAPPINGS = new LinkedHashMap<String, Lookup> ();
+        LOOKUP_MAPPINGS.put("typeKey", new Lookup ("Type", "TypeInfo"));
+        LOOKUP_MAPPINGS.put("stateKey", new Lookup ("State", "StateInfo"));
+        LOOKUP_MAPPINGS.put("lifecycleKey", new Lookup ("State", "LifecycleInfo"));
+        LOOKUP_MAPPINGS.put("orgId", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("orgIds", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("organizationId", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("organizationIds", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("atpId", new Lookup ("Atp", "AtpInfo"));
+        LOOKUP_MAPPINGS.put("atpIds", new Lookup ("Atp", "AtpInfo"));
+        LOOKUP_MAPPINGS.put("termId", new Lookup ("AcademicCalendar", "TermInfo"));
+        LOOKUP_MAPPINGS.put("termIds", new Lookup ("AcademicCalendar", "TermInfo"));
+        LOOKUP_MAPPINGS.put("luiId", new Lookup ("Lui", "LuiInfo"));
+        LOOKUP_MAPPINGS.put("luiIds", new Lookup ("Lui", "LuiInfo"));
+        LOOKUP_MAPPINGS.put("cluId", new Lookup ("Clu", "CluInfo"));
+        LOOKUP_MAPPINGS.put("cluIds", new Lookup ("Clu", "CluInfo"));
+        LOOKUP_MAPPINGS.put("credentialProgramId", new Lookup ("Program", "CredentialProgramInfo"));
+        LOOKUP_MAPPINGS.put("credentialProgramIds", new Lookup ("Program", "CredentialProgramInfo"));
+        LOOKUP_MAPPINGS.put("credentialProgramId", new Lookup ("Program", "CredentialProgramInfo"));
+        LOOKUP_MAPPINGS.put("credentialProgramIds", new Lookup ("Program", "CredentialProgramInfo"));
+        LOOKUP_MAPPINGS.put("coreProgramId", new Lookup ("Program", "CoreProgramInfo"));
+        LOOKUP_MAPPINGS.put("coreProgramIds", new Lookup ("Program", "CoreProgramInfo"));
+        LOOKUP_MAPPINGS.put("resultScaleKey", new Lookup ("LRC", "ResultScaleInfo"));
+        LOOKUP_MAPPINGS.put("resultScaleKeys", new Lookup ("LRC", "ResultScaleInfo"));
+        LOOKUP_MAPPINGS.put("resultValuesGroupKey", new Lookup ("LRC", "ResultValuesGroupInfo"));
+        LOOKUP_MAPPINGS.put("resultValuesGroupKeys", new Lookup ("LRC", "ResultValuesGroupInfo"));
+        LOOKUP_MAPPINGS.put("resultValueKey", new Lookup ("LRC", "ResultValueInfo"));
+        LOOKUP_MAPPINGS.put("resultValueKeys", new Lookup ("LRC", "ResultValueInfo"));
+        LOOKUP_MAPPINGS.put("scheduleId", new Lookup ("Schedule", "ScheduleInfo"));
+        LOOKUP_MAPPINGS.put("scheduleIds", new Lookup ("Schedule", "ScheduleInfo"));
+        LOOKUP_MAPPINGS.put("courseId", new Lookup ("Course", "CourseInfo"));
+        LOOKUP_MAPPINGS.put("courseIds", new Lookup ("Course", "CourseInfo"));
+        LOOKUP_MAPPINGS.put("formatId", new Lookup ("Course", "FormatInfo"));
+        LOOKUP_MAPPINGS.put("formatIds", new Lookup ("Course", "FormatInfo"));
+        LOOKUP_MAPPINGS.put("activityId", new Lookup ("Course", "ActivityInfo"));
+        LOOKUP_MAPPINGS.put("activityIds", new Lookup ("Course", "ActivityInfo"));
+        LOOKUP_MAPPINGS.put("courseOfferingId", new Lookup ("CourseOffering", "CourseOfferingInfo"));
+        LOOKUP_MAPPINGS.put("courseOfferingIds", new Lookup ("CourseOffering", "CourseOfferingInfo"));
+        LOOKUP_MAPPINGS.put("formatOfferingId", new Lookup ("CourseOffering", "FormatOfferingInfo"));
+        LOOKUP_MAPPINGS.put("formatOfferingIds", new Lookup ("CourseOffering", "FormatOfferingInfo"));
+        LOOKUP_MAPPINGS.put("activityOfferingId", new Lookup ("CourseOffering", "ActivityOfferingInfo"));
+        LOOKUP_MAPPINGS.put("activityOfferingIds", new Lookup ("CourseOffering", "ActivityOfferingInfo"));
+        LOOKUP_MAPPINGS.put("socRolloverResultId", new Lookup ("CourseOfferingSet", "SorRolloverResultInfo"));
+        LOOKUP_MAPPINGS.put("socRolloverResultIds", new Lookup ("CourseOfferingSet", "SorRolloverResultInfo"));
+        LOOKUP_MAPPINGS.put("socRolloverResultItemId", new Lookup ("CourseOfferingSet", "SorRolloverResultItemInfo"));
+        LOOKUP_MAPPINGS.put("socRolloverResultItemIds", new Lookup ("CourseOfferingSet", "SorRolloverResultItemInfo"));
+        LOOKUP_MAPPINGS.put("buildingId", new Lookup ("Room", "BuildingInfo"));
+        LOOKUP_MAPPINGS.put("buildingIds", new Lookup ("Room", "BuildingInfo"));
+        LOOKUP_MAPPINGS.put("roomId", new Lookup ("Room", "RoomInfo"));
+        LOOKUP_MAPPINGS.put("roomIds", new Lookup ("Room", "RoomInfo"));
+        LOOKUP_MAPPINGS.put("populationId", new Lookup ("Population", "PopulationInfo"));
+        LOOKUP_MAPPINGS.put("populationIds", new Lookup ("Population", "PopulationInfo"));
+        
+        
+        // COMMON RICE IDENTITY SERVICE
+        LOOKUP_MAPPINGS.put("principalId", new Lookup ("rice.kim.Identity", "Principal"));
+        LOOKUP_MAPPINGS.put("principalIds", new Lookup ("rice.kim.Identity", "Principal"));
+        // TODO: fix these Ids that currently maps to principal instead of the entity id
+        LOOKUP_MAPPINGS.put("personId", new Lookup ("rice.kim.Identity", "Principal"));
+        LOOKUP_MAPPINGS.put("personIds", new Lookup ("rice.kim.Identity", "Principal"));
+        LOOKUP_MAPPINGS.put("instructorId", new Lookup ("rice.kim.Identity", "Principal"));
+        LOOKUP_MAPPINGS.put("instructorIds", new Lookup ("rice.kim.Identity", "Principal"));
+        LOOKUP_MAPPINGS.put("studentId", new Lookup ("rice.kim.Identity", "Principal"));
+        LOOKUP_MAPPINGS.put("studentIds", new Lookup ("rice.kim.Identity", "Principal"));
+        
+        // Common objects 
+        // TimeAmount
+        LOOKUP_MAPPINGS.put("atpDurationTypeKey", new Lookup ("Type", "TypeInfo")); 
+        LOOKUP_MAPPINGS.put("currencyTypeKey", new Lookup ("Type", "TypeInfo"));        
+        // Context
+        LOOKUP_MAPPINGS.put("authenticatedPrincipalId", new Lookup ("rice.kim.Identity", "Principal"));
+        // meta
+        LOOKUP_MAPPINGS.put("createId", new Lookup ("rice.kim.Identity", "Principal"));
+        LOOKUP_MAPPINGS.put("updateId", new Lookup ("rice.kim.Identity", "Principal"));
+        LOOKUP_MAPPINGS.put("agendaId", new Lookup ("rice.krms.Agenda", "Agenda"));
+        LOOKUP_MAPPINGS.put("agendaIds", new Lookup ("rice.krms.Agenda", "Agenda"));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        
+        
+        // TODO: replace or augment this special list of ones with annotations in the contract itself
+        // program service
+        LOOKUP_MAPPINGS.put("unitsContentOwner", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("unitsDeployment", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("unitsStudentOversight", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("unitsFinancialResources", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("unitsFinancialControl", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("divisionsContentOwner", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("divisionsDeployment", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("divisionsStudentOversight", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("divisionsFinancialResources", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("divisionsFinancialControl", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("startTerm", new Lookup ("AcademicCalendar", "TermInfo"));
+        LOOKUP_MAPPINGS.put("endTerm", new Lookup ("AcademicCalendar", "TermInfo"));
+        LOOKUP_MAPPINGS.put("endProgramEntryTerm", new Lookup ("AcademicCalendar", "TermInfo"));
+        LOOKUP_MAPPINGS.put("resultOptions", new Lookup ("LRC", "ResultValuesGroupInfo"));
+        LOOKUP_MAPPINGS.put("programRequirements", new Lookup ("Program", "ProgramRequirementInfo"));
+        // share by program and course
+        LOOKUP_MAPPINGS.put("parentRelType", new Lookup ("Type", "TypeInfo"));
+        LOOKUP_MAPPINGS.put("parentLoRelationid", new Lookup ("LearningObjective", "LoInfo"));
+        
+        // type service
+        LOOKUP_MAPPINGS.put("ownerTypeKey", new Lookup ("Type", "TypeInfo"));
+        LOOKUP_MAPPINGS.put("relatedTypeKey", new Lookup ("Type", "TypeInfo"));
+        
+        // State service (there are no special purpose ones) 
+        
+        // LRC service (there are no special purpose ones)
+        
+        // atp
+        LOOKUP_MAPPINGS.put("adminOrgId", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("relatedAtpId", new Lookup ("Atp", "AtpInfo"));
+        LOOKUP_MAPPINGS.put("relativeAnchorMilestoneId", new Lookup ("Atp", "MilestoneInfo"));
+        
+        // Lui
+        LOOKUP_MAPPINGS.put("relatedLuiTypes", new Lookup ("Type", "TypeInfo"));
+        LOOKUP_MAPPINGS.put("relatedLuiId", new Lookup ("Lui", "LuiInfo"));
+        
+        // Course Offering
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        
+        // TODO: finish the services
+        LOOKUP_MAPPINGS.put("unitsDeploymentOrgIds", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("unitsContentOwnerOrgIds", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("unitsContentOwnerId", new Lookup ("Organization", "OrgInfo"));
+        LOOKUP_MAPPINGS.put("jointOfferingIds", new Lookup ("CourseOffering", "CourseOfferingInfo"));
+        LOOKUP_MAPPINGS.put("gradingOptionId", new Lookup ("LRC", "ResultValuesGroupInfo"));
+        LOOKUP_MAPPINGS.put("creditOptionId", new Lookup ("LRC", "ResultValuesGroupInfo"));
+        LOOKUP_MAPPINGS.put("waitlistLevelTypeKey", new Lookup ("Type", "TypeInfo"));
+        LOOKUP_MAPPINGS.put("waitlistTypeKey", new Lookup ("Type", "TypeInfo"));
+        LOOKUP_MAPPINGS.put("activityOfferingTypeKeys", new Lookup ("Type", "TypeInfo"));
+        LOOKUP_MAPPINGS.put("gradeRosterLevelTypeKey", new Lookup ("Type", "TypeInfo"));
+        LOOKUP_MAPPINGS.put("finalExamLevelTypeKey", new Lookup ("Type", "TypeInfo"));
+        LOOKUP_MAPPINGS.put("schedulingStateKey", new Lookup ("State", "StateInfo"));
+        LOOKUP_MAPPINGS.put("gradingOptionKeys", new Lookup ("LRC", "ResultValuesGroupInfo"));
+        LOOKUP_MAPPINGS.put("creditOptionId", new Lookup ("LRC", "ResultValuesGroupInfo"));
+        LOOKUP_MAPPINGS.put("gradingOptionKeys", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        LOOKUP_MAPPINGS.put("", new Lookup ("", ""));
+        
+    }
+    
     private boolean calcOverridden(JavaClass mainClass, JavaMethod getterMethod) {
         if (getterMethod == null) {
             return false;

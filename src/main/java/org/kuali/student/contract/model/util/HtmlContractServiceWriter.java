@@ -42,7 +42,7 @@ public class HtmlContractServiceWriter {
     public HtmlContractServiceWriter(Service service, String directory,
             ServiceContractModel model) {
         this.service = service;
-        this.writer = new HtmlWriter(directory, service.getName() + ".html",
+        this.writer = new HtmlWriter(directory, service.getKey() + "Service" + ".html",
                 service.getName());
         this.model = model;
         this.finder = new ModelFinder(this.model);
@@ -58,7 +58,7 @@ public class HtmlContractServiceWriter {
         
         writer.indentPrintln("<table id=\"serviceMetaTable\">");
         writer.indentPrintln("<tr>");
-        writer.writeTag("th", "class=h", "Name");
+        writer.writeTag("th", "class=h", "Key");
         writer.writeTag("td", "id=serviceName colspan=2", service.getKey());
         writer.indentPrintln("</tr>");
         
