@@ -10,4 +10,11 @@
   <version>1.0.3-SNAPSHOT</version>
   <name>KS Rice Db</name>
   <description>The baseline version of Kuali Rice Impex that Kuali Student uses to bootstrap a Rice database</description>
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/impex</directory>
+      </resource>
+    </resources>
+  </build>
 </project>
