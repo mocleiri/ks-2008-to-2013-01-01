@@ -7,7 +7,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>ks-rice-db</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.3</version>
   <name>KS Rice Db</name>
   <description>The baseline version of Kuali Rice Impex that Kuali Student uses to bootstrap a Rice database</description>
   <url>http://${kuali.site.hostname}/student/${project.artifactId}/${project.version}</url>
@@ -19,8 +19,8 @@
     </resources>
   </build>
   <scm>
-    <connection>scm:svn:https://svn.kuali.org/repos/student/enrollment/ks-deployments/branches/ks-rice-db</connection>
-    <developerConnection>scm:svn:https://svn.kuali.org/repos/student/enrollment/ks-deployments/branches/ks-rice-db</developerConnection>
-    <url>https://svn.kuali.org/repos/student/enrollment/ks-deployments/branches/ks-rice-db</url>
+    <connection>scm:svn:https://svn.kuali.org/repos/student/enrollment/ks-deployments/tags/ks-rice-db-1.0.3</connection>
+    <developerConnection>scm:svn:https://svn.kuali.org/repos/student/enrollment/ks-deployments/tags/ks-rice-db-1.0.3</developerConnection>
+    <url>https://svn.kuali.org/repos/student/enrollment/ks-deployments/tags/ks-rice-db-1.0.3</url>
   </scm>
 </project>
