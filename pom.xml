@@ -8,6 +8,6 @@
   <groupId>org.kuali.student</groupId>
   <artifactId>ks-rice-db</artifactId>
   <version>1.0.3-SNAPSHOT</version>
-  <name>KS Rice Impex</name>
+  <name>KS Rice Db</name>
   <description>The baseline version of Kuali Rice Impex that Kuali Student uses to bootstrap a Rice database</description>
 </project>
