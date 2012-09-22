@@ -17,4 +17,9 @@
       </resource>
     </resources>
   </build>
+  <scm>
+    <connection>scm:svn:https://svn.kuali.org/repos/student/enrollment/ks-deployments/branches/ks-rice-db</connection>
+    <developerConnection>scm:svn:https://svn.kuali.org/repos/student/enrollment/ks-deployments/branches/ks-rice-db</developerConnection>
+    <url>https://svn.kuali.org/repos/student/enrollment/ks-deployments/branches/ks-rice-db</url>
+  </scm>
 </project>
