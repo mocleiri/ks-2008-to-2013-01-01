@@ -39,6 +39,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.KeyNameInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -425,7 +426,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     // cache variable
     // The LinkedHashMap is just so the values come back in a predictable order
-    private Map<String, CourseOfferingInfo> courseOfferingMap = new LinkedHashMap<String, CourseOfferingInfo>();
+    protected Map<String, CourseOfferingInfo> courseOfferingMap = new LinkedHashMap<String, CourseOfferingInfo>();
 
     @Override
     public CourseOfferingInfo updateCourseOffering(String courseOfferingId,
@@ -687,6 +688,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
                 list.add(info);
             }
         }
+
         return list;
     }
 
@@ -1474,8 +1476,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         TermInfo term = this.acalService.getTerm(co.getTermId(), context);
         info.setTermName(term.getName());
         info.setTermCode(term.getCode());
-        info.setGradingOptionName(co.getGradingOptionName());        
-        info.setCreditOptionName(co.getCreditOptionName());        
+        info.setGradingOption(new KeyNameInfo(co.getGradingOptionId(), co.getGradingOptionName()));
+        info.setCreditOption(new KeyNameInfo(co.getCreditOptionId(), co.getCreditOptionName()));
         TypeInfo type = typeService.getType(co.getTypeKey(), context);
         info.setTypeName(type.getName());
         StateInfo state = stateService.getState(co.getStateKey(), context);
@@ -1946,6 +1948,26 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return businessLogic.generateRegistrationGroupsForCluster(activityOfferingClusterId, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForActivityOfferingClusterIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ActivityOfferingClusterInfo> searchForActivityOfferingClusters(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<String> searchForFormatOfferingIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<FormatOfferingInfo> searchForFormatOfferings(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 

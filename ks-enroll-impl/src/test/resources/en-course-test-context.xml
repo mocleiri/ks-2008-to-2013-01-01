@@ -177,9 +177,9 @@
 		<constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />
 	</bean>
 
-	<bean id="luClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+	<bean id="cluClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.clu.service.CluService" />
-		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/clu}CluService" />
 	</bean>
 
 	<bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
@@ -187,13 +187,16 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
 	</bean>
 
-	<bean id="luServiceImpl"
+	<bean id="cluServiceImpl"
 		class="org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl">
 		<property name="luDao" ref="luDao" />
         <property name="searchManager" ref="luSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
 		<property name="validatorFactory" ref="validatorFactory"/>
 	</bean>
+
+    <!-- Type Service config -->
+    <bean id="typeServiceImpl" class="org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl" />
 
 	<!-- Statement Service Config -->
 	<import resource="classpath:statement-context.xml"/>
@@ -249,24 +252,37 @@
 	</bean>
 
 	<!-- Learning Result service config -->
-
-	<bean id="lrcDao"
-		class="org.kuali.student.r1.lum.lrc.dao.impl.LrcDaoImpl">
+	<bean id="lrcSearchableDao" class="org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl">
         <property name="em" ref="entityManager" />
 	</bean>
 
-	<bean id="lrcSearchManager"
-		class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+	<bean id="lrcSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lrc-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
 
+    <bean id="resultValuesGroupDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="resultValueDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValueDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="resultScaleDao" class="org.kuali.student.r2.lum.lrc.dao.ResultScaleDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
+
 	<bean id="lrcServiceImpl"
-		class="org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl">
-		<property name="lrcDao" ref="lrcDao" />
+		class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
+		<property name="searchableDao" ref="lrcSearchableDao" />
         <property name="searchManager" ref="lrcSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>        
-        <property name="validatorFactory" ref="validatorFactory"/>
+        <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
+        <property name="resultValueDao" ref="resultValueDao" />
+        <property name="resultScaleDao" ref="resultScaleDao" />
+        <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
 	</bean>
 
 	<!-- Search -->
@@ -278,7 +294,7 @@
 		<property name="services">
 			<list>
 				<ref bean="loServiceImpl"/>
-				<ref bean="luServiceImpl"/>
+				<ref bean="cluServiceImpl"/>
 				<ref bean="lrcServiceImpl"/>
 				<ref bean="orgServiceImpl"/>
 				<ref bean="emServiceImpl"/>
@@ -288,7 +304,7 @@
 
 	<!-- CourseService -->
 	<bean id="courseServiceImpl" class="org.kuali.student.r2.lum.course.service.impl.CourseServiceImpl">
-		<property name="cluService" ref="luServiceImpl"/>
+		<property name="cluService" ref="cluServiceImpl"/>
 		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
 		<property name="courseAssembler" ref="courseAssembler"/>
 		<property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
@@ -297,7 +313,7 @@
 	</bean>
 
 	<bean id="courseServiceMethodInvoker" class="org.kuali.student.r2.lum.course.service.impl.CourseServiceMethodInvoker">
-		<property name="cluService" ref="luServiceImpl"/>
+		<property name="cluService" ref="cluServiceImpl"/>
 		<property name="loService" ref="loServiceImpl"/>
 		<property name="statementService" ref="statementServiceImpl"/>
 		<property name="atpService" ref="atpServiceImpl"/>
@@ -308,7 +324,7 @@
 	<bean id="courseAssembler" class="org.kuali.student.r2.lum.course.service.assembler.CourseAssembler">
 		<property name="formatAssembler" ref="formatAssembler"/>
 		<property name="courseJointAssembler" ref="courseJointAssembler"/>
-		<property name="cluService" ref="luServiceImpl"/>
+		<property name="cluService" ref="cluServiceImpl"/>
 		<property name="loService" ref="loServiceImpl"/>
 		<property name="lrcService" ref="lrcServiceImpl"/>
 		<property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
@@ -321,20 +337,20 @@
 
 	<bean id="formatAssembler" class="org.kuali.student.r2.lum.course.service.assembler.FormatAssembler">
 		<property name="activityAssembler" ref="activityAssembler"/>
-		<property name="cluService" ref="luServiceImpl"/>
+		<property name="cluService" ref="cluServiceImpl"/>
 	</bean>
 
 	<bean id="activityAssembler" class="org.kuali.student.r2.lum.course.service.assembler.ActivityAssembler">
-		<property name="cluService" ref="luServiceImpl"/>
+		<property name="cluService" ref="cluServiceImpl"/>
 	</bean>
 
 	<bean id="courseJointAssembler" class="org.kuali.student.r2.lum.course.service.assembler.CourseJointAssembler">
-		<property name="cluService" ref="luServiceImpl"/>
+		<property name="cluService" ref="cluServiceImpl"/>
 	</bean>
 
     <bean id="cluAssemblerUtils"
           class="org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils">
-        <property name="cluService" ref="luServiceImpl"/>
+        <property name="cluService" ref="cluServiceImpl"/>
         <property name="loService" ref="loServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
     </bean>

@@ -8,6 +8,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FormatOfferingTransformer {
@@ -28,7 +29,7 @@ public class FormatOfferingTransformer {
         format.setActivityOfferingTypeKeys(lui.getRelatedLuiTypes());
         format.setMeta(lui.getMeta());
 
-        //Dynamic attributes - Some fields in Format Offering need to be mapped to LUI dynamic attributes
+        // Dynamic attributes - Some fields in Format Offering need to be mapped to LUI dynamic attributes
         List<AttributeInfo> attributes = format.getAttributes();
         for (Attribute attr : lui.getAttributes()) {
             if (CourseOfferingServiceConstants.GRADE_ROSTER_LEVEL_TYPE_KEY_ATTR.equals(attr.getKey())){
@@ -67,7 +68,7 @@ public class FormatOfferingTransformer {
         lui.setDescr(format.getDescr());
         lui.setRelatedLuiTypes(format.getActivityOfferingTypeKeys());
         lui.setMeta(format.getMeta());
-        lui.setAttributes(format.getAttributes());
+        lui.getAttributes().clear();
 
         //Dynamic Attributes in Format Offering
         List<AttributeInfo> attributes = lui.getAttributes();

@@ -3,8 +3,8 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.io.Serializable;
@@ -24,8 +24,9 @@ public class ScheduleWrapper implements Serializable{
     private TimeSlotInfo timeSlot;
     private BuildingInfo building;
     private RoomInfo room;
-    private ScheduleRequestInfo scheduleRequest;
-    private ScheduleInfo actualSchedule;
+
+    private ScheduleRequestComponentInfo scheduleRequestComponentInfo;
+    private ScheduleComponentInfo scheduleComponentInfo;
 
     //Properties
     private String days;
@@ -33,6 +34,8 @@ public class ScheduleWrapper implements Serializable{
     private String startTimeAMPM;
     private String endTime;
     private String endTimeAMPM;
+
+    private boolean tba;
 
     private String buildingCode;
     private String roomCode;
@@ -47,12 +50,16 @@ public class ScheduleWrapper implements Serializable{
 
     public ScheduleWrapper(){
         features = new ArrayList<String>();
-        buildingCode = "097";
-        roomCode = "1115097";
+        setBuildingCode("CCC");
+        setRoomCode("1115");
     }
 
-    public ScheduleWrapper(ScheduleRequestInfo scheduleRequest){
-        this.scheduleRequest = scheduleRequest;
+    public ScheduleWrapper(ScheduleRequestComponentInfo scheduleRequestComponentInfo){
+        this.scheduleRequestComponentInfo = scheduleRequestComponentInfo;
+    }
+
+    public ScheduleWrapper(ScheduleComponentInfo scheduleComponentInfo){
+        this.scheduleComponentInfo = scheduleComponentInfo;
     }
 
     public TimeSlotInfo getTimeSlot() {
@@ -150,22 +157,6 @@ public class ScheduleWrapper implements Serializable{
         this.features = features;
     }
 
-    public ScheduleRequestInfo getScheduleRequest() {
-        return scheduleRequest;
-    }
-
-    public void setScheduleRequest(ScheduleRequestInfo scheduleRequest) {
-        this.scheduleRequest = scheduleRequest;
-    }
-
-    public ScheduleInfo getActualSchedule() {
-        return actualSchedule;
-    }
-
-    public void setActualSchedule(ScheduleInfo actualSchedule) {
-        this.actualSchedule = actualSchedule;
-    }
-
     public String getDaysUI() {
         return daysUI;
     }
@@ -191,8 +182,8 @@ public class ScheduleWrapper implements Serializable{
     }
 
     public boolean isAlreadySaved() {
-        if (scheduleRequest != null){
-            return StringUtils.isNotBlank(scheduleRequest.getId());
+        if (scheduleRequestComponentInfo != null){
+            return StringUtils.isNotBlank(scheduleRequestComponentInfo.getId());
         }
         return false;
     }
@@ -207,12 +198,35 @@ public class ScheduleWrapper implements Serializable{
 
     public String getRoomName() {
         if (room != null){
-            return room.getName();
+            return room.getRoomCode();
+        }
+        return StringUtils.EMPTY;
+    }
+
+    public boolean isTba() {
+        return tba;
+    }
+
+    public void setTba(boolean tba) {
+        this.tba = tba;
+    }
+
+    public String getTbaUI(){
+        if (isTba()){
+            return "TBA";
         }
         return StringUtils.EMPTY;
     }
 
     public String getFeaturesUI() {
         return "N/A";
+    }
+
+    public ScheduleRequestComponentInfo getScheduleRequestComponentInfo() {
+        return scheduleRequestComponentInfo;
+    }
+
+    public ScheduleComponentInfo getScheduleComponentInfo() {
+        return scheduleComponentInfo;
     }
 }

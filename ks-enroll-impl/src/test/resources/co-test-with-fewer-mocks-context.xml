@@ -127,7 +127,7 @@
         <property name="atpRelDao" ref="atpAtpRelationDao" />
         <property name="milestoneDao" ref="milestoneDao" />
         <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
-        <property name="criteriaLookupService" ref="atpCriteriaLookupService" />
+        <property name="atpCriteriaLookupService" ref="atpCriteriaLookupService" />
     </bean>
 
     <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
@@ -165,6 +165,20 @@
         <property name="typeService" ref="typeService"/>
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
+        <property name="schedulingService" ref="schedulingService"/>
+    </bean>
+
+    <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
+        <property name="atpService" ref="atpService"/>
+        <property name="typeService" ref="typeService"/>
+        <property name="organizationService" ref="organizationService"/>
+        <property name="roomService" ref="roomService"/>
+    </bean>
+
+    <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5">
+    </bean>
+
+    <bean id="organizationService" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceMockImpl">
     </bean>
 
     <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>

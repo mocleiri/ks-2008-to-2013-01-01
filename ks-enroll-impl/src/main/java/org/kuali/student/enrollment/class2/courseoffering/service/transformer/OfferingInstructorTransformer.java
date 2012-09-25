@@ -37,6 +37,8 @@ import java.util.Map;
  */
 public class OfferingInstructorTransformer {
 
+    private static PersonService personService;
+
     public static List<OfferingInstructorInfo> lprs2Instructors(List<LprInfo> lprs) {
         List<OfferingInstructorInfo> results = new ArrayList<OfferingInstructorInfo>(lprs.size());
 
@@ -65,13 +67,21 @@ public class OfferingInstructorTransformer {
 
     public static List<Person> getInstructorByPersonId(String personId){
         Map<String, String> searchCriteria = new HashMap<String, String>();
-        searchCriteria.put(KIMPropertyConstants.Person.ENTITY_ID, personId);
+        searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_ID, personId);
         List<Person> lstPerson = getPersonService().findPeople(searchCriteria);
         return lstPerson;
     }
 
     public static PersonService getPersonService() {
-        return KimApiServiceLocator.getPersonService();
+        if(personService == null) {
+            personService = KimApiServiceLocator.getPersonService();
+        }
+
+        return personService;
+    }
+
+    public static void setPersonService(PersonService personService) {
+        OfferingInstructorTransformer.personService = personService;
     }
 
     public static List<LprInfo> instructors2Lprs(LuiInfo luiInfo, List<OfferingInstructorInfo> instructors) {

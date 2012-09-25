@@ -18,24 +18,34 @@ package org.kuali.student.enrollment.kitchensink;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class just holds fields for the collection properties in KitchenSinkForm
  *
  * @author Kuali Student Team
  */
 public class KitchenSinkFormCollection1 {
-
-    private static Integer count = 0;
 
     private Boolean selected;
     private Integer id;
     private String name;
     private String description;
     private Date date;
+    private List<UITestObject> list1;
+    private List<UITestObject> list3;
 
     public KitchenSinkFormCollection1() { }
+
+    public KitchenSinkFormCollection1(KitchenSinkFormCollection1 collection) {
+        this.selected = collection.getSelected();
+        this.id = collection.getId();
+        this.name = collection.getName();
+        this.description = collection.getDescription();
+        this.date = collection.getDate();
+    }
 
     public KitchenSinkFormCollection1(String name, String description, String dateString) {
         this.id = ++count;
@@ -87,5 +97,36 @@ public class KitchenSinkFormCollection1 {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public List<UITestObject> getList1() {
+        return list1;
+    }
+
+    public void setList1(List<UITestObject> list1) {
+        this.list1 = list1;
+    }
+
+    public List<UITestObject> getList3() {
+        return list3;
+    }
+
+    public void setList3(List<UITestObject> list3) {
+        this.list3 = list3;
+    }
+
+    // --- STATIC METHODS ---
+
+    private static Integer count = 0;
+    public static Integer assignId() {
+        return ++count;
+    }
+
+    public static List<KitchenSinkFormCollection1> clone(List<KitchenSinkFormCollection1> collection1List) {
+        List<KitchenSinkFormCollection1> clonedList = new ArrayList<KitchenSinkFormCollection1>(collection1List.size());
+        for (KitchenSinkFormCollection1 collection : collection1List) {
+            clonedList.add(new KitchenSinkFormCollection1(collection));
+        }
+        return clonedList;
     }
 }

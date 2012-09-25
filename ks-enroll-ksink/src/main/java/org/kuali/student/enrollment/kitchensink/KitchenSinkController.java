@@ -16,18 +16,26 @@
  */
 package org.kuali.student.enrollment.kitchensink;
 
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
+import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class //TODO ...
@@ -55,6 +63,7 @@ public class KitchenSinkController extends UifControllerBase {
 
         uiTestForm.setStringField1("Field One");
         uiTestForm.setStringField2("Field Two");
+        uiTestForm.setRadioButtonSelection("2");
 
         //return super.start(uiTestForm, result, request, response);
         return getUIFModelAndView(uiTestForm);
@@ -64,8 +73,7 @@ public class KitchenSinkController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=collection")
     public ModelAndView collection(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
-
+                                   HttpServletRequest request, HttpServletResponse response) {
 
         List<KitchenSinkFormCollection1> collectionList = new ArrayList<KitchenSinkFormCollection1>();
         collectionList.add(new KitchenSinkFormCollection1("Item #1", "This is the first item", "2001-01-01"));
@@ -74,7 +82,53 @@ public class KitchenSinkController extends UifControllerBase {
         collectionList.add(new KitchenSinkFormCollection1("Chainbreaker IPA", "A tasty beverage", "2011-06-09"));
         form.setCollection(collectionList);
 
+        // for Collections.xml; same collection property causes validation problems
+        //List<KitchenSinkFormCollection1> collectionList2 = KitchenSinkFormCollection1.clone(collectionList);
+        form.setCollection2(KitchenSinkFormCollection1.clone(collectionList));
+
         return getUIFModelAndView(form);
     }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addLineCollectionAsForm")
+    public ModelAndView addLineCollectionAsForm(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) {
+        List<KitchenSinkFormCollection1> collectionList = form.getCollection();
+        Map<String, Object> newCollectionLines = form.getNewCollectionLines();
+        if (null != newCollectionLines && !newCollectionLines.isEmpty()) {
+            for (Map.Entry<String, Object> entry : newCollectionLines.entrySet()) {
+                //
+                // Code goes here to save new collection line to database...
+                //
+                // for this example, just assign a unique ID
+                KitchenSinkFormCollection1 collection = (KitchenSinkFormCollection1)entry.getValue();
+                collection.setId(KitchenSinkFormCollection1.assignId());
+            }
+            GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.addLine");
+        }
+
+        return super.addLine(form, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=getActivities")
+    public ModelAndView getActivities(
+            @RequestParam(value = "actionParameters", required = false) Map<String, Integer> actionParameters,
+            @ModelAttribute("KualiForm") KitchenSinkForm form,
+            BindingResult result,
+            HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        List<ActivityMockData> activities = new ArrayList<ActivityMockData>();
+
+        Integer index = actionParameters.get("index");
+
+        if (displayScheduleList != null && !(displayScheduleList.size() < index.intValue())) {
+            activities = displayScheduleList.get(index.intValue()).getActivities();
+        }
+
+        form.setActivityList(activities);
+        return getUIFModelAndView(form);
+    }
+
+    List<DisplayScheduleMockData> displayScheduleList = DisplayScheduleMockData.mockTestData();
 
 }

@@ -7,7 +7,9 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +34,26 @@ public class CourseOfferingManagementForm extends UifFormBase {
     //For View Registration Groups
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
-    private List<ActivityOfferingWrapper> filteredAOsForSelectedFO;
-    private List<RegistrationGroupWrapper> filteredRGsForSelectedFO;
+    private List<ActivityOfferingWrapper> filteredUnassignedAOsForSelectedFO;
+//    private List<ActivityOfferingClusterInfo> filteredAOClusters;
+//    private List<RegistrationGroupWrapper> filteredRGsForSelectedFO;
+    private List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList;
+    private boolean hasAOCluster;
+    private String privateClusterName;
+    private String publishedClusterName;
+    private String privateClusterNameForLightBox;
+    private String publishedClusterNameForLightBox;
+    private String privateClusterNameForRename;
+    private String publishedClusterNameForRename;
+    //This is used to handle DialogGroup/Lightbox action within collection.
+    //It only works within the lifecycle of each Dialog.
+    private ActivityOfferingClusterWrapper selectedCluster;
+            
 
     //For Adding Activity
     private String formatIdForNewAO;
+
+    private String clusterIdIdForNewFO;
 
     private String activityIdForNewAO;
     private String noOfActivityOfferings;
@@ -53,10 +70,12 @@ public class CourseOfferingManagementForm extends UifFormBase {
     public CourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
-        filteredAOsForSelectedFO = new ArrayList<ActivityOfferingWrapper>();
-        filteredRGsForSelectedFO = new ArrayList<RegistrationGroupWrapper>();
+        filteredUnassignedAOsForSelectedFO = new ArrayList<ActivityOfferingWrapper>();
+//        filteredRGsForSelectedFO = new ArrayList<RegistrationGroupWrapper>();
+        filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
         courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
         setCourseOfferingCopyWrapper(null);
+        hasAOCluster = false;
     }
 
     public String getTermCode(){
@@ -163,20 +182,37 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.formatOfferingName = formatOfferingName;
     }
 
-    public List<ActivityOfferingWrapper> getFilteredAOsForSelectedFO() {
-        return filteredAOsForSelectedFO;
+    public List<ActivityOfferingWrapper> getFilteredUnassignedAOsForSelectedFO() {
+        return filteredUnassignedAOsForSelectedFO;
     }
 
-    public void setFilteredAOsForSelectedFO(List<ActivityOfferingWrapper> filteredAOsForSelectedFO) {
-        this.filteredAOsForSelectedFO = filteredAOsForSelectedFO;
+    public void setFilteredUnassignedAOsForSelectedFO(List<ActivityOfferingWrapper> filteredUnassignedAOsForSelectedFO) {
+        this.filteredUnassignedAOsForSelectedFO = filteredUnassignedAOsForSelectedFO;
     }
 
-    public List<RegistrationGroupWrapper> getFilteredRGsForSelectedFO() {
-        return filteredRGsForSelectedFO;
+//    public List<ActivityOfferingClusterInfo> getFilteredAOClusters() {
+//        return filteredAOClusters;
+//    }
+//
+//    public void setFilteredAOClusters(List<ActivityOfferingClusterInfo> filteredAOClusters) {
+//        this.filteredAOClusters = filteredAOClusters;
+//    }
+//
+//    public List<RegistrationGroupWrapper> getFilteredRGsForSelectedFO() {
+//        return filteredRGsForSelectedFO;
+//    }
+//
+//    public void setFilteredRGsForSelectedFO(List<RegistrationGroupWrapper> filteredRGsForSelectedFO) {
+//        this.filteredRGsForSelectedFO = filteredRGsForSelectedFO;
+//    }
+
+
+    public List<ActivityOfferingClusterWrapper> getFilteredAOClusterWrapperList() {
+        return filteredAOClusterWrapperList;
     }
 
-    public void setFilteredRGsForSelectedFO(List<RegistrationGroupWrapper> filteredRGsForSelectedFO) {
-        this.filteredRGsForSelectedFO = filteredRGsForSelectedFO;
+    public void setFilteredAOClusterWrapperList(List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList) {
+        this.filteredAOClusterWrapperList = filteredAOClusterWrapperList;
     }
 
     public String getFormatIdForNewAO() {
@@ -185,6 +221,14 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setFormatIdForNewAO(String formatIdForNewAO) {
         this.formatIdForNewAO = formatIdForNewAO;
+    }
+
+    public String getClusterIdIdForNewFO() {
+        return clusterIdIdForNewFO;
+    }
+
+    public void setClusterIdIdForNewFO(String clusterIdIdForNewFO) {
+        this.clusterIdIdForNewFO = clusterIdIdForNewFO;
     }
 
     public String getActivityIdForNewAO() {
@@ -291,5 +335,69 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setSelectedIllegalAOInDeletion(boolean selectedIllegalAOInDeletion) {
         this.selectedIllegalAOInDeletion = selectedIllegalAOInDeletion;
+    }
+
+    public String getPrivateClusterName() {
+        return privateClusterName;
+    }
+
+    public void setPrivateClusterName(String privateClusterName) {
+        this.privateClusterName = privateClusterName;
+    }
+
+    public String getPublishedClusterName() {
+        return publishedClusterName;
+    }
+
+    public void setPublishedClusterName(String publishedClusterName) {
+        this.publishedClusterName = publishedClusterName;
+    }
+
+    public boolean isHasAOCluster() {
+        return hasAOCluster;
+    }
+
+    public void setHasAOCluster(boolean hasAOCluster) {
+        this.hasAOCluster = hasAOCluster;
+    }
+
+    public String getPrivateClusterNameForLightBox() {
+        return privateClusterNameForLightBox;
+    }
+
+    public void setPrivateClusterNameForLightBox(String privateClusterNameForLightBox) {
+        this.privateClusterNameForLightBox = privateClusterNameForLightBox;
+    }
+
+    public String getPublishedClusterNameForLightBox() {
+        return publishedClusterNameForLightBox;
+    }
+
+    public void setPublishedClusterNameForLightBox(String publishedClusterNameForLightBox) {
+        this.publishedClusterNameForLightBox = publishedClusterNameForLightBox;
+    }
+
+    public ActivityOfferingClusterWrapper getSelectedCluster() {
+        return selectedCluster;
+    }
+
+    public void setSelectedCluster(ActivityOfferingClusterWrapper selectedCluster) {
+        this.selectedCluster = selectedCluster;
+    }
+
+    public String getPrivateClusterNameForRename() {
+        return privateClusterNameForRename;
+    }
+
+    public void setPrivateClusterNameForRename(String privateClusterNameForRename) {
+        this.privateClusterNameForRename = privateClusterNameForRename;
+    }
+
+    public String getPublishedClusterNameForRename() {
+        return publishedClusterNameForRename;
+    }
+
+    public void setPublishedClusterNameForRename(String publishedClusterNameForRename) {
+        this.publishedClusterNameForRename = publishedClusterNameForRename;
     }
 }

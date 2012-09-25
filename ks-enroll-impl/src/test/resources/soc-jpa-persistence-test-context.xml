@@ -90,8 +90,6 @@
         <property name="socRorItemDao" ref="socRolloverResultItemDao" />
     </bean>
 
-
-
     <bean id="socDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao">
         <property name="em" ref="entityManager" />
     </bean>

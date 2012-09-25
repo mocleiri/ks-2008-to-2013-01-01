@@ -4,10 +4,6 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -19,13 +15,26 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetServiceBusinessLogic;
-import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.lum.course.service.CourseService;
 
+import javax.jws.WebParam;
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOfferingSetServiceBusinessLogic {
 
@@ -34,6 +43,8 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
     private AcademicCalendarService acalService;
     private CourseOfferingSetService socService;
     private SocDao socDao;
+
+    private SchedulingService schedulingService;
 
     public SocDao getSocDao() {
         return socDao;
@@ -82,6 +93,14 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
                                                                                     CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return socService;
+    }
+
+    public SchedulingService getSchedulingService() {
+        return schedulingService;
+    }
+
+    public void setSchedulingService(SchedulingService schedulingService) {
+        this.schedulingService = schedulingService;
     }
 
     private SocInfo _findTargetSoc(String targetTermId) {
@@ -387,5 +406,25 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
             }
         }
         return list;
+    }
+
+    @Override
+    public StatusInfo startScheduleSoc(@WebParam(name = "socId") String socId, @WebParam(name = "optionKeys") List<String> optionKeys, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // ensure there is a valid Soc for the given id
+        SocInfo socInfo = this._getSocService().getSoc(socId, context);
+
+        final CourseOfferingSetSchedulingRunner schedulingRunner = new CourseOfferingSetSchedulingRunner(socInfo.getId());
+        schedulingRunner.setContextInfo(context);
+        schedulingRunner.setCoService(coService);
+        schedulingRunner.setSchedulingService(schedulingService);
+        schedulingRunner.setSocService(this._getSocService());
+
+        //Try to run this after the transaction completes
+        KSThreadRunnerAfterTransactionSynchronization.runAfterTransactionCompletes(schedulingRunner);
+
+        StatusInfo status = new StatusInfo();
+        status.setMessage("Scheduling runner started successfully");
+
+        return status;
     }
 }

@@ -39,13 +39,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestCourseOfferingSetServiceMockImpl {
 
     @Resource(name = "socService")
-    private CourseOfferingSetService socService;
+    protected CourseOfferingSetService socService;
     public static String principalId = "123";
     public ContextInfo callContext = null;
 
     @Before
     public void setUp() {
-        principalId = "123";
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
 //        try {

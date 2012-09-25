@@ -15,12 +15,12 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
-import java.text.SimpleDateFormat;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultDao;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultItemDao;
+import org.kuali.student.enrollment.class2.courseofferingset.model.SocAttributeEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultAttributeEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultEntity;
@@ -33,22 +33,31 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetServiceBusinessLogic;
 import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.kuali.student.enrollment.class2.courseofferingset.model.*;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 
 public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
@@ -108,7 +117,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new InvalidParameterException("typeKey does not match the value in the info object");
         }
         SocEntity entity = new SocEntity(info);
-        this.logStateChange(entity, context);
+        this.logStateChange(entity, entity.getSocState(), context);
         entity.setEntityCreated(context);
         socDao.persist(entity);
         return entity.toDto();
@@ -587,10 +596,10 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
 
     @Override
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo startScheduleSoc(String socId, List<String> optionKeys, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("implement in M5");
+
+        return this.businessLogic.startScheduleSoc(socId, optionKeys, context);
     }
 
     @Override
@@ -712,8 +721,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     @Override
     @Transactional(readOnly = true)
     public List<String> searchForSocRolloverResultIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException { 
+        GenericQueryResults<SocRolloverResultEntity> results = criteriaLookupService.lookup(SocRolloverResultEntity.class,
+                criteria);
+        List<String> socRolloverResultInfos = new ArrayList<String>(results.getResults().size());
+        for (SocRolloverResultEntity entity : results.getResults()) {
+            socRolloverResultInfos.add(entity.getId());
+        }
+        return socRolloverResultInfos;
     }
 
     @Override
@@ -746,22 +761,33 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         if (entity == null) {
             throw new DoesNotExistException(socId);
         }
-        entity.setSocState(nextStateKey);
-        this.logStateChange(entity, contextInfo);
+
+        // determine if the state key given is a SOC lifecycle state or a scheduling state
+        boolean isSchedulingState = Arrays.asList(CourseOfferingSetServiceConstants.ALL_SOC_SCHEDULING_STATES).contains(nextStateKey);
+
+        if(!isSchedulingState) {
+            entity.setSocState(nextStateKey);
+        }
+
+        // Log the state change
+        logStateChange(entity, nextStateKey, contextInfo);
+
         entity.setEntityUpdated(contextInfo);
-        entity = socDao.merge(entity);
+        socDao.merge(entity);
         socDao.getEm().flush(); // need to flush to get the version ind to update
         StatusInfo status = new StatusInfo ();
         status.setSuccess(Boolean.TRUE);
         return status;
     }
-    
-    private void logStateChange(SocEntity entity, ContextInfo contextInfo) {
+
+    private void logStateChange(SocEntity entity, String stateKey, ContextInfo contextInfo) {
         // add the state change to the log
         // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        SimpleDateFormat formatter = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
         Date date = contextInfo.getCurrentDate();
-        AttributeInfo attr = new AttributeInfo(entity.getSocState(), formatter.format(date));
+
+        // Add an attribute with a key of the state en
+        AttributeInfo attr = new AttributeInfo(stateKey, formatter.format(date));
         entity.getAttributes().add(new SocAttributeEntity(attr, entity));
     }
 
@@ -786,4 +812,31 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             PermissionDeniedException {
         throw new UnsupportedOperationException("To be Implemented in M5");
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> searchForSocRolloverResultItemIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GenericQueryResults<SocRolloverResultItemEntity> results = criteriaLookupService.lookup(SocRolloverResultItemEntity.class,
+                criteria);
+        List<String> ids = new ArrayList<String>(results.getResults().size());
+        for (SocRolloverResultItemEntity entity : results.getResults()) {
+            ids.add(entity.getId());
+        }
+        return ids;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SocRolloverResultItemInfo> searchForSocRolloverResultItems(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+          GenericQueryResults<SocRolloverResultItemEntity> results = criteriaLookupService.lookup(SocRolloverResultItemEntity.class,
+                criteria);
+        List<SocRolloverResultItemInfo> infos = new ArrayList<SocRolloverResultItemInfo>(results.getResults().size());
+        for (SocRolloverResultItemEntity entity : results.getResults()) {
+            SocRolloverResultItemInfo info = entity.toDto();
+            infos.add(info);
+        }
+        return infos;
+    }
+    
+    
 }

@@ -30,6 +30,7 @@
   <import resource="classpath:enrollDao.xml" />
   <import resource="classpath:ksb/ks-lu-no-tx-context.xml" />
   <import resource="classpath:statement-context.xml" />
+  <import resource="classpath:ks-enroll-mock-room-data-context.xml"/>
 
   <bean id="enrollDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
     <property name="transactionManager" ref="userTransaction" />
@@ -54,7 +55,7 @@
     <property name="gradeRosterEntryAssembler" ref="gradeRosterEntryAssembler" />
     <property name="lrrService" ref="lrrPersistenceService" />
     <property name="gradeValuesGroupAssembler" ref="gradeValuesGroupAssembler" />
-    <property name="lrcService" ref="lrcPersistenceService" />
+    <property name="lrcService" ref="lrcServiceCache" />
     <property name="courseRegistrationService" ref="courseRegistrationService" />
   </bean>
 
@@ -72,45 +73,99 @@
   </bean>
 
     <bean id="coCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
-    	<property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
         <property name="predicateTransforms">
             <list>
                 <ref bean="coCodeTransform"/>
             </list>
         </property>
-  	</bean>
+    </bean>
 
-    <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingTransform"/>
+    <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingCriteriaTransform"/>
 
-  <bean id="atpEnrService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
-    <property name="atpDao" ref="atpEnrDao" />
-    <property name="atpRelDao" ref="atpAtpRelationDao" />
+    <bean id="atpEnrService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+        <property name="atpDao" ref="atpEnrDao" />
+        <property name="atpRelDao" ref="atpAtpRelationDao" />
     <!-- <property name="atpRelTypeDao" ref="atpAtpRelationTypeDao"/> -->
-    <property name="milestoneDao" ref="milestoneDao" />
+        <property name="milestoneDao" ref="milestoneDao" />
     <!-- <property name="milestoneTypeDao" ref="milestoneTypeDao"/> -->
-    <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
+        <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
     <!-- <property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/> -->
-    <property name="criteriaLookupService" ref="criteriaLookupService"/>
-    <property name="searchManager" ref="atpSearchManager"/>
-    <property name="searchableDao" ref="atpSearchableDao"/>
-  </bean>
-
-    <!-- Temp ATP fix for CM : Start -->
-    <bean id="atpEntityManagerFactory" parent="enrollDefaultEntityManagerFactory">
-        <property name="persistenceUnitName" value="Atp"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/atp-core-persistence.xml" />
-        <property name="dataSource" ref="enrollDataSource" />
+        <property name="atpCriteriaLookupService" >
+            <bean class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+                <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+                <property name="predicateTransforms">
+                    <list>
+                        <ref bean="keyword2LikeTransform"/>
+                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                            <property name="renameAttributes">
+                                <map>
+                                    <entry key="descr.plain" value="plain"/>
+                                    <entry key="descr.formatted" value="formatted"/>
+                                    <entry key="code" value="atpCode"/>
+                                    <entry key="typeKey" value="atpType"/>
+                                    <entry key="stateKey" value="atpState"/>
+                                </map>
+                            </property>
+                        </bean>
+                        <ref bean="metaTransform"/> 
+                        <ref bean="attributeTransform"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="atpAtpRelationCriteriaLookupService" >
+            <bean parent="defaultRelationCriteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean parent="keyword2LikeTransform">                               
+                            <property name="likeAttributes">
+                                <list>
+                                    <value>typeKey</value> 
+                                    <value>stateKey</value>                        
+                                </list>
+                            </property>
+                        </bean> 
+                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                            <property name="renameAttributes">
+                                <map>
+                                    <entry key="atpId" value="atp.id"/>
+                                    <entry key="relatedAtpId" value="relatedAtp.id"/>
+                                    <entry key="typeKey" value="atpType"/>
+                                    <entry key="stateKey" value="atpState"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="milestoneCriteriaLookupService" >
+            <bean parent="defaultCriteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                            <property name="renameAttributes">
+                                <map>
+                                    <entry key="typeKey" value="atpType"/>
+                                    <entry key="stateKey" value="atpState"/>
+                                    <entry key="isAllDay" value="allDay"/>
+                                    <entry key="isRelative" value="relative"/>
+                                    <entry key="isDateRange" value="dateRange"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="searchManager" ref="atpSearchManager"/>
+        <property name="searchableDao" ref="atpSearchableDao"/>
     </bean>
 
-    <bean id="atpEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
-        <property name="entityManagerFactory" ref="atpEntityManagerFactory" />
-    </bean>
-
-    <bean id="atpSearchableDao"
-          class="org.kuali.student.r1.core.atp.dao.impl.AtpDaoImpl">
+    <bean id="atpSearchableDao" class="org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl">
         <property name="em" ref="atpEntityManager"/>
     </bean>
-    <!-- Temp ATP fix for CM : End -->
 
     <bean id="atpSearchManager"
           class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
@@ -218,7 +273,7 @@
     <bean id="keyword2LikeTransform" class="org.kuali.student.r2.common.criteria.transform.Keyword2LikeTransform">
         <property name="keywordAttribute" value="keywordSearch" />    
         <property name="likeAttributes">
-            <list>      
+            <list>
                 <value>name</value>
                 <value>descr.plain</value>
                 <value>descr.formatted</value>                   
@@ -226,12 +281,24 @@
         </property>
     </bean>
     
-    <bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+<!--    THIS SHOULD BE USED FOR ALL Info objects that extend ID or KeyEntity becuase they have name, descr, meta and attributes-->
+    <bean id="defaultCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
         <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
         <property name="predicateTransforms">
             <list>
                 <ref bean="keyword2LikeTransform"/>
                 <ref bean="descrTransform"/>
+                <ref bean="metaTransform"/> 
+                <ref bean="attributeTransform"/>
+            </list>
+        </property>
+    </bean>
+       
+<!--     THIS SHOULD BE USED FOR ALL RELATIONSHIP OBJECTS-->
+    <bean id="defaultRelationCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+        <property name="predicateTransforms">
+            <list>
                 <ref bean="metaTransform"/> 
                 <ref bean="attributeTransform"/>
             </list>
@@ -243,12 +310,12 @@
         <property name="stateDao" ref="stateDao" />
         <property name="lifecycleDao" ref="lifecycleDao" />      
         <property name="stateCriteriaLookupService">
-            <bean parent="criteriaLookupService">
+            <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="true">
                         <bean parent="keyword2LikeTransform">                               
                             <property name="likeAttributes">
-<!--                                Also scan the key and the lifecyle key when doing a keyword search-->
+<!--                            Also scan the key and the lifecyle key when doing a keyword search-->
                                 <list merge="true">
                                     <value>key</value> 
                                     <value>lifecycleKey</value>                        
@@ -261,12 +328,12 @@
             </bean>
         </property>
         <property name="lifecycleCriteriaLookupService">
-            <bean parent="criteriaLookupService">
+            <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="true">
                         <bean parent="keyword2LikeTransform">                               
                             <property name="likeAttributes">
-<!--                                Also scan the key and the refObjectUri when doing a keyword search-->
+<!--                            Also scan the key and the refObjectUri when doing a keyword search-->
                                 <list merge="true">
                                     <value>key</value> 
                                     <value>refObjectUri</value>                        
@@ -285,9 +352,65 @@
     </bean>
 
     <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
-    <property name="typeDao" ref="typeDao" />
-    <property name="typeTypeRelationDao" ref="typeTypeRelationDao" />
-  </bean>
+        <property name="typeDao" ref="typeDao" />
+        <property name="typeTypeRelationDao" ref="typeTypeRelationDao" />
+        <property name="typeCriteriaLookupService">
+            <bean parent="defaultCriteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean parent="keyword2LikeTransform">                               
+                            <property name="likeAttributes">
+<!--                            Also scan the key when doing a keyword search-->
+                                <list merge="true">
+                                    <value>key</value>    
+                                    <value>refObjectURI</value>    
+                                    <value>serviceUri</value>                       
+                                </list>
+                            </property>
+                        </bean> 
+                        <ref bean="key2IdTransform"/>
+<!--                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                            <property name="renameAttributes">
+                                <map>
+                                    <entry key="typeKey" value="type"/>
+                                    <entry key="stateKey" value="state"/>
+                                </map>
+                            </property>
+                        </bean>-->
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="typeTypeRelationCriteriaLookupService">
+            <bean parent="defaultRelationCriteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean parent="keyword2LikeTransform">                               
+                            <property name="likeAttributes">
+<!--                            scan the keys when doing a keyword search-->
+                                <list merge="false">
+                                    <value>typeKey</value> 
+                                    <value>stateKey</value> 
+                                    <value>ownerTypeKey</value>    
+                                    <value>relatedTypeKey</value>                       
+                                </list>
+                            </property>
+                        </bean> 
+                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                            <property name="renameAttributes">
+                                <map>
+                                    <entry key="typeKey" value="type"/>
+                                    <entry key="stateKey" value="state"/>
+                                    <entry key="ownerTypeKey" value="ownerTypeId"/>
+                                    <entry key="relatedTypeKey" value="relatedTypeId"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
   <bean id="typeServiceCacheDecorator" class="org.kuali.student.r2.core.class1.type.decorators.TypeServiceCacheDecorator">
      <property name="nextDecorator" ref="typeService" />
@@ -339,33 +462,12 @@
     </property>
   </bean>
 
-  <!-- Exception mapping. This is needed because many operations are proxied and do not throw exceptions until a later time -->
-  <bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
-    <property name="defaultException" value="org.kuali.student.r2.common.exceptions.OperationFailedException" />
-    <property name="exceptionMapping">
-      <map>
-        <entry key="javax.persistence.EntityExistsException" value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
-        <entry key="org.hibernate.exception.ConstraintViolationException" value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
-      </map>
-    </property>
-  </bean>
-  <aop:config>
-    <aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
-      <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl.*(..))"
-        method="afterThrowing" throwing="ex" />
-      <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl.*(..))"
-        method="afterThrowing" throwing="ex" />
-      <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lo.service.impl.LearningObjectiveServiceImpl.*(..))"
-        method="afterThrowing" throwing="ex" />
-    </aop:aspect>
-  </aop:config>
-
    <!-- courseofferingset beans -->
     <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceImpl">
         <property name="socDao" ref="socDao" />
         <property name="socRorDao" ref="socRolloverResultDao" />
         <property name="socRorItemDao" ref="socRolloverResultItemDao"/>
-        <property name="criteriaLookupService" ref="criteriaLookupService" />
+        <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
         <property name="businessLogic" ref="socBusinessLogic" />
     </bean>
 
@@ -374,6 +476,7 @@
         <property name="courseService" ref="courseServiceImpl" />
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="coService" />
+        <property name="schedulingService" ref="schedulingServiceValidationDecorator"/>
     </bean>
 
     <bean id="ks.exp.socService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -382,7 +485,7 @@
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="socService" />
                 <property name="serviceInterface" value="org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService" />
-                <property name="localServiceName" value="socService" />
+                <property name="localServiceName" value="CourseOfferingSetService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOfferingSet" />
                 <property name="busSecurity" value="${ks.lum.bus.security}" />
             </bean>
@@ -418,7 +521,7 @@
   </bean>
 
   <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
-        <property name="luiService" ref="luiService" />
+        <property name="luiService" ref="luiServiceValidationDecorator" />
         <property name="rgAssembler" ref="rgAssembler" />
         <property name="courseService" ref="courseServiceImpl" />
         <property name="acalService" ref="acalService" />
@@ -430,17 +533,18 @@
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator" />
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
         <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao" />
+        <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
         <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
         <property name="atpService" ref="atpEnrService"/>
+        <property name="schedulingService" ref="schedulingServiceImpl"/>
+        <property name="lrcService" ref="lrcServiceCache"/>
   </bean>
 
    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
        <property name="lprService" ref="lprPersistenceService" />
-       <property name="lrcService" ref="lrcPersistenceService" />
-   </bean>
-
-   <bean id="seatPoolUtilityService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.SeatPoolUtilityServiceImpl">
+       <property name="lrcService" ref="lrcServiceCache" />
+       <property name="cluService" ref="cluServiceImpl"/>
    </bean>
 
    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
@@ -458,7 +562,7 @@
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="coService" />
                 <property name="serviceInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />
-                <property name="localServiceName" value="coService" />
+                <property name="localServiceName" value="CourseOfferingService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering" />
                 <property name="busSecurity" value="${ks.lum.bus.security}" />
             </bean>
@@ -471,41 +575,46 @@
     <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
   </bean>
 
-  <bean id="ks.exp.courseOfferingMockService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-    <property name="serviceDefinition">
-      <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-        <property name="jaxWsService" value="true" />
-        <property name="service" ref="coMockService" />
-        <property name="serviceInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />
-        <property name="localServiceName" value="CourseOfferingMockService" />
-        <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering" />
-        <property name="busSecurity" value="${ks.lum.bus.security}" />
-      </bean>
-    </property>
-  </bean>
+  <!--<bean id="ks.exp.courseOfferingMockService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">-->
+    <!--<property name="serviceDefinition">-->
+      <!--<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">-->
+        <!--<property name="jaxWsService" value="true" />-->
+        <!--<property name="service" ref="coMockService" />-->
+        <!--<property name="serviceInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />-->
+        <!--<property name="localServiceName" value="CourseOfferingMockService" />-->
+        <!--<property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering" />-->
+        <!--<property name="busSecurity" value="${ks.lum.bus.security}" />-->
+      <!--</bean>-->
+    <!--</property>-->
+  <!--</bean>-->
 
 
   <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
-    <property name="luiService" ref="luiService" />
+    <property name="luiService" ref="luiServiceValidationDecorator" />
     <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
   </bean>
 
   <bean id="registrationGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer">
-    <property name="luiService" ref="luiService" />
+    <property name="luiService" ref="luiServiceValidationDecorator" />
   </bean>
 
-  <bean id="ks.exp.courseOfferingValidationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-    <property name="serviceDefinition">
-      <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-        <property name="jaxWsService" value="true" />
-        <property name="service" ref="coServiceValidation" />
-        <property name="serviceInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />
-        <property name="localServiceName" value="CourseOfferingService" />
-        <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering" />
-        <property name="busSecurity" value="${ks.lum.bus.security}" />
-      </bean>
-    </property>
-  </bean>
+  <!--<bean id="ks.exp.courseOfferingValidationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">-->
+    <!--<property name="serviceDefinition">-->
+      <!--<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">-->
+        <!--<property name="jaxWsService" value="true" />-->
+        <!--<property name="service" ref="coServiceValidation" />-->
+        <!--<property name="serviceInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />-->
+        <!--<property name="localServiceName" value="CourseOfferingService" />-->
+        <!--<property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering" />-->
+        <!--<property name="busSecurity" value="${ks.lum.bus.security}" />-->
+      <!--</bean>-->
+    <!--</property>-->
+  <!--</bean>-->
+
+    <bean id="luiServiceValidationDecorator" class=" org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
+        <property name="nextDecorator" ref="luiService" />
+        <property name="typeService" ref="typeServiceCacheDecorator" />
+    </bean>
 
   <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
     <property name="luiDao" ref="luiDao" />
@@ -516,7 +625,7 @@
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="luiService" />
+                <property name="service" ref="luiServiceValidationDecorator" />
                 <property name="serviceInterface" value="org.kuali.student.enrollment.lui.service.LuiService" />
                 <property name="localServiceName" value="LuiService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lui" />
@@ -567,24 +676,117 @@
     <property name="validator" ref="validator" />
   </bean>
 
+    <bean id="ks.exp.LprService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="lprServiceValidation" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.lpr.service.LprService" />
+                <property name="localServiceName" value="LprService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lpr" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
   <bean id="lrrPersistenceService" class="org.kuali.student.enrollment.class1.lrr.service.impl.LearningResultRecordServiceImpl">
     <property name="lrrDao" ref="lrrDao" />
     <property name="resultSourceDao" ref="resultSourceDao" />
   </bean>
 
-  <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
-  <bean id="lrcPersistenceService" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
-    <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
-    <property name="resultValueDao" ref="resultValueDao" />
-    <property name="resultScaleDao" ref="resultScaleDao" />
-    <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
-  </bean>
+    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
+
+    <bean id="lrcServiceCache" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceCacheDecorator">
+        <property name="nextDecorator" ref="lrcPersistenceService" />
+    </bean>
+
+    <bean id="lrcPersistenceService" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
+        <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
+        <property name="resultValueDao" ref="resultValueDao" />
+        <property name="resultScaleDao" ref="resultScaleDao" />
+        <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
+        <property name="resultScaleCriteriaLookupService">
+            <bean parent="defaultCriteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean parent="keyword2LikeTransform">                               
+                            <property name="likeAttributes">
+<!--                            Also scan the key when doing a keyword search-->
+                                <list merge="true">
+                                    <value>key</value>                       
+                                </list>
+                            </property>
+                        </bean> 
+                        <ref bean="key2IdTransform"/>
+                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                            <property name="renameAttributes">
+                                <map>
+                                    <entry key="typeKey" value="type"/>
+                                    <entry key="stateKey" value="state"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="resultValueCriteriaLookupService">
+            <bean parent="defaultCriteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean parent="keyword2LikeTransform">                               
+                            <property name="likeAttributes">
+<!--                            Also scan the key when doing a keyword search-->
+                                <list merge="true">
+                                    <value>key</value>                       
+                                </list>
+                            </property>
+                        </bean> 
+                        <ref bean="key2IdTransform"/>
+                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                            <property name="renameAttributes">
+                                <map>
+                                    <entry key="typeKey" value="type"/>
+                                    <entry key="stateKey" value="state"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="resultValuesGroupCriteriaLookupService">
+            <bean parent="defaultCriteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean parent="keyword2LikeTransform">                               
+                            <property name="likeAttributes">
+<!--                                Also scan the key when doing a keyword search-->
+                                <list merge="true">
+                                    <value>key</value>                       
+                                </list>
+                            </property>
+                        </bean> 
+                        <ref bean="key2IdTransform"/>
+                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                            <property name="renameAttributes">
+                                <map>
+                                    <entry key="typeKey" value="type"/>
+                                    <entry key="stateKey" value="state"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
   <bean id="ks.exp.LRCService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">
       <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
         <property name="jaxWsService" value="true" />
-        <property name="service" ref="lrcPersistenceService" />
+        <property name="service" ref="lrcServiceCache" />
         <property name="serviceInterface" value="org.kuali.student.r2.lum.lrc.service.LRCService" />
         <property name="localServiceName" value="LrcService" />
         <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lrc" />
@@ -609,7 +811,7 @@
   <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
     <property name="lprService" ref="lprServiceValidation" />
     <property name="lrrService" ref="lrrPersistenceService" />
-    <property name="luiService" ref="luiService" />
+    <property name="luiService" ref="luiServiceValidationDecorator" />
   </bean>
 
   <bean id="rulesEvaluationUtil" class="org.kuali.student.r2.core.statement.util.RulesEvaluationUtil">
@@ -641,7 +843,7 @@
     <property name="courseRegService" ref="courseRegistrationService" />
     <property name="atpService" ref="atpEnrService" />
     <property name="gradingService" ref="gradingService" />
-    <property name="lrcService" ref="lrcPersistenceService" />
+    <property name="lrcService" ref="lrcServiceCache" />
     <property name="courseRecordAssembler" ref="courseRecordAssembler" />
   </bean>
 
@@ -666,7 +868,7 @@
       <property name="checkDao" ref="checkDao" />
       <property name="instructionDao" ref="instructionDao" />
       <property name="stateService" ref="stateServiceCacheDecorator" />
-      <property name="criteriaLookupService" ref="criteriaLookupService"/>
+      <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
   </bean>
 
     <bean id="processServiceValidationDecorator"
@@ -731,7 +933,7 @@
     <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.mock.PopulationServiceMockImpl">
         <property name="populationDao" ref="populationDao" />
         <property name="populationRuleDao" ref="populationRuleDao" />
-        <property name="criteriaLookupService" ref="criteriaLookupService" />
+        <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
     </bean>
 
     <bean id="ks.exp.populationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -796,7 +998,7 @@
     <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
         <property name="holdIssueDao" ref="holdIssueDao"/>
         <property name="appliedHoldDao" ref="appliedHoldDao"/>
-        <property name="criteriaLookupService" ref="criteriaLookupService"/>
+        <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
     </bean>
 
     <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">
@@ -825,7 +1027,7 @@
         <property name="extendedOrgDao" ref="extendedOrgDao" />
         <property name="searchManager" ref="orgSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
-        <property name="criteriaLookupService" ref="criteriaLookupService"/>
+        <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
     </bean>
 
     <bean id="orgSearchManager"
@@ -850,8 +1052,13 @@
     <!-- Scheduling Service -->
 
     <bean id="schedulingServiceImpl" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceImpl">
+        <property name="atpService" ref="atpEnrService"/>
+        <property name="typeService" ref="typeService"/>
+        <property name="roomService" ref="roomServiceMockImpl"/>
         <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
         <property name="timeSlotDao" ref="timeSlotDao"/>
+        <property name="scheduleDao" ref="scheduleDao"/>
+        <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
     </bean>
 
     <bean id="schedulingServiceValidationDecorator" class="org.kuali.student.r2.core.scheduling.service.decorators.SchedulingServiceValidationDecorator">
@@ -873,7 +1080,9 @@
     </bean>
 
     <!-- Room Service Mock Impl -->
-    <bean id="roomServiceMockImpl" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImpl">
+    <bean id="roomServiceMockImpl" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5">
+        <property name="buildingMap" ref="buildingMap"/>
+        <property name="roomMap" ref="roomMap"/>
     </bean>
 
     <bean id="ks.exp.roomService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

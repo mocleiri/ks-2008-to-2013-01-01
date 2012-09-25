@@ -4,7 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -16,11 +15,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.CourseOffering
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -36,6 +31,7 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
@@ -49,15 +45,7 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 
 public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
@@ -90,11 +78,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
 
     public void loadCourseOfferingsByTermAndSubjectCode (String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception{
         List<String> courseOfferingIds = _getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(termId, subjectCode, getContextInfo());
+
         if(courseOfferingIds.size()>0){
+            List<CourseOfferingInfo>   courseOfferingList = _getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,getContextInfo());
             form.getCourseOfferingEditWrapperList().clear();
-            for(String coId : courseOfferingIds) {
-                CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coId, getContextInfo());
-                coInfo.setCreditCnt(getCreditCount(coInfo, null));
+            for(CourseOfferingInfo coInfo: courseOfferingList){
                 CourseOfferingEditWrapper courseOfferingEditWrapper = new CourseOfferingEditWrapper(coInfo);
                 courseOfferingEditWrapper.setGradingOption(getGradingOption(coInfo.getGradingOptionId()));
                 StateInfo state = getStateService().getState(coInfo.getStateKey(),getContextInfo());
@@ -137,7 +125,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 if (termList != null  && termList.size()>0 ){
                     // Always get first term
                     termId = termList.get(0).getId();
-                    System.out.println(">>> termId = "+termId);
                     if(termList.size()>1){
                         //logger.warn("AdvanceActivityOfferingLookupableImpl - find more than one term for specified termCode: " + termCode) ;
                         //System.out.println(">>Alert: find more than one term for specified termCode: "+termCode);
@@ -158,11 +145,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
 
                 //Do search. In ideal case, returns one element, which is the desired CO.
                 courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
-                if (courseOfferings.size()>0){
-                    for (CourseOfferingInfo coInfo:courseOfferings){
-                        coInfo.setCreditCnt(getCreditCount(coInfo, null));
-                    }
-                }
             }
 
         } catch (Exception e) {
@@ -295,69 +277,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         try {
             activityOfferingInfoList =_getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, getContextInfo());
             activityOfferingWrapperList = new ArrayList<ActivityOfferingWrapper>(activityOfferingInfoList.size());
-            Calendar calendar = new  GregorianCalendar();
 
             for (ActivityOfferingInfo info : activityOfferingInfoList) {
-                ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info);
-                StateInfo state = getStateService().getState(info.getStateKey(), getContextInfo());
-                wrapper.setStateName(state.getName());
-                TypeInfo typeInfo = getTypeService().getType(info.getTypeKey(), getContextInfo());
-                wrapper.setTypeName(typeInfo.getName());
-                FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(info.getFormatOfferingId(), getContextInfo());
-                wrapper.setFormatOffering(fo);
-                OfferingInstructorInfo displayInstructor = ViewHelperUtil.findDisplayInstructor(info.getInstructors());
-                if(displayInstructor != null) {
-                    wrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
-                }
-
-                // assign the time and days
-                SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
-                List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY  , info.getId(), getContextInfo());
-                if (scheduleRequestInfoList != null && scheduleRequestInfoList.size() > 0) {
-                    ScheduleRequestInfo scheduleRequestInfo = scheduleRequestInfoList.get(0);
-                    List<ScheduleRequestComponentInfo> componentList = scheduleRequestInfo.getScheduleRequestComponents();
-                    if (componentList != null && componentList.size() > 0) {
-                        List<String> ids = componentList.get(0).getTimeSlotIds();
-                        if (ids != null && ids.size() > 0) {
-                            TimeSlotInfo timeSlot = getSchedulingService().getTimeSlot(ids.get(0), getContextInfo());
-                            if (timeSlot != null) {
-                                TimeOfDayInfo startTime = timeSlot.getStartTime();
-                                TimeOfDayInfo endTime = timeSlot.getEndTime();
-                                List<Integer> days = timeSlot.getWeekdays();
-
-                                if (startTime != null) {
-                                    calendar.setTimeInMillis(startTime.getMilliSeconds());
-                                    wrapper.setStartTimeDisplay(format.format(calendar.getTime()));
-                                }
-                                if (endTime != null) {
-                                    calendar.setTimeInMillis(endTime.getMilliSeconds());
-                                    wrapper.setEndTimeDisplay(format.format(calendar.getTime()));
-                                }
-                                if (days != null && days.size() > 0) {
-                                    wrapper.setDaysDisplayName(getDays(days));
-                                }
-                            }
-                        }
-
-                        // assign building and room info
-                        List<String> roomIds = componentList.get(0).getRoomIds();
-                        if (roomIds != null && roomIds.size() > 0) {
-                            if (roomIds.get(0) != null) {
-                                RoomInfo roomInfo = getRoomService().getRoom(roomIds.get(0), getContextInfo());
-                                if (roomInfo != null) {
-                                    if (roomInfo.getBuildingId() != null && !roomInfo.getBuildingId().isEmpty()) {
-                                        BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(), getContextInfo());
-                                        if (buildingInfo != null)
-                                            wrapper.setBuildingName(buildingInfo.getName());
-                                    }
-                                    wrapper.setRoomName(roomInfo.getName());
-                                }
-                            }
-                        }
-
-                    }
-                }
-                activityOfferingWrapperList.add(wrapper);
+                ActivityOfferingWrapper aoWrapper = convertAOInfoToWrapper(info);
+                activityOfferingWrapperList.add(aoWrapper);
             }
         } catch (Exception e) {
             throw new RuntimeException(String.format("Could not load AOs for course offering [%s].", courseOfferingId), e);
@@ -520,6 +443,73 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         }
     }
     
+    public ActivityOfferingWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo) throws Exception{
+        Calendar calendar = new  GregorianCalendar();
+        ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(aoInfo);
+        StateInfo state = getStateService().getState(aoInfo.getStateKey(), getContextInfo());
+        aoWrapper.setStateName(state.getName());
+        TypeInfo typeInfo = getTypeService().getType(aoInfo.getTypeKey(), getContextInfo());
+        aoWrapper.setTypeName(typeInfo.getName());
+        FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), getContextInfo());
+        aoWrapper.setFormatOffering(fo);
+        OfferingInstructorInfo displayInstructor = ViewHelperUtil.findDisplayInstructor(aoInfo.getInstructors());
+        if(displayInstructor != null) {
+            aoWrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
+        }
+
+        // assign the time and days
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+        List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), getContextInfo());
+        if (scheduleRequestInfoList != null && scheduleRequestInfoList.size() > 0) {
+            ScheduleRequestInfo scheduleRequestInfo = scheduleRequestInfoList.get(0);
+            List<ScheduleRequestComponentInfo> componentList = scheduleRequestInfo.getScheduleRequestComponents();
+            if (componentList != null && componentList.size() > 0) {
+                if(componentList.get(0).getIsTBA() != null) {
+                    aoWrapper.setTbaDisplayName(componentList.get(0).getIsTBA());
+                }
+                List<String> ids = componentList.get(0).getTimeSlotIds();
+                if (ids != null && ids.size() > 0) {
+                    TimeSlotInfo timeSlot = getSchedulingService().getTimeSlot(ids.get(0), getContextInfo());
+                    if (timeSlot != null) {
+                        TimeOfDayInfo startTime = timeSlot.getStartTime();
+                        TimeOfDayInfo endTime = timeSlot.getEndTime();
+                        List<Integer> days = timeSlot.getWeekdays();
+
+                        if (startTime != null) {
+                            calendar.setTimeInMillis(startTime.getMilliSeconds());
+                            aoWrapper.setStartTimeDisplay(format.format(calendar.getTime()));
+                        }
+                        if (endTime != null) {
+                            calendar.setTimeInMillis(endTime.getMilliSeconds());
+                            aoWrapper.setEndTimeDisplay(format.format(calendar.getTime()));
+                        }
+                        if (days != null && days.size() > 0) {
+                            aoWrapper.setDaysDisplayName(getDays(days));
+                        }
+                    }
+                }
+
+                // assign building and room info
+                List<String> roomIds = componentList.get(0).getRoomIds();
+                if (roomIds != null && roomIds.size() > 0) {
+                    if (roomIds.get(0) != null) {
+                        RoomInfo roomInfo = getRoomService().getRoom(roomIds.get(0), getContextInfo());
+                        if (roomInfo != null) {
+                            if (roomInfo.getBuildingId() != null && !roomInfo.getBuildingId().isEmpty()) {
+                                BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(), getContextInfo());
+                                if (buildingInfo != null)
+                                    aoWrapper.setBuildingName(buildingInfo.getName());
+                            }
+                            aoWrapper.setRoomName(roomInfo.getRoomCode());
+                        }
+                    }
+                }
+
+            }
+        }
+        return aoWrapper;
+    }
+    
     private CourseOfferingService _getCourseOfferingService() {
         if (coService == null) {
             coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
@@ -593,11 +583,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         return roomService;
     }
 
-    // get credit count from persisted COInfo or from CourseInfo
-    private String getCreditCount(CourseOfferingInfo coInfo, CourseInfo courseInfo) throws Exception{
-        return ViewHelperUtil.getCreditCount(coInfo, courseInfo);
-    }
-
     private Map<String, List<String>> constructActivityOfferingTypeToAvailableActivityOfferingMap(List<ActivityOfferingInfo> aoList) {
         Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap = new HashMap<String, List<String>>();
 
@@ -642,28 +627,28 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         String dayOfWeek;
         switch (day) {
             case 1:
-                dayOfWeek = "U";
+                dayOfWeek = SchedulingServiceConstants.SUNDAY_TIMESLOT_DAY_CODE;
                 break;
             case 2:
-                dayOfWeek = "M";
+                dayOfWeek = SchedulingServiceConstants.MONDAY_TIMESLOT_DAY_CODE;
                 break;
             case 3:
-                dayOfWeek = "T";
+                dayOfWeek = SchedulingServiceConstants.TUESDAY_TIMESLOT_DAY_CODE;
                 break;
             case 4:
-                dayOfWeek = "W";
+                dayOfWeek = SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DAY_CODE;
                 break;
             case 5:
-                dayOfWeek = "H";
+                dayOfWeek = SchedulingServiceConstants.THURSDAY_TIMESLOT_DAY_CODE;
                 break;
             case 6:
-                dayOfWeek = "F";
+                dayOfWeek = SchedulingServiceConstants.FRIDAY_TIMESLOT_DAY_CODE;
                 break;
             case 7:
-                dayOfWeek = "S";
+                dayOfWeek = SchedulingServiceConstants.SATURDAY_TIMESLOT_DAY_CODE;
                 break;
             default:
-                dayOfWeek = "";
+                dayOfWeek = StringUtils.EMPTY;
         }
         // TODO implement TBA when service stores it.
         return dayOfWeek;

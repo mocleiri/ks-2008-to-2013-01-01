@@ -38,6 +38,7 @@ import java.util.Set;
     @NamedQuery(name="Lui.getLuisByType", query="Select lui from LuiEntity lui where lui.luiType =:typeId"),
     @NamedQuery(name="Lui.getLuisByClu", query="Select lui from LuiEntity lui where lui.cluId=:cluId"),
     @NamedQuery(name="Lui.getLuisByAtpAndType", query="Select lui from LuiEntity lui where lui.atpId=:atpId and lui.luiType = :typeKey"),
+    @NamedQuery(name="Lui.getLuiIdsByAtpAndType", query="Select id from LuiEntity lui where lui.atpId=:atpId and lui.luiType = :typeKey"),
     @NamedQuery(name="Lui.getLuisByAtpAndClu", query="Select lui from LuiEntity lui where lui.atpId=:atpId and lui.cluId = :cluId")
 })
 public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttributeEntity> {
@@ -84,6 +85,11 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     @Column(name="ORG_ID")
     private List<String> luiContentOwner;
 
+    @ElementCollection
+    @CollectionTable(name ="KSEN_LUI_RELATED_LUI_TYPES",joinColumns = @JoinColumn(name = "LUI_ID"))
+    @Column(name="RELATED_LUI_TYPE")
+    private List<String> relatedLuiTypes;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
     private List<LuiUnitsDeploymentEntity> luiUnitsDeployment;
 
@@ -102,7 +108,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.setLuiType(lui.getTypeKey());
         this.setAtpId(lui.getAtpId());
         this.setCluId(lui.getCluId());
-
+        this.setScheduleId(lui.getScheduleId());
         fromDto(lui);
     }
 
@@ -117,6 +123,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.setLuiState(lui.getStateKey());
         this.setEffectiveDate(lui.getEffectiveDate());
         this.setExpirationDate(lui.getExpirationDate());
+        this.setScheduleId(lui.getScheduleId());
         if (lui.getDescr() == null) {
             this.setDescrFormatted(null);
             this.setDescrPlain(null);
@@ -125,11 +132,11 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
             this.setDescrPlain(lui.getDescr().getPlain());
         }
 
-        //LuiCodes
-        Map<String, LuCodeEntity> existingluiCodes = new HashMap<String, LuCodeEntity>();
-        if(luiCodes != null){
-            for(LuCodeEntity luiCode:luiCodes){
-                existingluiCodes.put(luiCode.getId(),luiCode);
+        // LuiCodes
+        Map<String, LuCodeEntity> existingLuiCodes = new HashMap<String, LuCodeEntity>();
+        if (luiCodes != null) {
+            for (LuCodeEntity luiCode: luiCodes) {
+                existingLuiCodes.put(luiCode.getId(), luiCode);
             }
         }
 
@@ -137,52 +144,51 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         luiCodes = new ArrayList<LuCodeEntity>();
 
         //Update existing or create new
-        for(LuCode luCode:lui.getLuiCodes()){
+        for (LuCode luCode:lui.getLuiCodes()) {
             LuCodeEntity luCodeEntity;
-            if(existingluiCodes.containsKey(luCode.getId())){
-                luCodeEntity = existingluiCodes.remove(luCode.getId());
+            if (existingLuiCodes.containsKey(luCode.getId())) {
+                luCodeEntity = existingLuiCodes.remove(luCode.getId());
                 orphansToDelete.addAll(luCodeEntity.fromDto(luCode));
-            }else{
+            } else {
                 luCodeEntity = new LuCodeEntity(luCode);
                 luCodeEntity.setLui(this);
             }
             luiCodes.add(luCodeEntity);
         }
 
-        //Delete the orphans (add to list of objects to delete)
-        orphansToDelete.addAll(existingluiCodes.values());
+        // Delete the orphans (add to list of objects to delete)
+        orphansToDelete.addAll(existingLuiCodes.values());
 
-
-        //Map the existing result group keys by their id
-        if(lui.getResultValuesGroupKeys()!=null){
+        // Map the existing result group keys by their id
+        if (lui.getResultValuesGroupKeys() != null){
             resultValuesGroupKeys = new ArrayList<String>(lui.getResultValuesGroupKeys());
-        }else{
+        } else {
             resultValuesGroupKeys = null;
         }
 
 
         // Lui Identifiers
 
-        //Map the existing idents by their id
+        // Map the existing idents by their id
         Map<String,LuiIdentifierEntity> existingIdents = new HashMap<String,LuiIdentifierEntity>();
-        if(identifiers != null){
-            for(LuiIdentifierEntity ident : identifiers){
-                existingIdents.put(ident.getId(),ident);
+        if (identifiers != null) {
+            for (LuiIdentifierEntity ident : identifiers) {
+                existingIdents.put(ident.getId(), ident);
             }
         }
-        //Clear the list of current idents
+        // Clear the list of current idents
         identifiers = new ArrayList<LuiIdentifierEntity>();
 
-        //Add official identifiers
+        // Add official identifiers
         if (lui.getOfficialIdentifier() != null) {
             LuiIdentifierEntity identEntity;
-            //See if this exists already
-            if(existingIdents.containsKey(lui.getOfficialIdentifier().getId())){
-                //Pull the existing one out of the map
+            // See if this exists already
+            if (existingIdents.containsKey(lui.getOfficialIdentifier().getId())) {
+                // Pull the existing one out of the map
                 identEntity = existingIdents.remove(lui.getOfficialIdentifier().getId());
                 orphansToDelete.addAll(identEntity.fromDto(lui.getOfficialIdentifier())); //Make sure this copies all fields
-            }else{
-                //This is new so create a new identifier
+            } else {
+                // This is new so create a new identifier
                 identEntity = new LuiIdentifierEntity(lui.getOfficialIdentifier());
                 identEntity.setLui(this);
             }
@@ -190,16 +196,16 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
             identifiers.add(identEntity);
         }
 
-        //Add alternate identifiers
+        // Add alternate identifiers
         for (LuiIdentifier identifier : lui.getAlternateIdentifiers()) {
             LuiIdentifierEntity identEntity;
-            //See if this exists already
-            if(existingIdents.containsKey(identifier.getId())){
-                //Pull the existing one out of the map
+            // See if this exists already
+            if (existingIdents.containsKey(identifier.getId())) {
+                // Pull the existing one out of the map
                 identEntity = existingIdents.remove(identifier.getId());
                 orphansToDelete.addAll(identEntity.fromDto(identifier)); //Make sure this copies all fields
-            }else{
-                //This is new so create a new identifier
+            } else {
+                // This is new so create a new identifier
                 identEntity = new LuiIdentifierEntity(identifier);
                 identEntity.setLui(this);
             }
@@ -207,42 +213,49 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
             identifiers.add(identEntity);
         }
 
-        //Now we need to delete the leftovers (orphaned idents)
+        // Now we need to delete the leftovers (orphaned idents)
         orphansToDelete.addAll(existingIdents.values());
 
         //lui-org relations
 
-        //Map the exisiting orgrelations by their id
-        if(lui.getUnitsContentOwner()!=null){
+        // Map the existing org relations by their id
+        if (lui.getUnitsContentOwner() != null) {
            luiContentOwner = new ArrayList<String>(lui.getUnitsContentOwner());
-        }else{
+        } else {
            luiContentOwner = null;
         }
 
-        //Map the existing org relations by their id
+        // Map the related types id
+        if (lui.getRelatedLuiTypes() != null) {
+            relatedLuiTypes = new ArrayList<String>(lui.getRelatedLuiTypes());
+        } else {
+            relatedLuiTypes = null;
+        }
+
+        // Map the existing org relations by their id
         Map<String,LuiUnitsDeploymentEntity> existinguLuiUnitsDeploymentEntities = new HashMap<String,LuiUnitsDeploymentEntity>();
-        if(luiUnitsDeployment != null){
-            for(LuiUnitsDeploymentEntity unitEntity : luiUnitsDeployment){
-                existinguLuiUnitsDeploymentEntities.put(unitEntity.getOrgId(),unitEntity);
+        if (luiUnitsDeployment != null) {
+            for (LuiUnitsDeploymentEntity unitEntity : luiUnitsDeployment) {
+                existinguLuiUnitsDeploymentEntities.put(unitEntity.getOrgId(), unitEntity);
             }
         }
 
-        //Clear out the current list
+        // Clear out the current list
         luiUnitsDeployment = new ArrayList<LuiUnitsDeploymentEntity>();
 
-        if(lui.getUnitsDeployment() != null){
-            for(String unitDeploymentOrgId : lui.getUnitsDeployment()){
+        if (lui.getUnitsDeployment() != null){
+            for (String unitDeploymentOrgId : lui.getUnitsDeployment()){
                 LuiUnitsDeploymentEntity luiUnitDeployment;
-                if(existinguLuiUnitsDeploymentEntities.containsKey(unitDeploymentOrgId)){
+                if (existinguLuiUnitsDeploymentEntities.containsKey(unitDeploymentOrgId)){
                     luiUnitDeployment = existinguLuiUnitsDeploymentEntities.remove(unitDeploymentOrgId);
-                }else{
+                } else {
                     luiUnitDeployment = new LuiUnitsDeploymentEntity(this, unitDeploymentOrgId);
                 }
                 luiUnitsDeployment.add(luiUnitDeployment);
             }
         }
 
-        //Now we need to delete the leftovers (orphaned entities)
+        // Now we need to delete the leftovers (orphaned entities)
         orphansToDelete.addAll(existinguLuiUnitsDeploymentEntities.values());
 
         // Merge attributes into entity and add leftovers to be deleted
@@ -264,6 +277,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         info.setReferenceURL(referenceURL);
         info.setTypeKey(luiType);
         info.setStateKey(luiState);
+        info.setScheduleId(scheduleId);
         info.setMeta(super.toDTO());
         info.setDescr(new RichTextHelper().toRichTextInfo(plain, formatted));
 
@@ -276,10 +290,9 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 
         // Result Value Group Keys
         info.getResultValuesGroupKeys().clear();
-        if(resultValuesGroupKeys!=null){
+        if (resultValuesGroupKeys != null){
             info.getResultValuesGroupKeys().addAll(resultValuesGroupKeys);
         }
-
 
         // Identifiers
         if (identifiers != null) {
@@ -295,18 +308,22 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         // Attributes
         info.setAttributes(TransformUtility.toAttributeInfoList(this));
 
-
         List<String> unitsDeploymentOrgIds = new ArrayList<String>();
-        if( this.luiUnitsDeployment!= null)   {
-            for(LuiUnitsDeploymentEntity unitsDep : this.luiUnitsDeployment){
-              unitsDeploymentOrgIds.add(unitsDep.getOrgId());
+        if (this.luiUnitsDeployment!= null) {
+            for (LuiUnitsDeploymentEntity unitsDep : this.luiUnitsDeployment) {
+                unitsDeploymentOrgIds.add(unitsDep.getOrgId());
             }
         }
         info.setUnitsDeployment(unitsDeploymentOrgIds);
 
         info.getUnitsContentOwner().clear();
-        if(luiContentOwner!=null){
+        if (luiContentOwner != null) {
             info.getUnitsContentOwner().addAll(luiContentOwner);
+        }
+
+        info.getRelatedLuiTypes().clear();
+        if (relatedLuiTypes != null){
+            info.getRelatedLuiTypes().addAll(relatedLuiTypes);
         }
 
         return info;
@@ -456,6 +473,14 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.luiContentOwner = luiContentOwner;
     }
 
+    public List<String> getRelatedLuiTypes() {
+        return relatedLuiTypes;
+    }
+
+    public void setRelatedLuiTypes(List<String> relatedLuiTypes) {
+        this.relatedLuiTypes = relatedLuiTypes;
+    }
+
     public List<LuiUnitsDeploymentEntity> getLuiUnitsDeployment() {
         return luiUnitsDeployment;
     }
@@ -470,5 +495,13 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 
     public void setResultValuesGroupKeys(List<String> resultValuesGroupKeys) {
         this.resultValuesGroupKeys = resultValuesGroupKeys;
+    }
+
+    public String getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
     }
 }

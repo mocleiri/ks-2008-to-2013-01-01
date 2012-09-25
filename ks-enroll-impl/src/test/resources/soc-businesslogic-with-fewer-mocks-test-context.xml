@@ -42,6 +42,7 @@
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="coService" />
         <property name="socService" ref="socService" />
+        <property name="schedulingService" ref="schedulingService"/>
     </bean>
     
     <bean id="acalService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl" />

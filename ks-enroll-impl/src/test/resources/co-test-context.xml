@@ -165,18 +165,36 @@
     <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
     <property name="businessLogic" ref="businessLogic" />
     <property name="typeService" ref="typeService"/>
+    <property name="atpService" ref="atpService"/>
     <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
     <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
     <property name="registrationGroupTransformer" ref="registrationGroupTransformer"/>
     <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao"/>
+    <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
+    <property name="schedulingService" ref="schedulingService"/>
   </bean>
 
+    <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
+        <property name="atpService" ref="atpService"/>
+        <property name="typeService" ref="typeService"/>
+        <property name="organizationService" ref="organizationService"/>
+        <property name="roomService" ref="roomService"/>
+    </bean>
+
+    <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5">
+    </bean>
+
+    <bean id="organizationService" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceMockImpl">
+    </bean>
+
+    <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao" />
     <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao"/>
     <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
     <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
         <property name="lprService" ref="lprPersistenceService" />
+        <property name="lrcService" ref="lrcService"/>
     </bean>
-
+    <bean id="lrcService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceMockImpl"/>
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
     <property name="courseService" ref="courseService" />
     <property name="acalService" ref="acalService" />
@@ -242,6 +260,7 @@
 
 	<bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader" autowire="byType" />
     <bean id="luiServiceDataLoader" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader" autowire="byType" />
+    <bean id="atpTestDataLoader" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader" autowire="byType" />
 
     <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
 	 <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
