@@ -56,6 +56,22 @@ public class GetterSetterNameCalculator {
         return "set" + calcInitUpper(ms.getShortName());
     }
 
+    public static String dot2Camel (String name) {
+        StringBuilder sb = new StringBuilder ();
+        boolean upper = true;
+        for (char c : name.toCharArray()) {
+            if (c == '.') {
+                upper = true;
+                continue;
+            }
+            if (upper) {
+                c = Character.toUpperCase(c);
+                upper = false;
+            }
+            sb.append (c);
+        }
+        return sb.toString();
+    }
     public static String calcInitUpper(String name) {
         return name.substring(0, 1).toUpperCase() + name.substring(1);
     }

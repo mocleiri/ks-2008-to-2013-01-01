@@ -48,7 +48,7 @@ public class RemoteImplServiceWriter extends JavaClassWriter {
             String rootPackage,
             String servKey,
             List<ServiceMethod> methods) {
-        super(directory, calcPackage(servKey, rootPackage), calcClassName(servKey));
+        super(directory + "/main/java", calcPackage(servKey, rootPackage), calcClassName(servKey));
         this.model = model;
         this.finder = new ModelFinder(model);
         this.directory = directory;

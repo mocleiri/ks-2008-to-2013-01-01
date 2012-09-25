@@ -117,7 +117,7 @@ public class KradDictionaryCreator {
 		}
 
 		if (writeGenerated) {
-			String dirStr = this.directory + File.separator + "generated";
+			String dirStr = this.directory + "/generated";
 			File dirFile = new File(dirStr);
 			if (!dirFile.exists()) {
 				if (!dirFile.mkdirs()) {
@@ -127,15 +127,14 @@ public class KradDictionaryCreator {
 			}
 			try {
 				PrintStream out = new PrintStream(new FileOutputStream(
-						generatedFilePath = dirStr + File.separator
-								+ generatedFileName, false));
+						generatedFilePath = dirStr + "/"+ generatedFileName, false));
 				this.gwriter = new XmlWriter(out, 0);
 			} catch (FileNotFoundException ex) {
 				throw new IllegalStateException(ex);
 			}
 		}
 		if (this.writeManual) {
-			String dirStr = this.directory + File.separator + "manual";
+			String dirStr = this.directory + "/manual";
 			File dirFile = new File(dirStr);
 			if (!dirFile.exists()) {
 				if (!dirFile.mkdirs()) {
@@ -145,8 +144,7 @@ public class KradDictionaryCreator {
 			}
 			try {
 				PrintStream out = new PrintStream(new FileOutputStream(
-						manualFilePath = dirStr + File.separator
-								+ manualFileName, false));
+						manualFilePath = dirStr + "/" + manualFileName, false));
 				this.mwriter = new XmlWriter(out, 0);
 			} catch (FileNotFoundException ex) {
 				throw new IllegalStateException(ex);

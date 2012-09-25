@@ -19,11 +19,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.util.List;
 import org.kuali.student.contract.model.Service;
 
 import org.kuali.student.contract.model.ServiceContractModel;
-import org.kuali.student.contract.model.ServiceMethod;
 import org.kuali.student.contract.model.util.ModelFinder;
 import org.kuali.student.contract.writer.XmlWriter;
 
@@ -93,16 +91,16 @@ public class RemoteImplServiceSpringBeanWriter {
     private void initXmlWriter() {
         String fileName = "ksb-remote-impl-generated.xml";
         
-        File dir = new File(this.directory);
+        File dir = new File(this.directory + "/main/resources");
         
         if (!dir.exists()) {
             if (!dir.mkdirs()) {
                 throw new IllegalStateException("Could not create directory "
-                        + this.directory);
+                        + this.directory + "/main/resources");
             }
         }
         
-        String dirStr = this.directory + File.separator + "generated";
+        String dirStr = this.directory  + "/main/resources";
         File dirFile = new File(dirStr);
         if (!dirFile.exists()) {
             if (!dirFile.mkdirs()) {
@@ -112,7 +110,7 @@ public class RemoteImplServiceSpringBeanWriter {
         }
         try {
             PrintStream out = new PrintStream(new FileOutputStream(
-                    dirStr + File.separator
+                    dirStr + "/"
                     + fileName, false));
             this.out = new XmlWriter(out, 0);
         } catch (FileNotFoundException ex) {

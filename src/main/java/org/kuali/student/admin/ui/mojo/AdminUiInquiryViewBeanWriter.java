@@ -218,8 +218,7 @@ public class AdminUiInquiryViewBeanWriter {
         }
         try {
             PrintStream out = new PrintStream(new FileOutputStream(
-                    dirStr + File.separator
-                    + fileName, false));
+                    dirStr + "/" + fileName, false));
             this.out = new XmlWriter(out, 0);
         } catch (FileNotFoundException ex) {
             throw new IllegalStateException(ex);

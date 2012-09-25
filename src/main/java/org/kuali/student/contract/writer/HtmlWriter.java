@@ -83,7 +83,7 @@ public class HtmlWriter extends XmlWriter {
         }
         try {
         	
-        	String outputFileName = this.directory + File.separator + fileName;
+        	String outputFileName = this.directory + "/"+ fileName;
         	log.info("opening file = " + outputFileName);
         	
             PrintStream out = new PrintStream(new FileOutputStream(outputFileName, false));

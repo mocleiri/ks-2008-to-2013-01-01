@@ -64,7 +64,7 @@ public class RemoteImplWriter {
             new RemoteImplWriterForOneService(model, directory, rootPackage, service.getKey()).write();
         }
         
-        new RemoteImplServiceSpringBeanWriter (model, directory, rootPackage).write();
+//        new RemoteImplServiceSpringBeanWriter (model, directory, rootPackage).write();
 
 //        // the Info interfaces's
 //        System.out.println("Generating common Info interfaces");

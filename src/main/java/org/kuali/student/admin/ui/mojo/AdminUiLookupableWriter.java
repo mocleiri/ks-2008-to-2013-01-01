@@ -173,11 +173,11 @@ public class AdminUiLookupableWriter extends JavaClassWriter {
         indentPrintln("String value = fieldValues.get(fieldName);");
         indentPrintln("if (value != null && !value.isEmpty())");
         openBrace();
-        indentPrintln ("if (fieldName.equals(\"maxResultsToReturn\"))");
-        openBrace ();
-        indentPrintln ("qBuilder.setMaxResults (Integer.parseInt(value));");
-        indentPrintln ("continue;");
-        closeBrace ();                        
+        indentPrintln("if (fieldName.equals(\"maxResultsToReturn\"))");
+        openBrace();
+        indentPrintln("qBuilder.setMaxResults (Integer.parseInt(value));");
+        indentPrintln("continue;");
+        closeBrace();
         indentPrintln("pList.add(PredicateFactory.equal(fieldName, value));");
         closeBrace();
         closeBrace();
@@ -199,8 +199,8 @@ public class AdminUiLookupableWriter extends JavaClassWriter {
         indentPrintln("    throw new RuntimeException(ex);");
         indentPrintln("}");
         closeBrace();
-        
-        AdminUiInquirableWriter.writeServiceGetterAndSetter (this, serviceClass, serviceVar, xmlType);
+
+        AdminUiInquirableWriter.writeServiceGetterAndSetter(this, serviceClass, serviceVar, xmlType);
     }
 
     private String calcSearchMethodName() {
@@ -212,6 +212,10 @@ public class AdminUiLookupableWriter extends JavaClassWriter {
     }
 
     private ServiceMethod findSearchMethod() {
+        return findSearchMethod(xmlType, methods);
+    }
+
+    public static ServiceMethod findSearchMethod(XmlType xmlType, List<ServiceMethod> methods) {
         String infoClassList = GetterSetterNameCalculator.calcInitUpper(xmlType.getName()) + "List";
         for (ServiceMethod method : methods) {
             if (method.getReturnValue().getType().equalsIgnoreCase(infoClassList)) {

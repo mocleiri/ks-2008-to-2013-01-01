@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 import org.kuali.student.contract.model.Lookup;
 import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.Service;
@@ -119,25 +120,7 @@ public class AdminUiLookupViewBeanWriter {
         out.indentPrintln("<bean parent=\"Uif-LookupCriteriaInputField\" p:propertyName=\"keywordSearch\"");
         out.indentPrintln("      p:label=\"Keyword(s)\"");
         out.indentPrintln("      p:helpSummary=\"Searches fields like name and description to see if they contain the keyword\" />");
-        for (MessageStructure ms : this.getFieldsToSearchOn()) {
-            String fieldName = GetterSetterNameCalculator.calcInitLower(ms.getShortName());
-            out.indentPrint("<bean parent=\"Uif-LookupCriteriaInputField\" p:propertyName=\"" + fieldName + "\"");
-            if (!AdminUiInquiryViewBeanWriter.doLookup (ms.getLookup())) {
-                out.println(" />");
-                continue;
-            }
-            out.println("");
-            out.incrementIndent();
-            XmlType msType = finder.findXmlType(ms.getLookup().getXmlTypeName());
-            out.indentPrintln("p:quickfinder.dataObjectClassName=\"" + msType.getJavaPackage() + "." + msType.getName() + "\"");
-            MessageStructure pk = this.getPrimaryKey(ms.getLookup().getXmlTypeName());
-            if (pk == null) {
-                throw new NullPointerException("could not find primary key for " + ms.getId());
-            }
-            out.indentPrintln("p:quickfinder.fieldConversions=\"" + pk.getShortName() + ":" + fieldName + "\"");
-            out.indentPrintln("/>");
-            out.decrementIndent();
-        }
+        this.writeFieldsToSearchOn (xmlType, new Stack<XmlType>(), "");
         out.indentPrintln("<bean parent=\"Uif-LookupCriteriaInputField\" p:propertyName=\"maxResultsToReturn\"");
         out.indentPrintln("      p:label=\"Max. Results\"");
         out.indentPrintln("      p:defaultValue=\"30\"");
@@ -192,14 +175,85 @@ public class AdminUiLookupViewBeanWriter {
         throw new NullPointerException ("could not find primary key for " + xmlTypeName);
     }
 
-    private List<MessageStructure> getFieldsToSearchOn() {
-        List<MessageStructure> list = new ArrayList<MessageStructure>();
-        for (MessageStructure ms : this.getFieldsToShowOnLookup()) {            
-            // TODO: figure out how to search on dates
-            if (ms.getType().equalsIgnoreCase ("Date")) {
+    
+    private void writeFieldsToSearchOn(XmlType type, Stack<XmlType> parents, String prefix) {
+         // avoid recursion
+        if (parents.contains(type)) {
+            return;
+        }
+        parents.push(type);
+        for (MessageStructure ms : finder.findMessageStructures(type.getName())) {
+            String fieldName = GetterSetterNameCalculator.calcInitLower(ms.getShortName());
+            if (!prefix.isEmpty()) {
+                fieldName = prefix + "." + fieldName;
+            }
+            String fieldNameCamel = GetterSetterNameCalculator.dot2Camel(fieldName);
+            if (ms.getShortName().equalsIgnoreCase("versionInd")) {
+                out.indentPrintln("<!-- TODO: deal with seaching on the version indicator which is a string in the contract but a number in the database -->");
                 continue;
             }
-            list.add (ms);
+            if (ms.getType().equalsIgnoreCase("AttributeInfoList")) {
+                out.indentPrintln("<!-- TODO: deal with dynamic attributes -->");
+                continue;
+            }
+            if (ms.getShortName ().equalsIgnoreCase("name")) {
+                out.indentPrintln("<!-- skip name because keyword searching should cover it -->");
+                continue;
+            }
+            if (ms.getShortName ().equalsIgnoreCase("descr")) {
+                out.indentPrintln("<!-- skip description because keyword searching should cover it -->");
+                continue;
+            }
+            if (ms.getType().endsWith("List")) {
+                out.indentPrintln("<!-- TODO: deal with  " + fieldName + " which is a List -->");
+                continue;
+            }
+            XmlType fieldType = finder.findXmlType(ms.getType());
+            if (fieldType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+                // complex sub-types such as rich text 
+                this.writeFieldsToSearchOn(fieldType, parents, fieldName);
+                continue;
+            }
+            if (!ms.getType().equalsIgnoreCase("String")) {
+                out.indentPrintln("<!-- TODO: deal with  " + fieldName + " which is a " + ms.getType() + " -->");
+                continue;
+            }
+
+            out.indentPrint("<bean parent=\"Uif-LookupCriteriaInputField\" p:propertyName=\"" + fieldName + "\"");
+            if (!AdminUiInquiryViewBeanWriter.doLookup (ms.getLookup())) {
+                out.println(" />");
+                continue;
+            }
+            out.println("");
+            out.incrementIndent();
+            XmlType msType = finder.findXmlType(ms.getLookup().getXmlTypeName());
+            out.indentPrintln("p:quickfinder.dataObjectClassName=\"" + msType.getJavaPackage() + "." + msType.getName() + "\"");
+            MessageStructure pk = this.getPrimaryKey(ms.getLookup().getXmlTypeName());
+            if (pk == null) {
+                throw new NullPointerException("could not find primary key for " + ms.getId());
+            }
+            out.indentPrintln("p:quickfinder.fieldConversions=\"" + pk.getShortName() + ":" + fieldName + "\"");
+            out.indentPrintln("/>");
+            out.decrementIndent();
+        }
+        parents.pop();
+    }
+    
+    private List<MessageStructure> getFieldsToSearchOn() {
+        List<MessageStructure> list = new ArrayList<MessageStructure>();
+        for (MessageStructure ms : finder.findMessageStructures(xmlType.getName())) {
+            // lists of values cannot be displayed within a list of values
+            if (ms.getType().endsWith("List")) {
+                continue;
+            }
+            if (ms.getType().endsWith("List")) {
+                continue;
+            }
+            XmlType msType = finder.findXmlType(ms.getType());
+            // just show fields on the main object for now don't dive down into complex fields
+            if (msType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+                continue;
+            }
         }
         return list;
     }
