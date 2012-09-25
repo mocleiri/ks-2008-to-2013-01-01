@@ -241,7 +241,7 @@ public class ServiceContractModelQDoxLoader implements
                 try {
                     returnType = javaMethod.getReturnType();
                 } catch (NullPointerException ex) {
-                    System.out.println("Nullpinter getting return type: " + javaMethod.getCallSignature());
+                    log.error("Nullpointer getting return type: " + javaMethod.getCallSignature());
                     returnType = null;
                 }
 
@@ -684,9 +684,8 @@ public class ServiceContractModelQDoxLoader implements
             ms.setStatus("???");
             ms.setLookup(calcLookup (messageStructureJavaClass, getterMethod, setterMethod,
                     beanField, serviceKey, ms.getXmlObject(), shortName, ms.getType()));
-//            if (ms.getId().equals("AcademicCalendarInfo.typeKey")) {
-//                System.out.println("debug from here");
-//            }
+            ms.setPrimaryKey(calcPrimaryKey (messageStructureJavaClass, getterMethod, setterMethod,
+                    beanField, serviceKey, ms.getXmlObject(), shortName, ms.getType()));
             ms.setOverriden(this.calcOverridden(messageStructureJavaClass, getterMethod));
             JavaClass subObjToAdd = this.calcRealJavaClassOfGetterReturn(getterMethod);
             if (subObjToAdd != null) {
@@ -730,6 +729,29 @@ public class ServiceContractModelQDoxLoader implements
         }
         return type;
     }
+    
+    
+    private boolean calcPrimaryKey (JavaClass mainClass, JavaMethod getterMethod,
+            JavaMethod setterMethod, JavaField beanField, String serviceKey, String xmlObject, String shortName, String type) {
+        if (!type.equalsIgnoreCase ("String")) {
+            return false;
+        }
+        if (shortName.equalsIgnoreCase ("Id")) {
+            return true;
+        }
+        if (shortName.equalsIgnoreCase ("Key")) {
+            return true;
+        }
+        // Special fix up for principal
+//        log.warn(serviceKey + ":" + xmlObject + "." + shortName);
+        if (xmlObject.equalsIgnoreCase("Principal")) {
+            if (shortName.equalsIgnoreCase("principalId")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 
     private Lookup calcLookup (JavaClass mainClass, JavaMethod getterMethod,
             JavaMethod setterMethod, JavaField beanField, String serviceKey, String xmlObject, String shortName, String type) {
@@ -748,6 +770,12 @@ public class ServiceContractModelQDoxLoader implements
     }
     
     private boolean endsWithIdOrKey (String shortName) {
+        if (shortName.equals ("Id")) {
+            return false;
+        }
+        if (shortName.equals ("Key")) {
+            return false;
+        }
         if (shortName.endsWith ("Id")) {
             return true;
         }

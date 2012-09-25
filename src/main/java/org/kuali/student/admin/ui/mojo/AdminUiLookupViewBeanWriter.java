@@ -19,16 +19,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
+import org.kuali.student.contract.model.Lookup;
 import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.Service;
 
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.ServiceMethod;
 import org.kuali.student.contract.model.XmlType;
+import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
 import org.kuali.student.contract.model.util.ModelFinder;
 import org.kuali.student.contract.writer.XmlWriter;
 import org.kuali.student.contract.writer.service.GetterSetterNameCalculator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -36,6 +41,8 @@ import org.kuali.student.contract.writer.service.GetterSetterNameCalculator;
  */
 public class AdminUiLookupViewBeanWriter {
 
+	private static final Logger log = LoggerFactory.getLogger(AdminUiLookupViewBeanWriter.class);
+    
     private ServiceContractModel model;
     private ModelFinder finder;
     private String directory;
@@ -45,6 +52,8 @@ public class AdminUiLookupViewBeanWriter {
     private XmlType xmlType;
     private List<ServiceMethod> methods;
     private XmlWriter out;
+    String fileName;
+    String fullDirectoryPath;
 
     public AdminUiLookupViewBeanWriter(ServiceContractModel model,
             String directory,
@@ -81,32 +90,87 @@ public class AdminUiLookupViewBeanWriter {
         String lookupable = AdminUiLookupableWriter.calcPackage(servKey, rootPackage, xmlType) + "."
                 + AdminUiLookupableWriter.calcClassName(servKey, xmlType);
         out.println("");
-        out.incrementIndent ();
+        out.incrementIndent();
         out.indentPrintln("<import resource=\"classpath:ks-" + infoClass + "-dictionary.xml\"/>");
         out.indentPrintln("<import resource=\"classpath:UifKSDefinitions.xml\"/>");
+        out.indentPrintln("<!-- **********************************************");
+        out.indentPrintln("Paste this link below into WEB-INF ksAdminLinks.tag");
+        out.indentPrintln("<li><portal:portalLink displayTitle=\"true\" title=\"" + xmlType.getName() + " Lookup\""
+                + "url=\"${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start"
+                + "&dataObjectClassName=" + xmlType.getJavaPackage() + "." + infoClass + ""
+                + "&viewId=" + fileName
+                + "&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true\" /></li>");
+        out.indentPrintln ("Also...");
+        out.indentPrintln("Paste bean definition below into the list of dataDictionaryPackages of org.kuali.rice.krad.bo.ModuleConfiguration ");
+        out.indentPrintln ("<value>classpath:" + fullDirectoryPath + "/" + fileName + "</value>");
+        out.indentPrintln("********************************************** -->");
         out.indentPrintln("<!-- LookupView -->");
         out.indentPrintln("<bean id=\"KS-" + infoClass + "-AdminLookupView\" parent=\"KSLookupView\"");
-        out.incrementIndent ();
+        out.incrementIndent();
         out.indentPrintln("p:title=\"" + xmlType.getName() + " Lookup\"");
+        out.indentPrintln("p:header.headerText=\"" + xmlType.getName() + " Lookup\"");
         out.indentPrintln("p:dataObjectClassName=\"" + xmlType.getJavaPackage() + "." + infoClass + "\"");
         out.indentPrintln("p:viewHelperServiceClass=\"" + lookupable + "\">");
         out.indentPrintln("");
         out.indentPrintln("<property name=\"criteriaFields\">");
-        out.incrementIndent ();
+        out.incrementIndent();
         out.indentPrintln("<list>");
-        out.indentPrintln("    <bean parent=\"Uif-LookupCriteriaInputField\" p:propertyName=\"searchValue\"/>");
+        out.incrementIndent();
+        out.indentPrintln("<bean parent=\"Uif-LookupCriteriaInputField\" p:propertyName=\"keywordSearch\"");
+        out.indentPrintln("      p:label=\"Keyword(s)\"");
+        out.indentPrintln("      p:helpSummary=\"Searches fields like name and description to see if they contain the keyword\" />");
+        for (MessageStructure ms : this.getFieldsToSearchOn()) {
+            String fieldName = GetterSetterNameCalculator.calcInitLower(ms.getShortName());
+            out.indentPrint("<bean parent=\"Uif-LookupCriteriaInputField\" p:propertyName=\"" + fieldName + "\"");
+            if (!AdminUiInquiryViewBeanWriter.doLookup (ms.getLookup())) {
+                out.println(" />");
+                continue;
+            }
+            out.println("");
+            out.incrementIndent();
+            XmlType msType = finder.findXmlType(ms.getLookup().getXmlTypeName());
+            out.indentPrintln("p:quickfinder.dataObjectClassName=\"" + msType.getJavaPackage() + "." + msType.getName() + "\"");
+            MessageStructure pk = this.getPrimaryKey(ms.getLookup().getXmlTypeName());
+            if (pk == null) {
+                throw new NullPointerException("could not find primary key for " + ms.getId());
+            }
+            out.indentPrintln("p:quickfinder.fieldConversions=\"" + pk.getShortName() + ":" + fieldName + "\"");
+            out.indentPrintln("/>");
+            out.decrementIndent();
+        }
+        out.indentPrintln("<bean parent=\"Uif-LookupCriteriaInputField\" p:propertyName=\"maxResultsToReturn\"");
+        out.indentPrintln("      p:label=\"Max. Results\"");
+        out.indentPrintln("      p:defaultValue=\"30\"");
+        out.indentPrintln("      p:helpSummary=\"The maximum number of results to return from the query, leave null to not limit the results\" />");
+        out.decrementIndent();
         out.indentPrintln("</list>");
-        out.decrementIndent ();
+        out.decrementIndent();
         out.indentPrintln("</property>");
         out.indentPrintln("<property name=\"resultFields\">");
         out.indentPrintln("    <list>");
-        for (MessageStructure ms : finder.findMessageStructures(xmlType.getName())) {
-            XmlType msType = finder.findXmlType(ms.getType());
-            if (msType != null) {
-                if (!msType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
-                    String fieldName = GetterSetterNameCalculator.calcInitLower (ms.getShortName());
-                    out.indentPrintln("        <bean parent=\"Uif-DataField\" p:propertyName=\"" + fieldName + "\" />");
-                }
+        for (MessageStructure ms : this.getFieldsToShowOnLookup()) {
+            String fieldName = GetterSetterNameCalculator.calcInitLower(ms.getShortName());
+            out.indentPrint("        <bean parent=\"Uif-DataField\" p:propertyName=\"" + fieldName + "\"");
+            if (ms.isPrimaryKey()) {
+                out.println(">");
+                out.indentPrintln("            <property name=\"inquiry\">");
+                out.indentPrintln("                <bean parent=\"Uif-Inquiry\" p:dataObjectClassName=\"" + xmlType.getJavaPackage() + "." + xmlType.getName() + "\" p:inquiryParameters=\"" + ms.getShortName() + "\" />");
+                out.indentPrintln("            </property>");
+                out.indentPrintln("        </bean>");
+            } else if (AdminUiInquiryViewBeanWriter.doLookup (ms.getLookup())) {
+                
+                out.println(">");
+                Lookup lookup = ms.getLookup();
+                XmlType msType = finder.findXmlType(lookup.getXmlTypeName());
+                MessageStructure pk = this.getPrimaryKey(ms.getLookup().getXmlTypeName());
+                out.indentPrintln("            <property name=\"inquiry\">");
+                out.indentPrintln("                <bean parent=\"Uif-Inquiry\" p:dataObjectClassName=\""
+                        + msType.getJavaPackage() + "." + msType.getName()
+                        + "\" p:inquiryParameters=\"" + fieldName + ":" + pk.getShortName() + "\" />");
+                out.indentPrintln("            </property>");
+                out.indentPrintln("        </bean>");
+            } else {
+                out.println(" />");
             }
         }
         out.indentPrintln("    </list>");
@@ -116,7 +180,45 @@ public class AdminUiLookupViewBeanWriter {
         out.indentPrintln("");
         out.decrementIndent();
         out.indentPrintln("</beans>");
+    }
 
+    
+    private MessageStructure getPrimaryKey(String xmlTypeName) {
+        for (MessageStructure ms : finder.findMessageStructures(xmlTypeName)) {
+            if (ms.isPrimaryKey()) {
+                return ms;
+            }
+        }
+        throw new NullPointerException ("could not find primary key for " + xmlTypeName);
+    }
+
+    private List<MessageStructure> getFieldsToSearchOn() {
+        List<MessageStructure> list = new ArrayList<MessageStructure>();
+        for (MessageStructure ms : this.getFieldsToShowOnLookup()) {            
+            // TODO: figure out how to search on dates
+            if (ms.getType().equalsIgnoreCase ("Date")) {
+                continue;
+            }
+            list.add (ms);
+        }
+        return list;
+    }
+
+    private List<MessageStructure> getFieldsToShowOnLookup() {
+        List<MessageStructure> list = new ArrayList<MessageStructure>();
+        for (MessageStructure ms : finder.findMessageStructures(xmlType.getName())) {
+            // lists of values cannot be displayed within a list of values
+            if (ms.getType().endsWith("List")) {
+                continue;
+            }
+            XmlType msType = finder.findXmlType(ms.getType());
+            // just show fields on the main object for now don't dive down into complex fields
+            if (msType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+                continue;
+            }
+            list.add(ms);
+        }
+        return list;
     }
 
     private void initXmlWriter() {
@@ -124,9 +226,9 @@ public class AdminUiLookupViewBeanWriter {
         String serviceClass = GetterSetterNameCalculator.calcInitUpper(service.getName());
         String serviceVar = GetterSetterNameCalculator.calcInitLower(service.getName());
         String serviceContract = service.getImplProject() + "." + service.getName();
-        
-        String path = AdminUiLookupableWriter.calcPackage(servKey, rootPackage, xmlType).replace('.', '/');
-        String fileName = infoClass + "AdminLookupView.xml";
+
+        fullDirectoryPath = AdminUiLookupableWriter.calcPackage(servKey, rootPackage, xmlType).replace('.', '/');
+        fileName = infoClass + "AdminLookupView.xml";
 
         File dir = new File(this.directory);
 
@@ -137,7 +239,7 @@ public class AdminUiLookupViewBeanWriter {
             }
         }
 
-        String dirStr = this.directory + "/" + "resources" + "/" + path;
+        String dirStr = this.directory + "/" + "resources" + "/" + fullDirectoryPath;
         File dirFile = new File(dirStr);
         if (!dirFile.exists()) {
             if (!dirFile.mkdirs()) {
@@ -147,8 +249,9 @@ public class AdminUiLookupViewBeanWriter {
         }
         try {
             PrintStream out = new PrintStream(new FileOutputStream(
-                    dirStr + File.separator
+                    dirStr + "/"
                     + fileName, false));
+            log.info("AdminUILookupViewBeanWriter: writing " + dirStr + "/" + fileName);
             this.out = new XmlWriter(out, 0);
         } catch (FileNotFoundException ex) {
             throw new IllegalStateException(ex);

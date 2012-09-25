@@ -54,7 +54,7 @@ public class AdminUiLookupableWriter extends JavaClassWriter {
             String servKey,
             XmlType xmlType,
             List<ServiceMethod> methods) {
-        super(directory, calcPackage(servKey, rootPackage, xmlType), calcClassName(servKey, xmlType));
+        super(directory + "/" + "java", calcPackage(servKey, rootPackage, xmlType), calcClassName(servKey, xmlType));
         this.model = model;
         this.finder = new ModelFinder(model);
         this.directory = directory;
@@ -146,7 +146,6 @@ public class AdminUiLookupableWriter extends JavaClassWriter {
         importsAdd("org.apache.log4j.Logger");
         indentPrintln("private static final Logger LOG = Logger.getLogger(" + calcClassName(servKey, xmlType) + ".class);");
         indentPrintln("private transient " + serviceClass + " " + serviceVar + ";");
-        indentPrintln("private final static String SEARCH_VALUE = \"searchValue\";");
 
         println("");
         indentPrintln("@Override");
@@ -167,17 +166,25 @@ public class AdminUiLookupableWriter extends JavaClassWriter {
 //        importsAdd (PredicateFactory.class.getName());
         indentPrintln("protected List<" + infoClass + "> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded)");
         openBrace();
-        indentPrintln("String searchValue = fieldValues.get(SEARCH_VALUE);");
-        indentPrintln("searchValue = searchValue.toLowerCase();");
-        indentPrintln("return this.findMatching(searchValue);");
-        closeBrace();
-        indentPrintln("");
-        indentPrintln("private List<" + infoClass + "> findMatching(String searchValue)");
-        openBrace();
         indentPrintln("QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();");
         indentPrintln("List<Predicate> pList = new ArrayList<Predicate>();");
-        indentPrintln("pList.add (PredicateFactory.equal(\"keywordSearch\",searchValue));");
+        indentPrintln("for (String fieldName : fieldValues.keySet())");
+        openBrace();
+        indentPrintln("String value = fieldValues.get(fieldName);");
+        indentPrintln("if (value != null && !value.isEmpty())");
+        openBrace();
+        indentPrintln ("if (fieldName.equals(\"maxResultsToReturn\"))");
+        openBrace ();
+        indentPrintln ("qBuilder.setMaxResults (Integer.parseInt(value));");
+        indentPrintln ("continue;");
+        closeBrace ();                        
+        indentPrintln("pList.add(PredicateFactory.equal(fieldName, value));");
+        closeBrace();
+        closeBrace();
+        indentPrintln("if (!pList.isEmpty())");
+        openBrace();
         indentPrintln("qBuilder.setPredicates(PredicateFactory.and(pList.toArray(new Predicate[pList.size()])));");
+        closeBrace();
         indentPrintln("try");
         openBrace();
         String searchMethodName = calcSearchMethodName();
@@ -192,25 +199,8 @@ public class AdminUiLookupableWriter extends JavaClassWriter {
         indentPrintln("    throw new RuntimeException(ex);");
         indentPrintln("}");
         closeBrace();
-
-        indentPrintln("public void set" + serviceClass + "(" + serviceClass + " " + serviceVar + ")");
-        openBrace();
-        indentPrintln("    this." + serviceVar + " = " + serviceVar + ";");
-        closeBrace();
-        println("");
-        indentPrintln("public " + serviceClass + " get" + serviceClass + "()");
-        openBrace();
-        indentPrintln("if (" + serviceVar + " == null)");
-        openBrace();
-        indentPrintln("QName qname = new QName(" + serviceClass + "Constants.NAMESPACE," + serviceClass + "Constants.SERVICE_NAME_LOCAL_PART);");
-        indentPrintln(serviceVar + " = (" + serviceClass + ") GlobalResourceLoader.getService(qname);");
-        closeBrace();
-        indentPrintln("return this." + serviceVar + ";");
-        closeBrace();
-        println("");
-        indentPrintln("private ContextInfo getContextInfo() {");
-        indentPrintln("    return ContextBuilder.loadContextInfo();");
-        indentPrintln("}");
+        
+        AdminUiInquirableWriter.writeServiceGetterAndSetter (this, serviceClass, serviceVar, xmlType);
     }
 
     private String calcSearchMethodName() {

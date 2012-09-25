@@ -16,14 +16,12 @@
 package org.kuali.student.admin.ui.mojo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.xml.namespace.QName;
-import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.Service;
 
 import org.kuali.student.contract.model.ServiceContractModel;
@@ -54,7 +52,7 @@ public class AdminUiInquirableWriter extends JavaClassWriter {
             String servKey,
             XmlType xmlType,
             List<ServiceMethod> methods) {
-        super(directory, calcPackage(servKey, rootPackage, xmlType), calcClassName(servKey, xmlType));
+        super(directory + "/" + "java", calcPackage(servKey, rootPackage, xmlType), calcClassName(servKey, xmlType));
         this.model = model;
         this.finder = new ModelFinder(model);
         this.directory = directory;
@@ -146,7 +144,8 @@ public class AdminUiInquirableWriter extends JavaClassWriter {
         importsAdd("org.apache.log4j.Logger");
         indentPrintln("private static final Logger LOG = Logger.getLogger(" + calcClassName(servKey, xmlType) + ".class);");
         indentPrintln("private transient " + serviceClass + " " + serviceVar + ";");
-        indentPrintln("private final static String KEY = \"key\";");
+        MessageStructure pk = this.getPrimaryKey(xmlType.getName());
+        indentPrintln("private final static String PRIMARY_KEY = \"" + pk.getShortName() + "\";");
 
         println("");
         indentPrintln("@Override");
@@ -167,7 +166,7 @@ public class AdminUiInquirableWriter extends JavaClassWriter {
 //        importsAdd (PredicateFactory.class.getName());
         indentPrintln("public " + infoClass + " retrieveDataObject(Map<String, String> parameters)");
         openBrace();
-        indentPrintln("String key = parameters.get(KEY);");
+        indentPrintln("String key = parameters.get(PRIMARY_KEY);");
         indentPrintln("try");
         openBrace();
         String getMethod = calcGetMethod();
@@ -182,25 +181,69 @@ public class AdminUiInquirableWriter extends JavaClassWriter {
         indentPrintln("    throw new RuntimeException(ex);");
         indentPrintln("}");
         closeBrace();
+        writeServiceGetterAndSetter (this, serviceClass, serviceVar, xmlType);
+    }
+    
+    private MessageStructure getPrimaryKey(String xmlTypeName) {
+        for (MessageStructure ms : finder.findMessageStructures(xmlTypeName)) {
+          if (ms.isPrimaryKey()) {
+              return ms;
+          }
+        }
+        return null;
+    }
+    public static void writeServiceGetterAndSetter (JavaClassWriter out, String serviceClass, String serviceVar, XmlType xmlType) {
+        
+        out.println ("");
+        out.indentPrintln("public void set" + serviceClass + "(" + serviceClass + " " + serviceVar + ")");
+        out.openBrace();
+        out.indentPrintln("    this." + serviceVar + " = " + serviceVar + ";");
+        out.closeBrace();
+        out.println("");
+        out.indentPrintln("public " + serviceClass + " get" + serviceClass + "()");
+        out.openBrace();
+        out.indentPrintln("if (" + serviceVar + " == null)");
+        out.openBrace();
+        String serviceConstants = calcServiceContantsName(serviceClass);
+        out.importsAdd(calcServiceContantsPackage(xmlType) + "." + serviceConstants);
+        out.indentPrintln("QName qname = new QName(" + serviceConstants + ".NAMESPACE," + serviceConstants + ".SERVICE_NAME_LOCAL_PART);");
+        out.indentPrintln(serviceVar + " = (" + serviceClass + ") GlobalResourceLoader.getService(qname);");
+        out.closeBrace();
+        out.indentPrintln("return this." + serviceVar + ";");
+        out.closeBrace();
+        out.println("");
+        out.indentPrintln("private ContextInfo getContextInfo() {");
+        out.indentPrintln("    return ContextBuilder.loadContextInfo();");
+        out.indentPrintln("}");
+    }
 
-        indentPrintln("public void set" + serviceClass + "(" + serviceClass + " " + serviceVar + ")");
-        openBrace();
-        indentPrintln("    this." + serviceVar + " = " + serviceVar + ";");
-        closeBrace();
-        println("");
-        indentPrintln("public " + serviceClass + " get" + serviceClass + "()");
-        openBrace();
-        indentPrintln("if (" + serviceVar + " == null)");
-        openBrace();
-        indentPrintln("QName qname = new QName(" + serviceClass + "Constants.NAMESPACE," + serviceClass + "Constants.SERVICE_NAME_LOCAL_PART);");
-        indentPrintln(serviceVar + " = (" + serviceClass + ") GlobalResourceLoader.getService(qname);");
-        closeBrace();
-        indentPrintln("return this." + serviceVar + ";");
-        closeBrace();
-        println("");
-        indentPrintln("private ContextInfo getContextInfo() {");
-        indentPrintln("    return ContextBuilder.loadContextInfo();");
-        indentPrintln("}");
+    public static String calcServiceContantsName(String serviceClass) {
+        if (serviceClass.equals("LRCService")) {
+            return "LrcServiceConstants";
+        }
+        return serviceClass + "Constants";
+    }
+    private static Map<String, String> SERVICE_CLASS_PACKAGE;
+
+    {
+        SERVICE_CLASS_PACKAGE = new HashMap<String, String>();
+        SERVICE_CLASS_PACKAGE.put("lum", "org.kuali.student.r2.lum.util.constants");
+        SERVICE_CLASS_PACKAGE.put("lum", "org.kuali.student.r2.lum.util.constants");
+        SERVICE_CLASS_PACKAGE.put("core", "org.kuali.student.r2.core.constants");
+        SERVICE_CLASS_PACKAGE.put("enrollment", "org.kuali.student.r2.common.util.constants");
+    }
+
+    public static String calcServiceContantsPackage(XmlType xmlType) {
+        if (xmlType.getJavaPackage().contains(".enrollment.")) {
+            return SERVICE_CLASS_PACKAGE.get("enrollment");
+        }
+        if (xmlType.getJavaPackage().contains(".core.")) {
+            return SERVICE_CLASS_PACKAGE.get("core");
+        }
+        if (xmlType.getJavaPackage().contains(".lum.")) {
+            return SERVICE_CLASS_PACKAGE.get("lum");
+        }
+        return "org.kuali.student.r2.common.util.constants";
     }
 
     private String calcGetMethod() {

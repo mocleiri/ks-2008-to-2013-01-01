@@ -22,6 +22,7 @@ import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
+import org.kuali.student.contract.model.Lookup;
 import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.Service;
 
@@ -47,6 +48,8 @@ public class AdminUiInquiryViewBeanWriter {
     private XmlType xmlType;
     private List<ServiceMethod> methods;
     private XmlWriter out;
+    String fileName;
+    String fullDirectoryPath;
 
     public AdminUiInquiryViewBeanWriter(ServiceContractModel model,
             String directory,
@@ -86,8 +89,12 @@ public class AdminUiInquiryViewBeanWriter {
         out.incrementIndent();
         out.indentPrintln("<import resource=\"classpath:ks-" + infoClass + "-dictionary.xml\"/>");
         out.indentPrintln("<import resource=\"classpath:UifKSDefinitions.xml\"/>");
+        out.indentPrintln("<!-- **********************************************");
+        out.indentPrintln("Paste bean definition below into the list of dataDictionaryPackages of org.kuali.rice.krad.bo.ModuleConfiguration ");
+        out.indentPrintln ("<value>classpath:" + fullDirectoryPath + "/" + fileName + "</value>");
+        out.indentPrintln("********************************************** -->");
         out.indentPrintln("<!-- InquiryView -->");
-        out.indentPrintln("<bean id=\"KS-" + infoClass + "-AdminInquiryView\" parent=\"KSInquryView\"");
+        out.indentPrintln("<bean id=\"KS-" + infoClass + "-AdminInquiryView\" parent=\"KSInquiryView\"");
         out.incrementIndent();
         out.indentPrintln("p:title=\"" + xmlType.getName() + " Inquiry\"");
         out.indentPrintln("p:dataObjectClassName=\"" + xmlType.getJavaPackage() + "." + infoClass + "\"");
@@ -134,24 +141,63 @@ public class AdminUiInquiryViewBeanWriter {
                 continue;
             }
             XmlType fieldType = finder.findXmlType(ms.getType());
-            if (!fieldType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
-                out.indentPrintln("                    <bean parent=\"Uif-DataField\" p:propertyName=\"" + fieldName + "\" />");
+            if (fieldType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
+                // complex sub-types such as rich text 
+                this.writeFields(fieldType, parents, fieldName);
                 continue;
             }
-            // complex sub-types such as rich text 
-            this.writeFields(fieldType, parents, fieldName);
+            out.indentPrint("                    <bean parent=\"Uif-DataField\" p:propertyName=\"" + fieldName + "\"");
+            if (!doLookup (ms.getLookup())) {
+                out.println(" />");
+                continue;
+            }
+            // process lookup
+            out.println(">");
+            Lookup lookup = ms.getLookup();
+            XmlType msType = finder.findXmlType(lookup.getXmlTypeName());
+            MessageStructure pk = this.getPrimaryKey(ms.getLookup().getXmlTypeName());
+            out.indentPrintln("                        <property name=\"inquiry\">");
+            out.indentPrintln("                            <bean parent=\"Uif-Inquiry\" p:dataObjectClassName=\"" 
+                    + msType.getJavaPackage() + "." + msType.getName() 
+                    + "\" p:inquiryParameters=\"" + fieldName + ":" + pk.getShortName() + "\" />");
+            out.indentPrintln("                        </property>");
+            out.indentPrintln("                    </bean>");
         }
         parents.pop();
     }
 
+        
+    public static boolean doLookup (Lookup lookup) {
+        if (lookup == null) {
+            return false;
+        }
+        
+        // can't do lookups on things we don't have inquirables on yet        
+        if (lookup.getXmlTypeName().equals("OrgInfo")) {
+            return false;
+        }
+        if (lookup.getXmlTypeName().equals("Principal")) {
+            return false;
+        }
+        return true;
+    }
+    
+    private MessageStructure getPrimaryKey(String xmlTypeName) {
+        for (MessageStructure ms : finder.findMessageStructures(xmlTypeName)) {
+            if (ms.isPrimaryKey()) {
+                return ms;
+            }
+        }
+        throw new NullPointerException ("could not find primary key for " + xmlTypeName);
+    }
     private void initXmlWriter() {
         String infoClass = GetterSetterNameCalculator.calcInitUpper(xmlType.getName());
         String serviceClass = GetterSetterNameCalculator.calcInitUpper(service.getName());
         String serviceVar = GetterSetterNameCalculator.calcInitLower(service.getName());
         String serviceContract = service.getImplProject() + "." + service.getName();
 
-        String path = AdminUiInquirableWriter.calcPackage(servKey, rootPackage, xmlType).replace('.', '/');
-        String fileName = infoClass + "AdminInquiryView.xml";
+        fullDirectoryPath = AdminUiInquirableWriter.calcPackage(servKey, rootPackage, xmlType).replace('.', '/');
+        fileName = infoClass + "AdminInquiryView.xml";
 
         File dir = new File(this.directory);
 
@@ -162,7 +208,7 @@ public class AdminUiInquiryViewBeanWriter {
             }
         }
 
-        String dirStr = this.directory + "/" + "resources" + "/" + path;
+        String dirStr = this.directory + "/" + "resources" + "/" + fullDirectoryPath;
         File dirFile = new File(dirStr);
         if (!dirFile.exists()) {
             if (!dirFile.mkdirs()) {

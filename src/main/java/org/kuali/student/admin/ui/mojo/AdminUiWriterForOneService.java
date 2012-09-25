@@ -23,6 +23,8 @@ import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.ServiceMethod;
 import org.kuali.student.contract.model.XmlType;
 import org.kuali.student.contract.model.util.ModelFinder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,6 +32,9 @@ import org.kuali.student.contract.model.util.ModelFinder;
  */
 public class AdminUiWriterForOneService {
 
+
+	private static final Logger log = LoggerFactory.getLogger(AdminUiWriterForOneService.class);
+    
     private ServiceContractModel model;
     private ModelFinder finder;
     private String directory;
@@ -54,13 +59,17 @@ public class AdminUiWriterForOneService {
      */
     public void write() {
         List<ServiceMethod> methods = finder.getServiceMethodsInService(servKey);
-        if (methods.size() == 0) {
-            System.out.println("No methods defined for servKey: " + servKey);
+        if (methods.isEmpty ()) {
+            log.warn("No methods defined for servKey: " + servKey);
             return;
         }
         Set<XmlType> types = this.getMainXmlTypesUsedByService(methods);
+        if (types.isEmpty()) {
+            log.warn("No types defined for servKey: " + servKey);
+            return;
+        }
         // the main servKey
-        System.out.println("Generating admin UI for " + servKey);
+        log.info("Generating admin UI for " + types.size() + " in " + servKey);
         for (XmlType type : types) {
             new AdminUiInquirableWriter(model, directory, rootPackage, servKey, type, methods).write();
             new AdminUiLookupableWriter(model, directory, rootPackage, servKey, type, methods).write();
@@ -83,13 +92,13 @@ public class AdminUiWriterForOneService {
                 continue;
             }
             // TYPE only should show up on type service
-            if (!returnType.getName().equalsIgnoreCase("TypeInfo")) {
+            if (returnType.getName().equalsIgnoreCase("TypeInfo")) {
                 if (!servKey.equalsIgnoreCase("type")) {
                     continue;
                 }
             }
             // State only should show up on type service
-            if (!returnType.getName().equalsIgnoreCase("StateInfo")) {
+            if (returnType.getName().equalsIgnoreCase("StateInfo")) {
                 if (!servKey.equalsIgnoreCase("state")) {
                     continue;
                 }

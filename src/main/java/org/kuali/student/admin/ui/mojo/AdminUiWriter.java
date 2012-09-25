@@ -63,47 +63,6 @@ public class AdminUiWriter {
         for (Service service : filterServices()) {
             new AdminUiWriterForOneService(model, directory, rootPackage, service.getKey()).write();
         }
-        
-//        // the Info interfaces's
-//        System.out.println("Generating common Info interfaces");
-//        for (XmlType xmlType : getXmlTypesUsedByMoreThanOneByService()) {
-//            System.out.println("Generating info interface for " + xmlType.getName());
-//            new PureJavaInfcInfcWriter(model, directory, rootPackage, xmlType.getService(), xmlType).write();
-//            new PureJavaInfcBeanWriter(model, directory, rootPackage, xmlType.getService(), xmlType).write();
-//        }
-
-//  exceptions
-        // Decided to just use the exisiting exceptions that are hand crafted
-        // no need to generate
-//  for (ServiceMethodError error : getServiceMethodErrors ().values ())
-//  {
-//   System.out.println ("generating exception class: " + error.getType ());
-//   new ServiceExceptionWriter (model, directory, rootPackage, error).write ();
-//  }
-
-    }
-
-    private Set<XmlType> getXmlTypesUsedByMoreThanOneByService() {
-        Set<XmlType> set = new HashSet();
-        for (XmlType type : model.getXmlTypes()) {
-            if (type.getService().contains(",")) {
-                if (type.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
-                    System.out.println(type.getName() + "==>" + type.getService());
-                    set.add(type);
-                }
-            }
-        }
-        return set;
-    }
-
-    private Map<String, ServiceMethodError> getServiceMethodErrors() {
-        Map<String, ServiceMethodError> errors = new HashMap();
-        for (ServiceMethod method : model.getServiceMethods()) {
-            for (ServiceMethodError error : method.getErrors()) {
-                errors.put(error.getType(), error);
-            }
-        }
-        return errors;
     }
 
     private List<Service> filterServices() {
