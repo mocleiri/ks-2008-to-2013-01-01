@@ -166,7 +166,7 @@
     </bean>
 
     <bean id="atpSearchableDao"
-          class="org.kuali.student.r1.core.atp.dao.impl.AtpDaoImpl">
+          class="org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl">
         <property name="em" ref="atpEntityManager"/>
     </bean>
 
@@ -181,8 +181,9 @@
           class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:atp-search-config.xml" />
     </bean>
-
-    <bean id="ks.exp.atpService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+    
+<!--THIS IS CONFIGURED in ks-enorll-context.xml-->
+<!--    <bean id="ks.exp.atpService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -193,6 +194,29 @@
                 <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
+    </bean>-->
+
+    <!-- Type Service config -->
+    <bean id="typeEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Type"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/type-persistence.xml"/>
+        <property name="dataSource" ref="coreDataSource"/>
+    </bean>
+
+    <bean id="typeEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="typeEntityManagerFactory"/>
+    </bean>
+
+    <bean id="typeDao" class="org.kuali.student.r2.core.class1.type.dao.TypeDao">
+        <property name="em" ref="typeEntityManager" />
+    </bean>
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
+        <property name="em" ref="typeEntityManager" />
+    </bean>
+
+    <bean id="typeServiceImpl" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+        <property name="typeDao" ref="typeDao"/>
+        <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     </bean>
 
     <!-- Kim identity service atpService -->
@@ -458,8 +482,37 @@
     </bean>
 
     <!-- Subject Code service -->
-    <bean id="subjectCodeServiceImpl"
-          class="org.kuali.student.r1.core.subjectcode.service.impl.MockSubjectCodeServiceImpl"/>
+    <bean id="subjectCodeEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="SubjectCode"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/subjectcode-persistence.xml" />
+        <property name="dataSource" ref="coreDataSource" />
+    </bean>
+
+    <bean id="subjectCodeEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="subjectCodeEntityManagerFactory" />
+    </bean>
+
+    <bean id="subjectCodeDao"
+          class="org.kuali.student.r1.core.subjectcode.dao.SubjectCodeDao">
+        <property name="em" ref="subjectCodeEntityManager" />
+    </bean>
+
+    <bean id="subjectCodeJoinOrgDao"
+          class="org.kuali.student.r1.core.subjectcode.dao.SubjectCodeJoinOrgDao">
+        <property name="em" ref="subjectCodeEntityManager" />
+    </bean>
+
+    <bean id="subjectCodeServiceImpl" class="org.kuali.student.r1.core.subjectcode.service.impl.SubjectCodeServiceImpl" >
+        <property name="cachingEnabled" value="false"/>
+        <property name="searchManager" ref="subjectCodeSearchManager"/>
+        <property name="subjectCodeDao" ref="subjectCodeDao"/>
+        <property name="subjectCodeJoinOrgDao" ref="subjectCodeJoinOrgDao"/>
+    </bean>
+
+    <bean id="subjectCodeSearchManager"
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:subjectcode-search-config.xml" />
+    </bean>
 
     <bean id="ks.exp.subjectCodeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
@@ -545,9 +598,9 @@
     <bean id="atpServiceClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r1.core.atp.service.AtpService"/>
+                  value="org.kuali.student.r2.core.atp.service.AtpService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/atpr1}AtpServiceR1"/>
+                  value="{http://student.kuali.org/wsdl/atp}AtpService"/>
     </bean>
 
 

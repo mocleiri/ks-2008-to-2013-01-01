@@ -1,20 +1,41 @@
-package org.kuali.student.r2.common.dao;
+/*
+ * Copyright 2011 The Kuali Foundation
+ *
+ * Licensed under the the Educational Community License, Version 1.0
+ * (the "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+package org.kuali.student.r2.common.dao;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.student.r2.common.entity.BaseEntity;
+import org.kuali.student.r2.common.entity.PersistableEntity;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+
 /**
- * @author Igor
+ * @author Kuali Student Team
  */
-public class GenericEntityDao<T> implements EntityDao<T> {
+public class GenericEntityDao<T extends PersistableEntity<String>> implements EntityDao<String,T> {
 
     /**
      * Entity class.
@@ -29,14 +50,83 @@ public class GenericEntityDao<T> implements EntityDao<T> {
     }
 
     @Override
-    public T find(Serializable primaryKey) {
+    public T find(String primaryKey) {
         return em.find(entityClass, primaryKey);
     }
 
     @Override
-    public List<T> findByIds(List<? extends Serializable> primaryKeys) throws DoesNotExistException {
+    public List<T> findByIds(String primaryKeyMemberName, List<String> primaryKeys) throws DoesNotExistException {
+    	
+		// fix for jira KSENROLL-2949
+		if (primaryKeys.isEmpty())
+			return new ArrayList<T>();
+		
+		Set<String>primaryKeySet = new HashSet<String>(primaryKeys.size());
+		// remove duplicates from the key list
+		primaryKeySet.addAll(primaryKeys);
+
+		String queryString = "from " + entityClass.getSimpleName() + " where "
+				+ primaryKeyMemberName + " in (:ids)";
+		
+		List<T> resultList = em.createQuery(queryString)
+				.setParameter("ids", primaryKeySet).getResultList();
+
+		verifyResults(resultList, primaryKeySet);
+
+		return resultList;
+    }
+
+    private void verifyResults(List<T> resultList, Set<String> primaryKeys) throws DoesNotExistException {
+
+    	 if (resultList.size() == 0)
+         	throw new DoesNotExistException("No data was found for : " + StringUtils.join(primaryKeys, ", "));
+    	 
+         else if (resultList.size() != primaryKeys.size()) {
+        	 // only found some of the keys given.
+         	Set<String> unmatchedKeySet = new HashSet<String> ();
+         
+         	unmatchedKeySet.addAll(primaryKeys);
+         	
+         	for (T t : resultList) {
+ 				
+         		unmatchedKeySet.remove(t.getId());
+ 			}
+         	
+         	throw new DoesNotExistException("Missing data for : " + StringUtils.join(unmatchedKeySet.iterator(), ", "));
+         	
+         }
+	}
+
+	@Override
+    public List<T> findByIds(List<String> primaryKeys) throws DoesNotExistException {
+
+        if(primaryKeys.size() >= 1000){
+            return this.findByIdsMaxKeys(primaryKeys);
+        } else {
+            return this.findByIds("id", primaryKeys); // faster but has a limit of 1000 in oracle 10g
+        }
+    }
+
+    /**
+     * Use this method if the size of primary keys >= 1000. 1000 is the "in" limit for many databases.
+     *
+     * @param primaryKeys
+     * @return
+     * @throws DoesNotExistException
+     */
+    protected List<T> findByIdsMaxKeys(List<String> primaryKeys) throws DoesNotExistException {
         List<T> resultList = new ArrayList<T>();
-        for (Serializable primaryKey : primaryKeys) {
+
+     // fix for jira KSENROLL-2949
+        if (primaryKeys.isEmpty())
+         	return new ArrayList<T>();
+        
+        Set<String>primaryKeySet = new HashSet<String>(primaryKeys.size());
+		// remove duplicate keys
+		primaryKeySet.addAll(primaryKeys);
+
+        
+        for (String primaryKey : primaryKeys) {
 
             T entity = find(primaryKey);
 
@@ -47,8 +137,12 @@ public class GenericEntityDao<T> implements EntityDao<T> {
             }
             resultList.add(entity);
         }
+        
+        verifyResults (resultList, primaryKeySet);
+        
         return resultList;
     }
+
 
     @Override
     @SuppressWarnings("unchecked")
@@ -77,11 +171,11 @@ public class GenericEntityDao<T> implements EntityDao<T> {
     }
 
     @SuppressWarnings("unchecked")
-    protected <K extends T> Class<K> getEntityClass() {
+    protected <C extends T> Class<C> getEntityClass() {
         if (entityClass == null) {
             entityClass = (Class<T>) getEntityType(this);
         }
-        return (Class<K>) entityClass;
+        return (Class<C>) entityClass;
     }
 
     private Type getEntityType(Object object) {

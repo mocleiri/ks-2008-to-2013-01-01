@@ -12,7 +12,10 @@ import org.kuali.student.r2.core.scheduling.infc.ScheduleRequest;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @Version 2.0
@@ -63,8 +66,7 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
         this.fromDto(scheduleRequest);
     }
 
-    public List<Object> fromDto(ScheduleRequest scheduleRequest) {
-        List<Object> orphansToDelete = new ArrayList<Object>();
+    public void fromDto(ScheduleRequest scheduleRequest) {
         this.setSchedReqState(scheduleRequest.getStateKey());
         this.setName(scheduleRequest.getName());
         this.setRefObjectId(scheduleRequest.getRefObjectId());
@@ -77,38 +79,27 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
             this.setPlain(null);
         }
 
-        //Map the existing cmp relations by their id
-        Map<String,ScheduleRequestComponentEntity> existingCmpEntities = new HashMap<String,ScheduleRequestComponentEntity>();
-        if(scheduleRequestComponents != null){
-            for(ScheduleRequestComponentEntity cmpEntity : scheduleRequestComponents){
-                existingCmpEntities.put(cmpEntity.getId(),cmpEntity);
-            }
+        //Clear out the current list
+        if(scheduleRequestComponents == null) {
+            scheduleRequestComponents = new ArrayList<ScheduleRequestComponentEntity>();
+        }
+        else {
+            scheduleRequestComponents.clear();
         }
 
-        //Clear out the current list
-        scheduleRequestComponents = new ArrayList<ScheduleRequestComponentEntity>();
         if(scheduleRequest.getScheduleRequestComponents() != null) {
             for(ScheduleRequestComponent srComponent :  scheduleRequest.getScheduleRequestComponents()){
-                ScheduleRequestComponentEntity srCmpEntity;
-                if(existingCmpEntities.containsKey(srComponent.getId())){
-                    srCmpEntity = existingCmpEntities.remove(srComponent.getId());
-                    orphansToDelete.addAll(srCmpEntity.fromDto(srComponent));
-                }else{
-                    srCmpEntity = new ScheduleRequestComponentEntity(srComponent);
-                    srCmpEntity.setScheduleRequest(this);
-                }
-
+                ScheduleRequestComponentEntity srCmpEntity = new ScheduleRequestComponentEntity(srComponent);
+                srCmpEntity.setScheduleRequest(this);
                 scheduleRequestComponents.add(srCmpEntity);
             }
         }
 
-        //Now we need to delete the leftovers (orphaned components)
-        orphansToDelete.addAll(existingCmpEntities.values());
+        this.setAttributes(new HashSet<ScheduleRequestAttributeEntity>());
+        for (Attribute att : scheduleRequest.getAttributes()) {
+            this.getAttributes().add(new ScheduleRequestAttributeEntity(att, this));
+        }
 
-        // Merge attributes into entity and add leftovers to be deleted
-        orphansToDelete.addAll(TransformUtility.mergeToEntityAttributes(ScheduleRequestAttributeEntity.class, scheduleRequest, this));
-
-        return orphansToDelete;
     }
 
     public ScheduleRequestInfo toDto() {

@@ -1,10 +1,16 @@
 package org.kuali.student.r2.core.scheduling.model;
 
-import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.entity.BaseEntity;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 
-import javax.persistence.*;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +20,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "KSEN_SCHED_RQST_CMP")
-public class ScheduleRequestComponentEntity extends MetaEntity {
+public class ScheduleRequestComponentEntity extends BaseEntity {
     @ElementCollection
     @CollectionTable(name ="KSEN_SCHED_RQST_CMP_BLDG",joinColumns = @JoinColumn(name = "CMP_ID"))
     @Column(name="BUILDING_ID")
@@ -49,12 +55,18 @@ public class ScheduleRequestComponentEntity extends MetaEntity {
     @JoinColumn(name = "SCHED_RQST_ID")
     private ScheduleRequestEntity scheduleRequest;
 
+    @Column(name = "TBA_IND")
+    private Boolean isTBA;
+
     public ScheduleRequestComponentEntity() {
     }
 
     public ScheduleRequestComponentEntity(ScheduleRequestComponent scheduleRequestComponent) {
         super();
-        this.setId(scheduleRequestComponent.getId());
+
+        setId(scheduleRequestComponent.getId());
+        setTBA(scheduleRequestComponent.getIsTBA());
+
         fromDto(scheduleRequestComponent);
     }
 
@@ -98,6 +110,7 @@ public class ScheduleRequestComponentEntity extends MetaEntity {
     public ScheduleRequestComponentInfo toDto() {
         ScheduleRequestComponentInfo scheduleRequestComponentInfo = new ScheduleRequestComponentInfo();
         scheduleRequestComponentInfo.setId(this.getId());
+        scheduleRequestComponentInfo.setIsTBA(getTBA());
 
         if(buildingIds != null){
             scheduleRequestComponentInfo.setBuildingIds(addIds(buildingIds));
@@ -187,5 +200,13 @@ public class ScheduleRequestComponentEntity extends MetaEntity {
 
     public void setScheduleRequest(ScheduleRequestEntity scheduleRequest) {
         this.scheduleRequest = scheduleRequest;
+    }
+
+    public Boolean getTBA() {
+        return isTBA;
+    }
+
+    public void setTBA(Boolean TBA) {
+        isTBA = TBA;
     }
 }

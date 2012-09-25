@@ -1,17 +1,13 @@
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.jws.WebParam;
-
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
 import org.kuali.student.r1.common.dao.SearchableDao;
-import org.kuali.student.r1.common.search.dto.*;
-import org.kuali.student.r1.common.search.service.SearchDispatcher;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -26,7 +22,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -39,8 +34,14 @@ import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
-
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebParam;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AtpServiceImpl implements AtpService {
@@ -49,9 +50,11 @@ public class AtpServiceImpl implements AtpService {
     private AtpAtpRelationDao atpRelDao;
     private MilestoneDao milestoneDao;
     private AtpMilestoneRelationDao atpMilestoneRelationDao;
-    private CriteriaLookupService criteriaLookupService;
+    private CriteriaLookupService atpCriteriaLookupService;
+    private CriteriaLookupService milestoneCriteriaLookupService;
+    private CriteriaLookupService atpAtpRelationCriteriaLookupService;
     private SearchManager searchManager;
-    private SearchableDao searchableDao;     //Remove this, just a temp fix to get CM running.
+    private SearchableDao searchableDao;
 
     public AtpDao getAtpDao() {
         return atpDao;
@@ -85,13 +88,31 @@ public class AtpServiceImpl implements AtpService {
         this.atpMilestoneRelationDao = atpMilestoneRelationDao;
     }
 
-    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
-        this.criteriaLookupService = criteriaLookupService;
+    public CriteriaLookupService getAtpAtpRelationCriteriaLookupService() {
+        return atpAtpRelationCriteriaLookupService;
     }
 
-    public CriteriaLookupService getCriteriaLookupService() {
-        return criteriaLookupService;
+    public void setAtpAtpRelationCriteriaLookupService(CriteriaLookupService atpAtpRelationCriteriaLookupService) {
+        this.atpAtpRelationCriteriaLookupService = atpAtpRelationCriteriaLookupService;
     }
+
+    public CriteriaLookupService getAtpCriteriaLookupService() {
+        return atpCriteriaLookupService;
+    }
+
+    public void setAtpCriteriaLookupService(CriteriaLookupService atpCriteriaLookupService) {
+        this.atpCriteriaLookupService = atpCriteriaLookupService;
+    }
+
+    public CriteriaLookupService getMilestoneCriteriaLookupService() {
+        return milestoneCriteriaLookupService;
+    }
+
+    public void setMilestoneCriteriaLookupService(CriteriaLookupService milestoneCriteriaLookupService) {
+        this.milestoneCriteriaLookupService = milestoneCriteriaLookupService;
+    }
+
+    
 
     public SearchableDao getSearchableDao() {
         return searchableDao;
@@ -187,7 +208,13 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        return this.searchManager.search(searchRequest, searchableDao);
+        SearchResult searchResult = this.searchManager.search(searchRequest, searchableDao);
+        if (searchRequest.getSearchKey().equals("atp.search.advancedAtpSearch")){
+            //TODO: populate the duration en seasonal types.
+            /*"atp.resultColumn.atpSeasonalType" />
+			"atp.resultColumn.atpDurType"*/
+        }
+        return searchResult;
     }
 
 
@@ -235,7 +262,15 @@ public class AtpServiceImpl implements AtpService {
     public List<AtpInfo> getAtpsByDateAndType(Date searchDate, String searchTypeKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<AtpEntity> atps = atpDao.getByDateAndType(searchDate, searchTypeKey);
+
+        List<AtpInfo> result = new ArrayList<AtpInfo>(atps.size());
+        if (null != atps) {
+            for (AtpEntity entity : atps) {
+                result.add(entity.toDto());
+            }
+        }
+        return result;
     }
 
     @Override
@@ -293,6 +328,12 @@ public class AtpServiceImpl implements AtpService {
             throw new DoesNotExistException();
         }
 
+        if (atps.size() != atpIds.size()) {
+            Set<String> distinctIds = new HashSet<String>(atpIds);
+            if (atps.size() != distinctIds.size()) {                
+                throw new DoesNotExistException();
+            }
+        }
         List<AtpInfo> result = new ArrayList<AtpInfo>(atps.size());
         for (AtpEntity entity : atps) {
             if (entity == null) {
@@ -343,7 +384,12 @@ public class AtpServiceImpl implements AtpService {
         if (milestones == null) {
             throw new DoesNotExistException();
         }
-
+        if (milestones.size() != milestoneIds.size()) {
+            Set<String> distinctIds = new HashSet<String>(milestoneIds);
+            if (milestones.size() != distinctIds.size()) {                
+                throw new DoesNotExistException();
+            }
+        }
         List<MilestoneInfo> result = new ArrayList<MilestoneInfo>(milestones.size());
         for (MilestoneEntity entity : milestones) {
             if (entity == null) {
@@ -378,6 +424,11 @@ public class AtpServiceImpl implements AtpService {
             throw new InvalidParameterException(atpId);
         }
         List<String> ids = milestoneDao.getIdsByAtp(atpId);
+        
+        if (ids.size() == 0) // if there are no associated ids there are no milestones for this atp
+        	return new ArrayList<MilestoneInfo>();
+        
+        
         try {
             return this.getMilestonesByIds(ids, contextInfo);
         } catch (DoesNotExistException ex) {
@@ -422,21 +473,27 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForAtpIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-
-        return new ArrayList<String>();
+            OperationFailedException, PermissionDeniedException {      
+        List<String> ids = new ArrayList<String>();
+        GenericQueryResults<AtpEntity> results = atpCriteriaLookupService.lookup(AtpEntity.class, criteria);
+        for (AtpEntity entity : results.getResults()) {
+            ids.add(entity.getId());
+        }
+        return ids;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AtpInfo> searchForAtps(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         List<AtpInfo> atpInfos = new ArrayList<AtpInfo>();
-        GenericQueryResults<AtpEntity> results = criteriaLookupService.lookup(AtpEntity.class, criteria);
-
+        GenericQueryResults<AtpEntity> results = atpCriteriaLookupService.lookup(AtpEntity.class, criteria);
+        // TODO: remove this null check because the lookup service contract says the impl should never return null
         if (null != results && results.getResults().size() > 0) {
             for (AtpEntity atp : results.getResults()) {
                 atpInfos.add(atp.toDto());
@@ -529,10 +586,16 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForMilestoneIds(QueryByCriteria criteria, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        return null; //To change body of implemented methods use File | Settings | File Templates.
+            PermissionDeniedException {        
+        List<String> ids = new ArrayList<String>();
+        GenericQueryResults<MilestoneEntity> results = milestoneCriteriaLookupService.lookup(MilestoneEntity.class, criteria);
+        for (MilestoneEntity milestone : results.getResults()) {
+            ids.add(milestone.getId());
+        }
+        return ids;
     }
 
     @Override
@@ -541,8 +604,8 @@ public class AtpServiceImpl implements AtpService {
             OperationFailedException, PermissionDeniedException {
 
         List<MilestoneInfo> milestoneInfos = new ArrayList<MilestoneInfo>();
-        GenericQueryResults<MilestoneEntity> results = criteriaLookupService.lookup(MilestoneEntity.class, criteria);
-
+        GenericQueryResults<MilestoneEntity> results = milestoneCriteriaLookupService.lookup(MilestoneEntity.class, criteria);
+        // TODO: remove this null check since the lookupService says it will never return null
         if (null != results && results.getResults().size() > 0) {
             for (MilestoneEntity milestone : results.getResults()) {
                 milestoneInfos.add(milestone.toDto());
@@ -697,7 +760,29 @@ public class AtpServiceImpl implements AtpService {
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByIds(List<String> atpAtpRelationIds,
                                                             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<AtpAtpRelationInfo>();
+        List<AtpAtpRelationEntity> entities = this.atpRelDao.findByIds(atpAtpRelationIds);
+
+        if (entities == null) {
+            throw new DoesNotExistException();
+        }
+
+        if (entities.size() != atpAtpRelationIds.size()) {
+            Set<String> distinctIds = new HashSet<String>(atpAtpRelationIds);
+            if (entities.size() != distinctIds.size()) {                
+                throw new DoesNotExistException();
+            }
+        }
+        List<AtpAtpRelationInfo> result = new ArrayList<AtpAtpRelationInfo>(entities.size());
+        for (AtpAtpRelationEntity entity : entities) {
+            if (entity == null) {
+                // if one of the entities from "findByIds" is returned as null,
+                // then one of the keys in the list was not found
+                throw new DoesNotExistException();
+            }
+            result.add(entity.toDto());
+        }
+
+        return result;
     }
 
     @Override
@@ -746,19 +831,29 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForAtpAtpRelationIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-
-        return new ArrayList<String>();
+            PermissionDeniedException {    
+        List<String> ids = new ArrayList<String>();
+        GenericQueryResults<AtpAtpRelationEntity> results = atpAtpRelationCriteriaLookupService.lookup(AtpAtpRelationEntity.class, criteria);
+        for (AtpAtpRelationEntity entity : results.getResults()) {
+            ids.add(entity.getId());
+        }
+        return ids;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AtpAtpRelationInfo> searchForAtpAtpRelations(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-
-        return new ArrayList<AtpAtpRelationInfo>();
+            OperationFailedException, PermissionDeniedException {  
+        List<AtpAtpRelationInfo> infos = new ArrayList<AtpAtpRelationInfo>();
+        GenericQueryResults<AtpAtpRelationEntity> results = atpAtpRelationCriteriaLookupService.lookup(AtpAtpRelationEntity.class, criteria);
+        for (AtpAtpRelationEntity entity : results.getResults()) {
+            infos.add(entity.toDto());
+        }
+        return infos;
     }
 
     @Override

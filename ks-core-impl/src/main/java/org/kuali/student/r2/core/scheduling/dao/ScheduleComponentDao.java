@@ -1,5 +1,5 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
+ * Copyright 2011 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -13,16 +13,13 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r1.core.atp.entity;
+package org.kuali.student.r2.core.scheduling.dao;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
+import org.kuali.student.r2.core.scheduling.model.ScheduleComponentEntity;
 
-import org.kuali.student.r1.common.entity.RichText;
-
-@Deprecated
-@Entity
-@Table(name = "KSAP_RICH_TEXT_T")
-public class AtpRichText extends RichText {
-
+/**
+ * Schedule Component DAO
+ */
+public class ScheduleComponentDao extends GenericEntityDao<ScheduleComponentEntity> {
 }
