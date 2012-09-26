@@ -15,8 +15,14 @@
  */
 package org.kuali.student.enrollment.class1.lrc.service.impl;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -30,6 +36,10 @@ import org.kuali.student.r2.lum.lrc.service.LrcServiceBusinessLogic;
 import org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl;
 
 import java.util.*;
+
+import javax.jws.WebParam;
+import javax.xml.ws.RequestWrapper;
+import javax.xml.ws.ResponseWrapper;
 
 public class LrcServiceMockImpl implements LRCService, MockService {
 
@@ -701,4 +711,132 @@ public class LrcServiceMockImpl implements LRCService, MockService {
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
     }
+
+	@Override
+    public List<String> searchForResultScaleIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+	   throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    public List<ResultScaleInfo> searchForResultScales(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    public List<String> searchForResultValueIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    public List<ResultValueInfo> searchForResultValues(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    public List<String> searchForResultValuesGroupIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    public List<ResultValuesGroupInfo> searchForResultValuesGroups(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    @RequestWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchTypes", targetNamespace = "http://student.kuali.org/wsdl/search")
+    @ResponseWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchTypesResponse", targetNamespace = "http://student.kuali.org/wsdl/search")
+    public List<SearchTypeInfo> getSearchTypes()
+            throws OperationFailedException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    @RequestWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchType", targetNamespace = "http://student.kuali.org/wsdl/search")
+    @ResponseWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchTypeResponse", targetNamespace = "http://student.kuali.org/wsdl/search")
+    public SearchTypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    @RequestWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchTypesByResult", targetNamespace = "http://student.kuali.org/wsdl/search")
+    @ResponseWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchTypesByResultResponse", targetNamespace = "http://student.kuali.org/wsdl/search")
+    public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    @RequestWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchTypesByCriteria", targetNamespace = "http://student.kuali.org/wsdl/search")
+    @ResponseWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchTypesByCriteriaResponse", targetNamespace = "http://student.kuali.org/wsdl/search")
+    public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    @RequestWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchResultTypes", targetNamespace = "http://student.kuali.org/wsdl/search")
+    @ResponseWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchResultTypesResponse", targetNamespace = "http://student.kuali.org/wsdl/search")
+    public List<SearchResultTypeInfo> getSearchResultTypes()
+            throws OperationFailedException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    @RequestWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchResultType", targetNamespace = "http://student.kuali.org/wsdl/search")
+    @ResponseWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchResultTypeResponse", targetNamespace = "http://student.kuali.org/wsdl/search")
+    public SearchResultTypeInfo getSearchResultType(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    @RequestWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchCriteriaTypes", targetNamespace = "http://student.kuali.org/wsdl/search")
+    @ResponseWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchCriteriaTypesResponse", targetNamespace = "http://student.kuali.org/wsdl/search")
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+            throws OperationFailedException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    @RequestWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchCriteriaType", targetNamespace = "http://student.kuali.org/wsdl/search")
+    @ResponseWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.GetSearchCriteriaTypeResponse", targetNamespace = "http://student.kuali.org/wsdl/search")
+    public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+
+	@Override
+    @RequestWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.Search", targetNamespace = "http://student.kuali.org/wsdl/search")
+    @ResponseWrapper(className = "org.kuali.student.r1.common.search.service.jaxws.SearchResponse", targetNamespace = "http://student.kuali.org/wsdl/search")
+    public SearchResult search(SearchRequest searchRequest)
+            throws MissingParameterException {
+		throw new UnsupportedOperationException("operation not supported");
+    }
+    
+    
+    
 }
