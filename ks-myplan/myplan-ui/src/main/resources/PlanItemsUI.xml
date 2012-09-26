@@ -2812,7 +2812,6 @@
                                         <bean id="academic_planner_share" parent="Uif-InputField"
                                               p:propertyName="enableAdviserView" p:width="auto">
                                             <property name="onDocumentReadyScript" value="jQuery('#' + 'academic_planner_share').change(function(e) {
-                                                e.preventDefault();
                                                 myplanWriteHiddenToForm('methodToCall', 'academicPlanner', 'student_academic_planner_page_form');
                                                 jQuery('#student_academic_planner_page_form').ajaxSubmit();
                                             });"/>
