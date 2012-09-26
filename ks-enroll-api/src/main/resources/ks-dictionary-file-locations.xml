@@ -164,6 +164,14 @@
         <constructor-arg value="classpath:ks-ScheduleRequestComponentInfo-dictionary.xml" />
     </bean>
 
+    <bean id="scheduleInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ScheduleInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="scheduleComponentInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ScheduleComponentInfo-dictionary.xml" />
+    </bean>
+
     <bean id="timeSlotInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-TimeSlotInfo-dictionary.xml" />
     </bean>
@@ -177,6 +185,8 @@
             <list>
                 <bean parent="scheduleRequestInfoDictionaryLocation" />
                 <bean parent="scheduleRequestComponentInfoDictionaryLocation"/>
+                <bean parent="scheduleInfoDictionaryLocation" />
+                <bean parent="scheduleComponentInfoDictionaryLocation"/>
                 <bean parent="timeSlotInfoDictionaryLocation"/>
                 <bean parent="timeOfDayInfoDictionaryLocation"/>
             </list>
@@ -214,6 +224,8 @@
                 <bean parent="instructionInfoDictionaryLocation" />
                 <bean parent="scheduleRequestInfoDictionaryLocation" />
                 <bean parent="scheduleRequestComponentInfoDictionaryLocation"/>
+                <bean parent="scheduleInfoDictionaryLocation" />
+                <bean parent="scheduleComponentInfoDictionaryLocation"/>
                 <bean parent="timeSlotInfoDictionaryLocation"/>
                 <bean parent="timeOfDayInfoDictionaryLocation"/>
             </list>
