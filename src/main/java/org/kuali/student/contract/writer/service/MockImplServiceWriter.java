@@ -15,10 +15,20 @@
  */
 package org.kuali.student.contract.writer.service;
 
-import java.util.*;
-import org.kuali.student.contract.model.*;
+import org.kuali.student.contract.model.Service;
+import org.kuali.student.contract.model.ServiceContractModel;
+import org.kuali.student.contract.model.ServiceMethod;
+import org.kuali.student.contract.model.ServiceMethodError;
+import org.kuali.student.contract.model.ServiceMethodParameter;
+import org.kuali.student.contract.model.XmlType;
 import org.kuali.student.contract.model.util.ModelFinder;
 import org.kuali.student.contract.writer.JavaClassWriter;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -180,12 +190,10 @@ public class MockImplServiceWriter extends JavaClassWriter {
 
     /**
      * Write out the entire file
-     *
-     * @param out
      */
     public void write() {
         indentPrint("public class " + calcClassName(servKey));
-        println(" implements " + calcServiceInterfaceClassName(servKey));
+        println(" implements MockService, " + calcServiceInterfaceClassName(servKey));
         Service serv = finder.findService(servKey);
         importsAdd(serv.getImplProject() + "." + serv.getName());
         openBrace();
@@ -408,7 +416,8 @@ public class MockImplServiceWriter extends JavaClassWriter {
             indentPrintln(infoName + " copy = new " + infoName + "(" + infoParam.getName() + ");");
         }
         indentPrintln("if (copy.getId() == null) {");
-        indentPrintln("   copy.setId(" + mapName + ".size() + \"\");");
+        // indentPrintln("   copy.setId(" + mapName + ".size() + \"\");");
+        indentPrintln("   copy.setId(UUIDHelper.genStringUUID());");
         indentPrintln("}");
         if (contextParam != null) {
             indentPrintln("copy.setMeta(newMeta(" + contextParam.getName() + "));");
@@ -445,7 +454,8 @@ public class MockImplServiceWriter extends JavaClassWriter {
             indentPrintln(infoName + " copy = new " + infoName + "(" + infoParam.getName() + ");");
         }
         indentPrintln("if (copy.getId() == null) {");
-        indentPrintln("   copy.setId(" + mapName + ".size() + \"\");");
+        // indentPrintln("   copy.setId(" + mapName + ".size() + \"\");");
+        indentPrintln("   copy.setId(UUIDHelper.genStringUUID());");
         indentPrintln("}");
         if (contextParam != null) {
             indentPrintln("copy.setMeta(newMeta(" + contextParam.getName() + "));");
