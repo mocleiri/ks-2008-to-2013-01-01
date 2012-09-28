@@ -1,10 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.kuali.student.deployments</groupId>
         <artifactId>ks-deployments</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
+        <version>2.0.0-build-101</version>
     </parent>
     <groupId>org.kuali.student.db</groupId>
     <artifactId>ks-cfg-dbs</artifactId>
@@ -34,7 +34,6 @@
         <ks.impex.sql.plugin.skip>false</ks.impex.sql.plugin.skip>
         <ks.impex.ant.compatibility.mode>false</ks.impex.ant.compatibility.mode>
         <ks.impex.include.version.in.comment>false</ks.impex.include.version.in.comment>
-
         <ks.impex.generate.phase>generate-resources</ks.impex.generate.phase>
         <ks.impex.generate.sql.phase>${ks.impex.generate.phase}</ks.impex.generate.sql.phase>
         <ks.impex.generate.sql.oracle.phase>${ks.impex.generate.sql.phase}</ks.impex.generate.sql.oracle.phase>
@@ -43,7 +42,6 @@
         <ks.impex.generate.dtd.phase>${ks.impex.generate.phase}</ks.impex.generate.dtd.phase>
         <!-- This is the format dates will be exported/imported as -->
         <ks.impex.date.format>yyyyMMddHHmmss</ks.impex.date.format>
-
         <!-- Oracle specific properties -->
         <ks.impex.masterdb.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</ks.impex.masterdb.url>
         <ks.impex.masterdb.schema>KSMASTER_13</ks.impex.masterdb.schema>
@@ -59,12 +57,10 @@
         <ks.impex.oracle.error.sqlcode.userAlreadyExists>-01920</ks.impex.oracle.error.sqlcode.userAlreadyExists>
         <ks.impex.oracle.dba.username>master</ks.impex.oracle.dba.username>
         <ks.impex.oracle.dba.password>change_on_install</ks.impex.oracle.dba.password>
-
         <!-- Simple select query for validating connection properties -->
         <ks.impex.oracle.sql.validate>
             SELECT SYSDATE FROM DUAL
         </ks.impex.oracle.sql.validate>
-
         <!-- Drop the user, ignoring the Oracle error code for "user does not exist" -->
         <ks.impex.oracle.sql.drop>
             BEGIN
@@ -76,7 +72,6 @@
             END;
             /
         </ks.impex.oracle.sql.drop>
-
         <!-- Create an Oracle user with some sensible defaults -->
         <ks.impex.oracle.sql.create>
             CREATE USER ${ks.impex.username}
@@ -88,7 +83,6 @@
             ${ks.impex.oracle.quota} ON ${ks.impex.oracle.defaultTablespace}
             /
         </ks.impex.oracle.sql.create>
-
         <!-- Grant permissions needed for KS -->
         <ks.impex.oracle.sql.grants>
             GRANT CREATE PROCEDURE
@@ -637,41 +631,41 @@
                                 </goals>
                                 <configuration>
                                     <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.kuali.student.core</groupId>
-                                            <artifactId>ks-core-sql</artifactId>
-                                            <version>${ks.core.version}</version>
-                                            <includes>**\/*.sql</includes>
-                                            <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
-                                        </artifactItem>
-                                        <artifactItem>
-                                            <groupId>org.kuali.student.core</groupId>
-                                            <artifactId>ks-rice-sql</artifactId>
-                                            <version>${ks.core.version}</version>
-                                            <includes>**\/*.sql</includes>
-                                            <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
-                                        </artifactItem>
-                                        <artifactItem>
-                                            <groupId>org.kuali.student.lum</groupId>
-                                            <artifactId>ks-lum-sql</artifactId>
-                                            <version>${ks.lum.version}</version>
-                                            <includes>**\/*.sql</includes>
-                                            <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
-                                        </artifactItem>
-                                        <artifactItem>
-                                            <groupId>org.kuali.student.enroll</groupId>
-                                            <artifactId>ks-enroll-sql</artifactId>
-                                            <version>${ks.enroll.version}</version>
-                                            <includes>**\/*.sql</includes>
-                                            <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
-                                        </artifactItem>
-                                        <artifactItem>
-                                            <groupId>org.kuali.student.db</groupId>
-                                            <artifactId>ks-rice-db</artifactId>
-                                            <version>${project.version}</version>
-                                            <includes>**/oracle/*.sql</includes>
-                                            <outputDirectory>${project.build.directory}/gen/data/rice</outputDirectory>
-                                        </artifactItem>
+                                    <artifactItem>
+                                    <groupId>org.kuali.student.core</groupId>
+                                    <artifactId>ks-core-sql</artifactId>
+                                    <version>${ks.core.version}</version>
+                                    <includes>**\/*.sql</includes>
+                                    <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
+                                    </artifactItem>
+                                    <artifactItem>
+                                    <groupId>org.kuali.student.core</groupId>
+                                    <artifactId>ks-rice-sql</artifactId>
+                                    <version>${ks.core.version}</version>
+                                    <includes>**\/*.sql</includes>
+                                    <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
+                                    </artifactItem>
+                                    <artifactItem>
+                                    <groupId>org.kuali.student.lum</groupId>
+                                    <artifactId>ks-lum-sql</artifactId>
+                                    <version>${ks.lum.version}</version>
+                                    <includes>**\/*.sql</includes>
+                                    <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
+                                    </artifactItem>
+                                    <artifactItem>
+                                    <groupId>org.kuali.student.enroll</groupId>
+                                    <artifactId>ks-enroll-sql</artifactId>
+                                    <version>${ks.enroll.version}</version>
+                                    <includes>**\/*.sql</includes>
+                                    <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
+                                    </artifactItem>
+                                    <artifactItem>
+                                    <groupId>org.kuali.student.db</groupId>
+                                    <artifactId>ks-rice-db</artifactId>
+                                    <version>${project.version}</version>
+                                    <includes>**/oracle/*.sql</includes>
+                                    <outputDirectory>${project.build.directory}/gen/data/rice</outputDirectory>
+                                    </artifactItem>
                                     </artifactItems>
                                 </configuration>
                             </execution>
@@ -771,10 +765,10 @@
                                 </goals>
                                 <configuration>
                                     <fileset>
-                                        <basedir>${project.build.directory}/gen/data</basedir>
-                                        <includes>
-                                            <include>initial-db/*/*-create-schema.sql</include>
-                                        </includes>
+                                    <basedir>${project.build.directory}/gen/data</basedir>
+                                    <includes>
+                                    <include>initial-db/*/*-create-schema.sql</include>
+                                    </includes>
                                     </fileset>
                                 </configuration>
                             </execution>
@@ -786,10 +780,10 @@
                                 </goals>
                                 <configuration>
                                     <fileset>
-                                        <basedir>${project.build.directory}/gen/data</basedir>
-                                        <includes>
-                                            <include>initial-db/*/*data/*.sql</include>
-                                        </includes>
+                                    <basedir>${project.build.directory}/gen/data</basedir>
+                                    <includes>
+                                    <include>initial-db/*/*data/*.sql</include>
+                                    </includes>
                                     </fileset>
                                 </configuration>
                             </execution>
@@ -801,10 +795,10 @@
                                 </goals>
                                 <configuration>
                                     <fileset>
-                                        <basedir>${project.build.directory}/gen/data</basedir>
-                                        <includes>
-                                            <include>initial-db/*/*-constraints.sql</include>
-                                        </includes>
+                                    <basedir>${project.build.directory}/gen/data</basedir>
+                                    <includes>
+                                    <include>initial-db/*/*-constraints.sql</include>
+                                    </includes>
                                     </fileset>
                                 </configuration>
                             </execution>
@@ -816,10 +810,10 @@
                                 </goals>
                                 <configuration>
                                     <fileset>
-                                        <basedir>${project.build.directory}/gen/data</basedir>
-                                        <includes>
-                                            <include>upgrades/**/*.sql</include>
-                                        </includes>
+                                    <basedir>${project.build.directory}/gen/data</basedir>
+                                    <includes>
+                                    <include>upgrades/**/*.sql</include>
+                                    </includes>
                                     </fileset>
                                 </configuration>
                             </execution>
