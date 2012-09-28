@@ -1,10 +1,10 @@
-# module = ks-api branch Path = sandbox/enrollment/ks-api/branches/M5 revision = 36447
-ks-api::sandbox_enrollment_ks-api_branches_M5::bfbde5e1f0823f87059ebab8ed0b9b35119cb870
-# module = ks-core branch Path = sandbox/enrollment/ks-core/trunk revision = 36447
-ks-core::sandbox_enrollment_ks-core_trunk::fd8d0503f78ffb3c240b7fc7a04981cb76c1ad7d
-# module = ks-lum branch Path = sandbox/enrollment/ks-lum/trunk revision = 36447
-ks-lum::sandbox_enrollment_ks-lum_trunk::8a4825880e7ae3d8258537abfac26ef32f71ff14
-# module = ks-enroll branch Path = sandbox/enrollment/ks-enroll/trunk revision = 36447
-ks-enroll::sandbox_enrollment_ks-enroll_trunk::4777cd5e9cc1d21bd62e49dd6c03f470ed8eb533
-# module = ks-deployments branch Path = sandbox/enrollment/ks-deployments/trunk revision = 36447
-ks-deployments::sandbox_enrollment_ks-deployments_trunk::8775c13cedd316fcb4f94230e76ba0b8ba89ff3a
+# module = ks-api branch Path = sandbox/enrollment/ks-api/tags/builds/ks-api-2.0/2.0.0-M5/build-13 revision = 37211
+ks-api::sandbox_enrollment_ks-api_tags_builds_ks-api-2.0_2.0.0-M5_build-13::2069da7e45dcafc4e974d29312b923b6f8195fa9
+# module = ks-core branch Path = sandbox/enrollment/ks-core/tags/builds/ks-core-2.0/2.0.0/build-13 revision = 37211
+ks-core::sandbox_enrollment_ks-core_tags_builds_ks-core-2.0_2.0.0_build-13::c6ca85818477c127ba91d382e93aa5ae55d0a311
+# module = ks-deployments branch Path = sandbox/enrollment/ks-deployments/tags/builds/ks-deployments-2.0/2.0.0/build-13 revision = 37211
+ks-deployments::sandbox_enrollment_ks-deployments_tags_builds_ks-deployments-2.0_2.0.0_build-13::4d1097a6542827e3c2702a0dc6495ba4e9cba9ce
+# module = ks-enroll branch Path = sandbox/enrollment/ks-enroll/tags/builds/ks-enroll-1.0/1.0.0/build-13 revision = 37211
+ks-enroll::sandbox_enrollment_ks-enroll_tags_builds_ks-enroll-1.0_1.0.0_build-13::38af472ff3067619ad0838f2809380df6b95322c
+# module = ks-lum branch Path = sandbox/enrollment/ks-lum/tags/builds/ks-lum-2.0/2.0.0/build-13 revision = 37211
+ks-lum::sandbox_enrollment_ks-lum_tags_builds_ks-lum-2.0_2.0.0_build-13::1077273bb0effcc1e8ea5820b1f853a516327844
