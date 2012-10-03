@@ -11,6 +11,18 @@
         <version>1.0.2-SNAPSHOT</version>
     </parent>
 
+
+    <repositories>
+        <!-- Repository for uw common security -->
+        <repository>
+            <id>uw-kuali</id>
+            <name>UW Kuali Repository</name>
+            <url>http://kualibuild1.cac.washington.edu/maven</url>
+        </repository>
+    </repositories>
+
+
+
     <!-- REMOVE ME <properties> <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
          <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
          </properties> -->
