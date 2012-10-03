@@ -18,6 +18,7 @@ package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -98,4 +99,69 @@ public abstract class HasAttributesInfo
         }
         return results;
     }
+
+    /**
+     * This replaces all existing attributes with the matching key
+     * with a single new attribute.
+     * It will reuse the element if it exists.
+     * @param key
+     * @param value
+     */
+    public void setAttributeValue(String key, String value) {
+        AttributeInfo attributeInfo = null;
+
+        //Clear the list of old attributes with that key
+        for(Iterator<AttributeInfo> iter = getAttributes().iterator();iter.hasNext();){
+            attributeInfo = iter.next();
+            if(attributeInfo.getKey().equals(key)) {
+                iter.remove();
+            }
+        }
+
+        //If the attribute key existed, just update the value so we can reuse ids
+        if(attributeInfo == null){
+            attributeInfo = new AttributeInfo(key,value);
+        }else{
+            attributeInfo.setValue(value);
+        }
+
+        //Add the new value back to the list
+        attributes.add(attributeInfo);
+    }
+
+    /**
+     * This replaces all existing attributes with the matching key
+     * with the new list of attribute values
+     * It reuses ids and elements as much as it can.
+     * @param key
+     * @param values
+     */
+    public void setAttributeValueList(String key, List<String> values) {
+
+        List<AttributeInfo> existingAttributes = new ArrayList<AttributeInfo>();
+
+        //Clear the list of old attributes with given key
+        for(Iterator<AttributeInfo> iter = getAttributes().iterator();iter.hasNext();){
+            AttributeInfo attributeInfo = iter.next();
+            if(attributeInfo.getKey().equals(key)) {
+                existingAttributes.add(attributeInfo);
+                iter.remove();
+            }
+        }
+
+        //Add the new values reusing what objects we can
+        Iterator<AttributeInfo> iter = existingAttributes.iterator();
+        AttributeInfo attributeInfo;
+
+        for(String value:values){
+            if(iter.hasNext()){
+                attributeInfo = iter.next();
+                attributeInfo.setValue(value);
+            }else{
+                attributeInfo = new AttributeInfo(key,value);
+            }
+            attributes.add(attributeInfo);
+        }
+    }
+
 }
