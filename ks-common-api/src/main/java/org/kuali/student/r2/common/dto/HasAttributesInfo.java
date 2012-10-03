@@ -112,8 +112,9 @@ public abstract class HasAttributesInfo
 
         //Clear the list of old attributes with that key
         for(Iterator<AttributeInfo> iter = getAttributes().iterator();iter.hasNext();){
-            attributeInfo = iter.next();
-            if(attributeInfo.getKey().equals(key)) {
+            AttributeInfo attr = iter.next();
+            if(attr.getKey().equals(key)) {
+                attributeInfo = attr;
                 iter.remove();
             }
         }
