@@ -1080,9 +1080,7 @@
     </bean>
 
     <!-- Room Service Mock Impl -->
-    <bean id="roomServiceMockImpl" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5">
-        <property name="buildingMap" ref="buildingMap"/>
-        <property name="roomMap" ref="roomMap"/>
+    <bean id="roomServiceMockImpl" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImpl">
     </bean>
 
     <bean id="ks.exp.roomService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
