@@ -16,29 +16,19 @@
 
 package org.kuali.student.enrollment.class1.lui.service.decorators;
 
-import java.util.List;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
+import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
-import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
-
+import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import java.util.List;
 
 
 public class LuiServiceDecorator 
@@ -393,5 +383,155 @@ public class LuiServiceDecorator
                PermissionDeniedException {
 
         return getNextDecorator().deleteLuiCapacity(luiCapacityId, contextInfo);
+    }
+
+    @Override
+    public StatusInfo removeLuiFromLuiSet(String luiId, String luiSetId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            UnsupportedActionException {
+        return getNextDecorator().removeLuiFromLuiSet(luiId, luiSetId, contextInfo);
+    }
+
+    @Override
+    public StatusInfo addLuisToLuiSet(List<String> luiSetIds, String luiSetId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            UnsupportedActionException {
+        return getNextDecorator().addLuisToLuiSet(luiSetIds, luiSetId, contextInfo);
+    }
+
+    @Override
+    public StatusInfo addLuiToLuiSet(String luiId, String luiSetId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            UnsupportedActionException {
+        return getNextDecorator().addLuiToLuiSet(luiId, luiSetId, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteLuiSet(String luiSetId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().deleteLuiSet(luiSetId, contextInfo);
+    }
+
+    @Override
+    public LuiSetInfo updateLuiSet(String luiSetId, LuiSetInfo luiSetInfo, ContextInfo contextInfo)
+            throws CircularRelationshipException,
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            UnsupportedActionException,
+            VersionMismatchException {
+        return getNextDecorator().updateLuiSet(luiSetId, luiSetInfo, contextInfo);
+    }
+
+    @Override
+    public LuiSetInfo createLuiSet(String luiSetTypeKey, LuiSetInfo luiSetInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            UnsupportedActionException {
+        return getNextDecorator().createLuiSet(luiSetTypeKey, luiSetInfo, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLuiSet(String validationTypeKey, String luiSetTypeKey, LuiSetInfo luiSetInfo, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().validateLuiSet(validationTypeKey, luiSetTypeKey, luiSetInfo, contextInfo);
+    }
+
+    @Override
+    public Boolean isLuiInLuiSet(String luiId, String luiSetId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().isLuiInLuiSet(luiId, luiSetId, contextInfo);
+    }
+
+    @Override
+    public List<String> getLuiIdsFromLuiSet(String luiSetId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().getLuiIdsFromLuiSet(luiSetId, contextInfo);
+    }
+
+    @Override
+    public List<LuiInfo> getLuisFromLuiSet(String luiSetId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().getLuisFromLuiSet(luiSetId, contextInfo);
+    }
+
+    @Override
+    public List<LuiSetInfo> getLuiSetsByIds(List<String> luiSetIds, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().getLuiSetsByIds(luiSetIds, contextInfo);
+    }
+
+    @Override
+    public LuiSetInfo getLuiSet(String luiSetId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().getLuiSet(luiSetId, contextInfo);
+    }
+
+    @Override
+    public TypeInfo getLuiSetType(String luiSetTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().getLuiSetType(luiSetTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getLuiSetTypes(ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().getLuiSetTypes(contextInfo);
     }
 }

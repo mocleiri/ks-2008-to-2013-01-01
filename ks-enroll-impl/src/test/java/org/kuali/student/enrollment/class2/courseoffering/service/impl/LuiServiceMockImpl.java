@@ -22,18 +22,17 @@ import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import javax.jws.WebParam;
+import java.util.*;
 
 /**
  * @author nwright
@@ -42,13 +41,23 @@ import java.util.Set;
 public class LuiServiceMockImpl 
     implements LuiService, MockService {
 
+    ////////////////////////
+    // Data Variables
+    ////////////////////////
+
     private Map<String, LuiInfo> luis = new LinkedHashMap<String, LuiInfo>();
     private Map<String, LuiLuiRelationInfo> luiLuiRelations = new LinkedHashMap<String, LuiLuiRelationInfo>();
+    private Map<String, LuiSetInfo> luiSetInfoMap = new LinkedHashMap<String, LuiSetInfo>();
+
+    //////////////////////////
+    // Implementing Methods
+    //////////////////////////
 
     @Override
     public void clear() {
         this.luis.clear();
         this.luiLuiRelations.clear();
+        this.luiSetInfoMap.clear();
     }
 
     @Override
@@ -368,5 +377,145 @@ public class LuiServiceMockImpl
     @Override
     public StatusInfo deleteLuiCapacity(String luiCapacityId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<TypeInfo> getLuiSetTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public TypeInfo getLuiSetType(@WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public LuiSetInfo getLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (!this.luiSetInfoMap.containsKey(luiSetId)) {
+            throw new DoesNotExistException(luiSetId);
+        }
+        return new LuiSetInfo(this.luiSetInfoMap.get (luiSetId));
+    }
+
+    @Override
+    public List<LuiSetInfo> getLuiSetsByIds(@WebParam(name = "luiSetIds") List<String> luiSetIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LuiSetInfo> list = new ArrayList<LuiSetInfo> ();
+        for (String id: luiSetIds) {
+            list.add (this.getLuiSet(id, contextInfo));
+        }
+        return list;
+    }
+
+    @Override
+    public List<LuiInfo> getLuisFromLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LuiInfo> luiInfos = new ArrayList<LuiInfo>();
+        LuiSetInfo luiSetInfo = getLuiSet(luiSetId, contextInfo);
+        for (String id: luiSetInfo.getLuiIds()) {
+            LuiInfo luiInfo = getLui(id, contextInfo);
+            luiInfos.add(luiInfo);
+        }
+        return luiInfos;
+    }
+
+    @Override
+    public List<String> getLuiIdsFromLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> luiIds = new ArrayList<String>();
+        LuiSetInfo luiSetInfo = getLuiSet(luiSetId, contextInfo);
+        for (String id: luiSetInfo.getLuiIds()) {
+            luiIds.add(id);
+        }
+        return luiIds;
+    }
+
+    @Override
+    public Boolean isLuiInLuiSet(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        LuiSetInfo luiSetInfo = getLuiSet(luiSetId, contextInfo);
+        for (String id: luiSetInfo.getLuiIds()) {
+            if (id.equals(luiId)) return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLuiSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "LuiSetInfo") LuiSetInfo LuiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public LuiSetInfo createLuiSet(@WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException {
+        // create
+        if (!luiSetTypeKey.equals (luiSetInfo.getTypeKey())) {
+            throw new InvalidParameterException ("The type parameter does not match the type on the info object");
+        }
+        LuiSetInfo copy = new LuiSetInfo(luiSetInfo);
+        if (copy.getId() == null) {
+            copy.setId(UUIDHelper.genStringUUID());
+        }
+        copy.setMeta(newMeta(contextInfo));
+        luiSetInfoMap.put(copy.getId(), copy);
+        return new LuiSetInfo(copy);
+    }
+
+    @Override
+    public LuiSetInfo updateLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException, VersionMismatchException {
+        // update
+        if (!luiSetId.equals (luiSetInfo.getId())) {
+            throw new InvalidParameterException ("The id parameter does not match the id on the info object");
+        }
+        LuiSetInfo copy = new LuiSetInfo(luiSetInfo);
+        LuiSetInfo old = this.getLuiSet(luiSetInfo.getId(), contextInfo);
+        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(old.getMeta().getVersionInd());
+        }
+        copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
+        this.luiSetInfoMap.put(luiSetInfo.getId(), copy);
+        return new LuiSetInfo(copy);
+    }
+
+    @Override
+    public StatusInfo deleteLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (this.luiSetInfoMap.remove(luiSetId) == null) {
+            throw new DoesNotExistException(luiSetId);
+        }
+        return newStatus();
+    }
+
+    @Override
+    public StatusInfo addLuiToLuiSet(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public StatusInfo addLuisToLuiSet(@WebParam(name = "luiSetIds") List<String> luiSetIds, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public StatusInfo removeLuiFromLuiSet(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    protected StatusInfo newStatus() {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        return status;
+    }
+
+    private MetaInfo newMeta(ContextInfo context) {
+        MetaInfo meta = new MetaInfo();
+        meta.setCreateId(context.getPrincipalId());
+        meta.setCreateTime(new Date());
+        meta.setUpdateId(context.getPrincipalId());
+        meta.setUpdateTime(meta.getCreateTime());
+        meta.setVersionInd("0");
+        return meta;
+    }
+
+    private MetaInfo updateMeta(MetaInfo old, ContextInfo context) {
+        MetaInfo meta = new MetaInfo(old);
+        meta.setUpdateId(context.getPrincipalId());
+        meta.setUpdateTime(new Date());
+        meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
+        return meta;
     }
 }
