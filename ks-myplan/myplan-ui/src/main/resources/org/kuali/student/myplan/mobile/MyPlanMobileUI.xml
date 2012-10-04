@@ -62,7 +62,10 @@
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalBoxGroup">
+                <bean parent="M.Uif-DataField" p:fieldLabel.render="true"
+                      p:propertyName="courseDescription" p:escapeHtmlInPropertyValue="false">
+                </bean>
+                <!--<bean parent="Uif-VerticalBoxGroup">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-course-details</value>
@@ -70,7 +73,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <!--Course Description-->
+                            &lt;!&ndash;Course Description&ndash;&gt;
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.renderColon="false" p:style="padding-top: 10px;">
                                 <property name="items">
                                     <list>
@@ -95,12 +98,12 @@
                                             </property>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-DataField" p:fieldLabel.render="false"
+                                                    <bean parent="M.Uif-DataField" p:fieldLabel.render="false"
                                                           p:propertyName="courseDescription" p:escapeHtmlInPropertyValue="false">
                                                         <property name="render"
                                                                   value="@{dataObject.courseDescription ne null and dataObject.courseDescription.length() gt 0 ? true : false}"/>
                                                     </bean>
-                                                    <!-- If Course Description is empty-->
+                                                    &lt;!&ndash; If Course Description is empty&ndash;&gt;
                                                     <bean parent="Uif-Message"
                                                           p:messageText="This course has no description.">
                                                         <property name="render"
@@ -114,7 +117,7 @@
                                 </property>
                             </bean>
 
-                            <!--Course Requisites-->
+                            &lt;!&ndash;Course Requisites&ndash;&gt;
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.renderColon="false" p:style="padding-top: 10px;">
 
                                 <property name="items">
@@ -164,7 +167,7 @@
                                         </bean>
 
 
-                                        <!--<bean parent="Uif-LinkGroup"
+                                        &lt;!&ndash;<bean parent="Uif-LinkGroup"
                                               p:groupBeginDelimiter="(Source:" p:groupEndDelimiter=")" p:linkSeparator="">
                                             <property name="cssClasses">
                                                 <list merge="true">
@@ -178,11 +181,11 @@
                                                     p:headerText="Course Catalog" p:target="" p:fieldLabel.render="false"/>
                                             </list>
                                           </property>
-                                        </bean>-->
+                                        </bean>&ndash;&gt;
                                     </list>
                                 </property>
                             </bean>
-                            <!--Quarters-->
+                            &lt;!&ndash;Quarters&ndash;&gt;
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.renderColon="false" p:style="padding-top: 10px;">
 
                                 <property name="items">
@@ -292,7 +295,7 @@
                                 </property>
                             </bean>
 
-                            <!--Credits-->
+                            &lt;!&ndash;Credits&ndash;&gt;
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.renderColon="false" p:style="padding-top: 10px;">
                                 <property name="items">
                                     <list>
@@ -331,7 +334,7 @@
                                 </property>
                             </bean>
 
-                            <!--Genedu-->
+                            &lt;!&ndash;Genedu&ndash;&gt;
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.renderColon="false" p:style="padding-top: 10px;">
                                 <property name="items">
                                     <list>
@@ -378,7 +381,7 @@
                                 </property>
                             </bean>
 
-                            <!--Curriculum-->
+                            &lt;!&ndash;Curriculum&ndash;&gt;
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.renderColon="false" p:style="padding-top: 10px;">
                                 <property name="items">
                                     <list>
@@ -419,7 +422,7 @@
                                 </property>
                             </bean>
 
-                            <!--Campus-->
+                            &lt;!&ndash;Campus&ndash;&gt;
 
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.renderColon="false" p:style="padding-top: 10px;">
                                 <property name="items">
@@ -467,7 +470,7 @@
                             </bean>
                         </list>
                     </property>
-                </bean>
+                </bean>-->
             </list>
         </property>
     </bean>

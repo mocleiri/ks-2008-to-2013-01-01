@@ -59,5 +59,18 @@
         </property>
     </bean>
 
-
+    <bean id="M.Uif-DataField" parent="Uif-DataField-parentBean">
+        <property name="template" value="/ks-myplan/WEB-INF/ftl/mobile/m.dataInputField.ftl"/>
+        <property name="templateName" value="m_uif_dataInputField"/>
+        <property name="readOnly" value="true"/>
+        <property name="bindingInfo">
+          <ref bean="Uif-BindingInfo"/>
+        </property>
+        <property name="inquiry">
+          <bean parent="Uif-Inquiry"/>
+        </property>
+        <property name="help">
+          <bean parent="Uif-Help"/>
+        </property>
+      </bean>
 </beans>
