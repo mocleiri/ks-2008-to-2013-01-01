@@ -1,10 +1,10 @@
-# module = ks-api branch Path = enrollment/ks-api/branches/M6 revision = 37872
-ks-api::enrollment_ks-api_branches_M6::c7199e0ec69ebe0f0ecb1181dc48d59be17b9ef0
-# module = ks-core branch Path = enrollment/ks-core/branches/services revision = 37872
-ks-core::enrollment_ks-core_branches_services::f9d3eb66321b99a301c1d1853a4ed3a29667f05c
-# module = ks-lum branch Path = enrollment/ks-lum/branches/services revision = 37872
-ks-lum::enrollment_ks-lum_branches_services::9180c9236d0b8631659095163a4befd5bcb2ea34
-# module = ks-enroll branch Path = enrollment/ks-enroll/branches/services revision = 37872
-ks-enroll::enrollment_ks-enroll_branches_services::d7dc21f5292e467772fb9eecd3aebefd81edf4b6
-# module = ks-deployments branch Path = enrollment/ks-deployments/branches/services revision = 37872
-ks-deployments::enrollment_ks-deployments_branches_services::d43e8b29247ead442446335641d5434b594b72d1
+# module = ks-api branch Path = enrollment/ks-api/tags/builds/ks-api-2.0/2.0.0-M6/build-144 revision = 37906
+ks-api::enrollment_ks-api_tags_builds_ks-api-2.0_2.0.0-M6_build-144::a825328474e638bb6cbe930672a9313077983445
+# module = ks-core branch Path = enrollment/ks-core/tags/builds/ks-core-2.0/2.0.0-M6/build-144 revision = 37906
+ks-core::enrollment_ks-core_tags_builds_ks-core-2.0_2.0.0-M6_build-144::31501bcc352a88e80450c91e612fbd06aae2af02
+# module = ks-deployments branch Path = enrollment/ks-deployments/tags/builds/ks-deployments-2.0/2.0.0-M6/build-144 revision = 37906
+ks-deployments::enrollment_ks-deployments_tags_builds_ks-deployments-2.0_2.0.0-M6_build-144::df7dad6c5e274765c0d18f2507979caf3c00d89e
+# module = ks-enroll branch Path = enrollment/ks-enroll/tags/builds/ks-enroll-1.0/1.0.0-M6/build-144 revision = 37906
+ks-enroll::enrollment_ks-enroll_tags_builds_ks-enroll-1.0_1.0.0-M6_build-144::f271811f8e34bd8c9e7e09691655c61e29edc40c
+# module = ks-lum branch Path = enrollment/ks-lum/tags/builds/ks-lum-2.0/2.0.0-M6/build-144 revision = 37906
+ks-lum::enrollment_ks-lum_tags_builds_ks-lum-2.0_2.0.0-M6_build-144::35ec51498435ce628c7f0fa714f8447cf92d7cae
