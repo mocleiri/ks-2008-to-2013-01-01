@@ -9,13 +9,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
@@ -221,10 +215,11 @@ public class TestCourseOfferingSetPublishingHelper {
     };
 
     private static CourseOfferingServiceMockImpl coServiceMock = new CourseOfferingServiceMockImpl() {
+
         @Override
         public CourseOfferingInfo createCourseOffering(String courseId, String termId, String courseOfferingTypeKey, CourseOfferingInfo courseOfferingInfo,
-                                                   List<String> optionKeys, ContextInfo context)
-            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+                                                       List<String> optionKeys, ContextInfo context)
+                throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
                 OperationFailedException, PermissionDeniedException, ReadOnlyException {
             courseOfferingMap.put(courseOfferingInfo.getId(), courseOfferingInfo);
             return courseOfferingInfo;

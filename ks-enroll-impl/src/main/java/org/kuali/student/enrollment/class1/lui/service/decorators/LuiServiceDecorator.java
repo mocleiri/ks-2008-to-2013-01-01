@@ -386,39 +386,6 @@ public class LuiServiceDecorator
     }
 
     @Override
-    public StatusInfo removeLuiFromLuiSet(String luiId, String luiSetId, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            UnsupportedActionException {
-        return getNextDecorator().removeLuiFromLuiSet(luiId, luiSetId, contextInfo);
-    }
-
-    @Override
-    public StatusInfo addLuisToLuiSet(List<String> luiSetIds, String luiSetId, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            UnsupportedActionException {
-        return getNextDecorator().addLuisToLuiSet(luiSetIds, luiSetId, contextInfo);
-    }
-
-    @Override
-    public StatusInfo addLuiToLuiSet(String luiId, String luiSetId, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            UnsupportedActionException {
-        return getNextDecorator().addLuiToLuiSet(luiId, luiSetId, contextInfo);
-    }
-
-    @Override
     public StatusInfo deleteLuiSet(String luiSetId, ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,

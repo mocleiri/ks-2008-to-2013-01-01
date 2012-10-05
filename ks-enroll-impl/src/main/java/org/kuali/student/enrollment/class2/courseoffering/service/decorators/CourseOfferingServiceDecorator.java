@@ -1,15 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -684,5 +676,48 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return getNextDecorator().searchForActivityOfferingClusterIds(criteria, contextInfo);
     }
 
+    @Override
+    public StatusInfo deleteColocatedOfferingSet(String colocatedOfferingSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteColocatedOfferingSet(colocatedOfferingSetId, contextInfo);
+    }
 
+    @Override
+    public ColocatedOfferingSetInfo updateColocatedOfferingSet(String colocatedOfferingSetId, ColocatedOfferingSetInfo colocatedOfferingSetInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return getNextDecorator().updateColocatedOfferingSet(colocatedOfferingSetId, colocatedOfferingSetInfo, contextInfo);
+    }
+
+    @Override
+    public ColocatedOfferingSetInfo createColocatedOfferingSet(String colocatedOfferingSetTypeKey, ColocatedOfferingSetInfo colocatedOfferingSetInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createColocatedOfferingSet(colocatedOfferingSetTypeKey, colocatedOfferingSetInfo, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateColocatedOfferingSet(String validationTypeKey, String colocatedOfferingSetTypeKey, ColocatedOfferingSetInfo colocatedOfferingSetInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().validateColocatedOfferingSet(validationTypeKey, colocatedOfferingSetTypeKey, colocatedOfferingSetInfo, contextInfo);
+    }
+
+    @Override
+    public List<ColocatedOfferingSetInfo> searchForColocatedOfferingSets(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForColocatedOfferingSets(criteria, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForColocatedOfferingSetIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForColocatedOfferingSetIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<String> getColocatedOfferingSetIdsByType(String colocatedOfferingSetTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getColocatedOfferingSetIdsByType(colocatedOfferingSetTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<ColocatedOfferingSetInfo> getColocatedOfferingSetsByIds(List<String> colocatedOfferingSetIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getColocatedOfferingSetsByIds(colocatedOfferingSetIds, contextInfo);
+    }
+
+    @Override
+    public ColocatedOfferingSetInfo getColocatedOfferingSet(String colocatedOfferingSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getColocatedOfferingSet(colocatedOfferingSetId, contextInfo);
+    }
 }

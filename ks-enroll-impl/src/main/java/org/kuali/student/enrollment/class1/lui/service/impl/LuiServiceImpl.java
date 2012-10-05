@@ -802,19 +802,4 @@ public class LuiServiceImpl
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public StatusInfo addLuiToLuiSet(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public StatusInfo addLuisToLuiSet(@WebParam(name = "luiSetIds") List<String> luiSetIds, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public StatusInfo removeLuiFromLuiSet(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }

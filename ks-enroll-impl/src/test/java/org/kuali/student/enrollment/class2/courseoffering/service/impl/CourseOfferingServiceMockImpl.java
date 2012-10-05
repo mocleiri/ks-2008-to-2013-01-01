@@ -24,17 +24,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
-import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -77,9 +67,28 @@ import java.util.Map;
 public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         MockService {
 
+    ///////////////////////////////
+    // Data Variables
+    ///////////////////////////////
+
     private static Logger log = Logger
             .getLogger(CourseOfferingServiceMockImpl.class);
 
+    private Map<String, List<String>> activityOfferingToSeatPoolMap = new HashMap<String, List<String>>();
+
+    private Map<String, FormatOfferingInfo> formatOfferingMap = new LinkedHashMap<String, FormatOfferingInfo>();
+
+    private Map<String, ActivityOfferingInfo> activityOfferingMap = new LinkedHashMap<String, ActivityOfferingInfo>();
+
+    private Map<String, RegistrationGroupInfo> registrationGroupMap = new LinkedHashMap<String, RegistrationGroupInfo>();
+
+    private Map<String, ActivityOfferingClusterInfo> activityOfferingClusterMap = new LinkedHashMap<String, ActivityOfferingClusterInfo>();
+
+    private Map<String, SeatPoolDefinitionInfo> seatPoolDefinitionMap = new LinkedHashMap<String, SeatPoolDefinitionInfo>();
+
+    private Map<String, ColocatedOfferingSetInfo> colocatedOfferingSetInfoMap = new LinkedHashMap<String, ColocatedOfferingSetInfo>();
+
+    protected Map<String, CourseOfferingInfo> courseOfferingMap = new LinkedHashMap<String, CourseOfferingInfo>();
 
     @Resource
     private CourseService courseService;
@@ -101,6 +110,10 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     
     @Resource
     private SchedulingService schedulingService;
+
+    //////////////////////////////
+    // Getters and Setters
+    ///////////////////////////////
 
     public SchedulingService getSchedulingService() {
         return schedulingService;
@@ -125,7 +138,11 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
     }
-    
+
+    //////////////////////////////////
+    // Implementing Methods
+    //////////////////////////////////
+
     @Override
     public void clear() {
 
@@ -134,9 +151,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         this.formatOfferingMap.clear();
         this.registrationGroupMap.clear();
         this.seatPoolDefinitionMap.clear();
-
-        activityOfferingToSeatPoolMap.clear();
-
+        this.colocatedOfferingSetInfoMap.clear();
+        this.activityOfferingToSeatPoolMap.clear();
         this.activityOfferingClusterMap.clear();
 
     }
@@ -424,10 +440,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         return list;
     }
 
-    // cache variable
-    // The LinkedHashMap is just so the values come back in a predictable order
-    protected Map<String, CourseOfferingInfo> courseOfferingMap = new LinkedHashMap<String, CourseOfferingInfo>();
-
     @Override
     public CourseOfferingInfo updateCourseOffering(String courseOfferingId,
                                                    CourseOfferingInfo courseOfferingInfo, ContextInfo context)
@@ -521,9 +533,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         return list;
     }
 
-    // cache variable
-    // The LinkedHashMap is just so the values come back in a predictable order
-    private Map<String, FormatOfferingInfo> formatOfferingMap = new LinkedHashMap<String, FormatOfferingInfo>();
 
     @Override
     public FormatOfferingInfo createFormatOffering(String courseOfferingId,
@@ -717,10 +726,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     public List<ActivityOfferingInfo> getActivityOfferingsByFormatOfferingWithoutRegGroup(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("unsupported");
     }
-
-    // cache variable
-    // The LinkedHashMap is just so the values come back in a predictable order
-    private Map<String, ActivityOfferingInfo> activityOfferingMap = new LinkedHashMap<String, ActivityOfferingInfo>();
 
     @Override
     public ActivityOfferingInfo createActivityOffering(String formatOfferingId,
@@ -998,11 +1003,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     }
 
-    // cache variable
-    // The LinkedHashMap is just so the values come back in a predictable order
-    private Map<String, RegistrationGroupInfo> registrationGroupMap = new LinkedHashMap<String, RegistrationGroupInfo>();
-
-
     @Override
     public RegistrationGroupInfo updateRegistrationGroup(
             String registrationGroupId,
@@ -1191,8 +1191,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         return successStatus();
     }
 
-    private Map<String, ActivityOfferingClusterInfo> activityOfferingClusterMap = new LinkedHashMap<String, ActivityOfferingClusterInfo>();
-
     @Override
     public ActivityOfferingClusterInfo createActivityOfferingCluster(String activityOfferingClusterId,
                                                                      String activityOfferingClusterTypeKey, ActivityOfferingClusterInfo activityOfferingClusterInfo,
@@ -1312,10 +1310,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
 
     }
-
-    // cache variable
-    // The LinkedHashMap is just so the values come back in a predictable order
-    private Map<String, SeatPoolDefinitionInfo> seatPoolDefinitionMap = new LinkedHashMap<String, SeatPoolDefinitionInfo>();
 
     @Override
     public SeatPoolDefinitionInfo createSeatPoolDefinition(
@@ -1604,40 +1598,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         return this.businessLogic.rolloverCourseOffering(
                 sourceCourseOfferingId, targetTermId, optionKeys, context);
     }
-
-    private MetaInfo newMeta(ContextInfo context) {
-        MetaInfo meta = new MetaInfo();
-        meta.setCreateId(context.getPrincipalId());
-        meta.setCreateTime(new Date());
-        meta.setUpdateId(context.getPrincipalId());
-        meta.setUpdateTime(meta.getCreateTime());
-        meta.setVersionInd("0");
-        return meta;
-    }
-
-    private StatusInfo successStatus() {
-        StatusInfo status = new StatusInfo();
-        status.setSuccess(Boolean.TRUE);
-        return status;
-    }
-
-    private StatusInfo failStatus() {
-        StatusInfo status = new StatusInfo();
-        status.setMessage("Operation Failed");
-        status.setSuccess(Boolean.FALSE);
-        return status;
-    }
-
-    private MetaInfo updateMeta(MetaInfo old, ContextInfo context) {
-        MetaInfo meta = new MetaInfo(old);
-        meta.setUpdateId(context.getPrincipalId());
-        meta.setUpdateTime(new Date());
-        meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
-        return meta;
-    }
-
-    private Map<String, List<String>> activityOfferingToSeatPoolMap = new HashMap<String, List<String>>();
-
 
     @Override
     public StatusInfo addSeatPoolDefinitionToActivityOffering(
@@ -1970,5 +1930,120 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public ColocatedOfferingSetInfo getColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (!this.colocatedOfferingSetInfoMap.containsKey(colocatedOfferingSetId)) {
+            throw new DoesNotExistException(colocatedOfferingSetId);
+        }
+        return new ColocatedOfferingSetInfo(this.colocatedOfferingSetInfoMap.get (colocatedOfferingSetId));
+    }
 
+    @Override
+    public List<ColocatedOfferingSetInfo> getColocatedOfferingSetsByIds(@WebParam(name = "colocatedOfferingSetIds") List<String> colocatedOfferingSetIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ColocatedOfferingSetInfo> list = new ArrayList<ColocatedOfferingSetInfo> ();
+        for (String id: colocatedOfferingSetIds) {
+            list.add (this.getColocatedOfferingSet(id, contextInfo));
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> getColocatedOfferingSetIdsByType(@WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> list = new ArrayList<String> ();
+        for (ColocatedOfferingSetInfo info: colocatedOfferingSetInfoMap.values ()) {
+            if (colocatedOfferingSetTypeKey.equals(info.getTypeKey())) {
+                list.add (info.getId ());
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> searchForColocatedOfferingSetIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("searchForColocatedOfferingSetIds has not been implemented");
+    }
+
+    @Override
+    public List<ColocatedOfferingSetInfo> searchForColocatedOfferingSets(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("searchForColocatedOfferingSets has not been implemented");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateColocatedOfferingSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return new ArrayList<ValidationResultInfo> ();
+    }
+
+    @Override
+    public ColocatedOfferingSetInfo createColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        // create
+        if (!colocatedOfferingSetTypeKey.equals (colocatedOfferingSetInfo.getTypeKey())) {
+            throw new InvalidParameterException ("The type parameter does not match the type on the info object");
+        }
+        ColocatedOfferingSetInfo copy = new ColocatedOfferingSetInfo(colocatedOfferingSetInfo);
+        if (copy.getId() == null) {
+            copy.setId(UUIDHelper.genStringUUID());
+        }
+        copy.setMeta(newMeta(contextInfo));
+        colocatedOfferingSetInfoMap.put(copy.getId(), copy);
+        return new ColocatedOfferingSetInfo(copy);
+    }
+
+    @Override
+    public ColocatedOfferingSetInfo updateColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        // update
+        if (!colocatedOfferingSetId.equals (colocatedOfferingSetInfo.getId())) {
+            throw new InvalidParameterException ("The id parameter does not match the id on the info object");
+        }
+        ColocatedOfferingSetInfo copy = new ColocatedOfferingSetInfo(colocatedOfferingSetInfo);
+        ColocatedOfferingSetInfo old = this.getColocatedOfferingSet(colocatedOfferingSetInfo.getId(), contextInfo);
+        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(old.getMeta().getVersionInd());
+        }
+        copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
+        this.colocatedOfferingSetInfoMap.put(colocatedOfferingSetInfo.getId(), copy);
+        return new ColocatedOfferingSetInfo(copy);
+    }
+
+    @Override
+    public StatusInfo deleteColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (this.colocatedOfferingSetInfoMap.remove(colocatedOfferingSetId) == null) {
+            throw new DoesNotExistException(colocatedOfferingSetId);
+        }
+        return successStatus();
+    }
+
+    /////////////////////////////
+    // Helpers
+    /////////////////////////////
+
+    private MetaInfo newMeta(ContextInfo context) {
+        MetaInfo meta = new MetaInfo();
+        meta.setCreateId(context.getPrincipalId());
+        meta.setCreateTime(new Date());
+        meta.setUpdateId(context.getPrincipalId());
+        meta.setUpdateTime(meta.getCreateTime());
+        meta.setVersionInd("0");
+        return meta;
+    }
+
+    private StatusInfo successStatus() {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        return status;
+    }
+
+    private StatusInfo failStatus() {
+        StatusInfo status = new StatusInfo();
+        status.setMessage("Operation Failed");
+        status.setSuccess(Boolean.FALSE);
+        return status;
+    }
+
+    private MetaInfo updateMeta(MetaInfo old, ContextInfo context) {
+        MetaInfo meta = new MetaInfo(old);
+        meta.setUpdateId(context.getPrincipalId());
+        meta.setUpdateTime(new Date());
+        meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
+        return meta;
+    }
 }
