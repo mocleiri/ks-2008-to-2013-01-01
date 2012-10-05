@@ -1,10 +1,10 @@
-# module = ks-api branch Path = enrollment/ks-api/branches/KD revision = 38040
-ks-api::enrollment_ks-api_branches_KD::3683b0b4dbf7711e564d6f903dca18af91bd7d67
-# module = ks-core branch Path = enrollment/ks-core/branches/KD revision = 38040
-ks-core::enrollment_ks-core_branches_KD::83640f68aca0369a1a4c3510302df3efabc680d2
-# module = ks-lum branch Path = enrollment/ks-lum/branches/KD revision = 38040
-ks-lum::enrollment_ks-lum_branches_KD::7fb395adacfd568d91742da62c4389c3b7e51cc5
-# module = ks-enroll branch Path = enrollment/ks-enroll/branches/KD revision = 38040
-ks-enroll::enrollment_ks-enroll_branches_KD::14f40d900043de4d6a38058078f9a6c481547825
-# module = ks-deployments branch Path = enrollment/ks-deployments/branches/KD revision = 38040
-ks-deployments::enrollment_ks-deployments_branches_KD::b496d106c5fbda467722cc1b3d86923d6b5a155e
+# module = ks-api branch Path = enrollment/ks-api/tags/builds/ks-api-2.0/2.0.0-M5-KD-DEMO/build-0 revision = 38054
+ks-api::enrollment_ks-api_tags_builds_ks-api-2.0_2.0.0-M5-KD-DEMO_build-0::b01ea5bdb4235177a21ea212196b677c06117494
+# module = ks-core branch Path = enrollment/ks-core/tags/builds/ks-core-2.0/2.0.0-KD-DEMO/build-0 revision = 38054
+ks-core::enrollment_ks-core_tags_builds_ks-core-2.0_2.0.0-KD-DEMO_build-0::3618ebe50a778dcd575698ef58e5175cc6441101
+# module = ks-deployments branch Path = enrollment/ks-deployments/tags/builds/ks-deployments-2.0/2.0.0-KD-DEMO/build-0 revision = 38054
+ks-deployments::enrollment_ks-deployments_tags_builds_ks-deployments-2.0_2.0.0-KD-DEMO_build-0::186e9fedb3f5ed32a797ac6df1a58846aee744da
+# module = ks-enroll branch Path = enrollment/ks-enroll/tags/builds/ks-enroll-1.0/1.0.0-KD-DEMO/build-0 revision = 38054
+ks-enroll::enrollment_ks-enroll_tags_builds_ks-enroll-1.0_1.0.0-KD-DEMO_build-0::ca89267b9815533613e4b2d3945fc23a7f80cd91
+# module = ks-lum branch Path = enrollment/ks-lum/tags/builds/ks-lum-2.0/2.0.0-KD-DEMO/build-0 revision = 38054
+ks-lum::enrollment_ks-lum_tags_builds_ks-lum-2.0_2.0.0-KD-DEMO_build-0::f3fb8822487a70755b5002890e53abb421d40148
