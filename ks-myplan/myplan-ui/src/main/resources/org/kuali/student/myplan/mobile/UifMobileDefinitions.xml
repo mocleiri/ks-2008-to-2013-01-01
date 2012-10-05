@@ -72,5 +72,44 @@
         <property name="help">
           <bean parent="Uif-Help"/>
         </property>
-      </bean>
+     </bean>
+
+
+  <bean id="M.Uif-Grid-Two" parent="M.Uif-Grid-parentBean">
+      <property name="cssClasses">
+        <list>
+          <value>ui-grid-a</value>
+        </list>
+      </property>
+  </bean>
+
+  <bean id="M.Uif-Grid-Three" parent="M.Uif-Grid-parentBean">
+      <property name="cssClasses">
+        <list>
+          <value>ui-grid-b</value>
+        </list>
+      </property>
+  </bean>
+
+  <bean id="M.Uif-Grid-parentBean" abstract="true" parent="Uif-GroupBase" scope="prototype">
+    <property name="cssClasses">
+      <list>
+        <value>ui-grid-solo</value>
+      </list>
+    </property>
+    <property name="validationMessages">
+      <bean parent="Uif-GroupValidationMessages" p:render="false"/>
+    </property>
+    <property name="template" value="/ks-myplan/WEB-INF/ftl/mobile/m.grid.ftl"/>
+    <property name="templateName" value="m_uif_grid"/>
+    <property name="layoutManager">
+      <bean parent="Uif-HorizontalBoxLayout"/>
+    </property>
+  </bean>
+
+
+
+
+
+
 </beans>

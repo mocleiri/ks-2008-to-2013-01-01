@@ -62,9 +62,20 @@
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="items">
             <list>
-                <bean parent="M.Uif-DataField" p:fieldLabel.render="true"
-                      p:propertyName="courseDescription" p:escapeHtmlInPropertyValue="false">
+
+                <bean parent="M.Uif-Grid-Two">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Label" p:labelText="Course Description"
+                                  p:renderColon="false"/>
+                            <bean parent="M.Uif-DataField" p:fieldLabel.render="true"
+                                  p:propertyName="courseDescription" p:escapeHtmlInPropertyValue="false">
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
+
+
                 <!--<bean parent="Uif-VerticalBoxGroup">
                     <property name="cssClasses">
                         <list merge="true">
