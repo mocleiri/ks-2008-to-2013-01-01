@@ -19,28 +19,15 @@
      limitations under the License.
     -->
     <bean id="M.CourseDetails-InquiryView" parent="M.MyPlanInquiryView">
-        <property name="headerText" value="Course Details"/>
+        <property name="headerText" value="@{dataObject.code}"/>
         <property name="viewName" value="M.CourseDetails"/>
         <property name="dataObjectClassName" value="org.kuali.student.myplan.course.dataobject.CourseDetails"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl"/>
-        <property name="breadcrumbs.render" value="false"/>
-        <property name="page.header.render" value="false"/>
-        <property name="header.render" value="false"/>
-        <property name="footer.render" value="false"/>
-        <property name="singlePageView" value="true"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>myplan-view</value>
-            </list>
-        </property>
-        <property name="Items">
+        <property name="items">
             <list>
-                <bean parent="Uif-Page" p:id="m_course_details_page"
-                      p:headerText="@{dataObject.code} @{dataObject.courseTitle} (@{dataObject.credit})">
-                    <property name="layoutManager">
-                        <bean parent="Uif-HorizontalBoxLayout"/>
-                    </property>
+                <bean id="m_course_details_page" parent="M.Uif-Page">
+                    <property name="headerText" value="@{dataObject.code} @{dataObject.courseTitle} (@{dataObject.credit})"/>
                     <property name="items">
                         <list>
                             <ref bean="m_course_details_section"/>
@@ -52,23 +39,20 @@
     </bean>
 
 
-    <bean id="m_course_details_section" parent="Uif-GridGroup">
+    <bean id="m_course_details_section" parent="Uif-VerticalBoxGroup">
         <property name="cssClasses">
             <list merge="true">
                 <value>myplan-course-details</value>
             </list>
         </property>
-        <property name="layoutManager.numberOfColumns" value="2"/>
-        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="items">
             <list>
-
                 <bean parent="M.Uif-Grid-Two">
                     <property name="items">
                         <list>
                             <bean parent="Uif-Label" p:labelText="Course Description"
                                   p:renderColon="false"/>
-                            <bean parent="M.Uif-DataField" p:fieldLabel.render="true"
+                            <bean parent="M.Uif-DataField" p:fieldLabel.render="false"
                                   p:propertyName="courseDescription" p:escapeHtmlInPropertyValue="false">
                             </bean>
                         </list>

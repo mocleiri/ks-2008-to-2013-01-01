@@ -18,46 +18,100 @@
     See the License for the specific language governing permissions and
     limitations under the License.
     -->
-    <bean id="MyPlanTheme" abstract="true" parent="MyPlanTheme-parentBean"/>
+    <bean id="M.MyPlanTheme" abstract="true" parent="MyPlanTheme-parentBean"/>
     <bean id="MyPlanTheme-parentBean" parent="Uif-KradTheme">
         <property name="cssFiles">
-            <list merge="true">
-                <value>ks-myplan/css/myplan.css</value>
-                <value>ks-myplan/jquery-bubblepopup/jquery.bubblepopup.css</value>
-                <value>ks-myplan/jquery-ui/jquery-ui.css</value>
+            <list merge="false">
+                <value>krad/css/global/fss-reset.css</value>
+                <value>krad/css/global/fss-layout.css</value>
+                <value>krad/css/global/fss-text.css</value>
+                <value>krad/plugins/jqueryUI/jquery-ui-1.8.19.css</value>
+                <value>http://code.jquery.com/mobile/1.2.0/jquery.mobile.structure-1.2.0.css</value>
+                <value>ks-myplan/mobile/myplan.min.css</value>
             </list>
         </property>
         <property name="scriptFiles">
-            <list merge="true">
-                <value>ks-myplan/scripts/myplan.widgets.js</value>
-                <value>ks-myplan/scripts/myplan.events.js</value>
-                <value>ks-myplan/plugins/jquery.subscribe.js</value>
-                <value>ks-myplan/jquery-bubblepopup/jquery.bubblepopup.min.js</value>
-                <value>ks-myplan/scripts/myplan.google.js</value>
+            <list merge="false">
+                <value>http://code.jquery.com/jquery-1.8.2.min.js</value>
+                <value>krad/plugins/jqueryUI/jquery-ui-1.8.19.js</value>
+                <value>http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js</value>
+                <value>krad/plugins/cookie/jquery.cookie.js</value>
+                <value>krad/plugins/postmsg/jquery.ba-postmessage.js</value>
+                <value>krad/plugins/jgrowl/jquery.jgrowl.js</value>
+                <value>krad/plugins/blockUI/jquery.blockUI.js</value>
+                <value>krad/plugins/watermark/jquery.watermark.js</value>
+                <value>krad/plugins/validate/jquery.validate.js</value>
+                <value>krad/plugins/tooltip/jquery.tools.min.js</value>
+                <value>krad/plugins/tooltip/jquery.bubblepopup.v2.3.1.js</value>
+                <value>krad/plugins/rice/spinner/smartspinner.js</value>
+                <value>krad/plugins/rice/menu/krad.navigationMenu.js</value>
+                <value>krad/plugins/rice/textpopout/krad.textareaPopout.js</value>
+                <value>krad/plugins/dirtyform/jquery.dirtyform.js</value>
+                <value>krad/plugins/scrollto/jquery.scrollTo-1.4.2-min.js</value>
+                <value>krad/plugins/rice/menu/krad.tabMenu.js</value>
+                <value>krad/plugins/rice/datatables/jquery.dataTables.js</value>
+                <value>krad/plugins/rice/datatables/ZeroClipboard.js</value>
+                <value>krad/plugins/rice/datatables/TableTools.js</value>
+                <value>krad/plugins/jstree/jquery.jstree.js</value>
+                <value>krad/plugins/validate/additional_validations.js</value>
+                <value>krad/plugins/jqform/jquery.form.js</value>
+                <value>krad/plugins/fancybox/jquery.fancybox.pack.js</value>
+                <value>krad/plugins/easydrag/jquery.easydrag.js</value>
+                <value>krad/plugins/easing/jquery.easing-1.3.pack.js</value>
+                <value>krad/plugins/json/jquery.json-2.2.js</value>
+                <value>krad/plugins/infusion/infusion-1.4.js</value>
+                <value>krad/plugins/infusion/infusion.reorderer.js</value>
+                <value>krad/scripts/krad.variables.js</value>
+                <value>krad/scripts/krad.message.js</value>
+                <value>krad/scripts/krad.widget.js</value>
+                <value>krad/scripts/krad.initialize.js</value>
+                <value>krad/scripts/krad.ajax.js</value>
+                <value>krad/scripts/krad.utility.js</value>
+                <value>krad/scripts/krad.validate.js</value>
+                <value>ks-myplan/mobile/myplan.js</value>
             </list>
         </property>
     </bean>
 
 
     <bean id="M.MyPlanBaseInquiryView" abstract="true" parent="Uif-InquiryView">
-
         <property name="preloadPoolSize" value="5"/>
-
         <property name="theme">
-            <bean parent="MyPlanTheme"/>
+            <bean parent="M.MyPlanTheme"/>
         </property>
         <property name="persistFormToSession" value="false"/>
-    </bean>
-
-    <bean id="M.MyPlanInquiryView" abstract="true" parent="M.MyPlanBaseInquiryView">
-
-
-        <property name="applicationHeader">
-            <bean parent="Uif-HeaderOne" p:id="ks-banner"
-                  p:template="/ks-myplan/WEB-INF/ftl/templates/MyPlanApplicationHeader.ftl"
-                  p:cssClasses="fl-container-flex" p:templateName="myplan_app_header"/>
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="footer.render" value="false"/>
+        <property name="singlePageView" value="true"/>
+        <property name="header">
+            <bean parent="Uif-HeaderOne">
+                <property name="dataAttributes">
+                    <map>
+                        <entry key="role" value="header"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <property name="page">
+            <bean parent="M.Uif-Page"/>
         </property>
     </bean>
+
+    <bean id="M.Uif-Page" parent="Uif-Page">
+        <property name="dataAttributes">
+            <map>
+                <entry key="role" value="content"/>
+            </map>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-VerticalBoxLayout"/>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
+    </bean>
+
+    <bean id="M.MyPlanInquiryView" abstract="true" parent="M.MyPlanBaseInquiryView"/>
 
     <bean id="M.Uif-DataField" parent="Uif-DataField-parentBean">
         <property name="template" value="/ks-myplan/WEB-INF/ftl/mobile/m.dataInputField.ftl"/>
