@@ -1,10 +1,10 @@
-# module = ks-api branch Path = enrollment/ks-api/branches/KD revision = 38040
-ks-api::enrollment_ks-api_branches_KD::3683b0b4dbf7711e564d6f903dca18af91bd7d67
-# module = ks-core branch Path = enrollment/ks-core/branches/KD revision = 38040
-ks-core::enrollment_ks-core_branches_KD::83640f68aca0369a1a4c3510302df3efabc680d2
-# module = ks-lum branch Path = enrollment/ks-lum/branches/KD revision = 38040
-ks-lum::enrollment_ks-lum_branches_KD::7fb395adacfd568d91742da62c4389c3b7e51cc5
-# module = ks-enroll branch Path = enrollment/ks-enroll/branches/KD revision = 38040
-ks-enroll::enrollment_ks-enroll_branches_KD::14f40d900043de4d6a38058078f9a6c481547825
-# module = ks-deployments branch Path = enrollment/ks-deployments/branches/KD revision = 38040
-ks-deployments::enrollment_ks-deployments_branches_KD::b496d106c5fbda467722cc1b3d86923d6b5a155e
+# module = ks-api branch Path = enrollment/ks-api/tags/builds/ks-api-2.0/2.0.0-M5-KD-DEMO/build-12 revision = 38075
+ks-api::enrollment_ks-api_tags_builds_ks-api-2.0_2.0.0-M5-KD-DEMO_build-12::5a7ce5de8e671f6feef0ee787cc6770eabd35c64
+# module = ks-core branch Path = enrollment/ks-core/tags/builds/ks-core-2.0/2.0.0-KD-DEMO/build-12 revision = 38075
+ks-core::enrollment_ks-core_tags_builds_ks-core-2.0_2.0.0-KD-DEMO_build-12::ea0092ab22daa967bab0f38ece5b9e117908f80b
+# module = ks-deployments branch Path = enrollment/ks-deployments/tags/builds/ks-deployments-2.0/2.0.0-KD-DEMO/build-12 revision = 38075
+ks-deployments::enrollment_ks-deployments_tags_builds_ks-deployments-2.0_2.0.0-KD-DEMO_build-12::f1eba044fa60bece79f8cb9c9f3c9dd22bc81cd4
+# module = ks-enroll branch Path = enrollment/ks-enroll/tags/builds/ks-enroll-1.0/1.0.0-KD-DEMO/build-12 revision = 38075
+ks-enroll::enrollment_ks-enroll_tags_builds_ks-enroll-1.0_1.0.0-KD-DEMO_build-12::d7b85d237f89a9d97564bbdfaa152e49498e87ed
+# module = ks-lum branch Path = enrollment/ks-lum/tags/builds/ks-lum-2.0/2.0.0-KD-DEMO/build-12 revision = 38075
+ks-lum::enrollment_ks-lum_tags_builds_ks-lum-2.0_2.0.0-KD-DEMO_build-12::d51f483f9994f8ddeaa29a95ef22e071d4abee87
