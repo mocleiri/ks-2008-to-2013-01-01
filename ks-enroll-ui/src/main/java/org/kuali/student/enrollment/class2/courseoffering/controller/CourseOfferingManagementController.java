@@ -88,7 +88,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @Override
     @RequestMapping(params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) {
+                              HttpServletRequest request, HttpServletResponse response) {
 
         // check view authorization
         // TODO: this needs to be invoked for each request
@@ -96,14 +96,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
             checkViewAuthorization(form, methodToCall);
         }
-        
+
         // check if the view is invoked within portal or not
-            String inputValue = request.getParameter("withinPortal");
-            if ((inputValue != null) && !inputValue.isEmpty()){
-                boolean withinPortal = new Boolean(request.getParameter("withinPortal")).booleanValue();
-                CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) form;
-                theForm.setWithinPortal(withinPortal);
-            }
+        String inputValue = request.getParameter("withinPortal");
+        if ((inputValue != null) && !inputValue.isEmpty()){
+            boolean withinPortal = new Boolean(request.getParameter("withinPortal")).booleanValue();
+            CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) form;
+            theForm.setWithinPortal(withinPortal);
+        }
 
         /**
          * When user cancels edit AO/CO, this will be called. Based on the radio button selected, we need to set the page id
@@ -149,7 +149,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
             theForm.getCourseOfferingEditWrapperList().clear();
             return getUIFModelAndView(theForm);
-         } else{
+        } else{
             LOG.error("Error: Can't find any Term for term code: " + termCode);
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
             theForm.getCourseOfferingEditWrapperList().clear();
@@ -199,7 +199,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     @RequestMapping(params = "methodToCall=manageRegGroups")
     public ModelAndView manageRegGroups(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
         //First cleanup and reset AOCluster list
         List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
         theForm.setFilteredAOClusterWrapperList(filteredAOClusterWrapperList);
@@ -236,7 +236,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     @RequestMapping(params = "methodToCall=createNewClusterFromLightBox")
     public ModelAndView createNewClusterFromLightBox(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (!hasDialogBeenDisplayed("createNewClusterDialog", theForm)){
             // redirect back to client to display lightbox
             return showDialog("createNewClusterDialog", theForm, request, response);
@@ -248,12 +248,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 if (_isClusterUnique(formatOfferingId, theForm.getPrivateClusterNameForLightBox())){
                     //build a new empty cluster
                     ActivityOfferingClusterInfo emptyCluster = _buildEmptyAOCluster(formatOfferingId,
-                        theForm.getPrivateClusterNameForLightBox(), theForm.getPublishedClusterNameForLightBox());
-    
+                            theForm.getPrivateClusterNameForLightBox(), theForm.getPublishedClusterNameForLightBox());
+
                     //persist it in DB , comment out for now since it does not work for now
                     emptyCluster = getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
-                        emptyCluster.getTypeKey(), emptyCluster, getContextInfo());
-    
+                            emptyCluster.getTypeKey(), emptyCluster, getContextInfo());
+
                     List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
                     ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
                     aoClusterWrapper.setActivityOfferingClusterId(emptyCluster.getId());
@@ -279,20 +279,20 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         theForm.getDialogManager().removeDialog("createNewClusterDialog");
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
-    
+
     @RequestMapping(params = "methodToCall=createNewCluster")
     public ModelAndView createNewCluster(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
         String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
         if (_isClusterUnique(formatOfferingId, theForm.getPrivateClusterName())){
             //build a new empty cluster
             ActivityOfferingClusterInfo emptyCluster = _buildEmptyAOCluster(formatOfferingId,
                     theForm.getPrivateClusterName(), theForm.getPrivateClusterName());
-    
+
             //persist it in DB , comment out for now since it does not work for now
             emptyCluster = getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
                     emptyCluster.getTypeKey(), emptyCluster, getContextInfo());
-            
+
             List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
             ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
             aoClusterWrapper.setActivityOfferingClusterId(emptyCluster.getId());
@@ -307,7 +307,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }else{
             GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
         }
-        
+
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
 
@@ -348,10 +348,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
 
-    
+
     @RequestMapping(params = "methodToCall=removeAOFromCluster")
     public ModelAndView removeAOFromCluster(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActivityOfferingWrapper selectedAOWrapper =(ActivityOfferingWrapper)_getSelectedObject(theForm, "Remove");
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
@@ -374,11 +374,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
         //try to retrieve the accurate AOCluster from DB always
         ActivityOfferingClusterInfo aoCluster = getCourseOfferingService().getActivityOfferingCluster(
-                                                            theClusterWrapper.getAoCluster().getId(), getContextInfo());
+                theClusterWrapper.getAoCluster().getId(), getContextInfo());
         List <ActivityOfferingSetInfo> aoSetList = aoCluster.getActivityOfferingSets();
         for (ActivityOfferingSetInfo aoSet:aoSetList){
             if(aoTypeKey.equalsIgnoreCase(aoSet.getActivityOfferingType())){
-                aoSet.getActivityOfferingIds().remove(selectedAOWrapper.getAoInfo().getId());                
+                aoSet.getActivityOfferingIds().remove(selectedAOWrapper.getAoInfo().getId());
                 break;
             }
         }
@@ -405,21 +405,21 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
-    
+
     @RequestMapping(params = "methodToCall=deleteAClusterThroughDialog")
     public ModelAndView deleteAClusterThroughDialog(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActivityOfferingClusterWrapper selectedCluster;
         if(!hasDialogBeenDisplayed("confirmToDeleteClusterDialog", theForm)){
             selectedCluster = (ActivityOfferingClusterWrapper)_getSelectedObject(theForm, "Remove Cluster through Dialog");
             theForm.setSelectedCluster(selectedCluster);
             // redirect back to client to display lightbox
-            return showDialog("confirmToDeleteClusterDialog", theForm, request, response); 
+            return showDialog("confirmToDeleteClusterDialog", theForm, request, response);
         }
         if(hasDialogBeenAnswered("confirmToDeleteClusterDialog", theForm)) {
             boolean wantToDelete = getBooleanDialogResponse("confirmToDeleteClusterDialog", theForm, request, response);
             if(wantToDelete){
-                 //first need to move all AOs under the selected Cluster back to filteredUnassignedAOsForSelectedFO
+                //first need to move all AOs under the selected Cluster back to filteredUnassignedAOsForSelectedFO
                 selectedCluster = theForm.getSelectedCluster();
                 List<ActivityOfferingWrapper> unassignedAOs = theForm.getFilteredUnassignedAOsForSelectedFO();
                 List<ActivityOfferingWrapper> toBeRemovedAOs = selectedCluster.getAoWrapperList();
@@ -434,18 +434,18 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 aoClusterWrapperList.remove(selectedCluster);
                 if(aoClusterWrapperList.size() ==0){
                     theForm.setHasAOCluster(false);
-                }                
+                }
             }
             theForm.setSelectedCluster(null);
         }
         // clear dialog history so they can press the button again
         theForm.getDialogManager().resetDialogStatus("confirmToDeleteClusterDialog");
-        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE); 
+        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=deleteACluster")
     public ModelAndView deleteACluster(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ActivityOfferingClusterWrapper selectedCluster = (ActivityOfferingClusterWrapper)_getSelectedObject(theForm, "Remove Cluster");
         //first need to move all AOs under the selected Cluster back to filteredUnassignedAOsForSelectedFO
@@ -469,7 +469,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     @RequestMapping(params = "methodToCall=filterAOsAndRGsPerFO")
     public ModelAndView filterAOsAndRGsPerFO (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         //first update AOs
         List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(theForm.getFormatOfferingIdForViewRG(), theForm);
         theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
@@ -480,9 +480,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         //then update RGs
         List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(theForm.getFormatOfferingIdForViewRG(), getContextInfo());
         List<RegistrationGroupWrapper> filteredRGs = _getRGsForSelectedFO(rgInfos, filteredAOs);
- //**********************************
- //       theForm.setFilteredRGsForSelectedFO(filteredRGs);
- //**********************************
+        //**********************************
+        //       theForm.setFilteredRGsForSelectedFO(filteredRGs);
+        //**********************************
         if(rgInfos != null && rgInfos.size()>0) {
             getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
         }
@@ -516,10 +516,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 //
 //        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
 //    }
-    
+
     @RequestMapping(params = "methodToCall=generateRegGroupsPerCluster")
     public ModelAndView generateRegGroupsPerCluster (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActivityOfferingClusterWrapper selectedClusterWrapper = (ActivityOfferingClusterWrapper)_getSelectedObject(theForm, "Generate Registration Groups");
         String selectedClusterId = selectedClusterWrapper.getAoCluster().getId();
         AOClusterVerifyResultsInfo aoClusterVerifyResultsInfo = getCourseOfferingService().verifyActivityOfferingClusterForGeneration(selectedClusterId,getContextInfo());
@@ -562,11 +562,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
-    
+
     @RequestMapping(params = "methodToCall=generateUnconstrainedRegGroups")
     public ModelAndView generateUnconstrainedRegGroups (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
+                                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
 
         //new implementation for M5
         //first, build a new default cluster
@@ -574,7 +574,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
 
         AOClusterVerifyResultsInfo aoClusterVerifyResultsInfo = getCourseOfferingService().
-                    verifyActivityOfferingClusterForGeneration(defaultCluster.getId(),getContextInfo());
+                verifyActivityOfferingClusterForGeneration(defaultCluster.getId(),getContextInfo());
         if (!aoClusterVerifyResultsInfo.getValidationResults().get(0).isError())  {
             //now create RGs for the default cluster
             StatusInfo status = getCourseOfferingService().generateRegistrationGroupsForCluster(defaultCluster.getId(), getContextInfo());
@@ -593,7 +593,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             theForm.setHasAOCluster(true);
             //no AO in unassigned list any more for now
             filteredAOs.clear();
-            theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);            
+            theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
         }else {
             getCourseOfferingService().deleteActivityOfferingCluster(defaultCluster.getId(), getContextInfo());
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RegistrationGroupConstants.MSG_ERROR_INVALID_AOLIST);
@@ -601,12 +601,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
 
-   /*
+    /*
     *  Move unassigned FO(s) to one of the existing clusters
     */
     @RequestMapping(params = "methodToCall=moveAOToACluster")
     public ModelAndView moveAOToACluster (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
         //get selected AOC info
         if (theForm.getClusterIdIdForNewFO().equals("")){
             GlobalVariables.getMessageMap().putError("AOCselectionError", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
@@ -636,8 +636,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         //persist selected AOC
         ActivityOfferingClusterInfo updatedSelectedAOCInfo = getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
-                                                                                                                      theForm.getClusterIdIdForNewFO(),
-                                                                                                                      selectedAOCInfo, getContextInfo());
+                theForm.getClusterIdIdForNewFO(),
+                selectedAOCInfo, getContextInfo());
         //update AO list without cluster
         List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(updatedSelectedAOCInfo.getFormatOfferingId(), theForm);
         theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
@@ -670,13 +670,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
 
-   /*
+    /*
     *  Move assigned FO(s) between clusters
     */
     @RequestMapping(params = "methodToCall=moveAOBetweenClusters")
     public ModelAndView moveAOBetweenClusters (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //set clusterIndex for selected / from cluster
+                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //set clusterIndex for selected/from cluster
         int clusterIndex = 0;
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         clusterIndex = Integer.parseInt(StringUtils.substringBetween(selectedCollectionPath,"filteredAOClusterWrapperList[","]"));
@@ -748,53 +748,62 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 }
             }
         }
+        //throw error if nothing is checked
         if (!aoChecked) {
             GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_ERROR_INVALID_AO_SELECTION);
             return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
         }
-        //persist selected AOCs
+
+        //persist selected AOCs for update
         ActivityOfferingClusterInfo updatedSelectedAOCInfoTo = getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
-                                                                                                                      selectedAOCInfoTo.getId(),
-                                                                                                                      selectedAOCInfoTo, getContextInfo());
+                selectedAOCInfoTo.getId(),
+                selectedAOCInfoTo, getContextInfo());
 
         ActivityOfferingClusterInfo updatedSelectedAOCInfoFrom = getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
-                                                                                                                      selectedAOCInfoFrom.getId(),
-                                                                                                                      selectedAOCInfoFrom, getContextInfo());
-        //update AO list in updatedSelectedAOCInfoTo and in updatedSelectedAOCInfoFrom
+                selectedAOCInfoFrom.getId(),
+                selectedAOCInfoFrom, getContextInfo());
+
+        //UPDATE theForm
         List<ActivityOfferingWrapper> filteredClusteredAOsTo = new ArrayList <ActivityOfferingWrapper>();
         List<ActivityOfferingWrapper> filteredClusteredAOsFrom = new ArrayList <ActivityOfferingWrapper>();
-        //updatedSelectedAOCInfoFrom
+        //collect aoInfo(s) belonging to updatedSelectedAOCInfoFrom, convert them to AOWrapper(s) and store them in filteredClusteredAOsFrom list for updating theForm below
         List<ActivityOfferingInfo> aosInClusterFrom = getCourseOfferingService().getActivityOfferingsByCluster(updatedSelectedAOCInfoFrom.getId(), getContextInfo());
         for ( ActivityOfferingInfo aoInfo : aosInClusterFrom) {
             filteredClusteredAOsFrom.add(getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo));
         }
-        //updatedSelectedAOCInfoTo
+        //collect aoInfo(s) belonging to updatedSelectedAOCInfoTo, convert them to AOWrapper(s) and store them in filteredClusteredAOsTo list for updating theForm below
         List<ActivityOfferingInfo> aosInClusterTo = getCourseOfferingService().getActivityOfferingsByCluster(updatedSelectedAOCInfoTo.getId(), getContextInfo());
         for ( ActivityOfferingInfo aoInfo : aosInClusterTo) {
             filteredClusteredAOsTo.add(getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo));
         }
+
         for ( int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++) {
+
+            //find the relevant AOCWrapperTo in theForm and update it
             if (theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster().getId().equals(updatedSelectedAOCInfoTo.getId())) {
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoCluster(updatedSelectedAOCInfoTo);
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoWrapperList(filteredClusteredAOsTo);
-                //update RG status for updatedSelectedAOCInfoTo
+                //if there are RGS belonging to updatedSelectedAOCInfoTo - set RG status (logic in RegistrationGroupInfo)
                 List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(updatedSelectedAOCInfoTo.getId(), getContextInfo());
                 if (rgInfos.size() > 0) {
                     theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(false);
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("Only Some Registration Groups Generated");
                 }
             }
+
+            //find the relevant AOCWrapperFrom in theForm and update it
             if (theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster().getId().equals(updatedSelectedAOCInfoFrom.getId())) {
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoCluster(updatedSelectedAOCInfoFrom);
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoWrapperList(filteredClusteredAOsFrom);
-                //update RG status for updatedSelectedAOCInfoFrom
+
+                //if there are RGS belonging to updatedSelectedAOCInfoFrom - set RG status (logic in RegistrationGroupInfo)
                 List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(updatedSelectedAOCInfoFrom.getId(), getContextInfo());
                 if (rgInfos.size() > 0) {
                     theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(true);
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("All Registration Groups Generated");
                     // perform max enrollment validation
-                     _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), i);
-                    //update RGs for the form
+                    _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), i);
+                    //update theForm with RGs belonging to updatedSelectedAOCInfoFrom
                     List<RegistrationGroupWrapper> filteredRGs = _getRGsForSelectedFO(rgInfos, theForm.getFilteredAOClusterWrapperList().get(i).getAoWrapperList());
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgWrapperList(filteredRGs);
                 } else {
@@ -831,7 +840,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     private  ActivityOfferingClusterInfo _updateAOSets(List<ActivityOfferingWrapper> aoWrapperList,
-                                         ActivityOfferingClusterInfo clusterInfo, String formatOfferingId) throws Exception {
+                                                       ActivityOfferingClusterInfo clusterInfo, String formatOfferingId) throws Exception {
         List<ActivityOfferingSetInfo> aoSetInfoList = clusterInfo.getActivityOfferingSets();
         for (ActivityOfferingWrapper aoWrapper:aoWrapperList){
             try {
@@ -854,15 +863,15 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             clusterInfo.setActivityOfferingSets(aoSetInfoList);
         }
         clusterInfo = getCourseOfferingService().updateActivityOfferingCluster(formatOfferingId,
-                                                                    clusterInfo.getId(), clusterInfo, getContextInfo());
+                clusterInfo.getId(), clusterInfo, getContextInfo());
         return clusterInfo;
     }
-    
+
     /*
-     * convert List<ActivityOfferingClusterInfo> to List<ActivityOfferingClusterWrapper> and set it to the Form
-     */
+    * convert List<ActivityOfferingClusterInfo> to List<ActivityOfferingClusterWrapper> and set it to the Form
+    */
     private List<ActivityOfferingClusterWrapper> _convertToAOClusterWrappers(List<ActivityOfferingClusterInfo> aoClusterList,
-                                    CourseOfferingManagementForm theForm) throws Exception{
+                                                                             CourseOfferingManagementForm theForm) throws Exception{
         List<ActivityOfferingClusterWrapper> aoClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
         int clusterIndex =0;
         for (ActivityOfferingClusterInfo aoCluster: aoClusterList) {
@@ -874,7 +883,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     private  ActivityOfferingClusterWrapper _buildAOClusterWrapper (ActivityOfferingClusterInfo aoCluster,
-                         CourseOfferingManagementForm theForm, int clusterIndex) throws Exception{
+                                                                    CourseOfferingManagementForm theForm, int clusterIndex) throws Exception{
 
         ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
         aoClusterWrapper.setActivityOfferingClusterId(aoCluster.getId());
@@ -892,7 +901,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         List<RegistrationGroupInfo> rgInfos =getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(aoCluster.getId(), getContextInfo());
         List<RegistrationGroupWrapper> rgListPerCluster = new ArrayList<RegistrationGroupWrapper>();
         if(rgInfos.size()>0){
-             _validateRegistrationGroupsPerCluster(rgInfos, aoInfoList, aoClusterWrapper, theForm, clusterIndex);
+            _validateRegistrationGroupsPerCluster(rgInfos, aoInfoList, aoClusterWrapper, theForm, clusterIndex);
             rgListPerCluster= _getRGsForSelectedFO(rgInfos, aoWrapperListPerCluster);
         }
         else{
@@ -916,7 +925,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
      *
      */
     private void _validateRegistrationGroupsPerCluster(List<RegistrationGroupInfo> rgInfos, List<ActivityOfferingInfo> aoList,
-                              ActivityOfferingClusterWrapper aoClusterWrapper, CourseOfferingManagementForm theForm, int clusterIndex) throws Exception{
+                                                       ActivityOfferingClusterWrapper aoClusterWrapper, CourseOfferingManagementForm theForm, int clusterIndex) throws Exception{
 
         Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap =
                 _constructActivityOfferingTypeToAvailableActivityOfferingMap(aoList);
@@ -962,7 +971,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
     }
-    
+
     private void _performMaxEnrollmentValidation(String formateOfferingId, ActivityOfferingClusterInfo aoCluster, int clusterIndex) throws Exception{
         List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateActivityOfferingCluster(
                 "validation on max enroll totals", formateOfferingId, aoCluster, getContextInfo());
@@ -1044,7 +1053,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     @RequestMapping(params = "methodToCall=loadPreviousCO")
     public ModelAndView loadPreviousCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(theForm.getPreviousCourseOffering());
 
@@ -1061,7 +1070,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     @RequestMapping(params = "methodToCall=loadNextCO")
     public ModelAndView loadNextCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(theForm.getNextCourseOffering());
 
@@ -1078,7 +1087,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     @RequestMapping(params = "methodToCall=loadAOs")
     public ModelAndView loadAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object selectedObject = _getSelectedObject(theForm, "Manage");
         if(selectedObject instanceof CourseOfferingEditWrapper){
             CourseOfferingEditWrapper coWrapper =  (CourseOfferingEditWrapper)selectedObject;
@@ -1086,8 +1095,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
             theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
             theForm.setInputCode(theCourseOffering.getCourseOfferingCode());
-            theForm.setRadioSelection(CourseOfferingConstants.COURSEOFFERING_COURSE_OFFERING_CODE);
-
             return prepareManageAOsModelAndView(theForm, theCourseOffering);
         }
         else{
@@ -1248,7 +1255,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         for (RegistrationGroupInfo rgInfo : rgInfos) {
-           RegistrationGroupWrapper rgWrapper = new RegistrationGroupWrapper();
+            RegistrationGroupWrapper rgWrapper = new RegistrationGroupWrapper();
             rgWrapper.setRgInfo(rgInfo);
             String aoActivityCodeText = "", aoStateNameText = "", aoTypeNameText = "", aoInstructorText = "", aoMaxEnrText = "";
             for (String aoID : rgInfo.getActivityOfferingIds()) {
@@ -1313,7 +1320,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             filterdRGList.add(rgWrapper);
 
             try{
-            rgWrapper.setStateKey(rgInfo.getStateKey(), getStateService().getState(rgInfo.getStateKey(), getContextInfo()).getName());
+                rgWrapper.setStateKey(rgInfo.getStateKey(), getStateService().getState(rgInfo.getStateKey(), getContextInfo()).getName());
             }catch (Exception e){
                 LOG.info("Error occured to get the StateService" + e.getMessage());
             }
@@ -1321,7 +1328,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         return filterdRGList;
     }
-    
+
     private boolean _isClusterUnique(String formatOfferingId, String privateName) throws Exception{
         //Build up a term search criteria
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -1441,9 +1448,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         CourseOfferingInfo theCourseOffering = theForm.getTheCourseOffering();
         String subjectCode = theCourseOffering.getSubjectArea();
         String termId = theForm.getTermInfo().getId();
-        theForm.setRadioSelection("subjectCode");
         theForm.setInputCode(subjectCode);
         getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
+        theForm.setSubjectCode(subjectCode);
+        String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
+        theForm.setSubjectCodeDescription(longNameDescr);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
@@ -1452,7 +1461,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
      */
     @RequestMapping(params = "methodToCall=copyAO")
     public ModelAndView copyAO( @ModelAttribute("KualiForm") CourseOfferingManagementForm form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
+                                HttpServletRequest request, HttpServletResponse response) {
         ActivityOfferingWrapper selectedAO = (ActivityOfferingWrapper)_getSelectedObject(form, "copy");
         try{
             CourseOfferingResourceLoader.loadCourseOfferingService().copyActivityOffering(selectedAO.getAoInfo().getId(), ContextBuilder.loadContextInfo());
@@ -1536,9 +1545,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if (StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)
                 || StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY)) {
             LOG.error(String.format("Course offering [%s] cannot not be deleted because the state was [%s].",
-                theCourseOffering.getCourseOfferingCode(), coState));
+                    theCourseOffering.getCourseOfferingCode(), coState));
             GlobalVariables.getMessageMap().putErrorForSectionId(CourseOfferingConstants.MANAGE_CO_LIST_SECTION,
-                CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_DELETE);
+                    CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_DELETE);
             return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
         }
 
@@ -1555,10 +1564,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             //  Verify AO state.
             if ( ! ao.isLegalToDelete()) {
                 LOG.error(String.format("Course Offering [%s] cannot be deleted because Activity Offering [%s] is in an invalid state for deleting.",
-                    theCourseOffering.getCourseOfferingCode(), ao.getActivityCode()));
+                        theCourseOffering.getCourseOfferingCode(), ao.getActivityCode()));
                 GlobalVariables.getMessageMap().putErrorForSectionId(CourseOfferingConstants.MANAGE_CO_LIST_SECTION,
                         CourseOfferingConstants.COURSEOFFERING_INVALID_AO_STATE_FOR_DELETE);
-                 return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
+                return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
             }
         }
 
@@ -1592,7 +1601,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 // Verify AO status
                 if ( ! ao.isLegalToDelete()) {
                     LOG.error(String.format("Course Offering [%s] cannot be deleted because Activity Offering [%s] is in an invalid state for deleting.",
-                        theCourseOffering.getCourseOfferingCode(), ao.getActivityCode()));
+                            theCourseOffering.getCourseOfferingCode(), ao.getActivityCode()));
                     GlobalVariables.getMessageMap().putErrorForSectionId(CourseOfferingConstants.MANAGE_CO_LIST_SECTION,
                             CourseOfferingConstants.COURSEOFFERING_INVALID_AO_STATE_FOR_DELETE);
                     return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
@@ -1689,7 +1698,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
      */
     @RequestMapping(params = "methodToCall=selectedAoActions")
     public ModelAndView selectedAoActions(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
         //  Stop here if no AOs are selected.
         if ( ! hasSelectedActivityOfferings(theForm)) {
             GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.NO_AOS_SELECTED);
@@ -1701,7 +1710,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         if (StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION) ||
-            StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
+                StringUtils.equals(theForm.getSelectedOfferingAction(), CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
             getViewHelperService(theForm).changeActivityOfferingsState(theForm.getActivityWrapperList(), theForm.getTheCourseOffering(), theForm.getSelectedOfferingAction());
         }
 
@@ -1713,7 +1722,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
-     /**
+    /**
      *  Determine if any COs were check-boxed.
      *  @return True if any COs where selected. Otherwise, false.
      */
@@ -1765,10 +1774,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         String textToDisplay = StringUtils.EMPTY;
         int count = 1;
         for (CourseOfferingEditWrapper co : theForm.getCourseOfferingEditWrapperList()) {
-             if (co.getIsChecked()){
-                  textToDisplay = textToDisplay + co.getCoInfo().getCourseOfferingCode() + ",";
-                 count++;
-             }
+            if (co.getIsChecked()){
+                textToDisplay = textToDisplay + co.getCoInfo().getCourseOfferingCode() + ",";
+                count++;
+            }
         }
         theForm.setToBeScheduledCourseOfferingsUI(StringUtils.stripEnd(textToDisplay,","));
         theForm.setToBeScheduledCourseOfferingsCount(count-1);
@@ -1779,7 +1788,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
      */
     @RequestMapping(params = "methodToCall=confirmDelete")
     public ModelAndView confirmDelete(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         Collection<Object> collection;
         Object selectedObject;
         List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
@@ -1848,7 +1857,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
      */
     @RequestMapping(params = "methodToCall=view")
     public ModelAndView view(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Properties urlParameters = new Properties();
         String controllerPath = "inquiry";
@@ -1897,7 +1906,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         props.put("targetTermCode", termCode);
         props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, "org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper");
 
-         return super.performRedirect(theForm, "courseOffering", props);
+        return super.performRedirect(theForm, "courseOffering", props);
     }
 
     @RequestMapping(params = "methodToCall=markSubjectCodeReadyForScheduling")
