@@ -27,7 +27,8 @@
                 <value>krad/css/global/fss-text.css</value>
                 <value>krad/plugins/jqueryUI/jquery-ui-1.8.19.css</value>
                 <value>http://code.jquery.com/mobile/1.2.0/jquery.mobile.structure-1.2.0.css</value>
-                <value>ks-myplan/mobile/myplan.min.css</value>
+                <value>ks-myplan/mobile/myplan.css</value>
+                <value>ks-myplan/mobile/custom.css</value>
             </list>
         </property>
         <property name="scriptFiles">
@@ -73,7 +74,6 @@
         </property>
     </bean>
 
-
     <bean id="M.MyPlanBaseInquiryView" abstract="true" parent="Uif-InquiryView">
         <property name="preloadPoolSize" value="5"/>
         <property name="theme">
@@ -81,20 +81,23 @@
         </property>
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
+        <property name="header.render" value="false"/>
         <property name="footer.render" value="false"/>
         <property name="singlePageView" value="true"/>
-        <property name="header">
-            <bean parent="Uif-HeaderOne">
-                <property name="dataAttributes">
-                    <map>
-                        <entry key="role" value="header"/>
-                    </map>
-                </property>
-            </bean>
+        <property name="applicationHeader">
+            <bean parent="Uif-HeaderOne" p:id="ks-banner"
+                  p:template="/ks-myplan/WEB-INF/ftl/mobile/MyPlanApplicationHeader.ftl"
+                  p:templateName="myplan_app_header"/>
+        </property>
+        <property name="page">
+            <bean parent="M.Uif-Page"/>
         </property>
     </bean>
 
     <bean id="M.Uif-Page" parent="Uif-Page">
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
         <property name="dataAttributes">
             <map>
                 <entry key="role" value="content"/>

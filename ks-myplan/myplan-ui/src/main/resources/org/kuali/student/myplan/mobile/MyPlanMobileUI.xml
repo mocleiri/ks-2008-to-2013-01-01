@@ -20,6 +20,7 @@
     -->
     <bean id="M.CourseDetails-InquiryView" parent="M.MyPlanInquiryView">
         <property name="headerText" value="@{dataObject.code}"/>
+        <property name="page.header.headerText" value="@{dataObject.code} @{dataObject.courseTitle} (@{dataObject.credit})"/>
         <property name="viewName" value="M.CourseDetails"/>
         <property name="singlePageView" value="true"/>
         <property name="dataObjectClassName" value="org.kuali.student.myplan.course.dataobject.CourseDetails"/>
@@ -27,15 +28,7 @@
                   value="org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl"/>
         <property name="items">
             <list>
-                <bean id="m_course_details_page" parent="M.Uif-Page">
-                    <property name="headerText"
-                              value="@{dataObject.code} @{dataObject.courseTitle} (@{dataObject.credit})"/>
-                    <property name="items">
-                        <list>
-                            <ref bean="m_course_details_section"/>
-                        </list>
-                    </property>
-                </bean>
+                <ref bean="m_course_details_section"/>
             </list>
         </property>
     </bean>
@@ -49,7 +42,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="M.Uif-Grid-Solo">
+                <bean parent="M.Uif-Grid-Solo" p:style="margin:0;">
                     <property name="items">
                         <list>
                             <bean parent="Uif-Label" p:labelText="Course Description"
@@ -69,13 +62,28 @@
                     </property>
                 </bean>
 
-                <bean parent="M.Uif-Grid-Two">
+                <bean parent="M.Uif-Grid-Solo" p:style="margin:0;">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Label" p:labelText="Credits"
+                            <bean parent="Uif-Label" p:labelText="Course Requisites"
                                   p:renderColon="false" p:cssClasses="ui-block-a"/>
-                            <bean parent="M.Uif-DataField" p:fieldLabel.render="false"
-                                  p:propertyName="credit" p:escapeHtmlInPropertyValue="false" p:cssClasses="ui-block-b">
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="M.Uif-Grid-Solo">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="requisites"
+                                  p:fieldLabel.render="false"
+                                  p:escapeHtmlInPropertyValue="false">
+                                <property name="propertyEditor" ref="data_list_formatter"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ui-block-a</value>
+                                        <value>myplan-data-list</value>
+                                    </list>
+                                </property>
                             </bean>
                         </list>
                     </property>
@@ -169,6 +177,74 @@
                                         </bean>
                                     </list>
                                 </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="M.Uif-Grid-Two">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Label" p:labelText="Credits"
+                                  p:renderColon="false" p:cssClasses="ui-block-a"/>
+                            <bean parent="M.Uif-DataField" p:fieldLabel.render="false"
+                                  p:propertyName="credit" p:escapeHtmlInPropertyValue="false" p:cssClasses="ui-block-b"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="M.Uif-Grid-Two">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Label" p:labelText="General Edu. Req."
+                                  p:renderColon="false" p:cssClasses="ui-block-a"/>
+                            <bean parent="Uif-DataField"
+                                  p:propertyName="genEdRequirements"
+                                  p:fieldLabel.renderColon="false"
+                                  p:escapeHtmlInPropertyValue="false">
+
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ui-block-b</value>
+                                        <value>myplan-stacked-list</value>
+                                    </list>
+                                </property>
+                                <property name="propertyEditor"
+                                          ref="data_list_formatter"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="M.Uif-Grid-Two">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Label" p:labelText="Curriculum"
+                                  p:renderColon="false" p:cssClasses="ui-block-a"/>
+                            <bean parent="Uif-DataField"
+                                  p:propertyName="curriculumTitle"
+                                  p:fieldLabel.render="false"
+                                  p:cssClasses="ui-block-b"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="M.Uif-Grid-Two">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Label" p:labelText="Campus"
+                                  p:renderColon="false" p:cssClasses="ui-block-a"/>
+                            <bean parent="Uif-DataField"
+                                  p:propertyName="campusLocations"
+                                  p:fieldLabel.render="false"
+                                  p:escapeHtmlInPropertyValue="false">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ui-block-b</value>
+                                        <value>myplan-data-list</value>
+                                    </list>
+                                </property>
+                                <property name="propertyEditor" ref="data_list_formatter"/>
                             </bean>
                         </list>
                     </property>
