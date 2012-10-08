@@ -21,13 +21,15 @@
     <bean id="M.CourseDetails-InquiryView" parent="M.MyPlanInquiryView">
         <property name="headerText" value="@{dataObject.code}"/>
         <property name="viewName" value="M.CourseDetails"/>
+        <property name="singlePageView" value="true"/>
         <property name="dataObjectClassName" value="org.kuali.student.myplan.course.dataobject.CourseDetails"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl"/>
         <property name="items">
             <list>
                 <bean id="m_course_details_page" parent="M.Uif-Page">
-                    <property name="headerText" value="@{dataObject.code} @{dataObject.courseTitle} (@{dataObject.credit})"/>
+                    <property name="headerText"
+                              value="@{dataObject.code} @{dataObject.courseTitle} (@{dataObject.credit})"/>
                     <property name="items">
                         <list>
                             <ref bean="m_course_details_section"/>
@@ -47,18 +49,130 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="M.Uif-Grid-Two">
+                <bean parent="M.Uif-Grid-Solo">
                     <property name="items">
                         <list>
                             <bean parent="Uif-Label" p:labelText="Course Description"
-                                  p:renderColon="false"/>
+                                  p:renderColon="false" p:cssClasses="ui-block-a"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="M.Uif-Grid-Solo">
+                    <property name="items">
+                        <list>
                             <bean parent="M.Uif-DataField" p:fieldLabel.render="false"
-                                  p:propertyName="courseDescription" p:escapeHtmlInPropertyValue="false">
+                                  p:propertyName="courseDescription" p:escapeHtmlInPropertyValue="false"
+                                  p:cssClasses="ui-block-a">
                             </bean>
                         </list>
                     </property>
                 </bean>
 
+                <bean parent="M.Uif-Grid-Two">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Label" p:labelText="Credits"
+                                  p:renderColon="false" p:cssClasses="ui-block-a"/>
+                            <bean parent="M.Uif-DataField" p:fieldLabel.render="false"
+                                  p:propertyName="credit" p:escapeHtmlInPropertyValue="false" p:cssClasses="ui-block-b">
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="M.Uif-Grid-Two">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Label" p:labelText="Quarters"
+                                  p:renderColon="false" p:cssClasses="ui-block-a"/>
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="cssClasses">
+                                    <list>
+                                        <value>ui-block-b</value>
+                                    </list>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-HorizontalBoxGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-DataField"
+                                                          p:propertyName="scheduledTerms"
+                                                          p:escapeHtmlInPropertyValue="false">
+                                                        <property name="propertyEditor"
+                                                                  ref="scheduled_terms_list_formatter"/>
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>myplan-data-list</value>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                    <bean parent="Uif-Message"
+                                                          p:messageText="(Source: Time Schedule)">
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>fl-font-size-90</value>
+                                                                <value>fl-text-gray</value>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-HorizontalBoxGroup"
+                                              p:render="@{dataObject.scheduledTerms.size() gt 0 ? false : true}">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message"
+                                                          p:messageText="Last offered in @{dataObject.lastOffered}"
+                                                          p:render="@{dataObject.lastOffered ne null ? true : false}"/>
+                                                    <bean parent="Uif-Message"
+                                                          p:messageText="Not offered for more than 10 years."
+                                                          p:render="@{dataObject.lastOffered eq null ? true : false}"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-HorizontalBoxGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message"
+                                                          p:messageText="Projected to be offered in "
+                                                          p:render="@{dataObject.termsOffered.size() gt 0 ? true : false}"
+                                                          p:style="margin: 0 0.33em 0 0;"/>
+                                                    <bean parent="Uif-DataField"
+                                                          p:propertyName="termsOffered"
+                                                          p:fieldLabel.render="false"
+                                                          p:style="margin: 0 0.33em 0 0; padding-top: 3px;"
+                                                          p:escapeHtmlInPropertyValue="false">
+                                                        <property name="propertyEditor"
+                                                                  ref="terms_formatter"/>
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>myplan-data-list</value>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                    <bean parent="Uif-Message" p:messageText="quarters"
+                                                          p:render="@{dataObject.termsOffered.size() gt 0 ? true : false}"/>
+                                                    <bean parent="Uif-Message"
+                                                          p:messageText="(Source: Course Catalog)">
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>fl-font-size-90</value>
+                                                                <value>fl-text-gray</value>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
 
                 <!--<bean parent="Uif-VerticalBoxGroup">
                     <property name="cssClasses">
@@ -196,90 +310,6 @@
                                                     <bean parent="Uif-Label" p:labelText="Quarters"
                                                           p:renderColon="false"/>
                                                     <ref bean="course_quarter_help_icon"/>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-VerticalBoxGroup">
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>myplan-course-detail-field</value>
-                                                </list>
-                                            </property>
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="Uif-HorizontalBoxGroup">
-                                                        <property name="items">
-                                                            <list>
-                                                                <bean parent="Uif-DataField"
-                                                                      p:propertyName="scheduledTerms"
-                                                                      p:escapeHtmlInPropertyValue="false">
-                                                                    <property name="propertyEditor"
-                                                                              ref="scheduled_terms_list_formatter"/>
-                                                                    <property name="cssClasses">
-                                                                        <list merge="true">
-                                                                            <value>myplan-data-list</value>
-                                                                        </list>
-                                                                    </property>
-                                                                </bean>
-                                                                <bean parent="Uif-Message"
-                                                                      p:messageText="(Source: Time Schedule)">
-                                                                    <property name="cssClasses">
-                                                                        <list merge="true">
-                                                                            <value>fl-font-size-90</value>
-                                                                            <value>fl-text-gray</value>
-                                                                        </list>
-                                                                    </property>
-                                                                </bean>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                    <bean parent="Uif-HorizontalBoxGroup"
-                                                          p:render="@{dataObject.scheduledTerms.size() gt 0 ? false : true}">
-                                                        <property name="items">
-                                                            <list>
-                                                                <bean parent="Uif-Message"
-                                                                      p:messageText="Last offered in @{dataObject.lastOffered}"
-                                                                      p:render="@{dataObject.lastOffered ne null ? true : false}"/>
-                                                                <bean parent="Uif-Message"
-                                                                      p:messageText="Not offered for more than 10 years."
-                                                                      p:render="@{dataObject.lastOffered eq null ? true : false}"/>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                    <bean parent="Uif-HorizontalBoxGroup">
-                                                        <property name="items">
-                                                            <list>
-                                                                <bean parent="Uif-Message"
-                                                                      p:messageText="Projected to be offered in "
-                                                                      p:render="@{dataObject.termsOffered.size() gt 0 ? true : false}"
-                                                                      p:style="margin: 0 0.33em 0 0;"/>
-                                                                <bean parent="Uif-DataField"
-                                                                      p:propertyName="termsOffered"
-                                                                      p:fieldLabel.render="false"
-                                                                      p:style="margin: 0 0.33em 0 0; padding-top: 3px;"
-                                                                      p:escapeHtmlInPropertyValue="false">
-                                                                    <property name="propertyEditor"
-                                                                              ref="terms_formatter"/>
-                                                                    <property name="cssClasses">
-                                                                        <list merge="true">
-                                                                            <value>myplan-data-list</value>
-                                                                        </list>
-                                                                    </property>
-                                                                </bean>
-                                                                <bean parent="Uif-Message" p:messageText="quarters"
-                                                                      p:render="@{dataObject.termsOffered.size() gt 0 ? true : false}"/>
-                                                                <bean parent="Uif-Message"
-                                                                      p:messageText="(Source: Course Catalog)">
-                                                                    <property name="cssClasses">
-                                                                        <list merge="true">
-                                                                            <value>fl-font-size-90</value>
-                                                                            <value>fl-text-gray</value>
-                                                                        </list>
-                                                                    </property>
-                                                                </bean>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
                                                 </list>
                                             </property>
                                         </bean>

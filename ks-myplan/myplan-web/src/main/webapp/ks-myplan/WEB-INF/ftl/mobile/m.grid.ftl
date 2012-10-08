@@ -22,10 +22,18 @@
 
 <#macro m_uif_grid group>
 
+    <#if group.styleClassesAsString?has_content>
+        <#local styleClass="class=\"${group.styleClassesAsString}\""/>
+    </#if>
+
+    <#if group.style?has_content>
+        <#local style="style=\"${group.style}\""/>
+    </#if>
+
     <div id="${group.id}" ${style!} ${styleClass!}>
         <#list group.items as item>
            <@krad.template component=item/>
-       </#list>
+        </#list>
     </div>
 
 </#macro>

@@ -92,9 +92,6 @@
                 </property>
             </bean>
         </property>
-        <property name="page">
-            <bean parent="M.Uif-Page"/>
-        </property>
     </bean>
 
     <bean id="M.Uif-Page" parent="Uif-Page">
@@ -106,9 +103,7 @@
         <property name="layoutManager">
             <bean parent="Uif-VerticalBoxLayout"/>
         </property>
-        <property name="header">
-            <bean parent="Uif-HeaderTwo"/>
-        </property>
+
     </bean>
 
     <bean id="M.MyPlanInquiryView" abstract="true" parent="M.MyPlanBaseInquiryView"/>
@@ -144,6 +139,9 @@
         </list>
       </property>
   </bean>
+
+
+  <bean id="M.Uif-Grid-Solo" parent="M.Uif-Grid-parentBean"/>
 
   <bean id="M.Uif-Grid-parentBean" abstract="true" parent="Uif-GroupBase" scope="prototype">
     <property name="cssClasses">
