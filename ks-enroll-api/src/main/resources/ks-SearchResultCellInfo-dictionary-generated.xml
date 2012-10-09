@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- SearchResultCellInfo-->
 	<bean id="SearchResultCellInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="searchResultCellInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.search.dto.SearchResultCellInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.search.dto.SearchResultCellInfo"/>
 		<property name="objectLabel" value="Search Result Cell"/>
 		<property name="objectDescription">
 			<value>

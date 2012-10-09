@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- SearchRequestInfo-->
 	<bean id="SearchRequestInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="searchRequestInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.search.dto.SearchRequestInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.search.dto.SearchRequestInfo"/>
 		<property name="objectLabel" value="Search Request"/>
 		<property name="objectDescription">
 			<value>
@@ -110,7 +110,7 @@ The search parameters.
 			</value>
 		</property>
 		<property name="minOccurs" value="1"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.search.dto.SearchParamInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.search.dto.SearchParamInfo"/>
 	</bean>
 
 	<bean id="SearchRequestInfo.sortColumn-generated" abstract="true" parent="BaseKuali.string">

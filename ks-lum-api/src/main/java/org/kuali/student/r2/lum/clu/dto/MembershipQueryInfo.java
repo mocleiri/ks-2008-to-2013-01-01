@@ -16,8 +16,8 @@
 package org.kuali.student.r2.lum.clu.dto;
 
 
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
-import org.kuali.student.r2.core.search.infc.SearchParam;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.infc.SearchParam;
 import org.kuali.student.r2.lum.clu.infc.MembershipQuery;
 
 import javax.xml.bind.annotation.*;

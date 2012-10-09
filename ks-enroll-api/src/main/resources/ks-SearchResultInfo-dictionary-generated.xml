@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- SearchResultInfo-->
 	<bean id="SearchResultInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="searchResultInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.search.dto.SearchResultInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.search.dto.SearchResultInfo"/>
 		<property name="objectLabel" value="Search Result"/>
 		<property name="objectDescription">
 			<value>
@@ -125,7 +125,7 @@ The search result rows.
 			</value>
 		</property>
 		<property name="minOccurs" value="1"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.search.dto.SearchResultRowInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.search.dto.SearchResultRowInfo"/>
 	</bean>
 
 	<bean id="SearchResultInfo.sortColumn-generated" abstract="true" parent="BaseKuali.string">

@@ -18,7 +18,7 @@ package org.kuali.student.r2.lum.clu.infc;
 import org.kuali.student.r2.common.infc.HasId;
 
 import java.util.List;
-import org.kuali.student.r2.core.search.infc.SearchParam;
+import org.kuali.student.r2.common.search.infc.SearchParam;
 
 /**
  * Specifies a search for CLU identifiers.

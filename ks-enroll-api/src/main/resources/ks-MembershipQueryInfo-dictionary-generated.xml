@@ -127,6 +127,6 @@ beyond the included object.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.search.dto.SearchParamInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.search.dto.SearchParamInfo"/>
 	</bean>
 </beans>

@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- SearchParamInfo-->
 	<bean id="SearchParamInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="searchParamInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.search.dto.SearchParamInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.search.dto.SearchParamInfo"/>
 		<property name="objectLabel" value="Search Param"/>
 		<property name="objectDescription">
 			<value>
