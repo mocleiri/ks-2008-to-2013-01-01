@@ -15,16 +15,11 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class ActivityOfferingClusterWrapper implements Serializable {
-    public static final String RG_MESSAGE_PARTIAL = "uif-rg-message-partial";
-    public static final String RG_MESSAGE_ALL = "uif-rg-message-all";
-    public static final String RG_MESSAGE_NONE = "uif-rg-message-none";
-
     private String activityOfferingClusterId;
     private ActivityOfferingClusterInfo aoCluster;
     private List<RegistrationGroupWrapper> rgWrapperList;
     private List<ActivityOfferingWrapper> aoWrapperList;
     private String rgStatus = "";
-    private String rgMessageStyle = "";
     private String clusterNameForDisplay = "";
 
     /**
@@ -44,7 +39,6 @@ public class ActivityOfferingClusterWrapper implements Serializable {
         aoWrapperList = new ArrayList<ActivityOfferingWrapper>();
         hasAllRegGroups = false;
         rgStatus = "No Registration Groups Generated";
-        rgMessageStyle = RG_MESSAGE_NONE;
         clusterNameForDisplay = "";
     }
     
@@ -54,7 +48,6 @@ public class ActivityOfferingClusterWrapper implements Serializable {
         if (rgWrapperList.isEmpty()) {
             hasAllRegGroups = false;
             rgStatus = "No Registration Groups Generated";
-            rgMessageStyle = RG_MESSAGE_NONE;
         }
     }
 
@@ -83,7 +76,6 @@ public class ActivityOfferingClusterWrapper implements Serializable {
         if (rgWrapperList.isEmpty()) {
             hasAllRegGroups = false;
             rgStatus = "No Registration Groups Generated";
-            rgMessageStyle = RG_MESSAGE_NONE;
         }
     }
 
@@ -101,14 +93,6 @@ public class ActivityOfferingClusterWrapper implements Serializable {
 
     public void setRgStatus(String rgStatus) {
         this.rgStatus = rgStatus;
-    }
-
-    public String getRgMessageStyle() {
-        return rgMessageStyle;
-    }
-
-    public void setRgMessageStyle(String rgMessageStyle) {
-        this.rgMessageStyle = rgMessageStyle;
     }
 
     public boolean isHasAllRegGroups() {

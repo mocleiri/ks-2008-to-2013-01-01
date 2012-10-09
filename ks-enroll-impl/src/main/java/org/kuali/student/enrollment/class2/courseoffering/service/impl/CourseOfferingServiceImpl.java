@@ -30,7 +30,6 @@ import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
@@ -41,7 +40,8 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.common.class1.type.service.TypeService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -2068,7 +2068,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                             validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
                                             validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
                                             validationResultInfos.add(validationResultInfo);
-                                            registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
 
                                             updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
                                             return validationResultInfos;
@@ -2078,7 +2077,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                             validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
                                             validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
                                             validationResultInfos.add(validationResultInfo);
-                                            registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
 
                                             updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
                                             return validationResultInfos;
@@ -2088,7 +2086,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                             validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
                                             validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
                                             validationResultInfos.add(validationResultInfo);
-                                            registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
 
                                             updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
                                             return validationResultInfos;
