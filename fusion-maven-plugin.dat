@@ -1,10 +1,10 @@
-# module = ks-api branch Path = enrollment/ks-api/branches/KD revision = 38040
-ks-api::enrollment_ks-api_branches_KD::3683b0b4dbf7711e564d6f903dca18af91bd7d67
-# module = ks-core branch Path = enrollment/ks-core/branches/KD revision = 38040
-ks-core::enrollment_ks-core_branches_KD::4c167278fea4f08a6a33ff88257ccbe5cd7a2917
-# module = ks-lum branch Path = enrollment/ks-lum/branches/KD revision = 38040
-ks-lum::enrollment_ks-lum_branches_KD::7fb395adacfd568d91742da62c4389c3b7e51cc5
-# module = ks-enroll branch Path = enrollment/ks-enroll/branches/KD revision = 38040
-ks-enroll::enrollment_ks-enroll_branches_KD::489b13362f1710e22c27aa3e8ca38e083a8f6686
-# module = ks-deployments branch Path = enrollment/ks-deployments/branches/KD revision = 38040
-ks-deployments::enrollment_ks-deployments_branches_KD::b496d106c5fbda467722cc1b3d86923d6b5a155e
+# module = ks-api branch Path = enrollment/ks-api/tags/builds/ks-api-2.0/2.0.0-M5-KD-DEMO/build-17 revision = 38262
+ks-api::enrollment_ks-api_tags_builds_ks-api-2.0_2.0.0-M5-KD-DEMO_build-17::5418e2fa005d0e2539d5516c54f7caa401c0225b
+# module = ks-core branch Path = enrollment/ks-core/tags/builds/ks-core-2.0/2.0.0-KD-DEMO/build-17 revision = 38262
+ks-core::enrollment_ks-core_tags_builds_ks-core-2.0_2.0.0-KD-DEMO_build-17::2bb9332c434c94e6aa28de96a9ccb3a232a076d1
+# module = ks-deployments branch Path = enrollment/ks-deployments/tags/builds/ks-deployments-2.0/2.0.0-KD-DEMO/build-17 revision = 38262
+ks-deployments::enrollment_ks-deployments_tags_builds_ks-deployments-2.0_2.0.0-KD-DEMO_build-17::f7469ac24f295b6cd7f4d2140d817851786ab563
+# module = ks-enroll branch Path = enrollment/ks-enroll/tags/builds/ks-enroll-1.0/1.0.0-KD-DEMO/build-17 revision = 38262
+ks-enroll::enrollment_ks-enroll_tags_builds_ks-enroll-1.0_1.0.0-KD-DEMO_build-17::369878843f71363964a6cde7dbde428d3314ea15
+# module = ks-lum branch Path = enrollment/ks-lum/tags/builds/ks-lum-2.0/2.0.0-KD-DEMO/build-17 revision = 38262
+ks-lum::enrollment_ks-lum_tags_builds_ks-lum-2.0_2.0.0-KD-DEMO_build-17::9032d38d31b9f2f614633f1a2e08fda421ce43eb
