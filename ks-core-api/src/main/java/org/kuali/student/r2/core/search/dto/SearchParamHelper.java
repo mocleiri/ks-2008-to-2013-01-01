@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.kuali.student.r1.common.search.dto.SearchParam;
 
-
+/**
+ * This file should be removed once r1 is replaced with r2.
+ */
 public class SearchParamHelper {
 
     /**
