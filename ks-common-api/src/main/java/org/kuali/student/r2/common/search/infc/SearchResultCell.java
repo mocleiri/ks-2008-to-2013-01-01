@@ -14,8 +14,23 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.search.dto;
+package org.kuali.student.r2.common.search.infc;
 
-public enum SortDirection {
-	ASC, DESC;
+
+public interface SearchResultCell {
+    
+    /**
+     * The search result cell key.
+     *
+     * @name Result Cell Key
+     * @required
+     */
+    public String getKey();
+
+    /**
+     * The search result cell value.
+     *
+     * @name Result Cell Value
+     */
+    public String getValue();
 }

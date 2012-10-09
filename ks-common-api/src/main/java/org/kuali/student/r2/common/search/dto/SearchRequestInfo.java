@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.search.dto;
+package org.kuali.student.r2.common.search.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,12 +22,11 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.core.search.infc.SearchRequest;
-import org.kuali.student.r2.core.search.infc.SearchParam;
+import org.kuali.student.r2.common.search.infc.SearchRequest;
+import org.kuali.student.r2.common.search.infc.SearchParam;
 //import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)

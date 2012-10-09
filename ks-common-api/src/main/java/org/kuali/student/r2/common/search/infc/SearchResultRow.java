@@ -14,23 +14,17 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.search.infc;
+package org.kuali.student.r2.common.search.infc;
 
+import java.util.List;
 
-public interface SearchResultCell {
+public interface SearchResultRow {
     
     /**
-     * The search result cell key.
+     * The cells in the search result rows.
      *
-     * @name Result Cell Key
+     * @name Search Result Row Cells
      * @required
      */
-    public String getKey();
-
-    /**
-     * The search result cell value.
-     *
-     * @name Result Cell Value
-     */
-    public String getValue();
+    public List<? extends SearchResultCell> getCells();
 }

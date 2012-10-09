@@ -13,11 +13,11 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.r2.core.constants;
+package org.kuali.student.r2.common.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 
 /**
  * Batch Job Results Service Constants

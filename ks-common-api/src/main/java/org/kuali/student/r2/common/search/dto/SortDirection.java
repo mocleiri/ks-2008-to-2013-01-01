@@ -14,25 +14,8 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.search.infc;
+package org.kuali.student.r2.common.search.dto;
 
-import java.util.List;
-
-public interface SearchParam {
-    
-    /**
-     * The search parameter key.
-     *
-     * @name Parameter Key
-     * @required
-     */
-    public String getKey();    
-
-    /**
-     * The search parameter values.
-     *
-     * @name Parameter Value(s)
-     * @required
-     */
-    public List<String> getValues();
+public enum SortDirection {
+	ASC, DESC;
 }

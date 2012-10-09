@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.r2.core.search.util;
+package org.kuali.student.r2.common.search.util;
 
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 
 import java.text.DateFormat;
 import java.text.ParseException;

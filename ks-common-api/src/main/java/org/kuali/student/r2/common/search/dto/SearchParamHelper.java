@@ -1,4 +1,4 @@
-package org.kuali.student.r2.core.search.dto;
+package org.kuali.student.r2.common.search.dto;
 
 import java.util.ArrayList;
 import java.util.List;
