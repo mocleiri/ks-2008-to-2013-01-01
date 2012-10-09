@@ -96,7 +96,7 @@
 
     <bean id="M.Uif-Page" parent="Uif-Page">
         <property name="header">
-            <bean parent="Uif-HeaderTwo"/>
+            <bean parent="Uif-HeaderThree"/>
         </property>
         <property name="dataAttributes">
             <map>

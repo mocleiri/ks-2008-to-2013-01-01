@@ -20,7 +20,7 @@
     -->
     <bean id="M.CourseDetails-InquiryView" parent="M.MyPlanInquiryView">
         <property name="headerText" value="@{dataObject.code}"/>
-        <property name="page.header.headerText" value="@{dataObject.code} @{dataObject.courseTitle} (@{dataObject.credit})"/>
+        <property name="page.header.headerText" value="@{dataObject.code}"/>
         <property name="viewName" value="M.CourseDetails"/>
         <property name="singlePageView" value="true"/>
         <property name="dataObjectClassName" value="org.kuali.student.myplan.course.dataobject.CourseDetails"/>
@@ -34,7 +34,10 @@
     </bean>
 
 
-    <bean id="m_course_details_section" parent="Uif-VerticalBoxGroup">
+    <bean id="m_course_details_section" parent="Uif-VerticalBoxSection" p:headerText="@{dataObject.courseTitle}" p:style="margin-top:-1em;">
+        <property name="header">
+            <bean parent="Uif-HeaderFour"/>
+        </property>
         <property name="cssClasses">
             <list merge="true">
                 <value>myplan-course-details</value>
@@ -93,8 +96,8 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Label" p:labelText="Quarters"
-                                  p:renderColon="false" p:cssClasses="ui-block-a"/>
-                            <bean parent="Uif-VerticalBoxGroup">
+                                  p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
+                            <bean parent="Uif-VerticalBoxGroup" p:width="60%">
                                 <property name="cssClasses">
                                     <list>
                                         <value>ui-block-b</value>
@@ -186,9 +189,9 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Label" p:labelText="Credits"
-                                  p:renderColon="false" p:cssClasses="ui-block-a"/>
+                                  p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
                             <bean parent="M.Uif-DataField" p:fieldLabel.render="false"
-                                  p:propertyName="credit" p:escapeHtmlInPropertyValue="false" p:cssClasses="ui-block-b"/>
+                                  p:propertyName="credit" p:escapeHtmlInPropertyValue="false" p:cssClasses="ui-block-b" p:width="60%"/>
                         </list>
                     </property>
                 </bean>
@@ -197,11 +200,11 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Label" p:labelText="General Edu. Req."
-                                  p:renderColon="false" p:cssClasses="ui-block-a"/>
+                                  p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
                             <bean parent="Uif-DataField"
                                   p:propertyName="genEdRequirements"
                                   p:fieldLabel.renderColon="false"
-                                  p:escapeHtmlInPropertyValue="false">
+                                  p:escapeHtmlInPropertyValue="false" p:width="60%">
 
                                 <property name="cssClasses">
                                     <list merge="true">
@@ -220,11 +223,11 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Label" p:labelText="Curriculum"
-                                  p:renderColon="false" p:cssClasses="ui-block-a"/>
+                                  p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
                             <bean parent="Uif-DataField"
                                   p:propertyName="curriculumTitle"
                                   p:fieldLabel.render="false"
-                                  p:cssClasses="ui-block-b"/>
+                                  p:cssClasses="ui-block-b" p:width="60%"/>
                         </list>
                     </property>
                 </bean>
@@ -233,11 +236,11 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Label" p:labelText="Campus"
-                                  p:renderColon="false" p:cssClasses="ui-block-a"/>
+                                  p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
                             <bean parent="Uif-DataField"
                                   p:propertyName="campusLocations"
                                   p:fieldLabel.render="false"
-                                  p:escapeHtmlInPropertyValue="false">
+                                  p:escapeHtmlInPropertyValue="false" p:width="60%">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ui-block-b</value>
