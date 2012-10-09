@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.type.dto;
+package org.kuali.student.r2.common.class1.type.dto;
 
 import java.io.Serializable;
 
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.core.class1.type.infc.TypeTypeRelation;
+import org.kuali.student.r2.common.class1.type.infc.TypeTypeRelation;
 //import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")

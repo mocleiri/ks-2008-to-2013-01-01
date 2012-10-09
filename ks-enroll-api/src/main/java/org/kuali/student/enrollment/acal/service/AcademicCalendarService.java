@@ -20,6 +20,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
@@ -43,7 +44,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 /**
  * This service manages Academic Calendars. There are three kinds of calendars

@@ -23,6 +23,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.search.service.SearchService;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -38,7 +39,6 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;

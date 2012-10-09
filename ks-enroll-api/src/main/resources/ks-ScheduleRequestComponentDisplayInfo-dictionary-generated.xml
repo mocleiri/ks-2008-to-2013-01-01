@@ -175,7 +175,7 @@ The resource types.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.class1.type.dto.TypeInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.class1.type.dto.TypeInfo"/>
 	</bean>
 
 	<bean id="ScheduleRequestComponentDisplayInfo.isTBA-generated" abstract="true" parent="BaseKuali.boolean">

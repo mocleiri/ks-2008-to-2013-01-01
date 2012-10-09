@@ -2,7 +2,7 @@ package org.kuali.student.r2.core.scheduling.infc;
 
 import org.kuali.student.r2.common.infc.DisplayObject;
 import org.kuali.student.r2.common.infc.HasId;
-import org.kuali.student.r2.core.class1.type.infc.Type;
+import org.kuali.student.r2.common.class1.type.infc.Type;
 import org.kuali.student.r2.core.organization.infc.Org;
 import org.kuali.student.r2.core.room.infc.Building;
 import org.kuali.student.r2.core.room.infc.Room;

@@ -16,8 +16,8 @@
  */
 package org.kuali.student.r2.core.scheduling.dto;
 
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.infc.Type;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.class1.type.infc.Type;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.infc.Org;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;

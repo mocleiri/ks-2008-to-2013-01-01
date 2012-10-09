@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.type.service;
+package org.kuali.student.r2.common.class1.type.service;
 
 import java.util.List;
 
@@ -23,10 +23,10 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -38,9 +38,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.common.constants.TypeServiceConstants;
 
 /**
  * Provide lookups of Types and TypeTypRelations as well as operations

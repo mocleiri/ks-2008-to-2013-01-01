@@ -14,11 +14,11 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.constants;
+package org.kuali.student.r2.common.constants;
 
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 
 
 /**
