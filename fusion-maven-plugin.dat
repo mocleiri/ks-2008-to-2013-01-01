@@ -1,10 +1,10 @@
-# module = ks-api branch Path = enrollment/ks-api/branches/M6 revision = 37872
-ks-api::enrollment_ks-api_branches_M6::43125cbe28b0b0372d9ac04dfb8d69163e94f079
-# module = ks-core branch Path = enrollment/ks-core/branches/services revision = 37872
-ks-core::enrollment_ks-core_branches_services::deac6ce79c60985250cd19a103e52915a6e6f45f
-# module = ks-lum branch Path = enrollment/ks-lum/branches/services revision = 37872
-ks-lum::enrollment_ks-lum_branches_services::9180c9236d0b8631659095163a4befd5bcb2ea34
-# module = ks-enroll branch Path = enrollment/ks-enroll/branches/services revision = 37872
-ks-enroll::enrollment_ks-enroll_branches_services::05463f7e83e22d85a822264a884ad74cf5310b86
-# module = ks-deployments branch Path = enrollment/ks-deployments/branches/services revision = 37872
-ks-deployments::enrollment_ks-deployments_branches_services::d43e8b29247ead442446335641d5434b594b72d1
+# module = ks-api branch Path = enrollment/ks-api/tags/builds/ks-api-2.0/2.0.0-M6/build-155 revision = 38270
+ks-api::enrollment_ks-api_tags_builds_ks-api-2.0_2.0.0-M6_build-155::8fd0e44ceb909a7befe9dbace36f297743949e89
+# module = ks-core branch Path = enrollment/ks-core/tags/builds/ks-core-2.0/2.0.0-M6/build-155 revision = 38270
+ks-core::enrollment_ks-core_tags_builds_ks-core-2.0_2.0.0-M6_build-155::829e47ef114ad58fd5b61e200a11b804d242d38e
+# module = ks-deployments branch Path = enrollment/ks-deployments/tags/builds/ks-deployments-2.0/2.0.0-M6/build-155 revision = 38270
+ks-deployments::enrollment_ks-deployments_tags_builds_ks-deployments-2.0_2.0.0-M6_build-155::cdf14148b9ad52293fc62096daf1c816dfdb70eb
+# module = ks-enroll branch Path = enrollment/ks-enroll/tags/builds/ks-enroll-1.0/1.0.0-M6/build-155 revision = 38270
+ks-enroll::enrollment_ks-enroll_tags_builds_ks-enroll-1.0_1.0.0-M6_build-155::65ec036eaf7dbfc020105029b00609788511bcfa
+# module = ks-lum branch Path = enrollment/ks-lum/tags/builds/ks-lum-2.0/2.0.0-M6/build-155 revision = 38270
+ks-lum::enrollment_ks-lum_tags_builds_ks-lum-2.0_2.0.0-M6_build-155::1d6e0a57a32967fc8429646f41187bf76dc82846
