@@ -34,7 +34,8 @@
     </bean>
 
 
-    <bean id="m_course_details_section" parent="Uif-VerticalBoxSection" p:headerText="@{dataObject.courseTitle}" p:style="margin-top:-1em;">
+    <bean id="m_course_details_section" parent="Uif-VerticalBoxSection" p:headerText="@{dataObject.courseTitle}"
+          p:style="margin-top:-1em;">
         <property name="header">
             <bean parent="Uif-HeaderFour"/>
         </property>
@@ -191,7 +192,8 @@
                             <bean parent="Uif-Label" p:labelText="Credits"
                                   p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
                             <bean parent="M.Uif-DataField" p:fieldLabel.render="false"
-                                  p:propertyName="credit" p:escapeHtmlInPropertyValue="false" p:cssClasses="ui-block-b" p:width="60%"/>
+                                  p:propertyName="credit" p:escapeHtmlInPropertyValue="false" p:cssClasses="ui-block-b"
+                                  p:width="60%"/>
                         </list>
                     </property>
                 </bean>
@@ -575,6 +577,130 @@
                         </list>
                     </property>
                 </bean>-->
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Mobile bookmark list -->
+    <bean id="M.SavedCoursesSummary-LookupView" parent="M.MyPlanLookupView">
+        <property name="headerText" value="Saved Courses Summary"/>
+        <property name="viewName" value="M.SavedCoursesSummary"/>
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="page.header.render" value="false"/>
+        <property name="header.render" value="false"/>
+        <property name="footer.render" value="false"/>
+        <property name="dataObjectClassName" value="org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.myplan.plan.service.SavedCoursesSummaryLookupableHelperImpl"/>
+        <property name="singlePageView" value="true"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-view</value>
+            </list>
+        </property>
+        <property name="criteriaFields">
+            <list/>
+        </property>
+        <property name="resultFields">
+            <list/>
+        </property>
+
+        <!-- Not Displaying any criteria -->
+        <property name="criteriaGroup">
+            <bean parent="Uif-VerticalBoxGroup" p:validationMessages.render="false"/>
+        </property>
+        <property name="resultsGroup">
+            <bean id="m_saved_courses_summary" parent="m_saved_courses_summary_list"/>
+        </property>
+    </bean>
+
+    <bean id="m_saved_courses_summary_list" parent="M.Uif-CollapsibleListSection" p:headerText="Bookmarked Courses">
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-saved-courses-summary</value>
+            </list>
+        </property>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject"/>
+        <property name="propertyName" value="lookupResults"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.courseDetails.code}&lt;br&gt;@{#line.courseDetails.courseTitle}"/>
+        <property name="filters">
+            <list>
+                <bean parent="Uif-ConditionalCollectionFilter" p:expression="#index lt 10"/>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="truncateField('saved_courses_summary');"/>
+        <property name="items">
+            <list>
+                <bean parent="M.Uif-AccordionFieldGroup" p:group.validationMessages.render="false"
+                      p:fieldLabel.render="false" p:id="@{#line.planItemDataObject.id}" p:style="cursor:pointer;"
+                      p:group.header.render="false" >
+                    <property name="items">
+                        <list>
+                            <bean parent="M.Uif-Grid-Two">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Label" p:labelText="Credits"
+                                              p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
+                                        <bean parent="M.Uif-DataField" p:fieldLabel.render="false"
+                                              p:propertyName="courseDetails.credit" p:escapeHtmlInPropertyValue="false" p:cssClasses="ui-block-b"
+                                              p:width="60%"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="saved_courses_summary_footer"/>
+        </property>
+    </bean>
+
+    <bean id="saved_courses_summary_footer" parent="Uif-VerticalBoxSection"
+          p:header.render="false" p:style="padding: 7px 10px;">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Link" p:style="display: block;">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>fl-text-align-right</value>
+                        </list>
+                    </property>
+                    <property name="linkText"
+                              value="View @{(lookupResults eq null or lookupResults.size() lt 2) ? 'course' : 'all '+lookupResults.size()+' courses'} in full details"/>
+                    <property name="title"
+                              value="View @{(lookupResults eq null or lookupResults.size() lt 2) ? 'course' : 'all '+lookupResults.size()+' courses'} in full details"/>
+                    <property name="href"
+                              value="lookup?methodToCall=search&amp;viewId=SavedCoursesDetail-LookupView"/>
+                    <property name="render"
+                              value="@{lookupResults ne null and lookupResults.size() gt 0 ? true : false}"/>
+                    <property name="target" value=""/>
+                </bean>
+                <bean parent="Uif-HorizontalBoxGroup" p:style="padding: 1em 0px;" p:validationMessages.render="false">
+                    <property name="render"
+                              value="@{lookupResults ne null and lookupResults.size() gt 0 ? false : true}"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>fl-text-align-center</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="You have no bookmarked courses. &lt;a href=&quot;course&quot;&gt;Find courses&lt;/a&gt; and add them to your bookmarked list."/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

@@ -18,8 +18,8 @@
     See the License for the specific language governing permissions and
     limitations under the License.
     -->
-    <bean id="M.MyPlanTheme" abstract="true" parent="MyPlanTheme-parentBean"/>
-    <bean id="MyPlanTheme-parentBean" parent="Uif-KradTheme">
+    <bean id="M.MyPlanTheme" abstract="true" parent="M.MyPlanTheme-parentBean"/>
+    <bean id="M.MyPlanTheme-parentBean" parent="Uif-KradTheme">
         <property name="cssFiles">
             <list merge="false">
                 <value>krad/css/global/fss-reset.css</value>
@@ -94,6 +94,18 @@
         </property>
     </bean>
 
+
+    <bean id="M.MyPlanLookupView" abstract="true" parent="M.MyPlanBaseLookupView"/>
+    <bean id="M.MyPlanBaseLookupView" abstract="true" parent="Uif-LookupView">
+
+        <property name="preloadPoolSize" value="5"/>
+        <property name="theme">
+            <bean parent="M.MyPlanTheme"/>
+        </property>
+        <property name="persistFormToSession" value="false"/>
+    </bean>
+
+
     <bean id="M.Uif-Page" parent="Uif-Page">
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
@@ -116,55 +128,102 @@
         <property name="templateName" value="m_uif_dataInputField"/>
         <property name="readOnly" value="true"/>
         <property name="bindingInfo">
-          <ref bean="Uif-BindingInfo"/>
+            <ref bean="Uif-BindingInfo"/>
         </property>
         <property name="inquiry">
-          <bean parent="Uif-Inquiry"/>
+            <bean parent="Uif-Inquiry"/>
         </property>
         <property name="help">
-          <bean parent="Uif-Help"/>
+            <bean parent="Uif-Help"/>
         </property>
-     </bean>
+    </bean>
 
 
-  <bean id="M.Uif-Grid-Two" parent="M.Uif-Grid-parentBean">
-      <property name="cssClasses">
-        <list>
-          <value>ui-grid-a</value>
-        </list>
-      </property>
-  </bean>
+    <bean id="M.Uif-Grid-Two" parent="M.Uif-Grid-parentBean">
+        <property name="cssClasses">
+            <list>
+                <value>ui-grid-a</value>
+            </list>
+        </property>
+    </bean>
 
-  <bean id="M.Uif-Grid-Three" parent="M.Uif-Grid-parentBean">
-      <property name="cssClasses">
-        <list>
-          <value>ui-grid-b</value>
-        </list>
-      </property>
-  </bean>
+    <bean id="M.Uif-Grid-Three" parent="M.Uif-Grid-parentBean">
+        <property name="cssClasses">
+            <list>
+                <value>ui-grid-b</value>
+            </list>
+        </property>
+    </bean>
 
 
-  <bean id="M.Uif-Grid-Solo" parent="M.Uif-Grid-parentBean"/>
+    <bean id="M.Uif-Grid-Solo" parent="M.Uif-Grid-parentBean"/>
 
-  <bean id="M.Uif-Grid-parentBean" abstract="true" parent="Uif-GroupBase" scope="prototype">
-    <property name="cssClasses">
-      <list>
-        <value>ui-grid-solo</value>
-      </list>
-    </property>
-    <property name="validationMessages">
-      <bean parent="Uif-GroupValidationMessages" p:render="false"/>
-    </property>
-    <property name="template" value="/ks-myplan/WEB-INF/ftl/mobile/m.grid.ftl"/>
-    <property name="templateName" value="m_uif_grid"/>
+    <bean id="M.Uif-Grid-parentBean" abstract="true" parent="Uif-GroupBase" scope="prototype">
+        <property name="cssClasses">
+            <list>
+                <value>ui-grid-solo</value>
+            </list>
+        </property>
+        <property name="validationMessages">
+            <bean parent="Uif-GroupValidationMessages" p:render="false"/>
+        </property>
+        <property name="template" value="/ks-myplan/WEB-INF/ftl/mobile/m.grid.ftl"/>
+        <property name="templateName" value="m_uif_grid"/>
+        <property name="layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+    </bean>
+
+
+    <!-- Mobile Accordian Collapsible Set -->
+
+    <!-- Accordian Layout Manager -->
+    <bean id="M.Uif-CollapsibleAccordion-Set" parent="Uif-StackedCollectionLayoutBase-parentBean">
+        <property name="template" value="/ks-myplan/WEB-INF/ftl/mobile/m.collapsibleset.ftl"/>
+        <property name="templateName" value="uif_collapsible_set"/>
+        <property name="lineGroupPrototype">
+            <bean parent="M.Uif-AccordionBoxGroup">
+                <property name="header">
+                    <bean parent="Uif-HeaderFour"/>
+                </property>
+                <property name="disclosure.renderImage" value="false"/>
+                <property name="disclosure.defaultOpen" value="false"/>
+            </bean>
+        </property>
+    </bean>
+
+
+  <bean id="M.Uif-CollapsibleListSection" parent="Uif-ListCollectionGroup-parentBean">
     <property name="layoutManager">
-      <bean parent="Uif-HorizontalBoxLayout"/>
+      <bean parent="M.Uif-CollapsibleAccordion-Set"/>
     </property>
   </bean>
 
 
+    <bean id="M.Uif-AccordionFieldGroup" parent="Uif-FieldGroupBase-parentBean">
+        <property name="template" value="/ks-myplan/WEB-INF/ftl/mobile/m.accordionfieldgroup.ftl"/>
+        <property name="templateName" value="uif_accordion_fieldGroup"/>
+        <property name="group">
+            <bean parent="M.Uif-AccordionBoxGroup"/>
+        </property>
+    </bean>
 
 
-
+    <bean id="M.Uif-AccordionBoxGroup" parent="Uif-AccordionBoxGroup-parentBean"/>
+    <bean id="Uif-AccordionBoxGroup-parentBean" abstract="true" parent="Uif-BoxGroupBase" scope="prototype">
+        <property name="template" value="/ks-myplan/WEB-INF/ftl/mobile/m.accordiongroup.ftl"/>
+        <property name="templateName" value="uif_accordion_group"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-verticalBoxGroup</value>
+            </list>
+        </property>
+        <property name="header">
+          <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-VerticalBoxLayout"/>
+        </property>
+    </bean>
 
 </beans>
