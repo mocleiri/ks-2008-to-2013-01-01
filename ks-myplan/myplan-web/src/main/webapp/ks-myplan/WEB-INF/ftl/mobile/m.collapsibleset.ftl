@@ -23,9 +23,9 @@
 
 <#macro uif_collapsible_set items manager container>
 
-    <div id="${manager.id}" data-role="collapsible-set" >
+    <div id="${manager.id}" data-role="collapsible-set" data-inset="false" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-iconpos="right" data-theme="a">
         <#list manager.stackedGroups as item>
-            <div data-role="collapisble">
+            <div data-role="collapsible">
                 <@krad.template component=item/>
             </div>
         </#list>

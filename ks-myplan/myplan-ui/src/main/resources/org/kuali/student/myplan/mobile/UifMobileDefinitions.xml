@@ -97,12 +97,19 @@
 
     <bean id="M.MyPlanLookupView" abstract="true" parent="M.MyPlanBaseLookupView"/>
     <bean id="M.MyPlanBaseLookupView" abstract="true" parent="Uif-LookupView">
-
         <property name="preloadPoolSize" value="5"/>
         <property name="theme">
             <bean parent="M.MyPlanTheme"/>
         </property>
         <property name="persistFormToSession" value="false"/>
+        <property name="applicationHeader">
+            <bean parent="Uif-HeaderOne" p:id="ks-banner"
+                  p:template="/ks-myplan/WEB-INF/ftl/mobile/MyPlanApplicationHeader.ftl"
+                  p:templateName="myplan_app_header"/>
+        </property>
+        <property name="page">
+            <bean parent="M.Uif-Page"/>
+        </property>
     </bean>
 
 

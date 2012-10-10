@@ -78,7 +78,7 @@
                 <bean parent="M.Uif-Grid-Solo">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="requisites"
+                            <bean parent="M.Uif-DataField" p:propertyName="requisites"
                                   p:fieldLabel.render="false"
                                   p:escapeHtmlInPropertyValue="false">
                                 <property name="propertyEditor" ref="data_list_formatter"/>
@@ -109,7 +109,7 @@
                                         <bean parent="Uif-HorizontalBoxGroup">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-DataField"
+                                                    <bean parent="M.Uif-DataField"
                                                           p:propertyName="scheduledTerms"
                                                           p:escapeHtmlInPropertyValue="false">
                                                         <property name="propertyEditor"
@@ -152,7 +152,7 @@
                                                           p:messageText="Projected to be offered in "
                                                           p:render="@{dataObject.termsOffered.size() gt 0 ? true : false}"
                                                           p:style="margin: 0 0.33em 0 0;"/>
-                                                    <bean parent="Uif-DataField"
+                                                    <bean parent="M.Uif-DataField"
                                                           p:propertyName="termsOffered"
                                                           p:fieldLabel.render="false"
                                                           p:style="margin: 0 0.33em 0 0; padding-top: 3px;"
@@ -203,7 +203,7 @@
                         <list>
                             <bean parent="Uif-Label" p:labelText="General Edu. Req."
                                   p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="M.Uif-DataField"
                                   p:propertyName="genEdRequirements"
                                   p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false" p:width="60%">
@@ -226,7 +226,7 @@
                         <list>
                             <bean parent="Uif-Label" p:labelText="Curriculum"
                                   p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="M.Uif-DataField"
                                   p:propertyName="curriculumTitle"
                                   p:fieldLabel.render="false"
                                   p:cssClasses="ui-block-b" p:width="60%"/>
@@ -239,7 +239,7 @@
                         <list>
                             <bean parent="Uif-Label" p:labelText="Campus"
                                   p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="M.Uif-DataField"
                                   p:propertyName="campusLocations"
                                   p:fieldLabel.render="false"
                                   p:escapeHtmlInPropertyValue="false" p:width="60%">
@@ -584,10 +584,10 @@
 
     <!-- Mobile bookmark list -->
     <bean id="M.SavedCoursesSummary-LookupView" parent="M.MyPlanLookupView">
-        <property name="headerText" value="Saved Courses Summary"/>
+        <property name="headerText" value="Bookmarked Courses"/>
+        <property name="page.header.headerText" value="Bookmarked Courses"/>
         <property name="viewName" value="M.SavedCoursesSummary"/>
         <property name="breadcrumbs.render" value="false"/>
-        <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>
         <property name="footer.render" value="false"/>
         <property name="dataObjectClassName" value="org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject"/>
@@ -615,10 +615,7 @@
         </property>
     </bean>
 
-    <bean id="m_saved_courses_summary_list" parent="M.Uif-CollapsibleListSection" p:headerText="Bookmarked Courses">
-        <property name="header">
-            <bean parent="Uif-HeaderSix"/>
-        </property>
+    <bean id="m_saved_courses_summary_list" parent="M.Uif-CollapsibleListSection">
         <property name="cssClasses">
             <list merge="true">
                 <value>myplan-saved-courses-summary</value>
@@ -632,12 +629,11 @@
         <property name="disclosure.render" value="false"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.courseDetails.code}&lt;br&gt;@{#line.courseDetails.courseTitle}"/>
-        <property name="filters">
+        <!--<property name="filters">
             <list>
                 <bean parent="Uif-ConditionalCollectionFilter" p:expression="#index lt 10"/>
             </list>
-        </property>
-        <property name="onDocumentReadyScript" value="truncateField('saved_courses_summary');"/>
+        </property>-->
         <property name="items">
             <list>
                 <bean parent="M.Uif-AccordionFieldGroup" p:group.validationMessages.render="false"
@@ -656,6 +652,68 @@
                                     </list>
                                 </property>
                             </bean>
+                            <bean parent="M.Uif-Grid-Two">
+                                <!--<property name="render" value="@{#line.courseDetails.scheduledTerms.size() gt 0 ? true : false}"/>-->
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Label" p:labelText="Scheduled for"
+                                              p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
+                                        <bean parent="M.Uif-DataField" p:propertyName="courseDetails.scheduledTerms"
+                                              p:fieldLabel.render="false" p:width="60%" p:escapeHtmlInPropertyValue="false">
+                                            <property name="propertyEditor" ref="scheduled_terms_list_formatter"/>
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ui-block-b</value>
+                                                    <value>myplan-data-list</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                <!--<bean parent="M.Uif-Grid-Two" p:render="@{#line.courseDetails.scheduledTerms.size() eq 0 ? true : false}">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Label" p:labelText="Scheduled for"
+                                              p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
+                                        <bean parent="Uif-MessageField" p:cssClasses="ui-block-b" p:width="60%">
+                                            <property name="message">
+                                                <bean parent="Uif-Message" p:messageText="Not currently scheduled"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="M.Uif-Grid-Two" p:render="@{#line.courseDetails.lastOffered ne null and #line.courseDetails.scheduledTerms.size() eq 0 ? true : false}">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Label" p:labelText="Last Offered"
+                                              p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
+                                        <bean parent="M.Uif-DataField" p:propertyName="courseDetails.lastOffered"
+                                              p:fieldLabel.render="false" p:width="60%">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ui-block-b</value>
+                                                    <value>myplan-data-list</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="M.Uif-Grid-Two" p:render="@{#line.courseDetails.lastOffered eq null and courseDetails.scheduledTerms.size() eq 0 ? true : false}">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Label" p:labelText="Last Offered"
+                                              p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
+                                        <bean parent="Uif-MessageField" p:cssClasses="ui-block-b" p:width="60%">
+                                            <property name="message">
+                                                <bean parent="Uif-Message" p:messageText="Not offered for more than 10 years"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>-->
                         </list>
                     </property>
                 </bean>
