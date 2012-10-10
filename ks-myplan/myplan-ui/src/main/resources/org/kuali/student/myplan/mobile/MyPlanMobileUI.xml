@@ -628,7 +628,7 @@
         <property name="renderLineActions" value="false"/>
         <property name="disclosure.render" value="false"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
-        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.courseDetails.code}&lt;br&gt;@{#line.courseDetails.courseTitle}"/>
+        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.courseDetails.code}&lt;br&gt;&lt;span style=&quot;font-size:85%&quot;&gt;@{#line.courseDetails.courseTitle}"/>
         <!--<property name="filters">
             <list>
                 <bean parent="Uif-ConditionalCollectionFilter" p:expression="#index lt 10"/>
@@ -671,7 +671,54 @@
                                     </list>
                                 </property>
                             </bean>
-                <!--<bean parent="M.Uif-Grid-Two" p:render="@{#line.courseDetails.scheduledTerms.size() eq 0 ? true : false}">
+                            <bean parent="M.Uif-Grid-Solo" p:style="margin:0;">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Label" p:labelText="Course Requisites"
+                                              p:renderColon="false" p:cssClasses="ui-block-a"/>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean parent="M.Uif-Grid-Solo">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="M.Uif-DataField" p:propertyName="courseDetails.requisites"
+                                              p:fieldLabel.render="false"
+                                              p:escapeHtmlInPropertyValue="false">
+                                            <property name="propertyEditor" ref="data_list_formatter"/>
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ui-block-a</value>
+                                                    <value>myplan-data-list</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="M.Uif-Grid-Solo">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Link" p:target="" p:cssClasses="ui-block-a" p:style="display:inline-block;">
+                                            <property name="linkText" value="View more details"/>
+                                            <property name="title" value="View more details about @{#line.courseDetails.code}"/>
+                                            <property name="href"
+                                                      value="inquiry?methodToCall=start&amp;viewId=M.CourseDetails-InquiryView&amp;courseId=@{#line.courseDetails.courseId}"/>
+                                            <property name="dataAttributes">
+                                                <map>
+                                                    <entry key="role" value="button"/>
+                                                    <entry key="mini" value="true"/>
+                                                    <entry key="icon" value="info"/>
+                                                    <entry key="inline" value="true"/>
+                                                    <entry key="theme" value="b"/>
+                                                </map>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <!--<bean parent="M.Uif-Grid-Two" p:render="@{#line.courseDetails.scheduledTerms.size() eq 0 ? true : false}">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Label" p:labelText="Scheduled for"
