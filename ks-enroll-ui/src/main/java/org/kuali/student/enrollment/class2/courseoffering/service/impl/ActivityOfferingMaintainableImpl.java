@@ -29,7 +29,6 @@ import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
@@ -38,7 +37,8 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
@@ -305,10 +305,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
         GlobalVariables.getMessageMap().clearErrorMessages();
 
-        if(scheduleWrapper.isTba()) {
-            // ensure at least one field is not empty
-
-            boolean allEmpty = true;
+        if (scheduleWrapper.isTba()) {
+            //  TBA requests must have at least one field blank.
+            boolean isOneEmpty = false;
             List<String> values = Arrays.asList(
                     scheduleWrapper.getDays(),
                     scheduleWrapper.getStartTime(),
@@ -316,20 +315,20 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                     scheduleWrapper.getBuildingCode(),
                     scheduleWrapper.getRoomCode());
 
-            for(String s : values) {
-                if(StringUtils.isNotEmpty(s)) {
-                    allEmpty = false;
+            for (String s : values) {
+                if (StringUtils.isEmpty(s)) {
+                    isOneEmpty = true;
                     break;
                 }
             }
 
-            if(allEmpty) {
-                addErrorMessage(ScheduleInput.WEEKDAYS, "At least one field is required to add a TBA request");
+            if ( ! isOneEmpty) {
+                addErrorMessage(ScheduleInput.WEEKDAYS, "TBA requests must have at least one blank field.");
             }
             else {
 
                 // AM/PM Fields are required if the time is entered
-                if(StringUtils.isNotEmpty(scheduleWrapper.getStartTime())) {
+                if (StringUtils.isNotEmpty(scheduleWrapper.getStartTime())) {
                     checkRequiredScheduleInput(scheduleWrapper.getStartTimeAMPM(), ScheduleInput.START_TIME_AMPM);
                 }
 
@@ -339,7 +338,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             }
         }
         else {
-
             // all fields are required to at least have a value
             checkRequiredScheduleInput(scheduleWrapper.getDays(), ScheduleInput.WEEKDAYS);
             checkRequiredScheduleInput(scheduleWrapper.getStartTime(), ScheduleInput.START_TIME);
@@ -470,13 +468,17 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 return;
             }
 
-            ActivityOfferingInfo latest = getCourseOfferingService().getActivityOffering(activityOfferingWrapper.getAoInfo().getId(),getContextInfo());
-            activityOfferingWrapper.setAoInfo(latest);
+            ActivityOfferingInfo latestAO = getCourseOfferingService().getActivityOffering(activityOfferingWrapper.getAoInfo().getId(),getContextInfo());
+
             //This will change the AO/FO/CO state and gets the updated AO
-            ActivityOfferingInfo latestAO = CourseOfferingServiceStateHelper.updateScheduledActivityOffering(activityOfferingWrapper.getAoInfo(),getCourseOfferingService(),getCourseOfferingSetService(),getContextInfo());
+            latestAO = CourseOfferingServiceStateHelper.updateScheduledActivityOffering(latestAO,getCourseOfferingService(),getCourseOfferingSetService(),getContextInfo());
+
+            //Copy only certain fields to the existing DTO to avoid unnecessary overwriting to the user modifications
+            activityOfferingWrapper.getAoInfo().setStateKey(latestAO.getStateKey());
+            activityOfferingWrapper.getAoInfo().setScheduleId(latestAO.getScheduleId());
+            activityOfferingWrapper.getAoInfo().setSchedulingStateKey(latestAO.getSchedulingStateKey());
 
             //Set it in the wrapper and load all the revised schedule Actuals
-            activityOfferingWrapper.setAoInfo(latestAO);
             loadScheduleActuals(activityOfferingWrapper);
 
         }catch (Exception e){
