@@ -63,6 +63,7 @@ insert into KSLU_CLURES_JN_RESOPT (CLU_RES_ID, RES_OPT_ID) values ('aab2d93a-1da
 /
 
 
+
 --Add missing grading options to the LUI
 
 insert into KSEN_LUI_RESULT_VAL_GRP (LUI_ID, RESULT_VAL_GRP_ID) values ('01163f3e-d0f7-40ec-a373-a364545bb00a', 'kuali.resultComponent.grade.percentage')
