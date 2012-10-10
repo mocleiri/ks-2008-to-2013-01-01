@@ -2012,6 +2012,17 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         return successStatus();
     }
 
+    @Override
+    public List<String> getColocatedOfferingSetIdsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> colocatedOfferingSetIds = new ArrayList<String>();
+        for (ColocatedOfferingSetInfo colocatedOfferingSetInfo: colocatedOfferingSetInfoMap.values()) {
+            for (String offeringId: colocatedOfferingSetInfo.getOfferingIds()) {
+                if (offeringId.equals(activityOfferingId)) colocatedOfferingSetIds.add(colocatedOfferingSetInfo.getId());
+            }
+        }
+        return colocatedOfferingSetIds;
+    }
+
     /////////////////////////////
     // Helpers
     /////////////////////////////

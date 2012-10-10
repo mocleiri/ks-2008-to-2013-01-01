@@ -3081,4 +3081,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public ColocatedOfferingSetInfo getColocatedOfferingSet(String colocatedOfferingSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException ("getColocatedOfferingSet has not been implemented");
     }
+
+    @Override
+    public List<String> getColocatedOfferingSetIdsForActivityOffering(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("getColocatedOfferingSetIdsForActivityOffering has not been implemented");
+    }
 }

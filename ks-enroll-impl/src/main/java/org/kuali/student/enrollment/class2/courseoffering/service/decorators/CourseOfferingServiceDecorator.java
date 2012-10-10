@@ -720,4 +720,9 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     public ColocatedOfferingSetInfo getColocatedOfferingSet(String colocatedOfferingSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getColocatedOfferingSet(colocatedOfferingSetId, contextInfo);
     }
+
+    @Override
+    public List<String> getColocatedOfferingSetIdsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getColocatedOfferingSetIdsForActivityOffering(activityOfferingId, contextInfo);
+    }
 }
