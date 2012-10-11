@@ -102,7 +102,8 @@ FROM
     KSEN_LUI_RELATED_LUI_TYPES
 WHERE
     RELATED_LUI_TYPE='kuali.lui.type.activity.offering.quiz'
-AND LUI_ID='e08c6623-4eee-42b5-a7bd-bcf3cb836991'/
+AND LUI_ID='e08c6623-4eee-42b5-a7bd-bcf3cb836991'
+/
 INSERT
 INTO
     KSEN_LUI_RELATED_LUI_TYPES
@@ -139,21 +140,24 @@ UPDATE
 SET
     KSLU_CLU.LUTYPE_ID='kuali.lu.type.activity.Lab'
 WHERE
-    KSLU_CLU.ID='067a873d-5308-4802-81bf-5b6502fa679a'/
+    KSLU_CLU.ID='067a873d-5308-4802-81bf-5b6502fa679a'
+/
 UPDATE
     KSEN_LUI_IDENT
 SET
     SHRT_NAME='LC/LB',
     LNG_NAME='Lecture/Lab'
 WHERE
-    ID='707B32C05C89400BA1A631BDD4DF160D'/
+    ID='707B32C05C89400BA1A631BDD4DF160D'
+/
 UPDATE
     KSLU_CLU_IDENT
 SET
     SHRT_NAME='LC/LB',
     LNG_NAME='Lecture/Lab'
 WHERE
-    ID='B219CCB82EBA4586BF4DBDCA031AE728'/
+    ID='B219CCB82EBA4586BF4DBDCA031AE728'
+/
 
 --Add new lecture format to clu
 insert into KSLU_CLU_IDENT (ID, CD, DIVISION, LVL, LNG_NAME, ORG_ID, SHRT_NAME, ST, SUFX_CD, TYPE, VARTN, OBJ_ID, VER_NBR) values ('a0e7556e-49a4-4d40-90bd-8eb5b1ce7159', 'FormatShell', null, null, 'Lecture', null, 'LC', 'ACTIVE', null, 'kuali.lu.type.CreditCourseFormatShell.identifier', null, '96094f2b-2dbf-4d50-96ad-b53a60b54886', 56)
