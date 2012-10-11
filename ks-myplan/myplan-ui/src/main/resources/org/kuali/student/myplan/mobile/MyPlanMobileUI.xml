@@ -497,6 +497,7 @@
                                                     <entry key="inline" value="true"/>
                                                     <entry key="theme" value="b"/>
                                                     <entry key="prefetch" value="true"/>
+                                                    <entry key="transition" value="slide"/>
                                                 </map>
                                             </property>
                                         </bean>
