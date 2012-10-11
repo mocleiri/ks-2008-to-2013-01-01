@@ -7,6 +7,12 @@ body {
 .uif-boxLayoutVerticalItem {
     margin-bottom: 1em;
 }
+.uif-headerText-span .title {
+    font-size: 85%;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
+}
 label {
     font-weight: bold;
 }

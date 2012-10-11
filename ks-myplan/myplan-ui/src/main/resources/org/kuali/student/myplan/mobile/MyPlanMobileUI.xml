@@ -430,7 +430,7 @@
                             <bean parent="M.Uif-Grid-Two">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Label" p:labelText="General Edu. Req."
+                                        <bean parent="Uif-Label" p:labelText="Gen. Edu. Req."
                                               p:renderColon="false" p:cssClasses="ui-block-a" p:width="40%"/>
                                         <bean parent="M.Uif-DataField"
                                               p:propertyName="courseDetails.genEdRequirements"
@@ -496,6 +496,7 @@
                                                     <entry key="icon" value="info"/>
                                                     <entry key="inline" value="true"/>
                                                     <entry key="theme" value="b"/>
+                                                    <entry key="prefetch" value="true"/>
                                                 </map>
                                             </property>
                                         </bean>
@@ -507,9 +508,6 @@
                     </property>
                 </bean>
             </list>
-        </property>
-        <property name="footer">
-            <bean parent="saved_courses_summary_footer"/>
         </property>
     </bean>
 
