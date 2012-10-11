@@ -1,10 +1,10 @@
-# module = ks-api branch Path = enrollment/ks-api/branches/M6 revision = 37872
-ks-api::enrollment_ks-api_branches_M6::6649b887abd3256ef42106578b50f4f90e582ead
-# module = ks-core branch Path = enrollment/ks-core/branches/services revision = 37872
-ks-core::enrollment_ks-core_branches_services::deac6ce79c60985250cd19a103e52915a6e6f45f
-# module = ks-lum branch Path = enrollment/ks-lum/branches/services revision = 37872
-ks-lum::enrollment_ks-lum_branches_services::9180c9236d0b8631659095163a4befd5bcb2ea34
-# module = ks-enroll branch Path = enrollment/ks-enroll/branches/services revision = 37872
-ks-enroll::enrollment_ks-enroll_branches_services::271be7b4437a4a9dc7313ac81d8c9381bcb4f4b7
-# module = ks-deployments branch Path = enrollment/ks-deployments/branches/services revision = 37872
-ks-deployments::enrollment_ks-deployments_branches_services::d43e8b29247ead442446335641d5434b594b72d1
+# module = ks-api branch Path = enrollment/ks-api/tags/builds/ks-api-2.0/2.0.0-M6/build-157 revision = 38473
+ks-api::enrollment_ks-api_tags_builds_ks-api-2.0_2.0.0-M6_build-157::a4e52c69e9b1e29ad01c811a4882a70d4aa4b279
+# module = ks-core branch Path = enrollment/ks-core/tags/builds/ks-core-2.0/2.0.0-M6/build-157 revision = 38473
+ks-core::enrollment_ks-core_tags_builds_ks-core-2.0_2.0.0-M6_build-157::e0f0f171889fd0fb24264bbb1e874aaa47377bae
+# module = ks-deployments branch Path = enrollment/ks-deployments/tags/builds/ks-deployments-2.0/2.0.0-M6/build-157 revision = 38473
+ks-deployments::enrollment_ks-deployments_tags_builds_ks-deployments-2.0_2.0.0-M6_build-157::4dfcad0f276a731d5748ba4f3e2eed23c4526540
+# module = ks-enroll branch Path = enrollment/ks-enroll/tags/builds/ks-enroll-1.0/1.0.0-M6/build-157 revision = 38473
+ks-enroll::enrollment_ks-enroll_tags_builds_ks-enroll-1.0_1.0.0-M6_build-157::8d900932a53bc96336423dec97e619f295a54312
+# module = ks-lum branch Path = enrollment/ks-lum/tags/builds/ks-lum-2.0/2.0.0-M6/build-157 revision = 38473
+ks-lum::enrollment_ks-lum_tags_builds_ks-lum-2.0_2.0.0-M6_build-157::6a392a16bbb1ce422589de6a52106f3d23f8225b
