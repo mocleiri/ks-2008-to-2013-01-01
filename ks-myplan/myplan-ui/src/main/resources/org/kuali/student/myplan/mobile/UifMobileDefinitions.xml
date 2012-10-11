@@ -207,7 +207,7 @@
   </bean>
 
 
-    <bean id="M.Uif-AccordionFieldGroup" parent="Uif-FieldGroupBase-parentBean">
+    <bean id="M.Uif-AccordionFieldGroup" parent="Uif-HorizontalFieldGroup-parentBean">
         <property name="template" value="/ks-myplan/WEB-INF/ftl/mobile/m.accordionfieldgroup.ftl"/>
         <property name="templateName" value="uif_accordion_fieldGroup"/>
         <property name="group">
