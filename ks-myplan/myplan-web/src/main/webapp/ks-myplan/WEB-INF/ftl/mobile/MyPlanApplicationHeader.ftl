@@ -5,7 +5,7 @@
     <div data-role="popup" id="globalNav" data-theme="a" data-disabled="false" data-corners="true" data-transition="slidedown" data-position-to="origin">
         <ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="b">
             <li data-role="divider" data-theme="d">Navigation</li>
-            <li data-corners="false" data-shadow="false" data-icon="false" data-theme="a"><a href="#">Course Search</a></li>
+            <li data-corners="false" data-shadow="false" data-icon="false" data-theme="a"><a data-ajax="false" href="/student/myplan/course?methodToCall=start&viewId=M.CourseSearch-FormView">Course Search</a></li>
             <li data-corners="false" data-shadow="false" data-icon="false" data-theme="a"><a data-ajax="false" href="/student/myplan/lookup?methodToCall=search&viewId=M.SavedCoursesSummary-LookupView">Bookmarks</a></li>
         </ul>
     </div>

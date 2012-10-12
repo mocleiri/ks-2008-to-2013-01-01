@@ -112,6 +112,26 @@
         </property>
     </bean>
 
+    <bean id="M.MyPlanFormView" abstract="true" parent="M.MyPlanBaseFormView"/>
+    <bean id="M.MyPlanBaseFormView" abstract="true" parent="Uif-FormView">
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="header.render" value="false"/>
+        <property name="footer.render" value="false"/>
+        <property name="preloadPoolSize" value="5"/>
+        <property name="theme">
+            <bean parent="M.MyPlanTheme"/>
+        </property>
+        <property name="persistFormToSession" value="false"/>
+        <property name="applicationHeader">
+            <bean parent="Uif-HeaderOne" p:id="ks-banner"
+                  p:template="/ks-myplan/WEB-INF/ftl/mobile/MyPlanApplicationHeader.ftl"
+                  p:templateName="myplan_app_header"/>
+        </property>
+        <property name="page">
+            <bean parent="M.Uif-Page"/>
+        </property>
+    </bean>
+
 
     <bean id="M.Uif-Page" parent="Uif-Page">
         <property name="header">

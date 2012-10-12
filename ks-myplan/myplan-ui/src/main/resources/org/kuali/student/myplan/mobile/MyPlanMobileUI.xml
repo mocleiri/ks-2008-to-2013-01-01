@@ -512,4 +512,58 @@
         </property>
     </bean>
 
+
+
+    <bean id="M.CourseSearch-FormView" parent="M.MyPlanFormView">
+        <property name="id" value="M.CourseSearch-FormView"/>
+        <property name="headerText" value="Find Courses"/>
+        <property name="page.header.headerText" value="Find Courses"/>
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="applyDirtyCheck" value="false"/>
+        <property name="singlePageView" value="true"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-view</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="m.course_search"/>
+            </list>
+        </property>
+        <property name="footer.render" value="false"/>
+        <property name="formClass" value="org.kuali.student.myplan.course.form.CourseSearchForm"/>
+    </bean>
+
+    <bean id="m.course_search" parent="Uif-VerticalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="text_searchQuery" parent="Uif-InputField" p:propertyName="searchQuery" p:label="Search"
+                      p:fieldLabel.render="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:watermarkText="e.g. COM, Math 124, ENGL 1XX, sun">
+                            <property name="onKeyPressScript" value="if (e.keyCode === 13) jq('a.course-search-submit').click();"/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean p:id="searchForCourses" parent="Uif-Link" p:linkText="Search">
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="theme" value="b"/>
+                            <entry key="role" value="button"/>
+                        </map>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>course-search-submit</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="mobile_course_search_results" parent="Uif-VerticalBoxGroup">
+
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 </beans>
