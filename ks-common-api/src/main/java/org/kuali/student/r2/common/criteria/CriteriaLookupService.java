@@ -31,4 +31,8 @@ public interface CriteriaLookupService {
 
     <T> GenericQueryResults<String> lookupIds(final Class<T> queryClass, final QueryByCriteria criteria, final LookupCustomizer<T> customizer);
 
+    <T> GenericQueryResults<T> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, String field);
+
+    <T> GenericQueryResults<T> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, final LookupCustomizer<T> customizer, String field);
+
 }
