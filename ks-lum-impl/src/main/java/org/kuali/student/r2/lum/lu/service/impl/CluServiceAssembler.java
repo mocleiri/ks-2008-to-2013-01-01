@@ -182,7 +182,7 @@ public class CluServiceAssembler extends BaseAssembler {
                 "stdDuration", "luCodes", "credit", "offeredAtpTypes", "fee",
                 "accounting", "intensity",
                 "campusLocationList", "accreditationList",
-                "adminOrgs", "attributes", "meta", "versionInfo"});
+                "adminOrgs", "attributes", "meta", "version"});
         dto.setOfficialIdentifier(toCluIdentifierInfo(entity.getOfficialIdentifier()));
         dto.setAlternateIdentifiers(toCluIdentifierInfos(entity.getAlternateIdentifiers()));
         dto.setDescr(toRichTextInfo(entity.getDescr()));
@@ -224,7 +224,7 @@ public class CluServiceAssembler extends BaseAssembler {
 
         dto.setIntensity(toAmountInfo(entity.getIntensity()));
 
-        dto.setVersionInfo(toVersionInfo(entity.getVersion()));
+        dto.setVersion(toVersionInfo(entity.getVersion()));
 
         return dto;
 
