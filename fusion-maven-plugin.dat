@@ -1,10 +1,10 @@
-# module = ks-api branch Path = enrollment/ks-api/branches/M6 revision = 37872
-ks-api::enrollment_ks-api_branches_M6::90fc7ab768945888c049c06ec7ebd6322a476553
-# module = ks-core branch Path = enrollment/ks-core/branches/services revision = 37872
-ks-core::enrollment_ks-core_branches_services::deac6ce79c60985250cd19a103e52915a6e6f45f
-# module = ks-lum branch Path = enrollment/ks-lum/branches/services revision = 37872
-ks-lum::enrollment_ks-lum_branches_services::c03cd13440e2635ef87d1a0b81fc4bdca3b8ea1a
-# module = ks-enroll branch Path = enrollment/ks-enroll/branches/services revision = 37872
-ks-enroll::enrollment_ks-enroll_branches_services::398caec8c32842dde1026b3372d7b51aa336b0ef
-# module = ks-deployments branch Path = enrollment/ks-deployments/branches/services revision = 37872
-ks-deployments::enrollment_ks-deployments_branches_services::d43e8b29247ead442446335641d5434b594b72d1
+# module = ks-api branch Path = enrollment/ks-api/tags/builds/ks-api-2.0/2.0.0-M6/build-168 revision = 38846
+ks-api::enrollment_ks-api_tags_builds_ks-api-2.0_2.0.0-M6_build-168::559248ef97555b33ba57d07ba74f2aedc5d52247
+# module = ks-core branch Path = enrollment/ks-core/tags/builds/ks-core-2.0/2.0.0-M6/build-168 revision = 38846
+ks-core::enrollment_ks-core_tags_builds_ks-core-2.0_2.0.0-M6_build-168::949468e708a917e64b6b9b07ef326a5a5482a42d
+# module = ks-deployments branch Path = enrollment/ks-deployments/tags/builds/ks-deployments-2.0/2.0.0-M6/build-168 revision = 38846
+ks-deployments::enrollment_ks-deployments_tags_builds_ks-deployments-2.0_2.0.0-M6_build-168::7d426b4eaae8c5f3817188acfdfac61b34ae937b
+# module = ks-enroll branch Path = enrollment/ks-enroll/tags/builds/ks-enroll-1.0/1.0.0-M6/build-168 revision = 38846
+ks-enroll::enrollment_ks-enroll_tags_builds_ks-enroll-1.0_1.0.0-M6_build-168::2f63456ba63136dc31462ec5d7460dc7602120c4
+# module = ks-lum branch Path = enrollment/ks-lum/tags/builds/ks-lum-2.0/2.0.0-M6/build-168 revision = 38846
+ks-lum::enrollment_ks-lum_tags_builds_ks-lum-2.0_2.0.0-M6_build-168::331b318346a2e8bf6027bedbde107b0bb7638020
