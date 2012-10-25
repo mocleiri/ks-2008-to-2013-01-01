@@ -16,6 +16,8 @@
 
 package org.kuali.student.enrollment.courseoffering.infc;
 
+import java.util.List;
+
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleDisplay;
 
@@ -114,23 +116,14 @@ public interface ActivityOfferingDisplay
     public String getActivityOfferingCode();
 
     /**
-     * Gets the instructor of record for this ActivityOffering.
+     * Instructors for the activity. This list should be constrained
+     * by the instructors listed on the course offering.
      *
-     * @name Instructor Id
+     * @name Instructors
      * @readOnly
-     * @impl ActivityOffering.OfferingInstructor.PersonId
+     * @impl maps to Lui.instructors
      */
-    public String getInstructorId();
-
-    /**
-     * Gets the name of the instructor of record for this
-     * ActivityOffering.
-     *
-     * @name Instructor Display Name
-     * @readOnly
-     * @impl ActivityOffering.OfferingInstructor.Person.name
-     */
-    public String getInstructorName();
+    public List<? extends OfferingInstructor> getInstructors();
 
     /**
      * Indicates that the Activity Offering is an Honors option

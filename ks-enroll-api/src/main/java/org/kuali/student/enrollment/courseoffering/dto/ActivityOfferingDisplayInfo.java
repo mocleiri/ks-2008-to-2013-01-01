@@ -16,18 +16,20 @@
 
 package org.kuali.student.enrollment.courseoffering.dto;
 
-import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
-import org.kuali.student.r2.core.scheduling.infc.ScheduleDisplay;
-import org.w3c.dom.Element;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import java.util.List;
+
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
+import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
+import org.w3c.dom.Element;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -35,7 +37,7 @@ import java.util.List;
                 "id", "typeKey", "stateKey", "name", "descr", 
                 "typeName", "stateName", "courseOfferingTitle",
                 "courseOfferingCode", "formatOfferingId", "formatOfferingName",
-                "activityOfferingCode", "instructorId",  "instructorName",
+                "activityOfferingCode", "instructors",  
                 "isHonorsOffering", "maximumEnrollment", "scheduleDisplay",
                 "meta", "attributes", "_futureElements"})
 
@@ -67,10 +69,7 @@ public class ActivityOfferingDisplayInfo
     private String activityOfferingCode;   
 
     @XmlElement
-    private String instructorId;   
-
-    @XmlElement
-    private String instructorName;
+    private List<OfferingInstructorInfo> instructors;   
 
     @XmlElement
     private Boolean isHonorsOffering;
@@ -111,11 +110,22 @@ public class ActivityOfferingDisplayInfo
         this.formatOfferingId = offeringDisplay.getFormatOfferingId();
         this.formatOfferingName = offeringDisplay.getFormatOfferingName();
         this.activityOfferingCode = offeringDisplay.getActivityOfferingCode();
-        this.instructorId = offeringDisplay.getInstructorId();
-        this.instructorName = offeringDisplay.getInstructorName();
         this.isHonorsOffering = offeringDisplay.getIsHonorsOffering();
         this.maximumEnrollment = offeringDisplay.getMaximumEnrollment();
         this.scheduleDisplay = (null != offeringDisplay.getScheduleDisplay()) ? new ScheduleDisplayInfo(offeringDisplay.getScheduleDisplay()) : null;
+        
+        List<? extends OfferingInstructor> sourceInstructors = offeringDisplay.getInstructors();
+        
+        if (sourceInstructors != null && sourceInstructors.size() > 0) {
+        	this.instructors = new ArrayList<OfferingInstructorInfo>();
+        	
+        	for (OfferingInstructor offeringInstructor : sourceInstructors) {
+				this.instructors.add(new OfferingInstructorInfo(offeringInstructor));
+			}
+        }
+        else
+        	this.instructors = null;
+        
     }
 
     @Override
@@ -181,25 +191,20 @@ public class ActivityOfferingDisplayInfo
         this.activityOfferingCode = activityOfferingCode;
     }
 
-    @Override
-    public String getInstructorId() {
-        return instructorId;
-    }
+    
 
-    public void setInstructorId(String instructorId) {
-        this.instructorId = instructorId;
-    }
+   
+	
+	@Override
+	public List<OfferingInstructorInfo> getInstructors() {
+		return instructors;
+	}
 
-    @Override
-    public String getInstructorName() {
-        return instructorName;
-    }
+	public void setInstructors(List<OfferingInstructorInfo> instructors) {
+		this.instructors = instructors;
+	}
 
-    public void setInstructorName(String instructorName) {
-        this.instructorName = instructorName;
-    }
-
-    @Override
+	@Override
     public Boolean getIsHonorsOffering() {
         return this.isHonorsOffering;
     }
