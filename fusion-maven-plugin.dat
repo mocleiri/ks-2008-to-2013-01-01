@@ -1,10 +1,10 @@
-# module = ks-api branch Path = enrollment/ks-api/branches/M6 revision = 37872
-ks-api::enrollment_ks-api_branches_M6::c8d91f78842000651ff8f6ef5e75a93bfe1bbedd
-# module = ks-core branch Path = enrollment/ks-core/branches/services revision = 37872
-ks-core::enrollment_ks-core_branches_services::a22d06b88fdc5521252f29e0441a312cf2782dca
-# module = ks-lum branch Path = enrollment/ks-lum/branches/services revision = 37872
-ks-lum::enrollment_ks-lum_branches_services::c03cd13440e2635ef87d1a0b81fc4bdca3b8ea1a
-# module = ks-enroll branch Path = enrollment/ks-enroll/branches/services revision = 37872
-ks-enroll::enrollment_ks-enroll_branches_services::398caec8c32842dde1026b3372d7b51aa336b0ef
-# module = ks-deployments branch Path = enrollment/ks-deployments/branches/services revision = 37872
-ks-deployments::enrollment_ks-deployments_branches_services::d43e8b29247ead442446335641d5434b594b72d1
+# module = ks-api branch Path = enrollment/ks-api/tags/builds/ks-api-2.0/2.0.0-M6/build-170 revision = 39044
+ks-api::enrollment_ks-api_tags_builds_ks-api-2.0_2.0.0-M6_build-170::f45795351d1b4e17870bfeb0e0836b6226fbf244
+# module = ks-core branch Path = enrollment/ks-core/tags/builds/ks-core-2.0/2.0.0-M6/build-170 revision = 39044
+ks-core::enrollment_ks-core_tags_builds_ks-core-2.0_2.0.0-M6_build-170::5e8a2592d450995621701d4742fcb63919f83517
+# module = ks-deployments branch Path = enrollment/ks-deployments/tags/builds/ks-deployments-2.0/2.0.0-M6/build-170 revision = 39044
+ks-deployments::enrollment_ks-deployments_tags_builds_ks-deployments-2.0_2.0.0-M6_build-170::29fc9a7b1847a7738cbe5b2ed2e3b51c7fbb38b8
+# module = ks-enroll branch Path = enrollment/ks-enroll/tags/builds/ks-enroll-1.0/1.0.0-M6/build-170 revision = 39044
+ks-enroll::enrollment_ks-enroll_tags_builds_ks-enroll-1.0_1.0.0-M6_build-170::97a12091ff09ca699cc018139acc98f25cbf5d51
+# module = ks-lum branch Path = enrollment/ks-lum/tags/builds/ks-lum-2.0/2.0.0-M6/build-170 revision = 39044
+ks-lum::enrollment_ks-lum_tags_builds_ks-lum-2.0_2.0.0-M6_build-170::20af225cd6933825799e2b0cbf08f30513870a16
