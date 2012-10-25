@@ -82,7 +82,7 @@ public class CredentialProgramInfo extends CommonWithCredentialProgramInfo imple
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
-    
+     
     public CredentialProgramInfo() {
     }
     
