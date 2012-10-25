@@ -68,8 +68,6 @@ An adminsitrative view of the ActivityOffering.
 				<ref bean="ActivityOfferingDisplayInfo.formatOfferingId"/>
 				<ref bean="ActivityOfferingDisplayInfo.formatOfferingName"/>
 				<ref bean="ActivityOfferingDisplayInfo.activityOfferingCode"/>
-				<ref bean="ActivityOfferingDisplayInfo.instructorId"/>
-				<ref bean="ActivityOfferingDisplayInfo.instructorName"/>
 				<ref bean="ActivityOfferingDisplayInfo.isHonorsOffering"/>
 				<ref bean="ActivityOfferingDisplayInfo.maximumEnrollment"/>
 			</list>
@@ -85,6 +83,7 @@ An adminsitrative view of the ActivityOffering.
 
 		<property name="collections">
 			<list>
+				<ref bean="ActivityOfferingDisplayInfo.instructors"/>
 			</list>
 		</property>
 	</bean>
@@ -338,50 +337,24 @@ course offering.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingDisplayInfo.instructorId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="instructorId"/>
-		<property name="shortLabel" value="Instructor Id"/>
+	<bean id="ActivityOfferingDisplayInfo.instructors-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="instructors"/>
+		<property name="shortLabel" value="Instructors"/>
 		<property name="summary">
 			<value>
-Gets the instructor of record for this ActivityOffering.
+Instructors for the activity. 
 			</value>
 		</property>
-		<property name="label" value="Instructor Id"/>
+		<property name="label" value="Instructors"/>
+		<property name="elementLabel" value="Instructor"/>
 		<property name="description">
 			<value>
-Gets the instructor of record for this ActivityOffering.
+Instructors for the activity. This list should be constrained
+by the instructors listed on the course offering.
 			</value>
 		</property>
-		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
-		<property name="attributeSecurity">
-		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-		</property>
-		-->
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="ActivityOfferingDisplayInfo.instructorName-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="instructorName"/>
-		<property name="shortLabel" value="Instructor Name"/>
-		<property name="summary">
-			<value>
-Gets the name of the instructor of record for this
-ActivityOffering.
-			</value>
-		</property>
-		<property name="label" value="Instructor Display Name"/>
-		<property name="description">
-			<value>
-Gets the name of the instructor of record for this
-ActivityOffering.
-			</value>
-		</property>
-		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
-		<property name="attributeSecurity">
-		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-		</property>
-		-->
-		<property name="required" value="false"/>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo"/>
 	</bean>
 
 	<bean id="ActivityOfferingDisplayInfo.isHonorsOffering-generated" abstract="true" parent="BaseKuali.boolean">
@@ -863,7 +836,7 @@ coupled with Room locations.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay"/>
 	</bean>
 
 	<bean id="ActivityOfferingDisplayInfo.scheduleDisplay.meta-generated" abstract="true" parent="ComplexAttributeDefinition">

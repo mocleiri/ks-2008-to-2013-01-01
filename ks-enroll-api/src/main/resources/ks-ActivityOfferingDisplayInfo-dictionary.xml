@@ -35,6 +35,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	************************************************************* -->
 	<!-- The following file gets generated during the build and gets put into the target/classes directory -->
 	<import resource="classpath:ks-ActivityOfferingDisplayInfo-dictionary-generated.xml"/>
+	<!-- TODO: remove these once the jira about lists of complex objects gets fixed -->
+	<import resource="classpath:ks-OfferingInstructorInfo-dictionary.xml"/>
 
 	<!-- ActivityOfferingDisplayInfo-->
 	<bean id="ActivityOfferingDisplayInfo" parent="ActivityOfferingDisplayInfo-parent"/>
@@ -112,13 +114,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="ActivityOfferingDisplayInfo.instructorId" parent="ActivityOfferingDisplayInfo.instructorId-parent"/>
-	<bean id="ActivityOfferingDisplayInfo.instructorId-parent" abstract="true" parent="ActivityOfferingDisplayInfo.instructorId-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingDisplayInfo.instructorName" parent="ActivityOfferingDisplayInfo.instructorName-parent"/>
-	<bean id="ActivityOfferingDisplayInfo.instructorName-parent" abstract="true" parent="ActivityOfferingDisplayInfo.instructorName-generated">
+	<bean id="ActivityOfferingDisplayInfo.instructors" parent="ActivityOfferingDisplayInfo.instructors-parent"/>
+	<bean id="ActivityOfferingDisplayInfo.instructors-parent" abstract="true" parent="ActivityOfferingDisplayInfo.instructors-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
