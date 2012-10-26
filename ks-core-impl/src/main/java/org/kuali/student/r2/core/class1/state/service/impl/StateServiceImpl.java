@@ -384,32 +384,12 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
-    public StatusInfo deleteStateChangesByFromState(String fromStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public StatusInfo deleteStateChangesByToState(String toStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public StateConstraintInfo getStateConstraint(String stateConstraintId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public List<StateConstraintInfo> getStateConstraintsByIds(List<String> stateConstraintIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<StateConstraintInfo> getStateConstraintsByRelatedStateKeys(List<String> relatedStateKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<StateConstraintInfo> getStateConstraintsByAgendaId(String agendaId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -424,12 +404,12 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateStateConstraint(String validationTypeKey, String stateConstraintId, String stateConstraintTypeKey, StateConstraintInfo stateConstraintInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateStateConstraint(String validationTypeKey, String stateConstraintTypeKey, StateConstraintInfo stateConstraintInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public StateConstraintInfo createStateConstraint(String stateConstraintId, String stateConstraintTypeKey, StateConstraintInfo stateConstraintInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public StateConstraintInfo createStateConstraint(String stateConstraintTypeKey, StateConstraintInfo stateConstraintInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -459,11 +439,6 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
-    public List<StatePropagationInfo> getStatePropagationsByTargetStateAndStateConstraints(String targetStateKey, String stateConstraintIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public List<String> searchForStatePropagationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -474,12 +449,12 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateStatePropagation(String validationTypeKey, String statePropagationId, String statePropagationTypeKey, StatePropagationInfo statePropagationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateStatePropagation(String validationTypeKey, String statePropagationTypeKey, StatePropagationInfo statePropagationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public StatePropagationInfo createStatePropagation(String statePropagationId, String statePropagationTypeKey, StatePropagationInfo statePropagationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public StatePropagationInfo createStatePropagation(String statePropagationTypeKey, StatePropagationInfo statePropagationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

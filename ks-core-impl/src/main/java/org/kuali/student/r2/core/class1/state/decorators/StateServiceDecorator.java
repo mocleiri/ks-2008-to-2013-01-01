@@ -4,15 +4,24 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
-import org.kuali.student.r2.core.class1.state.dto.StateInfo;
-import org.kuali.student.r2.core.class1.state.service.StateService;
-
-import java.util.List;
 import org.kuali.student.r2.core.class1.state.dto.StateChangeInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateConstraintInfo;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.dto.StatePropagationInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
+
+import javax.jws.WebParam;
+import java.util.List;
 
 /**
  * Base decorator class for state service
@@ -162,28 +171,12 @@ public class StateServiceDecorator implements StateService {
         return nextDecorator.deleteStateChange(stateChangeId, contextInfo);
     }
 
-    public StatusInfo deleteStateChangesByFromState(String fromStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.deleteStateChangesByFromState(fromStateKey, contextInfo);
-    }
-
-    public StatusInfo deleteStateChangesByToState(String toStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.deleteStateChangesByToState(toStateKey, contextInfo);
-    }
-
     public StateConstraintInfo getStateConstraint(String stateConstraintId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return nextDecorator.getStateConstraint(stateConstraintId, contextInfo);
     }
 
     public List<StateConstraintInfo> getStateConstraintsByIds(List<String> stateConstraintIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return nextDecorator.getStateConstraintsByIds(stateConstraintIds, contextInfo);
-    }
-
-    public List<StateConstraintInfo> getStateConstraintsByRelatedStateKeys(List<String> relatedStateKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getStateConstraintsByRelatedStateKeys(relatedStateKeys, contextInfo);
-    }
-
-    public List<StateConstraintInfo> getStateConstraintsByAgendaId(String agendaId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getStateConstraintsByAgendaId(agendaId, contextInfo);
     }
 
     public List<String> searchForStateConstraintIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -194,12 +187,12 @@ public class StateServiceDecorator implements StateService {
         return nextDecorator.searchForStateConstraints(criteria, contextInfo);
     }
 
-    public List<ValidationResultInfo> validateStateConstraint(String validationTypeKey, String stateConstraintId, String stateConstraintTypeKey, StateConstraintInfo stateConstraintInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.validateStateConstraint(validationTypeKey, stateConstraintId, stateConstraintTypeKey, stateConstraintInfo, contextInfo);
+    public List<ValidationResultInfo> validateStateConstraint(String validationTypeKey, String stateConstraintTypeKey, StateConstraintInfo stateConstraintInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.validateStateConstraint(validationTypeKey, stateConstraintTypeKey, stateConstraintInfo, contextInfo);
     }
 
-    public StateConstraintInfo createStateConstraint(String stateConstraintId, String stateConstraintTypeKey, StateConstraintInfo stateConstraintInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return nextDecorator.createStateConstraint(stateConstraintId, stateConstraintTypeKey, stateConstraintInfo, contextInfo);
+    public StateConstraintInfo createStateConstraint(String stateConstraintTypeKey, StateConstraintInfo stateConstraintInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.createStateConstraint(stateConstraintTypeKey, stateConstraintInfo, contextInfo);
     }
 
     public StateConstraintInfo updateStateConstraint(String stateConstraintId, StateConstraintInfo stateConstraintInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
@@ -218,12 +211,9 @@ public class StateServiceDecorator implements StateService {
         return nextDecorator.getStatePropagationsByIds(statePropagationIds, contextInfo);
     }
 
-    public List<StatePropagationInfo> getStatePropagationsByTargetState(String targetStateKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Override
+    public List<StatePropagationInfo> getStatePropagationsByTargetState(@WebParam(name = "targetStateKey") String targetStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return nextDecorator.getStatePropagationsByTargetState(targetStateKey, contextInfo);
-    }
-
-    public List<StatePropagationInfo> getStatePropagationsByTargetStateAndStateConstraints(String targetStateKey, String stateConstraintIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getStatePropagationsByTargetStateAndStateConstraints(targetStateKey, stateConstraintIds, contextInfo);
     }
 
     public List<String> searchForStatePropagationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -234,12 +224,12 @@ public class StateServiceDecorator implements StateService {
         return nextDecorator.searchForStatePropagations(criteria, contextInfo);
     }
 
-    public List<ValidationResultInfo> validateStatePropagation(String validationTypeKey, String statePropagationId, String statePropagationTypeKey, StatePropagationInfo statePropagationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.validateStatePropagation(validationTypeKey, statePropagationId, statePropagationTypeKey, statePropagationInfo, contextInfo);
+    public List<ValidationResultInfo> validateStatePropagation(String validationTypeKey, String statePropagationTypeKey, StatePropagationInfo statePropagationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.validateStatePropagation(validationTypeKey, statePropagationTypeKey, statePropagationInfo, contextInfo);
     }
 
-    public StatePropagationInfo createStatePropagation(String statePropagationId, String statePropagationTypeKey, StatePropagationInfo statePropagationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return nextDecorator.createStatePropagation(statePropagationId, statePropagationTypeKey, statePropagationInfo, contextInfo);
+    public StatePropagationInfo createStatePropagation(String statePropagationTypeKey, StatePropagationInfo statePropagationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.createStatePropagation(statePropagationTypeKey, statePropagationInfo, contextInfo);
     }
 
     public StatePropagationInfo updateStatePropagation(String statePropagationId, StatePropagationInfo statePropagationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
