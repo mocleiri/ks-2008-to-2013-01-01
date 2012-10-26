@@ -81,11 +81,19 @@ public class RemoteImplServiceWriter extends JavaClassWriter {
     }
 
     public static String calcClassName(String servKey) {
-        return GetterSetterNameCalculator.calcInitUpper(servKey + "ServiceRemoteImpl");
+        String name = GetterSetterNameCalculator.calcInitUpper(servKey + "ServiceRemoteImpl");
+        if (name.startsWith("RICE.")) {
+         name = name.substring("RICE.".length());   
+        }
+        return name;
     }
 
     public static String calcDecoratorClassName(String servKey) {
-        return GetterSetterNameCalculator.calcInitUpper(servKey + "ServiceDecorator");
+        String name = GetterSetterNameCalculator.calcInitUpper(servKey + "ServiceDecorator");
+        if (name.startsWith("RICE.")) {
+         name = name.substring("RICE.".length());   
+        }
+        return name;
     }
 
     private static enum MethodType {
@@ -225,6 +233,9 @@ public class RemoteImplServiceWriter extends JavaClassWriter {
     private void writeHostUrlGetterSetter() {
 
         String initUpper = GetterSetterNameCalculator.calcInitUpper(servKey);
+        if (initUpper.startsWith("RICE.")) {
+            initUpper = initUpper.substring("RICE.".length());
+        }
 
         indentPrintln("private String hostUrl;");
         println("");

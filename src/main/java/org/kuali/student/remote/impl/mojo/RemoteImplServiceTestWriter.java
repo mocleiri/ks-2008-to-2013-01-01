@@ -30,6 +30,7 @@ import org.kuali.student.contract.model.Service;
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.ServiceMethod;
 import org.kuali.student.contract.model.ServiceMethodError;
+import org.kuali.student.contract.model.ServiceMethodParameter;
 import org.kuali.student.contract.model.XmlType;
 import org.kuali.student.contract.model.util.ModelFinder;
 import org.kuali.student.contract.writer.JavaClassWriter;
@@ -93,11 +94,11 @@ public class RemoteImplServiceTestWriter extends JavaClassWriter {
     }
 
     public static String calcClassName(String servKey) {
-        return GetterSetterNameCalculator.calcInitUpper(servKey + "ServiceRemoteImplTest");
-    }
-
-    public static String calcDecoratorClassName(String servKey) {
-        return GetterSetterNameCalculator.calcInitUpper(servKey + "ServiceDecorator");
+        String name = GetterSetterNameCalculator.calcInitUpper(servKey + "ServiceRemoteImplTest");
+        if (name.startsWith("RICE.")) {
+            name = name.substring("RICE.".length());
+        }
+        return name;
     }
 
     private static enum MethodType {
@@ -182,6 +183,11 @@ public class RemoteImplServiceTestWriter extends JavaClassWriter {
 
     private void writeTestMethodsForXmlType(XmlType xmlType) {
         ServiceMethod searchMethod = AdminUiLookupableWriter.findSearchMethod(xmlType, methods);
+        if (searchMethod == null) {
+            log.warn("No search method found for " + this.servKey + "." + xmlType.getName());
+            return;
+//            throw new NullPointerException (this.servKey + "." + xmlType.getName());
+        }
         String infoClass = GetterSetterNameCalculator.calcInitUpper(xmlType.getName());
         importsAdd(xmlType.getJavaPackage() + "." + xmlType.getName());
         indentPrintln("");
@@ -194,7 +200,28 @@ public class RemoteImplServiceTestWriter extends JavaClassWriter {
         indentPrintln("QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();");
         indentPrintln("qBuilder.setMaxResults (30);");
         importsAdd(List.class.getName());
-        indentPrintln("List<" + infoClass + "> infos = service." + searchMethod.getName() + "(qBuilder.build(), contextInfo);");
+        String returnType = "List<" + infoClass + ">";
+        if (searchMethod.getReturnValue().getType().endsWith("QueryResults")) {
+            returnType = searchMethod.getReturnValue().getType();
+            XmlType returnXmlType = finder.findXmlType(returnType);
+            importsAdd (returnXmlType.getJavaPackage() + "." + returnType);
+        }
+        indentPrint(returnType + " infos = service." + searchMethod.getName());
+        String comma = "(";
+        for (ServiceMethodParameter param : searchMethod.getParameters()) {
+            print(comma);
+            comma = ", ";
+            if (param.getType().equals("QueryByCriteria")) {
+                print("qBuilder.build()");
+                continue;
+            }
+            if (param.getType().equals("ContextInfo")) {
+                print("contextInfo");
+                continue;
+            }
+            log.warn(servKey + "." + searchMethod.getName() + " param=" + param.getName() + " " + param.getType() + " cannot be specified in search");
+        }
+        println(");");
         closeBrace();
 
 
@@ -206,19 +233,34 @@ public class RemoteImplServiceTestWriter extends JavaClassWriter {
         importsAdd(Predicate.class.getName());
         importsAdd(PredicateFactory.class.getName());
         indentPrintln("QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();");
-        importsAdd (ArrayList.class.getName());
+        importsAdd(ArrayList.class.getName());
         indentPrintln("List<Predicate> pList = new ArrayList<Predicate>();");
         indentPrintln("pList.add(PredicateFactory.equal(\"keywordSearch\", \"xyzzysomethingnothingmatches\"));");
         indentPrintln("qBuilder.setPredicates(PredicateFactory.and(pList.toArray(new Predicate[pList.size()])));");
         indentPrintln("qBuilder.setMaxResults (30);");
         importsAdd(List.class.getName());
-        indentPrintln("List<" + infoClass + "> infos = service." + searchMethod.getName() + "(qBuilder.build(), contextInfo);");
+        indentPrint(returnType + " infos = service." + searchMethod.getName());
+        comma = "(";
+        for (ServiceMethodParameter param : searchMethod.getParameters()) {
+            print(comma);
+            comma = ", ";
+            if (param.getType().equals("QueryByCriteria")) {
+                print("qBuilder.build()");
+                continue;
+            }
+            if (param.getType().equals("ContextInfo")) {
+                print("contextInfo");
+                continue;
+            }
+            log.warn(servKey + "." + searchMethod.getName() + " param=" + param.getName() + " " + param.getType() + " cannot be specified in search");
+        }
+        println(");");
         closeBrace();
 
-        this.writeFieldTests(infoClass, searchMethod, xmlType, new Stack<XmlType>(), "");
+        this.writeFieldTests(infoClass, returnType, searchMethod, xmlType, new Stack<XmlType>(), "");
     }
 
-    private void writeFieldTests(String infoClass, ServiceMethod searchMethod, XmlType type, Stack<XmlType> parents, String prefix) {
+    private void writeFieldTests(String infoClass, String returnType, ServiceMethod searchMethod, XmlType type, Stack<XmlType> parents, String prefix) {
         // avoid recursion
         if (parents.contains(type)) {
             return;
@@ -245,7 +287,7 @@ public class RemoteImplServiceTestWriter extends JavaClassWriter {
             XmlType fieldType = finder.findXmlType(ms.getType());
             if (fieldType.getPrimitive().equalsIgnoreCase(XmlType.COMPLEX)) {
                 // complex sub-types such as rich text 
-                this.writeFieldTests(infoClass, searchMethod, fieldType, parents, fieldName);
+                this.writeFieldTests(infoClass, returnType, searchMethod, fieldType, parents, fieldName);
                 continue;
             }
             if (!ms.getType().equalsIgnoreCase("String")) {
@@ -262,7 +304,22 @@ public class RemoteImplServiceTestWriter extends JavaClassWriter {
             indentPrintln("pList.add(PredicateFactory.equal(\"" + fieldName + "\", \"xyzzysomethingnothingmatches\"));");
             indentPrintln("qBuilder.setPredicates(PredicateFactory.and(pList.toArray(new Predicate[pList.size()])));");
             indentPrintln("qBuilder.setMaxResults (30);");
-            indentPrintln("List<" + infoClass + "> infos = service." + searchMethod.getName() + "(qBuilder.build(), contextInfo);");
+            indentPrint(returnType + " infos = service." + searchMethod.getName());
+            String comma = "(";
+            for (ServiceMethodParameter param : searchMethod.getParameters()) {
+                print(comma);
+                comma = ", ";
+                if (param.getType().equals("QueryByCriteria")) {
+                    print("qBuilder.build()");
+                    continue;
+                }
+                if (param.getType().equals("ContextInfo")) {
+                    print("contextInfo");
+                    continue;
+                }
+                log.warn(servKey + "." + searchMethod.getName() + " param=" + param.getName() + " " + param.getType() + " cannot be specified in search");
+            }
+            println(");");
             closeBrace();
 
         }
@@ -326,9 +383,11 @@ public class RemoteImplServiceTestWriter extends JavaClassWriter {
 //                set.add(returnType);
 //                continue;
 //            }
+            // presume a get with a single parameter is getting by primary key
             if (method.getName().startsWith("get")) {
-                if (method.getParameters().size() == 2) {
-                    if (method.getParameters().get(0).getType().equalsIgnoreCase("String")) {
+                List<ServiceMethodParameter> params = this.getNonContextParameters(method.getParameters());
+                if (params.size() == 1) {
+                    if (params.get(0).getType().equalsIgnoreCase("String")) {
                         set.add(returnType);
                         continue;
                     }
@@ -338,6 +397,17 @@ public class RemoteImplServiceTestWriter extends JavaClassWriter {
         return set;
     }
 
+    
+    private List<ServiceMethodParameter>  getNonContextParameters (List <ServiceMethodParameter> params) {
+         List<ServiceMethodParameter> list = new ArrayList<ServiceMethodParameter> ();
+         for (ServiceMethodParameter param : params) {
+             if (param.getType().equalsIgnoreCase("ContextInfo")) {
+                 continue;
+             }
+             list.add (param);
+         }
+         return list;
+    }
     private List<MessageStructure> getFieldsToSearchOn(XmlType xmlType) {
         List<MessageStructure> list = new ArrayList<MessageStructure>();
         for (MessageStructure ms : finder.findMessageStructures(xmlType.getName())) {

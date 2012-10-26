@@ -28,6 +28,7 @@ import org.kuali.student.contract.model.Service;
 
 import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.ServiceMethod;
+import org.kuali.student.contract.model.ServiceMethodParameter;
 import org.kuali.student.contract.model.XmlType;
 import org.kuali.student.contract.model.util.ModelFinder;
 import org.kuali.student.contract.writer.JavaClassWriter;
@@ -216,16 +217,37 @@ public class AdminUiLookupableWriter extends JavaClassWriter {
     }
 
     public static ServiceMethod findSearchMethod(XmlType xmlType, List<ServiceMethod> methods) {
-        String infoClassList = GetterSetterNameCalculator.calcInitUpper(xmlType.getName()) + "List";
         for (ServiceMethod method : methods) {
-            if (method.getReturnValue().getType().equalsIgnoreCase(infoClassList)) {
-                if (!method.getParameters().isEmpty()) {
-                    if (method.getParameters().get(0).getType().equalsIgnoreCase("QueryByCriteria")) {
-                        return method;
-                    }
+            if (hasProperReturnTypeForSearchMethod(xmlType, method)) {
+                if (hasProperParameterForSearchMethod(xmlType, method)) {
+                    return method;
                 }
             }
         }
         return null;
+    }
+
+    private static boolean hasProperReturnTypeForSearchMethod(XmlType xmlType, ServiceMethod method) {
+        String returnValueTypeLower = method.getReturnValue().getType().toLowerCase();
+        if (returnValueTypeLower.endsWith("List".toLowerCase())) {
+            if (returnValueTypeLower.startsWith(xmlType.getName().toLowerCase())) {
+                return true;
+            }
+        }
+        if (returnValueTypeLower.endsWith("QueryResults".toLowerCase())) {
+            if (returnValueTypeLower.startsWith(xmlType.getName().toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean hasProperParameterForSearchMethod(XmlType xmlType, ServiceMethod method) {
+        for (ServiceMethodParameter parameter : method.getParameters()) {
+            if (parameter.getType().equals("QueryByCriteria")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -61,6 +61,8 @@ public class KSCreateRemoteImplMojo extends AbstractKSMojo {
         servKeys.add("Type");
         servKeys.add("State");
         servKeys.add("LRC");
+        servKeys.add("RICE.Permission");
+        servKeys.add("RICE.Role");
         ServicesFilterByKeys filter = new ServicesFilterByKeys(servKeys);
         RemoteImplWriter instance =
                 new RemoteImplWriter(model,
