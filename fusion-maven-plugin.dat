@@ -1,10 +1,10 @@
-# module = ks-api branch Path = enrollment/ks-api/branches/M6 revision = 37872
-ks-api::enrollment_ks-api_branches_M6::7e6db0c0d144d5a89776d8dfca633e7fc66cb21e
-# module = ks-core branch Path = enrollment/ks-core/branches/services revision = 37872
-ks-core::enrollment_ks-core_branches_services::5f625a48c7d4af0dbbf9df472f8116fab67344a1
-# module = ks-lum branch Path = enrollment/ks-lum/branches/services revision = 37872
-ks-lum::enrollment_ks-lum_branches_services::c03cd13440e2635ef87d1a0b81fc4bdca3b8ea1a
-# module = ks-enroll branch Path = enrollment/ks-enroll/branches/services revision = 37872
-ks-enroll::enrollment_ks-enroll_branches_services::398caec8c32842dde1026b3372d7b51aa336b0ef
-# module = ks-deployments branch Path = enrollment/ks-deployments/branches/services revision = 37872
-ks-deployments::enrollment_ks-deployments_branches_services::d43e8b29247ead442446335641d5434b594b72d1
+# module = ks-api branch Path = enrollment/ks-api/tags/builds/ks-api-2.0/2.0.0-M6/build-172 revision = 39142
+ks-api::enrollment_ks-api_tags_builds_ks-api-2.0_2.0.0-M6_build-172::f7add5ad7eac6c1583f76ba4382bca52ac91072a
+# module = ks-core branch Path = enrollment/ks-core/tags/builds/ks-core-2.0/2.0.0-M6/build-172 revision = 39142
+ks-core::enrollment_ks-core_tags_builds_ks-core-2.0_2.0.0-M6_build-172::3362d835a85ab93c688a585ef19cedcde4e362b2
+# module = ks-deployments branch Path = enrollment/ks-deployments/tags/builds/ks-deployments-2.0/2.0.0-M6/build-172 revision = 39142
+ks-deployments::enrollment_ks-deployments_tags_builds_ks-deployments-2.0_2.0.0-M6_build-172::2f7b167042912ea045f7dbb518531713078de7fd
+# module = ks-enroll branch Path = enrollment/ks-enroll/tags/builds/ks-enroll-1.0/1.0.0-M6/build-172 revision = 39142
+ks-enroll::enrollment_ks-enroll_tags_builds_ks-enroll-1.0_1.0.0-M6_build-172::1d6c9fab6c75458612888755957c25c790c47e41
+# module = ks-lum branch Path = enrollment/ks-lum/tags/builds/ks-lum-2.0/2.0.0-M6/build-172 revision = 39142
+ks-lum::enrollment_ks-lum_tags_builds_ks-lum-2.0_2.0.0-M6_build-172::cd74b026e950dcd3742057e2861c04b415d6e6ab
