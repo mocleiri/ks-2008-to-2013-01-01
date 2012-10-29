@@ -299,6 +299,11 @@ public class StateServiceMockImpl
     }
 
     @Override
+    public StateChangeInfo getStateChange(String stateChangeId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public List<StateChangeInfo> getStateChangesByIds(List<String> stateChangeIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }

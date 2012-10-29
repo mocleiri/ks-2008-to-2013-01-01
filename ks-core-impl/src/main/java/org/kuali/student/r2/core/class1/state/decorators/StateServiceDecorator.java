@@ -20,7 +20,6 @@ import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.dto.StatePropagationInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 
-import javax.jws.WebParam;
 import java.util.List;
 
 /**
@@ -127,6 +126,11 @@ public class StateServiceDecorator implements StateService {
         return nextDecorator.deleteState(stateKey, contextInfo);
     }
 
+    @Override
+    public StateChangeInfo getStateChange(String stateChangeId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStateChange(stateChangeId, contextInfo);
+    }
+
     public List<StateChangeInfo> getStateChangesByIds(List<String> stateChangeIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return nextDecorator.getStateChangesByIds(stateChangeIds, contextInfo);
     }
@@ -180,7 +184,7 @@ public class StateServiceDecorator implements StateService {
     }
 
     @Override
-    public List<String> getStateConstraintIdsByType(@WebParam(name = "stateConstraintTypeKey") String stateConstraintTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getStateConstraintIdsByType(String stateConstraintTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return nextDecorator.getStateConstraintIdsByType(stateConstraintTypeKey, contextInfo);
     }
 
@@ -217,12 +221,12 @@ public class StateServiceDecorator implements StateService {
     }
 
     @Override
-    public List<String> getStatePropagationIdsByType(@WebParam(name = "statePropagationTypeKey") String statePropagationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getStatePropagationIdsByType(String statePropagationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return nextDecorator.getStatePropagationIdsByType(statePropagationTypeKey, contextInfo);
     }
 
     @Override
-    public List<StatePropagationInfo> getStatePropagationsByTargetState(@WebParam(name = "targetStateKey") String targetStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<StatePropagationInfo> getStatePropagationsByTargetState(String targetStateKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return nextDecorator.getStatePropagationsByTargetState(targetStateKey, contextInfo);
     }
 
