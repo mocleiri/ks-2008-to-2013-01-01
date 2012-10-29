@@ -394,6 +394,11 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
+    public List<String> getStateConstraintIdsByType(@WebParam(name = "stateConstraintTypeKey") String stateConstraintTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public List<String> searchForStateConstraintIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -434,6 +439,11 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
+    public List<String> getStatePropagationIdsByType(@WebParam(name = "statePropagationTypeKey") String statePropagationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public List<StatePropagationInfo> getStatePropagationsByTargetState(String targetStateKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -449,12 +459,12 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateStatePropagation(String validationTypeKey, String statePropagationTypeKey, StatePropagationInfo statePropagationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateStatePropagation(String validationTypeKey, String targetStateChangeId, String statePropagationTypeKey, StatePropagationInfo statePropagationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public StatePropagationInfo createStatePropagation(String statePropagationTypeKey, StatePropagationInfo statePropagationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public StatePropagationInfo createStatePropagation(String targetStateChangeId, String statePropagationTypeKey, StatePropagationInfo statePropagationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
