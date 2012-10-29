@@ -226,8 +226,8 @@ public class StateServiceDecorator implements StateService {
     }
 
     @Override
-    public List<StatePropagationInfo> getStatePropagationsByTargetState(String targetStateKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getStatePropagationsByTargetState(targetStateKey, contextInfo);
+    public List<StatePropagationInfo> getStatePropagationsByTargetState(String targetStateId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStatePropagationsByTargetState(targetStateId, contextInfo);
     }
 
     public List<String> searchForStatePropagationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

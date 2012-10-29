@@ -448,7 +448,7 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
-    public List<StatePropagationInfo> getStatePropagationsByTargetState(String targetStateKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<StatePropagationInfo> getStatePropagationsByTargetState(String targetStateId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
