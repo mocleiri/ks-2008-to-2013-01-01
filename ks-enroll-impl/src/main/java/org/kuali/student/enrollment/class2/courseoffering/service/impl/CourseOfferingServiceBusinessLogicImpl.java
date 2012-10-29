@@ -291,7 +291,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                         targetRg.setName(sourceRg.getName());
                         targetRg.setRegistrationCode(null);
                         targetRg.setTermId(targetFo.getTermId());
-                        targetRg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
+                        targetRg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
                         targetRg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
 
                         List<String> sourceAoIdList = sourceRg.getActivityOfferingIds();
@@ -495,7 +495,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         rg.setName(regGroupCode);
         rg.setRegistrationCode(null);
         rg.setTermId(formatOffering.getTermId());
-        rg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
+        rg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
         rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
         return rg;
     }
@@ -533,7 +533,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         rg.setName(regGroupCode);
         rg.setRegistrationCode(null);
         rg.setTermId(formatOffering.getTermId());
-        rg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
+        rg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
         rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
         return rg;
     }
