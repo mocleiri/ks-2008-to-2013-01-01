@@ -52,6 +52,7 @@ public class RichTextInfo
      * Constructs a new RichTextInfo.
      */
     public RichTextInfo() {
+       super();
     }
     
     /**
