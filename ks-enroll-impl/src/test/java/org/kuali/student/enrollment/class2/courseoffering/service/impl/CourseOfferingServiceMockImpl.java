@@ -502,7 +502,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             CourseOfferingInfo courseOfferingInfo, List<String> optionKeys,
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+            OperationFailedException, PermissionDeniedException {
         return this.businessLogic.validateCourseOfferingFromCanonical(
                 courseOfferingInfo, optionKeys, context);
     }
@@ -1358,10 +1358,11 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     public List<ValidationResultInfo> validateSeatPoolDefinition(
             String validationTypeKey,
             SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException,
-            VersionMismatchException {
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException, 
+            PermissionDeniedException {
         // validate
         return new ArrayList<ValidationResultInfo>();
     }
