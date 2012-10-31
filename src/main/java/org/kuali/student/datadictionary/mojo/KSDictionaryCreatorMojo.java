@@ -1,9 +1,11 @@
 package org.kuali.student.datadictionary.mojo;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -45,6 +47,11 @@ public class KSDictionaryCreatorMojo extends AbstractKSMojo {
      * @parameter expression=true
      */
     private boolean writeGenerated;
+    
+    /**
+     * @parameter 
+     */
+    private Map<String, String>typeOverrides;
     
     public boolean isThrowExceptionIfNotAllFilesProcessed() {
         return throwExceptionIfNotAllFilesProcessed;
@@ -112,7 +119,8 @@ public class KSDictionaryCreatorMojo extends AbstractKSMojo {
 				        model,
 				        xmlObject,
 				        writeManual,
-				        writeGenerated);
+				        writeGenerated, 
+				        typeOverrides);
                 try {
 					
 					writer.write();

@@ -61,8 +61,11 @@ public class KradDictionaryCreator {
 
 	private boolean initialized = false;
 
+	private List<String> enumeratedTypeList;
+
+
 	public KradDictionaryCreator(String directory, ServiceContractModel model,
-			String className, boolean writeManual, boolean writeGenerated) {
+			String className, boolean writeManual, boolean writeGenerated, Map<String, String> typeOverrides) {
 		this.directory = directory;
 		this.model = model;
 		this.finder = new ModelFinder(this.model);
@@ -77,7 +80,109 @@ public class KradDictionaryCreator {
 		// if (this.messageStructures.isEmpty()) {
 		// throw new IllegalStateException(className);
 		// }
+		
+		initializeTypes (typeOverrides);
 	}
+
+	private void initializeTypes(Map<String, String> typeOverrides) {
+		
+		if (KradDictionaryCreator.predefinedFieldMap == null) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("id", "BaseKuali.id");
+			map.put("key", "BaseKuali.key");
+			map.put("name", "BaseKuali.name");
+			map.put("descr", "BaseKuali.descr");
+			map.put("plain", "BaseKuali.descr.plain");
+			map.put("formatted", "BaseKuali.descr.formatted");
+			map.put("desc", "BaseKuali.desc"); // r1 compatibility
+			map.put("typeKey", "BaseKuali.typeKey");
+			map.put("stateKey", "BaseKuali.stateKey");
+			map.put("type", "BaseKuali.type"); // r1 compatibility
+			map.put("state", "BaseKuali.state"); // r1 compatibility
+			map.put("effectiveDate", "BaseKuali.effectiveDate");
+			map.put("expirationDate", "BaseKuali.expirationDate");
+			map.put("meta", "BaseKuali.meta");
+			map.put("createTime", "BaseKuali.meta.createTime");
+			map.put("updateTime", "BaseKuali.meta.updateTime");
+			map.put("createId", "BaseKuali.meta.createId");
+			map.put("updateId", "BaseKuali.meta.updateId");
+			map.put("versionInd", "BaseKuali.meta.versionInd");
+			// convert to lower case
+			predefinedFieldMap = new HashMap<String, String>(map.size());
+			for (String key : map.keySet()) {
+				predefinedFieldMap.put(key.toLowerCase(), map.get(key));
+			}
+		}
+		
+		
+		
+		if (KradDictionaryCreator.endsWithMap == null) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("startDate", "BaseKuali.startDate");
+			map.put("endDate", "BaseKuali.endDate");
+			map.put("start", "BaseKuali.start");
+			map.put("end", "BaseKuali.end");
+			map.put("OrgId", "BaseKuali.orgId");
+			map.put("OrgIds", "BaseKuali.orgId");
+			map.put("PersonId", "BaseKuali.personId");
+			map.put("PersonIds", "BaseKuali.personId");
+			map.put("PrincipalId", "BaseKuali.principalId");
+			map.put("PrincipalIds", "BaseKuali.principalId");
+			map.put("CluId", "BaseKuali.cluId");
+			map.put("CluIds", "BaseKuali.cluId");
+			map.put("LuiId", "BaseKuali.luiId");
+			map.put("LuiIds", "BaseKuali.luiId");
+			map.put("AtpId", "BaseKuali.atpId");
+			map.put("AtpIds", "BaseKuali.atpId");
+			map.put("TermId", "BaseKuali.termId");
+			map.put("TermIds", "BaseKuali.termId");
+			map.put("HolidayCalendarId", "BaseKuali.holidayCalendarId");
+			map.put("HolidayCalendarIds", "BaseKuali.holidayCalendarId");
+			map.put("Code", "BaseKuali.code");
+			// convert to lower case
+			endsWithMap = new HashMap<String, String>(map.size());
+			for (String key : map.keySet()) {
+				endsWithMap.put(key.toLowerCase(), map.get(key));
+			}
+		}
+		
+		if (KradDictionaryCreator.typeMap == null){
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("String", "BaseKuali.string");
+			map.put("DateTime", "BaseKuali.dateTime");
+			map.put("Date", "BaseKuali.date");
+			map.put("Boolean", "BaseKuali.boolean");
+			map.put("Integer", "BaseKuali.integer");
+			// having primitives is a bug but this will fix the issue with CluInfo
+			// for now.
+			map.put("int", "BaseKuali.integer");
+
+			map.put("Long", "BaseKuali.long");
+			map.put("Float", "BaseKuali.float");
+			map.put("Double", "BaseKuali.double");
+			
+			// TODO: this should be externalized into mojo.
+//			map.put("enum", "BaseKuali.complex");
+			
+			// convert to lower case
+			typeMap = new HashMap<String, String>(map.size());
+			for (String key : map.keySet()) {
+				typeMap.put(key.toLowerCase(), map.get(key));
+			}
+			
+			if (typeOverrides != null) {
+				// apply any overrides
+				for (String key : typeOverrides.keySet()) {
+
+					String value = typeOverrides.get(key);
+					typeMap.put(key, value);
+
+					log.warn("OVERRIDING Type Mapping '" + key + "' -> '"
+					        + value + "'");
+				}
+			}
+		}
+    }
 
 	public void write() {
 		this.initXmlWriters();
@@ -427,6 +532,7 @@ public class KradDictionaryCreator {
 		if (ms.getShortName().equals("attributes")) {
 			return Category.DYNAMIC_ATTRIBUTE;
 		}
+		
 		String childXmlTypeName = this.stripListOffEnd(ms.getType());
 		XmlType childXmlType = this.finder.findXmlType(childXmlTypeName);
 		if (childXmlType == null) {
@@ -492,6 +598,8 @@ public class KradDictionaryCreator {
 			Category category = this.calculateCategory(ms);
 			switch (category) {
 			case DYNAMIC_ATTRIBUTE:
+				// intentionally fall through
+				ENUMERATED_TYPE:
 				continue; // skip
 
 			default:
@@ -805,94 +913,20 @@ public class KradDictionaryCreator {
 	 */
 	private static Map<String, String> predefinedFieldMap = null;
 
-	{
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("id", "BaseKuali.id");
-		map.put("key", "BaseKuali.key");
-		map.put("name", "BaseKuali.name");
-		map.put("descr", "BaseKuali.descr");
-		map.put("plain", "BaseKuali.descr.plain");
-		map.put("formatted", "BaseKuali.descr.formatted");
-		map.put("desc", "BaseKuali.desc"); // r1 compatibility
-		map.put("typeKey", "BaseKuali.typeKey");
-		map.put("stateKey", "BaseKuali.stateKey");
-		map.put("type", "BaseKuali.type"); // r1 compatibility
-		map.put("state", "BaseKuali.state"); // r1 compatibility
-		map.put("effectiveDate", "BaseKuali.effectiveDate");
-		map.put("expirationDate", "BaseKuali.expirationDate");
-		map.put("meta", "BaseKuali.meta");
-		map.put("createTime", "BaseKuali.meta.createTime");
-		map.put("updateTime", "BaseKuali.meta.updateTime");
-		map.put("createId", "BaseKuali.meta.createId");
-		map.put("updateId", "BaseKuali.meta.updateId");
-		map.put("versionInd", "BaseKuali.meta.versionInd");
-		// convert to lower case
-		predefinedFieldMap = new HashMap(map.size());
-		for (String key : map.keySet()) {
-			predefinedFieldMap.put(key.toLowerCase(), map.get(key));
-		}
-	}
 	/**
 	 * list of fields that if they end with the key the should be based on the
 	 * entry in ks-base-dictionary.xml
 	 */
 	private static Map<String, String> endsWithMap = null;
 
-	{
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("startDate", "BaseKuali.startDate");
-		map.put("endDate", "BaseKuali.endDate");
-		map.put("start", "BaseKuali.start");
-		map.put("end", "BaseKuali.end");
-		map.put("OrgId", "BaseKuali.orgId");
-		map.put("OrgIds", "BaseKuali.orgId");
-		map.put("PersonId", "BaseKuali.personId");
-		map.put("PersonIds", "BaseKuali.personId");
-		map.put("PrincipalId", "BaseKuali.principalId");
-		map.put("PrincipalIds", "BaseKuali.principalId");
-		map.put("CluId", "BaseKuali.cluId");
-		map.put("CluIds", "BaseKuali.cluId");
-		map.put("LuiId", "BaseKuali.luiId");
-		map.put("LuiIds", "BaseKuali.luiId");
-		map.put("AtpId", "BaseKuali.atpId");
-		map.put("AtpIds", "BaseKuali.atpId");
-		map.put("TermId", "BaseKuali.termId");
-		map.put("TermIds", "BaseKuali.termId");
-		map.put("HolidayCalendarId", "BaseKuali.holidayCalendarId");
-		map.put("HolidayCalendarIds", "BaseKuali.holidayCalendarId");
-		map.put("Code", "BaseKuali.code");
-		// convert to lower case
-		endsWithMap = new HashMap(map.size());
-		for (String key : map.keySet()) {
-			endsWithMap.put(key.toLowerCase(), map.get(key));
-		}
-	}
+	
 	/**
 	 * list of types that if the type matches this key then it should be based
 	 * on that type entry as defined in the ks-base-dictionary.xml
 	 */
 	private static Map<String, String> typeMap = null;
 
-	{
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("String", "BaseKuali.string");
-		map.put("DateTime", "BaseKuali.dateTime");
-		map.put("Date", "BaseKuali.date");
-		map.put("Boolean", "BaseKuali.boolean");
-		map.put("Integer", "BaseKuali.integer");
-		// having primitives is a bug but this will fix the issue with CluInfo
-		// for now.
-		map.put("int", "BaseKuali.integer");
-
-		map.put("Long", "BaseKuali.long");
-		map.put("Float", "BaseKuali.float");
-		map.put("Double", "BaseKuali.double");
-		// convert to lower case
-		typeMap = new HashMap(map.size());
-		for (String key : map.keySet()) {
-			typeMap.put(key.toLowerCase(), map.get(key));
-		}
-	}
+	
 
 	private String calcBaseKualiParentBean(MessageStructure ms) {
 		switch (this.calculateCategory(ms)) {

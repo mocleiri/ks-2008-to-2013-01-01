@@ -160,6 +160,7 @@ public class ServiceContractModelQDoxLoaderTest {
         }
         
     }
+    
 
     /**
      * Test of getSourceNames method, of class ServiceContractModelQDoxLoader.

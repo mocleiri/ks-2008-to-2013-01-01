@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlEnum;
+
+import org.kuali.student.contract.model.Lookup;
 import org.kuali.student.contract.model.MessageStructure;
 import org.kuali.student.contract.model.Service;
 import org.kuali.student.contract.model.ServiceContractModel;
@@ -34,6 +37,7 @@ import org.kuali.student.contract.model.ServiceMethodError;
 import org.kuali.student.contract.model.ServiceMethodParameter;
 import org.kuali.student.contract.model.ServiceMethodReturnValue;
 import org.kuali.student.contract.model.XmlType;
+import org.kuali.student.contract.model.util.JavaClassAnnotationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +51,6 @@ import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaParameter;
 import com.thoughtworks.qdox.model.Type;
 import com.thoughtworks.qdox.model.annotation.AnnotationValue;
-import org.kuali.student.contract.model.Lookup;
 
 /**
  *
@@ -67,10 +70,10 @@ public class ServiceContractModelQDoxLoader implements
     private List<ServiceMethod> serviceMethods = null;
     private Map<String, XmlType> xmlTypeMap = null;
     private List<MessageStructure> messageStructures;
-    private boolean validateKualiStudent = true;
+    private boolean validateKualiStudent;
 
     public ServiceContractModelQDoxLoader(List<String> sourceDirectories) {
-        this.sourceDirectories = sourceDirectories;
+        this (sourceDirectories, true);
     }
 
     public ServiceContractModelQDoxLoader(List<String> sourceDirectories, boolean validateKualiStudent) {
@@ -792,6 +795,7 @@ public class ServiceContractModelQDoxLoader implements
     }
     
     private static Map<String, Lookup> LOOKUP_MAPPINGS;
+    
     {
         // global ones where the name matches the object 
         LOOKUP_MAPPINGS = new LinkedHashMap<String, Lookup> ();
@@ -1717,33 +1721,47 @@ public class ServiceContractModelQDoxLoader implements
         return calcType(calcRealJavaClass(type));
     }
 
+    private Annotation findJavaAnnotation(String name, JavaClass clazz) {
+    	
+    	Annotation[] annotations = clazz.getAnnotations();
+    	
+    	for (Annotation annotation : annotations) {
+	        
+    		if (annotation.getType().getJavaClass().getName().equals(name)) {
+    			return annotation;
+    		}
+        }
+    	return null;
+    }
     private String calcType(JavaClass javaClass) {
+    	
         if (javaClass.isEnum()) {
-            // TODO: instead of hand mapping this take it based on the class in the @XmlEnum(String.class) tag
-            if (javaClass.getName().equals("ErrorLevel")) {
-                return "Integer";
-            }
-            if (javaClass.getName().equals("StatementOperatorTypeKey")) {
-                return "String";
-            }
-            if (javaClass.getName().equals("WriteAccess")) {
-                return "String";
-            }
-            if (javaClass.getName().equals("Widget")) {
-                return "String";
-            }
-            if (javaClass.getName().equals("DataType")) {
-                return "String";
-            }
-            if (javaClass.getName().equals("SortDirection")) {
-                return "String";
-            }
-            if (javaClass.getName().equals("Usage")) {
-                return "String";
-            }
-            if (javaClass.getName().equals("StatementOperator")) {
-                return "String";
-            }
+        	
+			if (!JavaClassAnnotationUtils.doesAnnotationExist(
+			        XmlEnum.class.getSimpleName(), javaClass)) {
+				// a rice or other dependency without the @XmlEnum annotation
+				// present
+				if (javaClass.getName().equals("WriteAccess")) {
+					// rice CommonLookupParam
+					return "String";
+				} else if (javaClass.getName().equals("Widget")) {
+					// rice CommonLookupParam
+					return "String";
+				} else if (javaClass.getName().equals("Usage")) {
+					// rice
+					return "String";
+				} else {
+					// this allows the types to be manually specified 
+					// using the full package.classname format.
+					return javaClass.getFullyQualifiedName();
+				}
+
+			}
+    		
+    		Class<?>annotationSpecifiedType = JavaClassAnnotationUtils.extractXmlEnumValue(javaClass);
+    		
+        	return annotationSpecifiedType.getSimpleName();
+           
         }
         // this is messed up instead of list of strings it is an object with a list of strings
         if (javaClass.getName().equals(LOCALE_KEY_LIST)) {
