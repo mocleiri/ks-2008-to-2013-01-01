@@ -21,6 +21,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl;
 
 
 /**
