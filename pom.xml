@@ -19,7 +19,7 @@
     <kuali.release.arguments>-DskipTests</kuali.release.arguments>
 
     <!-- <cxf.version>2.2.10</cxf.version> -->
-    <kuali.rice.version>2.2.0-M2</kuali.rice.version>
+    <kuali.rice.version>2.2.0-M4</kuali.rice.version>
     <spring.version>3.1.2.RELEASE</spring.version>
   </properties>
   <dependencies>
