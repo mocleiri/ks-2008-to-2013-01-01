@@ -692,12 +692,12 @@ public class DictionaryFormatter {
     }
 
     private String calcValidChars(ValidCharactersConstraint cons) {
-        String labelKey = cons.getLabelKey();
-        if (labelKey == null) {
-            labelKey = "validation.validChars";
+        String messageKey = cons.getMessageKey();
+        if (messageKey == null) {
+            messageKey = "validation.validChars";
         }
         String validChars = escapeXML(cons.getValue());
-        String descr = labelKey + "<br>" + validChars;
+        String descr = messageKey + "<br>" + validChars;
         return descr;
     }
 
