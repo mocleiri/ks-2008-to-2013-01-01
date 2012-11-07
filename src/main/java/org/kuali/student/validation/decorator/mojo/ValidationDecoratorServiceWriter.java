@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.contract.writer.service;
+package org.kuali.student.validation.decorator.mojo;
 
 import java.util.List;
 
@@ -24,6 +24,9 @@ import org.kuali.student.contract.model.ServiceMethodParameter;
 import org.kuali.student.contract.model.XmlType;
 import org.kuali.student.contract.model.util.ModelFinder;
 import org.kuali.student.contract.writer.JavaClassWriter;
+import org.kuali.student.contract.writer.service.GetterSetterNameCalculator;
+import org.kuali.student.contract.writer.service.MessageStructureTypeCalculator;
+import org.kuali.student.contract.writer.service.ServiceExceptionWriter;
 
 /**
  *

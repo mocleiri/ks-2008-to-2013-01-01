@@ -26,7 +26,6 @@ import org.kuali.student.contract.model.ServiceContractModel;
 import org.kuali.student.contract.model.impl.ServiceContractModelCache;
 import org.kuali.student.contract.model.impl.ServiceContractModelQDoxLoader;
 import org.kuali.student.contract.model.validation.ServiceContractModelValidator;
-import org.kuali.student.contract.writer.service.ValidationDecoratorWriter;
 
 /**
  *

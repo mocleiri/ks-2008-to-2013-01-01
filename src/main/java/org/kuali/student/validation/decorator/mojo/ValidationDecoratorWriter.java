@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.contract.writer.service;
+package org.kuali.student.validation.decorator.mojo;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -35,27 +35,22 @@ import org.kuali.student.contract.model.validation.ServiceContractModelValidator
  *
  * @author nwright
  */
-public class MockImplWriter {
+public class ValidationDecoratorWriter {
 
     private ServiceContractModel model;
     private String directory;
     private String rootPackage;
-    public static final String ROOT_PACKAGE = "org.kuali.student";
-    public static final String LUM_ROOT_PACKAGE = "org.kuali.student.lum";
-    public static final String ENROLLMENT_ROOT_PACKAGE = "org.kuali.student.enrollment";
+    public static final String DEFAULT_ROOT_PACKAGE = "org.kuali.student.enrollment";
     private ServicesFilter filter;
-    private boolean isR1;
 
-    public MockImplWriter(ServiceContractModel model,
+    public ValidationDecoratorWriter(ServiceContractModel model,
             String directory,
             String rootPackage,
-            ServicesFilter filter,
-            boolean isR1) {
+            ServicesFilter filter) {
         this.model = model;
         this.directory = directory;
         this.rootPackage = rootPackage;
         this.filter = filter;
-        this.isR1 = isR1;
     }
 
     /**
@@ -66,7 +61,7 @@ public class MockImplWriter {
         this.validate();
 
         for (Service service : filterServices()) {
-            new MockImplWriterForOneService(model, directory, rootPackage, service.getKey(), isR1).write();
+            new ValidationDecoratorWriterForOneService(model, directory, rootPackage, service.getKey()).write();
         }
 
 //        // the Info interfaces's

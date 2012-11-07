@@ -1819,6 +1819,9 @@ public class ServiceContractModelQDoxLoader implements
     }
 
     private boolean isComplex(JavaClass javaClass) {
+        if (javaClass.getName().equals ("void")) {
+            return false;
+        }
         if (javaClass.isEnum()) {
             return false;
         }

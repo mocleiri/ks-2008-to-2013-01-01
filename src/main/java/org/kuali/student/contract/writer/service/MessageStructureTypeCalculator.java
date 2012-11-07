@@ -86,6 +86,9 @@ public class MessageStructureTypeCalculator {
             if (type.equalsIgnoreCase("long")) {
                 return "Long";
             }
+            if (type.equalsIgnoreCase("void")) {
+                return "void";
+            }
         }
 
         if (xmlType.getPrimitive().equalsIgnoreCase("Mapped String")) {

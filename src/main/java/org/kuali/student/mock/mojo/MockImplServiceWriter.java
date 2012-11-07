@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.contract.writer.service;
+package org.kuali.student.mock.mojo;
 
 import org.kuali.student.contract.model.Service;
 import org.kuali.student.contract.model.ServiceContractModel;
@@ -26,9 +26,14 @@ import org.kuali.student.contract.writer.JavaClassWriter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import org.kuali.student.contract.writer.service.GetterSetterNameCalculator;
+import org.kuali.student.contract.writer.service.MessageStructureTypeCalculator;
+import org.kuali.student.contract.writer.service.ServiceExceptionWriter;
 
 /**
  *
@@ -83,12 +88,26 @@ public class MockImplServiceWriter extends JavaClassWriter {
         return pack;
     }
 
+    private boolean isRice() {
+        if (this.servKey.startsWith("RICE.")) {
+            return true;
+        }
+        return false;
+    }
+
+    private static String fixServKey(String servKey) {
+        if (servKey.startsWith("RICE.")) {
+            return servKey.substring("RICE.".length());
+        }
+        return servKey;
+    }
+
     public static String calcClassName(String servKey) {
-        return GetterSetterNameCalculator.calcInitUpper(servKey + "ServiceMockImpl");
+        return GetterSetterNameCalculator.calcInitUpper(fixServKey(servKey) + "ServiceMockImpl");
     }
 
     public static String calcServiceInterfaceClassName(String servKey) {
-        return GetterSetterNameCalculator.calcInitUpper(servKey + "Service");
+        return GetterSetterNameCalculator.calcInitUpper(fixServKey(servKey) + "Service");
     }
 
     private static enum MethodType {
@@ -105,6 +124,7 @@ public class MockImplServiceWriter extends JavaClassWriter {
         GET_CREATE,
         GET_BY_ID,
         GET_BY_IDS,
+        RICE_GET_BY_NAMESPACE_AND_NAME,
         GET_IDS_BY_TYPE,
         GET_IDS_BY_OTHER,
         GET_INFOS_BY_OTHER,
@@ -114,6 +134,28 @@ public class MockImplServiceWriter extends JavaClassWriter {
     };
 
     private MethodType calcMethodType(ServiceMethod method) {
+        if (this.isRice()) {
+            if (method.getName().contains("ByNamespaceCodeAndName")) {
+                return MethodType.RICE_GET_BY_NAMESPACE_AND_NAME;
+            }
+            if (method.getName().contains("ByNameAndNamespace")) {
+                return MethodType.RICE_GET_BY_NAMESPACE_AND_NAME;
+            }
+            if (method.getName().startsWith("get")) {
+                if (method.getParameters().size() == 1) {
+                    if (!method.getReturnValue().getType().endsWith("List")) {
+                        if (method.getParameters().get(0).getName().equals("id")) {
+                            return MethodType.GET_BY_ID;
+                        }
+
+                    } else {
+                        if (method.getParameters().get(0).getName().equals("ids")) {
+                            return MethodType.GET_BY_IDS;
+                        }
+                    }
+                }
+            }
+        }
         if (method.getName().startsWith("validate")) {
             return MethodType.VALIDATE;
         }
@@ -148,10 +190,11 @@ public class MockImplServiceWriter extends JavaClassWriter {
         if (method.getName().startsWith("remove")) {
             return MethodType.REMOVE;
         }
-        
+
         if (method.getName().startsWith("getCreate")) {
-            return MethodType.GET_CREATE;            
+            return MethodType.GET_CREATE;
         }
+
         if (method.getName().startsWith("get")) {
             if (method.getName().endsWith("ByIds")) {
                 return MethodType.GET_BY_IDS;
@@ -194,17 +237,44 @@ public class MockImplServiceWriter extends JavaClassWriter {
     public void write() {
         indentPrint("public class " + calcClassName(servKey));
         println(" implements MockService, " + calcServiceInterfaceClassName(servKey));
+        importsAdd ("org.kuali.student.common.mock.MockService");
         Service serv = finder.findService(servKey);
         importsAdd(serv.getImplProject() + "." + serv.getName());
         openBrace();
+        // put all the cache variables at the top
+        indentPrintln("// cache variable ");
+        indentPrintln("// The LinkedHashMap is just so the values come back in a predictable order");
+        cacheVariablesWritten.clear();
         for (ServiceMethod method : methods) {
             MethodType methodType = calcMethodType(method);
             switch (methodType) {
                 case CREATE:
                 case ADD:
                 case GET_TYPE:
+                case GET_BY_ID:
                     writeCacheVariable(method);
             }
+        }
+        println ("");
+        indentPrintln ("@Override");
+        indentPrintln ("public void clear()");
+        openBrace ();
+        cacheVariablesWritten.clear();
+         for (ServiceMethod method : methods) {
+            MethodType methodType = calcMethodType(method);
+            switch (methodType) {
+                case CREATE:
+                case ADD:
+                case GET_TYPE:
+                case GET_BY_ID:
+                    writeCacheVariableClear(method);
+            }
+        }
+        closeBrace ();
+        println ("");
+        
+        for (ServiceMethod method : methods) {
+            MethodType methodType = calcMethodType(method);
             indentPrintln("");
 //            indentPrintln("/**");
 //            indentPrintWrappedComment(method.getDescription());
@@ -247,6 +317,7 @@ public class MockImplServiceWriter extends JavaClassWriter {
             }
             decrementIndent();
             openBrace();
+            indentPrintln("// " + methodType);
             switch (methodType) {
                 case VALIDATE:
                     writeValidate(method);
@@ -287,6 +358,9 @@ public class MockImplServiceWriter extends JavaClassWriter {
                 case GET_TYPES:
                     writeGetTypes(method);
                     break;
+                case RICE_GET_BY_NAMESPACE_AND_NAME:
+                    writeRiceGetByNamespaceAndName(method);
+                    break;
                 default:
                     writeThrowsNotImplemented(method);
             }
@@ -300,8 +374,36 @@ public class MockImplServiceWriter extends JavaClassWriter {
         this.getOut().close();
     }
 
+    private String getInvalidParameterException() {
+        if (this.isRice()) {
+            return "RiceIllegalArgumentException";
+        }
+        return "InvalidParameterException";
+    }
+
+    private String getOperationFailedException() {
+        if (this.isRice()) {
+            return "RiceIllegalArgumentException";
+        }
+        return "OperationFailedException";
+    }
+
+    private String getDoesNotExistException() {
+        if (this.isRice()) {
+            return "RiceIllegalArgumentException";
+        }
+        return "DoesNotExistException";
+    }
+
+    private String getVersionMismatchException() {
+        if (this.isRice()) {
+            return "RiceIllegalStateException";
+        }
+        return "VersionMismatchException";
+    }
+
     private void writeThrowsNotImplemented(ServiceMethod method) {
-        indentPrintln("throw new OperationFailedException (\"" + method.getName() + " has not been implemented\");");
+        indentPrintln("throw new " + this.getOperationFailedException() + " (\"" + method.getName() + " has not been implemented\");");
     }
 
     private String initLower(String str) {
@@ -309,6 +411,9 @@ public class MockImplServiceWriter extends JavaClassWriter {
     }
 
     private void writeBoilerPlate() {
+        if (this.isRice()) {
+            return;
+        }
         indentPrintln("");
         indentPrintln("private StatusInfo newStatus() {");
         indentPrintln("     StatusInfo status = new StatusInfo();");
@@ -320,7 +425,6 @@ public class MockImplServiceWriter extends JavaClassWriter {
         } else {
             this.writeBoilerPlateR2();
         }
-
     }
 
     private void writeBoilerPlateR1() {
@@ -375,73 +479,105 @@ public class MockImplServiceWriter extends JavaClassWriter {
     }
 
     private void writeValidate(ServiceMethod method) {
-        indentPrintln("// validate");
         indentPrintln("return new ArrayList<ValidationResultInfo> ();");
-
-
         this.importsAdd(ArrayList.class.getName());
     }
+    private Set<String> cacheVariablesWritten = new HashSet<String>();
 
     private void writeCacheVariable(ServiceMethod method) {
-        indentPrintln("// cache variable ");
         String objectName = calcObjectName(method);
+        if (!this.isRice()) {
+            objectName = objectName + "Info";
+        }
         String mapName = calcMapName(method);
-        indentPrintln("// The LinkedHashMap is just so the values come back in a predictable order");
-        indentPrintln("private Map<String, " + objectName + "Info> " + mapName + " = new LinkedHashMap<String, " + objectName + "Info>();");
-        importsAdd(Map.class.getName());
-        importsAdd(LinkedHashMap.class.getName());
+        if (cacheVariablesWritten.add(mapName)) {
+            indentPrintln("private Map<String, " + objectName + "> " + mapName + " = new LinkedHashMap<String, " + objectName + ">();");
+            importsAdd(Map.class.getName());
+            importsAdd(LinkedHashMap.class.getName());
+        }
+    }
+
+    private void writeCacheVariableClear(ServiceMethod method) {
+        String objectName = calcObjectName(method);
+        if (!this.isRice()) {
+            objectName = objectName + "Info";
+        }
+        String mapName = calcMapName(method);
+        if (cacheVariablesWritten.add(mapName)) {
+            indentPrintln("this." + mapName + ".clear ();");
+        }
     }
 
     private void writeCreate(ServiceMethod method) {
-        indentPrintln("// create ");
         ServiceMethodParameter typeParam = this.findTypeParameter(method);
         ServiceMethodParameter infoParam = this.findInfoParameter(method);
         ServiceMethodParameter contextParam = this.findContextParameter(method);
         String objectName = calcObjectName(method);
-        String infoName = objectName + "Info";
+        String infoName = objectName;
+        if (!this.isRice()) {
+            infoName = infoName + "Info";
+        }
         String mapName = calcMapName(method);
 
+        if (this.isRice()) {
+            indentPrintln(infoName + " orig = this.get" + infoName + "ByNamespaceCodeAndName(" + infoParam.getName() + ".getNamespaceCode(), " + infoParam.getName() + ".getName());");
+            indentPrintln("if (orig != null)");
+            openBrace();
+            indentPrintln("throw new RiceIllegalArgumentException (" + infoParam.getName() + ".getNamespaceCode() + \".\" + " + infoParam.getName() + ".getName());");
+            closeBrace();
+        }
         if (typeParam != null) {
             indentPrintln("if (!" + typeParam.getName() + ".equals (" + infoParam.getName() + ".getTypeKey())) {");
-            indentPrintln("    throw new InvalidParameterException (\"The type parameter does not match the type on the info object\");");
+            indentPrintln("    throw new " + this.getInvalidParameterException() + " (\"The type parameter does not match the type on the info object\");");
             indentPrintln("}");
         }
         if (method.getParameters().size() > 3) {
             indentPrintln("// TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object");
         }
-        if (isR1) {
+        if (this.isR1) {
             indentPrintln("// don't have deep copy in R1 contracts so just use the object");
             indentPrintln(infoName + " copy = " + infoParam.getName() + ";");
+        } else if (this.isRice()) {
+            indentPrintln(infoName + ".Builder copy = " + infoName + ".Builder.create (" + infoParam.getName() + ");");
         } else {
             indentPrintln(infoName + " copy = new " + infoName + "(" + infoParam.getName() + ");");
         }
         indentPrintln("if (copy.getId() == null) {");
         // indentPrintln("   copy.setId(" + mapName + ".size() + \"\");");
+        importsAdd("org.kuali.student.common.util.UUIDHelper");
         indentPrintln("   copy.setId(UUIDHelper.genStringUUID());");
         indentPrintln("}");
         if (contextParam != null) {
             indentPrintln("copy.setMeta(newMeta(" + contextParam.getName() + "));");
         }
-        indentPrintln(mapName + ".put(copy.getId(), copy);");
         if (isR1) {
+            indentPrintln(mapName + ".put(copy.getId(), copy);");
+            indentPrintln("// don't have deep copy in R1 contracts so just use the object");
             indentPrintln("return copy;");
+        } else if (this.isRice()) {
+            indentPrintln (infoParam.getName() + " = copy.build ();");
+            indentPrintln(mapName + ".put(" + infoParam.getName() + ".getId(), " + infoParam.getName() + ");");
+            indentPrintln("return " + infoParam.getName() + ";");
         } else {
+            indentPrintln(mapName + ".put(copy.getId(), copy);");
             indentPrintln("return new " + infoName + "(copy);");
         }
     }
 
     private void writeAdd(ServiceMethod method) {
-        indentPrintln("// Add ");
         ServiceMethodParameter typeParam = this.findTypeParameter(method);
         ServiceMethodParameter infoParam = this.findInfoParameter(method);
         ServiceMethodParameter contextParam = this.findContextParameter(method);
         String objectName = calcObjectName(method);
-        String infoName = objectName + "Info";
+        String infoName = objectName;
+        if (!this.isRice()) {
+            infoName = infoName + "Info";
+        }
         String mapName = calcMapName(method);
 
         if (typeParam != null) {
             indentPrintln("if (!" + typeParam.getName() + ".equals (" + infoParam.getName() + ".getTypeKey())) {");
-            indentPrintln("    throw new InvalidParameterException (\"The type parameter does not match the type on the info object\");");
+            indentPrintln("    throw new " + this.getInvalidParameterException() + " (\"The type parameter does not match the type on the info object\");");
             indentPrintln("}");
         }
         if (method.getParameters().size() > 3) {
@@ -450,20 +586,29 @@ public class MockImplServiceWriter extends JavaClassWriter {
         if (isR1) {
             indentPrintln("// don't have deep copy in R1 contracts so just use the object");
             indentPrintln(infoName + " copy = " + infoParam.getName() + ";");
+        } else if (this.isRice()) {
+            indentPrintln(infoName + ".Builder copy = " + infoName + ".Builder.create (" + infoParam.getName() + ");");
         } else {
             indentPrintln(infoName + " copy = new " + infoName + "(" + infoParam.getName() + ");");
         }
         indentPrintln("if (copy.getId() == null) {");
         // indentPrintln("   copy.setId(" + mapName + ".size() + \"\");");
+        importsAdd("org.kuali.student.common.util.UUIDHelper");
         indentPrintln("   copy.setId(UUIDHelper.genStringUUID());");
         indentPrintln("}");
         if (contextParam != null) {
             indentPrintln("copy.setMeta(newMeta(" + contextParam.getName() + "));");
         }
-        indentPrintln(mapName + ".put(copy.getId(), copy);");
         if (isR1) {
+            indentPrintln(mapName + ".put(copy.getId(), copy);");
+            indentPrintln("// don't have deep copy in R1 contracts so just use the object");
             indentPrintln("return copy;");
+        } else if (this.isRice()) {
+            indentPrintln (infoParam.getName() + " = copy.build ();");
+            indentPrintln(mapName + ".put(" + infoParam.getName() + ".getId(), " + infoParam.getName() + ");");
+            indentPrintln("return " + infoParam.getName() + ";");
         } else {
+            indentPrintln(mapName + ".put(copy.getId(), copy);");
             indentPrintln("return new " + infoName + "(copy);");
         }
     }
@@ -504,7 +649,7 @@ public class MockImplServiceWriter extends JavaClassWriter {
                 }
             }
         }
-        System.out.println ("Could not find the Id paramter for " + method.getService() + "." + method.getName() + " so returning the first one");
+        System.out.println("Could not find the Id paramter for " + method.getService() + "." + method.getName() + " so returning the first one");
         return method.getParameters().get(0);
     }
 
@@ -518,7 +663,10 @@ public class MockImplServiceWriter extends JavaClassWriter {
     }
 
     private ServiceMethodParameter findInfoParameter(ServiceMethod method) {
-        String objectName = calcObjectName(method) + "Info";
+        String objectName = calcObjectName(method);
+        if (!this.isRice()) {
+            objectName = objectName + "Info";
+        }
         for (ServiceMethodParameter parameter : method.getParameters()) {
             if (parameter.getType().equals(objectName)) {
                 return parameter;
@@ -590,12 +738,15 @@ public class MockImplServiceWriter extends JavaClassWriter {
         if (method.getName().startsWith("remove")) {
             return method.getName().substring("remove".length());
         }
-
+        String returnType = this.stripList(method.getReturnValue().getType());
+        XmlType type = this.finder.findXmlType(returnType);
+        if (type.getPrimitive().equals(XmlType.COMPLEX)) {
+            return returnType;
+        }
         throw new IllegalArgumentException(method.getName());
     }
 
     private void writeUpdate(ServiceMethod method) {
-        indentPrintln("// update");
         ServiceMethodParameter idParam = this.findIdParameter(method);
         ServiceMethodParameter infoParam = this.findInfoParameter(method);
         ServiceMethodParameter contextParam = this.findContextParameter(method);
@@ -603,16 +754,23 @@ public class MockImplServiceWriter extends JavaClassWriter {
             throw new NullPointerException(method.getName());
         }
         String objectName = calcObjectName(method);
-        String infoName = objectName + "Info";
+        String infoName = objectName;
+        if (!this.isRice()) {
+            infoName = infoName + "Info";
+        }
         String mapName = calcMapName(method);
         if (idParam != null) {
-            indentPrintln("if (!" + idParam.getName() + ".equals (" + infoParam.getName() + ".getId())) {");
-            indentPrintln("    throw new InvalidParameterException (\"The id parameter does not match the id on the info object\");");
-            indentPrintln("}");
+            if (!this.isRice()) {
+                indentPrintln("if (!" + idParam.getName() + ".equals (" + infoParam.getName() + ".getId())) {");
+                indentPrintln("    throw new " + this.getInvalidParameterException() + " (\"The id parameter does not match the id on the info object\");");
+                indentPrintln("}");
+            }
         }
         if (isR1) {
             indentPrintln("// don't have deep copy in R1 contracts so just use the object");
             indentPrintln(infoName + " copy = " + infoParam.getName() + ";");
+        } else if (this.isRice()) {
+            indentPrintln(infoName + ".Builder copy = " + infoName + ".Builder.create (" + infoParam.getName() + ");");
         } else {
             indentPrintln(infoName + " copy = new " + infoName + "(" + infoParam.getName() + ");");
         }
@@ -623,23 +781,34 @@ public class MockImplServiceWriter extends JavaClassWriter {
         }
         if (isR1) {
             indentPrintln("if (!old.getMetaInfo().getVersionInd().equals(copy.getMetaInfo().getVersionInd())) {");
-            indentPrintln("    throw new VersionMismatchException(old.getMetaInfo().getVersionInd());");
+            indentPrintln("    throw new " + this.getVersionMismatchException() + "(old.getMetaInfo().getVersionInd());");
             indentPrintln("}");
             if (contextParam != null) {
                 indentPrintln("copy.setMeta(updateMeta(copy.getMetaInfo()));");
             }
+        } else if (this.isRice()) {
+            indentPrintln("if (!old.getVersionNumber().equals(copy.getVersionNumber())) {");
+            indentPrintln("    throw new " + this.getVersionMismatchException() + "(\"\" + old.getVersionNumber());");
+            indentPrintln("}");
+            indentPrintln("copy.setVersionNumber(copy.getVersionNumber() + 1);");
         } else {
             indentPrintln("if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {");
-            indentPrintln("    throw new VersionMismatchException(old.getMeta().getVersionInd());");
+            indentPrintln("    throw new " + this.getVersionMismatchException() + "(old.getMetaInfo().getVersionInd());");
             indentPrintln("}");
             if (contextParam != null) {
-                indentPrintln("copy.setMeta(updateMeta(copy.getMeta(), " + contextParam.getName() + "));");
+                indentPrintln("copy.setMeta(updateMeta(copy.getMetaInfo()));");
             }
         }
-        indentPrintln("this." + mapName + " .put(" + infoParam.getName() + ".getId(), copy);");
         if (isR1) {
+            indentPrintln("this." + mapName + " .put(" + infoParam.getName() + ".getId(), copy);");
+            indentPrintln("// don't have deep copy in R1 contracts so just use the object");
             indentPrintln("return copy;");
+        } else if (this.isRice()) {
+            indentPrintln (infoParam.getName() + " = copy.build ();");
+            indentPrintln("this." + mapName + " .put(" + infoParam.getName() + ".getId(), " + infoParam.getName() + ");");
+            indentPrintln("return " + infoParam.getName() + ";");
         } else {
+            indentPrintln("this." + mapName + " .put(" + infoParam.getName() + ".getId(), copy);");
             indentPrintln("return new " + infoName + "(copy);");
         }
 
@@ -649,7 +818,7 @@ public class MockImplServiceWriter extends JavaClassWriter {
         ServiceMethodParameter idParam = this.findIdParameter(method);
         String mapName = calcMapName(method);
         indentPrintln("if (this." + mapName + ".remove(" + idParam.getName() + ") == null) {");
-        indentPrintln("   throw new DoesNotExistException(" + idParam.getName() + ");");
+        indentPrintln("   throw new " + this.getOperationFailedException() + "(" + idParam.getName() + ");");
         indentPrintln("}");
         indentPrintln("return newStatus();");
     }
@@ -658,7 +827,7 @@ public class MockImplServiceWriter extends JavaClassWriter {
         ServiceMethodParameter idParam = this.findIdParameter(method);
         String mapName = calcMapName(method);
         indentPrintln("if (this." + mapName + ".remove(" + idParam.getName() + ") == null) {");
-        indentPrintln("   throw new DoesNotExistException(" + idParam.getName() + ");");
+        indentPrintln("   throw new " + this.getOperationFailedException() + "(" + idParam.getName() + ");");
         indentPrintln("}");
         indentPrintln("return newStatus();");
     }
@@ -667,34 +836,52 @@ public class MockImplServiceWriter extends JavaClassWriter {
         ServiceMethodParameter idParam = this.findIdParameter(method);
         String mapName = calcMapName(method);
         indentPrintln("if (!this." + mapName + ".containsKey(" + idParam.getName() + ")) {");
-        indentPrintln("   throw new DoesNotExistException(" + idParam.getName() + ");");
-        indentPrintln("}");        
+        indentPrintln("   throw new " + this.getOperationFailedException() + "(" + idParam.getName() + ");");
+        indentPrintln("}");
         String objectName = calcObjectName(method);
-        String infoName = objectName + "Info";
+        String infoName = objectName;
+        if (!this.isRice()) {
+            infoName = infoName + "Info";
+        }
         if (isR1) {
-             indentPrintln("return this." + mapName + ".get (" + idParam.getName() + ");");
+            indentPrintln("// r1 objects do not have deep cody");
+            indentPrintln("return this." + mapName + ".get (" + idParam.getName() + ");");
+        } else if (this.isRice()) {
+            indentPrintln("return this." + mapName + ".get (" + idParam.getName() + ");");
         } else {
             indentPrintln("return new " + infoName + "(this." + mapName + ".get (" + idParam.getName() + "));");
         }
-        
+
     }
 
     private void writeGetByIds(ServiceMethod method) {
         String objectName = this.calcObjectName(method);
-        String infoName = objectName + "Info";
+        String infoName = objectName;
+        if (!this.isRice()) {
+            infoName = infoName + "Info";
+        }
         ServiceMethodParameter idListParam = this.findIdListParameter(method);
         ServiceMethodParameter contextParam = this.findContextParameter(method);
+        this.importsAdd(ArrayList.class.getName());
         indentPrintln("List<" + infoName + "> list = new ArrayList<" + infoName + "> ();");
         indentPrintln("for (String id: " + idListParam.getName() + ") {");
-        indentPrintln("    list.add (this.get" + objectName + "(id, " + contextParam.getName() + "));");
+        if (this.isRice()) {
+            indentPrintln("    list.add (this.get" + objectName + "(id));");
+        } else {
+            indentPrintln("    list.add (this.get" + objectName + "(id, " + contextParam.getName() + "));");
+        }
         indentPrintln("}");
         indentPrintln("return list;");
     }
 
     private void writeGetIdsByOther(ServiceMethod method) {
         String objectName = this.calcObjectName(method);
-        String infoName = objectName + "Info";
+        String infoName = objectName;
+        if (!this.isRice()) {
+            infoName = infoName + "Info";
+        }
         String mapName = calcMapName(method);
+        this.importsAdd(ArrayList.class.getName());
         indentPrintln("List<String> list = new ArrayList<String> ();");
         indentPrintln("for (" + infoName + " info: " + mapName + ".values ()) {");
         for (ServiceMethodParameter parameter : method.getParameters()) {
@@ -718,8 +905,12 @@ public class MockImplServiceWriter extends JavaClassWriter {
 
     private void writeGetIdsByType(ServiceMethod method) {
         String objectName = this.calcObjectName(method);
-        String infoName = objectName + "Info";
+        String infoName = objectName;
+        if (!this.isRice()) {
+            infoName = infoName + "Info";
+        }
         String mapName = calcMapName(method);
+        this.importsAdd(ArrayList.class.getName());
         indentPrintln("List<String> list = new ArrayList<String> ();");
         indentPrintln("for (" + infoName + " info: " + mapName + ".values ()) {");
         for (ServiceMethodParameter parameter : method.getParameters()) {
@@ -741,10 +932,35 @@ public class MockImplServiceWriter extends JavaClassWriter {
         indentPrintln("return list;");
     }
 
+    private void writeRiceGetByNamespaceAndName(ServiceMethod method) {
+        String objectName = this.calcObjectName(method);
+        String infoName = objectName;
+        if (!this.isRice()) {
+            infoName = infoName + "Info";
+        }
+        String mapName = calcMapName(method);
+        indentPrintln("for (" + infoName + " info: " + mapName + ".values ()) {");
+        for (ServiceMethodParameter parameter : method.getParameters()) {
+            incrementIndent();
+            indentPrintln("if (" + parameter.getName() + ".equals(info.get" + initUpper(parameter.getName()) + "())) {");
+        }
+        indentPrintln("    return " + infoName + ".Builder.create (info).build ();");
+        for (ServiceMethodParameter parameter : method.getParameters()) {
+            indentPrintln("}");
+            decrementIndent();
+        }
+        indentPrintln("}");
+        indentPrintln("throw new RiceIllegalArgumentException ();");
+    }
+
     private void writeGetInfosByOther(ServiceMethod method) {
         String objectName = this.calcObjectName(method);
-        String infoName = objectName + "Info";
+        String infoName = objectName;
+        if (!this.isRice()) {
+            infoName = infoName + "Info";
+        }
         String mapName = calcMapName(method);
+        this.importsAdd(ArrayList.class.getName());
         indentPrintln("List<" + infoName + "> list = new ArrayList<" + infoName + "> ();");
         indentPrintln("for (" + infoName + " info: " + mapName + ".values ()) {");
         for (ServiceMethodParameter parameter : method.getParameters()) {
@@ -754,7 +970,7 @@ public class MockImplServiceWriter extends JavaClassWriter {
             incrementIndent();
             indentPrintln("if (" + parameter.getName() + ".equals(info.get" + initUpper(parameter.getName()) + "())) {");
         }
-        indentPrintln("    list.add (info);");
+        indentPrintln("    list.add (new " + infoName + "(info);");
         for (ServiceMethodParameter parameter : method.getParameters()) {
             if (parameter.getType().equals("ContextInfo")) {
                 continue;
@@ -770,7 +986,7 @@ public class MockImplServiceWriter extends JavaClassWriter {
         ServiceMethodParameter idParam = this.findIdParameter(method);
         String mapName = calcMapName(method);
         indentPrintln("if (!this." + mapName + ".containsKey(" + idParam.getName() + ")) {");
-        indentPrintln("   throw new DoesNotExistException(" + idParam.getName() + ");");
+        indentPrintln("   throw new " + this.getOperationFailedException() + "(" + idParam.getName() + ");");
         indentPrintln("}");
         indentPrintln("return this." + mapName + ".get (" + idParam.getName() + ");");
     }
@@ -778,7 +994,11 @@ public class MockImplServiceWriter extends JavaClassWriter {
     private void writeGetTypes(ServiceMethod method) {
         String mapName = calcMapName(method);
         String objectName = this.calcObjectName(method);
-        String infoName = objectName + "Info";
+        String infoName = objectName;
+        if (!this.isRice()) {
+            infoName = infoName + "Info";
+        }
+        this.importsAdd(ArrayList.class.getName());
         indentPrintln("return new ArrayList<" + infoName + ">(" + mapName + ".values ());");
     }
 
@@ -788,6 +1008,9 @@ public class MockImplServiceWriter extends JavaClassWriter {
 
     private ServiceMethodParameter findIdListParameter(ServiceMethod method) {
         String idFieldName = calcObjectName(method) + "Ids";
+        if (this.isRice()) {
+            idFieldName = "ids";
+        }
         for (ServiceMethodParameter parameter : method.getParameters()) {
             if (parameter.getType().equals("StringList")) {
                 if (parameter.getName().equals(idFieldName)) {
@@ -834,7 +1057,16 @@ public class MockImplServiceWriter extends JavaClassWriter {
 
     private String calcType(String type, String realType) {
         XmlType t = finder.findXmlType(this.stripList(type));
-        return MessageStructureTypeCalculator.calculate(this, model, type, realType,
+        String retType = MessageStructureTypeCalculator.calculate(this, model, type, realType,
                 t.getJavaPackage());
+        if (this.isRice()) {
+            if (retType.equals("Boolean")) {
+                retType = "boolean";
+            }
+            if (retType.equals("Void")) {
+                retType = "void";
+            }
+        }
+        return retType;
     }
 }
