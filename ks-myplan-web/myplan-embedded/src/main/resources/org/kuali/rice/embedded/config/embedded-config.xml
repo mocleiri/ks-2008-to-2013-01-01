@@ -269,5 +269,7 @@
 
     <param name="myplan.version">${project.version}</param>
 
+    <param name="myplan.getting.started.page">https://depts.washington.edu/myplan/welcome-to-myplan/</param>
+
 
 </config>
