@@ -40,25 +40,25 @@ INSERT INTO krms_ctgry_t (ctgry_id, nm, nmspc_cd, ver_nbr) VALUES ('20000', 'Cou
 /
 	
 INSERT INTO krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr)
-	VALUES ('20000', 'Must have successfully completed a  minimum of {n} course(s) from {courses}.', 'KR-RULE-TEST', 'propositionTypeService', 'Y', 0)
+	VALUES ('20000', 'Must have successfully completed a  minimum of {n} course(s) from {courses}.', 'KR-RULE-TEST', 'simplePropositionTypeService', 'Y', 0)
 /
 INSERT INTO krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr)
-	VALUES ('20001', 'Permission of {org} required.', 'KR-RULE-TEST', 'propositionTypeService', 'Y', 0)
+	VALUES ('20001', 'Permission of {org} required.', 'KR-RULE-TEST', 'simplePropositionTypeService', 'Y', 0)
 /
 INSERT INTO krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr)
-	VALUES ('20002', 'Must have successfully completed {course}.', 'KR-RULE-TEST', 'propositionTypeService', 'Y', 0)
+	VALUES ('20002', 'Must have successfully completed {course}.', 'KR-RULE-TEST', 'simplePropositionTypeService', 'Y', 0)
 /
 INSERT INTO krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr)
-	VALUES ('20003', 'Must be concurrently enrolled in {course}.', 'KR-RULE-TEST', 'propositionTypeService', 'Y', 0)
+	VALUES ('20003', 'Must be concurrently enrolled in {course}.', 'KR-RULE-TEST', 'simplePropositionTypeService', 'Y', 0)
 /
 INSERT INTO krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr)
-	VALUES ('20007', 'Must have successfully completed all courses from {courses}.', 'KR-RULE-TEST', 'propositionTypeService', 'Y', 0)
+	VALUES ('20007', 'Must have successfully completed all courses from {courses}.', 'KR-RULE-TEST', 'simplePropositionTypeService', 'Y', 0)
 /
 INSERT INTO krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr)
-	VALUES ('20008', 'Must not have successfully completed {course}.', 'KR-RULE-TEST', 'propositionTypeService', 'Y', 0)
+	VALUES ('20008', 'Must not have successfully completed {course}.', 'KR-RULE-TEST', 'simplePropositionTypeService', 'Y', 0)
 /
 INSERT INTO krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr)
-	VALUES ('20009', 'Must not have successfully completed any course from {courses}.', 'KR-RULE-TEST', 'propositionTypeService', 'Y', 0)
+	VALUES ('20009', 'Must not have successfully completed any course from {courses}.', 'KR-RULE-TEST', 'simplePropositionTypeService', 'Y', 0)
 /
 
 INSERT INTO krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr)
@@ -151,13 +151,13 @@ INSERT INTO krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 /
 
 INSERT INTO krms_term_spec_t (term_spec_id, nm, typ, actv, ver_nbr, desc_txt, nmspc_cd)
-	VALUES ('20000', 'Number of Courses in list', 'java.lang.Integer', 'Y', 1, 'Number of courses in list for student', 'KR-RULE-TEST')
+	VALUES ('20000', 'numberOfCompletedCourses', 'java.lang.Integer', 'Y', 1, 'Number of courses in list for student', 'KR-RULE-TEST')
 /
 INSERT INTO krms_term_spec_t (term_spec_id, nm, typ, actv, ver_nbr, desc_txt, nmspc_cd)
-	VALUES ('20001', 'Organizational Permission', 'java.lang.Boolean', 'Y', 1, 'Organizational permission for student', 'KR-RULE-TEST')
+	VALUES ('20001', 'orgPermission', 'java.lang.Boolean', 'Y', 1, 'Organizational permission for student', 'KR-RULE-TEST')
 /
 INSERT INTO krms_term_spec_t (term_spec_id, nm, typ, actv, ver_nbr, desc_txt, nmspc_cd)
-	VALUES ('20002', 'Completed Course', 'java.lang.Boolean', 'Y', 1, 'Completed Course for student', 'KR-RULE-TEST')
+	VALUES ('20002', 'completedCourse', 'java.lang.Boolean', 'Y', 1, 'Completed Course for student', 'KR-RULE-TEST')
 /
 	
 INSERT INTO krms_cntxt_vld_term_spec_t (cntxt_term_spec_prereq_id, cntxt_id, term_spec_id, prereq) VALUES ('20000', '20000', '20000', 'N')
@@ -172,7 +172,7 @@ INSERT INTO krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) VALUES ('2000
 INSERT INTO krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) VALUES ('20001', '20001', 1, 'Organizational Permission for student.')
 /
 	
-INSERT INTO krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) VALUES ('20000', '20000', 'GEOG124 Requirements list', 'GEOG123,MATH140', 1)
+INSERT INTO krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) VALUES ('20000', '20000', 'requiredCourses', 'GEOG123,MATH140', 1)
 /
-INSERT INTO krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) VALUES ('20001', '20001', 'Geography Department ID', '53', 1)
+INSERT INTO krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) VALUES ('20001', '20001', 'organizationId', '53', 1)
 /

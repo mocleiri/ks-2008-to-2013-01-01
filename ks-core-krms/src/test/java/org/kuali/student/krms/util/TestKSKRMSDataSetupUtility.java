@@ -1,9 +1,7 @@
 package org.kuali.student.krms.util;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.student.krms.KSKRMSTestCase;
 import org.kuali.student.krms.KSKRMSUploadTestCase;
 
 /**

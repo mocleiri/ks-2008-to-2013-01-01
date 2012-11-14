@@ -128,7 +128,7 @@ public class KSKRMSConstants {
 	public static final String AGENDA34 = "Must have achieved a score no higher than <score> on <test>";
 	public static final String AGENDA35 = "Must not have successfully completed <course>";
 	public static final String AGENDA36 = "Must not have successfully completed any courses from <courses>";
-	public static final String AGENDA37 = "May be repeater for a maximum of <n> cradits";
+	public static final String AGENDA37 = "May be repeater for a maximum of <n> credits";
 	
 	
 	
