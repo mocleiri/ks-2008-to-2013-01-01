@@ -15,10 +15,6 @@
 
 package org.kuali.student.r1.common.search.dto;
 
-//import org.kuali.student.r2.common.util.date.DateFormatters;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +22,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
 @Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)

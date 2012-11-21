@@ -41,11 +41,10 @@ import java.util.List;
  *
  * This includes course and section offerings as well as program
  * offerings
- *
+ * 
  * @version 1.0 (Dev)
  *
  * @author tom
- * @author Mezba (16/11/2012)
  */
 
 @WebService(name = "LuiService", serviceName ="LuiService", portName = "LuiService", targetNamespace = LuiServiceConstants.NAMESPACE)
@@ -70,10 +69,10 @@ public interface LuiService {
     public LuiInfo getLui(@WebParam(name = "luiId") String luiId,
                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a list of Luis from a list of Lui Ids. The
@@ -94,10 +93,10 @@ public interface LuiService {
     public List<LuiInfo> getLuisByIds(@WebParam(name = "luiIds") List<String> luiIds,
                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a list of Lui Ids by Lui Type.
@@ -116,11 +115,11 @@ public interface LuiService {
     public List<String> getLuiIdsByType(@WebParam(name = "luiTypeKey") String luiTypeKey,
                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
-    /**
+    /** 
      * Retrieves a list of Lui Ids by Clu.
      * (the pattern says this should return the objects).
      *
@@ -137,9 +136,9 @@ public interface LuiService {
     public List<String> getLuiIdsByClu(@WebParam(name = "cluId") String cluId,
                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves the list of Lui Ids for the specified atp and Lui
@@ -185,9 +184,9 @@ public interface LuiService {
                                              @WebParam(name = "atpId") String atpId,
                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves the list of Luis for the specified Clu and Atp.
@@ -207,14 +206,14 @@ public interface LuiService {
                                             @WebParam(name = "atpId") String atpId,
                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for Luis that meet the given search criteria and
      * returns a list of Lui identifiers that meet the criteria.
-     *
+     * 
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -229,13 +228,13 @@ public interface LuiService {
     public List<String> searchForLuiIds(@WebParam(name = "criteria") QueryByCriteria criteria,
                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for Luis that meet the given search criteria.
-     *
+     * 
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -250,9 +249,9 @@ public interface LuiService {
     public List<LuiInfo> searchForLuis(@WebParam(name = "criteria") QueryByCriteria criteria,
                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Validates a Lui. Depending on the value of validationType, this
@@ -292,10 +291,10 @@ public interface LuiService {
                                                   @WebParam(name = "luiInfo") LuiInfo luiInfo,
                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;;
 
     /**
      * Creates a new LUI. The Lui Id, Type, Clu Id, Atp Id, and Meta
@@ -325,12 +324,12 @@ public interface LuiService {
                              @WebParam(name = "luiInfo") LuiInfo luiInfo,
                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException;
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException;
 
     /**
      * Updates an existing Lui. The Lui Id, Type, Clu Id, Atp Id, and
@@ -357,13 +356,13 @@ public interface LuiService {
                              @WebParam(name = "luiInfo") LuiInfo luiInfo,
                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            VersionMismatchException;
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException,
+                VersionMismatchException;
 
     /**
      * Deletes an existing Lui.
@@ -385,11 +384,11 @@ public interface LuiService {
     public StatusInfo deleteLui(@WebParam(name = "luiId") String luiId,
                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DependentObjectsExistException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a single LuiLuiRelation by a LuiLuiRelation Id.
@@ -409,10 +408,10 @@ public interface LuiService {
     public LuiLuiRelationInfo getLuiLuiRelation(@WebParam(name = "luiLuiRelationId") String luiLuiRelationId,
                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a list of LuiLuiRelations from a list of
@@ -437,10 +436,10 @@ public interface LuiService {
     public List<LuiLuiRelationInfo> getLuiLuiRelationsByIds(@WebParam(name = "luiLuiRelationIds") List<String> luiLuiRelationIds,
                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a list of LuiLuiRelation Ids by a LuiLuiRelation
@@ -460,9 +459,9 @@ public interface LuiService {
     public List<String> getLuiLuiRelationIdsByType(@WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey,
                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves all LuiLuiRelations to the given Lui.
@@ -480,9 +479,9 @@ public interface LuiService {
     public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(@WebParam(name = "luiId") String luiId,
                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves all LuiLuiRelations between the given Luis.
@@ -502,9 +501,9 @@ public interface LuiService {
                                                                          @WebParam(name = "relatedLuiId") String relatedLuiId,
                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a list of LUI Ids for the specified related LUI Id
@@ -526,9 +525,9 @@ public interface LuiService {
                                                              @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey,
                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves the list of LUI information for the LUIs related to
@@ -550,9 +549,9 @@ public interface LuiService {
                                                             @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey,
                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves the list of related LUI Ids for the specified LUI Id
@@ -574,9 +573,9 @@ public interface LuiService {
                                                       @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey,
                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves the list of related LUI information for the specified
@@ -598,9 +597,9 @@ public interface LuiService {
                                                             @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey,
                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves all LuiLuiRelations between a Lui and Luis of the
@@ -622,15 +621,15 @@ public interface LuiService {
                                                                   @WebParam(name = "relatedLuiTypeKey") String relatedLuiTypeKey,
                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for LuiLuiRelations that meet the search criteria and
      * returns a list of LuiLuiRelation identifiers that meet the
      * criteria.
-     *
+     * 
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -645,14 +644,14 @@ public interface LuiService {
     public List<String> searchForLuiLuiRelationIds(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for LuiLuiRelations that meet the search criteria and
      * returns a list of LuiLuiRelations that meet the criteria.
-     *
+     * 
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -666,9 +665,9 @@ public interface LuiService {
     public List<LuiLuiRelationInfo> searchForLuiLuiRelations(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Validates a LuiLuiRelations. Depending on the value of
@@ -708,10 +707,10 @@ public interface LuiService {
                                                              @WebParam(name = "luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo,
                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;;
 
     /**
      * Create new LuiLuiRelation. The LuiLuiRelation Id, Type, luiId,
@@ -749,12 +748,12 @@ public interface LuiService {
                                                    @WebParam(name = "luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo,
                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException;
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException;
 
     /**
      * Updates an existing LuiLuiRelation. The LuiLuiRelation Id,
@@ -783,13 +782,13 @@ public interface LuiService {
                                                    @WebParam(name = "luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo,
                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            VersionMismatchException;
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException,
+                VersionMismatchException;
 
     /**
      * Deletes an existing LuiLuiRelation.
@@ -809,10 +808,10 @@ public interface LuiService {
     public StatusInfo deleteLuiLuiRelation(@WebParam(name = "luiLuiRelationId") String luiLuiRelationId,
                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a single LuiCapacity by a LuiCapacity Id.
@@ -832,10 +831,10 @@ public interface LuiService {
     public LuiCapacityInfo getLuiCapacity(@WebParam(name = "luiCapacityId") String luiCapacityId,
                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a list of LuiCapacity from a list of LuiCapacity
@@ -857,11 +856,11 @@ public interface LuiService {
     public List<LuiCapacityInfo> getLuiCapacitiesByIds(@WebParam(name = "luiCapacityIds") List<String> luiCapacityIds,
                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
+    
     /**
      * Retrieves a list of LuiCapacity Ids by LuiCapacity Type.
      *
@@ -878,9 +877,9 @@ public interface LuiService {
     public List<String> getLuiCapacityIdsByType(@WebParam(name = "luiCapacityTypeKey") String luiCapacityTypeKey,
                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves LuiCapacities associated with a Lui.
@@ -898,15 +897,15 @@ public interface LuiService {
     public List<LuiCapacityInfo> getLuiCapacitiesByLui(@WebParam(name = "luiId") String luiId,
                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for LuiCapacities that meet the search criteria and
      * returns a list of LuiCapacity identifiers that meet the
      * criteria.
-     *
+     * 
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -921,14 +920,14 @@ public interface LuiService {
     public List<String> searchForLuiCapacityIds(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Searches for LuiCapacities that meet the search criteria and
      * returns a list of LuiCapacities that meet the criteria.
-     *
+     * 
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -943,9 +942,9 @@ public interface LuiService {
     public List<LuiCapacityInfo> searchForLuiCapacities(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      *  Validates a LuiCapacity. Depending on the value of
@@ -977,10 +976,10 @@ public interface LuiService {
                                                           @WebParam(name = "luiCapacityInfo") LuiCapacityInfo luiCapacityInfo,
                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Creates a new LuiCapacity. The LuiCapacity Id, Type, and Meta
@@ -1008,12 +1007,12 @@ public interface LuiService {
                                              @WebParam(name = "luiCapacityInfo") LuiCapacityInfo luiCapacityInfo,
                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException;
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException;
 
     /**
      * Updates an existing LuiCapacity. The LuiCapacity Id, Type, and
@@ -1042,13 +1041,13 @@ public interface LuiService {
                                              @WebParam(name = "luiCapacityInfo") LuiCapacityInfo luiCapacityInfo,
                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            VersionMismatchException;
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException,
+                VersionMismatchException;
 
     /**
      * Deletes an existing LuiCapacity.
@@ -1069,10 +1068,10 @@ public interface LuiService {
     public StatusInfo deleteLuiCapacity(@WebParam(name = "luiCapacityId") String luiCapacityId,
                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves information on a Lui set.
@@ -1091,10 +1090,10 @@ public interface LuiService {
     public LuiSetInfo getLuiSet(@WebParam(name = "luiSetId") String luiSetId,
                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieve information on Lui sets from a list of LuiSet Ids.
@@ -1113,10 +1112,10 @@ public interface LuiService {
     public List<LuiSetInfo> getLuiSetsByIds(@WebParam(name = "luiSetIds") List<String> luiSetIds,
                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
 
     /**
@@ -1135,9 +1134,9 @@ public interface LuiService {
     public List<LuiSetInfo> getLuiSetsByLui(@WebParam(name = "luiId") String luiId,
                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves the list of Lui Identifiers within a Lui Set.
@@ -1156,10 +1155,10 @@ public interface LuiService {
     public List<String> getLuiIdsFromLuiSet(@WebParam(name = "luiSetId") String luiSetId,
                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Retrieves a list of LuiSet Ids by Lui Type.
@@ -1216,10 +1215,10 @@ public interface LuiService {
                                                      @WebParam(name = "LuiSetInfo") LuiSetInfo LuiSetInfo,
                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 
     /**
      * Creates a Lui set.
@@ -1246,13 +1245,13 @@ public interface LuiService {
                                    @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo,
                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            UnsupportedActionException;
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException,
+                UnsupportedActionException;
 
     /**
      * Update the information for a Lui set
@@ -1284,15 +1283,15 @@ public interface LuiService {
                                    @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo,
                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws CircularRelationshipException,
-            DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            UnsupportedActionException,
-            VersionMismatchException;
+                DataValidationErrorException,
+                DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException,
+                ReadOnlyException,
+                UnsupportedActionException,
+                VersionMismatchException;
 
     /**
      * Delete a Lui set
@@ -1311,8 +1310,8 @@ public interface LuiService {
     public StatusInfo deleteLuiSet(@WebParam(name = "luiSetId") String luiSetId,
                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
 }
