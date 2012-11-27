@@ -793,10 +793,10 @@ public class MockImplServiceWriter extends JavaClassWriter {
             indentPrintln("copy.setVersionNumber(copy.getVersionNumber() + 1);");
         } else {
             indentPrintln("if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {");
-            indentPrintln("    throw new " + this.getVersionMismatchException() + "(old.getMetaInfo().getVersionInd());");
+            indentPrintln("    throw new " + this.getVersionMismatchException() + "(old.getMeta().getVersionInd());");
             indentPrintln("}");
             if (contextParam != null) {
-                indentPrintln("copy.setMeta(updateMeta(copy.getMetaInfo()));");
+                indentPrintln("copy.setMeta(updateMeta(copy.getMeta(), contextInfo));");
             }
         }
         if (isR1) {
@@ -970,7 +970,7 @@ public class MockImplServiceWriter extends JavaClassWriter {
             incrementIndent();
             indentPrintln("if (" + parameter.getName() + ".equals(info.get" + initUpper(parameter.getName()) + "())) {");
         }
-        indentPrintln("    list.add (new " + infoName + "(info);");
+        indentPrintln("    list.add (new " + infoName + "(info));");
         for (ServiceMethodParameter parameter : method.getParameters()) {
             if (parameter.getType().equals("ContextInfo")) {
                 continue;
