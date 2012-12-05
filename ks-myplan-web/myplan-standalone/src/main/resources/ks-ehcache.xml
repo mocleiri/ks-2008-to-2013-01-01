@@ -62,7 +62,7 @@
         eternal="false"
         overflowToDisk="true"
         timeToIdleSeconds="0"
-        timeToLiveSeconds="86400"
+        timeToLiveSeconds="7200"
         statistics="true"
         />
     <cache
@@ -71,7 +71,7 @@
         eternal="false"
         overflowToDisk="true"
         timeToIdleSeconds="0"
-        timeToLiveSeconds="12000"
+        timeToLiveSeconds="7200"
         statistics="false"
         />
     <cache
@@ -80,7 +80,7 @@
         eternal="false"
         overflowToDisk="true"
         timeToIdleSeconds="0"
-        timeToLiveSeconds="12000"
+        timeToLiveSeconds="18000"
         statistics="false"
         />
     <!--
