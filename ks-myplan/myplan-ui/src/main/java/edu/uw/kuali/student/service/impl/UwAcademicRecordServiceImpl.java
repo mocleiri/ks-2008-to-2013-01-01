@@ -407,7 +407,9 @@ public class UwAcademicRecordServiceImpl implements AcademicRecordService {
         SearchRequest request = new SearchRequest("myplan.course.getCourseTitleAndId");
         request.addParam("subject", subject);
         request.addParam("number", number);
-        request.addParam("currentTerm", AtpHelper.getCurrentAtpId());
+        // TODO: Fix when version issue for course is addressed
+//        request.addParam("currentTerm", AtpHelper.getCurrentAtpId());
+        request.addParam("lastScheduledTerm", AtpHelper.getLastScheduledAtpId());
         requests.add(request);
         SearchResult searchResult = new SearchResult();
         try {

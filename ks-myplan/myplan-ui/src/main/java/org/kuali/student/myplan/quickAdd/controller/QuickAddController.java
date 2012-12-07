@@ -313,7 +313,9 @@ public class QuickAddController extends UifControllerBase {
                 try {
                     req.addParam("number", number);
                     req.addParam("subject", subject.trim());
-                    req.addParam("currentTerm", AtpHelper.getCurrentAtpId());
+                    // TODO: Fix when version issue for course is addressed
+//                    req.addParam("currentTerm", AtpHelper.getCurrentAtpId());
+                    req.addParam("lastScheduledTerm", AtpHelper.getLastScheduledAtpId());
 
                     res = getLuService().search(req);
                 } catch (Exception e) {

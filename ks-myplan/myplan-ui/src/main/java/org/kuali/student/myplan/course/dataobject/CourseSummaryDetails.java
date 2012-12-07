@@ -21,6 +21,9 @@ public class CourseSummaryDetails {
     private String courseDescription;
     private List<String> termsOffered;
 
+    // Last Effective Term. Empty if open ended
+    private String lastEffectiveTerm;
+
     public String getCourseId() {
         return courseId;
     }
@@ -71,5 +74,13 @@ public class CourseSummaryDetails {
 
     public void setTermsOffered(List<String> termsOffered) {
         this.termsOffered = termsOffered;
+    }
+
+    public String getLastEffectiveTerm() {
+        return lastEffectiveTerm;
+    }
+
+    public void setLastEffectiveTerm(String lastEffectiveTerm) {
+        this.lastEffectiveTerm = lastEffectiveTerm;
     }
 }

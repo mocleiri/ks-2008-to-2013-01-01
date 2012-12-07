@@ -16,6 +16,14 @@
 
 -->
 
+
+<!--
+    TODO: ################################ currentTerm override ################################
+    To work around multiple versions of courses spanning terms we override currentTerm to be lastScheduledTerm.
+    Once version compatibility is added we should switch back to using versionIndependentId and currentTerm for lastATP
+-->
+
+
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:search="http://student.kuali.org/xsd/search-extension"
@@ -385,8 +393,9 @@
                         JOIN clu.officialIdentifier ident
                         JOIN clu.descr cludesc
                         WHERE
-                        clu.expectedFirstAtp &lt;= :currentTerm
-                        AND clu.lastAtp &gt;= :currentTerm
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         (
                         UPPER( ' ' || ident.longName || ' ' ) LIKE '% '||:queryText||'%'
@@ -409,8 +418,9 @@
                         JOIN clu.officialIdentifier ident
                         JOIN clu.descr cludesc
                         WHERE
-                        clu.expectedFirstAtp &lt;= :currentTerm
-                        AND clu.lastAtp &gt;= :currentTerm
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         (
                         UPPER( ' ' || cludesc.plain || ' ' ) LIKE '% '||:queryText||'%'
@@ -434,8 +444,9 @@
                         JOIN clu.officialIdentifier ident
                         JOIN clu.descr cludesc
                         WHERE
-                        clu.expectedFirstAtp &lt;= :currentTerm
-                        AND clu.lastAtp &gt;= :currentTerm
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         (
                         UPPER( ' ' || ident.longName || ' ' ) LIKE '% '||:queryText||'%'
@@ -459,8 +470,9 @@
                         JOIN attr.owner clu
                         JOIN clu.officialIdentifier ident
                         WHERE
-                        clu.expectedFirstAtp &lt;= :currentTerm
-                        AND clu.lastAtp &gt;= :currentTerm
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         ident.division = :division
                         AND
@@ -483,8 +495,9 @@
                         JOIN attr.owner clu
                         JOIN clu.officialIdentifier ident
                         WHERE
-                        clu.expectedFirstAtp &lt;= :currentTerm
-                        AND clu.lastAtp &gt;= :currentTerm
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         ident.division = :division
                         AND
@@ -506,8 +519,9 @@
                         JOIN attr.owner clu
                         JOIN clu.officialIdentifier ident
                         WHERE
-                        clu.expectedFirstAtp &lt;= :currentTerm
-                        AND clu.lastAtp &gt;= :currentTerm
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         ident.division IN (:divisions)
                         AND
@@ -527,8 +541,9 @@
                         JOIN attr.owner clu
                         JOIN clu.officialIdentifier ident
                         WHERE
-                        clu.expectedFirstAtp &lt;= :currentTerm
-                        AND clu.lastAtp &gt;= :currentTerm
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         ident.division = :division
                         AND
@@ -677,8 +692,9 @@
                         trim( id.SUFX_CD ) = :number
                         AND
                         trim( id.DIVISION ) = :subject
-                        AND clu.EXP_FIRST_ATP &lt;= :currentTerm
-                        AND clu.LAST_ATP &gt;= :currentTerm
+                        AND clu.EXP_FIRST_ATP &lt;= :lastScheduledTerm
+                        <!--AND clu.LAST_ATP &gt;= :currentTerm-->
+                        AND clu.LAST_ATP &gt;= :lastScheduledTerm
                     </value>
                 </entry>
                 <entry key="myplan.course.getCourseTitleAndId">
@@ -694,8 +710,9 @@
                         trim( id.SUFX_CD ) = :number
                         AND
                         trim( id.DIVISION ) = :subject
-                        AND clu.EXP_FIRST_ATP &lt;= :currentTerm
-                        AND clu.LAST_ATP &gt;= :currentTerm
+                        AND clu.EXP_FIRST_ATP &lt;= :lastScheduledTerm
+                        <!--AND clu.LAST_ATP &gt;= :currentTerm-->
+                        AND clu.LAST_ATP &gt;= :lastScheduledTerm
                     </value>
                 </entry>
 
@@ -707,8 +724,9 @@
                         JOIN attr.owner clu
                         JOIN clu.officialIdentifier ident
                         WHERE
-                        clu.expectedFirstAtp &lt;= :currentTerm
-                        AND clu.lastAtp &gt;= :currentTerm
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         clu.id = :cluId
                         AND
@@ -729,8 +747,9 @@
                         JOIN attr.owner clu
                         JOIN clu.officialIdentifier ident
                         WHERE
-                        clu.expectedFirstAtp &lt;= :currentTerm
-                        AND clu.lastAtp &gt;= :currentTerm
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         ident.division LIKE :division||'%'
                         AND
@@ -749,8 +768,9 @@
                         JOIN attr.owner clu
                         JOIN clu.officialIdentifier ident
                         WHERE
-                        clu.expectedFirstAtp &lt;= :currentTerm
-                        AND clu.lastAtp &gt;= :currentTerm
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         ident.division LIKE :division||'%'
                         AND
@@ -762,7 +782,6 @@
                         ORDER BY ident.division, ident.suffixCode
                     </value>
                 </entry>
-
             </map>
         </property>
     </bean>

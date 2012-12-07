@@ -323,7 +323,9 @@ public class CourseLinkBuilder {
         SearchRequest searchRequest = new SearchRequest("myplan.course.getCourseTitleAndId");
         searchRequest.addParam("subject", curriculumCode);
         searchRequest.addParam("number", courseNumber);
-        searchRequest.addParam("currentTerm", DegreeAuditAtpHelper.getCurrentAtpId());
+// TODO: Fix when version issue for course is addressed
+// searchRequest.addParam("currentTerm", DegreeAuditAtpHelper.getCurrentAtpId());
+        searchRequest.addParam("lastScheduledTerm", DegreeAuditAtpHelper.getLastScheduledAtpId());
 
 
         SearchResult searchResult = null;

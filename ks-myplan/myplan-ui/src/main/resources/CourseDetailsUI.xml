@@ -108,7 +108,8 @@
                                 </property>
                             </bean>
 
-
+                            <bean id="last_effective_term" parent="Uif-Message" p:messageText="Note: The details listed here may change after @{dataObject.lastEffectiveTerm}."
+                                    p:render="@{(dataObject.lastEffectiveTerm ne null)}"/>
                             <ref bean="course_details_overview"/>
                             <ref bean="course_details_links"/>
                         </list>

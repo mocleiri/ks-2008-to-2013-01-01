@@ -230,6 +230,11 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
         courseDetails.setCredit(CreditsFormatter.formatCredits(course));
         courseDetails.setCourseTitle(course.getCourseTitle());
 
+        String [] lastTermYear = AtpHelper.atpIdToTermNameAndYear(course.getEndTerm());
+        if(!lastTermYear[1].equals("9999")) {
+            courseDetails.setLastEffectiveTerm( AtpHelper.atpIdToTermName( course.getEndTerm()) );
+        }
+
         // Terms Offered
         initializeAtpTypesCache();
         List<String> termsOffered = new ArrayList<String>();
@@ -477,7 +482,9 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
         List<String> campusLocations = new ArrayList<String>();
         SearchRequest searchRequest = new SearchRequest("myplan.course.getCampusLocations");
         searchRequest.addParam("cluId", courseId);
-        searchRequest.addParam("currentTerm", AtpHelper.getCurrentAtpId());
+        // TODO: Fix when version issue for course is addressed
+//        searchRequest.addParam("currentTerm", AtpHelper.getCurrentAtpId());
+        searchRequest.addParam("lastScheduledTerm", AtpHelper.getLastScheduledAtpId());
         SearchResult searchResult = null;
         try {
             searchResult = getLuService().search(searchRequest);
