@@ -419,6 +419,7 @@ public class DegreeAuditServiceImpl implements DegreeAuditService {
             factory.setNamespaceAware(false);
             factory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
             factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            factory.setFeature("http://apache.org/xml/features/dom/include-ignorable-whitespace", false);
             DocumentBuilder builder = factory.newDocumentBuilder();
 
             Document doc = builder.parse(in);
@@ -485,15 +486,14 @@ public class DegreeAuditServiceImpl implements DegreeAuditService {
         for (int nth = 0; nth < classLinkifyNodeList.getLength(); nth++) {
             Node child = classLinkifyNodeList.item(nth);
             String textContent = child.getTextContent();
-//            textContent = textContent.replace("&", "&amp;");
-//            textContent = textContent.replace("<", "&lt;");
-//            textContent = textContent.replace(">", "&gt;");
             textContent = textContent.replace('\n', ' ');
             textContent = textContent.replace('\t', ' ');
+            textContent = textContent.replace("&", "&amp;");
+            textContent = textContent.replace("<", "&lt;");
+            textContent = textContent.replace(">", "&gt;");
             textContent = textContent.trim();
             String linkifiedTextContent = CourseLinkBuilder.makeLinks(textContent, courseLinkTemplateStyle);
             if (!textContent.equals(linkifiedTextContent)) {
-//                victim = victim.replace("&", "&amp;");
 
                 linkifiedTextContent = "<span>" + linkifiedTextContent + "</span>";
 
@@ -515,28 +515,36 @@ public class DegreeAuditServiceImpl implements DegreeAuditService {
         }
     }
 
-    public static void ineptURLLinkifier(Document doc, XPath xpath, String path, DocumentBuilder builder) throws XPathExpressionException, IOException, SAXException {
+    public void ineptURLLinkifier(Document doc, XPath xpath, String path, DocumentBuilder builder) throws XPathExpressionException, IOException, SAXException {
         XPathExpression godot = xpath.compile(path);
         Object godotSet = godot.evaluate(doc, XPathConstants.NODESET);
         NodeList godotList = (NodeList) godotSet;
         for (int nth = 0; nth < godotList.getLength(); nth++) {
             Node child = godotList.item(nth);
             String scurge = child.getTextContent();
-//            scurge = scurge.replace("&", "&amp;");
-//            scurge = scurge.replace("<", "&lt;");
-//            scurge = scurge.replace(">", "&gt;");
+            scurge = scurge.replace('\n', ' ');
+            scurge = scurge.replace('\t', ' ');
+            scurge = scurge.replace("&", "&amp;");
+            scurge = scurge.replace("<", "&lt;");
+            scurge = scurge.replace(">", "&gt;");
+            scurge = scurge.trim();
             String victim = tangerine(scurge);
             if (!scurge.equals(victim)) {
-//                victim = victim.replace("&", "&amp;");
 
                 victim = "<span>" + victim + "</span>";
                 builder.reset();
-                Document whoopie = builder.parse(new InputSource(new StringReader(victim)));
-                Node fake = whoopie.getDocumentElement();
+                try {
+                    Document whoopie = builder.parse(new InputSource(new StringReader(victim)));
+                    Node fake = whoopie.getDocumentElement();
 
-                Node parent = child.getParentNode();
-                Node crank = doc.importNode(fake, true);
-                parent.replaceChild(crank, child);
+                    Node parent = child.getParentNode();
+                    Node crank = doc.importNode(fake, true);
+                    parent.replaceChild(crank, child);
+                }
+                catch (Exception e)
+                {
+                    logger.error("findClassLinkifyTextAndConvertCoursesToLinks failed on '" + victim + "'", e);
+                }
             }
         }
     }
