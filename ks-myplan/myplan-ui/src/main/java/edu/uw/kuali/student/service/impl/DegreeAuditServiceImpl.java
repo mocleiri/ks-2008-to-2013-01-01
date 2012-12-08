@@ -314,93 +314,22 @@ public class DegreeAuditServiceImpl implements DegreeAuditService {
     public void setCourseLinkTemplateStyle(CourseLinkBuilder.LINK_TEMPLATE style) {
         courseLinkTemplateStyle = style;
     }
-/*
-    public AuditReportInfo getDARSReport(String auditId) {
-        JobQueueRunLoader jqrl = getJobQueueRunLoader();
-        JobQueueRun run = jqrl.loadJobQueueRun(auditId);
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        pw.println("<pre>");
 
-        List<JobQueueOut> outList = (List<JobQueueOut>) run.getJobQueueOuts();
-        for (JobQueueOut out : outList) {
-            String darout = out.getDarout();
-            if (out.getUserSeqNo() == 0) {
-                darout = darout.substring(0, darout.trim().length() - 9).trim();
-            }
-            char lasera = out.getLasera().charAt(0);
-            switch (lasera) {
-                // Linkify these rows
-                case 'a':
-                case 'b':
-                case 'c':
-                case 'n':
-                case 'A':
-                case 'B':
-                    String victim = CourseLinkBuilder.makeLinks(darout, courseLinkTemplateStyle);
-                    victim = padfront(victim);
-                    pw.println(victim);
-                    break;
 
-                // Do not linkify these rows
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '7':
-                case '8':
-                case 'g':
-                case 'j':
-                case 'C':
-                case 'D':
-                case 'F':
-                    darout = padfront(darout);
-                    pw.println(darout);
-                    break;
-
-                // Don't know what to do with these rows
-                case '0':
-                case '9':
-                case 'e':
-                case 'h':
-                case 'i':
-                case 'k':
-                case 'l':
-                case 'm':
-                case 'U':
-                default:
-                    darout = padfront(darout);
-                    pw.println(darout);
-                    break;
-            }
-        }
-        pw.println("</pre>");
-        pw.println("<input name=\"script\" type=\"hidden\" value=\"jQuery.publish('NEW_AUDIT');\" />");
-        String html = sw.toString();
-        AuditReportInfo auditReportInfo = new AuditReportInfo();
-        AuditDataSource dataSource = new AuditDataSource(html, auditId);
-        DataHandler handler = new DataHandler(dataSource);
-        auditReportInfo.setAuditId(auditId);
-        auditReportInfo.setReport(handler);
-        return auditReportInfo;
-
-    }
- */
-    String padfront(String source) {
-        StringBuilder sb = new StringBuilder();
-        boolean front = true;
-        for (int nth = 0; nth < source.length(); nth++) {
-            char c = source.charAt(nth);
-            if (front && c == ' ') {
-                sb.append("&nbsp;");
-            } else {
-                front = false;
-                sb.append(c);
-            }
-        }
-        return sb.toString();
-    }
+//    String padfront(String source) {
+//        StringBuilder sb = new StringBuilder();
+//        boolean front = true;
+//        for (int nth = 0; nth < source.length(); nth++) {
+//            char c = source.charAt(nth);
+//            if (front && c == ' ') {
+//                sb.append("&nbsp;");
+//            } else {
+//                front = false;
+//                sb.append(c);
+//            }
+//        }
+//        return sb.toString();
+//    }
 
     public AuditReportInfo getHTMLReport(String auditId) throws OperationFailedException {
         AuditReportInfo auditReportInfo = new AuditReportInfo();
@@ -434,14 +363,14 @@ public class DegreeAuditServiceImpl implements DegreeAuditService {
 
             findClassLinkifyTextAndConvertCoursesToLinks(doc, builder);
 
-            String path = "//div[contains(@class,'advisory')]/text()";
+            String path = "//*[contains(@class,'urlify')]";;
             ineptURLLinkifier( doc, xpath, path, builder );
 
-            path = "//div[contains(@class,'requirement')]/div[contains(@class,'header')]/div[contains(@class,'title')]/text()";
-            ineptURLLinkifier(doc, xpath, path, builder);
-
-            path = "//div[contains(@class,'bigsection')]/div[contains(@class,'heading')]/text()";
-            ineptURLLinkifier(doc, xpath, path, builder);
+//            path = "//div[contains(@class,'requirement')]/div[contains(@class,'header')]/div[contains(@class,'title')]/text()";
+//            ineptURLLinkifier(doc, xpath, path, builder);
+//
+//            path = "//div[contains(@class,'bigsection')]/div[contains(@class,'heading')]/text()";
+//            ineptURLLinkifier(doc, xpath, path, builder);
 
             {
                 String preparedFor = UserSessionHelper.getNameCapitalized(UserSessionHelper.getStudentId());
@@ -521,19 +450,26 @@ public class DegreeAuditServiceImpl implements DegreeAuditService {
         NodeList godotList = (NodeList) godotSet;
         for (int nth = 0; nth < godotList.getLength(); nth++) {
             Node child = godotList.item(nth);
-            String scurge = child.getTextContent();
-            scurge = scurge.replace('\n', ' ');
-            scurge = scurge.replace('\t', ' ');
-            scurge = scurge.replace("&", "&amp;");
-            scurge = scurge.replace("<", "&lt;");
-            scurge = scurge.replace(">", "&gt;");
-            scurge = scurge.trim();
-            String victim = tangerine(scurge);
-            if (!scurge.equals(victim)) {
+//            String scurge = child.getTextContent();
+//            scurge = scurge.replace('\n', ' ');
+//            scurge = scurge.replace('\t', ' ');
+//            scurge = scurge.replace("&", "&amp;");
+//            scurge = scurge.replace("<", "&lt;");
+//            scurge = scurge.replace(">", "&gt;");
+//            scurge = scurge.trim();
 
-                victim = "<span>" + victim + "</span>";
-                builder.reset();
-                try {
+            String victim = "";
+            try {
+                StringWriter stringWriter = new StringWriter();
+                Transformer transformer = TransformerFactory.newInstance().newTransformer();
+                transformer.transform(new DOMSource(child), new StreamResult(stringWriter));
+                String scurge = stringWriter.toString(); //This is string data of xml file
+                System.out.println(scurge);
+                victim = tangerine(scurge);
+                if (!scurge.equals(victim)) {
+
+//                    victim = "<span>" + victim + "</span>";
+                    builder.reset();
                     Document whoopie = builder.parse(new InputSource(new StringReader(victim)));
                     Node fake = whoopie.getDocumentElement();
 
@@ -541,10 +477,9 @@ public class DegreeAuditServiceImpl implements DegreeAuditService {
                     Node crank = doc.importNode(fake, true);
                     parent.replaceChild(crank, child);
                 }
-                catch (Exception e)
-                {
-                    logger.error("findClassLinkifyTextAndConvertCoursesToLinks failed on '" + victim + "'", e);
-                }
+            }
+            catch (Exception e) {
+                logger.error("ineptURLLinkifier failed on '" + victim + "'", e);
             }
         }
     }
