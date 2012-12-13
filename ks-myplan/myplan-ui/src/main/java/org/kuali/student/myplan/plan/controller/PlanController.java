@@ -1726,7 +1726,13 @@ public class PlanController extends UifControllerBase {
         }
         /*check if any audits are ran ! if no plans found*/
         if (learningPlanList.size() == 0) {
-            String systemKey = UserSessionHelper.getAuditSystemKey();
+            String systemKey = "";
+            try {
+                systemKey = UserSessionHelper.getAuditSystemKey();
+            } catch (Exception drf) {
+                // If no system key and no planned items found, treat as a new user
+                return true;
+            }
             Date startDate = new Date();
             Date endDate = new Date();
             ContextInfo contextInfo = new ContextInfo();
