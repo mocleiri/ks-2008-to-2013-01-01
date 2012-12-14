@@ -342,6 +342,10 @@ public class ServiceContractModelQDoxLoader implements
         if (javaClass.getName().endsWith("BoService")) {
             return true;
         }
+        // This includes KSA's internal services even though they are not web services
+        if (javaClass.getPackageName().startsWith("com.sigmasys.kuali.ksa.service")) {
+            return true;
+        }
 //  System.out.println ("skipping service because it is not a web service="
 //                      + javaClass.getPackageName () + "." + javaClass.getName ());
         return false;

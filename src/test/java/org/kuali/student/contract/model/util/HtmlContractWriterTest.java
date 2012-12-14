@@ -81,10 +81,13 @@ public class HtmlContractWriterTest {
     private static final String RICE_KRMS_IMPL_DIRECTORY = "C:/svn/rice/trunk/krms/impl/src/main/java";
     private static final String TEST_SOURCE_DIRECTORY =
             "src/test/java/org/kuali/student/contract/model/test/source";
+    
+    private static final String KSA_DIRECTORY = "D:/svn/ks/ksa/ksa-core/src/main/java";
     private static final String HTML_CONTRACT_DIRECTORY = "target/html/contract";
     private static final String HTML_CONTRACT_DIRECTORY_TEST = HTML_CONTRACT_DIRECTORY + "/test";    
     private static final String HTML_CONTRACT_DIRECTORY_ENROLL = HTML_CONTRACT_DIRECTORY + "/enroll";         
-    private static final String HTML_CONTRACT_DIRECTORY_RICE = HTML_CONTRACT_DIRECTORY + "/rice";      
+    private static final String HTML_CONTRACT_DIRECTORY_RICE = HTML_CONTRACT_DIRECTORY + "/rice";             
+    private static final String HTML_CONTRACT_DIRECTORY_KSA = HTML_CONTRACT_DIRECTORY + "/ksa";      
     private static final String HTML_CONTRACT_DIRECTORY_PESC = HTML_CONTRACT_DIRECTORY + "/pesc";    
     private static final String RESOURCES_DIRECTORY =
             // "C:/svn/student/ks-core/ks-core-api/src/main/java";
@@ -103,6 +106,7 @@ public class HtmlContractWriterTest {
 
     }
     
+    
     private ServiceContractModel getRiceModel() {
         List<String> srcDirs = new ArrayList<String>();
 //        srcDirs.add(TEST_SOURCE_DIRECTORY);
@@ -117,6 +121,15 @@ public class HtmlContractWriterTest {
 //		srcDirs.add(CORE_DIRECTORY);
 //		srcDirs.add(COMMON_DIRECTORY);
 //		srcDirs.add(LUM_DIRECTORY);
+        ServiceContractModel instance = new ServiceContractModelQDoxLoader(
+                srcDirs, false);
+        return new ServiceContractModelCache(instance);
+
+    }    
+    
+    private ServiceContractModel getKSAModel() {
+        List<String> srcDirs = new ArrayList<String>();
+        srcDirs.add(KSA_DIRECTORY);
         ServiceContractModel instance = new ServiceContractModelQDoxLoader(
                 srcDirs, false);
         return new ServiceContractModelCache(instance);
@@ -244,6 +257,21 @@ public class HtmlContractWriterTest {
         model = this.getRiceModel();
         this.validate(model);
         writer = new HtmlContractWriter(HTML_CONTRACT_DIRECTORY_RICE, model);
+        writer.write("testVersion", DateUtility.asYMD(new Date()));
+
+//        assertTrue(new File(HTML_CONTRACT_DIRECTORY_ENROLL + "/" + "index.html").exists());
+    }
+    /**
+     * Test of run
+     */
+    @Test
+    public void testKSARun () {
+        ServiceContractModel model = null;
+        HtmlContractWriter writer = null;
+
+        model = this.getKSAModel();
+        this.validate(model);
+        writer = new HtmlContractWriter(HTML_CONTRACT_DIRECTORY_KSA, model);
         writer.write("testVersion", DateUtility.asYMD(new Date()));
 
 //        assertTrue(new File(HTML_CONTRACT_DIRECTORY_ENROLL + "/" + "index.html").exists());
