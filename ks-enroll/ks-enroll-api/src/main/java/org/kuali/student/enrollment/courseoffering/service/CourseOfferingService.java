@@ -1590,4 +1590,29 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      */
     public List<String> searchForSeatpoolDefinitionIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+
+    /**
+     * Retrieve a list of ActivityOfferingDisplays corresponding to a
+     * CourseOffering Id. Activity Offerings for all FormatOfferings within the
+     * given CourseOffering are used to assemble this administrative view.
+     *
+     * @param courseOfferingId the identifier for a CourseOffering
+     * @param contextInfo      information containing the principalId and locale
+     *                         information about the caller of service
+     *                         operation
+     * @return a list of ActivityOfferingDisplayInfos
+     * @throws DoesNotExistException     courseOfferingId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseOfferingId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysForCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId,
+                                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 }

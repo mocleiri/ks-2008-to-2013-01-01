@@ -508,5 +508,14 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 		return getNextDecorator().deleteActivityOfferingCascaded(activityOfferingId, context);
 	}
 
-
+    @Override
+    public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysForCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId,
+                                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().getActivityOfferingDisplaysForCourseOffering(courseOfferingId, contextInfo);
+    }
 }
