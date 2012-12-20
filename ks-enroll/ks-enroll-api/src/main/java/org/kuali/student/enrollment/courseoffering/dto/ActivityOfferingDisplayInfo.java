@@ -32,13 +32,42 @@ import java.util.List;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ActivityOfferingDisplayInfo", propOrder = {
-                "id", "typeKey", "stateKey", "name", "descr", 
-                "typeName", "stateName", "courseOfferingTitle",
-                "courseOfferingCode", "formatOfferingId", "formatOfferingName",
-                "activityOfferingCode", "instructorId",  "instructorName",
-                "isHonorsOffering", "maximumEnrollment", "scheduleDisplay",
-                "meta", "attributes", "_futureElements"})
+@XmlType(name = "ActivityOfferingDisplayInfo",
+        propOrder = {
+
+//                this.typeName=offeringDisplay.getTypeName();
+//        this.stateName=offeringDisplay.getStateName();
+//        this.courseOfferingTitle=offeringDisplay.getCourseOfferingTitle();
+//        this.courseOfferingCode=offeringDisplay.getCourseOfferingCode();
+//        this.formatOfferingId=offeringDisplay.getFormatOfferingId();
+//        this.formatOfferingName=offeringDisplay.getFormatOfferingName();
+//        this.activityOfferingCode=offeringDisplay.getActivityOfferingCode();
+//        this.instructorId=offeringDisplay.getInstructorId();
+//        this.instructorName=offeringDisplay.getInstructorName();
+//        this.isHonorsOffering=offeringDisplay.getIsHonorsOffering();
+//        this.maximumEnrollment=offeringDisplay.getMaximumEnrollment();
+
+
+ //       "id", "typeKey", "stateKey",
+        "name", "descr",
+//        "serial",
+                "typeName",
+                "stateName",
+                "courseOfferingTitle",
+                "courseOfferingCode",
+                "formatOfferingId",
+                "formatOfferingName",
+                "activityOfferingCode",
+                "instructorId",
+                "instructorName",
+                "isHonorsOffering",
+                "maximumEnrollment",
+//                "scheduleDisplay",
+                "meta",
+                "attributes",
+                "_futureElements"
+
+        })
 
 public class ActivityOfferingDisplayInfo
     extends IdEntityInfo 
