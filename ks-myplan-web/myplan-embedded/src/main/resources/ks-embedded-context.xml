@@ -185,6 +185,9 @@
             <aop:around pointcut="execution(*  edu.uw.kuali.student.service.impl.UwCourseOfferingServiceImpl.getCourseOfferingIdsByTermAndSubjectArea(..))" method="getFromCache" />
             <aop:around pointcut="execution(*  edu.uw.kuali.student.service.impl.UwCourseOfferingServiceImpl.searchForCourseOfferings(..))" method="getFromCache" />
             <aop:around pointcut="execution(*  edu.uw.kuali.student.service.impl.UwCourseOfferingServiceImpl.getActivityOffering(..))" method="getFromCache" />
+            
+            <aop:around pointcut="execution(*  edu.uw.kuali.student.lib.client.studentservice.StudentServiceClientImpl.getSections(..))" method="getFromCache" />
+            <aop:around pointcut="execution(*  edu.uw.kuali.student.lib.client.studentservice.StudentServiceClientImpl.getSecondarySections(..))" method="getFromCache" />
         </aop:aspect>
 
         <aop:aspect id="academicRecordAroundSearch" ref="academicRecordCacheAdvisor">
