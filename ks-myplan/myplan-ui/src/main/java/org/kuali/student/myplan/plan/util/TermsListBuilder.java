@@ -15,8 +15,8 @@ import java.util.regex.Pattern;
  */
 public class TermsListBuilder extends KeyValuesBase {
 
-    // 6 years * 4 quarters = 24 terms
-    private static int MAX_FUTURE_TERMS = 24;
+    // 5 years * 4 quarters = 20 terms
+    private static int MAX_FUTURE_TERMS = 20;
 
     public static final Pattern atpRegex = Pattern.compile("kuali\\.uw\\.atp\\.([0-9]{4})\\.([1-4])");
     public static final String atpFormat = "kuali.uw.atp.%d.%d";
