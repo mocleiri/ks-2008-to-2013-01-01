@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.r1.common.assembly.data.ModelDefinition;
@@ -26,7 +27,7 @@ import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
-import org.kuali.student.r1.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -71,7 +72,6 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcServiceAsync;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcServiceAsync;
 import org.kuali.student.core.workflow.ui.client.WorkflowConstants;
@@ -88,6 +88,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
 public class WorkflowUtilities{
 
@@ -185,6 +186,7 @@ public class WorkflowUtilities{
     private final KSLabel proposalStatusLabel = new KSLabel("");
 
     private final LayoutController parentController;
+    private SummaryTableSection tableSection;
 
     private String dropDownLabel = "Workflow Actions";
     
@@ -1084,6 +1086,10 @@ public class WorkflowUtilities{
                                                                         parentController.fireApplicationEvent(saveActionEvent);
                                                                     }else{
                                                                         submitSuccessDialog.hide();
+                                                                        if (tableSection != null){
+                                                                            tableSection.enableValidation(true);
+                                                                            tableSection.processValidationResults(results);
+                                                                        }
                                                                         KSNotifier.add(new KSNotification("Unable to blanket approve, please enter all data required for final approval.", false, true, 5000));
                                                                     }
                                                                 }else{
@@ -1505,10 +1511,14 @@ public class WorkflowUtilities{
     
     /**
      * Use to set the data model path to retrieve the propsal data to use for this workflow. 
-     * @param idPath
+     * @param proposalPath
      */
     public void setProposalPath(String proposalPath) {
         this.proposalPath = proposalPath;
+    }
+
+    public void setTableSection(SummaryTableSection tableSection) {
+        this.tableSection = tableSection;
     }
         
     public void setWorkflowRpcService(WorkflowRpcServiceAsync workflowRpcServiceAsync){

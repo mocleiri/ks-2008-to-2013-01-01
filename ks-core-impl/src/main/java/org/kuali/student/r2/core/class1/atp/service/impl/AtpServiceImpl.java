@@ -124,18 +124,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
-            throws OperationFailedException, InvalidParameterException, MissingParameterException {
-        return searchManager.getSearchCriteriaTypes(contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo)
-            throws OperationFailedException, InvalidParameterException, MissingParameterException {
-        return searchManager.getSearchResultTypes(contextInfo);
-    }
-
-    @Override
     public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
@@ -149,24 +137,6 @@ public class AtpServiceImpl implements AtpService {
         return getSearchManager().getSearchTypes(contextInfo);
     }
 
-    @Override
-    public List<TypeInfo> getSearchTypesByCriteria(
-            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchTypesByResult(
-            String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
-    }
-
     public SearchManager getSearchManager() {
         return searchManager;
     }
@@ -176,7 +146,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
         SearchResultInfo searchResult = this.searchManager.search(searchRequest, contextInfo);
 //        if (searchRequest.getSearchKey().equals("atp.search.advancedAtpSearch")){
             //TODO: populate the duration en seasonal types.
