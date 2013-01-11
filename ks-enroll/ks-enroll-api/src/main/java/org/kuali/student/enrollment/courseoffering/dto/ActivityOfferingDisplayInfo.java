@@ -35,19 +35,6 @@ import java.util.List;
 @XmlType(name = "ActivityOfferingDisplayInfo",
         propOrder = {
 
-//                this.typeName=offeringDisplay.getTypeName();
-//        this.stateName=offeringDisplay.getStateName();
-//        this.courseOfferingTitle=offeringDisplay.getCourseOfferingTitle();
-//        this.courseOfferingCode=offeringDisplay.getCourseOfferingCode();
-//        this.formatOfferingId=offeringDisplay.getFormatOfferingId();
-//        this.formatOfferingName=offeringDisplay.getFormatOfferingName();
-//        this.activityOfferingCode=offeringDisplay.getActivityOfferingCode();
-//        this.instructorId=offeringDisplay.getInstructorId();
-//        this.instructorName=offeringDisplay.getInstructorName();
-//        this.isHonorsOffering=offeringDisplay.getIsHonorsOffering();
-//        this.maximumEnrollment=offeringDisplay.getMaximumEnrollment();
-
-
  //       "id", "typeKey", "stateKey",
         "name", "descr",
 //        "serial",
@@ -62,7 +49,7 @@ import java.util.List;
                 "instructorName",
                 "isHonorsOffering",
                 "maximumEnrollment",
-//                "scheduleDisplay",
+                "scheduleDisplay",
                 "meta",
                 "attributes",
                 "_futureElements"
@@ -109,7 +96,7 @@ public class ActivityOfferingDisplayInfo
     private Integer maximumEnrollment;
 
 //    @XmlElement
-//    private ScheduleDisplayInfo scheduleDisplay;
+    private ScheduleDisplayInfo scheduleDisplay;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -127,26 +114,26 @@ public class ActivityOfferingDisplayInfo
      *
      * @param offeringDisplay the activity offering admin display to copy
      */
-    public ActivityOfferingDisplayInfo(ActivityOfferingDisplay offeringDisplay) {
-        super(offeringDisplay);
-        
-        if (offeringDisplay == null) {
-            return;
-        }
-
-        this.typeName = offeringDisplay.getTypeName();
-        this.stateName = offeringDisplay.getStateName();
-        this.courseOfferingTitle = offeringDisplay.getCourseOfferingTitle();
-        this.courseOfferingCode = offeringDisplay.getCourseOfferingCode();
-        this.formatOfferingId = offeringDisplay.getFormatOfferingId();
-        this.formatOfferingName = offeringDisplay.getFormatOfferingName();
-        this.activityOfferingCode = offeringDisplay.getActivityOfferingCode();
-        this.instructorId = offeringDisplay.getInstructorId();
-        this.instructorName = offeringDisplay.getInstructorName();
-        this.isHonorsOffering = offeringDisplay.getIsHonorsOffering();
-        this.maximumEnrollment = offeringDisplay.getMaximumEnrollment();
-//        this.scheduleDisplay = (null != offeringDisplay.getScheduleDisplay()) ? new ScheduleDisplayInfo(offeringDisplay.getScheduleDisplay()) : null;
-    }
+//    public ActivityOfferingDisplayInfo(ActivityOfferingDisplay offeringDisplay) {
+//        super(offeringDisplay);
+//
+//        if (offeringDisplay == null) {
+//            return;
+//        }
+//
+//        this.typeName = offeringDisplay.getTypeName();
+//        this.stateName = offeringDisplay.getStateName();
+//        this.courseOfferingTitle = offeringDisplay.getCourseOfferingTitle();
+//        this.courseOfferingCode = offeringDisplay.getCourseOfferingCode();
+//        this.formatOfferingId = offeringDisplay.getFormatOfferingId();
+//        this.formatOfferingName = offeringDisplay.getFormatOfferingName();
+//        this.activityOfferingCode = offeringDisplay.getActivityOfferingCode();
+//        this.instructorId = offeringDisplay.getInstructorId();
+//        this.instructorName = offeringDisplay.getInstructorName();
+//        this.isHonorsOffering = offeringDisplay.getIsHonorsOffering();
+//        this.maximumEnrollment = offeringDisplay.getMaximumEnrollment();
+////        this.scheduleDisplay = (null != offeringDisplay.getScheduleDisplay()) ? new ScheduleDisplayInfo(offeringDisplay.getScheduleDisplay()) : null;
+//    }
 
     @Override
     public String getTypeName() {
@@ -247,11 +234,11 @@ public class ActivityOfferingDisplayInfo
     }
 
 //    @Override
-//    public ScheduleDisplayInfo getScheduleDisplay() {
-//        return this.scheduleDisplay;
-//    }
-//
-//    public void setScheduleDisplay(ScheduleDisplayInfo scheduleDisplay) {
-//        this.scheduleDisplay = scheduleDisplay;
-//    }
+    public ScheduleDisplayInfo getScheduleDisplay() {
+        return this.scheduleDisplay;
+    }
+
+    public void setScheduleDisplay(ScheduleDisplayInfo scheduleDisplay) {
+        this.scheduleDisplay = scheduleDisplay;
+    }
 }
