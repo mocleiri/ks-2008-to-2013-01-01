@@ -218,7 +218,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * @name Credit Option Display
      * @readOnly
      */
-    public String getCreditOptionDisplay();
+    public String getCreditOptionName();
 
     /**
      * Type of credit of course offering. This field is initially copied from
@@ -404,7 +404,7 @@ public interface CourseOffering extends IdNamelessEntity {
      * @readOnly
      * @impl this is the grading name - last word in gradingOptionId
      */
-    public String getGradingOption();
+    public String getGradingOptionName();
 
    /**
      * A suffix is the system generated code that is hidden from the user

@@ -104,7 +104,7 @@ public class CourseOfferingTransformer {
         }
 
         if ( co.getGradingOptionId() != null ) {//TODO why are we doing substrings of keys?
-            co.setGradingOption(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
+            co.setGradingOptionName(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
         }
 
         LuiIdentifierInfo identifier = lui.getOfficialIdentifier();
