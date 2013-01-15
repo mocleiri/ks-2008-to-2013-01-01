@@ -25,8 +25,16 @@ public class KSDateTimeFormatter  {
      * @param pattern  regex pattern for the format
      */
     public KSDateTimeFormatter(String pattern) {
-        this.formatter = DateTimeFormat.forPattern(pattern);
-        this.pattern = pattern;
+        try{
+            this.pattern = pattern;
+
+            this.formatter = DateTimeFormat.forPattern(pattern);
+        }
+        catch (IllegalArgumentException ex){
+
+            throw new IllegalArgumentException("Illegal pattern cannot be parsed. pattern["+ pattern +"].");
+        }
+
     }
 
     /**
@@ -60,6 +68,16 @@ public class KSDateTimeFormatter  {
      */
     public String format(Date javaDate){
         return this.formatter.print(new DateTime(javaDate));
+    }
+
+    /**
+     * Helper method that allows a stright  java.util.Date to String converstion
+     * @param strDate
+     * @return
+     * @throws IllegalArgumentException if the javaDate is invalid
+     */
+    public String format(String strDate){
+        return this.formatter.print(new DateTime(strDate));
     }
 
     /**
