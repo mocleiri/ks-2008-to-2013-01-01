@@ -52,6 +52,7 @@ public class StateServiceConstants {
     public static final String STATE_PROPAGATION_TYPE_KEY = "kuali.state.propagation.type";
 
 
+
     /**
      *  StateChange states
      */
