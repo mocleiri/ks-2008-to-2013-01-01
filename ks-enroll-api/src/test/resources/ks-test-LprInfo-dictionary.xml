@@ -34,96 +34,86 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 		that are encoded here.
 	************************************************************* -->
 	<!-- The following file gets generated during the build and gets put into the target/classes directory -->
-	<import resource="classpath:ks-test-AtpInfo-dictionary-generated.xml"/>
+	<import resource="classpath:ks-test-LprInfo-dictionary-generated.xml"/>
 
-	<!-- AtpInfo-->
-	<bean id="AtpInfo" parent="AtpInfo-parent"/>
-	<bean id="AtpInfo-parent" abstract="true" parent="AtpInfo-generated">
+	<!-- LprInfo-->
+	<bean id="LprInfo" parent="LprInfo-parent"/>
+	<bean id="LprInfo-parent" abstract="true" parent="LprInfo-generated">
 	<!-- insert any overrides to the generated object definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.id" parent="AtpInfo.id-parent"/>
-	<bean id="AtpInfo.id-parent" abstract="true" parent="AtpInfo.id-generated">
+	<bean id="LprInfo.id" parent="LprInfo.id-parent"/>
+	<bean id="LprInfo.id-parent" abstract="true" parent="LprInfo.id-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.typeKey" parent="AtpInfo.typeKey-parent"/>
-	<bean id="AtpInfo.typeKey-parent" abstract="true" parent="AtpInfo.typeKey-generated">
+	<bean id="LprInfo.typeKey" parent="LprInfo.typeKey-parent"/>
+	<bean id="LprInfo.typeKey-parent" abstract="true" parent="LprInfo.typeKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.stateKey" parent="AtpInfo.stateKey-parent"/>
-	<bean id="AtpInfo.stateKey-parent" abstract="true" parent="AtpInfo.stateKey-generated">
+	<bean id="LprInfo.stateKey" parent="LprInfo.stateKey-parent"/>
+	<bean id="LprInfo.stateKey-parent" abstract="true" parent="LprInfo.stateKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.name" parent="AtpInfo.name-parent"/>
-	<bean id="AtpInfo.name-parent" abstract="true" parent="AtpInfo.name-generated">
+	<bean id="LprInfo.luiId" parent="LprInfo.luiId-parent"/>
+	<bean id="LprInfo.luiId-parent" abstract="true" parent="LprInfo.luiId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.descr" parent="AtpInfo.descr-parent"/>
-	<bean id="AtpInfo.descr-parent" abstract="true" parent="AtpInfo.descr-generated">
+	<bean id="LprInfo.personId" parent="LprInfo.personId-parent"/>
+	<bean id="LprInfo.personId-parent" abstract="true" parent="LprInfo.personId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.descr.plain" parent="AtpInfo.descr.plain-parent"/>
-	<bean id="AtpInfo.descr.plain-parent" abstract="true" parent="AtpInfo.descr.plain-generated">
+	<bean id="LprInfo.resultValuesGroupKeys" parent="LprInfo.resultValuesGroupKeys-parent"/>
+	<bean id="LprInfo.resultValuesGroupKeys-parent" abstract="true" parent="LprInfo.resultValuesGroupKeys-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.descr.formatted" parent="AtpInfo.descr.formatted-parent"/>
-	<bean id="AtpInfo.descr.formatted-parent" abstract="true" parent="AtpInfo.descr.formatted-generated">
+	<bean id="LprInfo.commitmentPercent" parent="LprInfo.commitmentPercent-parent"/>
+	<bean id="LprInfo.commitmentPercent-parent" abstract="true" parent="LprInfo.commitmentPercent-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.code" parent="AtpInfo.code-parent"/>
-	<bean id="AtpInfo.code-parent" abstract="true" parent="AtpInfo.code-generated">
+	<bean id="LprInfo.effectiveDate" parent="LprInfo.effectiveDate-parent"/>
+	<bean id="LprInfo.effectiveDate-parent" abstract="true" parent="LprInfo.effectiveDate-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.startDate" parent="AtpInfo.startDate-parent"/>
-	<bean id="AtpInfo.startDate-parent" abstract="true" parent="AtpInfo.startDate-generated">
+	<bean id="LprInfo.expirationDate" parent="LprInfo.expirationDate-parent"/>
+	<bean id="LprInfo.expirationDate-parent" abstract="true" parent="LprInfo.expirationDate-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.endDate" parent="AtpInfo.endDate-parent"/>
-	<bean id="AtpInfo.endDate-parent" abstract="true" parent="AtpInfo.endDate-generated">
+	<bean id="LprInfo.meta" parent="LprInfo.meta-parent"/>
+	<bean id="LprInfo.meta-parent" abstract="true" parent="LprInfo.meta-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.adminOrgId" parent="AtpInfo.adminOrgId-parent"/>
-	<bean id="AtpInfo.adminOrgId-parent" abstract="true" parent="AtpInfo.adminOrgId-generated">
+	<bean id="LprInfo.meta.versionInd" parent="LprInfo.meta.versionInd-parent"/>
+	<bean id="LprInfo.meta.versionInd-parent" abstract="true" parent="LprInfo.meta.versionInd-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.meta" parent="AtpInfo.meta-parent"/>
-	<bean id="AtpInfo.meta-parent" abstract="true" parent="AtpInfo.meta-generated">
+	<bean id="LprInfo.meta.createTime" parent="LprInfo.meta.createTime-parent"/>
+	<bean id="LprInfo.meta.createTime-parent" abstract="true" parent="LprInfo.meta.createTime-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.meta.versionInd" parent="AtpInfo.meta.versionInd-parent"/>
-	<bean id="AtpInfo.meta.versionInd-parent" abstract="true" parent="AtpInfo.meta.versionInd-generated">
+	<bean id="LprInfo.meta.createId" parent="LprInfo.meta.createId-parent"/>
+	<bean id="LprInfo.meta.createId-parent" abstract="true" parent="LprInfo.meta.createId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.meta.createTime" parent="AtpInfo.meta.createTime-parent"/>
-	<bean id="AtpInfo.meta.createTime-parent" abstract="true" parent="AtpInfo.meta.createTime-generated">
+	<bean id="LprInfo.meta.updateTime" parent="LprInfo.meta.updateTime-parent"/>
+	<bean id="LprInfo.meta.updateTime-parent" abstract="true" parent="LprInfo.meta.updateTime-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpInfo.meta.createId" parent="AtpInfo.meta.createId-parent"/>
-	<bean id="AtpInfo.meta.createId-parent" abstract="true" parent="AtpInfo.meta.createId-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="AtpInfo.meta.updateTime" parent="AtpInfo.meta.updateTime-parent"/>
-	<bean id="AtpInfo.meta.updateTime-parent" abstract="true" parent="AtpInfo.meta.updateTime-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="AtpInfo.meta.updateId" parent="AtpInfo.meta.updateId-parent"/>
-	<bean id="AtpInfo.meta.updateId-parent" abstract="true" parent="AtpInfo.meta.updateId-generated">
+	<bean id="LprInfo.meta.updateId" parent="LprInfo.meta.updateId-parent"/>
+	<bean id="LprInfo.meta.updateId-parent" abstract="true" parent="LprInfo.meta.updateId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 </beans>
