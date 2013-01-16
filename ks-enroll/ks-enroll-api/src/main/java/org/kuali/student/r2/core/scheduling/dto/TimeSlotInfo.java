@@ -62,12 +62,11 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
 
     @Override
     public List<Integer> getWeekdays() {
-        if (null == this.weekdays) {
-            return new ArrayList<Integer>();
+        if (null == weekdays)
+        {
+            weekdays = new ArrayList<Integer>();
         }
-        else {
-            return this.weekdays;
-        }
+        return weekdays;
     }
 
     public void setWeekdays(List<Integer> weekdays) {
