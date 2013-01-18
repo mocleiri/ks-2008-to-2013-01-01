@@ -4,6 +4,9 @@
   <artifactId>ks-core-sql</artifactId>
   <version>2.0.0-SNAPSHOT</version>
   <name>KS Core SQL</name>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   <build>
     <resources>
       <resource>
@@ -21,5 +24,28 @@
         </excludes>
       </resource>
     </resources>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.kuali.maven.plugins</groupId>
+          <artifactId>metainf-maven-plugin</artifactId>
+          <version>2.0.0</version>
+          <executions>
+            <execution>
+              <id>metainf</id>
+              <goals>
+                <goal>metainf</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.kuali.maven.plugins</groupId>
+        <artifactId>metainf-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
   </build>
 </project>
