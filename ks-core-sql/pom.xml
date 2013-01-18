@@ -36,30 +36,30 @@
               <goals>
                 <goal>metainf</goal>
               </goals>
-              <configuration>
-                <include>**/initial-db/**/ks-*create-schema.sql</include>
-                <outputFile>${project.build.outputDirectory}/META-INF/schema/schema.resources</outputFile>
-              </configuration>
+	      <configuration>
+	        <include>**/initial-db/**/ks-*create-schema.sql</include>
+	        <outputFile>${project.build.outputDirectory}/META-INF/${project.artifactId}-schema.resources</outputFile>
+	      </configuration>
             </execution>
-            <execution>
+	    <execution>
               <id>data-metainf</id>
               <goals>
                 <goal>metainf</goal>
               </goals>
-              <configuration>
-                <include>**/initial-db/**/data/*.sql</include>
-                <outputFile>${project.build.outputDirectory}/META-INF/data/data.resources</outputFile>
-              </configuration>
+	      <configuration>
+	        <include>**/initial-db/**/data/*.sql</include>
+	        <outputFile>${project.build.outputDirectory}/META-INF/${project.artifactId}-data.resources</outputFile>
+	      </configuration>
             </execution>
-            <execution>
+	    <execution>
               <id>constraints-metainf</id>
               <goals>
                 <goal>metainf</goal>
               </goals>
-              <configuration>
-                <include>**/initial-db/**/ks-*constraints.sql</include>
-                <outputFile>${project.build.outputDirectory}/META-INF/constraints/constraints.resources</outputFile>
-              </configuration>
+	      <configuration>
+	        <include>**/initial-db/**/ks-*constraints.sql</include>
+	        <outputFile>${project.build.outputDirectory}/META-INF/${project.artifactId}-constraints.resources</outputFile>
+	      </configuration>
             </execution>
           </executions>
         </plugin>
