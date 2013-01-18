@@ -32,34 +32,34 @@
           <version>2.0.0</version>
           <executions>
             <execution>
-              <id>schema-metainf</id>
+              <id>schema</id>
               <goals>
                 <goal>metainf</goal>
               </goals>
-	      <configuration>
-	        <include>**/initial-db/**/ks-*create-schema.sql</include>
-	        <outputFile>${project.build.outputDirectory}/META-INF/${project.artifactId}-schema.resources</outputFile>
-	      </configuration>
+              <configuration>
+                <include>**/initial-db/**/ks-*create-schema.sql</include>
+                <outputFile>${project.build.outputDirectory}/META-INF/sql/oracle/${project.artifactId}-schema.resources</outputFile>
+              </configuration>
             </execution>
-	    <execution>
-              <id>data-metainf</id>
+            <execution>
+              <id>data</id>
               <goals>
                 <goal>metainf</goal>
               </goals>
-	      <configuration>
-	        <include>**/initial-db/**/data/*.sql</include>
-	        <outputFile>${project.build.outputDirectory}/META-INF/${project.artifactId}-data.resources</outputFile>
-	      </configuration>
+              <configuration>
+                <include>**/initial-db/**/data/*.sql</include>
+                <outputFile>${project.build.outputDirectory}/META-INF/sql/oracle/${project.artifactId}-data.resources</outputFile>
+              </configuration>
             </execution>
-	    <execution>
-              <id>constraints-metainf</id>
+            <execution>
+              <id>constraints</id>
               <goals>
                 <goal>metainf</goal>
               </goals>
-	      <configuration>
-	        <include>**/initial-db/**/ks-*constraints.sql</include>
-	        <outputFile>${project.build.outputDirectory}/META-INF/${project.artifactId}-constraints.resources</outputFile>
-	      </configuration>
+              <configuration>
+                <include>**/initial-db/**/ks-*constraints.sql</include>
+                <outputFile>${project.build.outputDirectory}/META-INF/sql/oracle/${project.artifactId}-constraints.resources</outputFile>
+              </configuration>
             </execution>
           </executions>
         </plugin>
