@@ -32,10 +32,34 @@
           <version>2.0.0</version>
           <executions>
             <execution>
-              <id>metainf</id>
+              <id>schema-metainf</id>
               <goals>
                 <goal>metainf</goal>
               </goals>
+	      <configuration>
+	        <include>**/initial-db/**/ks-*create-schema.sql</include>
+	        <outputFile>${project.build.outputDirectory}/META-INF/schema/schema.resources</outputFile>
+	      </configuration>
+            </execution>
+	    <execution>
+              <id>data-metainf</id>
+              <goals>
+                <goal>metainf</goal>
+              </goals>
+	      <configuration>
+	        <include>**/initial-db/**/data/*.sql</include>
+	        <outputFile>${project.build.outputDirectory}/META-INF/data/data.resources</outputFile>
+	      </configuration>
+            </execution>
+	    <execution>
+              <id>constraints-metainf</id>
+              <goals>
+                <goal>metainf</goal>
+              </goals>
+	      <configuration>
+	        <include>**/initial-db/**/ks-*constraints.sql</include>
+	        <outputFile>${project.build.outputDirectory}/META-INF/constraints/constraints.resources</outputFile>
+	      </configuration>
             </execution>
           </executions>
         </plugin>
