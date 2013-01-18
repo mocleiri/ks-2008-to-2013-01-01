@@ -41,7 +41,7 @@
                 <goal>load</goal>
               </goals>
               <configuration>
-                <location>${project.basedir}/src/main/resources/spring-db-context.xml</location>
+                <location>classpath:org/kuali/common/deploy/spring/db-developer-context.xml</location>
 		<propertiesBeanName>deploy.mavenProperties</propertiesBeanName>
               </configuration>
             </execution>
