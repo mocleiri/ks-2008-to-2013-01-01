@@ -44,7 +44,6 @@
               <configuration>
                 <include>**/initial-db/**/ks-*constraints.sql</include>
                 <outputFile>${sql.meta.base}-data.resources</outputFile>
-                <outputFile>${project.build.outputDirectory}/META-INF/sql/oracle/${project.artifactId}-constraints.resources</outputFile>
               </configuration>
             </execution>
           </executions>
