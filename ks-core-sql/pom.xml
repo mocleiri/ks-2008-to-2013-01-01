@@ -6,7 +6,7 @@
   <name>KS Core SQL</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <meta.base>${project.build.outputDirectory}/META-INF/sql/oracle/${project.artifactId}</meta.base>
+    <sql.meta.base>${project.build.outputDirectory}/META-INF/sql/oracle/${project.artifactId}</sql.meta.base>
   </properties>
   <build>
     <pluginManagement>
@@ -23,7 +23,7 @@
               </goals>
               <configuration>
                 <include>**/initial-db/**/ks-*create-schema.sql</include>
-                <outputFile>${meta.base}-schema.resources</outputFile>
+                <outputFile>${sql.meta.base}-schema.resources</outputFile>
               </configuration>
             </execution>
             <execution>
@@ -33,7 +33,7 @@
               </goals>
               <configuration>
                 <include>**/initial-db/**/data/*.sql</include>
-                <outputFile>${meta.base}-data.resources</outputFile>
+                <outputFile>${sql.meta.base}-data.resources</outputFile>
               </configuration>
             </execution>
             <execution>
@@ -43,7 +43,7 @@
               </goals>
               <configuration>
                 <include>**/initial-db/**/ks-*constraints.sql</include>
-                <outputFile>${meta.base}-data.resources</outputFile>
+                <outputFile>${sql.meta.base}-data.resources</outputFile>
                 <outputFile>${project.build.outputDirectory}/META-INF/sql/oracle/${project.artifactId}-constraints.resources</outputFile>
               </configuration>
             </execution>
