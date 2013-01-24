@@ -15,6 +15,8 @@
   <kuali.jdbc.version>1.0.7</kuali.jdbc.version>
   <kuali.rice.version>2.2.0</kuali.rice.version>
   <plugin.impex.version>1.1.2</plugin.impex.version>
+  <kuali-deploy.version>2.0.19</kuali-deploy.version>
+  <kuali.mvn.plugin.version>1.1.0</kuali.mvn.plugin.version>
   
   <!-- end root props -->
   
@@ -35,6 +37,7 @@
 	<plugin>
               <groupId>org.kuali.maven.plugins</groupId>
               <artifactId>mvn-maven-plugin</artifactId>
+	      <version>${kuali.mvn.plugin.version}</version>
               <executions>
                 <execution>
                   <id>sql</id>
@@ -122,7 +125,7 @@
       </properties>
     </profile>
     <profile>
-      <id>impex</id>
+      <id>impex-generate-sql</id>
       <properties>
         <impex.basedir>${project.basedir}</impex.basedir>
         <impex.schema.name>${project.artifactId}</impex.schema.name>
