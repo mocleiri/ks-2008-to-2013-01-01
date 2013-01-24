@@ -7,16 +7,16 @@
   <name>KS Bundled db</name>
   <properties>
     <!-- props from root ks pom -->
+    <oracle.artifactId>ojdbc14</oracle.artifactId>
     <oracle.version>10.2.0.3.0</oracle.version>
-    <oracle.artifact>ojdbc14</oracle.artifact>
-    <impex.oracle.driver>oracle.jdbc.driver.OracleDriver</impex.oracle.driver>
+    <oracle.driver>oracle.jdbc.driver.OracleDriver</oracle.driver>
     <mysql.version>5.1.18</mysql.version>
-    <impex.mysql.driver>com.mysql.jdbc.Driver</impex.mysql.driver>
+    <mysql.driver>com.mysql.jdbc.Driver</mysql.driver>
     <kuali.jdbc.version>1.0.7</kuali.jdbc.version>
     <kuali.rice.version>2.2.0</kuali.rice.version>
     <plugin.impex.version>1.1.2</plugin.impex.version>
     <kuali-deploy.version>2.0.19</kuali-deploy.version>
-    <kuali.mvn.plugin.version>1.1.0</kuali.mvn.plugin.version>
+    <plugin.mvn.version>1.1.0</plugin.mvn.version>
 
     <!-- end root props -->
 
@@ -24,7 +24,6 @@
     <impex.username>KSMASTER</impex.username>
     <impex.password>KSMASTER</impex.password>
     <impex.schema>KSMASTER</impex.schema>
-    <impex.include.version.in.comment>false</impex.include.version.in.comment>
     <impex.oracle.url>jdbc:oracle:thin:@localhost:1521:XE</impex.oracle.url>
     <impex.date.format>yyyyMMddHHmmss</impex.date.format>
     <impex.db.vendor>${db.vendor}</impex.db.vendor>
@@ -36,7 +35,7 @@
         <plugin>
           <groupId>org.kuali.maven.plugins</groupId>
           <artifactId>mvn-maven-plugin</artifactId>
-          <version>${kuali.mvn.plugin.version}</version>
+          <version>${plugin.mvn.version}</version>
           <executions>
             <execution>
               <id>sql</id>
@@ -81,7 +80,7 @@
             </dependency>
             <dependency>
               <groupId>com.oracle</groupId>
-              <artifactId>${oracle.artifact}</artifactId>
+              <artifactId>${oracle.artifactId}</artifactId>
               <version>${oracle.version}</version>
             </dependency>
           </dependencies>
@@ -89,7 +88,7 @@
             <username>${impex.username}</username>
             <password>${impex.password}</password>
             <url>${impex.url}</url>
-            <includeVersionInComment>${impex.include.version.in.comment}</includeVersionInComment>
+            <includeVersionInComment>false</includeVersionInComment>
             <driver>${impex.driver}</driver>
             <targetDatabase>${impex.db.vendor}</targetDatabase>
             <schema>${impex.schema}</schema>
@@ -112,7 +111,7 @@
       <properties>
         <db.vendor>oracle</db.vendor>
         <impex.url>${impex.oracle.url}</impex.url>
-        <impex.driver>${impex.oracle.driver}</impex.driver>
+        <impex.driver>${oracle.driver}</impex.driver>
       </properties>
     </profile>
     <profile>
@@ -120,7 +119,7 @@
       <properties>
         <db.vendor>mysql</db.vendor>
         <impex.url>${impex.mysql.url}</impex.url>
-        <impex.driver>${impex.mysql.driver}</impex.driver>
+        <impex.driver>${mysql.driver}</impex.driver>
       </properties>
     </profile>
     <profile>
