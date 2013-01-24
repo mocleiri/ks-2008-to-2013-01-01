@@ -3,7 +3,6 @@
   <groupId>org.kuali.student</groupId>
   <artifactId>ks-bundled-db</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
   <name>KS Bundled db</name>
   <properties>
     <!-- props from root ks pom -->
