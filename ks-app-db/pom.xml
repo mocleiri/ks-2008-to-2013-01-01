@@ -30,7 +30,7 @@
   <profiles>
     <profile>
       <!-- Pre-generate and bundle SQL for Oracle/MySQL -->
-      <id>genxml</id>
+      <id>gensql</id>
       <properties>
         <impex.basedir>${project.basedir}</impex.basedir>
         <impex.schema.name>${project.artifactId}</impex.schema.name>
