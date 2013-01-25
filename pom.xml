@@ -11,15 +11,15 @@
   <packaging>jar</packaging>
   <name>Spring DB</name>
   <properties>
-  <!-- props from root ks pom -->
-  <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
-  <oracle.ojdbc.artifact>ojdbc14</oracle.ojdbc.artifact>
-  <mysql.connector.version>5.1.18</mysql.connector.version>
-  <kuali.jdbc.version>1.0.7</kuali.jdbc.version>
-  <kuali.rice.version>2.2.0</kuali.rice.version>
-  <!-- end root props -->
-  
-    
+    <!-- props from root ks pom -->
+    <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
+    <oracle.ojdbc.artifact>ojdbc14</oracle.ojdbc.artifact>
+    <mysql.connector.version>5.1.18</mysql.connector.version>
+    <kuali.jdbc.version>1.0.7</kuali.jdbc.version>
+    <kuali.rice.version>2.2.0</kuali.rice.version>
+    <!-- end root props -->
+
+
   </properties>
   <build>
     <pluginManagement>
@@ -36,7 +36,7 @@
               </goals>
               <configuration>
                 <location>classpath:org/kuali/common/deploy/spring/db-developer-context.xml</location>
-		<propertiesBeanName>deploy.mavenProperties</propertiesBeanName>
+                <propertiesBeanName>deploy.mavenProperties</propertiesBeanName>
               </configuration>
             </execution>
           </executions>
@@ -46,17 +46,17 @@
               <artifactId>ks-core-sql</artifactId>
               <version>2.0.0-SNAPSHOT</version>
             </dependency>
-	    <dependency>
+            <dependency>
               <groupId>org.kuali.student.core</groupId>
               <artifactId>ks-rice-sql</artifactId>
               <version>2.0.0-SNAPSHOT</version>
             </dependency>
-	    <dependency>
+            <dependency>
               <groupId>org.kuali.student.lum</groupId>
               <artifactId>ks-lum-sql</artifactId>
               <version>2.0.0-SNAPSHOT</version>
             </dependency>
-	    <dependency>
+            <dependency>
               <groupId>org.kuali.student.enroll</groupId>
               <artifactId>ks-enroll-sql</artifactId>
               <version>1.0.0-SNAPSHOT</version>
@@ -66,32 +66,32 @@
               <artifactId>kuali-deploy</artifactId>
               <version>${kuali-deploy.version}</version>
             </dependency>
-	    <dependency>
-	      <groupId>org.kuali.student</groupId>
-		<artifactId>spring-db</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-	    </dependency>
+            <dependency>
+              <groupId>org.kuali.student</groupId>
+              <artifactId>spring-db</artifactId>
+              <version>1.0.0-SNAPSHOT</version>
+            </dependency>
             <dependency>
               <groupId>org.kuali.common</groupId>
               <artifactId>kuali-jdbc</artifactId>
               <version>${kuali.jdbc.version}</version>
             </dependency>
-	    <dependency>
-	      <groupId>org.kuali.rice</groupId>
-	      <artifactId>rice-impex-server-bootstrap</artifactId>
-	      <version>${kuali.rice.version}</version>
-	      <classifier>sql</classifier>
-	    </dependency>
-	    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>${mysql.connector.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.oracle</groupId>
-                        <artifactId>${oracle.ojdbc.artifact}</artifactId>
-                        <version>${oracle.ojdbc.version}</version>
-                    </dependency>
+            <dependency>
+              <groupId>org.kuali.rice</groupId>
+              <artifactId>rice-impex-server-bootstrap</artifactId>
+              <version>${kuali.rice.version}</version>
+              <classifier>sql</classifier>
+            </dependency>
+            <dependency>
+              <groupId>mysql</groupId>
+              <artifactId>mysql-connector-java</artifactId>
+              <version>${mysql.connector.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>com.oracle</groupId>
+              <artifactId>${oracle.ojdbc.artifact}</artifactId>
+              <version>${oracle.ojdbc.version}</version>
+            </dependency>
           </dependencies>
         </plugin>
       </plugins>
@@ -109,9 +109,9 @@
       <build>
         <plugins>
           <plugin>
-	    <groupId>org.kuali.maven.plugins</groupId>
-	    <artifactId>spring-maven-plugin</artifactId>
-	  </plugin>
+            <groupId>org.kuali.maven.plugins</groupId>
+            <artifactId>spring-maven-plugin</artifactId>
+          </plugin>
         </plugins>
       </build>
     </profile>
