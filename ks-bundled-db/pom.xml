@@ -13,7 +13,7 @@
     <mysql.driver>com.mysql.jdbc.Driver</mysql.driver>
     <kuali.jdbc.version>1.0.7</kuali.jdbc.version>
     <kuali.rice.version>2.2.0</kuali.rice.version>
-    <plugin.impex.version>1.1.2</plugin.impex.version>
+    <plugin.impex.version>1.1.12</plugin.impex.version>
     <kuali-deploy.version>2.0.19</kuali-deploy.version>
     <plugin.mvn.version>1.1.0</plugin.mvn.version>
 
@@ -25,6 +25,13 @@
     <impex.schema>KSMASTER</impex.schema>
     <impex.oracle.url>jdbc:oracle:thin:@localhost:1521:XE</impex.oracle.url>
     <impex.antCompatibilityMode>true</impex.antCompatibilityMode>
+    
+    <!-- 
+      Sql generation step of impex requires the schema file for impex xml to be in this location 
+      and all the xml files are expected in src/main/resources, rather than the default of src/main/impex
+    -->
+    <impex.schemaXMLFile>${basedir}/src/main/resources/schema.xml</impex.schemaXMLFile>
+    <impex.dataXMLDir>${basedir}/src/main/resources</impex.dataXMLDir>
 
   </properties>
   <build>
@@ -44,6 +51,8 @@
               <configuration>
                 <args>
                   <arg>process-resources</arg>
+		  <arg>-e</arg>
+		  <arg>-DantCompatibilityMode=${impex.antCompatibilityMode}</arg>
                 </args>
                 <poms>
                   <param>classpath:org/kuali/common/deploy/mvn/impex-with-sql.xml</param>
@@ -52,8 +61,6 @@
                   <property>impex.basedir</property>
                   <property>impex.schema.name</property>
                   <property>plugin.impex.version</property>
-                  <property>impex.mvn.xml</property>
-                  <property>impex.mvn.schema</property>
                 </properties>
               </configuration>
             </execution>
@@ -87,11 +94,16 @@
 	    <password>${impex.password}</password>
 	    <url>${impex.url}</url>
 	    <schema>${impex.schema}</schema>
+	    
+	    <schemaXMLFile>${impex.schemaXMLFile}</schemaXMLFile>
+	    <dataXMLDir>${impex.dataXMLDir}</dataXMLDir>
+	    <outputDir>${project.build.directory}/impex/</outputDir>
 	    <antCompatibilityMode>${impex.antCompatibilityMode}</antCompatibilityMode>
           </configuration>
           <executions>
             <execution>
-              <goals>
+	      <id>exportXML</id>
+	      <goals>
                 <goal>exportschema</goal>
                 <goal>exportdata</goal>
 		<goal>datadtd</goal>
@@ -124,8 +136,6 @@
       <properties>
         <impex.basedir>${project.basedir}</impex.basedir>
         <impex.schema.name>${project.artifactId}</impex.schema.name>
-        <impex.mvn.xml>${impex.basedir}/src/main/impex</impex.mvn.xml>
-        <impex.mvn.schema>${impex.basedir}/src/main/impex/${impex.schema.name}.xml</impex.mvn.schema>
       </properties>
       <build>
         <plugins>
