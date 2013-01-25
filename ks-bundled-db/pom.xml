@@ -24,8 +24,7 @@
     <impex.password>KSMASTER</impex.password>
     <impex.schema>KSMASTER</impex.schema>
     <impex.oracle.url>jdbc:oracle:thin:@localhost:1521:XE</impex.oracle.url>
-    <impex.date.format>yyyyMMddHHmmss</impex.date.format>
-    <impex.db.vendor>${db.vendor}</impex.db.vendor>
+    <impex.antCompatibilityMode>true</impex.antCompatibilityMode>
 
   </properties>
   <build>
@@ -88,12 +87,14 @@
 	    <password>${impex.password}</password>
 	    <url>${impex.url}</url>
 	    <schema>${impex.schema}</schema>
+	    <antCompatibilityMode>${impex.antCompatibilityMode}</antCompatibilityMode>
           </configuration>
           <executions>
             <execution>
               <goals>
                 <goal>exportschema</goal>
                 <goal>exportdata</goal>
+		<goal>datadtd</goal>
               </goals>
             </execution>
           </executions>
