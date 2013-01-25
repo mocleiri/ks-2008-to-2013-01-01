@@ -7,4 +7,12 @@
   </parent>
   <artifactId>ks-core-sql</artifactId>
   <name>KS Core SQL</name>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.kuali.maven.plugins</groupId>
+        <artifactId>metainf-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>

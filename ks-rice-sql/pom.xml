@@ -7,4 +7,12 @@
   </parent>
   <artifactId>ks-rice-sql</artifactId>
   <name>KS Rice SQL</name>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.kuali.maven.plugins</groupId>
+        <artifactId>metainf-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>
