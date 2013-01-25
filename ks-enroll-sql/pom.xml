@@ -7,4 +7,12 @@
   </parent>
   <artifactId>ks-enroll-sql</artifactId>
   <name>KS Enroll SQL files</name>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.kuali.maven.plugins</groupId>
+        <artifactId>metainf-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>
