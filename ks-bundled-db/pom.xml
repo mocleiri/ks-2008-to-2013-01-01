@@ -84,13 +84,10 @@
             </dependency>
           </dependencies>
           <configuration>
-            <username>${impex.username}</username>
-            <password>${impex.password}</password>
-            <url>${impex.url}</url>
-            <includeVersionInComment>false</includeVersionInComment>
-            <driver>${impex.driver}</driver>
-            <targetDatabase>${impex.db.vendor}</targetDatabase>
-            <schema>${impex.schema}</schema>
+	    <username>${impex.username}</username>
+	    <password>${impex.password}</password>
+	    <url>${impex.url}</url>
+	    <schema>${impex.schema}</schema>
           </configuration>
           <executions>
             <execution>
@@ -139,7 +136,7 @@
       </build>
     </profile>
     <profile>
-      <id>impex-xml-export</id>
+      <id>impex-export-xml</id>
       <build>
         <plugins>
           <plugin>
