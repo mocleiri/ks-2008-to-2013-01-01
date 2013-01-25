@@ -12,9 +12,9 @@
   <name>Spring DB</name>
   <properties>
     <!-- props from root ks pom -->
-    <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
-    <oracle.ojdbc.artifact>ojdbc14</oracle.ojdbc.artifact>
-    <mysql.connector.version>5.1.18</mysql.connector.version>
+    <oracle.version>10.2.0.3.0</oracle.version>
+    <oracle.artifact>ojdbc14</oracle.artifact>
+    <mysql.version>5.1.18</mysql.version>
     <kuali.jdbc.version>1.0.7</kuali.jdbc.version>
     <kuali.rice.version>2.2.0</kuali.rice.version>
     <!-- end root props -->
@@ -85,12 +85,12 @@
             <dependency>
               <groupId>mysql</groupId>
               <artifactId>mysql-connector-java</artifactId>
-              <version>${mysql.connector.version}</version>
+              <version>${mysql.version}</version>
             </dependency>
             <dependency>
               <groupId>com.oracle</groupId>
-              <artifactId>${oracle.ojdbc.artifact}</artifactId>
-              <version>${oracle.ojdbc.version}</version>
+              <artifactId>${oracle.artifact}</artifactId>
+              <version>${oracle.version}</version>
             </dependency>
           </dependencies>
         </plugin>
