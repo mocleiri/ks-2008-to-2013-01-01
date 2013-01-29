@@ -8,6 +8,9 @@
     </parent>
     <artifactId>ks-enroll-sql</artifactId>
     <name>KS Enroll SQL</name>
+    <properties>
+      <db.vendor>oracle</db.vendor>
+    </properties>
     <build>
         <plugins>
             <plugin>
