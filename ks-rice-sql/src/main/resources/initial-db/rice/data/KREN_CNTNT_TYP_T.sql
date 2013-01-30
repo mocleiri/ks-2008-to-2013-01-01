@@ -1,6 +1,7 @@
 TRUNCATE TABLE KREN_CNTNT_TYP_T DROP STORAGE
 /
-INSERT INTO KREN_CNTNT_TYP_T (CNTNT_TYP_ID,CNTNT_TYP_VER_NBR,CUR_IND,DESC_TXT,NM,NMSPC_CD,VER_NBR,XSD,XSL)
+INSERT ALL
+  INTO KREN_CNTNT_TYP_T (CNTNT_TYP_ID,CNTNT_TYP_VER_NBR,CUR_IND,DESC_TXT,NM,NMSPC_CD,VER_NBR,XSD,XSL)
   VALUES (1,0,'T','Simple content type','Simple','notification/ContentTypeSimple',1,'<?xml version="1.0" encoding="UTF-8"?>
 <!-- This schema describes a simple notification.  It only contains a content
 element which is a String...about as simple as one can get -->
@@ -39,8 +40,7 @@ element which is a String...about as simple as one can get -->
       </strong>
    </xsl:template>
 </xsl:stylesheet>')
-/
-INSERT INTO KREN_CNTNT_TYP_T (CNTNT_TYP_ID,CNTNT_TYP_VER_NBR,CUR_IND,DESC_TXT,NM,NMSPC_CD,VER_NBR,XSD,XSL)
+  INTO KREN_CNTNT_TYP_T (CNTNT_TYP_ID,CNTNT_TYP_VER_NBR,CUR_IND,DESC_TXT,NM,NMSPC_CD,VER_NBR,XSD,XSL)
   VALUES (2,0,'T','Event content type','Event','notification/ContentTypeEvent',1,'<?xml version="1.0" encoding="UTF-8"?>
 <!-- This schema defines an generic event notification type in order for it
 to be accepted into the system. -->
@@ -120,4 +120,5 @@ to be accepted into the system. -->
         </tr>
     </xsl:template> 
 </xsl:stylesheet>')
+SELECT * FROM DUAL
 /
