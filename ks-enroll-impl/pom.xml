@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.enroll</groupId>
         <artifactId>ks-enroll</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-build-271</version>
     </parent>
     <artifactId>ks-enroll-impl</artifactId>
     <name>KS Enroll Impl</name>
@@ -40,7 +40,6 @@
             <version>${ks.core.version}</version>
             <!--            <scope>provided</scope>-->
         </dependency>
-        
         <!-- Add to be able to use LuDao on CluService as per discussion with Kamal -->
         <dependency>
             <groupId>org.kuali.student.core</groupId>
