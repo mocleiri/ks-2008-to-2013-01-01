@@ -26,8 +26,8 @@
                                 <goal>metainf</goal>
                             </goals>
                             <configuration>
-                                <include>${sql.schema.include}</include>
-                                <outputFile>${sql.meta.output.base}-schema.resources</outputFile>
+                                <include>${metainf.schema}</include>
+                                <outputFile>${metainf.output}-schema.resources</outputFile>
                             </configuration>
                         </execution>
                         <execution>
@@ -36,8 +36,8 @@
                                 <goal>metainf</goal>
                             </goals>
                             <configuration>
-                                <include>${sql.data.include}</include>
-                                <outputFile>${sql.meta.output.base}-data.resources</outputFile>
+                                <include>${metainf.data}</include>
+                                <outputFile>${metainf.output}-data.resources</outputFile>
                             </configuration>
                         </execution>
                         <execution>
@@ -46,8 +46,8 @@
                                 <goal>metainf</goal>
                             </goals>
                             <configuration>
-                                <include>${sql.constraints.include}</include>
-                                <outputFile>${sql.meta.output.base}-constraints.resources</outputFile>
+                                <include>${metainf.constraints}</include>
+                                <outputFile>${metainf.output}-constraints.resources</outputFile>
                             </configuration>
                         </execution>
                         <execution>
@@ -57,7 +57,7 @@
                             </goals>
                             <configuration>
                                 <include>**/upgrades/**/*.sql</include>
-                                <outputFile>${project.build.outputDirectory}/META-INF/sql/oracle/${project.artifactId}-upgrades.resources</outputFile>
+                                <outputFile>${metainf.output}-upgrades.resources</outputFile>
                             </configuration>
                         </execution>
                     </executions>
