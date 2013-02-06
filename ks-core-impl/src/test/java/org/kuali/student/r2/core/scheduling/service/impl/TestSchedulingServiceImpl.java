@@ -65,8 +65,9 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 @Transactional
 public class TestSchedulingServiceImpl {
 
-    @Resource(name = "schedulingServiceImpl")
+    @Resource(name = "SchedulingService")
     private SchedulingService schedulingService;
+
     @Resource(name = "mockRoomService")
     private RoomService roomService;
 

@@ -38,12 +38,6 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
 {
     // validator property w/getter & setter
     private DataDictionaryValidator validator;
-    public DataDictionaryValidator getValidator() {
-        return validator;
-    }
-    public void setValidator(DataDictionaryValidator validator) {
-        this.validator = validator;
-    }
 
     @Override
     public List<ValidationResultInfo> validateSchedule(String validationTypeKey, String scheduleTypeKey, ScheduleInfo scheduleInfo, ContextInfo contextInfo)
@@ -318,5 +312,13 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
             throw new OperationFailedException("Error validating", ex);
         }
         return getNextDecorator().updateTimeSlot(timeSlotId, timeSlotInfo, contextInfo);
+    }
+
+    public DataDictionaryValidator getValidator() {
+        return validator;
+    }
+
+    public void setValidator(DataDictionaryValidator validator) {
+        this.validator = validator;
     }
 }
