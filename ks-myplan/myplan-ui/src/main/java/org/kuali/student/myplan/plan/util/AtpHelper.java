@@ -1,9 +1,20 @@
 package org.kuali.student.myplan.plan.util;
 
+import org.joda.time.DateTime;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.core.atp.dto.AtpInfo;
+import org.kuali.student.core.atp.service.AtpService;
+import org.kuali.student.core.atp.service.impl.AtpServiceImpl;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -12,15 +23,23 @@ import org.kuali.student.myplan.plan.PlanConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
+import static org.kuali.student.myplan.plan.util.AtpHelper.ATP_FORMAT;
 
 /**
  * Helper methods for dealing with ATPs.
  */
 public class AtpHelper {
+
+    public static final String PRIORITY_ONE_REGISTRATION_START = "priority_one_registration_start";
+    public static final String LAST_DROP_DAY = "last_drop_day";
 
     private static String term1 = "winter";
     private static String term2 = "spring";
@@ -32,6 +51,30 @@ public class AtpHelper {
     public static int TERM_COUNT = 4;
 
     private static final Logger logger = Logger.getLogger(AtpHelper.class);
+
+    private static transient CourseOfferingService courseOfferingService;
+
+    private static transient AtpService atpService;
+
+    public static AtpService getAtpService() {
+        if (atpService == null) {
+            atpService = (AtpService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/atp", "AtpService"));
+        }
+        return atpService;
+    }
+
+    public static void setAtpService(AtpService atpService) {
+        AtpHelper.atpService = atpService;
+    }
+
+    private static CourseOfferingService getCourseOfferingService() {
+        if (courseOfferingService == null) {
+            //   TODO: Use constants for namespace.
+            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseOffering", "coService"));
+        }
+        return courseOfferingService;
+    }
+
 
     private static AcademicCalendarService getAcademicCalendarService() {
         if (academicCalendarService == null) {
@@ -69,11 +112,13 @@ public class AtpHelper {
    /**
      * Query the Academic Calendar Service for terms that have offering's published, determine the last ATP, and return its ID.
      *
+    * EXCEPTION FOR SUMMER: Change summer last published date to 3 weeks prior to registration for summer quarter to
+    * update the course catalog for summer
+    *
      * @return The ID of the last scheduled ATP.
      * @throws RuntimeException if the query fails or if the return data set doesn't make sense.
      */
     public static String getLastScheduledAtpId() {
-        //   The first arg here is "usageKey" which isn't used.
         List<TermInfo> scheduledTerms = new ArrayList<TermInfo>();
         try {
             scheduledTerms = getAcademicCalendarService().searchForTerms(QueryByCriteria.Builder.fromPredicates(equalIgnoreCase("query", PlanConstants.PUBLISHED)), CourseSearchConstants.CONTEXT_INFO);
@@ -85,8 +130,24 @@ public class AtpHelper {
         //  The UW implementation of the AcademicCalendarService.getCurrentTerms() contains the "current term" logic so we can simply
         //  use the first item in the list. Although, TODO: Not sure if the order of the list is guaranteed, so maybe putting a sort here
         //  is the Right thing to do.
-        TermInfo currentTerm = scheduledTerms.get( scheduledTerms.size() - 1 );
-        return currentTerm.getId();
+        TermInfo lastTerm = scheduledTerms.get( scheduledTerms.size() - 1 );
+
+        // SUMMER EXCEPTION
+        if(lastTerm.getId().endsWith(".3")) {
+            List<AttributeInfo> attrs = lastTerm.getAttributes();
+            for(AttributeInfo attr : attrs) {
+                if(attr.getKey().equals(AtpHelper.PRIORITY_ONE_REGISTRATION_START)){
+                    // Check to see if the priority registration is still more than 3 weeks away
+                    DateTime regStart = new DateTime(attr.getValue());
+                    if(regStart.minusWeeks(3).isAfterNow()) {
+                        lastTerm = scheduledTerms.get(scheduledTerms.size() - 2);
+                     }
+                }
+            }
+        }
+
+
+        return lastTerm.getId();
     }
 
 
@@ -177,8 +238,32 @@ public class AtpHelper {
         return new String[]{term, year};
     }
 
-    /*  Retuns ATP ID in format kuali.uw.atp.1991.1 for term="Winter" and year = 1991*/
+    /*  Returns ATP ID in format kuali.uw.atp.1991.1 for term="Winter" and year = 1991*/
     public static String getAtpIdFromTermAndYear(String term, String year) {
+        int termVal = 0;
+        if (term.equalsIgnoreCase(term1)) {
+            termVal = 1;
+        }
+        if (term.equalsIgnoreCase(term2)) {
+            termVal = 2;
+        }
+        if (term.equalsIgnoreCase(term3)) {
+            termVal = 3;
+        }
+        if (term.equalsIgnoreCase(term4)) {
+            termVal = 4;
+        }
+        StringBuffer newAtpId = new StringBuffer();
+        newAtpId = newAtpId.append(PlanConstants.TERM_ID_PREFIX).append(year).append(".").append(termVal);
+        return newAtpId.toString();
+    }
+
+    /*  Returns ATP ID in format kuali.uw.atp.1991.1 for term="Winter 1991"*/
+    public static String getAtpIdFromTermYear(String termYear) {
+        String[] splitStr = termYear.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+        String term = splitStr[0].trim();
+        String year = splitStr[1].trim();
+
         int termVal = 0;
         if (term.equalsIgnoreCase(term1)) {
             termVal = 1;
@@ -280,6 +365,71 @@ public class AtpHelper {
         return isAtpCompletedTerm;
     }
 
+    public static boolean isCourseOfferedInTerm(String atp, String course) {
+        boolean isCourseOfferedInTerm = false;
+
+        String[] splitStr = course.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+
+        List<String> offerings = null;
+        try {
+            offerings = getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(atp, splitStr[0].trim(), CourseSearchConstants.CONTEXT_INFO);
+        } catch (Exception e) {
+            logger.error("Exception loading course offering for:" + course, e);
+        }
+
+        if (offerings != null && offerings.contains(course)) {
+            isCourseOfferedInTerm = true;
+        }
+
+        return isCourseOfferedInTerm;
+    }
+
+    public static List<String> getPublishedTerms() {
+        List<TermInfo> termInfos = null;
+        List<String> publishedTerms = new ArrayList<String>();
+        try {
+            termInfos = getAcademicCalendarService().searchForTerms(QueryByCriteria.Builder.fromPredicates(equalIgnoreCase("query", PlanConstants.PUBLISHED)), CourseSearchConstants.CONTEXT_INFO);
+        } catch (Exception e) {
+            logger.error("Web service call failed.", e);
+            //  Create an empty list to Avoid NPE below allowing the data object to be fully initialized.
+            termInfos = new ArrayList<TermInfo>();
+        }
+        for (TermInfo term : termInfos) {
+            publishedTerms.add(term.getId());
+        }
+        return publishedTerms;
+    }
+
+    public static String getFirstPlanTerm() {
+        List<TermInfo> termInfos = null;
+        String publishedTerms = null;
+        try {
+            termInfos = getAcademicCalendarService().searchForTerms(QueryByCriteria.Builder.fromPredicates(equalIgnoreCase("query", PlanConstants.PLANNING)), CourseSearchConstants.CONTEXT_INFO);
+        } catch (Exception e) {
+            logger.error("Web service call failed.", e);
+            //  Create an empty list to Avoid NPE below allowing the data object to be fully initialized.
+            termInfos = new ArrayList<TermInfo>();
+        }
+        if (termInfos != null && termInfos.size() > 0) {
+            publishedTerms = termInfos.get(0).getId();
+        }
+
+        return publishedTerms;
+    }
+
+    public static boolean doesAtpExist(String atpId) {
+        boolean doesAtpExist = false;
+        try {
+            AtpInfo atpInfo = getAtpService().getAtp(atpId);
+            if (atpInfo != null) {
+                doesAtpExist = true;
+            }
+        } catch (Exception e) {
+            logger.error("Atp does not Exist", e);
+        }
+        return doesAtpExist;
+    }
+
     public static boolean isAtpIdFormatValid(String atpId) {
         return atpId.matches(PlanConstants.TERM_ID_PREFIX + "[0-9]{4}\\.[1-4]{1}");
     }
@@ -289,4 +439,145 @@ public class AtpHelper {
         GlobalVariables.getMessageMap().putWarning(propertyName, PlanConstants.ERROR_TECHNICAL_PROBLEMS, params);
     }
 
+
+    public static final Pattern ATP_REGEX = Pattern.compile("kuali\\.uw\\.atp\\.([0-9]{4})\\.([1-4])");
+    public static final String ATP_FORMAT = "kuali.uw.atp.%d.%d";
+
+    public static List<String> TERM_ID_LIST = Arrays.asList("winter", "spring", "summer", "autumn");
+    public static String[] TERM_LABELS = {"Winter", "Spring", "Summer", "Autumn"};
+
+    public static class YearTerm implements Comparable<YearTerm> {
+        private final int year;
+        private final int term;
+
+        public YearTerm(int year, int term) {
+            this.year = year;
+            this.term = term;
+        }
+
+        public int getYear() {
+            return year;
+        }
+
+        public String getYearAsString() {
+            return Integer.toString(getYear());
+        }
+
+        public int getTerm() {
+            return term;
+        }
+
+        public String getTermAsID() {
+            return TERM_ID_LIST.get(getTerm() - 1);
+        }
+
+        public String toATP() {
+            return String.format(ATP_FORMAT, year, term);
+        }
+
+		@Override
+		public int compareTo( YearTerm that ) {
+		    final int BEFORE = -1;
+		    final int EQUAL = 0;
+		    final int AFTER = 1;
+			if( this == that ) return EQUAL;
+			int a = this.year * 10 + this.term;
+			int b = that.year * 10 + that.term;
+			if( a < b ) return BEFORE;
+			if( a > b ) return AFTER;
+			return EQUAL;
+		}
+
+		@Override
+		public boolean equals( Object obj ) {
+			if( this == obj ) return true;
+			if( obj instanceof YearTerm ) {
+				YearTerm that = (YearTerm) obj;
+ 				return this.year == that.year && this.term == that.term;
+			}
+			return false;
+		}
+		public String toString() {
+			return "year: " + year + " term: " + term + " (" + getTermAsID() +")";
+		}
+
+    }
+
+    /**
+     * Converts Kuali UW ATP ids into a YearTerm object.
+     *
+     * eg "kuali.uw.atp.2012.1" becomes year = 2012, term = 1
+     *
+     * @param atp
+     * @return
+     */
+    public static YearTerm atpToYearTerm(String atp) {
+        if (atp == null) {
+            throw new NullPointerException("atp");
+        }
+
+        Matcher m = ATP_REGEX.matcher(atp);
+        if (m.find()) {
+            int year = Integer.parseInt(m.group(1));
+            int term = Integer.parseInt(m.group(2));
+            return new YearTerm(year, term);
+        }
+
+        throw new IllegalArgumentException(atp);
+    }
+
+    public static final Pattern TERM_REGEX = Pattern.compile("(winter|spring|summer|autumn)\\s+([0-9]{4})");
+    /**
+     * Converts UW quarter string into a YearTerm object.
+     *
+     * eg "Winter 2012" becomes year = 2012, term = 1
+     *
+     * @param text
+     * @return
+     */
+    public static YearTerm termToYearTerm(String text) {
+        if (text == null) {
+            throw new NullPointerException("text");
+        }
+        text = text.toLowerCase();
+
+        Matcher m = TERM_REGEX.matcher(text);
+        if (m.find()) {
+            String temp = m.group(1);
+            int term = TERM_ID_LIST.indexOf(temp) + 1;
+            int year = Integer.parseInt(m.group(2));
+            return new YearTerm(year, term);
+        }
+        throw new IllegalArgumentException(text);
+    }
+
+    /**
+     * Converts UW quarter string into a YearTerm object.
+     *
+     * eg "Winter","2012" becomes year = 2012, term = 1
+     *
+     * @param
+     * @return
+     */
+    public static YearTerm quarterYearToYearTerm(String quarter, String year) {
+        if (quarter == null) {
+            throw new NullPointerException("quarter");
+        }
+        if (year == null) {
+            throw new NullPointerException("year");
+        }
+        quarter = quarter.toLowerCase();
+
+        int term = TERM_ID_LIST.indexOf(quarter);
+        if( term != -1 ) {
+        	term = term + 1;
+        	int y = Integer.parseInt(year);
+        	return new YearTerm(y, term);
+        }
+        throw new IllegalArgumentException( quarter + " " + year );
+    }
+
+    public static void main(String[] args) {
+        System.out.println(termToYearTerm("Summer 2002").toATP());
+    }
 }

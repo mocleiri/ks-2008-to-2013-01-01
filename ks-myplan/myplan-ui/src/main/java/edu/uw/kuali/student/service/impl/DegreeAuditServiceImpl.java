@@ -12,6 +12,7 @@ import org.kuali.student.myplan.audit.service.DegreeAuditService;
 import org.kuali.student.myplan.audit.service.DegreeAuditServiceConstants;
 import org.kuali.student.myplan.audit.service.model.AuditDataSource;
 import org.kuali.student.myplan.course.util.CourseSearchConstants;
+import org.kuali.student.myplan.plan.util.AtpHelper;
 import org.kuali.student.myplan.util.CourseLinkBuilder;
 import org.kuali.student.myplan.util.DegreeAuditAtpHelper;
 import org.kuali.student.myplan.utils.UserSessionHelper;
@@ -72,6 +73,9 @@ import org.w3c.dom.NodeList;
 
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 public class DegreeAuditServiceImpl implements DegreeAuditService {
+
+    private int TIMEOUT = 5 * 60 * 1000; // 5 minutes
+
 
 //    public static void main(String[] args)
 //            throws Exception {
@@ -275,14 +279,11 @@ public class DegreeAuditServiceImpl implements DegreeAuditService {
         return info;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public int timeout = 30 * 1000; // 30 seconds
-//    public int timeout = 1000; // 30 seconds
-
     @Override
     public AuditReportInfo getAuditReport(@WebParam(name = "auditId") String auditId, @WebParam(name = "auditTypeKey") String auditTypeKey, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
-        long giveup = System.currentTimeMillis() + timeout;
+        long giveup = System.currentTimeMillis() + TIMEOUT;
         try {
             while (true) {
                 StatusInfo info = this.getAuditRunStatus(auditId, context);
@@ -290,7 +291,7 @@ public class DegreeAuditServiceImpl implements DegreeAuditService {
                 if (info.getIsSuccess()) break;
                 Thread.currentThread().sleep(200);
                 if (System.currentTimeMillis() > giveup) {
-                    throw new TimeoutException("giving up after " + (timeout / 1000) + " seconds");
+                    throw new TimeoutException("giving up after " + (TIMEOUT / 1000) + " seconds");
                 }
             }
         } catch (Exception e) {
@@ -646,9 +647,9 @@ public class DegreeAuditServiceImpl implements DegreeAuditService {
     }
 
     /*Implemented to get the current year and the term value from the academic calender service.*/
-    public String[] getCurrentYearAndTerm() {
-        String currentAtp = DegreeAuditAtpHelper.getCurrentAtpId();
-        String[] termYear = DegreeAuditAtpHelper.atpIdToTermAndYear(currentAtp);
+    private String[] getCurrentYearAndTerm() {
+        String currentAtp = AtpHelper.getCurrentAtpId();
+        String[] termYear = AtpHelper.atpIdToTermAndYear(currentAtp);
         return new String[]{termYear[0].trim(), termYear[1].trim()};
     }
 

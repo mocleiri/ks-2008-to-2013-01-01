@@ -313,8 +313,6 @@ public class QuickAddController extends UifControllerBase {
                 try {
                     req.addParam("number", number);
                     req.addParam("subject", subject.trim());
-                    // TODO: Fix when version issue for course is addressed
-//                    req.addParam("currentTerm", AtpHelper.getCurrentAtpId());
                     req.addParam("lastScheduledTerm", AtpHelper.getLastScheduledAtpId());
 
                     res = getLuService().search(req);
@@ -419,13 +417,13 @@ public class QuickAddController extends UifControllerBase {
         }
 
         //  See if a wishlist item exists for the course. If so, then update it. Otherwise create a new plan item.
-        PlanItemInfo planItem = getWishlistPlanItem(courseId);
+        PlanItemInfo planItem = getWishlistPlanItem(courseDetails.getVersionIndependentId());
         //  Storage for wishlist events.
         Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> wishlistEvents = null;
         //  Create a new plan item if no wishlist exists. Otherwise, update the wishlist item.
         if (planItem == null) {
             try {
-                planItem = addPlanItem(plan, courseId, newAtpIds, newType);
+                planItem = addPlanItem(plan, courseDetails.getVersionIndependentId(), newAtpIds, newType);
             } catch (DuplicateEntryException e) {
                 return doDuplicatePlanItem(form, newAtpIds.get(0), courseDetails);
             } catch (Exception e) {
@@ -433,7 +431,7 @@ public class QuickAddController extends UifControllerBase {
             }
         } else {
             //  Check for duplicates since addPlanItem isn't being called.
-            if (isDuplicate(plan, newAtpIds.get(0), courseId, newType)) {
+            if (isDuplicate(plan, newAtpIds.get(0), courseDetails.getVersionIndependentId(), newType)) {
                 return doDuplicatePlanItem(form, newAtpIds.get(0), courseDetails);
             }
             //  Create wishlist events before updating the plan item.

@@ -14,7 +14,9 @@
                 <li><a href="http://www.washington.edu/online/privacy" target="_blank">Privacy</a></li>
             </ul>
         </div>
-        <div class="version smaller" title="${Request.request.serverName}">Version: ${ConfigProperties['myplan.version']}</div>
+
+        <div class="version smaller" >Version: ${ConfigProperties['myplan.version']}</div>
+        <div class="host smaller" >${Request.hostName}</div>
     </div>
 </div>
 </#macro>

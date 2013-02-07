@@ -1,12 +1,18 @@
 package org.kuali.student.myplan.academicplan.service;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.util.UUIDHelper;
 
 import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.lum.course.service.CourseService;
 
 import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemSetInfo;
@@ -16,6 +22,7 @@ import org.kuali.student.myplan.academicplan.dao.PlanItemDao;
 import org.kuali.student.myplan.academicplan.dao.PlanItemTypeDao;
 import org.kuali.student.myplan.academicplan.model.*;
 
+import org.kuali.student.myplan.util.DegreeAuditAtpHelper;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -44,9 +51,11 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
     private PlanItemTypeDao planItemTypeDao;
     private CourseService courseService;
     private AtpService atpService;
+    private LuService luService;
 
     /**
      * This method provides a way to manually provide a CourseService implementation during testing.
+     *
      * @param courseService
      */
     public void setCourseService(CourseService courseService) {
@@ -61,6 +70,14 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
         return this.courseService;
     }
 
+    protected synchronized LuService getLuService() {
+        if (this.luService == null) {
+            this.luService = (LuService) GlobalResourceLoader.getService(new QName(LuServiceConstants.LU_NAMESPACE, "LuService"));
+        }
+        return this.luService;
+    }
+
+
     /**
      * Provides an instance of the AtpService client.
      */
@@ -74,6 +91,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 
      /**
      * This method provides a way to manually provide a CourseService implementation during testing.
+     *
      * @param atpService
      */
     public void setAtpService(AtpService atpService) {
@@ -566,16 +584,30 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
          *  Validate that the course exists.
          * TODO: Move this validation to the data dictionary.
          */
-        try {
-            getCourseService().getCourse(planItemInfo.getRefObjectId());
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
-            validationResultInfos.add(makeValidationResultInfo(
-                String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),
+        /*try {
+            String verifiedCourseId = null;
+            SearchRequest req = new SearchRequest("myplan.course.version.id");
+            req.addParam("courseId", planItemInfo.getRefObjectId());
+            req.addParam("courseId", planItemInfo.getRefObjectId());
+            req.addParam("lastScheduledTerm", DegreeAuditAtpHelper.getLastScheduledAtpId());
+            SearchResult result = getLuService().search(req);
+            for (SearchResultRow row : result.getRows()) {
+                for (SearchResultCell cell : row.getCells()) {
+                    if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                        verifiedCourseId = cell.getValue();
+                    }
+                }
+            }
+            if (verifiedCourseId == null) {
+                validationResultInfos.add(makeValidationResultInfo("Invalid Course Id",
                 "refObjectId", ValidationResult.ErrorLevel.ERROR));
+            }
+
         } catch (Exception e) {
             validationResultInfos.add(makeValidationResultInfo(e.getLocalizedMessage(),
                 "refObjectId", ValidationResult.ErrorLevel.ERROR));
         }
+*/
 
         //  TODO: This validation should be implemented in the data dictionary when that possibility manifests.
         //  Make sure a plan period exists if type is planned course.

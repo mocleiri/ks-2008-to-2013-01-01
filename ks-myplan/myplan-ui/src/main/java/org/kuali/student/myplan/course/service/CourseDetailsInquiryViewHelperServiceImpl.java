@@ -12,6 +12,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.exceptions.*;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.core.atp.dto.AtpTypeInfo;
 import org.kuali.student.core.atp.service.AtpService;
@@ -181,28 +182,28 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
      */
     public CourseDetails retrieveCourseSummary(String courseId, String studentId) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        if (!Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_COURSE_OFFERING_SERVICE_UP).toString())
-                || !Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP).toString())
-                || !Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_RECORD_SERVICE_UP).toString())) {
+        boolean courseOfferingServiceUp = Boolean.parseBoolean(request.getAttribute(CourseSearchConstants.IS_COURSE_OFFERING_SERVICE_UP).toString());
+        boolean academicCalendarServiceUp = Boolean.parseBoolean(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP).toString());
+        boolean academicRecordServiceUp = Boolean.parseBoolean(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_RECORD_SERVICE_UP).toString());
+        if (!courseOfferingServiceUp || !academicCalendarServiceUp || !academicRecordServiceUp) {
             AtpHelper.addServiceError("curriculumTitle");
-            this.setAcademicCalendarServiceUp(Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_CALENDER_SERVICE_UP).toString()));
-            this.setAcademicRecordServiceUp(Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_ACADEMIC_RECORD_SERVICE_UP).toString()));
-            this.setCourseOfferingServiceUp(Boolean.valueOf(request.getAttribute(CourseSearchConstants.IS_COURSE_OFFERING_SERVICE_UP).toString()));
+            setAcademicCalendarServiceUp(academicCalendarServiceUp);
+            setAcademicRecordServiceUp(academicRecordServiceUp);
+            setCourseOfferingServiceUp(courseOfferingServiceUp);
         }
+
+
+        try {
         CourseDetails courseDetails = new CourseDetails();
         courseDetails.setSummaryOnly(true);
 
-        CourseInfo course = getCourseInfo();
-        try {
-            course = getCourseService().getCourse(courseId);
-        } catch (DoesNotExistException e) {
-            throw new RuntimeException(String.format("Course [%s] not found.", courseId), e);
-        } catch (Exception e) {
-            throw new RuntimeException("Query failed.", e);
-        }
-
+            /*Get version verified course*/
+            String verifiedCourseId = getVerifiedCourseId(courseId);
+            CourseInfo course = getCourseService().getCourse(verifiedCourseId);
+            courseDetails.setVersionIndependentId(course.getVersionInfo().getVersionIndId());
         courseDetails.setCourseId(course.getId());
         courseDetails.setCode(course.getCode());
+
         String str = null;
         if (course.getDescr() != null) {
             str = course.getDescr().getFormatted();
@@ -244,8 +245,12 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
         courseDetails.setTermsOffered(termsOffered);
 
         return courseDetails;
+        } catch (DoesNotExistException e) {
+            throw new RuntimeException(String.format("Course [%s] not found.", courseId), e);
+        } catch (Exception e) {
+            throw new RuntimeException("Query failed.", e);
+        }
     }
-
 
     public CourseDetails retrieveCourseDetails(String courseId, String studentId) {
         CourseDetails courseDetails = retrieveCourseSummary(courseId, studentId);
@@ -253,7 +258,8 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
 
         CourseInfo course = null;
         try {
-            course = getCourseService().getCourse(courseId);
+            /*Get version verified course*/
+            course = getCourseService().getCourse(getVerifiedCourseId(courseId));
         } catch (DoesNotExistException e) {
             throw new RuntimeException(String.format("Course [%s] not found.", courseId), e);
         } catch (Exception e) {
@@ -482,8 +488,6 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
         List<String> campusLocations = new ArrayList<String>();
         SearchRequest searchRequest = new SearchRequest("myplan.course.getCampusLocations");
         searchRequest.addParam("cluId", courseId);
-        // TODO: Fix when version issue for course is addressed
-//        searchRequest.addParam("currentTerm", AtpHelper.getCurrentAtpId());
         searchRequest.addParam("lastScheduledTerm", AtpHelper.getLastScheduledAtpId());
         SearchResult searchResult = null;
         try {
@@ -499,6 +503,34 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
         }
         return campusLocations;
     }
+
+
+    /**
+     * Validates if the courseId/versionIndependentId is valid or not.
+     *
+     * @param courseId
+     * @return
+     */
+    public boolean isCourseIdValid(String courseId) {
+        boolean isCourseIdValid = false;
+
+        CourseInfo course = null;
+        try {
+            /*Get version verified course*/
+            course = getCourseService().getCourse(getVerifiedCourseId(courseId));
+        } catch (DoesNotExistException e) {
+            throw new RuntimeException(String.format("Course [%s] not found.", courseId), e);
+        } catch (Exception e) {
+            throw new RuntimeException("Query failed.", e);
+        }
+        if (course != null) {
+            isCourseIdValid = true;
+        }
+        return isCourseIdValid;
+    }
+
+
+
 
     public AcademicRecordService getAcademicRecordService() {
         if (this.academicRecordService == null) {
@@ -577,6 +609,36 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
     public void setAcademicPlanService(AcademicPlanService academicPlanService) {
         this.academicPlanService = academicPlanService;
     }
+
+
+    /**
+     * Takes a courseId that can be either a version independent Id or a version dependent Id and
+     * returns a version dependent Id. In case of being passed in a version depend
+     *
+     * @param courseId
+     * @return
+     */
+    private String getVerifiedCourseId(String courseId) {
+        String verifiedCourseId = null;
+        try {
+            SearchRequest req = new SearchRequest("myplan.course.version.id");
+            req.addParam("courseId", courseId);
+            req.addParam("courseId", courseId);
+            req.addParam("lastScheduledTerm", AtpHelper.getLastScheduledAtpId());
+            SearchResult result = getLuService().search(req);
+            for (SearchResultRow row : result.getRows()) {
+                for (SearchResultCell cell : row.getCells()) {
+                    if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                        verifiedCourseId = cell.getValue();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error("version verified Id retrieval failed", e);
+        }
+        return verifiedCourseId;
+    }
+
 
     /**
      * Initializes ATP term cache.

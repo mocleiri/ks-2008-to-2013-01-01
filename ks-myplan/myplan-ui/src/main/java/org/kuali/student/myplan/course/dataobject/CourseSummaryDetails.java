@@ -15,6 +15,7 @@ public class CourseSummaryDetails {
 
     // List of fields populated when only summary information is loaded
     private String courseId;
+    private String versionIndependentId;
     private String code;
     private String courseTitle;
     private String credit;
@@ -69,6 +70,9 @@ public class CourseSummaryDetails {
     }
 
     public List<String> getTermsOffered() {
+        if (termsOffered == null) {
+            termsOffered = new ArrayList<String>();
+        }
         return termsOffered;
     }
 
@@ -82,5 +86,13 @@ public class CourseSummaryDetails {
 
     public void setLastEffectiveTerm(String lastEffectiveTerm) {
         this.lastEffectiveTerm = lastEffectiveTerm;
+    }
+
+    public String getVersionIndependentId() {
+        return versionIndependentId;
+    }
+
+    public void setVersionIndependentId(String versionIndependentId) {
+        this.versionIndependentId = versionIndependentId;
     }
 }
