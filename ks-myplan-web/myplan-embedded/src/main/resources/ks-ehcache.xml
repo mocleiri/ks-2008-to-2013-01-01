@@ -58,11 +58,11 @@
         />
     <cache
         name="luCache"
-        maxElementsInMemory="10000"
+        maxElementsInMemory="10"
         eternal="false"
         overflowToDisk="true"
         timeToIdleSeconds="0"
-        timeToLiveSeconds="86400"
+        timeToLiveSeconds="2"
         statistics="true"
         />
     <cache
