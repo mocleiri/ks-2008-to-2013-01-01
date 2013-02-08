@@ -26,11 +26,12 @@ public class CourseDetails extends CourseSummaryDetails {
     private List<String> genEdRequirements;
     private List<String> abbrGenEdRequirements;
 
+
     // Plan related information
     private transient List<PlanItemDataObject> plannedList;
     private transient List<PlanItemDataObject> backupList;
     private List<AcademicRecordDataObject> acadRecList;
-    private List<String> academicTerms = new ArrayList<String>();
+    private List<String> academicTerms;
     private transient String savedItemId;
     private String savedItemDateCreated;
 
@@ -58,6 +59,9 @@ public class CourseDetails extends CourseSummaryDetails {
 
 
     public List<String> getGenEdRequirements() {
+        if (genEdRequirements == null) {
+            genEdRequirements = new ArrayList<String>();
+        }
         return genEdRequirements;
     }
 
@@ -66,6 +70,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<String> getAbbrGenEdRequirements() {
+        if (abbrGenEdRequirements == null) {
+            abbrGenEdRequirements = new ArrayList<String>();
+        }
         return abbrGenEdRequirements;
     }
 
@@ -74,6 +81,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<String> getRequisites() {
+        if (requisites == null) {
+            requisites = new ArrayList<String>();
+        }
         return requisites;
     }
 
@@ -82,6 +92,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<String> getCampusLocations() {
+        if (campusLocations == null) {
+            campusLocations = new ArrayList<String>();
+        }
         return campusLocations;
     }
 
@@ -90,6 +103,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<String> getScheduledTerms() {
+    	if(scheduledTerms == null) {
+    		scheduledTerms = new ArrayList<String>();
+    	}
         return scheduledTerms;
     }
 
@@ -98,6 +114,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<PlanItemDataObject> getPlannedList() {
+        if( plannedList == null ) {
+            plannedList = new ArrayList<PlanItemDataObject>();
+        }
         return plannedList;
     }
 
@@ -106,6 +125,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<PlanItemDataObject> getBackupList() {
+        if (backupList == null) {
+            backupList = new ArrayList<PlanItemDataObject>();
+        }
         return backupList;
     }
 
@@ -130,6 +152,9 @@ public class CourseDetails extends CourseSummaryDetails {
     }
 
     public List<AcademicRecordDataObject> getAcadRecList() {
+        if( acadRecList == null ) {
+            acadRecList = new ArrayList<AcademicRecordDataObject>();
+        }
         return acadRecList;
     }
 
@@ -165,6 +190,9 @@ public class CourseDetails extends CourseSummaryDetails {
 
 
     public List<String> getAcademicTerms() {
+        if (academicTerms == null) {
+            academicTerms = new ArrayList<String>();
+        }
         return academicTerms;
     }
 
