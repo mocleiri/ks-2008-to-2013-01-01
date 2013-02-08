@@ -2401,7 +2401,7 @@
                             <!-- If not in plan and not in saved courses and not in academic record list -->
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false"
                                   p:group.validationMessages.render="false"
-                                  p:render="@{(courseDetails.backupList eq null and courseDetails.plannedList eq null and courseDetails.savedItemId eq null and courseDetails.academicTerms.size() eq 0) ? true : false}">
+                                  p:render="@{(courseDetails.backupList.size() eq 0 and courseDetails.plannedList.size() eq 0 and courseDetails.savedItemId eq null and courseDetails.academicTerms.size() eq 0) ? true : false}">
                                 <property name="items">
                                     <list>
                                         <ref bean="addToPlanButton"/>
