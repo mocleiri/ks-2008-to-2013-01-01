@@ -2462,19 +2462,17 @@ INSERT ALL
   VALUES ('ENGL425','ENGL','7abdf5f0-7235-4581-a950-202de1fbc8e9','Modern British Literature','400','ec6e2a8b-dfd9-4ca5-be82-baa6562b25c4','MODERN BRITISH LIT','Superseded','425','kuali.lu.type.CreditCourse.identifier.official',2)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BSCI440','BSCI','7ad36fdb-2921-4b11-8de9-84cc53298cba','Mammalian Physiology','400','d9d8a5fd-fc44-4b31-ba88-44b2628f2740','MAMMALIAN PHYSIOLOGY','Superseded','440','kuali.lu.type.CreditCourse.identifier.official',3)
-  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('WMST453','WMST','7af7c341-c45c-4ad1-852e-705d44c5164c','Victorian Women in England, France, and the United States','400','35579495-7756-4cd3-a7b4-5f27d1b7590a','VICTORIAN WOMEN','Superseded','453','kuali.lu.type.CreditCourse.identifier.official',2)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('1105B','7afb6762-aa0f-40a4-a9bb-a55f2172b6d1','c9e06712-400c-4468-ba75-471539e8bc42','Spanish Language & Literature w/ Business','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('PHYS261','PHYS','7b632026-4f67-444d-84e2-df4c1ff50afb','General Physics: Vibrations, Waves, Heat, Electricity and Magnetism (Laboratory)','200','24aae931-0b2b-4daf-98c4-a3b8637dc995','LAB:VIB WAVES HEAT ELEC','Active','261','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('7b6a7b2f-648a-4e10-b1ee-a2de5622fb6c','Teddy Test 7/17/12','fd8d98d3-d9d3-4cd3-88da-4515140dcc53','TEDDY TEST 7/17/12','draft','kuali.lu.type.CreditCourse.identifier.official',1)
+  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('WMST200','WMST','7b861822-7913-4b03-a177-c18eb3510554','Women in Contemporary Society','200','dd2478cd-d98e-43fb-8d78-d8fa9e3c9122','WMN CONTMPRY SOCTY','Superseded','200','kuali.lu.type.CreditCourse.identifier.official',2)
 SELECT * FROM DUAL
 /
 INSERT ALL
-  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('WMST200','WMST','7b861822-7913-4b03-a177-c18eb3510554','Women in Contemporary Society','200','dd2478cd-d98e-43fb-8d78-d8fa9e3c9122','WMN CONTMPRY SOCTY','Superseded','200','kuali.lu.type.CreditCourse.identifier.official',2)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('HIST234','HIST','7ba06a2e-cac0-459f-b53c-554a24a72157','History of Britain to 1485','200','0633164d-622a-449e-a6ed-91c34e5ca339','HIST BRITAIN -1485','Superseded','234','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -2573,11 +2571,11 @@ INSERT ALL
   VALUES ('PMNUM','81049656-9aaf-46f0-8ed3-2c4e6ef19656','185af4cf-b805-4ae5-b5cb-fbdc6f27647b','Master of Engineering-Nuclear (Master''s)','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('FMSTM','812903ed-91a8-409f-bd2c-494f69a1e63c','31d087f2-26e6-4fa7-b27c-0fcbfbebabe1','Family Science','Active','kuali.lu.type.program.identifier.diploma',0)
+  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('PHYS398','PHYS','812aaa2f-7ed3-4257-99a1-5819d36a5e3c','Independent Studies Seminar','300','b99373c1-eab5-44b5-b4da-e1f1c64c19e1','INDEP STUDIES SEM','Active','398','kuali.lu.type.CreditCourse.identifier.official',6)
 SELECT * FROM DUAL
 /
 INSERT ALL
-  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('PHYS398','PHYS','812aaa2f-7ed3-4257-99a1-5819d36a5e3c','Independent Studies Seminar','300','b99373c1-eab5-44b5-b4da-e1f1c64c19e1','INDEP STUDIES SEM','Active','398','kuali.lu.type.CreditCourse.identifier.official',6)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('PHYS410','PHYS','8152f623-a1ec-4280-81fb-419d2db3d927','Classical Mechanics','400','e5395872-bcf6-4ffd-9e4a-6c989e6ac6d6','CLASSICAL MECHANICS','Active','410','kuali.lu.type.CreditCourse.identifier.official',8)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
@@ -2676,11 +2674,11 @@ INSERT ALL
   VALUES ('EDPLD','85493a30-0ccb-4e6a-ad41-2817b5da2c49','d42cef1d-feb4-4cb2-a295-616f734c8ccb','Education Leadership and Policy - Doctoral','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL432','ENGL','855ced00-0341-4c62-87c4-a76d2b97b6dc','American Literature, 1865 to 1914, Realism and Naturalism','400','72bb2a79-5398-4184-97c6-b522567a40df','AM LIT 1865-1914','Superseded','432','kuali.lu.type.CreditCourse.identifier.official',2)
+  INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
+  VALUES ('11980','8562190b-a080-43f3-bab7-7b01d814f064','Romance Languages','13ebcb27-8044-4b88-9cef-d8a77d49d53f','Romance Languages','Active','kuali.lu.type.program.identifier.official',0)
 SELECT * FROM DUAL
 /
 INSERT ALL
-  INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
-  VALUES ('11980','8562190b-a080-43f3-bab7-7b01d814f064','Romance Languages','13ebcb27-8044-4b88-9cef-d8a77d49d53f','Romance Languages','Active','kuali.lu.type.program.identifier.official',0)
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('EPDMM','85843aa7-161e-45e5-a52a-c97cc9c1396d','MPH: Epidemiology (Master''s)','8d74feba-d3d6-4ec8-9c68-4d2f7de4b633','MPH: Epidemiology (Master''s)','Active','kuali.lu.type.program.identifier.official',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -2779,11 +2777,11 @@ INSERT ALL
   VALUES ('03990','8b4e140c-f271-4ab6-aac3-c5d9efd93f08','Jewish Studies','cb2df984-3276-4f45-8e33-ed1528c06e0d','Jewish Studies','Active','kuali.lu.type.program.identifier.official',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BSCI411','BSCI','8b5d38b3-49a5-4bf3-8a7e-be0189431319','Bioinformatics and Integrated Genomics','400','05ff49d6-cbac-4715-abc7-55abbe5eafc6','BIOINFORMATICS & GENOMIC','Active','411','kuali.lu.type.CreditCourse.identifier.official',6)
+  INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
+  VALUES ('1005S','8b931637-4faf-46f4-9407-d7895725a3ac','20b1408a-eefc-45e8-8736-de5f8ae8d713','Music (Strings Performance Option)','Active','kuali.lu.type.program.identifier.diploma',0)
 SELECT * FROM DUAL
 /
 INSERT ALL
-  INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
-  VALUES ('1005S','8b931637-4faf-46f4-9407-d7895725a3ac','20b1408a-eefc-45e8-8736-de5f8ae8d713','Music (Strings Performance Option)','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('WMST255','WMST','8ba30efe-b683-4170-a4be-aaaeda19c266','Introduction to Literature by Women','200','52f26d1b-8073-4828-bb28-cbe313582aa6','INTRO LIT BY WOMEN','Superseded','255','kuali.lu.type.CreditCourse.identifier.official',2)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -2882,11 +2880,11 @@ INSERT ALL
   VALUES ('09080','90e7c98d-058a-481d-866a-f90f3432a608','Engineering: Civil','e2a24b57-96a9-454d-80da-10ba0883168d','Civil Engineering','Active','kuali.lu.type.program.identifier.official',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('PHYS112','PHYS','90f0ad34-7c48-4d7a-9d40-1e319f75e83f','Physics in the Modern World','100','1d23e96f-db40-4204-b7ed-2491be9a0d13','PHYS IN MODRN WRLD','Superseded','112','kuali.lu.type.CreditCourse.identifier.official',2)
+  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('ENGL420','ENGL','90f9eead-0531-4927-9a2e-4557d151c618','Literature of the Romantic Period','400','109c0b18-b599-408a-8015-7fc8f3216752','LIT OF ROMANTIC PD','Superseded','420','kuali.lu.type.CreditCourse.identifier.official',2)
 SELECT * FROM DUAL
 /
 INSERT ALL
-  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENGL420','ENGL','90f9eead-0531-4927-9a2e-4557d151c618','Literature of the Romantic Period','400','109c0b18-b599-408a-8015-7fc8f3216752','LIT OF ROMANTIC PD','Superseded','420','kuali.lu.type.CreditCourse.identifier.official',2)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('HIST113','HIST','90fd6c6e-b1b0-4359-b896-07b972ba5610','Modern Europe:  1789 - Present','100','d8d10ca7-0abd-491f-8121-4559bd13f7b2','MOD EURO 1789-PRESENT','Superseded','113','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -2985,11 +2983,11 @@ INSERT ALL
   VALUES ('22061','972ac003-73d5-455a-be64-fb13d552720e','GEOG-GIS & Computer Cartography','6daa6094-cc2d-4a33-9fa7-e7a637279e99','GEOG-GIS & Computer Cartography','Active','kuali.lu.type.program.identifier.official',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL301','ENGL','9738ebd4-3bd9-4c36-a0b0-670e90395c36','Critical Methods in the Study of Literature','300','6e676f77-ec62-4f33-8cef-8b6cbe3fc7d6','CRIT METH STUD LIT','Superseded','301','kuali.lu.type.CreditCourse.identifier.official',2)
+  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('ENGL346','ENGL','97397b00-ca7d-4a42-a6e1-64867d73f05f','Twentieth Century Fiction','300','70568e1b-355f-4c41-ab93-2e2b05580988','20TH CENTURY FICTION','Active','346','kuali.lu.type.CreditCourse.identifier.official',8)
 SELECT * FROM DUAL
 /
 INSERT ALL
-  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENGL346','ENGL','97397b00-ca7d-4a42-a6e1-64867d73f05f','Twentieth Century Fiction','300','70568e1b-355f-4c41-ab93-2e2b05580988','20TH CENTURY FICTION','Active','346','kuali.lu.type.CreditCourse.identifier.official',8)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BSCI279','BSCI','974b7591-00fe-49c7-9627-1b58f6172e2f','Supplemental Study','200','04517130-2b12-4cf1-9c1f-a2283ba3dbf4','SUPPLEMENTAL STUDY','Active','279','kuali.lu.type.CreditCourse.identifier.official',54)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -3088,11 +3086,11 @@ INSERT ALL
   VALUES ('KNESM','9c828f7b-effd-4dbd-bce1-a67b420a75f1','92addea2-6c76-49f6-ac34-9d9f7486e2ec','Kinesiology','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('HIST250','HIST','9c8d66a8-02a9-497c-a479-fe24147a2321','Latin American History I','200','e0f6c1ef-0154-44f6-92be-d4d9ce48c4bb','LATIN AMER HIST I','Superseded','250','kuali.lu.type.CreditCourse.identifier.official',2)
+  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('ENGL798','ENGL','9ca4cd8a-6ede-4f2c-86e0-f14286d68046','Critical Theory Colloquium','700','016582a0-bd04-42c1-ab4a-0075dc933434','CRITICAL THRY COLLOQUIUM','Active','798','kuali.lu.type.CreditCourse.identifier.official',7)
 SELECT * FROM DUAL
 /
 INSERT ALL
-  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENGL798','ENGL','9ca4cd8a-6ede-4f2c-86e0-f14286d68046','Critical Theory Colloquium','700','016582a0-bd04-42c1-ab4a-0075dc933434','CRITICAL THRY COLLOQUIUM','Active','798','kuali.lu.type.CreditCourse.identifier.official',7)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BSCI223','BSCI','9cab764f-1398-40f9-ab7e-0ed3bb2461b1','General Microbiology','200','9a7003e4-fdde-4513-8620-9b18012c27d1','GENERAL MICROBIOL','Superseded','223','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -3191,11 +3189,11 @@ INSERT ALL
   VALUES ('0601G','a1570384-b640-4b48-b622-5e5cda26530e','f684cd52-84d2-452f-a40f-fcf56079c34a','Journalism: Multi-Platform Journalism','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL201','ENGL','a16b972f-c99c-4366-a198-1d44c5e838c1','Literature of the Western World I: Ancient and Medieval','200','1f98fbf6-46fd-436c-b3e4-76f7ffc8cd72','LIT OF WSTRN WRLD I','Superseded','201','kuali.lu.type.CreditCourse.identifier.official',4)
+  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('PHYS485','PHYS','a17fa740-8c31-405b-a4ff-532ae3e4a194','Electronic Circuits','400','abde0b78-67d7-47b2-a57e-bebf6baccbfc','ELECTRONIC CIRCUIT','Superseded','485','kuali.lu.type.CreditCourse.identifier.official',2)
 SELECT * FROM DUAL
 /
 INSERT ALL
-  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('PHYS485','PHYS','a17fa740-8c31-405b-a4ff-532ae3e4a194','Electronic Circuits','400','abde0b78-67d7-47b2-a57e-bebf6baccbfc','ELECTRONIC CIRCUIT','Superseded','485','kuali.lu.type.CreditCourse.identifier.official',2)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BSCI417','BSCI','a188668a-f307-4b50-af59-dd11d4747c09','Microbial Pathogenesis','400','db60c150-3b93-4e02-ba06-880f6d1fda7b','MICROBIAL PATHOGENESIS','Active','417','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
@@ -3294,11 +3292,11 @@ INSERT ALL
   VALUES ('a56dea71-4868-4aae-b509-3a2b90840080','77e48a97-88e8-477d-a56a-bc59224d78a4','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',8)
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('CMPLM','a5893464-15bd-421a-a259-afd8f4df7d20','Community Planning (Master''s)','65417d4f-937c-47e1-901b-59858d539af7','Community Planning','Active','kuali.lu.type.program.identifier.official',0)
+  INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
+  VALUES ('10040','a5968fa5-6bba-4425-801c-bd9511a0ff92','Music (Professional Program)','6b350248-c7a5-4b55-8711-56edf48dce84','Music - Professional Programs','Active','kuali.lu.type.program.identifier.official',0)
 SELECT * FROM DUAL
 /
 INSERT ALL
-  INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
-  VALUES ('10040','a5968fa5-6bba-4425-801c-bd9511a0ff92','Music (Professional Program)','6b350248-c7a5-4b55-8711-56edf48dce84','Music - Professional Programs','Active','kuali.lu.type.program.identifier.official',0)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('22040','a5bc0995-9c25-4564-b048-c6d4f20bff89','039eafee-de7b-45ed-b00f-5fbd6337ff31','Economics','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -3397,11 +3395,11 @@ INSERT ALL
   VALUES ('ENGL601','ENGL','ac612978-f432-4e2e-adc6-bd145d38bd3f','Bibliography and Methods','600','9a73958f-fda4-4635-9581-d3a83edd6a8c','BIBLIOGRAPHY + MET','Superseded','601','kuali.lu.type.CreditCourse.identifier.official',2)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('WMST200','WMST','ac7a9b67-6892-4664-ba2b-3dcd7b21dac8','Introduction to Women''s Studies:  Women and Society','200','0be9270d-4fdc-48a8-8f11-00c3ada968df','WOMEN & SOCIETY','Superseded','200','kuali.lu.type.CreditCourse.identifier.official',4)
+  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
+  VALUES ('ENGL446','ENGL','ac7bdb02-175d-4a80-bc5d-6c0d589382b6','Post-Modern British and American Poetry','400','54b8608e-6c0e-41e2-9815-92ef8d0c7f4a','POST-MOD BRIT AM POET','Active','446','kuali.lu.type.CreditCourse.identifier.official',5)
 SELECT * FROM DUAL
 /
 INSERT ALL
-  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('ENGL446','ENGL','ac7bdb02-175d-4a80-bc5d-6c0d589382b6','Post-Modern British and American Poetry','400','54b8608e-6c0e-41e2-9815-92ef8d0c7f4a','POST-MOD BRIT AM POET','Active','446','kuali.lu.type.CreditCourse.identifier.official',5)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BSCI453','BSCI','ac80889a-ebf4-4f50-9032-05243be6360d','Cellular Neurophysiology','400','bc95aa77-80c1-443b-9976-cda28403c562','CELLULAR NEUROPHYSIOLOGY','Superseded','453','kuali.lu.type.CreditCourse.identifier.official',2)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
@@ -3479,8 +3477,6 @@ INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('PHYS272','PHYS','b07b6dc8-b782-4a97-92ca-1f5856992af0','Introductory Physics:  Thermodynamics, Electricity, and Magnetism','200','11337f4e-cf70-4fc2-9b86-83a7ae20ea26','INTRO:THERM ELEC&MAG','Superseded','272','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
-  VALUES ('WMST453','WMST','b07c4c02-846e-411c-ae0b-f00b622b60c7','Victorian Women in England, France, and the United States','400','a7ba3717-e4d9-4ec7-8fed-950a3e8e85f7','VICTORIAN WOMEN','Active','453','kuali.lu.type.CreditCourse.identifier.official',6)
-  INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('HIST314','HIST','b08d5925-95a3-4454-ab42-f59fc20b0bde','Crisis and Change in the Middle East and Africa','300','d42d5348-c75f-476d-aa56-fc4f20555529','CR+CH M EAST+AFRCA','Superseded','314','kuali.lu.type.CreditCourse.identifier.official',2)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('HIST220','HIST','b0d865c2-a577-4249-94a5-2ea2929d81d2','Historical Research and Methods Seminar','200','7c74f11e-cd30-4c3d-935b-bd685db479e9','HIST RSRCH & MTHDS','Superseded','220','kuali.lu.type.CreditCourse.identifier.official',2)
@@ -3500,13 +3496,13 @@ INSERT ALL
   VALUES ('ENGLD','b2174e2b-ae99-41e9-b986-02409326b0c7','5c6a236c-676f-46d5-85a5-509cfb0133ca','English Language and Literature','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('ENCED','b2229fda-128d-4b1b-9507-47960f186bb1','ENGR: MS/PhD-Civil Engineering (Doctoral)','7883d4f7-a321-40b4-a451-8acb3b6d665e','Civil Engineering','Active','kuali.lu.type.program.identifier.official',0)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('PHYS421','PHYS','b22c3bda-6e82-46c4-9218-5c4e99f49350','Introduction to Modern Physics','400','16403d61-4ec5-4ef7-9725-504590400d0c','INTR MODERN PHYSCS','Superseded','421','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('HIST255','HIST','b22cfa69-2c9e-4915-a585-c7305aa4ff4a','African American History, 1865 - Present','200','7f9ab0d4-2a92-48a6-8bed-c58b752d5d10','AFRO AMER 1865 - PRESENT','Superseded','255','kuali.lu.type.CreditCourse.identifier.official',4)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('GEOGM','b2665e98-8aa7-4ad8-b070-ef4870282f26','76757175-7ceb-4074-86bb-6853ccb21981','Geography','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
@@ -3603,13 +3599,13 @@ INSERT ALL
   VALUES ('CHEM690','CHEM','b65a06e1-db38-4185-a19e-562764820ae0','Quantum Chemistry I','600','9b0f55bc-117b-49b4-8fe1-7b34f5d006fe','QUANTUM CHEM I','Active','690','kuali.lu.type.CreditCourse.identifier.official',6)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('CMLTD','b6841f1e-25c1-4c32-958a-00b4914c46ec','485fa3f8-2a1e-42bd-812c-71a9707695e5','Comparative Literature','Active','kuali.lu.type.program.identifier.diploma',0)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL430','ENGL','b6949952-8bf8-4dc4-a6d4-c597501ac3a7','American Literature, Beginning to 1810, the Colonial and Federal Periods','400','f3ddcfdb-9ae8-4ba8-aaa8-ed75815dc8a8','AM LIT BEGN-1810','Superseded','430','kuali.lu.type.CreditCourse.identifier.official',2)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL404','ENGL','b69a19a8-248c-404d-ade7-0a7e07883e57','Shakespeare','400','1cb23513-47a5-4f3f-9356-eeb1afa70a84','SHAKESPEARE','Superseded','404','kuali.lu.type.CreditCourse.identifier.official',2)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('BISID','b69a8473-a0bb-4c77-a617-9b519cb4fd22','9d94bdaa-ed51-499f-9074-9c8b0fe0f9c7','Biological Sciences','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -3706,13 +3702,13 @@ INSERT ALL
   VALUES ('0107C','bb0d429a-18e9-46d4-bd75-3750f71cbf5a','Plant Sciences: Landscape Management','172c2681-4664-46ca-b73d-dbf817957ee0','Plant Sciences: Landscape Management','Active','kuali.lu.type.program.identifier.official',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('PHYS273','PHYS','bb1991c7-602b-4d8c-839b-8e6591961ba1','Introductory Physics:  Electrodynamics, Optics, Light, Relativity and Modern Physics','200','4827e85b-e2fd-404c-afcf-c371b7565839','INTRO EDYN/OPT/REL','Superseded','273','kuali.lu.type.CreditCourse.identifier.official',2)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('MUEDM','bb2ce5df-4d8d-45b4-a6f5-97cf5744f3c6','d78db8c0-b13c-43cc-8b42-acd81fcd8745','Music: Education M.A. and M.M. (Master''s)','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('MOCBD','bb33848c-322d-43e4-9cbd-d1dd38a33a17','Molecular and Cell Biology (Doctoral)','ebd27e6c-d1e6-4330-bb9b-dec2fa2f51f4','Molecular and Cell Biology','Active','kuali.lu.type.program.identifier.official',0)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,OBJ_ID,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('PSYC336','PSYC','bb76e92d-dffa-46c8-99a0-013225d47fb5','26a0d817-85e2-4184-ac65-f0ea8a20de60','Active','336','kuali.lu.type.CreditCourse.identifier.crosslisting',9)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -3809,13 +3805,13 @@ INSERT ALL
   VALUES ('GERSD','c1125c25-b02e-4df6-8ba5-b6354b94e6ff','d7e60aee-31b7-4125-9d6e-cdba8e20384a','German Language and Literature','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('CHEM146','CHEM','c1302414-5924-4cc3-8bad-afb8af16aeab','Principles of General Chemistry','100','e1ae8558-c6b5-4c6e-9b8c-a20dedf049cc','CHEM PRINCIPLES I','Active','146','kuali.lu.type.CreditCourse.identifier.official',4)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL302','ENGL','c13417c5-28ed-4050-959b-ce6d4a5f5e0d','Medieval Literature in Translation','300','2115f243-e9e0-4e95-b07c-d2b103993bc1','MEDIEVAL LIT IN TRANSLAT','Superseded','302','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('1106B','c14bcb00-6e44-4ee7-94c5-eead1c173eae','3543d11d-4477-4aac-baad-bf4c23072883','Russian Language & Literature w/ Business','Active','kuali.lu.type.program.identifier.diploma',0)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('09020','c180ef29-6c09-4a38-825e-fd009e06148c','Engineering: Aerospace','3285c37f-f19d-4c94-b3fb-f2cf6833bc9d','Aerospace Engineering','Active','kuali.lu.type.program.identifier.official',0)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
@@ -3912,13 +3908,13 @@ INSERT ALL
   VALUES ('0702B','c684ac11-f45e-41bf-960c-bb63b9a2803b','Information Systems-Business','aae8c196-2989-42fd-a880-df07cfac8764','Information Systems','Active','kuali.lu.type.program.identifier.official',0)
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('EPIDD','c68c1296-3ba0-4a33-a7a3-98decacbd8f6','Epidemiology (Doctoral)','4200da14-bf12-4c8b-8b8a-7d6e66cb5017','Epidemiology','Active','kuali.lu.type.program.identifier.official',0)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('WMST250','WMST','c6c1dc8e-77f7-45c0-a7b5-63ba10577b65','Introduction to Women''s Studies:  Women, Art and Culture','200','74e9c2d1-ee74-4407-983c-2e87b18f9f49','WOMEN, ART&CULTURE','Superseded','250','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('PPCNM','c6c4fb61-e3c8-4408-9200-45d178eb0a6d','Public Policy/Sustainable Development & Cons Bio (Master''s)','1e19d071-d913-4b42-84cb-f08da106d597','Public Policy/Sustainable Development & Cons Bio (Master''s)','Active','kuali.lu.type.program.identifier.official',0)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('19140','c6d7bb41-0f44-4fbc-809d-3a58f9e334e7','e03f2ec9-2f22-4b4a-93e2-ae1b8c02872b','Geology','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -4015,13 +4011,13 @@ INSERT ALL
   VALUES ('CHEM135','CHEM','cc304b83-21e6-4801-9ab1-314f4d383c69','General Chemistry for Engineers','100','fb64adde-ed6e-464c-9db1-b8edc79f9873','GEN CHEM FOR ENGINEERS','Active','135','kuali.lu.type.CreditCourse.identifier.official',12)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('CHEM434','CHEM','cc34b8fd-298d-4da4-8290-18f1d83ab301','Air Pollution','400','f5ee1955-8858-4226-b617-b9a49638652a','AIR POLLUTION','Superseded','434','kuali.lu.type.CreditCourse.identifier.official',2)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('HIST679','HIST','cc55f34e-d4c4-4505-95f3-7ef34f232e7c','Readings in the History of American Foreign Policy','600','4242a4f9-8493-4372-8df7-01f22a689f78','RDG HIST AM FOREIGN POL','Active','679','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL432','ENGL','cc61ccbd-e9b9-44fc-9fc7-46bfddc0475f','American Literature, 1865 to 1914, Realism and Naturalism','400','f5d6814b-907c-4304-84b8-8595731f8327','AM LIT 1865-1914','Superseded','432','kuali.lu.type.CreditCourse.identifier.official',4)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BSCI465','BSCI','cc66f897-e289-4400-8d20-945b3c77b904','Behavioral Ecology','400','ae4c8557-fec4-40d6-a3f4-778760d448c0','BEHAVIORAL ECOLOGY','Active','465','kuali.lu.type.CreditCourse.identifier.official',9)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -4118,13 +4114,13 @@ INSERT ALL
   VALUES ('SPLAM','d1951d5b-29fb-4453-aa70-f0874e786492','ea94cf72-ae31-43c8-89e3-9b870e7e9c69','Hearing and Speech Sciences','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('CHEM136','CHEM','d19a0a89-80be-4523-b95a-98a1647dee70','General Chemistry Laboratory for Engineers','100','1cba5486-2141-47f1-8b76-05857131c49d','GEN CHEM LAB ENGIN','Active','136','kuali.lu.type.CreditCourse.identifier.official',1)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('PHYS272','PHYS','d1a54fc3-063b-4d2a-8c06-5c5cdcb3eee0','Introductory Physics: Fields','200','19b817d1-2a8c-4b97-b9f5-b9e5519317a8','INTRO PHYS:FIELDS','Active','272','kuali.lu.type.CreditCourse.identifier.official',15)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('04140','d1ac6999-b18c-47ec-8539-04932cd564b0','6e94d669-4653-4344-8101-710387305865','Biochemistry','Active','kuali.lu.type.program.identifier.diploma',0)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL368','ENGL','d2152104-e351-4828-b0fd-cfab439527d9','Special Topics in the Literature of Africa and the African Diaspora','300','741a1ff2-2fe2-4fea-a5c1-dd65c6065f45','LIT AFRN DIASPORA','Active','368','kuali.lu.type.CreditCourse.identifier.official',11)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -4221,13 +4217,13 @@ INSERT ALL
   VALUES ('CHEM684','CHEM','d78d787f-bcec-473f-a432-55f40a7a67b0','Chemical Thermodynamics','600','89c9ea88-0957-41cb-9530-aa659730f062','CHEM THERMODYNAMIC','Active','684','kuali.lu.type.CreditCourse.identifier.official',6)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('LMPOM','d7b66d1d-5ee7-4d38-85ae-b2cfb28d3a54','d8da4da9-53e8-4b16-bb8a-a9958a829b56','Joint Public Policy/Law (Master''s)','Active','kuali.lu.type.program.identifier.diploma',0)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('ENTMM','d83e7ba9-fa8b-4cf9-b1a0-7c27f599a24c','Entomology (Master''s)','d567707f-b7a3-4d3a-98c9-6bfdf8750708','Entomology','Active','kuali.lu.type.program.identifier.official',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('CHEM626','CHEM','d88b6a8b-575c-4d23-a2bb-55aea218d151','Metrology for Chemistry and Biochemistry','600','7c69a247-53e5-45d0-8da3-923e8b733953','METROLOGY FOR CHEM&BCHM','Superseded','626','kuali.lu.type.CreditCourse.identifier.official',4)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (ID,OBJ_ID,ST,TYPE,VER_NBR)
   VALUES ('d8d8fc2f-c011-458b-8d20-9522d67d23a4','00f61ad0-76b6-4a5b-aca1-42978076a057','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',3)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -4324,13 +4320,13 @@ INSERT ALL
   VALUES ('df0a9829-75c6-4952-9af8-b61d0f48efcf','d0e3e55a-bd3b-4bb5-9afd-1aae566b1130','Active','kuali.lu.type.CreditCourse.identifier.crosslisting',3)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BSCI430','BSCI','df0ab63f-2a45-4c0f-815c-64d3895c10fc','Developmental Biology','400','a61c2e48-1c95-4ad9-be84-3ce3b047ce41','DEVELOPMENTAL BIOLOGY','Active','430','kuali.lu.type.CreditCourse.identifier.official',10)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('EXPMM','df1779c7-df21-414e-a57a-ba09349664af','Public Management-Executive Masters (Master''s)','7dad8b4b-badb-4b79-8dbe-b8c2bcbf1c79','Public Management-Executive Masters (Master''s)','Active','kuali.lu.type.program.identifier.official',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('HIST306','HIST','df35a31e-f126-4a16-850c-01d005a389af','History of Religion in America','300','7a630198-0cfe-4937-ad38-3d148fad8a03','HIST RELIGION AMER','Active','306','kuali.lu.type.CreditCourse.identifier.official',13)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('0842P','df3c29d6-2fc3-4e05-91a2-66c9819fa5a1','d2c5f97d-2a2d-4b09-9698-094f1e4421c4','Secondary Educ: Social Studies','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -4427,13 +4423,13 @@ INSERT ALL
   VALUES ('ENGL479','ENGL','e5567105-9dbf-4e1e-b368-b518c7cf17de','Selected Topics in English and American Literature After 1800','400','51468600-9404-4c9c-9f9e-792e949bfe52','ENG+AM LIT AF 1800','Superseded','479','kuali.lu.type.CreditCourse.identifier.official',2)
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('EDCIM','e55ffa06-2040-4d2e-858c-35d5da52732e','Curriculum and Instruction (Master''s)','033d1116-3916-42ee-b491-fea68df9f94f','Curriculum and Instruction','Active','kuali.lu.type.program.identifier.official',0)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL494','ENGL','e5973776-de7c-4954-a943-241854a63bb0','Editing and Document Design','400','896c42df-9cf3-4a4f-bb74-80d08df102c2','EDIT+DOCUMNT DSGN','Superseded','494','kuali.lu.type.CreditCourse.identifier.official',2)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('1901V','e59d8e4c-59f2-4856-bca4-ff18ef246809','b4f36542-ffce-4bbd-b993-105553411d26','Physical Sciences: Meteorology Studies','Active','kuali.lu.type.program.identifier.diploma',0)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('PHYS685','PHYS','e5b51021-4f4d-4d2e-8052-b5ba6b373c77','Research Electronics','600','2017c566-7ca2-4988-a7ea-74f96f460d74','RESEARCH ELECTRONICS','Active','685','kuali.lu.type.CreditCourse.identifier.official',6)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -4530,13 +4526,13 @@ INSERT ALL
   VALUES ('MPHLM','ea2d5a95-f355-4311-af0c-64db34af67f0','466c4342-9b7b-46a8-8635-ac720badb14b','MPH Masters (Master''s)','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BSCI120','BSCI','ea40e3f9-3e69-4064-b601-863f2366836f','Insects','100','a066743b-11f4-4378-8051-428918cde134','INSECTS','Superseded','120','kuali.lu.type.CreditCourse.identifier.official',2)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('0107F','ea6652ea-c325-4170-8029-2bcbf112c955','Plant Sciences: Urban Forestry','076e952c-ebb3-43c4-a969-e047500e8867','Plant Sciences: Urban Forestry','Active','kuali.lu.type.program.identifier.official',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL623','ENGL','eaa2e886-7ed0-4faf-bd25-d70b50088a6c','Readings in Eighteenth-Century English Literature','600','4cb0d53d-374a-4947-a152-23f4a87cf546','RDGS 18CEN ENG LIT','Active','623','kuali.lu.type.CreditCourse.identifier.official',8)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('01130','eabe0120-3a45-4f15-a77d-78b08a85ecfd','Nutrition and Food Science: Food Science','2d54f6dd-f7e0-4ab2-b166-5c3c22818916','Nutrition and Food Science: Food Science','Active','kuali.lu.type.program.identifier.official',0)
   INTO KSLU_CLU_IDENT (CD,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
@@ -4633,13 +4629,13 @@ INSERT ALL
   VALUES ('CBMGM','f0d0f53d-b901-4eae-bec9-268fadd22add','cecb06ec-acca-4223-98b4-4ba14e1244a4','Cell Biology and Molecular Genetics','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('CJCHM','f1100b1a-713e-44b4-98c9-72f78a00ce88','0018d81f-c63c-4a75-8c9f-598044f603b5','Criminology and Criminal Justice-China (Master''s)','Active','kuali.lu.type.program.identifier.diploma',0)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL708','ENGL','f1120694-6b67-4b3f-9c6e-07ad3324e9ec','Studies in the English Language','700','6fc5b78a-216c-4ecc-ad11-d88c739e52cc','STDY ENGL LANG','Superseded','708','kuali.lu.type.CreditCourse.identifier.official',2)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('PHYS751','PHYS','f1222196-afe4-4361-9e20-2270f305e7b8','Elementary Particle Physics I: Survey','700','44ae8198-9366-4e2d-8723-7ceddc21d95f','EL PAR PHYS I SURV','Active','751','kuali.lu.type.CreditCourse.identifier.official',3)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('ENMAD','f12a4e79-c9ce-4173-9c25-0d3b9ac9ef4b','daa12a5f-3f6c-4eba-8d52-5082d2db71a5','Materials Science and Engineering','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -4736,13 +4732,13 @@ INSERT ALL
   VALUES ('1305F','f6bab533-149b-4e37-b9e1-98e1f32a3d9c','dbcf106a-55fb-42a8-a562-3bb3e9ada31e','Family Science','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('15010','f6c9a667-9377-4e14-8f8d-9947cd38e9fc','15f30c8a-7165-4dfe-b244-40aaf41b2bc8','English Language and Literature','Active','kuali.lu.type.program.identifier.diploma',0)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL470','ENGL','f6ffe385-0cdd-4ee8-9ff1-d45530ebbce7','African-American Literature:  The Beginning to 1910','400','db98d3ac-9932-4645-a935-d3d76117915d','AFR-AM LIT TO 1910','Superseded','470','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
   VALUES ('2299H','f70537e6-3cb4-4a37-aa2d-8b75fe49624f','cdfd9f2e-5dd0-4c07-83a8-08ee8f7679eb','Environmental Sci&Policy-Env Politics & Policy','Active','kuali.lu.type.program.identifier.diploma',0)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL450','ENGL','f79c734f-575d-45cb-ba4c-713e0abc664a','Renaissance Drama I','400','00c07fdd-1d0d-4b79-b141-410ee5b526fa','RENAISSANCE DRAMA I','Active','450','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
@@ -4839,13 +4835,13 @@ INSERT ALL
   VALUES ('ARTHD','fc826ea4-58b0-49f4-9e02-cd33b0f71c1b','9994575c-e3b9-4d8c-8e79-7419a73e13d0','Art History','Active','kuali.lu.type.program.identifier.diploma',0)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL302','ENGL','fcbb3bce-e79e-4a46-96be-38dab7837a7a','Medieval Literature in Translation','300','7a23613c-0185-47c5-b795-95878c27c101','MEDIEVAL LIT IN TRANSLAT','Active','302','kuali.lu.type.CreditCourse.identifier.official',7)
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('BSCI413','BSCI','fccd0ddb-768a-4ed4-83b5-791a29b08bd0','Recombinant DNA','400','afc29ea7-a909-4b78-af6c-3dbe10935e1b','RECOMBINANT DNA','Active','413','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('ENGL311','ENGL','fcdbe040-908b-446f-b723-b879b30442ea','Baroque and Augustan British Literature','300','ce006a57-19d8-4018-8742-87030acaa188','BAROQ&AUG BRIT LIT','Superseded','311','kuali.lu.type.CreditCourse.identifier.official',4)
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSLU_CLU_IDENT (CD,DIVISION,ID,LNG_NAME,LVL,OBJ_ID,SHRT_NAME,ST,SUFX_CD,TYPE,VER_NBR)
   VALUES ('CHEM611','CHEM','fcfe0dbc-2f76-4bc0-8d48-9b95cdf23484','Professional Skills for New Graduate Students','600','16e1c273-bcad-4411-af07-3c336d02daa9','PROF SKILLS-NEW GRADS','Superseded','611','kuali.lu.type.CreditCourse.identifier.official',4)
   INTO KSLU_CLU_IDENT (CD,ID,OBJ_ID,SHRT_NAME,ST,TYPE,VER_NBR)
