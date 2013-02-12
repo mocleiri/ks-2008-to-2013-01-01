@@ -216,7 +216,8 @@
     <param name="ks.academicCalendar.enable.caching">true</param>
     <param name="myplan.cache.config.file">classpath:myplan-ehcache.xml</param>
     <param name="myplan.courseSearch.enable.caching">true</param>
-    <param name="ks.courseOffering.enable.caching">true</param>
+<!--     <param name="ks.courseOffering.enable.caching">true</param> -->
+    <param name="ks.courseOffering.enable.caching">false</param>
     <param name="ks.academicRecord.enable.caching">true</param>
 
     <!-- Dictionary Context Overrides -->
