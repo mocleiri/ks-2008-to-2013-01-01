@@ -1043,7 +1043,8 @@ public class PlanController extends UifControllerBase {
         }
 
         if (StringUtils.isEmpty(planItemId)) {
-            planItemId = getPlanIdFromCourseId(courseId);
+            CourseDetails course = getCourseDetailsInquiryService().retrieveCourseSummary(courseId, UserSessionHelper.getStudentId());
+            planItemId = getPlanIdFromCourseId(course.getVersionIndependentId());
         }
 
 

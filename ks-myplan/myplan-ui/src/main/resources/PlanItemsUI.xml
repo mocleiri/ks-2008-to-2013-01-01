@@ -2450,7 +2450,7 @@
                     </property>
                 </bean>
                 <bean id="course_details_popup_messaging" parent="Uif-VerticalBoxGroup" p:style="margin:0px"
-                      p:render="@{(courseDetails.backupList ne null or courseDetails.plannedList ne null or courseDetails.savedItemId ne null or courseDetails.academicTerms.size() gt 0) ? true : false}"
+                      p:render="@{(courseDetails.backupList.size() gt 0 or courseDetails.plannedList.size() gt 0 or courseDetails.savedItemId ne null or courseDetails.academicTerms.size() gt 0) ? true : false}"
                       p:validationMessages.render="false">
                     <property name="cssClasses">
                         <list merge="true">
