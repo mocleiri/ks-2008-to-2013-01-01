@@ -682,6 +682,23 @@ public class PlanController extends UifControllerBase {
             return doOperationFailedError(form, "Course ID was missing.", null);
         }
 
+        // Retrieve courseDetails based on the passed in CourseId and then update courseDetails based on the version independent Id
+        CourseDetails courseDetails = null;
+        // Now switch to the details based on the version independent Id
+        //  Lookup course details as well need them in case there is an error below.
+        try {
+            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseId, getUserId());
+
+            // Now switch the courseDetails based on the versionIndependent Id
+            if (!courseId.equals(courseDetails.getVersionIndependentId())) {
+                courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseDetails.getVersionIndependentId(), getUserId());
+            }
+
+        } catch (Exception e) {
+            return doOperationFailedError(form, "Unable to retrieve Course Details.", null);
+        }
+
+
         //  Further validation of ATP IDs will happen in the service validation methods.
         if (StringUtils.isEmpty(form.getTermYear())) {
             return doOperationFailedError(form, "Term Year value missing", null);
@@ -728,13 +745,7 @@ public class PlanController extends UifControllerBase {
                 return doOperationFailedError(form, "Unable to create learning plan.", e);
             }
         }
-        //  Lookup course details as well need them in case there is an error below.
-        CourseDetails courseDetails = null;
-        try {
-            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseId, getUserId());
-        } catch (Exception e) {
-            return doOperationFailedError(form, "Unable to retrieve Course Details.", null);
-        }
+
 
         /*  Do validations. */
         //  Plan Size exceeded.
@@ -984,10 +995,17 @@ public class PlanController extends UifControllerBase {
             }
         }
 
-        //  Grab course details.
+        // Retrieve courseDetails based on the passed in CourseId and then update courseDetails based on the version independent Id
         CourseDetails courseDetails = null;
+        // Now switch to the details based on the version independent Id
+        //  Lookup course details as well need them in case there is an error below.
         try {
             courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseId, getUserId());
+
+            // Now switch the courseDetails based on the versionIndependent Id
+            if (!courseId.equals(courseDetails.getVersionIndependentId())) {
+                courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseDetails.getVersionIndependentId(), getUserId());
+            }
         } catch (Exception e) {
             return doOperationFailedError(form, String.format("Unable to retrieve Course Details for [%s].", courseId), e);
         }
@@ -1042,8 +1060,7 @@ public class PlanController extends UifControllerBase {
         Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
 
         //  Make events ...
-        CourseDetails courseDetails = null;
-        events.putAll(makeRemoveEvent(planItem, courseDetails));
+        events.putAll(makeRemoveEvent(planItem, null));
 
         try {
             // Delete the plan item

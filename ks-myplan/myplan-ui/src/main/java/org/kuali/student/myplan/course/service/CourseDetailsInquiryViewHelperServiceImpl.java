@@ -194,57 +194,57 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
 
 
         try {
-        CourseDetails courseDetails = new CourseDetails();
-        courseDetails.setSummaryOnly(true);
+            CourseDetails courseDetails = new CourseDetails();
+            courseDetails.setSummaryOnly(true);
 
             /*Get version verified course*/
             String verifiedCourseId = getVerifiedCourseId(courseId);
             CourseInfo course = getCourseService().getCourse(verifiedCourseId);
             courseDetails.setVersionIndependentId(course.getVersionInfo().getVersionIndId());
-        courseDetails.setCourseId(course.getId());
-        courseDetails.setCode(course.getCode());
+            courseDetails.setCourseId(course.getId());
+            courseDetails.setCode(course.getCode());
 
-        String str = null;
-        if (course.getDescr() != null) {
-            str = course.getDescr().getFormatted();
-        }
-        if (str != null && str.contains("Offered:")) {
-            str = str.substring(0, str.indexOf("Offered"));
-        }
-        List<String> prerequisites = new ArrayList<String>();
+            String str = null;
+            if (course.getDescr() != null) {
+                str = course.getDescr().getFormatted();
+            }
+            if (str != null && str.contains("Offered:")) {
+                str = str.substring(0, str.indexOf("Offered"));
+            }
+            List<String> prerequisites = new ArrayList<String>();
 
-        if (str != null && str.contains("Prerequisite:")) {
-            String req = (getCourseLinkBuilder().makeLinks(str.substring(str.indexOf("Prerequisite:"), str.length()), courseLinkTemplateStyle));
-            req = req.substring(req.indexOf("Prerequisite:"), req.length());
-            req = req.replace("Prerequisite:", "").trim();
-            req = req.substring(0, 1).toUpperCase().concat(req.substring(1, req.length()));
-            prerequisites.add(req);
+            if (str != null && str.contains("Prerequisite:")) {
+                String req = (getCourseLinkBuilder().makeLinks(str.substring(str.indexOf("Prerequisite:"), str.length()), courseLinkTemplateStyle));
+                req = req.substring(req.indexOf("Prerequisite:"), req.length());
+                req = req.replace("Prerequisite:", "").trim();
+                req = req.substring(0, 1).toUpperCase().concat(req.substring(1, req.length()));
+                prerequisites.add(req);
 
-            str = str.substring(0, str.indexOf("Prerequisite:"));
-        }
-        if (str != null) {
-            str = getCourseLinkBuilder().makeLinks(str);
-        }
+                str = str.substring(0, str.indexOf("Prerequisite:"));
+            }
+            if (str != null) {
+                str = getCourseLinkBuilder().makeLinks(str);
+            }
 
-        courseDetails.setRequisites(prerequisites);
-        courseDetails.setCourseDescription(str);
-        courseDetails.setCredit(CreditsFormatter.formatCredits(course));
-        courseDetails.setCourseTitle(course.getCourseTitle());
+            courseDetails.setRequisites(prerequisites);
+            courseDetails.setCourseDescription(str);
+            courseDetails.setCredit(CreditsFormatter.formatCredits(course));
+            courseDetails.setCourseTitle(course.getCourseTitle());
 
-        String [] lastTermYear = AtpHelper.atpIdToTermNameAndYear(course.getEndTerm());
-        if(!lastTermYear[1].equals("9999")) {
-            courseDetails.setLastEffectiveTerm( AtpHelper.atpIdToTermName( course.getEndTerm()) );
-        }
+            String[] lastTermYear = AtpHelper.atpIdToTermNameAndYear(course.getEndTerm());
+            if (!lastTermYear[1].equals("9999")) {
+                courseDetails.setLastEffectiveTerm(AtpHelper.atpIdToTermName(course.getEndTerm()));
+            }
 
-        // Terms Offered
-        initializeAtpTypesCache();
-        List<String> termsOffered = new ArrayList<String>();
-        for (String term : course.getTermsOffered()) {
-            termsOffered.add(atpCache.get(term));
-        }
-        courseDetails.setTermsOffered(termsOffered);
+            // Terms Offered
+            initializeAtpTypesCache();
+            List<String> termsOffered = new ArrayList<String>();
+            for (String term : course.getTermsOffered()) {
+                termsOffered.add(atpCache.get(term));
+            }
+            courseDetails.setTermsOffered(termsOffered);
 
-        return courseDetails;
+            return courseDetails;
         } catch (DoesNotExistException e) {
             throw new RuntimeException(String.format("Course [%s] not found.", courseId), e);
         } catch (Exception e) {
@@ -356,7 +356,7 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
 
                 //  Iterate through the plan items and set flags to indicate whether the item is a planned/backup or saved course.
                 for (PlanItem planItemInPlanTemp : planItemsInPlan) {
-                    if (planItemInPlanTemp.getRefObjectId().equals(courseDetails.getCourseId())) {
+                    if (planItemInPlanTemp.getRefObjectId().equals(courseDetails.getVersionIndependentId())) {
                         //  Assuming type is planned or backup if not wishlist.
                         if (planItemInPlanTemp.getTypeKey().equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST)) {
                             courseDetails.setSavedItemId(planItemInPlanTemp.getId());
@@ -528,8 +528,6 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
         }
         return isCourseIdValid;
     }
-
-
 
 
     public AcademicRecordService getAcademicRecordService() {
