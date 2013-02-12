@@ -21747,14 +21747,6 @@ INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('0445321e-7f01-416e-a0d7-1dac4ad0f7d9','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('3c465ce8-7bfd-4f6d-b00c-8aff0b0df3f4','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('3c465ce8-7bfd-4f6d-b00c-8aff0b0df3f4','kuali.resultComponent.grade.audit')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('3c465ce8-7bfd-4f6d-b00c-8aff0b0df3f4','kuali.resultComponent.grade.passFail')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('3c465ce8-7bfd-4f6d-b00c-8aff0b0df3f4','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('1c879bd5-3385-4ef4-9ae2-576096bddae5','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('1c879bd5-3385-4ef4-9ae2-576096bddae5','kuali.resultComponent.grade.audit')
@@ -21803,22 +21795,6 @@ INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('41fc767c-e488-4877-9dbb-aff1a20bc349','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('59a3f0ff-dde6-4566-b0c7-98f455e0037e','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('59a3f0ff-dde6-4566-b0c7-98f455e0037e','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('7667dbdc-a2d6-426d-a33b-6288d36af9ed','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('7667dbdc-a2d6-426d-a33b-6288d36af9ed','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('abd405c9-f64b-4222-8b15-a23bc5b652bc','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('abd405c9-f64b-4222-8b15-a23bc5b652bc','kuali.resultComponent.grade.audit')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('abd405c9-f64b-4222-8b15-a23bc5b652bc','kuali.resultComponent.grade.passFail')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('abd405c9-f64b-4222-8b15-a23bc5b652bc','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('98dfa8a6-670e-428a-88a2-3f3f74d0beaf','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('98dfa8a6-670e-428a-88a2-3f3f74d0beaf','kuali.resultComponent.grade.audit')
@@ -21834,9 +21810,6 @@ INSERT ALL
   VALUES ('9049253b-b82d-4096-be31-ae6c3e8a6e61','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('9049253b-b82d-4096-be31-ae6c3e8a6e61','kuali.creditType.credit.degree.3.0')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('335725f5-366a-4cea-bd5b-11b0c5dfefda','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -21861,6 +21834,9 @@ INSERT ALL
   VALUES ('c74665bd-1068-4ee5-adb6-035ca4040a82','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('c74665bd-1068-4ee5-adb6-035ca4040a82','kuali.creditType.credit.degree.1-6')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('7f78e7e1-c8d0-420f-99dd-95f4f996f8d0','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -21937,9 +21913,6 @@ INSERT ALL
   VALUES ('36fe997e-a369-4cf7-a612-cb919b6f1f80','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('1c14bde3-f604-4e12-a236-20adf6a632f4','kuali.resultComponent.grade.letter')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('1c14bde3-f604-4e12-a236-20adf6a632f4','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -21964,6 +21937,9 @@ INSERT ALL
   VALUES ('ecfe534a-c526-4805-904c-644bc5b59aa7','kuali.creditType.credit.degree.4.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('300ec266-19cf-4f8b-9819-7810b414daaf','kuali.resultComponent.grade.letter')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('300ec266-19cf-4f8b-9819-7810b414daaf','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22040,9 +22016,6 @@ INSERT ALL
   VALUES ('653d78e1-4346-4d42-baa7-dd051ad55eb1','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('653d78e1-4346-4d42-baa7-dd051ad55eb1','kuali.creditType.credit.degree.4.0')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('02fa9dd9-bcfc-4a26-ad03-7ea1665b2c66','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22067,6 +22040,9 @@ INSERT ALL
   VALUES ('a1ea458e-695f-4603-aab0-5dc782d0c639','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('a1ea458e-695f-4603-aab0-5dc782d0c639','kuali.creditType.credit.degree.1.0')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('36819558-e390-4681-9d8e-5eed0642c03a','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22143,9 +22119,6 @@ INSERT ALL
   VALUES ('8281cea6-028f-4fd4-9e5f-88d0c5ef96f0','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('8281cea6-028f-4fd4-9e5f-88d0c5ef96f0','kuali.creditType.credit.degree.3.0')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('837bda81-9468-489b-8376-713821f779fa','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22170,6 +22143,9 @@ INSERT ALL
   VALUES ('4062957c-c0ea-4371-8a60-32f68837cafb','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('4062957c-c0ea-4371-8a60-32f68837cafb','kuali.creditType.credit.degree.1.0')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('7b740ded-3f61-4ba7-8960-3580609b1737','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22246,9 +22222,6 @@ INSERT ALL
   VALUES ('81c6c020-520b-4832-975f-6c248134c0dd','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('81c6c020-520b-4832-975f-6c248134c0dd','kuali.resultComponent.grade.audit')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('81c6c020-520b-4832-975f-6c248134c0dd','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22273,6 +22246,9 @@ INSERT ALL
   VALUES ('2b44686c-c67d-442b-9032-baea394e92a8','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('2b44686c-c67d-442b-9032-baea394e92a8','kuali.resultComponent.grade.audit')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('2b44686c-c67d-442b-9032-baea394e92a8','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22349,9 +22325,6 @@ INSERT ALL
   VALUES ('230eaf2a-7134-4aeb-9931-040350f9c550','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('230eaf2a-7134-4aeb-9931-040350f9c550','kuali.resultComponent.grade.passFail')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('230eaf2a-7134-4aeb-9931-040350f9c550','kuali.creditType.credit.degree.1.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22376,6 +22349,9 @@ INSERT ALL
   VALUES ('a0d08551-6ad6-47a1-9985-ee2b77913b9c','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('a0d08551-6ad6-47a1-9985-ee2b77913b9c','kuali.resultComponent.grade.passFail')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('a0d08551-6ad6-47a1-9985-ee2b77913b9c','kuali.creditType.credit.degree.1.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22452,9 +22428,6 @@ INSERT ALL
   VALUES ('4775a35b-fe83-4ac2-8630-c0b4558a913d','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('28e2d8fc-92ca-407d-993f-5febacbeb25d','kuali.resultComponent.grade.letter')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('28e2d8fc-92ca-407d-993f-5febacbeb25d','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22479,6 +22452,9 @@ INSERT ALL
   VALUES ('da8b9816-6cf8-4fa9-ba4d-7d37e8438662','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('da8b9816-6cf8-4fa9-ba4d-7d37e8438662','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('b379f134-d540-4524-908d-d42fa083a8e2','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22555,9 +22531,6 @@ INSERT ALL
   VALUES ('b426b313-dc24-43f1-a925-443344951bc8','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('b426b313-dc24-43f1-a925-443344951bc8','kuali.resultComponent.grade.audit')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('b426b313-dc24-43f1-a925-443344951bc8','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22582,6 +22555,9 @@ INSERT ALL
   VALUES ('73b71084-fd43-4b3c-82e1-556bb2668fd8','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('73b71084-fd43-4b3c-82e1-556bb2668fd8','kuali.resultComponent.grade.audit')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('73b71084-fd43-4b3c-82e1-556bb2668fd8','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22658,9 +22634,6 @@ INSERT ALL
   VALUES ('eb5eae7d-7f00-4edf-acea-949bfc4d3ad3','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('eb5eae7d-7f00-4edf-acea-949bfc4d3ad3','kuali.creditType.credit.degree.3.0')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('e8560af0-e824-4a6d-8a3a-a92d1aac6f19','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22685,6 +22658,9 @@ INSERT ALL
   VALUES ('971fce6a-ee9a-40b1-b727-da6e16034a66','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('971fce6a-ee9a-40b1-b727-da6e16034a66','kuali.creditType.credit.degree.3.0')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('8c66ca5e-044e-4675-a554-15a49fea0565','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22761,9 +22737,6 @@ INSERT ALL
   VALUES ('dec8b335-9c86-4cb3-bb93-e0b26b9cf9ec','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('dec8b335-9c86-4cb3-bb93-e0b26b9cf9ec','kuali.resultComponent.grade.audit')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('dec8b335-9c86-4cb3-bb93-e0b26b9cf9ec','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22788,6 +22761,9 @@ INSERT ALL
   VALUES ('ac8f5191-bfd2-42e5-805f-5be50923c33d','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('ac8f5191-bfd2-42e5-805f-5be50923c33d','kuali.resultComponent.grade.audit')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('ac8f5191-bfd2-42e5-805f-5be50923c33d','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22864,9 +22840,6 @@ INSERT ALL
   VALUES ('8bf5d293-157e-4bcc-a6c1-c92e94adc999','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('8bf5d293-157e-4bcc-a6c1-c92e94adc999','kuali.creditType.credit.degree.3.0')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('ee3c987f-7ac4-490b-9740-5d4cd24f0cf6','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22891,6 +22864,9 @@ INSERT ALL
   VALUES ('ba9157d3-87df-4810-8176-b8481628f317','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('ba9157d3-87df-4810-8176-b8481628f317','kuali.creditType.credit.degree.3.0')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('95ccbd35-5a2a-4da3-8797-f0740db3bd6c','kuali.creditType.credit.degree.1.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22967,9 +22943,6 @@ INSERT ALL
   VALUES ('0d528e1d-e830-4430-83b8-a9bd14292548','kuali.creditType.credit.degree.1.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('ac6cf7dd-8cd4-4b8a-bd70-d9a5f3395f50','kuali.resultComponent.grade.letter')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('ac6cf7dd-8cd4-4b8a-bd70-d9a5f3395f50','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -22994,6 +22967,9 @@ INSERT ALL
   VALUES ('8270f11f-7f42-4ace-be37-ad4f13d6e720','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('4c3796f2-15f6-4029-bd2f-97e5f2189b3d','kuali.resultComponent.grade.letter')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('4c3796f2-15f6-4029-bd2f-97e5f2189b3d','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23070,9 +23046,6 @@ INSERT ALL
   VALUES ('73cfc149-fd7d-4324-8a03-ab73dcc92c36','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('73cfc149-fd7d-4324-8a03-ab73dcc92c36','kuali.creditType.credit.degree.4.0')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('d8bfa67d-1c64-4ad7-8189-cf6f86a00ede','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23097,6 +23070,9 @@ INSERT ALL
   VALUES ('f9ef25ec-7c6b-44fb-ab80-80f5d83737ca','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('f9ef25ec-7c6b-44fb-ab80-80f5d83737ca','kuali.creditType.credit.degree.4.0')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('5d173609-7c64-4b7a-bc16-b51c1f0905b7','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23173,9 +23149,6 @@ INSERT ALL
   VALUES ('7e006c3d-1cbe-457c-946d-96a51cd4a803','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('7e006c3d-1cbe-457c-946d-96a51cd4a803','kuali.resultComponent.grade.audit')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('7e006c3d-1cbe-457c-946d-96a51cd4a803','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23200,6 +23173,9 @@ INSERT ALL
   VALUES ('9116220e-6868-445a-9ad0-696ce25bbe99','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('9116220e-6868-445a-9ad0-696ce25bbe99','kuali.resultComponent.grade.audit')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('9116220e-6868-445a-9ad0-696ce25bbe99','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23276,9 +23252,6 @@ INSERT ALL
   VALUES ('a28c2149-7e2c-4d63-83b8-910d43a67254','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('a28c2149-7e2c-4d63-83b8-910d43a67254','kuali.resultComponent.grade.audit')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('a28c2149-7e2c-4d63-83b8-910d43a67254','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23303,6 +23276,9 @@ INSERT ALL
   VALUES ('24d1790c-afaf-41e2-9203-5972608aec7d','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('24d1790c-afaf-41e2-9203-5972608aec7d','kuali.resultComponent.grade.passFail')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('24d1790c-afaf-41e2-9203-5972608aec7d','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23379,9 +23355,6 @@ INSERT ALL
   VALUES ('45d48d55-dbfb-46d6-b408-9d106d693f33','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('e241feda-5c89-4f65-aaf8-fc654b7d3fce','kuali.resultComponent.grade.letter')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('e241feda-5c89-4f65-aaf8-fc654b7d3fce','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23406,6 +23379,9 @@ INSERT ALL
   VALUES ('51969753-e9d9-4be7-9e29-961cc4e17cdb','kuali.creditType.credit.degree.1.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('e1ee5297-e8df-41ca-863a-ad750f71aeb0','kuali.resultComponent.grade.letter')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('e1ee5297-e8df-41ca-863a-ad750f71aeb0','kuali.creditType.credit.degree.1.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23482,9 +23458,6 @@ INSERT ALL
   VALUES ('19eb0065-c243-45ac-8259-79878ccb45d3','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('19eb0065-c243-45ac-8259-79878ccb45d3','kuali.creditType.credit.degree.1-6')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('03568b62-e281-4cbd-acf2-a0e5038f7a69','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23509,6 +23482,9 @@ INSERT ALL
   VALUES ('e1fba345-d941-498c-9f83-0d4ae339890b','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('e1fba345-d941-498c-9f83-0d4ae339890b','kuali.creditType.credit.degree.1-6')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('9262e6ed-f652-4096-89ac-108ad6c65600','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23585,9 +23561,6 @@ INSERT ALL
   VALUES ('5a6da073-6ec1-4388-8986-bd97aa32a7bf','kuali.creditType.credit.degree.1.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('6040ffcb-e34f-421d-ace7-a72f77d39993','kuali.resultComponent.grade.letter')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('6040ffcb-e34f-421d-ace7-a72f77d39993','kuali.creditType.credit.degree.1.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23612,6 +23585,9 @@ INSERT ALL
   VALUES ('e1a96f70-f81d-4d3a-8325-e99f08396ca3','kuali.resultComponent.grade.satisfactory')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('e1a96f70-f81d-4d3a-8325-e99f08396ca3','kuali.creditType.credit.degree.1.0')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('500dba90-84a5-43fd-b0d3-3b6d43b9f134','kuali.resultComponent.grade.satisfactory')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23688,9 +23664,6 @@ INSERT ALL
   VALUES ('7a0c6391-55c3-4531-b048-c8a6b3c18d54','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('7a0c6391-55c3-4531-b048-c8a6b3c18d54','kuali.resultComponent.grade.passFail')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('7a0c6391-55c3-4531-b048-c8a6b3c18d54','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23715,6 +23688,9 @@ INSERT ALL
   VALUES ('f3b6a4d0-964e-47ea-a7a0-ffe9d2894389','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('f3b6a4d0-964e-47ea-a7a0-ffe9d2894389','kuali.resultComponent.grade.passFail')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('f3b6a4d0-964e-47ea-a7a0-ffe9d2894389','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23791,9 +23767,6 @@ INSERT ALL
   VALUES ('e44ad396-68b1-47e2-8454-4ac4da51ed37','kuali.creditType.credit.degree.1-8')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('4309b240-2c59-4c9a-a1e9-383f381db870','kuali.resultComponent.grade.letter')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('4309b240-2c59-4c9a-a1e9-383f381db870','kuali.creditType.credit.degree.1-8')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23818,6 +23791,9 @@ INSERT ALL
   VALUES ('645d26de-8056-4dbc-9caa-537d4e31c662','kuali.creditType.credit.degree.1-8')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('a7128d50-873c-42f9-bec7-922e07b54c0c','kuali.resultComponent.grade.letter')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('a7128d50-873c-42f9-bec7-922e07b54c0c','kuali.creditType.credit.degree.1-8')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23894,9 +23870,6 @@ INSERT ALL
   VALUES ('c3f1dd2e-5069-4374-9f4d-4dd6eb48c7ee','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('587e8cb8-60a6-4840-a770-6664ad37ac04','kuali.resultComponent.grade.letter')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('587e8cb8-60a6-4840-a770-6664ad37ac04','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23921,6 +23894,9 @@ INSERT ALL
   VALUES ('05b323b8-656a-497d-8cc7-0c299dbf3c5e','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('b975ccdc-43b0-4804-8979-0ff2bdff738d','kuali.resultComponent.grade.letter')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('b975ccdc-43b0-4804-8979-0ff2bdff738d','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -23997,9 +23973,6 @@ INSERT ALL
   VALUES ('c80392eb-02ae-4936-80ee-cec0b9838bec','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('c80392eb-02ae-4936-80ee-cec0b9838bec','kuali.resultComponent.grade.audit')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('c80392eb-02ae-4936-80ee-cec0b9838bec','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24024,6 +23997,9 @@ INSERT ALL
   VALUES ('b88b22a8-8cd2-4a52-abf2-29800e897ea8','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('b88b22a8-8cd2-4a52-abf2-29800e897ea8','kuali.resultComponent.grade.audit')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('b88b22a8-8cd2-4a52-abf2-29800e897ea8','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24100,9 +24076,6 @@ INSERT ALL
   VALUES ('549da7dc-a1f6-4e06-b1ac-872c407f183a','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('fdf15423-dbbc-4b7b-876d-a54eb1845dfd','kuali.resultComponent.grade.letter')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('fdf15423-dbbc-4b7b-876d-a54eb1845dfd','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24127,6 +24100,9 @@ INSERT ALL
   VALUES ('4a944015-1dea-47e7-a626-6c569528e73d','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('f7e95ee8-6000-4e51-b2c2-6177ef25e874','kuali.resultComponent.grade.letter')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('f7e95ee8-6000-4e51-b2c2-6177ef25e874','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24203,9 +24179,6 @@ INSERT ALL
   VALUES ('008d7403-2ddf-4cdc-b211-8a616c5a7ec1','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('008d7403-2ddf-4cdc-b211-8a616c5a7ec1','kuali.resultComponent.grade.audit')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('008d7403-2ddf-4cdc-b211-8a616c5a7ec1','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24230,6 +24203,9 @@ INSERT ALL
   VALUES ('8d0f74fe-686f-485a-8fc1-c3077a1c6a4d','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('8d0f74fe-686f-485a-8fc1-c3077a1c6a4d','kuali.resultComponent.grade.audit')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('8d0f74fe-686f-485a-8fc1-c3077a1c6a4d','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24306,9 +24282,6 @@ INSERT ALL
   VALUES ('65b314b9-0dae-4c5f-ba70-fadd9ca4533e','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('309dfa12-660a-41e2-8424-1a3f8cff5a91','kuali.resultComponent.grade.letter')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('309dfa12-660a-41e2-8424-1a3f8cff5a91','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24333,6 +24306,9 @@ INSERT ALL
   VALUES ('663de96e-bb2f-4439-a38e-b8a86465514c','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('663de96e-bb2f-4439-a38e-b8a86465514c','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('6a49a3eb-a5da-4b96-bddc-9aa6da574ba7','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24409,9 +24385,6 @@ INSERT ALL
   VALUES ('792a8dca-5161-433f-b7a5-d6989d54e9db','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('792a8dca-5161-433f-b7a5-d6989d54e9db','kuali.resultComponent.grade.audit')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('792a8dca-5161-433f-b7a5-d6989d54e9db','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24436,6 +24409,9 @@ INSERT ALL
   VALUES ('63f66bdf-d234-4c98-9581-af01d4bc1adf','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('63f66bdf-d234-4c98-9581-af01d4bc1adf','kuali.resultComponent.grade.audit')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('63f66bdf-d234-4c98-9581-af01d4bc1adf','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24512,9 +24488,6 @@ INSERT ALL
   VALUES ('94f950c0-587c-48cd-acec-1d8f8e121316','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('94f950c0-587c-48cd-acec-1d8f8e121316','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('90b0838c-9e04-48ee-983a-651302fc4674','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24539,6 +24512,9 @@ INSERT ALL
   VALUES ('74f85ed5-1996-40e6-9155-3eb696a1b01c','kuali.creditType.credit.degree.1-8')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('3343956f-1160-4cef-9561-20121b267b5c','kuali.resultComponent.grade.letter')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('3343956f-1160-4cef-9561-20121b267b5c','kuali.creditType.credit.degree.1-8')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24615,9 +24591,6 @@ INSERT ALL
   VALUES ('6ca7d878-bee4-4716-a0d2-3486d6d94efb','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('6ca7d878-bee4-4716-a0d2-3486d6d94efb','kuali.resultComponent.grade.passFail')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('6ca7d878-bee4-4716-a0d2-3486d6d94efb','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24642,6 +24615,9 @@ INSERT ALL
   VALUES ('e669d9c7-8097-4c65-86cb-5b952a645a99','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('e669d9c7-8097-4c65-86cb-5b952a645a99','kuali.resultComponent.grade.passFail')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('e669d9c7-8097-4c65-86cb-5b952a645a99','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24718,9 +24694,6 @@ INSERT ALL
   VALUES ('f0efa33c-09ca-464d-8a20-8eb3a6c0db2f','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('f0efa33c-09ca-464d-8a20-8eb3a6c0db2f','kuali.creditType.credit.degree.4.0')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('5395f3c1-f023-4f87-aa7d-ddf6816b0605','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24745,6 +24718,9 @@ INSERT ALL
   VALUES ('4d4bd88e-c8f0-4cf7-b3ae-985e83257078','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('4d4bd88e-c8f0-4cf7-b3ae-985e83257078','kuali.resultComponent.grade.audit')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('4d4bd88e-c8f0-4cf7-b3ae-985e83257078','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24821,9 +24797,6 @@ INSERT ALL
   VALUES ('8dd61747-7ba8-4c39-b689-98f235f154aa','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('8dd61747-7ba8-4c39-b689-98f235f154aa','kuali.creditType.credit.degree.3.0')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('ea3efc1e-5793-4f75-b183-67290965f121','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24848,6 +24821,9 @@ INSERT ALL
   VALUES ('54cb5ff9-1a1d-4c01-94ff-498f1c864a85','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('54cb5ff9-1a1d-4c01-94ff-498f1c864a85','kuali.creditType.credit.degree.3.0')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('834cd04c-4a95-4bbb-a6d4-7be8aa6487f7','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24924,9 +24900,6 @@ INSERT ALL
   VALUES ('9724db08-40c6-44bb-bf46-2f050732abe5','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('9724db08-40c6-44bb-bf46-2f050732abe5','kuali.creditType.credit.degree.3.0')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('9cb7664c-85d5-472f-8648-978ee0829ddc','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -24951,6 +24924,9 @@ INSERT ALL
   VALUES ('cd394e13-515a-4af6-8537-c4fb1ad1dff8','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('cd394e13-515a-4af6-8537-c4fb1ad1dff8','kuali.creditType.credit.degree.1.0')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('dc48404a-cf15-4800-af24-b9feca0598b6','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25027,9 +25003,6 @@ INSERT ALL
   VALUES ('4fb6a4b8-126c-4bcc-acff-6b7fe90f6086','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('4fb6a4b8-126c-4bcc-acff-6b7fe90f6086','kuali.creditType.credit.degree.1-8')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('89f6589d-ba81-4540-b60f-302da12aa7d2','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25054,6 +25027,9 @@ INSERT ALL
   VALUES ('0f1829a7-a006-48b3-98df-a3e1d046560c','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('0f1829a7-a006-48b3-98df-a3e1d046560c','kuali.creditType.credit.degree.3.0')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('22a342f9-6ba1-4f1c-b562-030b6e9023de','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25130,9 +25106,6 @@ INSERT ALL
   VALUES ('cd5b4c13-057d-433a-aa54-ea8400f07a76','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('ed154e38-cbbf-4c52-baf6-54ebfe3538d2','kuali.resultComponent.grade.letter')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('ed154e38-cbbf-4c52-baf6-54ebfe3538d2','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25157,6 +25130,9 @@ INSERT ALL
   VALUES ('60a7623e-784a-4a68-a454-379ff5adf1cb','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('fa32000e-40d0-4947-a918-9326a499ce2a','kuali.resultComponent.grade.letter')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('fa32000e-40d0-4947-a918-9326a499ce2a','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25233,9 +25209,6 @@ INSERT ALL
   VALUES ('09d8cf88-f8b3-4644-b2b0-54f88e08c1d7','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('09d8cf88-f8b3-4644-b2b0-54f88e08c1d7','kuali.creditType.credit.degree.1.0')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('fbd1fbdc-03ab-4c2d-9b9f-2ef0a0a87011','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25260,6 +25233,9 @@ INSERT ALL
   VALUES ('9054df60-15d7-4d6f-a985-935633681573','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('9054df60-15d7-4d6f-a985-935633681573','kuali.creditType.credit.degree.1.0')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('335509f5-08f8-4995-8b2b-a03a3ca4b056','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25313,22 +25289,6 @@ INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('3aa17b8c-56be-402a-8118-f4c007a0b61d','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('0ee254a4-6e4e-4732-9fd1-d1879c3b0901','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('0ee254a4-6e4e-4732-9fd1-d1879c3b0901','kuali.resultComponent.grade.audit')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('0ee254a4-6e4e-4732-9fd1-d1879c3b0901','kuali.resultComponent.grade.passFail')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('0ee254a4-6e4e-4732-9fd1-d1879c3b0901','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('1c85f4cc-85c7-4da4-b47b-a3df7f420419','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('1c85f4cc-85c7-4da4-b47b-a3df7f420419','kuali.resultComponent.grade.audit')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('1c85f4cc-85c7-4da4-b47b-a3df7f420419','kuali.resultComponent.grade.passFail')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('1c85f4cc-85c7-4da4-b47b-a3df7f420419','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('5f7ba5d0-8520-431e-bccc-92755991c34c','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('5f7ba5d0-8520-431e-bccc-92755991c34c','kuali.resultComponent.grade.audit')
@@ -25336,9 +25296,6 @@ INSERT ALL
   VALUES ('5f7ba5d0-8520-431e-bccc-92755991c34c','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('5f7ba5d0-8520-431e-bccc-92755991c34c','kuali.creditType.credit.degree.3.0')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('bfb9027b-797d-4083-9ad1-58c96f98c810','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25379,6 +25336,9 @@ INSERT ALL
   VALUES ('70243a5f-54db-427c-9e14-acc0c526a368','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('70243a5f-54db-427c-9e14-acc0c526a368','kuali.resultComponent.grade.passFail')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('70243a5f-54db-427c-9e14-acc0c526a368','kuali.creditType.credit.degree.1.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25439,9 +25399,6 @@ INSERT ALL
   VALUES ('2be394fe-50da-4493-a0fe-dd2b9a7de2ea','kuali.creditType.credit.degree.1.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('010d74e2-8e86-4cf1-9a00-f43238cffa9c','kuali.resultComponent.grade.letter')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('010d74e2-8e86-4cf1-9a00-f43238cffa9c','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25482,6 +25439,9 @@ INSERT ALL
   VALUES ('170a76bf-989e-4f75-84bd-d868d634f5b0','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('b1d8795e-ee90-407c-8b7f-9d0a1c603a11','kuali.resultComponent.grade.letter')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('b1d8795e-ee90-407c-8b7f-9d0a1c603a11','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25542,9 +25502,6 @@ INSERT ALL
   VALUES ('b99aa3b2-b51a-413b-bbf6-36a3497387fd','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('b99aa3b2-b51a-413b-bbf6-36a3497387fd','kuali.resultComponent.grade.passFail')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('b99aa3b2-b51a-413b-bbf6-36a3497387fd','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25585,6 +25542,9 @@ INSERT ALL
   VALUES ('e915b5b1-7b2e-4166-a293-091245dcbdb2','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('e915b5b1-7b2e-4166-a293-091245dcbdb2','kuali.resultComponent.grade.passFail')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('e915b5b1-7b2e-4166-a293-091245dcbdb2','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25645,9 +25605,6 @@ INSERT ALL
   VALUES ('716faf6a-426a-4e39-b9ab-15d8bb15b93c','kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('2d71a80b-edf3-42f2-bafd-bba2cf9bdcbc','kuali.resultComponent.grade.letter')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('2d71a80b-edf3-42f2-bafd-bba2cf9bdcbc','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25688,6 +25645,9 @@ INSERT ALL
   VALUES ('c6cbad4a-8cb6-4ff4-a531-44c8c274ee0c','kuali.resultComponent.grade.audit')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('c6cbad4a-8cb6-4ff4-a531-44c8c274ee0c','kuali.resultComponent.grade.passFail')
+SELECT * FROM DUAL
+/
+INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('c6cbad4a-8cb6-4ff4-a531-44c8c274ee0c','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25748,9 +25708,6 @@ INSERT ALL
   VALUES ('84ee0f72-8eaf-41c6-b0bf-f1cd736365b1','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('84ee0f72-8eaf-41c6-b0bf-f1cd736365b1','kuali.creditType.credit.degree.3.0')
-SELECT * FROM DUAL
-/
-INSERT ALL
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('45232413-9396-4f7a-958b-abacd0e8e522','kuali.resultComponent.grade.letter')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
@@ -25791,81 +25748,9 @@ INSERT ALL
   VALUES ('6788647e-3116-4171-b17b-6fddd8ad8b5b','kuali.resultComponent.grade.passFail')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('6788647e-3116-4171-b17b-6fddd8ad8b5b','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('2705762c-5a38-4110-91e7-d0edb97f07a3','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('2705762c-5a38-4110-91e7-d0edb97f07a3','kuali.resultComponent.grade.audit')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('2705762c-5a38-4110-91e7-d0edb97f07a3','kuali.resultComponent.grade.passFail')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('2705762c-5a38-4110-91e7-d0edb97f07a3','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('0befe3a8-ce31-4a67-9980-a81e9053a405','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('0befe3a8-ce31-4a67-9980-a81e9053a405','kuali.resultComponent.grade.audit')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('0befe3a8-ce31-4a67-9980-a81e9053a405','kuali.resultComponent.grade.passFail')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('0befe3a8-ce31-4a67-9980-a81e9053a405','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('4a4faa78-c4fa-4dbd-a41b-df50b0fde68a','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('4a4faa78-c4fa-4dbd-a41b-df50b0fde68a','kuali.resultComponent.grade.audit')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('4a4faa78-c4fa-4dbd-a41b-df50b0fde68a','kuali.resultComponent.grade.passFail')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('4a4faa78-c4fa-4dbd-a41b-df50b0fde68a','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('f52e1249-2feb-4572-a982-c508f3e71d96','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('f52e1249-2feb-4572-a982-c508f3e71d96','kuali.resultComponent.grade.audit')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('f52e1249-2feb-4572-a982-c508f3e71d96','kuali.resultComponent.grade.passFail')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('f52e1249-2feb-4572-a982-c508f3e71d96','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('f79b149c-2cdf-4d51-b3cc-f8b66e8f17fe','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('f79b149c-2cdf-4d51-b3cc-f8b66e8f17fe','kuali.resultComponent.grade.audit')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('f79b149c-2cdf-4d51-b3cc-f8b66e8f17fe','kuali.resultComponent.grade.passFail')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('f79b149c-2cdf-4d51-b3cc-f8b66e8f17fe','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('005b1908-99c1-4b89-8ec0-32abf505d1f4','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('005b1908-99c1-4b89-8ec0-32abf505d1f4','kuali.resultComponent.grade.audit')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('005b1908-99c1-4b89-8ec0-32abf505d1f4','kuali.resultComponent.grade.passFail')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('005b1908-99c1-4b89-8ec0-32abf505d1f4','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('14e004bb-be66-4bdc-bf27-af84623dd945','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('14e004bb-be66-4bdc-bf27-af84623dd945','kuali.resultComponent.grade.audit')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('14e004bb-be66-4bdc-bf27-af84623dd945','kuali.resultComponent.grade.passFail')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('14e004bb-be66-4bdc-bf27-af84623dd945','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('0e478f95-140c-47b2-8ccd-dbd10922ff0e','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('0e478f95-140c-47b2-8ccd-dbd10922ff0e','kuali.resultComponent.grade.audit')
 SELECT * FROM DUAL
 /
 INSERT ALL
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('0e478f95-140c-47b2-8ccd-dbd10922ff0e','kuali.resultComponent.grade.passFail')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('0e478f95-140c-47b2-8ccd-dbd10922ff0e','kuali.creditType.credit.degree.3.0')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('11ef86ff-f226-4c31-8bef-014474fc85d1','kuali.resultComponent.grade.letter')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('11ef86ff-f226-4c31-8bef-014474fc85d1','kuali.resultComponent.grade.audit')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('11ef86ff-f226-4c31-8bef-014474fc85d1','kuali.resultComponent.grade.passFail')
-  INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
-  VALUES ('11ef86ff-f226-4c31-8bef-014474fc85d1','kuali.creditType.credit.degree.3.0')
   INTO KSEN_LUI_RESULT_VAL_GRP (LUI_ID,RESULT_VAL_GRP_ID)
   VALUES ('d0bed570-0c25-4c51-a602-a8bcca47b21d','kuali.resultComponent.grade.letter')
 SELECT * FROM DUAL
