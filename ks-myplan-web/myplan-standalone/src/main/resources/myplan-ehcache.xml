@@ -16,11 +16,11 @@
             statistics="true"/>
 
     <cache name="courseSearchCache"
-           maxElementsInMemory="1"
+           maxElementsInMemory="100"
            eternal="false"
            overflowToDisk="true"
            timeToIdleSeconds="0"
-           timeToLiveSeconds="5"
+           timeToLiveSeconds="900"
            statistics="true"/>
 
     <cache name="courseOfferingCache" maxElementsInMemory="5000" eternal="false" overflowToDisk="true"
