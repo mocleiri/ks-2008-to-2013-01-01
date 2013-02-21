@@ -40,7 +40,7 @@
 
     <filter>
         <filter-name>UserLoginFilter</filter-name>
-        <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
+        <filter-class>edu.uw.kuali.student.web.MyPlanUserLoginFilter</filter-class>
     </filter>
 
     <filter>
@@ -380,7 +380,7 @@
 
     <error-page>
         <exception-type>org.kuali.rice.krad.exception.AuthenticationException</exception-type>
-        <location>/ks-myplan/WEB-INF/jsp/templates/MyPlanSessionExpiredPage.jsp</location>
+        <location>/ks-myplan/WEB-INF/jsp/templates/MyPlanErrorPage403.jsp</location>
     </error-page>
 
     <!-- Only need to include this for the kuali tlds

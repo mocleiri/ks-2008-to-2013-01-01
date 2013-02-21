@@ -25,9 +25,9 @@
 <config>
     <!-- Build info for app header -->
     <param name="version">${project.name} :: ${project.version} :: Rev. ${buildNumber} :: ${kuali.build.timestamp}</param>
-    
+
     <!-- PubCookie Login config   -->
-    <param name="filter.login.class">org.kuali.rice.kew.web.UserLoginFilter</param>
+    <param name="filter.login.class">edu.uw.kuali.student.web.MyPlanUserLoginFilter</param>
     <param name="filtermapping.login.1">/*</param>
 
     <!-- To use a remote Rice install override these in the local config file (myplan-config.xml) -->
