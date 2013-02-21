@@ -82,24 +82,21 @@
         <property name="enabled" value="${ks.searchForm.enable.caching}"/>
     </bean>
 
-
-
-
+    <bean id="academicCalendarCacheAdvisor" class="org.kuali.student.myplan.util.QueryMethodArgsCacheAdvice">
+        <property name="cacheName" value="academicCalendarCache" />
+        <property name="cacheManager" ref="ksCacheManager"/>
+        <property name="enabled" value="${ks.academicCalendar.enable.caching}"/>
+    </bean>
 
     <!--  MyPlan Cache beans -->
     <bean id="myplanCacheManager" class="net.sf.ehcache.CacheManager">
         <constructor-arg index="0" type="java.net.URL" value="${myplan.cache.config.file}" />
     </bean>
+
     <bean id="degreeAuditMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice">
         <property name="cacheName" value="degreeAuditCache" />
         <property name="cacheManager" ref="myplanCacheManager"/>
         <property name="enabled" value="${ks.degreeAudit.enable.caching}"/>
-    </bean>
-
-    <bean id="academicCalendarCacheAdvisor" class="org.kuali.student.myplan.util.QueryMethodArgsCacheAdvice">
-        <property name="cacheName" value="academicCalendarCache" />
-        <property name="cacheManager" ref="myplanCacheManager"/>
-        <property name="enabled" value="${ks.academicCalendar.enable.caching}"/>
     </bean>
 
     <bean id="courseSearchMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice">
@@ -204,7 +201,7 @@
 			<list>
 				<value>classpath:org\kuali\student\common\ui\gwt-messages.xml</value>
 				<value>classpath:org\kuali\student\core\ui\gwt-messages.xml</value>
-				<value>classpath:org\kuali\student\lum\lu\ui\course\gwt-messages.xml</value>	
+				<value>classpath:org\kuali\student\lum\lu\ui\course\gwt-messages.xml</value>
 			</list>
 		</property>
 	</bean>
