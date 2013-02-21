@@ -193,6 +193,9 @@ public class DegreeAuditServiceImpl implements DegreeAuditService {
             stinker = stinker.replace("$regid", studentId);
 
             String postAuditRequestURL = studentServiceClient.getBaseUrl() + "/v5/degreeaudit.xml";
+            logger.info( "REST HTTP POST");
+            logger.info( postAuditRequestURL );
+            logger.info( stinker );
 
             Client client = studentServiceClient.getClient();
 
@@ -233,10 +236,14 @@ public class DegreeAuditServiceImpl implements DegreeAuditService {
                 return auditReportInfo;
             } else {
                 StringBuilder sb = new StringBuilder();
+                sb.append( rep.toString() );
+                sb.append( " " );
                 InputStream in = rep.getStream();
-                int c = 0;
-                while ((c = in.read()) != -1) {
-                    sb.append((char) c);
+                if( in != null ) {
+                    int c = 0;
+                    while ((c = in.read()) != -1) {
+                        sb.append((char) c);
+                    }
                 }
                 throw new Exception(sb.toString());
             }
