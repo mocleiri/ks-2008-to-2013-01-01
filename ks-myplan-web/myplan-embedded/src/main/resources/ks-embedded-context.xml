@@ -40,7 +40,7 @@
 		<constructor-arg index="0" type="java.net.URL" value="${ks.cache.config.file}" />
 	</bean>
 
-	<bean id="enumMethodCacheAdvisor" class="org.kuali.student.myplan.util.QueryMethodArgsCacheAdvice">
+	<bean id="enumMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice">
 		<property name="cacheName" value="enumCache" />
 		<property name="cacheManager" ref="ksCacheManager"/>
 		<property name="enabled" value="${ks.enum.enable.caching}"/>
@@ -82,26 +82,21 @@
         <property name="enabled" value="${ks.searchForm.enable.caching}"/>
     </bean>
 
-
-
-
+    <bean id="academicCalendarCacheAdvisor" class="org.kuali.student.myplan.util.QueryMethodArgsCacheAdvice">
+        <property name="cacheName" value="academicCalendarCache" />
+        <property name="cacheManager" ref="ksCacheManager"/>
+        <property name="enabled" value="${ks.academicCalendar.enable.caching}"/>
+    </bean>
 
     <!--  MyPlan Cache beans -->
     <bean id="myplanCacheManager" class="net.sf.ehcache.CacheManager">
         <constructor-arg index="0" type="java.net.URL" value="${myplan.cache.config.file}" />
     </bean>
+
     <bean id="degreeAuditMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice">
         <property name="cacheName" value="degreeAuditCache" />
         <property name="cacheManager" ref="myplanCacheManager"/>
         <property name="enabled" value="${ks.degreeAudit.enable.caching}"/>
-    </bean>
-
-
-
-    <bean id="academicCalendarCacheAdvisor" class="org.kuali.student.myplan.util.QueryMethodArgsCacheAdvice">
-        <property name="cacheName" value="academicCalendarCache" />
-        <property name="cacheManager" ref="myplanCacheManager"/>
-        <property name="enabled" value="${ks.academicCalendar.enable.caching}"/>
     </bean>
 
     <bean id="courseSearchMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice">
@@ -128,7 +123,6 @@
             <aop:around pointcut="execution(*  org.kuali.student.core.enumerationmanagement.service.impl.*.search*(..))" method="getFromCache" />
             <aop:around pointcut="execution(*  org.kuali.student.core.enumerationmanagement.service.impl.*.addEnumeratedValue*(..))" method="invalidateCache" />
             <aop:around pointcut="execution(*  org.kuali.student.core.enumerationmanagement.service.impl.*.updateEnumeratedValue*(..))" method="invalidateCache" />
-            <aop:around pointcut="execution(*  org.kuali.student.core.enumerationmanagement.service.impl.*.getEnumeratedValues*(..))" method="getFromCache" />
         </aop:aspect>
         <aop:aspect id="atpCacheAroundSearch" ref="atpMethodCacheAdvisor">
             <aop:around pointcut="execution(*  org.kuali.student.core.atp.service.impl.*.getAtpType(..))" method="getFromCache" />
@@ -184,7 +178,6 @@
             <aop:around pointcut="execution(*  edu.uw.kuali.student.service.impl.UwCourseOfferingServiceImpl.getCourseOfferingsForCourseAndTerm(..))" method="getFromCache" />
             <aop:around pointcut="execution(*  edu.uw.kuali.student.service.impl.UwCourseOfferingServiceImpl.getCourseOfferingIdsByTermAndSubjectArea(..))" method="getFromCache" />
             <aop:around pointcut="execution(*  edu.uw.kuali.student.service.impl.UwCourseOfferingServiceImpl.searchForCourseOfferings(..))" method="getFromCache" />
-            <aop:around pointcut="execution(*  edu.uw.kuali.student.service.impl.UwCourseOfferingServiceImpl.getActivityOffering(..))" method="getFromCache" />
             
             <aop:around pointcut="execution(*  edu.uw.kuali.student.lib.client.studentservice.StudentServiceClientImpl.getSections(..))" method="getFromCache" />
             <aop:around pointcut="execution(*  edu.uw.kuali.student.lib.client.studentservice.StudentServiceClientImpl.getSecondarySections(..))" method="getFromCache" />
@@ -205,9 +198,6 @@
         </aop:aspect>
 
     </aop:config>
-
-
-
 
 	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
 		<property name="messageFiles">
