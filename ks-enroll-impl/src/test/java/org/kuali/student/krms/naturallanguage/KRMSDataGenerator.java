@@ -1,7 +1,9 @@
 package org.kuali.student.krms.naturallanguage;
 
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
@@ -113,6 +115,55 @@ public class KRMSDataGenerator {
             @Override
             public Long getVersionNumber() {
                 return versionNumber;
+            }
+        };
+    }
+
+    public static PropositionDefinitionContract createPropositionDefinition(final String description, final String typeId, final String ruleId, final String propTypeCode, final List<? extends PropositionParameterContract> parameters, final String compCode, final List<? extends PropositionDefinitionContract> compComponents, final String id, final Long verNumber){
+        return new PropositionDefinitionContract() {
+            @Override
+            public String getDescription() {
+                return description;
+            }
+
+            @Override
+            public String getTypeId() {
+                return typeId;
+            }
+
+            @Override
+            public String getRuleId() {
+                return ruleId;
+            }
+
+            @Override
+            public String getPropositionTypeCode() {
+                return propTypeCode;
+            }
+
+            @Override
+            public List<? extends PropositionParameterContract> getParameters() {
+                return parameters;
+            }
+
+            @Override
+            public String getCompoundOpCode() {
+                return compCode;
+            }
+
+            @Override
+            public List<? extends PropositionDefinitionContract> getCompoundComponents() {
+                return compComponents;
+            }
+
+            @Override
+            public String getId() {
+                return id;
+            }
+
+            @Override
+            public Long getVersionNumber() {
+                return verNumber;
             }
         };
     }
