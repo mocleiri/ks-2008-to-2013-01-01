@@ -2530,7 +2530,7 @@
                     <property name="href"
                               value="inquiry?methodToCall=start&amp;viewId=CourseDetails-InquiryView&amp;courseId=@{courseDetails.courseId}"/>
                 </bean>
-                <bean parent="Uif-DataField" p:label="" p:propertyName="courseDetails.institutionsList"
+                <!--<bean parent="Uif-DataField" p:label="" p:propertyName="courseDetails.institutionsList"
                       p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal" p:labelPlacement="LEFT"
                       p:escapeHtmlInPropertyValue="false">
                     <property name="propertyEditor" ref="section_scheduled_terms_list_formatter"/>
@@ -2541,7 +2541,7 @@
                     </property>
                     <property name="render"
                               value="@{courseDetails.courseOfferingInstitutionList.size() gt 0 ? true : false}"/>
-                </bean>
+                </bean>-->
             </list>
         </property>
     </bean>

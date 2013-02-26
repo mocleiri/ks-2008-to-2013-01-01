@@ -92,7 +92,7 @@ public class ScheduledTermsPropertyEditor extends CollectionListPropertyEditor {
                     if (m.matches()) {
                         String elemTxt = m.group(1).substring(0, 2).toUpperCase() + " " + m.group(2);
                         String link = String.format(CourseSearchConstants.LINK, serverUrl, courseId, instCode, atpId, elemTxt);
-                        sb.append(String.format(DDClass, elemTxt, link));
+                        sb.append(String.format(DDClass, elemTxt, elemTxt));
                     }
                 } else {
                     String link = String.format(CourseSearchConstants.LINK, serverUrl, courseId, instCode, atpId, term);
