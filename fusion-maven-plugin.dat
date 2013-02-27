@@ -5,4 +5,4 @@ ks-lum::sandbox_spring-db-jc_ks-lum_trunk::56b41fb7c895b4ee1038634105c29b70a2bba
 # module = ks-enroll branch Path = sandbox/spring-db-jc/ks-enroll/trunk revision = 42480
 ks-enroll::sandbox_spring-db-jc_ks-enroll_trunk::f7e2e7d8bb9d837f0d030e5956c2004592bd9876
 # module = ks-deployments branch Path = sandbox/spring-db-jc/ks-deployments/trunk revision = 42480
-ks-deployments::sandbox_spring-db-jc_ks-deployments_trunk::1bbc320a7c5f26775fa5cfb3812ce2f701d69a16
+ks-deployments::sandbox_spring-db-jc_ks-deployments_trunk::65a51758c5a0d1fa51b007e15ae13377ddc72e67
