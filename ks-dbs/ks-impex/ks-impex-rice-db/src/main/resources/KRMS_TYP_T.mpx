@@ -6,6 +6,7 @@ TYP_ID,NM,NMSPC_CD,SRVC_NM,ACTV,VER_NBR
 "10004","kuali.krms.agenda.type.schedule.eligibility","KS-SYS","agendaTypeService","Y","0"
 "10005","kuali.krms.rule.type.course.academicReadiness.antireq","KS-SYS","ruleTypeService","Y","0"
 "10006","kuali.krms.rule.type.course.academicReadiness.coreq","KS-SYS","ruleTypeService","Y","0"
+"10007","kuali.krms.rule.type.course.academicReadiness.prereq","KS-SYS","ruleTypeService","Y","0"
 "10008","kuali.krms.rule.type.course.recommendedPreparation","KS-SYS","ruleTypeService","Y","0"
 "10009","kuali.krms.rule.type.course.academicReadiness.studentEligibility","KS-SYS","ruleTypeService","Y","0"
 "10010","kuali.krms.rule.type.course.academicReadiness.studentEligibilityPrereq","KS-SYS","ruleTypeService","Y","0"
