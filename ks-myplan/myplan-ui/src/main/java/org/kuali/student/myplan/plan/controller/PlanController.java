@@ -1937,6 +1937,11 @@ public class PlanController extends UifControllerBase {
         }
     }
 
+    /**
+     * User who has no Learning Plan or auditInfo is considered a new User.
+     *
+     * @return
+     */
     private boolean isNewUser() {
         boolean isNewUser = false;
         String studentId = UserSessionHelper.getStudentId();
@@ -1949,18 +1954,21 @@ public class PlanController extends UifControllerBase {
         }
         /*check if any audits are ran ! if no plans found*/
         if (learningPlanList.size() == 0) {
-            String systemKey = UserSessionHelper.getAuditSystemKey();
-            Date startDate = new Date();
-            Date endDate = new Date();
-            ContextInfo contextInfo = new ContextInfo();
             try {
-                auditReportInfoList = getDegreeAuditService().getAuditsForStudentInDateRange(systemKey, startDate, endDate, contextInfo);
+                String systemKey = UserSessionHelper.getAuditSystemKey();
+                Date startDate = new Date();
+                Date endDate = new Date();
+                ContextInfo contextInfo = new ContextInfo();
+                if (systemKey != null) {
+                    auditReportInfoList = getDegreeAuditService().getAuditsForStudentInDateRange(systemKey, startDate, endDate, contextInfo);
+                }
+                if (auditReportInfoList.size() == 0) {
+                    isNewUser = true;
+                }
             } catch (Exception e) {
-                throw new RuntimeException("Could not retrieve degreeaudit details", e);
+                logger.error("Could not retieve Audit Info", e);
             }
-            if (auditReportInfoList.size() == 0) {
-                isNewUser = true;
-            }
+
         }
         return isNewUser;
     }
