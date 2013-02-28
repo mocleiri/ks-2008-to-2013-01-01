@@ -16,6 +16,7 @@ TYPE_KEY,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,OBJ_ID,VER_NBR
 "kuali.org.School","A School","2000-01-01T00:00:00.000+0000","${mpx.null}","School","5224CCD8A299446DA131DD22B4D1BBE9","0"
 "kuali.org.Section","A Section","2000-01-01T00:00:00.000+0000","${mpx.null}","Section","F3509FD4C2724FBBA839D727F9F9DE58","0"
 "kuali.org.Senate","A Deliberative body","2000-01-01T00:00:00.000+0000","${mpx.null}","Senate","76F9F4423DD0425C99F074858EB725A3","0"
+"kuali.org.SubjectCode","Subject code acting as organization","2013-02-06T00:00:00.000+0000","2100-02-06T00:00:00.000+0000","Subject Code","${mpx.null}","${mpx.null}"
 "kuali.org.TestingService","An organization creates and administers standardized tests","2010-07-01T00:00:00.000+0000","${mpx.null}","Testing Service","BC40211A5D87FD41E040C60AF05B24C0","0"
 "kuali.org.WorkGroup","A group organized for a particular purpose","2000-01-01T00:00:00.000+0000","${mpx.null}","Work Group","32496B0862C4431BAFF166305E4AD84D","0"
 "kuali.org.type.campus","Academic organizational unit representing a campus","2012-05-01T00:00:00.000+0000","${mpx.null}","Campus","4ccc0e40-94ad-11e1-b0c4-0800200c9a6","0"

@@ -62,7 +62,6 @@ NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR
 "10060","en","10004","10003","Credit Constraints","0"
 "10061","en","10004","10005","Antirequisite","0"
 "10062","en","10004","10006","Corequisite","0"
-"10063","en","10004","10007","Prerequisite","0"
 "10064","en","10004","10009","Student Eligibility","0"
 "10065","en","10004","10008","Recommended Preparation","0"
 "10066","en","10004","10010","Student Eligibility & Prerequisite","0"
