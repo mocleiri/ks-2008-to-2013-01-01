@@ -43,6 +43,8 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     private TermDefinition term;
     private String termParameter;
     private List<TermParameter> termParameterList = new ArrayList<TermParameter>();
+    private List<KRMSCluSetInfo> approvedCourseList = new ArrayList<KRMSCluSetInfo>();
+    private List<KRMSCluSetInfo> courseSetList = new ArrayList<KRMSCluSetInfo>();
     private String termSpecId;
     private String type;
     private boolean editMode = false;
@@ -221,6 +223,21 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
 
     public void setGradeScale(String gradeScale) {
         this.gradeScale = gradeScale;
+    }
+    public List<KRMSCluSetInfo> getApprovedCourseList() {
+        return approvedCourseList;
+    }
+
+    public void setApprovedCourseList(List<KRMSCluSetInfo> approvedCourseList) {
+        this.approvedCourseList = approvedCourseList;
+    }
+
+    public List<KRMSCluSetInfo> getCourseSetList() {
+        return courseSetList;
+    }
+
+    public void setCourseSetList(List<KRMSCluSetInfo> courseSetList) {
+        this.courseSetList = courseSetList;
     }
 
     @Override
