@@ -48,6 +48,7 @@ public class ActivityOfferingItem {
     private boolean independentStudy;
     private String gradingOption;
     private String sectionComments;
+	private String summerTerm;
 
     private boolean planned = false;
 
@@ -337,6 +338,14 @@ public class ActivityOfferingItem {
 
     public void setInstituteName(String instituteName) {
         this.instituteName = instituteName;
+    }
+	
+	public String getSummerTerm() {
+        return summerTerm;
+    }
+
+    public void setSummerTerm(String summerTerm) {
+        this.summerTerm = summerTerm;
     }
 
 

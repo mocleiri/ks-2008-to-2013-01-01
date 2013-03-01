@@ -1008,6 +1008,10 @@ public class UwCourseOfferingServiceImpl implements CourseOfferingService {
                     feeAmount = feeAmount.substring(0, feeAmount.indexOf("."));
                 }
 
+				String summerTerm = null;
+                if (StringUtils.hasText(sectionNode.elementText("SummerTerm"))) {
+                    summerTerm = sectionNode.elementText("SummerTerm");
+                }
 
                 /*Course Flags*/
                 attributes.add(new AttributeInfo("Campus", campus));
@@ -1022,6 +1026,7 @@ public class UwCourseOfferingServiceImpl implements CourseOfferingService {
                 attributes.add(new AttributeInfo("EnrollmentRestrictions", String.valueOf(Boolean.valueOf(sectionNode.elementText("EnrollmentRestrictions")))));
                 attributes.add(new AttributeInfo("FeeAmount", feeAmount));
                 attributes.add(new AttributeInfo("SectionComments", sectionComments.toString()));
+				attributes.add(new AttributeInfo("SummerTerm", summerTerm));
 
                 populateEnrollmentFields(info, year, quarter, curric, num, sectionID);
 

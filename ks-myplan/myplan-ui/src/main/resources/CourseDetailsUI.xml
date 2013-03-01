@@ -1090,6 +1090,8 @@
                                               p:group.validationMessages.render="false" p:style="margin:0;">
                                             <property name="items">
                                                 <list>
+													<bean parent="Uif-Message" p:messageText="@{#line.summerTerm}&lt;br/&gt;"
+                                                          p:style="display:inline; margin:0; float:none;" p:render="@{#line.summerTerm ne null ? true : false}"/>
                                                     <bean parent="Uif-Message" p:messageText="@{#line.sectionComments}"
                                                           p:style="display:inline; margin:0; float:none;"/>
                                                     <bean parent="current_section_status"

@@ -719,6 +719,14 @@ public class CourseDetailsInquiryViewHelperServiceImpl extends KualiInquirableIm
                             activity.setSectionComments(value);
                             continue;
                         }
+						
+						if ("SummerTerm".equalsIgnoreCase(key)) {
+                            if(value!=null){
+                                activity.setSummerTerm(value);
+                            }
+
+                            continue;
+                        }
 
                         Boolean flag = Boolean.valueOf(value);
                         if ("ServiceLearning".equalsIgnoreCase(key)) {
